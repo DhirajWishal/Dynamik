@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{C55F2ECF-B12C-89DA-DA45-7782C671BE68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core\benchmark">
+      <UniqueIdentifier>{DFB4E1B5-CB98-A20B-34F9-9C5E20FC8C8D}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\core\benchmark\benchmark.h">
+      <Filter>src\core\benchmark</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\benchmark\fps.h">
+      <Filter>src\core\benchmark</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\benchmark\profiler.h">
+      <Filter>src\core\benchmark</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\dump.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\log.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\debugger.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\core\benchmark\benchmark.cpp">
+      <Filter>src\core\benchmark</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\benchmark\fps.cpp">
+      <Filter>src\core\benchmark</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\benchmark\profiler.cpp">
+      <Filter>src\core\benchmark</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\dump.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\log.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Debugger.lua" />
+  </ItemGroup>
+</Project>

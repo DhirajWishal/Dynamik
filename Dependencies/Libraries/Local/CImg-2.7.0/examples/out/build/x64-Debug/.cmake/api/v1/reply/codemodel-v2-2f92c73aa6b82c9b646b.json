@@ -1,0 +1,320 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.6"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28,
+						29
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Examples-CIMG",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28,
+						29
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "CImg_demo::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-CImg_demo-Debug-015834c8a5b99c352a8f.json",
+					"name" : "CImg_demo",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "captcha::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-captcha-Debug-1546733df130bc8827d7.json",
+					"name" : "captcha",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "curve_editor2d::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-curve_editor2d-Debug-8947c63b47d5c3c073b1.json",
+					"name" : "curve_editor2d",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dtmri_view3d::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dtmri_view3d-Debug-287b554217d393b8b45c.json",
+					"name" : "dtmri_view3d",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "edge_explorer2d::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-edge_explorer2d-Debug-4c5edf7e0b2a7547f9d8.json",
+					"name" : "edge_explorer2d",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "fade_images::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-fade_images-Debug-4d25f0b67adf8d79356a.json",
+					"name" : "fade_images",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "gaussian_fit1d::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-gaussian_fit1d-Debug-94eb3f885ebc0d5b8c2d.json",
+					"name" : "gaussian_fit1d",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "generate_loop_macros::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-generate_loop_macros-Debug-58af9043c21933b1aa57.json",
+					"name" : "generate_loop_macros",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "hough_transform2d::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-hough_transform2d-Debug-ba48f326d62a03c53e89.json",
+					"name" : "hough_transform2d",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "image2ascii::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-image2ascii-Debug-b46ddfec697fda76f350.json",
+					"name" : "image2ascii",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "image_registration2d::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-image_registration2d-Debug-1c2aa51aa1579b5c14f3.json",
+					"name" : "image_registration2d",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "image_surface3d::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-image_surface3d-Debug-06c354f5237d6aa9fae5.json",
+					"name" : "image_surface3d",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "jawbreaker::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-jawbreaker-Debug-bc5feff4dbe71fbaba89.json",
+					"name" : "jawbreaker",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "mcf_levelsets2d::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-mcf_levelsets2d-Debug-5f088301407c4e473cad.json",
+					"name" : "mcf_levelsets2d",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "mcf_levelsets3d::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-mcf_levelsets3d-Debug-caa1277085b4621a019a.json",
+					"name" : "mcf_levelsets3d",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "odykill::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-odykill-Debug-07cefefaaa1b37112baf.json",
+					"name" : "odykill",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "pde_TschumperleDeriche2d::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-pde_TschumperleDeriche2d-Debug-03001c9a40ab6bf622ed.json",
+					"name" : "pde_TschumperleDeriche2d",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "pde_heatflow2d::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-pde_heatflow2d-Debug-c356473a5692a3694c4d.json",
+					"name" : "pde_heatflow2d",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "plotter1d::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-plotter1d-Debug-35e77c89c3ee469227b0.json",
+					"name" : "plotter1d",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "radon_transform2d::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-radon_transform2d-Debug-69cf2f72333dfb0a52f4.json",
+					"name" : "radon_transform2d",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "scene3d::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-scene3d-Debug-6d632dffd3cc251164a4.json",
+					"name" : "scene3d",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "spherical_function3d::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-spherical_function3d-Debug-50dc1b0d5fd0645b3bd4.json",
+					"name" : "spherical_function3d",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "tetris::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-tetris-Debug-0270326b553cddfbd619.json",
+					"name" : "tetris",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "tron::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-tron-Debug-4df15e4fa3de5d7a1189.json",
+					"name" : "tron",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "tutorial::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-tutorial-Debug-160e7ce41890d6ca4853.json",
+					"name" : "tutorial",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "use_RGBclass::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-use_RGBclass-Debug-23290e10b399cae225ca.json",
+					"name" : "use_RGBclass",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "use_draw_gradient::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-use_draw_gradient-Debug-a9719fc9887a374c4bfa.json",
+					"name" : "use_draw_gradient",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "use_nlmeans::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-use_nlmeans-Debug-db4d769c8ce9e87136b2.json",
+					"name" : "use_nlmeans",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "use_skeleton::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-use_skeleton-Debug-d100cba775187c782344.json",
+					"name" : "use_skeleton",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "wavelet_atrous::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-wavelet_atrous-Debug-60c7f2d524bee7ab9918.json",
+					"name" : "wavelet_atrous",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "E:/Projects/Dynamik Engine/Versions/DynamikEngine/Dependencies/Libraries/Local/CImg-2.7.0/examples/out/build/x64-Debug",
+		"source" : "E:/Projects/Dynamik Engine/Versions/DynamikEngine/Dependencies/Libraries/Local/CImg-2.7.0/examples"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Macros">
+      <UniqueIdentifier>{625A4785-CE0F-C07A-5704-BA51C3B8B67E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Memory">
+      <UniqueIdentifier>{D62B9585-42E1-0D7B-CBD5-0752378A047F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\PCH">
+      <UniqueIdentifier>{383E99C2-240B-F4CD-4D24-E2753950295C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Types">
+      <UniqueIdentifier>{526248CE-3E1A-8A1B-A721-637793F8240C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Core\Macros\Assert.h">
+      <Filter>Core\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Macros\MemoryMacro.h">
+      <Filter>Core\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Memory\MemoryPadding.h">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\PCH\dmkafx.h">
+      <Filter>Core\PCH</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Types\DataTypes.h">
+      <Filter>Core\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Memory\StaticAllocator.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Core\PCH\dmkafx.cpp">
+      <Filter>Core\PCH</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Dynamik.lua" />
+  </ItemGroup>
+</Project>
