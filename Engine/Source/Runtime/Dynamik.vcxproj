@@ -73,11 +73,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;DMK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\Source\Runtime\Core\PCH;$(SolutionDir)Engine\Source\Runtime\Core\Algorithm;$(SolutionDir)Engine\Source\Runtime\Core\Types;$(SolutionDir)Engine\Source\Runtime\Core\Math;$(SolutionDir)Engine\SourceRuntime\Core\Memory;$(SolutionDir)Engine\SourceRuntime\Core\System;$(SolutionDir)Engine\SourceRuntime\GameLibraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Engine\Source\Runtime\Core;$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\Source\Runtime\Core\PCH;$(SolutionDir)Engine\Source\Runtime\Core\Algorithm;$(SolutionDir)Engine\Source\Runtime\Core\Types;$(SolutionDir)Engine\Source\Runtime\Core\Math;$(SolutionDir)Engine\Source\Runtime\Core\Memory;$(SolutionDir)Engine\Source\Runtime\Core\System;$(SolutionDir)Engine\Source\Runtime\GameLibraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -90,11 +90,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;DMK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\Source\Runtime\Core\PCH;$(SolutionDir)Engine\Source\Runtime\Core\Algorithm;$(SolutionDir)Engine\Source\Runtime\Core\Types;$(SolutionDir)Engine\Source\Runtime\Core\Math;$(SolutionDir)Engine\SourceRuntime\Core\Memory;$(SolutionDir)Engine\SourceRuntime\Core\System;$(SolutionDir)Engine\SourceRuntime\GameLibraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Engine\Source\Runtime\Core;$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\Source\Runtime\Core\PCH;$(SolutionDir)Engine\Source\Runtime\Core\Algorithm;$(SolutionDir)Engine\Source\Runtime\Core\Types;$(SolutionDir)Engine\Source\Runtime\Core\Math;$(SolutionDir)Engine\Source\Runtime\Core\Memory;$(SolutionDir)Engine\Source\Runtime\Core\System;$(SolutionDir)Engine\Source\Runtime\GameLibraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -111,11 +111,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;DMK_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\Source\Runtime\Core\PCH;$(SolutionDir)Engine\Source\Runtime\Core\Algorithm;$(SolutionDir)Engine\Source\Runtime\Core\Types;$(SolutionDir)Engine\Source\Runtime\Core\Math;$(SolutionDir)Engine\SourceRuntime\Core\Memory;$(SolutionDir)Engine\SourceRuntime\Core\System;$(SolutionDir)Engine\SourceRuntime\GameLibraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Engine\Source\Runtime\Core;$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\Source\Runtime\Core\PCH;$(SolutionDir)Engine\Source\Runtime\Core\Algorithm;$(SolutionDir)Engine\Source\Runtime\Core\Types;$(SolutionDir)Engine\Source\Runtime\Core\Math;$(SolutionDir)Engine\Source\Runtime\Core\Memory;$(SolutionDir)Engine\Source\Runtime\Core\System;$(SolutionDir)Engine\Source\Runtime\GameLibraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -135,13 +135,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Macros\Assert.h" />
+    <ClInclude Include="Core\Macros\Global.h" />
     <ClInclude Include="Core\Macros\MemoryMacro.h" />
+    <ClInclude Include="Core\Memory\LocalHeap.h" />
+    <ClInclude Include="Core\Memory\MemoryFunctions.h" />
+    <ClInclude Include="Core\Memory\MemoryManager.h" />
     <ClInclude Include="Core\Memory\MemoryPadding.h" />
     <ClInclude Include="Core\Memory\StaticAllocator.h" />
     <ClInclude Include="Core\PCH\dmkafx.h" />
     <ClInclude Include="Core\Types\DataTypes.h" />
+    <ClInclude Include="Core\Types\Pointer.h" />
+    <ClInclude Include="Core\Types\TypeCheck.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Memory\LocalHeap.cpp" />
+    <ClCompile Include="Core\Memory\MemoryFunctions.cpp" />
+    <ClCompile Include="Core\Memory\MemoryManager.cpp" />
     <ClCompile Include="Core\PCH\dmkafx.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

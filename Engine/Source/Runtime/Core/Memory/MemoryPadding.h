@@ -11,7 +11,9 @@
  IDE:       MS Visual Studio Community 2019
 */
 
-#include "DataTypes.h"
+#include "../Types/DataTypes.h"
+#include "Macros/Global.h"
+#include "Macros/MemoryMacro.h"
 
 /*
  TEMPLATED CLASS
@@ -21,11 +23,16 @@
  The required padding must be passed via the template argument.
 
  Including this object inside "private:" would make better interface.
+ Alignment must be provided in bits.
 */
-template<UI32 alignment = 1U>
-class MemoryPadding
+template<UI32 alignment = DMK_ALIGNMENT>
+class DMK_ALIGN DMK_API DMKMemoryPadding
 {
-	BYTE __pad[alignment] = { 0 };
+    /* Check for the template input before compiling. */
+    static_assert((alignment / 8), "Invalid memory alignment. You might have given in bytes. Template argument is required in bits.");
+
+    /* Padding variable constant. */
+	const BYTE __pad[(alignment / 8)] = { 0 };
 };
 
 #endif // !_DYNAMIK_MEMORY_PADDING_H

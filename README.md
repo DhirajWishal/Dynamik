@@ -16,16 +16,9 @@ The engine is a standalone component which handles all the provided resources by
 engine with the appropriate data using the DMKGameObject as its base class. Game logic is also given to the engine
 this exact way.
 
-Game Library components:
-- DMKGameObject
-  - DMKDebugObject
-  - DMKSceneComponent
-    - DMKStaticObject
-    - DMKSkyBoxObject
-    - DMKLightObject
-    - DMKMaterialObject
-
 Further improvements are yet to be made.
+
+#### All the user available classes and structures contains the "DMK" prefix.
 
 ### First Run:
 1. Double click (run/ execute) the GenProject.bat file.

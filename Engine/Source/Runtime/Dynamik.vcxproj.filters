@@ -34,11 +34,20 @@
       <Filter>Core\Types</Filter>
     </ClInclude>
     <ClInclude Include="Core\Memory\StaticAllocator.h" />
+    <ClInclude Include="Core\Memory\MemoryFunctions.h" />
+    <ClInclude Include="Core\Memory\MemoryManager.h" />
+    <ClInclude Include="Core\Types\Pointer.h" />
+    <ClInclude Include="Core\Types\TypeCheck.h" />
+    <ClInclude Include="Core\Memory\LocalHeap.h" />
+    <ClInclude Include="Core\Macros\Global.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\PCH\dmkafx.cpp">
       <Filter>Core\PCH</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Memory\MemoryFunctions.cpp" />
+    <ClCompile Include="Core\Memory\MemoryManager.cpp" />
+    <ClCompile Include="Core\Memory\LocalHeap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

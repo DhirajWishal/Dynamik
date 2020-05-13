@@ -9,4 +9,83 @@
  Date:      13/05/2020
 */
 
+#include "Pointer.h"
+#include "Macros/MemoryMacro.h"
+#include "Macros/Global.h"
+
+#include <memory>
+
+/*
+ Dynamik Static Allocator class
+ The static allocator is used to allocate a buffer in heap. It does not manage its deletion automatically but
+ needs to be explicitly deleted.
+
+ @template param: Output type.
+*/
+template<class TYPE>
+class DMK_API StaticAllocator
+{
+	using PTR = POINTER<TYPE>;
+
+public:
+	StaticAllocator() {}
+	~StaticAllocator() {}
+
+	/*
+	 Allocates a block of memory and return its address.
+
+	 @param byteSize: Size of the memory block in bytes. Default is the size of the type.
+	 @param alignment: Alignment of the allocated memory. Default is 0.
+	 @param offset: Memory offset of the allocated memory block. Default is 0;
+	*/
+	static PTR allocate(UI32 byteSize = sizeof(TYPE), UI32 alignment = 0, UI32 offset = 0)
+	{
+		return (PTR)operator new (byteSize, std::align_val_t{ alignment });
+	}
+
+	/*
+	 Deallocates the previously allocated block of memory.
+
+	 @param location: Address of the memory block.
+	 @param byteSize: Size of the memory block. Default is the size of type.
+	 @param alignment: Alignment of the memory block. Default is 0.
+	 @param offset: Offset of the memory block. Default is 0.
+	*/
+	static void deallocate(PTR location, UI32 byteSize = sizeof(TYPE), UI32 alignment = 0, UI32 offset = 0)
+	{
+		if (byteSize)
+			operator delete (location.get(), byteSize, std::align_val_t{ alignment });
+		else
+			delete location.get();
+	}
+
+	/*
+	 Allocates a block of memory as an array and return its address.
+
+	 @param byteSize: Size of the memory block in bytes. Default is the size of the type.
+	 @param alignment: Alignment of the allocated memory. Default is 0.
+	 @param offset: Memory offset of the allocated memory block. Default is 0;
+	*/
+	static PTR allocateArr(UI32 byteSize = sizeof(TYPE), UI32 alignment = 0, UI32 offset = 0)
+	{
+		return (PTR)operator new[](byteSize, std::align_val_t{ alignment });
+	}
+
+	/*
+	 Deallocates the previously allocated block of memory. The allocation must be an array type.
+
+	 @param location: Address of the memory block.
+	 @param byteSize: Size of the memory block. Default is the size of type.
+	 @param alignment: Alignment of the memory block. Default is 0.
+	 @param offset: Offset of the memory block. Default is 0.
+	*/
+	static void deallocateArr(PTR location, UI32 byteSize = sizeof(TYPE), UI32 alignment = 0, UI32 offset = 0)
+	{
+		if (byteSize)
+			operator delete[](location.get(), byteSize, std::align_val_t{ alignment });
+		else
+			delete[] location.get();
+	}
+};
+
 #endif // !_DYNAMIK_STATIC_ALLOCATOR_H
