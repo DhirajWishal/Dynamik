@@ -12,23 +12,20 @@
 
 #include "DataTypes.h"
 #include "Macros/Global.h"
+#include "Object/Object.h"
 
-/*
- This class contains all the necessary memory functions for the Dynamik Engine.
-*/
-class DMK_API MemoryFunctions
+namespace Dynamik
 {
-    MemoryFunctions() {}
-    ~MemoryFunctions() {}
+    /*
+     This class contains all the necessary memory functions for the Dynamik Engine.
+    */
+    class DMK_API MemoryFunctions
+    {
+        DMK_CLASS_FUNCTIONAL(MemoryFunctions)
 
-public:
-    MemoryFunctions(const MemoryFunctions&) = delete;
-    MemoryFunctions(MemoryFunctions&&) = delete;
-    MemoryFunctions& operator=(const MemoryFunctions&) = delete;
-    MemoryFunctions& operator=(MemoryFunctions&&) = delete;
-
-	static void moveData(VPTR destination, VPTR source, UI32 byteSize);
-    static void setData(VPTR destination, BYTE byteValue, UI32 byteSize);
-};
+        static void moveData(VPTR destination, VPTR source, UI32 byteSize);
+        static void setData(VPTR destination, BYTE byteValue, UI32 byteSize);
+    };
+}
 
 #endif // !_DYNAMIK_MEMORY_FUNCTIONS_H

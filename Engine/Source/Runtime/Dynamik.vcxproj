@@ -137,17 +137,29 @@
     <ClInclude Include="Core\Macros\Assert.h" />
     <ClInclude Include="Core\Macros\Global.h" />
     <ClInclude Include="Core\Macros\MemoryMacro.h" />
+    <ClInclude Include="Core\Math\MathFunctions.h" />
     <ClInclude Include="Core\Memory\LocalHeap.h" />
     <ClInclude Include="Core\Memory\MemoryFunctions.h" />
     <ClInclude Include="Core\Memory\MemoryManager.h" />
     <ClInclude Include="Core\Memory\MemoryPadding.h" />
     <ClInclude Include="Core\Memory\StaticAllocator.h" />
+    <ClInclude Include="Core\Object\Component.h" />
+    <ClInclude Include="Core\Object\Components\EngineComponent.h" />
+    <ClInclude Include="Core\Object\Components\ManagerObject.h" />
+    <ClInclude Include="Core\Object\Components\ServerComponent.h" />
+    <ClInclude Include="Core\Object\Descriptor.h" />
+    <ClInclude Include="Core\Object\GameObject.h" />
+    <ClInclude Include="Core\Object\Object.h" />
+    <ClInclude Include="Core\Object\Resource.h" />
+    <ClInclude Include="Core\Object\Utility.h" />
     <ClInclude Include="Core\PCH\dmkafx.h" />
+    <ClInclude Include="Core\Types\Array.h" />
     <ClInclude Include="Core\Types\DataTypes.h" />
     <ClInclude Include="Core\Types\Pointer.h" />
-    <ClInclude Include="Core\Types\TypeCheck.h" />
+    <ClInclude Include="Core\Types\TypeTraits.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Math\MathFunctions.cpp" />
     <ClCompile Include="Core\Memory\LocalHeap.cpp" />
     <ClCompile Include="Core\Memory\MemoryFunctions.cpp" />
     <ClCompile Include="Core\Memory\MemoryManager.cpp" />

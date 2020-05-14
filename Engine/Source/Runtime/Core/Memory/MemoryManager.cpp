@@ -3,33 +3,36 @@
 
 #include "StaticAllocator.h"
 
-/* Static instance of the singleton */
-DMKMemoryManager DMKMemoryManager::instance;
-
-/* Destructor */
-DMKMemoryManager::~DMKMemoryManager()
+namespace Dynamik
 {
-}
+	/* Static instance of the singleton */
+	DMKMemoryManager DMKMemoryManager::instance;
 
-void DMKMemoryManager::deallocate(POINTER<UI32> address, UI32 byteSize)
-{
-	StaticAllocator<UI32>::deallocate(address, byteSize);
-}
+	/* Destructor */
+	DMKMemoryManager::~DMKMemoryManager()
+	{
+	}
 
-DMKHeapContainer DMKMemoryManager::oneTimeAllocate(UI32 byteSize)
-{
-	/* Create a new heap container and assign it a newly allocated block. */
-	DMKHeapContainer _container;
-	_container.address = StaticAllocator<UI32>::allocate(byteSize);
-	_container.byteSize = byteSize;
+	void DMKMemoryManager::deallocate(POINTER<UI32> address, UI32 byteSize)
+	{
+		StaticAllocator<UI32>::deallocate(address, byteSize);
+	}
 
-	return _container;
-}
+	DMKHeapContainer DMKMemoryManager::oneTimeAllocate(UI32 byteSize)
+	{
+		/* Create a new heap container and assign it a newly allocated block. */
+		DMKHeapContainer _container;
+		_container.address = StaticAllocator<UI32>::allocate(byteSize);
+		_container.byteSize = byteSize;
 
-DMKHeapContainer::~DMKHeapContainer()
-{
-	if (address.isValid())
-		DMKMemoryManager::deallocate(address, byteSize);
-	else
-		/* Flag a warning. */;
+		return _container;
+	}
+
+	DMKHeapContainer::~DMKHeapContainer()
+	{
+		if (address.isValid())
+			DMKMemoryManager::deallocate(address, byteSize);
+		else
+			/* Flag a warning. */;
+	}
 }

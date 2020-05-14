@@ -1,0 +1,23 @@
+#pragma once
+#ifndef _DYNAMIK_UTILITY_H
+#define _DYNAMIK_UTILITY_H
+
+/*
+ All the Utility classes are derived from this class.
+
+ Author:    Dhiraj Wishal
+ Date:      14/05/2020
+*/
+
+#include "Object.h"
+
+namespace Dynamik
+{
+    DMK_ALIGN class DMK_API DMKUtility : public DMKObject {
+    public:
+        DMKUtility() {}
+        virtual ~DMKUtility() {}
+    };
+}
+
+#endif // !_DYNAMIK_UTILITY_H

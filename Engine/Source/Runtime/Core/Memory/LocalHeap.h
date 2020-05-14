@@ -12,65 +12,68 @@
 #include "Macros/MemoryMacro.h"
 #include "Macros/Global.h"
 
-/*
- The local heap is used to allocate a block of memory for an object, preferably for a manager to store its
- data on the heap. 
- This automatically deallocates its memory block when destroyed.
-*/
-DMK_ALIGN class DMK_API LocalHeap {
-public:
-    LocalHeap();
-    ~LocalHeap();
-
+namespace Dynamik
+{
     /*
-     Allocate a new memory pool.
-
-     @param byteSize: Size of the allocation in bytes.
-
-     @warn: Reallocating or recalling this function while the a memory buffer is already allocated
-            will result in an override allocation.
+     The local heap is used to allocate a block of memory for an object, preferably for a manager to store its
+     data on the heap.
+     This automatically deallocates its memory block when destroyed.
     */
-    void allocate(UI32 byteSize);
+    DMK_ALIGN class DMK_API LocalHeap {
+    public:
+        LocalHeap();
+        ~LocalHeap();
 
-    /*
-     Extend the memory buffer.
+        /*
+         Allocate a new memory pool.
 
-     @param newByteSize: The total size to be extended.
-    */
-    void extend(UI32 additionalSize);
+         @param byteSize: Size of the allocation in bytes.
 
-    /*
-     Clear all the values stored in the memory buffer to be 0.
-    */
-    void clearPool();
+         @warn: Reallocating or recalling this function while the a memory buffer is already allocated
+                will result in an override allocation.
+        */
+        void allocate(UI32 byteSize);
 
-    /*
-     Adds data to the memory buffer and return its address.
+        /*
+         Extend the memory buffer.
 
-     @param data: Data to be stored.
-     @param byteSize: Size of the storing data.
+         @param newByteSize: The total size to be extended.
+        */
+        void extend(UI32 additionalSize);
 
-     @warn: Extends the memory buffer and adds the new data to it. The extended size will be equal to
-            the pre allocated size plus the size of the adding data.
-    */
-    VPTR addToStore(VPTR data, UI32 byteSize);
+        /*
+         Clear all the values stored in the memory buffer to be 0.
+        */
+        void clearPool();
 
-    /*
-     Delete a value from the memory buffer.
+        /*
+         Adds data to the memory buffer and return its address.
 
-     @param data: Data location of the variable.
-     @param byteSize: Size of the stored data.
-    */
-    void deleteFromStore(VPTR data, UI32 byteSize);
+         @param data: Data to be stored.
+         @param byteSize: Size of the storing data.
 
-    UI32 getAllocationSize() { return myAllocationSize; }
+         @warn: Extends the memory buffer and adds the new data to it. The extended size will be equal to
+                the pre allocated size plus the size of the adding data.
+        */
+        VPTR addToStore(VPTR data, UI32 byteSize);
 
-private:
-    void _terminateLocalBlock();
+        /*
+         Delete a value from the memory buffer.
 
-    UI32 myAllocationSize = 0;
-    POINTER<UI32> myMemoryBlock;
-    POINTER<UI32> myNextPtr = myMemoryBlock;
-};
+         @param data: Data location of the variable.
+         @param byteSize: Size of the stored data.
+        */
+        void deleteFromStore(VPTR data, UI32 byteSize);
+
+        UI32 getAllocationSize() { return myAllocationSize; }
+
+    private:
+        void _terminateLocalBlock();
+
+        UI32 myAllocationSize = 0;
+        POINTER<UI32> myMemoryBlock;
+        POINTER<UI32> myNextPtr = myMemoryBlock;
+    };
+}
 
 #endif // !_DYNAMIK_LOCAL_HEAP_H
