@@ -9,13 +9,10 @@
 
 #include <iostream>
 #include <vector>
-#include "Core/Types/Array.h"
-#include "Core/Error/ErrorManager.h"
+#include "Dynamik.h"
 
 int main() {
-	std::cout << "Welcome to the Dynamik Engine v1\n";
-
-    Dynamik::DMKErrorManager::issueWarnBox("Hello check?!");
+    Dynamik::DMKEngine::createInstance();
 
 	return 0;
 }

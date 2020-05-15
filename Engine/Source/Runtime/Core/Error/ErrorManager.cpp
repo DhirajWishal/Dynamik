@@ -61,7 +61,7 @@ namespace Dynamik
 		DMK_TEXT("WARN-> "),
 		DMK_TEXT("ERROR-> "),
 		DMK_TEXT("FATAL-> "),
-		DMK_TEXT("QUESTION-> "),
+		DMK_TEXT("DEBUG-> "),
 	};
 
 	void LOG(int severity, STRING msg) {

@@ -13,7 +13,7 @@ The Studio is an application which uses the Dynamik Engine library extensively. 
 which can be used to edit and/ or create objects/ scenes/ levels scripts, etc...
 
 The engine is a standalone component which handles all the provided resources by itself. The client provides the 
-engine with the appropriate data using the DMKGameObject as its base class. Game logic is also given to the engine
+engine with the appropriate data using the DMKGameComponent as its base class. Game logic is also given to the engine
 this exact way.
 
 Further improvements are yet to be made.

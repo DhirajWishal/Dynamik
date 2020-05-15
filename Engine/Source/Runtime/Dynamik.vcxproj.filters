@@ -46,7 +46,6 @@
     <ClInclude Include="Core\Object\Utility.h" />
     <ClInclude Include="Core\Object\Descriptor.h" />
     <ClInclude Include="Core\Object\Resource.h" />
-    <ClInclude Include="Core\Object\GameObject.h" />
     <ClInclude Include="Core\Object\Components\EngineComponent.h" />
     <ClInclude Include="Core\Object\Components\ServerComponent.h" />
     <ClInclude Include="Core\Object\Components\ManagerObject.h" />
@@ -56,6 +55,13 @@
     <ClInclude Include="Core\Error\ErrorManager.h" />
     <ClInclude Include="Core\Error\MessageBox.h" />
     <ClInclude Include="Core\Error\ErrorDefines.h" />
+    <ClInclude Include="GameLibrary\LevelComponent.h" />
+    <ClInclude Include="Core\Utilities\Clock.h" />
+    <ClInclude Include="GameLibrary\SceneComponent.h" />
+    <ClInclude Include="Dynamik.h" />
+    <ClInclude Include="Core\Object\GameComponent.h" />
+    <ClInclude Include="GameLibrary\GameObject.h" />
+    <ClInclude Include="GameLibrary\GameObjects\StaticObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\PCH\dmkafx.cpp">
@@ -69,6 +75,8 @@
     <ClCompile Include="Core\Object\Resource\TextureComponent.cpp" />
     <ClCompile Include="Core\Error\ErrorManager.cpp" />
     <ClCompile Include="Core\Error\MessageBox.cpp" />
+    <ClCompile Include="Core\Utilities\Clock.cpp" />
+    <ClCompile Include="Dynamik.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />
