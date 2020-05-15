@@ -13,6 +13,15 @@
 
 namespace Dynamik
 {
+    /* Container to store time */
+    DMK_ALIGN struct DMK_API Time {
+        D64 hours = 0;
+        D64 minutes = 0;
+        D64 seconds = 0;
+        D64 millis = 0;
+        D64 micros = 0;
+    };
+
     /*
      This class contains all the time functions required by the Dynamik Engine.
      This object is created as a singleton.
@@ -43,6 +52,12 @@ namespace Dynamik
         static UI64 getCurrentLocal();
 
 #endif
+
+        /* Get the current time since engine initiation */
+        Time get();
+
+        /* Get the local time */
+        Time getLocal();
 
         /* This functions returns a tick for each main loop iteration */
         UI64 tick();

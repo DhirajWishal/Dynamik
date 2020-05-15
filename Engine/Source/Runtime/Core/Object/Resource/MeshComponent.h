@@ -13,36 +13,62 @@
 */
 
 #include "../Resource.h"
+#include "Primitives.h"
 
 namespace Dynamik
 {
-    enum class DMK_API DMKMeshComponentType {
-        DMK_MESH_COMPONENT_TYPE_STATIC,
-        DMK_MESH_COMPONENT_TYPE_ANIMATED,
-    };
+	/* Dynamik Mesh Component Types */
+	enum class DMK_API DMKMeshComponentType {
+		DMK_MESH_COMPONENT_TYPE_STATIC,
+		DMK_MESH_COMPONENT_TYPE_ANIMATED,
+	};
 
-    /*
-     Mesh Component super class for the Dynamik Engine.
-     This class itself does not store any mesh data. Mesh components are derived from this to store their
-     data.
-     This class contains functions to manipulate a full mesh.
+	/*
+	 Mesh Component super class for the Dynamik Engine.
+	 This class itself does not store any mesh data. Mesh components are derived from this to store their
+	 data.
+	 This class contains functions to manipulate a full mesh.
 
-     There are two types of meshes:
-     * Static mesh.
-     * Animated mesh.
-    */
-    DMK_ALIGN class DMK_API DMKMeshComponent : public DMKResource {
-    public:
-        DMKMeshComponent() {}
-        DMKMeshComponent(DMKMeshComponentType ty) : type(ty) {}
-        virtual ~DMKMeshComponent() {}
+	 There are two types of meshes:
+	 * Static mesh.
+	 * Animated mesh.
+	*/
+	DMK_ALIGN class DMK_API DMKMeshComponent : public DMKResource {
+	public:
+		DMKMeshComponent() {}
+		DMKMeshComponent(DMKMeshComponentType ty) : type(ty) {}
+		DMKMeshComponent(const DMKVertexBufferDescriptor& descriptor, const DMKDataType& type)
+			: vertexDescriptor(descriptor), indexBufferType(type) {}
+		DMKMeshComponent(DMKMeshComponentType ty, const DMKVertexBufferDescriptor& descriptor, const DMKDataType& type)
+			: vertexDescriptor(descriptor), indexBufferType(type), type(ty) {}
+		virtual ~DMKMeshComponent() {}
 
-        /* TODO:
-         static DMKMeshComponent& createMesh(VertexData);
-        */
+		/* TODO:
+		 static DMKMeshComponent& createMesh(VertexData);
+		*/
 
-        DMKMeshComponentType type = DMKMeshComponentType::DMK_MESH_COMPONENT_TYPE_STATIC;
-    };
+		/* Get the total byte size of the vertex buffer object */
+		UI32 getVertexBufferObjectByteSize();
+
+		/* Get the total byte size of the index buffer object */
+		UI32 getIndexBufferObjectByteSize();
+
+		/*
+		 Pack all vertex data into a location.
+
+		 @warn: The pre allocated memory location must be allocated to fit the whole vertex buffer object.
+		        To ensure this, use getVertexBufferObjectByteSize() to allocate the buffer percisely.
+		*/
+		void packData(const DMKVertexBufferDescriptor& descriptor, VPTR location);
+
+		DMKMeshComponentType type = DMKMeshComponentType::DMK_MESH_COMPONENT_TYPE_STATIC;
+
+		DMKVertexBufferDescriptor vertexDescriptor;
+		DMKDataType indexBufferType = DMKDataType::DMK_DATA_TYPE_UI32;
+
+		ARRAY<DMKVertexObject> rawVertexBufferObject;
+		ARRAY<UI32> indexBufferObject;
+	};
 }
 
 #endif // !_DYNAMIK_MESH_COMPONENT_H

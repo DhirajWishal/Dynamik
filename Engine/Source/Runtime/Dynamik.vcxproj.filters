@@ -62,6 +62,12 @@
     <ClInclude Include="Core\Object\GameComponent.h" />
     <ClInclude Include="GameLibrary\GameObject.h" />
     <ClInclude Include="GameLibrary\GameObjects\StaticObject.h" />
+    <ClInclude Include="GameLibrary\GameObjectAttachment.h" />
+    <ClInclude Include="Core\Object\Resource\MeshComponents\StaticMeshComponent.h" />
+    <ClInclude Include="Core\Math\MathTypes.h" />
+    <ClInclude Include="Core\Math\Vector3D.h" />
+    <ClInclude Include="Core\Object\Descriptors\GameComponentDesriptors.h" />
+    <ClInclude Include="Core\Object\Resource\Primitives.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\PCH\dmkafx.cpp">
@@ -77,6 +83,8 @@
     <ClCompile Include="Core\Error\MessageBox.cpp" />
     <ClCompile Include="Core\Utilities\Clock.cpp" />
     <ClCompile Include="Dynamik.cpp" />
+    <ClCompile Include="Core\Object\Resource\Primitives.cpp" />
+    <ClCompile Include="Core\Object\Resource\MeshComponents\StaticMeshComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

@@ -141,6 +141,8 @@
     <ClInclude Include="Core\Macros\Global.h" />
     <ClInclude Include="Core\Macros\MemoryMacro.h" />
     <ClInclude Include="Core\Math\MathFunctions.h" />
+    <ClInclude Include="Core\Math\MathTypes.h" />
+    <ClInclude Include="Core\Math\Vector3D.h" />
     <ClInclude Include="Core\Memory\LocalHeap.h" />
     <ClInclude Include="Core\Memory\MemoryFunctions.h" />
     <ClInclude Include="Core\Memory\MemoryManager.h" />
@@ -151,10 +153,13 @@
     <ClInclude Include="Core\Object\Components\ManagerObject.h" />
     <ClInclude Include="Core\Object\Components\ServerComponent.h" />
     <ClInclude Include="Core\Object\Descriptor.h" />
+    <ClInclude Include="Core\Object\Descriptors\GameComponentDesriptors.h" />
     <ClInclude Include="Core\Object\GameComponent.h" />
     <ClInclude Include="Core\Object\Object.h" />
     <ClInclude Include="Core\Object\Resource.h" />
     <ClInclude Include="Core\Object\Resource\MeshComponent.h" />
+    <ClInclude Include="Core\Object\Resource\MeshComponents\StaticMeshComponent.h" />
+    <ClInclude Include="Core\Object\Resource\Primitives.h" />
     <ClInclude Include="Core\Object\Resource\TextureComponent.h" />
     <ClInclude Include="Core\Object\Utility.h" />
     <ClInclude Include="Core\PCH\dmkafx.h" />
@@ -165,6 +170,7 @@
     <ClInclude Include="Core\Utilities\Clock.h" />
     <ClInclude Include="Dynamik.h" />
     <ClInclude Include="GameLibrary\GameObject.h" />
+    <ClInclude Include="GameLibrary\GameObjectAttachment.h" />
     <ClInclude Include="GameLibrary\GameObjects\StaticObject.h" />
     <ClInclude Include="GameLibrary\LevelComponent.h" />
     <ClInclude Include="GameLibrary\SceneComponent.h" />
@@ -177,6 +183,8 @@
     <ClCompile Include="Core\Memory\MemoryFunctions.cpp" />
     <ClCompile Include="Core\Memory\MemoryManager.cpp" />
     <ClCompile Include="Core\Object\Resource\MeshComponent.cpp" />
+    <ClCompile Include="Core\Object\Resource\MeshComponents\StaticMeshComponent.cpp" />
+    <ClCompile Include="Core\Object\Resource\Primitives.cpp" />
     <ClCompile Include="Core\Object\Resource\TextureComponent.cpp" />
     <ClCompile Include="Core\PCH\dmkafx.cpp" />
     <ClCompile Include="Core\Utilities\Clock.cpp" />

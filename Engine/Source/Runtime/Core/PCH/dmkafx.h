@@ -12,6 +12,7 @@
 */
 
 #ifdef DMK_PLATFORM_WINDOWS
+#include "Error/ErrorManager.h"
 
 #endif // DMK_PLATFORM_WINDOWS
 
