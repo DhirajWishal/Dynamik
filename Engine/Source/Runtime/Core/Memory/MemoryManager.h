@@ -10,7 +10,7 @@
 #include "Pointer.h"
 #include "Macros/Global.h"
 #include "Macros/MemoryMacro.h"
-#include "Object/Object.h"
+#include "Object/Components/ManagerObject.h"
 
 namespace Dynamik
 {
@@ -34,7 +34,7 @@ namespace Dynamik
      * One time allocation (automatically clears the memory)
      * Heap pool allocation (double buffered stack allocation)
     */
-    class DMK_API DMKMemoryManager {
+    DMK_ALIGN class DMK_API DMKMemoryManager : public DMKManagerObject {
         DMKMemoryManager() {}
         ~DMKMemoryManager();
 

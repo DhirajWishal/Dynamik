@@ -134,6 +134,9 @@
     <None Include="Dynamik.lua" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Error\ErrorDefines.h" />
+    <ClInclude Include="Core\Error\ErrorManager.h" />
+    <ClInclude Include="Core\Error\MessageBox.h" />
     <ClInclude Include="Core\Macros\Assert.h" />
     <ClInclude Include="Core\Macros\Global.h" />
     <ClInclude Include="Core\Macros\MemoryMacro.h" />
@@ -151,6 +154,8 @@
     <ClInclude Include="Core\Object\GameObject.h" />
     <ClInclude Include="Core\Object\Object.h" />
     <ClInclude Include="Core\Object\Resource.h" />
+    <ClInclude Include="Core\Object\Resource\MeshComponent.h" />
+    <ClInclude Include="Core\Object\Resource\TextureComponent.h" />
     <ClInclude Include="Core\Object\Utility.h" />
     <ClInclude Include="Core\PCH\dmkafx.h" />
     <ClInclude Include="Core\Types\Array.h" />
@@ -159,10 +164,14 @@
     <ClInclude Include="Core\Types\TypeTraits.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Error\ErrorManager.cpp" />
+    <ClCompile Include="Core\Error\MessageBox.cpp" />
     <ClCompile Include="Core\Math\MathFunctions.cpp" />
     <ClCompile Include="Core\Memory\LocalHeap.cpp" />
     <ClCompile Include="Core\Memory\MemoryFunctions.cpp" />
     <ClCompile Include="Core\Memory\MemoryManager.cpp" />
+    <ClCompile Include="Core\Object\Resource\MeshComponent.cpp" />
+    <ClCompile Include="Core\Object\Resource\TextureComponent.cpp" />
     <ClCompile Include="Core\PCH\dmkafx.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

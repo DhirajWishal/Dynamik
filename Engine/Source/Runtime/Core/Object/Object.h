@@ -21,7 +21,7 @@
 												className(const className&) = delete;				\
 												className(className&&) = delete;					\
 												className& operator=(const className&) = delete;	\
-												className& operator=(className&&) = delete;		
+												className& operator=(className&&) = delete;         
 
 /* Implement the singleton instance */
 #define DMK_CLASS_SINGLETON_IMPL(className)	className className::instance
@@ -35,7 +35,7 @@
                                         		className(const className&) = delete;				\
                                         		className(className&&) = delete;					\
                                         		className& operator=(const className&) = delete;	\
-                                        		className& operator=(className&&) = delete;			
+                                        		className& operator=(className&&) = delete;         	
 
 namespace Dynamik
 {

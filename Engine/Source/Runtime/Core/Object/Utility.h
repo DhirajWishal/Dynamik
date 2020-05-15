@@ -4,6 +4,8 @@
 
 /*
  All the Utility classes are derived from this class.
+ Types of utilities:
+ * Error Message box
 
  Author:    Dhiraj Wishal
  Date:      14/05/2020

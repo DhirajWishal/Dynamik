@@ -4,6 +4,11 @@
 
 /*
  All the managers in the engine are derived from this.
+ Core manager objects include:
+ * Memory Manager
+ * Error Manager
+ * Asset Manager
+ * Window Manager
 
  Author:    Dhiraj Wishal
  Date:      14/05/2020
@@ -14,6 +19,7 @@
 namespace Dynamik
 {
     DMK_ALIGN class DMK_API DMKManagerObject : public DMKComponent {
+    public:
         DMKManagerObject() {}
         virtual ~DMKManagerObject() {}
     };

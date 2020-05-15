@@ -51,6 +51,11 @@
     <ClInclude Include="Core\Object\Components\ServerComponent.h" />
     <ClInclude Include="Core\Object\Components\ManagerObject.h" />
     <ClInclude Include="Core\Types\Array.h" />
+    <ClInclude Include="Core\Object\Resource\MeshComponent.h" />
+    <ClInclude Include="Core\Object\Resource\TextureComponent.h" />
+    <ClInclude Include="Core\Error\ErrorManager.h" />
+    <ClInclude Include="Core\Error\MessageBox.h" />
+    <ClInclude Include="Core\Error\ErrorDefines.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\PCH\dmkafx.cpp">
@@ -60,6 +65,10 @@
     <ClCompile Include="Core\Memory\MemoryManager.cpp" />
     <ClCompile Include="Core\Memory\LocalHeap.cpp" />
     <ClCompile Include="Core\Math\MathFunctions.cpp" />
+    <ClCompile Include="Core\Object\Resource\MeshComponent.cpp" />
+    <ClCompile Include="Core\Object\Resource\TextureComponent.cpp" />
+    <ClCompile Include="Core\Error\ErrorManager.cpp" />
+    <ClCompile Include="Core\Error\MessageBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />
