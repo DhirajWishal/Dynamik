@@ -29,8 +29,8 @@ namespace Dynamik
         MemoryFunctions& operator=(const MemoryFunctions&) = delete;
         MemoryFunctions& operator=(MemoryFunctions&&) = delete;
 
-        static void moveData(VPTR destination, VPTR source, UI32 byteSize);
-        static void setData(VPTR destination, BYTE byteValue, UI32 byteSize);
+        static void moveData(VPTR destination, VPTR source, UI64 byteSize);
+        static void setData(VPTR destination, BYTE byteValue, UI64 byteSize);
     };
 }
 

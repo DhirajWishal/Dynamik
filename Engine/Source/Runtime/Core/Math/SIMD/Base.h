@@ -90,7 +90,9 @@ namespace Dynamik
 		virtual ~BaseSIMD() {}
 
 		/* Load un aligned bytes of data */
-		virtual void load(const F32* address) {}
+		virtual void load(const	F32* address) {}
+		virtual void load(const	D64* address) {}
+		virtual void load(const	I32* address) {}
 
 		/*
 		 Load aligned bytes of data.
@@ -98,9 +100,13 @@ namespace Dynamik
 		 AVX - 32 bits
 		*/
 		virtual void loadAlign(const F32* address) {}
+		virtual void loadAlign(const D64* address) {}
+		virtual void loadAlign(const I32* address) {}
 
 		/* Store unaligned bytes of data */
 		virtual void store(F32* address) {}
+		virtual void store(D64* address) {}
+		virtual void store(I32* address) {}
 
 		/*
 		 Store aligned bytes of data.
@@ -108,6 +114,8 @@ namespace Dynamik
 		 AVX - 32 bits
 		*/
 		virtual void storeAlign(F32* address) {}
+		virtual void storeAlign(D64* address) {}
+		virtual void storeAlign(I32* address) {}
 	};
 }
 

@@ -142,8 +142,10 @@
     <ClInclude Include="Core\Macros\MemoryMacro.h" />
     <ClInclude Include="Core\Math\MathFunctions.h" />
     <ClInclude Include="Core\Math\MathTypes.h" />
+    <ClInclude Include="Core\Math\Matrix.h" />
     <ClInclude Include="Core\Math\SIMD\Base.h" />
     <ClInclude Include="Core\Math\SIMD\SIMD128.h" />
+    <ClInclude Include="Core\Math\SIMD\SIMD256.h" />
     <ClInclude Include="Core\Math\SIMD\SIMD512.h" />
     <ClInclude Include="Core\Math\SIMD\SIMDFunctions.h" />
     <ClInclude Include="Core\Math\Vector.h" />
@@ -186,6 +188,7 @@
     <ClCompile Include="Core\Error\MessageBox.cpp" />
     <ClCompile Include="Core\Math\MathFunctions.cpp" />
     <ClCompile Include="Core\Math\SIMD\SIMD128.cpp" />
+    <ClCompile Include="Core\Math\SIMD\SIMD256.cpp" />
     <ClCompile Include="Core\Math\SIMD\SIMD512.cpp" />
     <ClCompile Include="Core\Math\SIMD\SIMDFunctions.cpp" />
     <ClCompile Include="Core\Math\Vector3D.cpp" />

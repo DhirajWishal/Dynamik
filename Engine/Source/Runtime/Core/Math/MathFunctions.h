@@ -10,13 +10,15 @@
 */
 
 #include "../Object/Object.h"
+#include "Vector3D.h"
+#include "Vector4D.h"
 
 namespace Dynamik
 {
-	class DMKMathFunction : public DMKObject {
-		DMK_CLASS_FUNCTIONAL(DMKMathFunction)
-
-
+	class DMKMathFunctions : public DMKObject {
+		DMK_CLASS_FUNCTIONAL(DMKMathFunctions)
+	public:
+		static Vector3D dotProduct(Vector3D lhs, Vector3D rhs);
 	};
 }
 

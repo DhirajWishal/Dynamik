@@ -12,13 +12,13 @@ namespace Dynamik
 {
     /* Vector type traits */
     template <class TYPE>
-    struct DMK_ALIGN DMK_API VectorTraits;
+    struct DMK_API VectorTraits;
 
     /*
      Dynamik Math Vector Base class.
     */
     template <class TYPE>
-    class DMK_ALIGN DMK_API Vector
+    class DMK_API Vector
     {
     public:
         typedef typename VectorTraits<TYPE>::type value_type;

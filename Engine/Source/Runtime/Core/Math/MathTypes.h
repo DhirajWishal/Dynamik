@@ -10,10 +10,12 @@
 */
 
 #include "Vector3D.h"
+#include "Vector4D.h"
 
 namespace Dynamik
 {
     typedef Vector3D VEC3;
+    typedef Vector4D VEC4;
 }
 
 #endif // !_DYNAMIK_MATH_TYPES_H

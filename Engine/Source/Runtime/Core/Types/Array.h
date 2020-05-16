@@ -53,8 +53,8 @@ namespace Dynamik
 	 * @warn: The Dynamic Array does not call the destructor for all the stored elements at default.
 				If needed to call, DestructorCallMode must be set to either ALL or ALL THREADED.
 	 */
-	template<class TYPE, UI32 AllocationCount = 1, DMKArrayDestructorCallMode DestructorCallMode = DMKArrayDestructorCallMode::DMK_ARRAY_DESTRUCTOR_CALL_MODE_DESTRUCT_NONE, class Allocator = StaticAllocator<TYPE>>
-	class DMK_API ARRAY {
+	template<class TYPE, UI64 AllocationCount = 1, DMKArrayDestructorCallMode DestructorCallMode = DMKArrayDestructorCallMode::DMK_ARRAY_DESTRUCTOR_CALL_MODE_DESTRUCT_NONE, class Allocator = StaticAllocator<TYPE>>
+	class DMK_ALIGN DMK_API ARRAY {
 		/* DEFAULTS */
 
 		/* STATIC ASSERT
@@ -107,7 +107,7 @@ namespace Dynamik
 		 *
 		 * @param size: Size to be allocated.
 		 */
-		ARRAY(UI32 size)
+		ARRAY(UI64 size)
 		{
 			if (size)
 			{
@@ -129,11 +129,11 @@ namespace Dynamik
 		 * @param size: Size to be allocated.
 		 * @param value: Value to initialize the Array with.
 		 */
-		ARRAY(UI32 size, const TYPE& value)
+		ARRAY(UI64 size, const TYPE& value)
 		{
 			if (size)
 			{
-				UI32 _allocatableSize = _getAllocatableSize(size);
+				UI64 _allocatableSize = _getAllocatableSize(size);
 				if ((size + _allocatableSize) > maxSize()) return; /* TODO: Error Flagging */
 
 				_reAllocateBack(_allocatableSize);
@@ -168,7 +168,7 @@ namespace Dynamik
 		 *
 		 * @param list: Initializer list used to initialize this.
 		 */
-		ARRAY(std::initializer_list<TYPE> list, UI32 size = 1)
+		ARRAY(std::initializer_list<TYPE> list, UI64 size = 1)
 		{
 			if (list.size() > maxSize()); /* TODO: Error Flagging */
 
@@ -268,7 +268,7 @@ namespace Dynamik
 		 * @param index: Index where to set the value.
 		 * @param value: Value to be updated.
 		 */
-		void set(UI32 index, const TYPE& value)
+		void set(UI64 index, const TYPE& value)
 		{
 			if (!isValidIndex(index)) return; /* TODO: Error Flagging */
 
@@ -286,7 +286,7 @@ namespace Dynamik
 		 */
 		void set(ITERATOR first, ITERATOR last)
 		{
-			UI32 _byteSize = last.getPointerAsInteger() - first.getPointerAsInteger();
+			UI64 _byteSize = last.getPointerAsInteger() - first.getPointerAsInteger();
 			if (_byteSize)
 			{
 				myDataCount = (_byteSize) / typeSize();
@@ -429,7 +429,7 @@ namespace Dynamik
 		 *
 		 * @param index: The element index to be removed.
 		 */
-		void remove(UI32 index = 0)
+		void remove(UI64 index = 0)
 		{
 			if (!isValidIndex(index)) return; /* TODO: Error Flagging. */
 
@@ -442,7 +442,7 @@ namespace Dynamik
 		 *
 		 * @param size: The size to be allocated to (number of data to hold).
 		 */
-		void setSize(const UI32 size)
+		void setSize(const UI64 size)
 		{
 			if (size > maxSize()) return; /* TODO: Error Flagging */
 
@@ -458,7 +458,7 @@ namespace Dynamik
 		 * @param size: The size to be allocated to (number of data to hold).
 		 * @param value: The value to fill the array with.
 		 */
-		void setSizeAndValue(const UI32& size, const TYPE& value) {
+		void setSizeAndValue(const UI64& size, const TYPE& value) {
 			ARRAY(size, value);
 		}
 
@@ -470,9 +470,9 @@ namespace Dynamik
 		 */
 		TYPE& at(I32 index = 0)
 		{
-			if (index >= _getSizeOfThis() || (index <= (0 - _getSizeOfThis()))); // TODO: error handling
+			if (index >= (I32)_getSizeOfThis() || (index <= (I32)(0 - _getSizeOfThis()))); // TODO: error handling
 
-			UI32 _processedIndex = _getProcessedIndex(index);
+			UI64 _processedIndex = _getProcessedIndex(index);
 
 			return myBeginPtr[_processedIndex];
 		}
@@ -502,7 +502,7 @@ namespace Dynamik
 		 *
 		 * @param size: Size to which the Array should be resized.
 		 */
-		void resize(UI32 size)
+		void resize(UI64 size)
 		{
 			if (size)
 			{
@@ -524,7 +524,7 @@ namespace Dynamik
 		 * @param size: Size to which the Array should be resized.
 		 * @param value: The value to initialize the Array with.
 		 */
-		void resize(UI32 size, const TYPE& value)
+		void resize(UI64 size, const TYPE& value)
 		{
 			if (size > maxSize()) return; /* TODO: Error Flagging */
 
@@ -545,7 +545,7 @@ namespace Dynamik
 		 * @param startIndex: Index of the first place.
 		 * @param endIndex: Index of the last place.
 		 */
-		void fill(const TYPE& value, UI32 startIndex, UI32 endIndex)
+		void fill(const TYPE& value, UI64 startIndex, UI64 endIndex)
 		{
 			if ((endIndex >= _getSizeOfThis()) || (startIndex < endIndex)); // TODO:: error handling
 
@@ -563,7 +563,7 @@ namespace Dynamik
 		 * @param value: Value to be updated.
 		 * @param index: Index to be updated.
 		 */
-		void update(const TYPE& value, UI32 index = 0)
+		void update(const TYPE& value, UI64 index = 0)
 		{
 			if (index >= _getSizeOfThis()); // TODO: error handling
 
@@ -595,7 +595,7 @@ namespace Dynamik
 				_reAllocateAssign(last.getPointerAsInteger() - first.getPointerAsInteger());
 
 			MemoryFunctions::moveData(myBeginPtr, first, last - first);
-			UI32 _size = (UI64)(last - first);
+			UI64 _size = (UI64)(last - first);
 			myDataCount += _size;
 			myNextPtr += _size;
 			return myNextPtr;
@@ -608,7 +608,7 @@ namespace Dynamik
 		 * @param value: Value to be updated.
 		 * @param index: Index to be updated.
 		 */
-		void emplace(const TYPE& value, UI32 index = 0)
+		void emplace(const TYPE& value, UI64 index = 0)
 		{
 			if (index >= _getSizeOfThis()); // TODO: error handling
 
@@ -656,8 +656,8 @@ namespace Dynamik
 		void bubbleSort(bool isAsc = true)
 		{
 			ARRAY<TYPE> _localArray = this;
-			UI32 _indexCount = 0;
-			UI32 _index, _itr;
+			UI64 _indexCount = 0;
+			UI64 _index, _itr;
 			while (_indexCount < (_getSizeOfThis() - 1))
 			{
 				_index = 0;
@@ -695,7 +695,7 @@ namespace Dynamik
 		 * @param from: First index.
 		 * @param toWhere: Last index.
 		 */
-		ARRAY<TYPE> subArray(UI32 from, UI32 toWhere)
+		ARRAY<TYPE> subArray(UI64 from, UI64 toWhere)
 		{
 			if (!isValidIndexRange(from, toWhere)) return; /* TODO: Error Flagging */
 
@@ -742,21 +742,21 @@ namespace Dynamik
 		 *
 		 * @return: Element count.
 		 */
-		const UI32 size() const noexcept { return _getSizeOfThis(); }
+		const UI64 size() const noexcept { return _getSizeOfThis(); }
 
 		/* FUNCTION
 		 * Return the maximum size allocatable in an Array.
 		 *
 		 * @return: Element count.
 		 */
-		const UI32 maxSize() const noexcept { return ((UI32)-1) / sizeof(TYPE); }
+		const UI64 maxSize() const noexcept { return ((UI64)-1) / sizeof(TYPE); }
 
 		/* FUNCTION
 		 * Return the number of elements that can be stored before the next allocation.
 		 *
 		 * @return: Element count.
 		 */
-		const UI32 capacity() const noexcept
+		const UI64 capacity() const noexcept
 		{
 			if (_getAllocationSize() == 0 || sizeof(TYPE) == 0)
 				return 0;
@@ -767,7 +767,7 @@ namespace Dynamik
 		/* FUNCTION
 		 * Return the size of TYPE.
 		 */
-		const UI32 typeSize() const noexcept { return sizeof(TYPE); }
+		const UI64 typeSize() const noexcept { return sizeof(TYPE); }
 
 		/* FUNCTION
 		 * Return the current allocation size.
@@ -775,7 +775,7 @@ namespace Dynamik
 		 *
 		 * @return: Byte count.
 		 */
-		const UI32 allocationSize() const noexcept { return _getAllocationSize(); }
+		const UI64 allocationSize() const noexcept { return _getAllocationSize(); }
 
 		/* FUNCTION
 		 * Check if the Array is empty.
@@ -815,11 +815,11 @@ namespace Dynamik
 		 * @param data: Data to be searched for.
 		 * @return: Array of indexes which the gived data is found.
 		 */
-		ARRAY<UI32> find(const TYPE& data)
+		ARRAY<UI64> find(const TYPE& data)
 		{
-			ARRAY<UI32> _indexContainer;
+			ARRAY<UI64> _indexContainer;
 
-			for (UI32 _itr = 0; _itr < size(); _itr++)
+			for (UI64 _itr = 0; _itr < size(); _itr++)
 				if (this->at(_itr) == data)
 					_indexContainer.pushBack(_itr);
 
@@ -832,11 +832,11 @@ namespace Dynamik
 		 * @param data: Data to be searched for.
 		 * @return: Array of indexes which the gived data is found.
 		 */
-		ARRAY<UI32> find(TYPE&& data)
+		ARRAY<UI64> find(TYPE&& data)
 		{
-			ARRAY<UI32> _indexContainer;
+			ARRAY<UI64> _indexContainer;
 
-			for (UI32 _itr = 0; _itr < size(); _itr++)
+			for (UI64 _itr = 0; _itr < size(); _itr++)
 				if (this->at(_itr) == data)
 					_indexContainer.pushBack(_itr);
 
@@ -910,7 +910,7 @@ namespace Dynamik
 		{
 			if (this->_getSizeOfThis() != data.size())
 				return false;
-			for (UI32 _itr = 0; _itr < this->_getSizeOfThis(); _itr++)
+			for (UI64 _itr = 0; _itr < this->_getSizeOfThis(); _itr++)
 				if (this->at(_itr) != data.at(_itr))
 					return false;
 
@@ -1018,7 +1018,7 @@ namespace Dynamik
 		 *
 		 * @param size: Size of the buffer to be allocated.
 		 */
-		inline PTR _allocateBuffer(UI32 size)
+		inline PTR _allocateBuffer(UI64 size)
 		{
 			return Allocator::allocate(size);
 		}
@@ -1028,7 +1028,7 @@ namespace Dynamik
 		 *
 		 * @param newSize: New size added to the pre-allocated size to be re-allocated.
 		 */
-		inline void _reAllocateBack(UI32 newSize)
+		inline void _reAllocateBack(UI64 newSize)
 		{
 			PTR _newArr = Allocator::allocate(newSize + _getAllocatableSize(capacity()));
 
@@ -1058,7 +1058,7 @@ namespace Dynamik
 		 *
 		 * @param newSize: New size added to the pre-allocated size to be re-allocated.
 		 */
-		inline void _reAllocateFront(UI32 newSize)
+		inline void _reAllocateFront(UI64 newSize)
 		{
 			PTR _newArr = Allocator::allocate(newSize + _getAllocatableSize(capacity()));
 			PTR _nxtPtr = _newArr;
@@ -1090,7 +1090,7 @@ namespace Dynamik
 		 *
 		 * @param size: The size to be allocated.
 		 */
-		inline void _reAllocateAssign(UI32 size)
+		inline void _reAllocateAssign(UI64 size)
 		{
 			PTR _newArr = Allocator::allocate(size + _getAllocatableSize(capacity()));
 
@@ -1120,7 +1120,7 @@ namespace Dynamik
 		 *
 		 * @param newSize: New size added to the pre-allocated size to be re-allocated.
 		 */
-		inline _pointerContainer _reAllocateGetRaw(UI32 newSize)
+		inline _pointerContainer _reAllocateGetRaw(UI64 newSize)
 		{
 			_pointerContainer _container;
 			_container._beginPtr = Allocator::allocate(newSize + _getAllocatableSize(capacity()));
@@ -1138,7 +1138,7 @@ namespace Dynamik
 		 * @param newSize: New size added to the pre-allocated size to be re-allocated.
 		 * @param data: Data to be inserted to the end.
 		 */
-		inline void _reAllocateAndPushBack(UI32 newSize, const TYPE& data)
+		inline void _reAllocateAndPushBack(UI64 newSize, const TYPE& data)
 		{
 			if (_getSizeOfThis() > (capacity() * 2))
 				newSize = _getNextSize();
@@ -1155,7 +1155,7 @@ namespace Dynamik
 		 * @param newSize: New size added to the pre-allocated size to be re-allocated.
 		 * @param data: Data to be inserted to the end.
 		 */
-		inline void _reAllocateAndPushFront(UI32 newSize, const TYPE& data)
+		inline void _reAllocateAndPushFront(UI64 newSize, const TYPE& data)
 		{
 			if (_getSizeOfThis() > (capacity() * 2))
 				newSize = _getNextSize();
@@ -1212,7 +1212,7 @@ namespace Dynamik
 		 *
 		 * @param removedIndex: Index where the data was removed.
 		 */
-		inline void _compactAfterRemove(UI32 removedIndex)
+		inline void _compactAfterRemove(UI64 removedIndex)
 		{
 			PTR _newArr = _allocateBuffer(_getAllocationSize());
 			MemoryFunctions::moveData(_newArr, (PTR)&myBeginPtr[removedIndex - 1], removedIndex);
@@ -1279,8 +1279,8 @@ namespace Dynamik
 		 */
 		inline void _destroyRangeInThreads(PTR first, PTR last)
 		{
-			UI32 _passes = std::thread::hardware_concurrency() - 1;	// number of threads
-			UI32 _chunks = size() / std::thread::hardware_concurrency();	// number of elements thats given for each thread
+			UI64 _passes = std::thread::hardware_concurrency() - 1;	// number of threads
+			UI64 _chunks = size() / std::thread::hardware_concurrency();	// number of elements thats given for each thread
 			ARRAY<std::future<void>, AllocationCount, DMKArrayDestructorCallMode::DMK_ARRAY_DESTRUCTOR_CALL_MODE_DESTRUCT_ALL> _threads(_passes);		// threads
 			PTR _first;
 			//_internalThread _localThread;
@@ -1353,7 +1353,7 @@ namespace Dynamik
 		/* PRIVATE
 		 * Get the number of elements stored.
 		 */
-		inline const UI32 _getSizeOfThis() const
+		inline const UI64 _getSizeOfThis() const
 		{
 			if (myDataCount > (capacity() * 2))
 				return 0;
@@ -1364,7 +1364,7 @@ namespace Dynamik
 		/* PRIVATE
 		 * Get the allocation size of this.
 		 */
-		inline const UI32 _getAllocationSize() const
+		inline const UI64 _getAllocationSize() const
 		{
 			return myEndPtr.getPointerAsInteger() - myBeginPtr.getPointerAsInteger();
 		}
@@ -1374,7 +1374,7 @@ namespace Dynamik
 		 *
 		 * @param bytes: Size of bytes.
 		 */
-		inline const UI32 _calculateCapacityInSize(UI32 bytes) const
+		inline const UI64 _calculateCapacityInSize(UI64 bytes) const
 		{
 			if (bytes)
 				return bytes / typeSize();
@@ -1387,7 +1387,7 @@ namespace Dynamik
 		 *
 		 * @param rawSize: Size to be processed.
 		 */
-		inline const UI32 _getAllocatableSize(UI32 rawSize) const
+		inline const UI64 _getAllocatableSize(UI64 rawSize) const
 		{
 			return rawSize * typeSize();
 		}
@@ -1400,7 +1400,7 @@ namespace Dynamik
 		 * @param capacity: Capacity of the new allocation.
 		 * @param dataCount: Number of data currently stored in the new Array.
 		 */
-		void _basicInitializationBack(TYPE* dataStore, UI32 capacity = 0, UI32 dataCount = 0)
+		void _basicInitializationBack(TYPE* dataStore, UI64 capacity = 0, UI64 dataCount = 0)
 		{
 			myBeginPtr(dataStore);
 
@@ -1419,7 +1419,7 @@ namespace Dynamik
 		 * @param capacity: Capacity of the new allocation.
 		 * @param dataCount: Number of data currently stored in the new Array.
 		 */
-		void _basicInitializationFront(TYPE* dataStore, UI32 freeCapacity = 0, UI32 capacity = 0, UI32 dataCount = 0)
+		void _basicInitializationFront(TYPE* dataStore, UI64 freeCapacity = 0, UI64 capacity = 0, UI64 dataCount = 0)
 		{
 			myBeginPtr(dataStore);
 			myBeginPtr += freeCapacity;
@@ -1434,14 +1434,14 @@ namespace Dynamik
 		/* PRIVATE FUNCTION
 		 * Get the next allocatable size.
 		 */
-		inline UI32 _getNextSize()
+		inline UI64 _getNextSize()
 		{
-			UI32 _oldCapacity = capacity();
+			UI64 _oldCapacity = capacity();
 
 			if (_oldCapacity > (maxSize() - _oldCapacity / 2))
 				return AllocationCount * sizeof(TYPE);
 
-			UI32 _nextCapacity = _oldCapacity + (_oldCapacity / 2);
+			UI64 _nextCapacity = _oldCapacity + (_oldCapacity / 2);
 
 			if (_nextCapacity < (AllocationCount * sizeof(TYPE)))
 				return AllocationCount * sizeof(TYPE);
@@ -1454,9 +1454,9 @@ namespace Dynamik
 		 *
 		 * @param basicSize: Size to be filled with.
 		 */
-		inline UI32 _getNextSizeToFit(UI32 basicSize)
+		inline UI64 _getNextSizeToFit(UI64 basicSize)
 		{
-			UI32 _nextSize = _getNextSize();
+			UI64 _nextSize = _getNextSize();
 			if ((basicSize % _nextSize))
 				return (((basicSize / _nextSize) * _nextSize) + _nextSize);
 
@@ -1470,7 +1470,7 @@ namespace Dynamik
 		 * @param destination: Destination address.
 		 * @param size: Number of bytes to be copied.
 		 */
-		inline void _copyData(VPTR source, VPTR destination, UI32 size)
+		inline void _copyData(VPTR source, VPTR destination, UI64 size)
 		{
 			while (--size) *(TYPE*)source = *(TYPE*)destination;
 		}
@@ -1481,7 +1481,7 @@ namespace Dynamik
 		 * @param newSpace: Source address.
 		 * @param newSpaceSize: Number of bytes to be moved.
 		 */
-		inline void _moveToThis(VPTR newSpace, UI32 newSpaceSize)
+		inline void _moveToThis(VPTR newSpace, UI64 newSpaceSize)
 		{
 			MemoryFunctions::moveData(myBeginPtr, (PTR)newSpace, newSpaceSize);
 		}
@@ -1492,7 +1492,7 @@ namespace Dynamik
 		 * @param newSpace: Source address.
 		 * @param newSpaceSize: Number of bytes to be moved.
 		 */
-		inline void _moveFromThis(VPTR newSpace, UI32 count)
+		inline void _moveFromThis(VPTR newSpace, UI64 count)
 		{
 			MemoryFunctions::moveData((PTR)newSpace, myBeginPtr, count);
 		}
@@ -1502,7 +1502,7 @@ namespace Dynamik
 		 *
 		 * @param index: Index of the pointer to retrieve.
 		 */
-		inline RPTR _getPointer(UI32 index = 0)
+		inline RPTR _getPointer(UI64 index = 0)
 		{
 			PTR _localPointer = myBeginPtr;
 			_localPointer += index;
@@ -1515,7 +1515,7 @@ namespace Dynamik
 		 * @param value: Value to be filled with.
 		 * @param count: Number of elements to be filled with.
 		 */
-		inline void _setValue(TYPE value, UI32 count)
+		inline void _setValue(TYPE value, UI64 count)
 		{
 			PTR _temp = myBeginPtr;
 			while (_temp != myEndPtr)
@@ -1543,7 +1543,7 @@ namespace Dynamik
 		 *
 		 * @param arr: Raw Array.
 		 */
-		inline UI32 _getSizeOfRawArray(const PTR arr)
+		inline UI64 _getSizeOfRawArray(const PTR arr)
 		{
 			return sizeof(arr.get()) / sizeof(TYPE);
 		}
@@ -1553,7 +1553,7 @@ namespace Dynamik
 		 *
 		 * @param index: Index to be processed.
 		 */
-		inline UI32 _getProcessedIndex(I32 index)
+		inline UI64 _getProcessedIndex(I32 index)
 		{
 			if (index < 0)
 				index = (_getSizeOfThis() + index);
@@ -1564,7 +1564,7 @@ namespace Dynamik
 		/* PRIVATE FUNCTION
 		 * Fills the allocated capacity with the constructor of the data type.
 		 */
-		inline void _fillWithData(UI32 capacity, TYPE&& data)
+		inline void _fillWithData(UI64 capacity, TYPE&& data)
 		{
 			PTR _tempPtr = myBeginPtr;
 			while (capacity--)
@@ -1580,7 +1580,7 @@ namespace Dynamik
 		PTR myEndPtr = myBeginPtr;		// end pointer
 		PTR myNextPtr = myBeginPtr;		// next pointer
 
-		UI32 myDataCount = 0;	// data counter
+		UI64 myDataCount = 0;	// data counter
 	};
 }
 
