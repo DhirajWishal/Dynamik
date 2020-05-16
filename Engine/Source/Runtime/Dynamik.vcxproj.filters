@@ -68,6 +68,12 @@
     <ClInclude Include="Core\Math\Vector3D.h" />
     <ClInclude Include="Core\Object\Descriptors\GameComponentDesriptors.h" />
     <ClInclude Include="Core\Object\Resource\Primitives.h" />
+    <ClInclude Include="Core\Math\Vector.h" />
+    <ClInclude Include="Core\Math\SIMD\Base.h" />
+    <ClInclude Include="Core\Math\SIMD\SIMDFunctions.h" />
+    <ClInclude Include="Core\Math\SIMD\SIMD128.h" />
+    <ClInclude Include="Core\Math\SIMD\SIMD512.h" />
+    <ClInclude Include="Core\Math\Vector4D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\PCH\dmkafx.cpp">
@@ -85,6 +91,11 @@
     <ClCompile Include="Dynamik.cpp" />
     <ClCompile Include="Core\Object\Resource\Primitives.cpp" />
     <ClCompile Include="Core\Object\Resource\MeshComponents\StaticMeshComponent.cpp" />
+    <ClCompile Include="Core\Math\Vector3D.cpp" />
+    <ClCompile Include="Core\Math\SIMD\SIMD128.cpp" />
+    <ClCompile Include="Core\Math\SIMD\SIMDFunctions.cpp" />
+    <ClCompile Include="Core\Math\SIMD\SIMD512.cpp" />
+    <ClCompile Include="Core\Math\Vector4D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

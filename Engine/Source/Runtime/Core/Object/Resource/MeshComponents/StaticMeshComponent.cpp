@@ -5,6 +5,6 @@ namespace Dynamik
 {
 	DMKStaticMeshComponent& DMKStaticMeshComponent::createStaticMesh(ARRAY<DMKVertexObject> vertexData)
 	{
-		// TODO: insert return statement here
+		return DMKStaticMeshComponent();
 	}
 }

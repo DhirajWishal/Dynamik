@@ -24,8 +24,9 @@ namespace Dynamik
 	 needs to be explicitly deleted.
 
 	 @template param: Output type.
+	 @template param: Default alignment type.
 	*/
-	template<class TYPE>
+	template<class TYPE, UI32 DefaultAligment = DMK_ALIGNMENT>
 	class DMK_API StaticAllocator
 	{
 		using PTR = POINTER<TYPE>;
@@ -41,7 +42,7 @@ namespace Dynamik
 		 @param alignment: Alignment of the allocated memory. Default is 0.
 		 @param offset: Memory offset of the allocated memory block. Default is 0;
 		*/
-		static PTR allocate(UI32 byteSize = sizeof(TYPE), UI32 alignment = DMK_ALIGNMENT, UI32 offset = 0)
+		static PTR allocate(UI32 byteSize = sizeof(TYPE), UI32 alignment = DefaultAligment, UI32 offset = 0)
 		{
 			return (PTR)operator new (byteSize, std::align_val_t{ alignment });
 		}
@@ -54,7 +55,7 @@ namespace Dynamik
 		 @param alignment: Alignment of the memory block. Default is 0.
 		 @param offset: Offset of the memory block. Default is 0.
 		*/
-		static void deallocate(PTR location, UI32 byteSize = sizeof(TYPE), UI32 alignment = DMK_ALIGNMENT, UI32 offset = 0)
+		static void deallocate(PTR location, UI32 byteSize = sizeof(TYPE), UI32 alignment = DefaultAligment, UI32 offset = 0)
 		{
 			if (byteSize)
 				operator delete (location.get(), byteSize, std::align_val_t{ alignment });
@@ -80,7 +81,7 @@ namespace Dynamik
 		 @param alignment: Alignment of the allocated memory. Default is 0.
 		 @param offset: Memory offset of the allocated memory block. Default is 0;
 		*/
-		static PTR allocateArr(UI32 byteSize = sizeof(TYPE), UI32 alignment = DMK_ALIGNMENT, UI32 offset = 0)
+		static PTR allocateArr(UI32 byteSize = sizeof(TYPE), UI32 alignment = DefaultAligment, UI32 offset = 0)
 		{
 			return (PTR)operator new[](byteSize, std::align_val_t{ alignment });
 		}
@@ -93,7 +94,7 @@ namespace Dynamik
 		 @param alignment: Alignment of the memory block. Default is 0.
 		 @param offset: Offset of the memory block. Default is 0.
 		*/
-		static void deallocateArr(PTR location, UI32 byteSize = sizeof(TYPE), UI32 alignment = DMK_ALIGNMENT, UI32 offset = 0)
+		static void deallocateArr(PTR location, UI32 byteSize = sizeof(TYPE), UI32 alignment = DefaultAligment, UI32 offset = 0)
 		{
 			if (byteSize)
 				operator delete[](location.get(), byteSize, std::align_val_t{ alignment });

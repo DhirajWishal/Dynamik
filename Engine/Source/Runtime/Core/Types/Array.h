@@ -22,7 +22,7 @@
 
 namespace Dynamik 
 {
-	template<class TYPE>
+	template<class TYPE, UI32 DefaultAlignment>
 	class StaticAllocator;	// Static Allocator declaration
 	template<class TYPE>
 	class POINTER;			// Pointer declaration
