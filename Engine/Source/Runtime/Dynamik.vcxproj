@@ -165,6 +165,7 @@
     <ClInclude Include="Core\Object\Components\ServerComponent.h" />
     <ClInclude Include="Core\Object\Descriptor.h" />
     <ClInclude Include="Core\Object\Descriptors\GameComponentDesriptors.h" />
+    <ClInclude Include="Core\Object\Descriptors\MaterialDescriptor.h" />
     <ClInclude Include="Core\Object\GameComponent.h" />
     <ClInclude Include="Core\Object\Object.h" />
     <ClInclude Include="Core\Object\Resource.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Dynamik.h" />
     <ClInclude Include="GameLibrary\GameObject.h" />
     <ClInclude Include="GameLibrary\GameObjectAttachment.h" />
+    <ClInclude Include="GameLibrary\GameObjects\GameEntity.h" />
     <ClInclude Include="GameLibrary\GameObjects\StaticObject.h" />
     <ClInclude Include="GameLibrary\LevelComponent.h" />
     <ClInclude Include="GameLibrary\SceneComponent.h" />

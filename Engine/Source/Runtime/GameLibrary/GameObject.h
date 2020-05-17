@@ -11,6 +11,7 @@
 
 #include "Object/GameComponent.h"
 #include "GameObjectAttachment.h"
+#include "Object/Descriptors/MaterialDescriptor.h"
 
 namespace Dynamik
 {
@@ -27,6 +28,9 @@ namespace Dynamik
         DMK_GAME_OBJECT_TYPE_TEXTURE_2D,    /* Texture object 2D */
         DMK_GAME_OBJECT_TYPE_TEXTURE_3D,    /* Texture object 3D */
         DMK_GAME_OBJECT_TYPE_LIGHTING,      /* Lighting object */
+
+        DMK_GAME_OBJECT_TYPE_ENTITY_PLAYER, /* Lighting object */
+        DMK_GAME_OBJECT_TYPE_ENTITY_NPC,    /* Lighting object */
     };
 
     /*
@@ -53,6 +57,9 @@ namespace Dynamik
 
         /* All attachments are required to contain the parent (this) classes address */
         ARRAY<POINTER<DMKGameObjectAttachment>> myAttachments;  
+
+        /* Material description of the game object */
+        POINTER<DMKMaterialDescriptor> materialDescription;
     };
 }
 

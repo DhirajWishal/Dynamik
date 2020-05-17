@@ -79,6 +79,8 @@
     <ClInclude Include="Core\Math\Vector3F.h" />
     <ClInclude Include="Core\Math\Vector4F.h" />
     <ClInclude Include="Core\Math\Matrix4F.h" />
+    <ClInclude Include="Core\Object\Descriptors\MaterialDescriptor.h" />
+    <ClInclude Include="GameLibrary\GameObjects\GameEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\PCH\dmkafx.cpp">

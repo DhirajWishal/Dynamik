@@ -5,16 +5,19 @@
 
 namespace Dynamik
 {
+	/* Get the vertex buffer object byte size */
 	UI32 DMKMeshComponent::getVertexBufferObjectByteSize()
 	{
 		return vertexDescriptor.getVertexSize() * rawVertexBufferObject.size();
 	}
 
+	/* Get the index buffer object byte size */
 	UI32 DMKMeshComponent::getIndexBufferObjectByteSize()
 	{
 		return (UI32)indexBufferType * indexBufferObject.size();
 	}
 
+	/* Pack data to a given location. That location must be pre allocated */
 	void DMKMeshComponent::packData(const DMKVertexBufferDescriptor& descriptor, VPTR location)
 	{
 		POINTER<BYTE> _nextPtr = location;

@@ -124,8 +124,11 @@ namespace Dynamik
 		UI32 dataCount = 1;     /* Number of data elements that is sent to the shader. Used when sending an array. */
 	};
 
-	/* Dynamik Uniform Buffer Object */
-	DMK_ALIGN struct DMK_API DMKUniformBufferObject {
+	/* 
+	 Dynamik Uniform Description 
+	 This object contains all the necessary information to create a uniform buffer object in the Dynamik Engine.
+	*/
+	DMK_ALIGN struct DMK_API DMKUniformDescription {
 		ARRAY<DMKUniformAttribute> attributes;
 		DMKShaderLocation shaderLocation = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
 
@@ -140,7 +143,40 @@ namespace Dynamik
 		~DMKUniformBufferDescriptor() {}
 
 		/* Buffer object contaienr */
-		ARRAY<DMKUniformBufferObject> uniformBufferObjects;
+		ARRAY<DMKUniformDescription> uniformBufferObjects;
+	};
+
+	/*
+	 Dynamik Uniform Buffer Object
+	 Uniform data are passed to the Dynamik Engine using this object.
+	 */
+	DMK_ALIGN class DMK_API DMKUniformBufferObject {
+	public:
+		DMKUniformBufferObject() {}
+		~DMKUniformBufferObject();
+
+		/* Initialize the object */
+		void initialize(const DMKUniformDescription& description);
+
+		/*
+		 Add data to the uniform buffer object.
+		 
+		 @param data: The data to be added to the buffer.
+		 @param byteSize: Size of the added data.
+		 @param location: The location to which the data is bound. This location corresponds to the uniform
+		                  binding.
+		 @param arrayIndex: Index to which the data are bound in the array. If the buffer element at the 
+							location does not contain an array, the index is kept 0.
+		*/
+		void setData(const VPTR& data, const UI32& byteSize, const UI32& location, const UI32& arrayIndex = 0U);
+		
+		/* Clear all the stored values in the buffer */
+		void clear();
+
+	private:
+		VPTR uniformBufferStorage = nullptr;
+		POINTER<BYTE> nextPointer = uniformBufferStorage;
+		DMKUniformDescription myDescription;
 	};
 }
 
