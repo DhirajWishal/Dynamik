@@ -7,6 +7,7 @@
  Date:      16/05/2020
 */
 #include "Base.h"
+#include "../Matrix4F.h"
 
 namespace Dynamik
 {
@@ -41,6 +42,8 @@ namespace Dynamik
 		operator __m512() { return myDataF; }
 		operator __m512d() { return myDataD; }
 		operator __m512i() { return myDataI; }
+
+		Matrix4F toMat4F();
 
 		void load(const F32* address) override;
 		void load(const D64* address) override;

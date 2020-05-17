@@ -41,7 +41,7 @@ namespace Dynamik
 
 	SIMD128 SIMDFunctions::notVector128F(SIMD128 lhs, SIMD128 rhs)
 	{
-		return _mm_andnot_ps(lhs, rhs);
+		return _mm_or_ps(lhs, rhs);
 	}
 
 	SIMD128 SIMDFunctions::isEqualVector128F(SIMD128 lhs, SIMD128 rhs)
@@ -111,7 +111,7 @@ namespace Dynamik
 
 	SIMD128 SIMDFunctions::notVector128D(SIMD128 lhs, SIMD128 rhs)
 	{
-		return _mm_andnot_pd(lhs, rhs);
+		return _mm_or_pd(lhs, rhs);
 	}
 
 	SIMD128 SIMDFunctions::isEqualVector128D(SIMD128 lhs, SIMD128 rhs)
@@ -181,7 +181,7 @@ namespace Dynamik
 
 	SIMD128 SIMDFunctions::notVector128I(SIMD128 lhs, SIMD128 rhs)
 	{
-		return _mm_andnot_si128(lhs, rhs);
+		return _mm_or_si128(lhs, rhs);
 	}
 
 	SIMD128 SIMDFunctions::isEqualVector128I(SIMD128 lhs, SIMD128 rhs)
@@ -252,7 +252,7 @@ namespace Dynamik
 
 	SIMD256 SIMDFunctions::notVector256F(SIMD256 lhs, SIMD256 rhs)
 	{
-		return _mm256_andnot_ps(lhs, rhs);
+		return _mm256_or_ps(lhs, rhs);
 	}
 
 	SIMD256 SIMDFunctions::isEqualVector256F(SIMD256 lhs, SIMD256 rhs)
@@ -322,37 +322,37 @@ namespace Dynamik
 
 	SIMD256 SIMDFunctions::notVector256D(SIMD256 lhs, SIMD256 rhs)
 	{
-		return _mm256_andnot_pd(lhs, rhs);
+		return _mm256_or_pd(lhs, rhs);
 	}
 
 	SIMD256 SIMDFunctions::isEqualVector256D(SIMD256 lhs, SIMD256 rhs)
 	{
-		return _mm256_cmpeq_epu64_mask(lhs, rhs);
+		return _mm256_cmpeq_epi64(lhs, rhs);
 	}
 
 	SIMD256 SIMDFunctions::isNotEqualVector256D(SIMD256 lhs, SIMD256 rhs)
 	{
-		return _mm256_cmpneq_epu64_mask(lhs, rhs);
+		return _mm256_cmpneq_epi64_mask(lhs, rhs);
 	}
 
 	SIMD256 SIMDFunctions::isLessThanVector256D(SIMD256 lhs, SIMD256 rhs)
 	{
-		return _mm256_cmplt_epu64_mask(lhs, rhs);
+		return _mm256_cvtps_pd(_mm_cmplt_ps(_mm256_cvtpd_ps(lhs), _mm256_cvtpd_ps(rhs)));
 	}
 
 	SIMD256 SIMDFunctions::isLessThanOrEqualVector256D(SIMD256 lhs, SIMD256 rhs)
 	{
-		return _mm256_cmple_epu64_mask(lhs, rhs);
+		return _mm256_cvtps_pd(_mm_cmple_ps(_mm256_cvtpd_ps(lhs), _mm256_cvtpd_ps(rhs)));;
 	}
 
 	SIMD256 SIMDFunctions::isGraterThanVector256D(SIMD256 lhs, SIMD256 rhs)
 	{
-		return _mm256_cmpgt_epu64_mask(lhs, rhs);
+		return _mm256_cvtps_pd( _mm_cmpgt_ps(_mm256_cvtpd_ps(lhs), _mm256_cvtpd_ps(rhs)));;
 	}
 
 	SIMD256 SIMDFunctions::isGraterThanOrEqualVector256D(SIMD256 lhs, SIMD256 rhs)
 	{
-		return _mm256_cmpge_epu64_mask(lhs, rhs);
+		return _mm256_cvtps_pd(_mm_cmpge_ps(_mm256_cvtpd_ps(lhs), _mm256_cvtpd_ps(rhs)));;
 	}
 
 	SIMD256 SIMDFunctions::addVector256I(SIMD256 lhs, SIMD256 rhs)
@@ -392,7 +392,7 @@ namespace Dynamik
 
 	SIMD256 SIMDFunctions::notVector256I(SIMD256 lhs, SIMD256 rhs)
 	{
-		return _mm256_andnot_si256(lhs, rhs);
+		return _mm256_or_si256(lhs, rhs);
 	}
 
 	SIMD256 SIMDFunctions::isEqualVector256I(SIMD256 lhs, SIMD256 rhs)
@@ -463,37 +463,37 @@ namespace Dynamik
 
 	SIMD512 SIMDFunctions::notVector512F(SIMD512 lhs, SIMD512 rhs)
 	{
-		return _mm512_andnot_ps(lhs, rhs);
+		return _mm512_or_ps(lhs, rhs);
 	}
 
 	SIMD512 SIMDFunctions::isEqualVector512F(SIMD512 lhs, SIMD512 rhs)
 	{
-		return _mm512_cmpeq_epu32_mask(lhs, rhs);
+		return _mm512_cmpeq_ps_mask(lhs, rhs);
 	}
 
 	SIMD512 SIMDFunctions::isNotEqualVector512F(SIMD512 lhs, SIMD512 rhs)
 	{
-		return _mm512_cmpneq_epu32_mask(lhs, rhs);
+		return _mm512_cmpneq_ps_mask(lhs, rhs);
 	}
 
 	SIMD512 SIMDFunctions::isLessThanVector512F(SIMD512 lhs, SIMD512 rhs)
 	{
-		return _mm512_cmplt_epu32_mask(lhs, rhs);
+		return _mm512_cmplt_ps_mask(lhs, rhs);
 	}
 
 	SIMD512 SIMDFunctions::isLessThanOrEqualVector512F(SIMD512 lhs, SIMD512 rhs)
 	{
-		return _mm512_cmple_epu32_mask(lhs, rhs);
+		return _mm512_cmple_ps_mask(lhs, rhs);
 	}
 
 	SIMD512 SIMDFunctions::isGraterThanVector512F(SIMD512 lhs, SIMD512 rhs)
 	{
-		return _mm512_cmpgt_epu32_mask(lhs, rhs);
+		return _mm512_cmpgt_epi32_mask(lhs, rhs);
 	}
 
 	SIMD512 SIMDFunctions::isGraterThanOrEqualVector512F(SIMD512 lhs, SIMD512 rhs)
 	{
-		return _mm512_cmpge_epu32_mask(lhs, rhs);
+		return _mm512_cmpge_epi32_mask(lhs, rhs);
 	}
 
 	SIMD512 SIMDFunctions::addVector512D(SIMD512 lhs, SIMD512 rhs)
@@ -533,37 +533,37 @@ namespace Dynamik
 
 	SIMD512 SIMDFunctions::notVector512D(SIMD512 lhs, SIMD512 rhs)
 	{
-		return _mm512_andnot_pd(lhs, rhs);
+		return _mm512_or_pd(lhs, rhs);
 	}
 
 	SIMD512 SIMDFunctions::isEqualVector512D(SIMD512 lhs, SIMD512 rhs)
 	{
-		return _mm512_cmpeq_epu64_mask(lhs, rhs);
+		return _mm512_cmpeq_epi64_mask(lhs, rhs);
 	}
 
 	SIMD512 SIMDFunctions::isNotEqualVector512D(SIMD512 lhs, SIMD512 rhs)
 	{
-		return _mm512_cmpneq_epu64_mask(lhs, rhs);
+		return _mm512_cmpneq_epi64_mask(lhs, rhs);
 	}
 
 	SIMD512 SIMDFunctions::isLessThanVector512D(SIMD512 lhs, SIMD512 rhs)
 	{
-		return _mm512_cmplt_epu64_mask(lhs, rhs);
+		return _mm512_cmplt_epi64_mask(lhs, rhs);
 	}
 
 	SIMD512 SIMDFunctions::isLessThanOrEqualVector512D(SIMD512 lhs, SIMD512 rhs)
 	{
-		return _mm512_cmple_epu64_mask(lhs, rhs);
+		return _mm512_cmple_epi64_mask(lhs, rhs);
 	}
 
 	SIMD512 SIMDFunctions::isGraterThanVector512D(SIMD512 lhs, SIMD512 rhs)
 	{
-		return _mm512_cmpgt_epu64_mask(lhs, rhs);
+		return _mm512_cmpgt_epi64_mask(lhs, rhs);
 	}
 
 	SIMD512 SIMDFunctions::isGraterThanOrEqualVector512D(SIMD512 lhs, SIMD512 rhs)
 	{
-		return _mm512_cmpge_epu64_mask(lhs, rhs);
+		return _mm512_cmpge_epi64_mask(lhs, rhs);
 	}
 
 	SIMD512 SIMDFunctions::addVector512I(SIMD512 lhs, SIMD512 rhs)
@@ -603,7 +603,7 @@ namespace Dynamik
 
 	SIMD512 SIMDFunctions::notVector512I(SIMD512 lhs, SIMD512 rhs)
 	{
-		return _mm512_andnot_si512(lhs, rhs);
+		return _mm512_or_si512(lhs, rhs);
 	}
 
 	SIMD512 SIMDFunctions::isEqualVector512I(SIMD512 lhs, SIMD512 rhs)

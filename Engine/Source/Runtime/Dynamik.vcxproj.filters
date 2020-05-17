@@ -76,6 +76,9 @@
     <ClInclude Include="Core\Math\Vector4D.h" />
     <ClInclude Include="Core\Math\SIMD\SIMD256.h" />
     <ClInclude Include="Core\Math\Matrix.h" />
+    <ClInclude Include="Core\Math\Vector3F.h" />
+    <ClInclude Include="Core\Math\Vector4F.h" />
+    <ClInclude Include="Core\Math\Matrix4F.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\PCH\dmkafx.cpp">
@@ -99,6 +102,9 @@
     <ClCompile Include="Core\Math\SIMD\SIMD512.cpp" />
     <ClCompile Include="Core\Math\Vector4D.cpp" />
     <ClCompile Include="Core\Math\SIMD\SIMD256.cpp" />
+    <ClCompile Include="Core\Math\Vector3F.cpp" />
+    <ClCompile Include="Core\Math\Vector4F.cpp" />
+    <ClCompile Include="Core\Math\Matrix4F.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

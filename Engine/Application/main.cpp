@@ -13,6 +13,7 @@
 
 #include "Math/Vector3D.h"
 #include "Math/Vector4D.h"
+#include "Math/Matrix4F.h"
 
 std::vector<float> add(std::vector<float> lhs, std::vector<float> rhs)
 {
@@ -26,10 +27,11 @@ std::vector<float> add(std::vector<float> lhs, std::vector<float> rhs)
 int main() {
 	Dynamik::DMKEngine::createInstance();
 
-	Dynamik::DVector4D _v1 = { 0.0, 1.0, 2.0, 5.0 };
-	Dynamik::DVector4D _v2 = { 0.0, 5.0, 4.0, 9.56 };
+	Dynamik::Vector4F _v1 = { 0.0, 1.25, 2.0, 5.0 };
+	Dynamik::Vector4F _v2 = { 0.0, 0, 0, 1 };
+	Dynamik::Matrix4F _m1 = Dynamik::Matrix4F(1.0f);
 
-	auto _v3 = _v1 - _v2;
+	bool _v3 = !_v2;
 
 	return 0;
 }

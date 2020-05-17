@@ -143,6 +143,7 @@
     <ClInclude Include="Core\Math\MathFunctions.h" />
     <ClInclude Include="Core\Math\MathTypes.h" />
     <ClInclude Include="Core\Math\Matrix.h" />
+    <ClInclude Include="Core\Math\Matrix4F.h" />
     <ClInclude Include="Core\Math\SIMD\Base.h" />
     <ClInclude Include="Core\Math\SIMD\SIMD128.h" />
     <ClInclude Include="Core\Math\SIMD\SIMD256.h" />
@@ -150,7 +151,9 @@
     <ClInclude Include="Core\Math\SIMD\SIMDFunctions.h" />
     <ClInclude Include="Core\Math\Vector.h" />
     <ClInclude Include="Core\Math\Vector3D.h" />
+    <ClInclude Include="Core\Math\Vector3F.h" />
     <ClInclude Include="Core\Math\Vector4D.h" />
+    <ClInclude Include="Core\Math\Vector4F.h" />
     <ClInclude Include="Core\Memory\LocalHeap.h" />
     <ClInclude Include="Core\Memory\MemoryFunctions.h" />
     <ClInclude Include="Core\Memory\MemoryManager.h" />
@@ -187,12 +190,15 @@
     <ClCompile Include="Core\Error\ErrorManager.cpp" />
     <ClCompile Include="Core\Error\MessageBox.cpp" />
     <ClCompile Include="Core\Math\MathFunctions.cpp" />
+    <ClCompile Include="Core\Math\Matrix4F.cpp" />
     <ClCompile Include="Core\Math\SIMD\SIMD128.cpp" />
     <ClCompile Include="Core\Math\SIMD\SIMD256.cpp" />
     <ClCompile Include="Core\Math\SIMD\SIMD512.cpp" />
     <ClCompile Include="Core\Math\SIMD\SIMDFunctions.cpp" />
     <ClCompile Include="Core\Math\Vector3D.cpp" />
+    <ClCompile Include="Core\Math\Vector3F.cpp" />
     <ClCompile Include="Core\Math\Vector4D.cpp" />
+    <ClCompile Include="Core\Math\Vector4F.cpp" />
     <ClCompile Include="Core\Memory\LocalHeap.cpp" />
     <ClCompile Include="Core\Memory\MemoryFunctions.cpp" />
     <ClCompile Include="Core\Memory\MemoryManager.cpp" />

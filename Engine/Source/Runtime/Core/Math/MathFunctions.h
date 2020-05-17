@@ -10,7 +10,9 @@
 */
 
 #include "../Object/Object.h"
+#include "Vector3F.h"
 #include "Vector3D.h"
+#include "Vector4F.h"
 #include "Vector4D.h"
 
 namespace Dynamik
@@ -18,7 +20,7 @@ namespace Dynamik
 	class DMKMathFunctions : public DMKObject {
 		DMK_CLASS_FUNCTIONAL(DMKMathFunctions)
 	public:
-		static Vector3D dotProduct(Vector3D lhs, Vector3D rhs);
+		static Vector3F dotProduct(Vector3F lhs, Vector3F rhs);
 	};
 }
 

@@ -14,7 +14,7 @@ namespace Dynamik
 	{
 		return (UI32)indexBufferType * indexBufferObject.size();
 	}
-	
+
 	void DMKMeshComponent::packData(const DMKVertexBufferDescriptor& descriptor, VPTR location)
 	{
 		POINTER<BYTE> _nextPtr = location;
@@ -23,22 +23,32 @@ namespace Dynamik
 		{
 			for (auto attribute : descriptor.attributes)
 			{
+				auto _byteSize = ((UI32)attribute.dataType * attribute.dataCount);
 				switch (attribute.attributeType)
 				{
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION:
-					MemoryFunctions::moveData(_nextPtr.get(), &vertex.position, (UI32)attribute.dataType);
+					MemoryFunctions::moveData(_nextPtr.get(), &vertex.position, _byteSize);
 					break;
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR:
-					MemoryFunctions::moveData(_nextPtr.get(), &vertex.color, (UI32)attribute.dataType);
+					MemoryFunctions::moveData(_nextPtr.get(), &vertex.color, _byteSize);
 					break;
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES:
-					MemoryFunctions::moveData(_nextPtr.get(), &vertex.textureCoord, (UI32)attribute.dataType);
+					MemoryFunctions::moveData(_nextPtr.get(), &vertex.textureCoord, _byteSize);
+					break;
+				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES:
+					MemoryFunctions::moveData(_nextPtr.get(), &vertex.uvCoord, _byteSize);
 					break;
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL:
-					MemoryFunctions::moveData(_nextPtr.get(), &vertex.normal, (UI32)attribute.dataType);
+					MemoryFunctions::moveData(_nextPtr.get(), &vertex.normal, _byteSize);
 					break;
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_INTEGRITY:
-					MemoryFunctions::moveData(_nextPtr.get(), &vertex.integrity, (UI32)attribute.dataType);
+					MemoryFunctions::moveData(_nextPtr.get(), &vertex.integrity, _byteSize);
+					break;
+				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID:
+					MemoryFunctions::moveData(_nextPtr.get(), &vertex.boneInformation->boneIDs, _byteSize);
+					break;
+				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT:
+					MemoryFunctions::moveData(_nextPtr.get(), &vertex.boneInformation->boneWeights, _byteSize);
 					break;
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_CUSTOM:
 					DMK_ERROR("Dynamik does not support custom vertex attributes yet!");
@@ -48,7 +58,7 @@ namespace Dynamik
 					break;
 				}
 
-				_nextPtr += (UI32)attribute.dataType / sizeof(F32);
+				_nextPtr += _byteSize / sizeof(F32);
 			}
 		}
 	}

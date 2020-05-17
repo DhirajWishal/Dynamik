@@ -7,8 +7,8 @@
  Date:      16/05/2020
 */
 #include "Base.h"
-#include "Vector3D.h"
-#include "Vector4D.h"
+#include "Vector3F.h"
+#include "Vector4F.h"
 
 namespace Dynamik
 {
@@ -28,17 +28,17 @@ namespace Dynamik
 		SIMD128(__m128 other) : myDataF(other) {}
 		SIMD128(__m128d other) : myDataD(other) {}
 		SIMD128(__m128i other) : myDataI(other) {}
-		SIMD128(const Vector3D& other);
-		SIMD128(const Vector4D& other);
+		SIMD128(const Vector3F& other);
+		SIMD128(const Vector4F& other);
 		~SIMD128() {}
 
 		operator __m128() const { return myDataF; }
 		operator __m128d() const { return myDataD; }
 		operator __m128i() const { return myDataI; }
 
-		Vector3D toVec3F();
+		Vector3F toVec3F();
 		//Vector3D toVec3D();
-		Vector4D toVec4F();
+		Vector4F toVec4F();
 		//Vector4D toVec4D();
 
 		void load(const F32* address) override;

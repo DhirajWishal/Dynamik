@@ -43,27 +43,30 @@ namespace Dynamik
 	{
 	}
 
-	SIMD128::SIMD128(const Vector3D& other)
+	SIMD128::SIMD128(const Vector3F& other)
 		: myDataF(_mm_setr_ps(other.x, other.y, other.z, other.a))
 	{
 	}
 
-	SIMD128::SIMD128(const Vector4D& other)
+	SIMD128::SIMD128(const Vector4F& other)
 		: myDataF(_mm_setr_ps(other.r, other.g, other.b, other.a))
 	{
 	}
 
-	Vector3D SIMD128::toVec3F()
+	Vector3F SIMD128::toVec3F()
 	{
-		Vector3D _vector;
+		Vector3F _vector;
 		storeAlign((F32*)&_vector);
 
 		return _vector;
 	}
 
-	Vector4D SIMD128::toVec4F()
+	Vector4F SIMD128::toVec4F()
 	{
-		return Vector4D();
+		Vector4F _vector;
+		storeAlign((F32*)&_vector);
+
+		return _vector;
 	}
 
 	void SIMD128::load(const F32* address)

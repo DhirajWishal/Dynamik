@@ -44,7 +44,10 @@ namespace Dynamik
 		*/
 		static PTR allocate(UI32 byteSize = sizeof(TYPE), UI32 alignment = DefaultAligment, UI32 offset = 0)
 		{
-			return (PTR)operator new (byteSize, std::align_val_t{ alignment });
+			auto _ptr = (PTR)operator new (byteSize, std::align_val_t{ alignment });
+			set(_ptr, TYPE());
+
+			return _ptr;
 		}
 
 		/*
@@ -83,7 +86,10 @@ namespace Dynamik
 		*/
 		static PTR allocateArr(UI32 byteSize = sizeof(TYPE), UI32 alignment = DefaultAligment, UI32 offset = 0)
 		{
-			return (PTR)operator new[](byteSize, std::align_val_t{ alignment });
+			auto _ptr = (PTR)operator new[](byteSize, std::align_val_t{ alignment });
+			set(_ptr, TYPE());
+
+			return _ptr;
 		}
 
 		/*

@@ -22,7 +22,7 @@
 
 
 /* Alignment macro */
-#define DMK_ALIGN __declspec(align(DMK_ALIGNMENT))
+#define DMK_ALIGN           __declspec(align(DMK_ALIGNMENT))
 
 /* 
  Alignment macros for Vector and Matrix classes.

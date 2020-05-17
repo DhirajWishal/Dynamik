@@ -58,6 +58,14 @@ namespace Dynamik
 	{
 	}
 
+	Matrix4F SIMD512::toMat4F()
+	{
+		Matrix4F _matrix;
+		store((F32*)&_matrix);
+
+		return _matrix;
+	}
+
 	void SIMD512::load(const F32* address)
 	{
 		myDataF = _mm512_loadu_ps(address);

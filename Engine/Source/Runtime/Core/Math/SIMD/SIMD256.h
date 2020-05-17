@@ -12,8 +12,8 @@
 
 namespace Dynamik
 {
-	DMK_ALIGN_VEC3D class DMK_API DVector3D;
-	DMK_ALIGN_VEC4D class DMK_API DVector4D;
+	DMK_ALIGN_VEC3D class DMK_API Vector3D;
+	DMK_ALIGN_VEC4D class DMK_API Vector4D;
 
 	/*
 	 256 bit SIMD container class (8 floats, 4 doubles).
@@ -35,16 +35,16 @@ namespace Dynamik
 		SIMD256(__m256 other) : myDataF(other) {}
 		SIMD256(__m256d other) : myDataD(other) {}
 		SIMD256(__m256i other) : myDataI(other) {}
-		SIMD256(const DVector3D& other);
-		SIMD256(const DVector4D& other);
+		SIMD256(const Vector3D& other);
+		SIMD256(const Vector4D& other);
 		~SIMD256() {}
 
 		operator __m256() { return myDataF; }
 		operator __m256d() { return myDataD; }
 		operator __m256i() { return myDataI; }
 
-		DVector3D toVec3D();
-		DVector4D toVec4D();
+		Vector3D toVec3D();
+		Vector4D toVec4D();
 
 		void load(const F32* address) override;
 		void load(const D64* address) override;

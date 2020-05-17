@@ -40,27 +40,27 @@ namespace Dynamik
 	{
 	}
 
-	SIMD256::SIMD256(const DVector3D& other)
+	SIMD256::SIMD256(const Vector3D& other)
 		: myDataD(_mm256_setr_pd(other.x, other.y, other.z, other.a))
 	{
 	}
 
-	SIMD256::SIMD256(const DVector4D& other)
+	SIMD256::SIMD256(const Vector4D& other)
 		: myDataD(_mm256_setr_pd(other.x, other.y, other.z, other.a))
 	{
 	}
 
-	DVector3D SIMD256::toVec3D()
+	Vector3D SIMD256::toVec3D()
 	{
-		DVector3D _vector;
+		Vector3D _vector;
 		store((D64*)&_vector);
 
 		return _vector;
 	}
 
-	DVector4D SIMD256::toVec4D()
+	Vector4D SIMD256::toVec4D()
 	{
-		DVector4D _vector;
+		Vector4D _vector;
 		store((D64*)&_vector);
 
 		return _vector;
