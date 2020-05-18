@@ -13,7 +13,7 @@
 
 namespace Dynamik
 {
-	DMK_ALIGN class DMK_API DMKDescriptor : public DMKObject {
+	class DMK_API DMKDescriptor : public DMKObject {
 	public:
 		DMKDescriptor() {}
 		virtual ~DMKDescriptor() {}

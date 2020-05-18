@@ -20,7 +20,7 @@
 #include <future>	/* REMOVE AFTER ADDING THE THREAD MANAGER */
 #include <functional>	/* Required for Lambdas */
 
-namespace Dynamik 
+namespace Dynamik
 {
 	template<class TYPE, UI32 DefaultAlignment>
 	class StaticAllocator;	// Static Allocator declaration
@@ -54,7 +54,7 @@ namespace Dynamik
 				If needed to call, DestructorCallMode must be set to either ALL or ALL THREADED.
 	 */
 	template<class TYPE, UI64 AllocationCount = 1, DMKArrayDestructorCallMode DestructorCallMode = DMKArrayDestructorCallMode::DMK_ARRAY_DESTRUCTOR_CALL_MODE_DESTRUCT_NONE, class Allocator = StaticAllocator<TYPE>>
-	class DMK_ALIGN DMK_API ARRAY {
+	class  DMK_API ARRAY {
 		/* DEFAULTS */
 
 		/* STATIC ASSERT
@@ -483,7 +483,7 @@ namespace Dynamik
 		 *
 		 * @param index: Index to be accessed.
 		 */
-		const TYPE& at(I32 index = 0) const 
+		const TYPE& at(I32 index = 0) const
 		{
 			return at(index);
 		}
@@ -923,7 +923,7 @@ namespace Dynamik
 		 *
 		 * @param data: Array to be contacted with.
 		 */
-		ARRAY<TYPE>& operator+(const ARRAY<TYPE>& data) 
+		ARRAY<TYPE>& operator+(const ARRAY<TYPE>& data)
 		{
 			this->insert(data);
 			return *this;
@@ -1259,24 +1259,24 @@ namespace Dynamik
 		 *
 		 * @param _thread: A n_internalThread instance.
 		 */
-		//static void __internalThreadFunction(POINTER<_internalThread> _thread)
-		//{
-		//	_thread->_destroy();
-		//}
+		 //static void __internalThreadFunction(POINTER<_internalThread> _thread)
+		 //{
+		 //	_thread->_destroy();
+		 //}
 
-		/* PRIVATE FUNCTION
-		 * Destroy all the data stored in a given range.
-		 * Calls the destructor for all the data stored giving a thread for each.
-		 *
-		 * Number of threads equal to the number of logical cores in the CPU - 1.
-		 * Each element is assigned to a chunk which is calculated based on the thread count.
-		 * Each chunk is filled with elements and passed in to the _internalThread class.
-		 * The _internalThread class executes in a single thread and calls the destructor of each element.
-		 * A lock guard is placed so that memory corruption will not take place
-		 *
-		 * @param first: Pointer to the first element.
-		 * @param last: Pointer to the last element.
-		 */
+		 /* PRIVATE FUNCTION
+		  * Destroy all the data stored in a given range.
+		  * Calls the destructor for all the data stored giving a thread for each.
+		  *
+		  * Number of threads equal to the number of logical cores in the CPU - 1.
+		  * Each element is assigned to a chunk which is calculated based on the thread count.
+		  * Each chunk is filled with elements and passed in to the _internalThread class.
+		  * The _internalThread class executes in a single thread and calls the destructor of each element.
+		  * A lock guard is placed so that memory corruption will not take place
+		  *
+		  * @param first: Pointer to the first element.
+		  * @param last: Pointer to the last element.
+		  */
 		inline void _destroyRangeInThreads(PTR first, PTR last)
 		{
 			UI64 _passes = std::thread::hardware_concurrency() - 1;	// number of threads

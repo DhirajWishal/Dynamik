@@ -33,7 +33,7 @@ namespace Dynamik
 	 * Static mesh.
 	 * Animated mesh.
 	*/
-	DMK_ALIGN class DMK_API DMKMeshComponent : public DMKResource {
+	class DMK_API DMKMeshComponent : public DMKResource {
 	public:
 		DMKMeshComponent() {}
 		DMKMeshComponent(DMKMeshComponentType ty) : type(ty) {}
@@ -57,17 +57,17 @@ namespace Dynamik
 		 Pack all vertex data into a location.
 
 		 @warn: The pre allocated memory location must be allocated to fit the whole vertex buffer object.
-		        To ensure this, use getVertexBufferObjectByteSize() to allocate the buffer percisely.
+				To ensure this, use getVertexBufferObjectByteSize() to allocate the buffer percisely.
 		*/
 		void packData(const DMKVertexBufferDescriptor& descriptor, VPTR location);
+
+		ARRAY<DMKVertexObject> rawVertexBufferObject;
+		ARRAY<UI32> indexBufferObject;
 
 		DMKMeshComponentType type = DMKMeshComponentType::DMK_MESH_COMPONENT_TYPE_STATIC;
 
 		DMKVertexBufferDescriptor vertexDescriptor;
 		DMKDataType indexBufferType = DMKDataType::DMK_DATA_TYPE_UI32;
-
-		ARRAY<DMKVertexObject> rawVertexBufferObject;
-		ARRAY<UI32> indexBufferObject;
 	};
 }
 

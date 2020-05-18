@@ -12,8 +12,8 @@
 
 namespace Dynamik
 {
-	DMK_ALIGN_VEC3D class DMK_API Vector3D;
-	DMK_ALIGN_VEC4D class DMK_API Vector4D;
+	class DMK_API Vector3D;
+	class DMK_API Vector4D;
 
 	/*
 	 256 bit SIMD container class (8 floats, 4 doubles).

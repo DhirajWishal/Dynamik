@@ -15,11 +15,11 @@
 
 namespace Dynamik
 {
-    DMK_ALIGN class DMK_API DMKUtility : public DMKObject {
-    public:
-        DMKUtility() {}
-        virtual ~DMKUtility() {}
-    };
+	class DMK_API DMKUtility : public DMKObject {
+	public:
+		DMKUtility() {}
+		virtual ~DMKUtility() {}
+	};
 }
 
 #endif // !_DYNAMIK_UTILITY_H

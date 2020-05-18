@@ -12,14 +12,14 @@
 
 namespace Dynamik
 {
-    /*
-     This object defines the basic components tied to the Dynamik Material system.
-    */
-    DMK_ALIGN class DMK_API DMKMaterialDescriptor : public DMKDescriptor {
-    public:
-        DMKMaterialDescriptor() {}
-        virtual ~DMKMaterialDescriptor() {}
-    };
+	/*
+	 This object defines the basic components tied to the Dynamik Material system.
+	*/
+	class DMK_API DMKMaterialDescriptor : public DMKDescriptor {
+	public:
+		DMKMaterialDescriptor() {}
+		virtual ~DMKMaterialDescriptor() {}
+	};
 }
 
 #endif // !_DYNAMIK_MATERIAL_DESCRIPTOR_H

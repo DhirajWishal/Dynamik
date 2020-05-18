@@ -19,7 +19,7 @@ namespace Dynamik
 	 of boneIDs, boneWeights the container supports. These count ranges are: 8, 16, 32, 65, 256, 512 and 1024.
 	*/
 	template<const UI32 BoneCount = 8>
-	struct DMK_ALIGN DMK_API VertexBoneInformation {
+	struct  DMK_API VertexBoneInformation {
 		/*
 		 Add a bone to the container.
 
@@ -48,16 +48,16 @@ namespace Dynamik
 	 This Structure contains all the possible vertex data in a mesh. Later when submitting the data, each
 	 vertex gets packed into a pre allocated space using the vertex attributes.
 	*/
-	DMK_ALIGN struct DMK_API DMKVertexObject {
+	struct DMK_API DMKVertexObject {
+		/* Bone information container */
+		POINTER<VertexBoneInformation<8U>> boneInformation;
+
 		VEC3F position;
 		VEC3F color;
 		VEC3F textureCoord;
 		VEC3F uvCoord;
 		VEC3F normal;
 		F32 integrity = 0.0f;   /* For the Dynamik Destruction Engine */
-
-		/* Bone information container */
-		POINTER<VertexBoneInformation<8U>> boneInformation;
 	};
 
 	/* Vertex attribute types */
@@ -74,14 +74,14 @@ namespace Dynamik
 	};
 
 	/* Dynamik Vertex Attribute */
-	DMK_ALIGN struct DMK_API DMKVertexAttribute {
+	struct DMK_API DMKVertexAttribute {
 		DMKDataType dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
 		DMKVertexAttributeType attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
 		UI32 dataCount = 1;     /* Number of elements of data which is sent. Used for sending arrays. */
 	};
 
 	/* This contains all the vertex buffer attributes */
-	DMK_ALIGN class DMK_API DMKVertexBufferDescriptor : public DMKDescriptor {
+	class DMK_API DMKVertexBufferDescriptor : public DMKDescriptor {
 	public:
 		DMKVertexBufferDescriptor() {}
 		~DMKVertexBufferDescriptor() {}
@@ -103,7 +103,7 @@ namespace Dynamik
 	};
 
 	/* Dynamik Shader Path Container */
-	DMK_ALIGN struct DMK_API DMKShaderPath {
+	struct DMK_API DMKShaderPath {
 		STRING path = DMK_TEXT("");
 		DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
 	};
@@ -118,26 +118,28 @@ namespace Dynamik
 	};
 
 	/* Dynamik Uniform Attribute */
-	DMK_ALIGN struct DMK_API DMKUniformAttribute {
+	struct DMK_API DMKUniformAttribute {
 		DMKDataType dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
 		DMKUniformAttributeType attributeType = DMKUniformAttributeType::DMK_UNIFORM_ATTRIBUTE_TYPE_MODEL;
 		UI32 dataCount = 1;     /* Number of data elements that is sent to the shader. Used when sending an array. */
 	};
 
-	/* 
-	 Dynamik Uniform Description 
+	/*
+	 Dynamik Uniform Description
 	 This object contains all the necessary information to create a uniform buffer object in the Dynamik Engine.
 	*/
-	DMK_ALIGN struct DMK_API DMKUniformDescription {
+	struct DMK_API DMKUniformDescription {
 		ARRAY<DMKUniformAttribute> attributes;
 		DMKShaderLocation shaderLocation = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
+		UI32 destinationBinding = 0;
+		UI32 offset = 0;
 
 		/* Get the total byte size of the uniform buffer object. */
 		UI64 getUniformSize();
 	};
 
 	/* Dynamik Uniform Descriptor */
-	DMK_ALIGN class DMK_API DMKUniformBufferDescriptor : public DMKDescriptor {
+	class DMK_API DMKUniformBufferDescriptor : public DMKDescriptor {
 	public:
 		DMKUniformBufferDescriptor() {}
 		~DMKUniformBufferDescriptor() {}
@@ -150,7 +152,7 @@ namespace Dynamik
 	 Dynamik Uniform Buffer Object
 	 Uniform data are passed to the Dynamik Engine using this object.
 	 */
-	DMK_ALIGN class DMK_API DMKUniformBufferObject {
+	class DMK_API DMKUniformBufferObject {
 	public:
 		DMKUniformBufferObject() {}
 		~DMKUniformBufferObject();
@@ -160,16 +162,16 @@ namespace Dynamik
 
 		/*
 		 Add data to the uniform buffer object.
-		 
+
 		 @param data: The data to be added to the buffer.
 		 @param byteSize: Size of the added data.
 		 @param location: The location to which the data is bound. This location corresponds to the uniform
-		                  binding.
-		 @param arrayIndex: Index to which the data are bound in the array. If the buffer element at the 
+						  binding.
+		 @param arrayIndex: Index to which the data are bound in the array. If the buffer element at the
 							location does not contain an array, the index is kept 0.
 		*/
 		void setData(const VPTR& data, const UI32& byteSize, const UI32& location, const UI32& arrayIndex = 0U);
-		
+
 		/* Clear all the stored values in the buffer */
 		void clear();
 

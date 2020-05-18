@@ -30,7 +30,7 @@ namespace Dynamik
 
 	 By default, this class can be used as an internal level component.
 	*/
-	DMK_ALIGN class DMK_API DMKLevelComponent : public DMKGameComponent {
+	class DMK_API DMKLevelComponent : public DMKGameComponent {
 	public:
 		DMKLevelComponent() {}
 		DMKLevelComponent(DMKLevelComponentType ty) : type(ty) {}
@@ -52,7 +52,7 @@ namespace Dynamik
 	 objects initialized as static and assigned a new object to each mesh.
 	 The Studio can index only one level at a time.
 	*/
-	DMK_ALIGN class DMK_API DMKExternalLevelComponent : public DMKLevelComponent {
+	class DMK_API DMKExternalLevelComponent : public DMKLevelComponent {
 	public:
 		DMKExternalLevelComponent() : DMKLevelComponent(DMKLevelComponentType::DMK_LEVEL_COMPONENT_TYPE_EXTERNAL) {}
 		virtual ~DMKExternalLevelComponent() {}

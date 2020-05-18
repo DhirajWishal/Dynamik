@@ -13,11 +13,11 @@
 
 namespace Dynamik
 {
-    DMK_ALIGN class DMK_API DMKResource : public DMKObject {
-    public:
-        DMKResource() {}
-        virtual ~DMKResource() {}
-    };
+	class DMK_API DMKResource : public DMKObject {
+	public:
+		DMKResource() {}
+		virtual ~DMKResource() {}
+	};
 }
 
 #endif // !_DYNAMIK_RESOURCE_H

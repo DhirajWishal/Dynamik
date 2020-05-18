@@ -13,18 +13,18 @@
 
 namespace Dynamik
 {
-    /*
-     This class contains all the necessary mesh data of a static mesh.
-    */
-    DMK_ALIGN class DMK_API DMKStaticMeshComponent : public DMKMeshComponent {
-    public:
-        DMKStaticMeshComponent() : DMKMeshComponent(DMKMeshComponentType::DMK_MESH_COMPONENT_TYPE_STATIC) {}
-        DMKStaticMeshComponent(const DMKVertexBufferDescriptor& descriptor, const DMKDataType& type) 
-            : DMKMeshComponent(DMKMeshComponentType::DMK_MESH_COMPONENT_TYPE_STATIC, descriptor, type) {}
-        ~DMKStaticMeshComponent() {}
+	/*
+	 This class contains all the necessary mesh data of a static mesh.
+	*/
+	class DMK_API DMKStaticMeshComponent : public DMKMeshComponent {
+	public:
+		DMKStaticMeshComponent() : DMKMeshComponent(DMKMeshComponentType::DMK_MESH_COMPONENT_TYPE_STATIC) {}
+		DMKStaticMeshComponent(const DMKVertexBufferDescriptor& descriptor, const DMKDataType& type)
+			: DMKMeshComponent(DMKMeshComponentType::DMK_MESH_COMPONENT_TYPE_STATIC, descriptor, type) {}
+		~DMKStaticMeshComponent() {}
 
-        static DMKStaticMeshComponent& createStaticMesh(ARRAY<DMKVertexObject> vertexData);
-    };
+		static DMKStaticMeshComponent& createStaticMesh(ARRAY<DMKVertexObject> vertexData);
+	};
 }
 
 #endif // !_DYNAMIK_STATIC_MESH_COMPONENT_H

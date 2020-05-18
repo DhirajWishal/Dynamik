@@ -13,18 +13,18 @@
 
 namespace Dynamik
 {
-    /*
-     Game Object Attachments describe additional ways to manipulate game objects. This may include physics
-     body entities, destruction entities, particle systems, etc...
-     Game Objects can contain multiple attachments.
-    */
-    DMK_ALIGN class DMK_API DMKGameObjectAttachment : public DMKGameComponent {
-    public:
-        DMKGameObjectAttachment() {}
-        virtual ~DMKGameObjectAttachment() {}
+	/*
+	 Game Object Attachments describe additional ways to manipulate game objects. This may include physics
+	 body entities, destruction entities, particle systems, etc...
+	 Game Objects can contain multiple attachments.
+	*/
+	class DMK_API DMKGameObjectAttachment : public DMKGameComponent {
+	public:
+		DMKGameObjectAttachment() {}
+		virtual ~DMKGameObjectAttachment() {}
 
-        POINTER<DMKGameObject> myParentObject;  /* Game object address the attachment is attached to */
-    };
+		POINTER<DMKGameObject> myParentObject;  /* Game object address the attachment is attached to */
+	};
 }
 
 #endif // !_DYNAMIK_GAME_OBJECT_ATTACHMENT_H

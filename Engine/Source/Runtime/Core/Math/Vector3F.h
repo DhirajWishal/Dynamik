@@ -12,11 +12,11 @@
 
 namespace Dynamik 
 {
-    DMK_ALIGN_VEC3F class DMK_API Vector3F;
+    class DMK_API Vector3F;
 
     /* Vector 3D type traits */
     template <>
-    struct DMK_ALIGN_VEC3F DMK_API VectorTraits<Vector3F>
+    struct DMK_API VectorTraits<Vector3F>
     {
         typedef F32 type;
     };
@@ -25,7 +25,7 @@ namespace Dynamik
      Basic 3D Vector for the Dynamik Engine.
      This class uses SIMD to carry out the necessary calculations.
     */
-    DMK_ALIGN_VEC3F class DMK_API Vector3F : public Vector<Vector3F> {
+    class DMK_API Vector3F : public Vector<Vector3F> {
     public:
         Vector3F() : x(0.0f), y(0.0f), z(0.0f), w(0.0f) {}
         Vector3F(F32 value) : x(value), y(value), z(value), a(value) {}

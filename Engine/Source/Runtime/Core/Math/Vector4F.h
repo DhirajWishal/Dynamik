@@ -12,11 +12,11 @@
 
 namespace Dynamik
 {
-    DMK_ALIGN_VEC4F class DMK_API Vector4F;
+    class DMK_API Vector4F;
 
     /* Vector 4D type traits */
     template <>
-    struct DMK_ALIGN_VEC4F DMK_API VectorTraits<Vector4F>
+    struct DMK_API VectorTraits<Vector4F>
     {
         typedef F32 type;
     };
@@ -25,7 +25,7 @@ namespace Dynamik
      Basic 4D Vector for the Dynamik Engine.
      This class uses SIMD to carry out the necessary calculations.
     */
-    DMK_ALIGN_VEC4F class DMK_API Vector4F : public Vector<Vector4F> {
+    class DMK_API Vector4F : public Vector<Vector4F> {
     public:
         Vector4F() : r(0.0f), g(0.0f), b(0.0f), a(0.0f) {}
         Vector4F(F32 value) : r(value), g(value), b(value), a(value) {}

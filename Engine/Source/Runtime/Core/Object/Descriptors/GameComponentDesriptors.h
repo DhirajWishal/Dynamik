@@ -15,10 +15,10 @@
 
 namespace Dynamik
 {
-    /* Game Object Descriptors */
-    DMK_ALIGN struct DMK_API DMKAssetDesriptor {
-        STRING resourcePath = DMK_TEXT("");
-    };
+	/* Game Object Descriptors */
+	struct DMK_API DMKAssetDesriptor {
+		STRING resourcePath = DMK_TEXT("");
+	};
 }
 
 #endif // !_DYNAMIK_GAME_COMPONENT_DESCRIPTORS_H

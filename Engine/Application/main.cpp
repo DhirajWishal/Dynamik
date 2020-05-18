@@ -24,6 +24,10 @@ std::vector<float> add(std::vector<float> lhs, std::vector<float> rhs)
 	return _container;
 }
 
+__declspec(align(8)) struct test {
+	float a = 10;
+};
+
 int main() {
 	Dynamik::DMKEngine::createInstance();
 
@@ -32,6 +36,8 @@ int main() {
 	Dynamik::Matrix4F _m1 = Dynamik::Matrix4F(1.0f);
 
 	bool _v3 = !_v2;
+
+	int size = sizeof(std::string);
 
 	return 0;
 }

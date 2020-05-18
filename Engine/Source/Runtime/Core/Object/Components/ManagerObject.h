@@ -18,11 +18,11 @@
 
 namespace Dynamik
 {
-    DMK_ALIGN class DMK_API DMKManagerObject : public DMKComponent {
-    public:
-        DMKManagerObject() {}
-        virtual ~DMKManagerObject() {}
-    };
+	class DMK_API DMKManagerObject : public DMKComponent {
+	public:
+		DMKManagerObject() {}
+		virtual ~DMKManagerObject() {}
+	};
 }
 
 #endif // !_DYNAMIK_MANAGER_OBJECT_H

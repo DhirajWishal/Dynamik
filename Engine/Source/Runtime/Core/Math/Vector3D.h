@@ -13,11 +13,11 @@
 
 namespace Dynamik
 {
-    DMK_ALIGN_VEC3D class DMK_API Vector3D;
+    class DMK_API Vector3D;
 
     /* Vector 3D type traits */
     template <>
-    struct DMK_ALIGN_VEC3D DMK_API VectorTraits<Vector3D>
+    struct DMK_API VectorTraits<Vector3D>
     {
         typedef D64 type;
     };
@@ -25,7 +25,7 @@ namespace Dynamik
     /*
      Double precision 3D vector.
     */
-    DMK_ALIGN_VEC3D class DMK_API Vector3D : public Vector<Vector3D> {
+    class DMK_API Vector3D : public Vector<Vector3D> {
     public:
         Vector3D() : x(0.0f), y(0.0f), z(0.0f), w(0.0f) {}
         Vector3D(D64 value) : x(value), y(value), z(value), a(value) {}

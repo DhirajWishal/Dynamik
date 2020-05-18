@@ -14,11 +14,11 @@
 
 namespace Dynamik
 {
-    DMK_ALIGN class DMK_API DMKGameComponent : public DMKObject {
-    public:
-        DMKGameComponent() {}
-        virtual ~DMKGameComponent() {}
-    };
+	class DMK_API DMKGameComponent : public DMKObject {
+	public:
+		DMKGameComponent() {}
+		virtual ~DMKGameComponent() {}
+	};
 }
 
 #endif // !_DYNAMIK_GAME_OBJECT_H

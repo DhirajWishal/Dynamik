@@ -41,15 +41,15 @@
 
 namespace Dynamik
 {
-    /*
-     Core object of the Dynamik Engine.
-     All the other class instances are derived from this.
-    */
-    DMK_ALIGN class DMK_API DMKObject {
-    public:
-        DMKObject() {}
-        virtual ~DMKObject() {}
-    };
+	/*
+	 Core object of the Dynamik Engine.
+	 All the other class instances are derived from this.
+	*/
+	class DMK_API DMKObject {
+	public:
+		DMKObject() {}
+		virtual ~DMKObject() {}
+	};
 }
 
 #endif // !_DYNAMIK_OBJECT_H
