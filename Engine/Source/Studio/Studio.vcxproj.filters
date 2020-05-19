@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\PCH">
+      <UniqueIdentifier>{383E99C2-240B-F4CD-4D24-E2753950295C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Window">
+      <UniqueIdentifier>{5581319D-C136-AA92-4A2B-A469B6DFA096}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Core\PCH\studioafx.h">
+      <Filter>Core\PCH</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Window\Window.h">
+      <Filter>Core\Window</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Core\PCH\studioafx.cpp">
+      <Filter>Core\PCH</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Studio.lua" />
+  </ItemGroup>
+</Project>

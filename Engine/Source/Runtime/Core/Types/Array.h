@@ -11,8 +11,8 @@
  IDE:		MS Visual Studio 2019
 */
 
-#include "StaticAllocator.h"
-#include "MemoryFunctions.h"
+#include "Memory/StaticAllocator.h"
+#include "Memory/MemoryFunctions.h"
 #include "Macros/MemoryMacro.h"
 
 #include <vector>	/* Required when converting to std::vector<TYPE> */
@@ -433,7 +433,7 @@ namespace Dynamik
 		{
 			if (!isValidIndex(index)) return; /* TODO: Error Flagging. */
 
-			myBeginPtr[_getProcessedIndex(index)] = (TYPE)0;
+			myBeginPtr[_getProcessedIndex(index)] = TYPE();
 			_compactAfterRemove(index);
 		}
 

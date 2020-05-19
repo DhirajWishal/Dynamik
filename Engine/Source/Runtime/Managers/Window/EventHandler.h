@@ -1,0 +1,47 @@
+#pragma once
+#ifndef _DYNAMIK_EVENT_HANDLER_H
+#define _DYNAMIK_EVENT_HANDLER_H
+
+/*
+ Author:    Dhiraj Wishal
+ Date:      19/05/2020
+*/
+#include "Object/Components/ManagerObject.h"
+#include "Event/EventListener.h"
+#include "Event/KeyEventListener.h"
+#include "Event/MouseButtonEventListener.h"
+#include "Event/MouseScrollEventListener.h"
+
+namespace Dynamik
+{
+	/*
+	 Dynamik Event Handler
+	 Event handlers are per object. Which means that each and every window handle contains its own event handler.
+
+	 Event Handler can have multiple listeners of the same type.
+	*/
+	class DMK_API DMKEventHandler : public DMKManagerObject {
+	public:
+		DMKEventHandler() {}
+		virtual ~DMKEventHandler() {}
+
+		void addKeyEventListener(const POINTER<DMKKeyEventListener>& listener);
+		void addMouseButtonEventListener(const POINTER<DMKMouseButtonEventListener>& listener);
+		void addMouseScrollEventListener(const POINTER<DMKMouseScrollEventListener>& listener);
+		void removeKeyEventListener(I32 listenerIndex);
+		void removeMouseButtonEventListener(I32 listenerIndex);
+		void removeMouseScrollEventListener(I32 listenerIndex);
+
+		void addEventComponent(POINTER<DMKEventComponent> component);
+		void cleanComponents();
+
+	protected:
+		static ARRAY<POINTER<DMKKeyEventListener>> myKeyEventListeners;
+		static ARRAY<POINTER<DMKMouseButtonEventListener>> myMouseButtonEventListeners;
+		static ARRAY<POINTER<DMKMouseScrollEventListener>> myMouseScrollEventListeners;
+
+		static ARRAY<POINTER<DMKEventComponent>> myEventComponents;
+	};
+}
+
+#endif // !_DYNAMIK_EVENT_HANDLER_H

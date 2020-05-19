@@ -9,10 +9,10 @@
  Date:      13/05/2020
 */
 
-#include "Pointer.h"
+#include "Types/Pointer.h"
 #include "Macros/MemoryMacro.h"
 #include "Macros/Global.h"
-#include "TypeTraits.h"
+#include "Types/TypeTraits.h"
 
 #include <memory>
 
@@ -51,10 +51,25 @@ namespace Dynamik
 		}
 
 		/*
+		 Allocates a block of memory and return its address.
+		
+		 @param byteSize: Size of the memory block in bytes. Default is the size of the type.
+		 @param alignment: Alignment of the allocated memory. Default is 0.
+		 @param offset: Memory offset of the allocated memory block. Default is 0;
+		*/
+		static PTR allocateInit(const TYPE& initData, UI32 byteSize = sizeof(TYPE), UI32 alignment = DefaultAligment, UI32 offset = 0)
+		{
+			auto _ptr = (PTR)operator new (byteSize, std::align_val_t{ alignment });
+			set(_ptr, (TYPE&&)initData);
+
+			return _ptr;
+		}
+
+		/*
 		 Deallocates the previously allocated block of memory.
 
 		 @param location: Address of the memory block.
-		 @param byteSize: Size of the memory block. Default is the size of type.
+		 @param byteSize: Size of the memory block. Default is the size of type. If size is unknown, enter 0.
 		 @param alignment: Alignment of the memory block. Default is 0.
 		 @param offset: Offset of the memory block. Default is 0.
 		*/
@@ -127,7 +142,7 @@ namespace Dynamik
 		*/
 		static void set(PTR location, TYPE&& value)
 		{
-			new ((VPTR)location.get()) TYPE(removeReference<TYPE&&>(value));
+			new ((VPTR)location.get()) (TYPE)(removeReference<TYPE&&>(value));
 		}
 	};
 }

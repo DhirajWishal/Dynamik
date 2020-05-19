@@ -16,7 +16,7 @@
 */
 
 #include "../Resource.h"
-#include "Pointer.h"
+#include "Types/Pointer.h"
 
 namespace Dynamik
 {

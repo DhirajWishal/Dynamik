@@ -55,6 +55,11 @@ namespace Dynamik
 		*/
 		static void createInstance();
 
+		/*
+		 Main run loop.
+		*/
+		static void execute();
+
 	};
 }
 

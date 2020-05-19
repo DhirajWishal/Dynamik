@@ -24,18 +24,21 @@ project "Dynamik"
 		"$(SolutionDir)Engine/Source/Runtime/",
 		"$(SolutionDir)Engine/Source/Runtime/Core/",
 		"$(SolutionDir)Engine/Source/Runtime/Core/PCH/",
-		"$(SolutionDir)Engine/Source/Runtime/Core/Algorithm",
-		"$(SolutionDir)Engine/Source/Runtime/Core/Types",
-		"$(SolutionDir)Engine/Source/Runtime/Core/Math",
-		"$(SolutionDir)Engine/Source/Runtime/Core/Memory",
-		"$(SolutionDir)Engine/Source/Runtime/Core/System",
 		"$(SolutionDir)Engine/Source/Runtime/GameLibraries",
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.GLEW}",
 	}
 
 	libdirs {
+		"%{IncludeLib.GLFW}",
+		"%{IncludeLib.GLEW}",
 	}
 
 	links { 
+		"glew32s",
+		"opengl32",
+		"glfw3dll",
+		"glfw3"
 	}
 
 	filter "system:windows"
@@ -44,6 +47,8 @@ project "Dynamik"
 
 		defines {
 			"DMK_PLATFORM_WINDOWS",
+			"GLEW_STATIC",
+			"GRAPHICS_API",
 		}
 
 	filter "configurations:Debug"

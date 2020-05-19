@@ -8,7 +8,7 @@
  Author:    Dhiraj Wishal
  Date:      13/05/2020
 */
-#include "Pointer.h"
+#include "Types/Pointer.h"
 #include "Macros/MemoryMacro.h"
 #include "Macros/Global.h"
 

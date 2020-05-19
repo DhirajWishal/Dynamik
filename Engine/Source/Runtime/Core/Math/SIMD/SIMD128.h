@@ -7,8 +7,8 @@
  Date:      16/05/2020
 */
 #include "Base.h"
-#include "Vector3F.h"
-#include "Vector4F.h"
+#include "../Vector3F.h"
+#include "../Vector4F.h"
 
 namespace Dynamik
 {

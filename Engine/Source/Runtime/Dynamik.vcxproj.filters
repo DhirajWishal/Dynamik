@@ -4,11 +4,35 @@
     <Filter Include="Core">
       <UniqueIdentifier>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Error">
+      <UniqueIdentifier>{E72535CD-D3DD-761A-3CE5-4F7628BC110B}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Macros">
       <UniqueIdentifier>{625A4785-CE0F-C07A-5704-BA51C3B8B67E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Math">
+      <UniqueIdentifier>{C7E5BF15-3350-748C-7C8E-2532E83752E1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Math\SIMD">
+      <UniqueIdentifier>{03DE2A86-EFAB-1E8C-D83F-8FB2C4ACFAF0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Memory">
       <UniqueIdentifier>{D62B9585-42E1-0D7B-CBD5-0752378A047F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object">
+      <UniqueIdentifier>{F461078A-6017-807F-E90B-7A5655C07683}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Components">
+      <UniqueIdentifier>{89A62A13-75A0-5365-5E0D-EA754AA6B9D1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Descriptors">
+      <UniqueIdentifier>{3586146D-A1BD-5C04-AAC7-C027167E83FD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Resource">
+      <UniqueIdentifier>{8BB6FB1F-7745-85E9-2064-99E40CD2958F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Object\Resource\MeshComponents">
+      <UniqueIdentifier>{0DF675F5-79AF-E09F-020F-FB796EC7960F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\PCH">
       <UniqueIdentifier>{383E99C2-240B-F4CD-4D24-E2753950295C}</UniqueIdentifier>
@@ -16,97 +40,256 @@
     <Filter Include="Core\Types">
       <UniqueIdentifier>{526248CE-3E1A-8A1B-A721-637793F8240C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Utilities">
+      <UniqueIdentifier>{196AB171-0538-A577-EECB-159EDA3881DC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLibrary">
+      <UniqueIdentifier>{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLibrary\GameObjects">
+      <UniqueIdentifier>{4791EACA-B3C8-3262-BCD2-96852889595B}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Error\ErrorDefines.h">
+      <Filter>Core\Error</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Error\ErrorManager.h">
+      <Filter>Core\Error</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Error\MessageBox.h">
+      <Filter>Core\Error</Filter>
+    </ClInclude>
     <ClInclude Include="Core\Macros\Assert.h">
+      <Filter>Core\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Macros\Global.h">
       <Filter>Core\Macros</Filter>
     </ClInclude>
     <ClInclude Include="Core\Macros\MemoryMacro.h">
       <Filter>Core\Macros</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Math\MathFunctions.h">
+      <Filter>Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\MathTypes.h">
+      <Filter>Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Matrix.h">
+      <Filter>Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Matrix4F.h">
+      <Filter>Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\SIMD\Base.h">
+      <Filter>Core\Math\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\SIMD\SIMD128.h">
+      <Filter>Core\Math\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\SIMD\SIMD256.h">
+      <Filter>Core\Math\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\SIMD\SIMD512.h">
+      <Filter>Core\Math\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\SIMD\SIMDFunctions.h">
+      <Filter>Core\Math\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Vector.h">
+      <Filter>Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Vector3D.h">
+      <Filter>Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Vector3F.h">
+      <Filter>Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Vector4D.h">
+      <Filter>Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Vector4F.h">
+      <Filter>Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Memory\LocalHeap.h">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Memory\MemoryFunctions.h">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Memory\MemoryManager.h">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
     <ClInclude Include="Core\Memory\MemoryPadding.h">
       <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Memory\StaticAllocator.h">
+      <Filter>Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object\Component.h">
+      <Filter>Core\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object\Components\EngineComponent.h">
+      <Filter>Core\Object\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object\Components\ManagerObject.h">
+      <Filter>Core\Object\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object\Components\ServerComponent.h">
+      <Filter>Core\Object\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object\Descriptor.h">
+      <Filter>Core\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object\Descriptors\GameComponentDesriptors.h">
+      <Filter>Core\Object\Descriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object\Descriptors\MaterialDescriptor.h">
+      <Filter>Core\Object\Descriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object\GameComponent.h">
+      <Filter>Core\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object\Object.h">
+      <Filter>Core\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object\Resource.h">
+      <Filter>Core\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object\Resource\MeshComponent.h">
+      <Filter>Core\Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object\Resource\MeshComponents\StaticMeshComponent.h">
+      <Filter>Core\Object\Resource\MeshComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object\Resource\Primitives.h">
+      <Filter>Core\Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object\Resource\TextureComponent.h">
+      <Filter>Core\Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Object\Utility.h">
+      <Filter>Core\Object</Filter>
     </ClInclude>
     <ClInclude Include="Core\PCH\dmkafx.h">
       <Filter>Core\PCH</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Types\Array.h">
+      <Filter>Core\Types</Filter>
+    </ClInclude>
     <ClInclude Include="Core\Types\DataTypes.h">
       <Filter>Core\Types</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Memory\StaticAllocator.h" />
-    <ClInclude Include="Core\Memory\MemoryFunctions.h" />
-    <ClInclude Include="Core\Memory\MemoryManager.h" />
-    <ClInclude Include="Core\Types\Pointer.h" />
-    <ClInclude Include="Core\Memory\LocalHeap.h" />
-    <ClInclude Include="Core\Macros\Global.h" />
-    <ClInclude Include="Core\Math\MathFunctions.h" />
-    <ClInclude Include="Core\Object\Object.h" />
-    <ClInclude Include="Core\Types\TypeTraits.h" />
-    <ClInclude Include="Core\Object\Component.h" />
-    <ClInclude Include="Core\Object\Utility.h" />
-    <ClInclude Include="Core\Object\Descriptor.h" />
-    <ClInclude Include="Core\Object\Resource.h" />
-    <ClInclude Include="Core\Object\Components\EngineComponent.h" />
-    <ClInclude Include="Core\Object\Components\ServerComponent.h" />
-    <ClInclude Include="Core\Object\Components\ManagerObject.h" />
-    <ClInclude Include="Core\Types\Array.h" />
-    <ClInclude Include="Core\Object\Resource\MeshComponent.h" />
-    <ClInclude Include="Core\Object\Resource\TextureComponent.h" />
-    <ClInclude Include="Core\Error\ErrorManager.h" />
-    <ClInclude Include="Core\Error\MessageBox.h" />
-    <ClInclude Include="Core\Error\ErrorDefines.h" />
-    <ClInclude Include="GameLibrary\LevelComponent.h" />
-    <ClInclude Include="Core\Utilities\Clock.h" />
-    <ClInclude Include="GameLibrary\SceneComponent.h" />
+    <ClInclude Include="Core\Types\Pointer.h">
+      <Filter>Core\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Types\TypeTraits.h">
+      <Filter>Core\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Utilities\Clock.h">
+      <Filter>Core\Utilities</Filter>
+    </ClInclude>
     <ClInclude Include="Dynamik.h" />
-    <ClInclude Include="Core\Object\GameComponent.h" />
-    <ClInclude Include="GameLibrary\GameObject.h" />
-    <ClInclude Include="GameLibrary\GameObjects\StaticObject.h" />
-    <ClInclude Include="GameLibrary\GameObjectAttachment.h" />
-    <ClInclude Include="Core\Object\Resource\MeshComponents\StaticMeshComponent.h" />
-    <ClInclude Include="Core\Math\MathTypes.h" />
-    <ClInclude Include="Core\Math\Vector3D.h" />
-    <ClInclude Include="Core\Object\Descriptors\GameComponentDesriptors.h" />
-    <ClInclude Include="Core\Object\Resource\Primitives.h" />
-    <ClInclude Include="Core\Math\Vector.h" />
-    <ClInclude Include="Core\Math\SIMD\Base.h" />
-    <ClInclude Include="Core\Math\SIMD\SIMDFunctions.h" />
-    <ClInclude Include="Core\Math\SIMD\SIMD128.h" />
-    <ClInclude Include="Core\Math\SIMD\SIMD512.h" />
-    <ClInclude Include="Core\Math\Vector4D.h" />
-    <ClInclude Include="Core\Math\SIMD\SIMD256.h" />
-    <ClInclude Include="Core\Math\Matrix.h" />
-    <ClInclude Include="Core\Math\Vector3F.h" />
-    <ClInclude Include="Core\Math\Vector4F.h" />
-    <ClInclude Include="Core\Math\Matrix4F.h" />
-    <ClInclude Include="Core\Object\Descriptors\MaterialDescriptor.h" />
-    <ClInclude Include="GameLibrary\GameObjects\GameEntity.h" />
+    <ClInclude Include="GameLibrary\GameObject.h">
+      <Filter>GameLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLibrary\GameObjectAttachment.h">
+      <Filter>GameLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLibrary\GameObjects\GameEntity.h">
+      <Filter>GameLibrary\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLibrary\GameObjects\StaticObject.h">
+      <Filter>GameLibrary\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLibrary\LevelComponent.h">
+      <Filter>GameLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLibrary\SceneComponent.h">
+      <Filter>GameLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\Window\Event\EventListener.h" />
+    <ClInclude Include="Managers\Window\Event\KeyEventListener.h" />
+    <ClInclude Include="Managers\Window\Event\MouseButtonEventListener.h" />
+    <ClInclude Include="Managers\Window\Event\MouseScrollEventListener.h" />
+    <ClInclude Include="Managers\Window\EventHandler.h" />
+    <ClInclude Include="Managers\Window\WindowHandle.h" />
+    <ClInclude Include="Managers\Window\Windows\WindowsWindow.h" />
+    <ClInclude Include="Managers\Window\WindowManager.h" />
+    <ClInclude Include="Managers\Window\Event\KeyCodes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Error\ErrorManager.cpp">
+      <Filter>Core\Error</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Error\MessageBox.cpp">
+      <Filter>Core\Error</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\MathFunctions.cpp">
+      <Filter>Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\Matrix4F.cpp">
+      <Filter>Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\SIMD\SIMD128.cpp">
+      <Filter>Core\Math\SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\SIMD\SIMD256.cpp">
+      <Filter>Core\Math\SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\SIMD\SIMD512.cpp">
+      <Filter>Core\Math\SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\SIMD\SIMDFunctions.cpp">
+      <Filter>Core\Math\SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\Vector3D.cpp">
+      <Filter>Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\Vector3F.cpp">
+      <Filter>Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\Vector4D.cpp">
+      <Filter>Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Math\Vector4F.cpp">
+      <Filter>Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Memory\LocalHeap.cpp">
+      <Filter>Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Memory\MemoryFunctions.cpp">
+      <Filter>Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Memory\MemoryManager.cpp">
+      <Filter>Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Object\Resource\MeshComponent.cpp">
+      <Filter>Core\Object\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Object\Resource\MeshComponents\StaticMeshComponent.cpp">
+      <Filter>Core\Object\Resource\MeshComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Object\Resource\Primitives.cpp">
+      <Filter>Core\Object\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Object\Resource\TextureComponent.cpp">
+      <Filter>Core\Object\Resource</Filter>
+    </ClCompile>
     <ClCompile Include="Core\PCH\dmkafx.cpp">
       <Filter>Core\PCH</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Memory\MemoryFunctions.cpp" />
-    <ClCompile Include="Core\Memory\MemoryManager.cpp" />
-    <ClCompile Include="Core\Memory\LocalHeap.cpp" />
-    <ClCompile Include="Core\Math\MathFunctions.cpp" />
-    <ClCompile Include="Core\Object\Resource\MeshComponent.cpp" />
-    <ClCompile Include="Core\Object\Resource\TextureComponent.cpp" />
-    <ClCompile Include="Core\Error\ErrorManager.cpp" />
-    <ClCompile Include="Core\Error\MessageBox.cpp" />
-    <ClCompile Include="Core\Utilities\Clock.cpp" />
+    <ClCompile Include="Core\Utilities\Clock.cpp">
+      <Filter>Core\Utilities</Filter>
+    </ClCompile>
     <ClCompile Include="Dynamik.cpp" />
-    <ClCompile Include="Core\Object\Resource\Primitives.cpp" />
-    <ClCompile Include="Core\Object\Resource\MeshComponents\StaticMeshComponent.cpp" />
-    <ClCompile Include="Core\Math\Vector3D.cpp" />
-    <ClCompile Include="Core\Math\SIMD\SIMD128.cpp" />
-    <ClCompile Include="Core\Math\SIMD\SIMDFunctions.cpp" />
-    <ClCompile Include="Core\Math\SIMD\SIMD512.cpp" />
-    <ClCompile Include="Core\Math\Vector4D.cpp" />
-    <ClCompile Include="Core\Math\SIMD\SIMD256.cpp" />
-    <ClCompile Include="Core\Math\Vector3F.cpp" />
-    <ClCompile Include="Core\Math\Vector4F.cpp" />
-    <ClCompile Include="Core\Math\Matrix4F.cpp" />
+    <ClCompile Include="Managers\Window\Event\KeyEventListener.cpp" />
+    <ClCompile Include="Managers\Window\Event\MouseButtonEventListener.cpp" />
+    <ClCompile Include="Managers\Window\Event\MouseScrollEventListener.cpp" />
+    <ClCompile Include="Managers\Window\EventHandler.cpp" />
+    <ClCompile Include="Managers\Window\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="Managers\Window\WindowHandle.cpp" />
+    <ClCompile Include="Managers\Window\WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

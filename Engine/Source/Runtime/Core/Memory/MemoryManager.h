@@ -7,7 +7,7 @@
  This is a Singleton structure used to allocate and deallocate memory.
 */
 
-#include "Pointer.h"
+#include "Types/Pointer.h"
 #include "Macros/Global.h"
 #include "Macros/MemoryMacro.h"
 #include "Object/Components/ManagerObject.h"

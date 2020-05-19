@@ -11,6 +11,8 @@
 #include "Error/ErrorManager.h"
 #include "Core/Utilities/Clock.h"
 
+#include "Managers/Window/WindowManager.h"
+
 namespace Dynamik
 {
     /* Main singleton implementation */
@@ -25,12 +27,24 @@ namespace Dynamik
     /* Default destructor */
     DMKEngine::~DMKEngine()
     {
+        DMKWindowManager::terminateAll();
+
         DMKClock::end();
+    }
+
+    void DMKEngine::execute()
+    {
+        while (true) 
+        {
+            DMKWindowManager::pollEvents();
+            DMKWindowManager::clean();
+        }
     }
     
     /* Create the Dynamik Engine instance. */
     void DMKEngine::createInstance()
     {
         DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
+        DMKWindowManager::createWindow(1280, 720);
     }
 }

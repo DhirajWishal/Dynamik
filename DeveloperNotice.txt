@@ -1,0 +1,12 @@
+********** ---------- ////////// DEVELOPER NOTICE \\\\\\\\\\ ---------- **********
+
+Basic notices for all the developers of the Dynamik Engine.
+
+Author:		Dhiraj Wishal
+Date:		18/05/2020
+
+Alignment:
+All the objects of the engine are made to be cache friendly. Every internal object/ structure must be created in a 
+way that variables are allocated in the decsending order. Which means that larger types are on top and small types
+are in the bottom. Additional padding using the DMKMemoryPadding<byteCount> can be made.
+All heap allocations are 32 bit aligned.

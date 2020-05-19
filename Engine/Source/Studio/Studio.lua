@@ -20,28 +20,39 @@ project "Studio"
 
 	includedirs {
 		"$(SolutionDir)Dependencies/Libraries/Local",
-		"$(SolutionDir)Engine/Studio/",
-		"$(SolutionDir)Engine/Studio/Core/PCH/",
+		"$(SolutionDir)Engine/Source/Studio/",
+		"$(SolutionDir)Engine/Source/Studio/Core/",
+		"$(SolutionDir)Engine/Source/Studio/Core/PCH/",
 		"$(SolutionDir)Engine/Source/Runtime/",
-		"$(SolutionDir)Engine/Source/Runtime/Core/Algorithm",
-		"$(SolutionDir)Engine/Source/Runtime/Core/DataTypes",
-		"$(SolutionDir)Engine/Source/Runtime/Core/Memory",
-		"$(SolutionDir)Engine/Source/Runtime/Core/System",
+		"$(SolutionDir)Engine/Source/Runtime/Core/",
+		"$(SolutionDir)Engine/Source/Runtime/Core/",
+		"$(SolutionDir)Engine/Source/Runtime/Core/",
+		"$(SolutionDir)Engine/Source/Runtime/Core/",
 		"$(SolutionDir)Engine/Source/Runtime/GameLibraries",
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.GLEW}",
 	}
 
 	libdirs {
+		"%{IncludeLib.GLFW}",
+		"%{IncludeLib.GLEW}",
 	}
 
 	links { 
-		"Dynamik"
+		"Dynamik",
+		"glew32s",
+		"opengl32",
+		"glfw3dll",
+		"glfw3"
 	}
 
 	filter "system:windows"
 		systemversion "latest"
 
 		defines {
-			"DMK_PLATFORM_WINDOWS"
+			"DMK_PLATFORM_WINDOWS",
+			"GLEW_STATIC",
+			"GRAPHICS_API",
 		}
 
 	filter "configurations:Debug"
