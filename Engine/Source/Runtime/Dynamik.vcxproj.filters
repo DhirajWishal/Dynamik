@@ -196,9 +196,6 @@
     <ClInclude Include="GameLibrary\GameObjectAttachment.h">
       <Filter>GameLibrary</Filter>
     </ClInclude>
-    <ClInclude Include="GameLibrary\GameObjects\GameEntity.h">
-      <Filter>GameLibrary\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="GameLibrary\GameObjects\StaticObject.h">
       <Filter>GameLibrary\GameObjects</Filter>
     </ClInclude>
@@ -217,6 +214,15 @@
     <ClInclude Include="Managers\Window\Windows\WindowsWindow.h" />
     <ClInclude Include="Managers\Window\WindowManager.h" />
     <ClInclude Include="Managers\Window\Event\KeyCodes.h" />
+    <ClInclude Include="GameLibrary\GameEntity.h">
+      <Filter>GameLibrary\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\Thread\Thread.h" />
+    <ClInclude Include="Managers\Thread\ThreadCommand.h" />
+    <ClInclude Include="Managers\Thread\ThreadManager.h" />
+    <ClInclude Include="Importer\Dynamik\DAI\DAIObject.h" />
+    <ClInclude Include="Importer\Dynamik\DMKAsset\DMKAsset.h" />
+    <ClInclude Include="Importer\Asset\MeshImporter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Error\ErrorManager.cpp">
@@ -290,6 +296,10 @@
     <ClCompile Include="Managers\Window\Windows\WindowsWindow.cpp" />
     <ClCompile Include="Managers\Window\WindowHandle.cpp" />
     <ClCompile Include="Managers\Window\WindowManager.cpp" />
+    <ClCompile Include="Managers\Thread\ThreadManager.cpp" />
+    <ClCompile Include="Importer\Dynamik\DAI\DAIObject.cpp" />
+    <ClCompile Include="Importer\Dynamik\DMKAsset\DMKAsset.cpp" />
+    <ClCompile Include="Importer\Asset\MeshImporter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

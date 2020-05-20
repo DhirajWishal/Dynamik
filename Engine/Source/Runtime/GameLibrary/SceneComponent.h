@@ -34,7 +34,7 @@ namespace Dynamik
 	*/
 	class DMK_API DMKSceneComponent : public DMKGameComponent {
 	public:
-		DMKSceneComponent(DMKSceneComponentType ty) : type(ty) {}
+		DMKSceneComponent(DMKSceneComponentType ty) : DMKGameComponent(DMKGameComponentType::DMK_GAME_COMPONENT_TYPE_SCENE), type(ty) {}
 		virtual ~DMKSceneComponent() {}
 
 		STRING sceneName = DMK_TEXT("");

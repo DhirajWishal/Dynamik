@@ -14,10 +14,21 @@
 
 namespace Dynamik
 {
+	enum class DMK_API DMKGameComponentType {
+		DMK_GAME_COMPONENT_TYPE_LEVEL,
+		DMK_GAME_COMPONENT_TYPE_SCENE,
+		DMK_GAME_COMPONENT_TYPE_OBJECT,
+		DMK_GAME_COMPONENT_TYPE_ENTITY,
+		DMK_GAME_COMPONENT_TYPE_ATTACHMENT,
+	};
+
 	class DMK_API DMKGameComponent : public DMKObject {
 	public:
 		DMKGameComponent() {}
+		DMKGameComponent(DMKGameComponentType ty) : type(ty) {}
 		virtual ~DMKGameComponent() {}
+
+		DMKGameComponentType type = DMKGameComponentType::DMK_GAME_COMPONENT_TYPE_OBJECT;
 	};
 }
 

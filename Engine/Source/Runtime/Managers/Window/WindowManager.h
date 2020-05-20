@@ -37,6 +37,10 @@ namespace Dynamik
         static void pollEvents();
         static void clean();
 
+        static ARRAY<DMKKeyEventComponent> getKeyEventComponents(I32 windowIndex);
+        static ARRAY<DMKMouseButtonEventComponent> getMouseButtonEventComponents(I32 windowIndex);
+        static ARRAY<DMKMouseScrollEventComponent> getMouseScrollEventComponents(I32 windowIndex);
+
     private:
         ARRAY<POINTER<DMKWindowHandle>> myWindowHandles;
     };

@@ -32,7 +32,7 @@ namespace Dynamik
 	*/
 	class DMK_API DMKLevelComponent : public DMKGameComponent {
 	public:
-		DMKLevelComponent() {}
+		DMKLevelComponent() : DMKGameComponent(DMKGameComponentType::DMK_GAME_COMPONENT_TYPE_LEVEL) {}
 		DMKLevelComponent(DMKLevelComponentType ty) : type(ty) {}
 		virtual ~DMKLevelComponent() {}
 

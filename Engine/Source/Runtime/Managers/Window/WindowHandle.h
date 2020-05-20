@@ -59,6 +59,10 @@ namespace Dynamik
 
 		virtual DMKViewport createViewport(I32 width, I32 height, I32 xOffset, I32 yOffset) { return DMKViewport(); }
 
+		virtual ARRAY<DMKKeyEventComponent> getKeyEvents() { return ARRAY<DMKKeyEventComponent>(); }
+		virtual ARRAY<DMKMouseButtonEventComponent> getMouseButtonEvents() { return ARRAY<DMKMouseButtonEventComponent>(); }
+		virtual ARRAY<DMKMouseScrollEventComponent> getMouseScrollEvents() { return ARRAY<DMKMouseScrollEventComponent>(); }
+
 		STRING windowTitle = DMK_TEXT("Dynamik Engine v1");
 		I32 windowWidth = 0;
 		I32 windowHeight = 0;

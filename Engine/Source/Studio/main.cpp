@@ -5,13 +5,14 @@
  Date:      19/05/2020
 */
 #include "studioafx.h"
+#include <iostream>
 #include "Dynamik.h"
 using namespace Dynamik;
 
 I32 main(I32 argc, CPTR* argv)
 {
-    Dynamik::DMKEngine::createInstance();
-    Dynamik::DMKEngine::execute();
+    DMKEngine::createInstance();
+    DMKEngine::execute();
 
     return 0;
 }

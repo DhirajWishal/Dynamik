@@ -9,10 +9,10 @@
  Date:      15/05/2020
 */
 
-#include "GameObject.h"
-
 namespace Dynamik
 {
+	class DMK_API DMKGameObject;
+
 	/*
 	 Game Object Attachments describe additional ways to manipulate game objects. This may include physics
 	 body entities, destruction entities, particle systems, etc...
@@ -20,7 +20,7 @@ namespace Dynamik
 	*/
 	class DMK_API DMKGameObjectAttachment : public DMKGameComponent {
 	public:
-		DMKGameObjectAttachment() {}
+		DMKGameObjectAttachment() : DMKGameComponent(DMKGameComponentType::DMK_GAME_COMPONENT_TYPE_ATTACHMENT) {}
 		virtual ~DMKGameObjectAttachment() {}
 
 		POINTER<DMKGameObject> myParentObject;  /* Game object address the attachment is attached to */

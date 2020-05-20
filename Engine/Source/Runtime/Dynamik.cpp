@@ -13,6 +13,8 @@
 
 #include "Managers/Window/WindowManager.h"
 
+#include "Importer/Dynamik/DAI/DAIObject.h"
+
 namespace Dynamik
 {
     /* Main singleton implementation */
@@ -22,6 +24,10 @@ namespace Dynamik
     DMKEngine::DMKEngine()
     {
         DMKClock::start();
+
+        DAIObject _myFile("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\Skybox");
+        _myFile.load();
+        auto modelPaths = _myFile.meshes;
     }
     
     /* Default destructor */

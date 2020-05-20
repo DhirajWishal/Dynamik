@@ -32,15 +32,23 @@ namespace Dynamik
 		void removeMouseButtonEventListener(I32 listenerIndex);
 		void removeMouseScrollEventListener(I32 listenerIndex);
 
-		void addEventComponent(POINTER<DMKEventComponent> component);
+		void addKeyEventComponent(const DMKKeyEventComponent& component);
+		void addMouseButtonEventComponent(const DMKMouseButtonEventComponent& component);
+		void addMouseScrollEventComponent(const DMKMouseScrollEventComponent& component);
 		void cleanComponents();
+
+		ARRAY<DMKKeyEventComponent> getKeyEvents();
+		ARRAY<DMKMouseButtonEventComponent> getMouseButtonEvents();
+		ARRAY<DMKMouseScrollEventComponent> getMouseScrollEvents();
 
 	protected:
 		static ARRAY<POINTER<DMKKeyEventListener>> myKeyEventListeners;
 		static ARRAY<POINTER<DMKMouseButtonEventListener>> myMouseButtonEventListeners;
 		static ARRAY<POINTER<DMKMouseScrollEventListener>> myMouseScrollEventListeners;
 
-		static ARRAY<POINTER<DMKEventComponent>> myEventComponents;
+		static ARRAY<DMKKeyEventComponent> keyEventComponents;
+		static ARRAY<DMKMouseButtonEventComponent> mouseButtonEventComponents;
+		static ARRAY<DMKMouseScrollEventComponent> mouseScrollEventComponents;
 	};
 }
 

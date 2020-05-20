@@ -47,7 +47,7 @@ namespace Dynamik
 	class DMK_API DMKGameObject : public DMKGameComponent {
 	public:
 		DMKGameObject() {}
-		DMKGameObject(DMKGameObjectType ty) : type(ty) {}
+		DMKGameObject(DMKGameObjectType ty) : DMKGameComponent(DMKGameComponentType::DMK_GAME_COMPONENT_TYPE_OBJECT), type(ty) {}
 		virtual ~DMKGameObject() {}
 
 		/* Initialize the object */

@@ -80,4 +80,19 @@ namespace Dynamik
 		for (auto _handle : instance.myWindowHandles)
 			_handle->clean();
 	}
+
+	ARRAY<DMKKeyEventComponent> DMKWindowManager::getKeyEventComponents(I32 windowIndex)
+	{
+		return instance.myWindowHandles[windowIndex]->getKeyEvents();
+	}
+
+	ARRAY<DMKMouseButtonEventComponent> DMKWindowManager::getMouseButtonEventComponents(I32 windowIndex)
+	{
+		return instance.myWindowHandles[windowIndex]->getMouseButtonEvents();
+	}
+
+	ARRAY<DMKMouseScrollEventComponent> DMKWindowManager::getMouseScrollEventComponents(I32 windowIndex)
+	{
+		return instance.myWindowHandles[windowIndex]->getMouseScrollEvents();
+	}
 }

@@ -27,18 +27,20 @@ project "Dynamik"
 		"$(SolutionDir)Engine/Source/Runtime/GameLibraries",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLEW}",
+		"%{IncludeDir.assimp}",
 	}
 
 	libdirs {
 		"%{IncludeLib.GLFW}",
 		"%{IncludeLib.GLEW}",
+		"%{IncludeLib.Assimp}",
 	}
 
 	links { 
 		"glew32s",
 		"opengl32",
 		"glfw3dll",
-		"glfw3"
+		"assimp",
 	}
 
 	filter "system:windows"

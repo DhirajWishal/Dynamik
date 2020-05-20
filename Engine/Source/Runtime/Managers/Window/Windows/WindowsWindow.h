@@ -37,6 +37,10 @@ namespace Dynamik
 		void removeMouseButtonEventListener(I32 listenerIndex) override;
 		void removeMouseScrollEventListener(I32 listenerIndex) override;
 
+		ARRAY<DMKKeyEventComponent> getKeyEvents() override;
+		ARRAY<DMKMouseButtonEventComponent> getMouseButtonEvents() override;
+		ARRAY<DMKMouseScrollEventComponent> getMouseScrollEvents() override;
+
 	private:
 		POINTER<GLFWwindow> windowHandle;
 
@@ -56,16 +60,6 @@ namespace Dynamik
 
 			static void _windowCloseCallback(GLFWwindow* window);
 		} eventHandler;
-
-		/* Add event components to the buffer */
-		template<class TYPE>
-		static inline void _addToBuffer(const TYPE& component)
-		{
-			POINTER<DMKEventComponent> _component = StaticAllocator<DMKEventComponent>::allocateInit(component);
-
-			std::lock_guard<std::mutex> _lockGuard(instance._mutex);
-			instance.eventHandler.addEventComponent(_component);
-		}
 
 		static WindowsWindow instance;
 		static std::mutex _mutex;

@@ -192,10 +192,16 @@
     <ClInclude Include="Dynamik.h" />
     <ClInclude Include="GameLibrary\GameObject.h" />
     <ClInclude Include="GameLibrary\GameObjectAttachment.h" />
-    <ClInclude Include="GameLibrary\GameObjects\GameEntity.h" />
+    <ClInclude Include="GameLibrary\GameEntity.h" />
     <ClInclude Include="GameLibrary\GameObjects\StaticObject.h" />
     <ClInclude Include="GameLibrary\LevelComponent.h" />
     <ClInclude Include="GameLibrary\SceneComponent.h" />
+    <ClInclude Include="Importer\Asset\MeshImporter.h" />
+    <ClInclude Include="Importer\Dynamik\DAI\DAIObject.h" />
+    <ClInclude Include="Importer\Dynamik\DMKAsset\DMKAsset.h" />
+    <ClInclude Include="Managers\Thread\Thread.h" />
+    <ClInclude Include="Managers\Thread\ThreadCommand.h" />
+    <ClInclude Include="Managers\Thread\ThreadManager.h" />
     <ClInclude Include="Managers\Window\EventHandler.h" />
     <ClInclude Include="Managers\Window\Event\EventListener.h" />
     <ClInclude Include="Managers\Window\Event\KeyCodes.h" />
@@ -231,6 +237,10 @@
     </ClCompile>
     <ClCompile Include="Core\Utilities\Clock.cpp" />
     <ClCompile Include="Dynamik.cpp" />
+    <ClCompile Include="Importer\Asset\MeshImporter.cpp" />
+    <ClCompile Include="Importer\Dynamik\DAI\DAIObject.cpp" />
+    <ClCompile Include="Importer\Dynamik\DMKAsset\DMKAsset.cpp" />
+    <ClCompile Include="Managers\Thread\ThreadManager.cpp" />
     <ClCompile Include="Managers\Window\EventHandler.cpp" />
     <ClCompile Include="Managers\Window\Event\KeyEventListener.cpp" />
     <ClCompile Include="Managers\Window\Event\MouseButtonEventListener.cpp" />
