@@ -38,6 +38,8 @@ namespace Dynamik
         Vector3F operator=(const std::initializer_list<F32>& other);
         F32 operator[](UI32 index);
 
+        void load(F32* address);
+
         union
         {
             struct { F32 x, y, z, w; };

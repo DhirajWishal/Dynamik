@@ -10,10 +10,12 @@
 
 #include "Error/ErrorManager.h"
 #include "Core/Utilities/Clock.h"
+#include "Core/FileSystem/FileSystem.h"
 
 #include "Managers/Window/WindowManager.h"
 
 #include "Importer/Dynamik/DAI/DAIObject.h"
+#include "Importer/Asset/MeshImporter.h"
 
 namespace Dynamik
 {
@@ -28,6 +30,8 @@ namespace Dynamik
         DAIObject _myFile("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\Skybox");
         _myFile.load();
         auto modelPaths = _myFile.meshes;
+
+        auto file = DMKMeshImporter::loadMesh("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\Skybox\\SkySphere.obj", DMKVertexBufferDescriptor());
     }
     
     /* Default destructor */
@@ -52,5 +56,7 @@ namespace Dynamik
     {
         DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
         DMKWindowManager::createWindow(1280, 720);
+
+        auto _localPath = DMKFileSystem::getExecutablePath();
     }
 }

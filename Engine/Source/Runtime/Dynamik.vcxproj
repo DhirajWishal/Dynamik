@@ -77,7 +77,7 @@
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;GLEW_STATIC;GRAPHICS_API;DMK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\Source\Runtime\Core;$(SolutionDir)Engine\Source\Runtime\Core\PCH;$(SolutionDir)Engine\Source\Runtime\GameLibraries;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\Source\Runtime\Core;$(SolutionDir)Engine\Source\Runtime\Core\PCH;$(SolutionDir)Engine\Source\Runtime\GameLibraries;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\Libraries\Local\assimp\assimp;$(SolutionDir)Dependencies\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -88,8 +88,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Assimp;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -98,7 +98,7 @@
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;GLEW_STATIC;GRAPHICS_API;DMK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\Source\Runtime\Core;$(SolutionDir)Engine\Source\Runtime\Core\PCH;$(SolutionDir)Engine\Source\Runtime\GameLibraries;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\Source\Runtime\Core;$(SolutionDir)Engine\Source\Runtime\Core\PCH;$(SolutionDir)Engine\Source\Runtime\GameLibraries;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\Libraries\Local\assimp\assimp;$(SolutionDir)Dependencies\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -113,8 +113,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Assimp;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution|x64'">
@@ -123,7 +123,7 @@
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;GLEW_STATIC;GRAPHICS_API;DMK_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\Source\Runtime\Core;$(SolutionDir)Engine\Source\Runtime\Core\PCH;$(SolutionDir)Engine\Source\Runtime\GameLibraries;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Engine\Source\Runtime;$(SolutionDir)Engine\Source\Runtime\Core;$(SolutionDir)Engine\Source\Runtime\Core\PCH;$(SolutionDir)Engine\Source\Runtime\GameLibraries;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\Libraries\Local\assimp\assimp;$(SolutionDir)Dependencies\GLEW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -138,14 +138,15 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Assimp;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Core\Error\ErrorDefines.h" />
     <ClInclude Include="Core\Error\ErrorManager.h" />
     <ClInclude Include="Core\Error\MessageBox.h" />
+    <ClInclude Include="Core\FileSystem\FileSystem.h" />
     <ClInclude Include="Core\Macros\Assert.h" />
     <ClInclude Include="Core\Macros\Global.h" />
     <ClInclude Include="Core\Macros\MemoryMacro.h" />
@@ -211,10 +212,12 @@
     <ClInclude Include="Managers\Window\WindowHandle.h" />
     <ClInclude Include="Managers\Window\WindowManager.h" />
     <ClInclude Include="Managers\Window\Windows\WindowsWindow.h" />
+    <ClInclude Include="Systems\Attachment\AttachmentManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Error\ErrorManager.cpp" />
     <ClCompile Include="Core\Error\MessageBox.cpp" />
+    <ClCompile Include="Core\FileSystem\FileSystem.cpp" />
     <ClCompile Include="Core\Math\MathFunctions.cpp" />
     <ClCompile Include="Core\Math\Matrix4F.cpp" />
     <ClCompile Include="Core\Math\SIMD\SIMD128.cpp" />
@@ -248,6 +251,7 @@
     <ClCompile Include="Managers\Window\WindowHandle.cpp" />
     <ClCompile Include="Managers\Window\WindowManager.cpp" />
     <ClCompile Include="Managers\Window\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="Systems\Attachment\AttachmentManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

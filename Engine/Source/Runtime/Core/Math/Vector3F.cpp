@@ -26,6 +26,13 @@ namespace Dynamik
         return ((F32*)this)[index];
     }
 
+	void Vector3F::load(F32* address)
+	{
+        SIMD128 _simd;
+        _simd.load(address);
+        *this = _simd.toVec3F();
+	}
+
     Vector3F operator+(const Vector3F& lhs, const Vector3F& rhs)
     {
         return SIMDFunctions::addVector128F(lhs, rhs).toVec3F();

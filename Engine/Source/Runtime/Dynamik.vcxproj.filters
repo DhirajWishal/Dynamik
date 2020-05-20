@@ -223,6 +223,8 @@
     <ClInclude Include="Importer\Dynamik\DAI\DAIObject.h" />
     <ClInclude Include="Importer\Dynamik\DMKAsset\DMKAsset.h" />
     <ClInclude Include="Importer\Asset\MeshImporter.h" />
+    <ClInclude Include="Core\FileSystem\FileSystem.h" />
+    <ClInclude Include="Systems\Attachment\AttachmentManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Error\ErrorManager.cpp">
@@ -300,6 +302,8 @@
     <ClCompile Include="Importer\Dynamik\DAI\DAIObject.cpp" />
     <ClCompile Include="Importer\Dynamik\DMKAsset\DMKAsset.cpp" />
     <ClCompile Include="Importer\Asset\MeshImporter.cpp" />
+    <ClCompile Include="Core\FileSystem\FileSystem.cpp" />
+    <ClCompile Include="Systems\Attachment\AttachmentManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

@@ -17,15 +17,16 @@ namespace Dynamik
      For now we are using the library Assimp.
     */
     class DMK_API DMKMeshImporter : public DMKUtility {
-    public:
         DMKMeshImporter() {}
         ~DMKMeshImporter() {}
 
+        DMK_CLASS_SINGLETON(DMKMeshImporter)
+    public:
         /* Load a mesh component */
-        POINTER<DMKMeshComponent> loadMesh(const STRING& path, const DMKVertexBufferDescriptor& vertexBufferDescriptor);
+        static ARRAY<POINTER<DMKMeshComponent>> loadMesh(const STRING& path, const DMKVertexBufferDescriptor& vertexBufferDescriptor);
 
         /* Unload a loaded mesh component */
-        void unloadMesh(const POINTER<DMKMeshComponent>& mesh);
+        static void unloadMesh(const ARRAY<POINTER<DMKMeshComponent>>& meshes);
     };
 }
 
