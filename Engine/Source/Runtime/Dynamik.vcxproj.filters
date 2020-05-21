@@ -7,6 +7,9 @@
     <Filter Include="Core\Error">
       <UniqueIdentifier>{E72535CD-D3DD-761A-3CE5-4F7628BC110B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\FileSystem">
+      <UniqueIdentifier>{82DDE3E0-EE68-51A5-F779-D4996384ADA5}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Macros">
       <UniqueIdentifier>{625A4785-CE0F-C07A-5704-BA51C3B8B67E}</UniqueIdentifier>
     </Filter>
@@ -46,8 +49,47 @@
     <Filter Include="GameLibrary">
       <UniqueIdentifier>{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameLibrary\Attachments">
+      <UniqueIdentifier>{DF05A987-4B3D-F11E-5447-5542C0FD1718}</UniqueIdentifier>
+    </Filter>
     <Filter Include="GameLibrary\GameObjects">
       <UniqueIdentifier>{4791EACA-B3C8-3262-BCD2-96852889595B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Importer">
+      <UniqueIdentifier>{D7C05FAE-C38D-BAB9-ECA6-A861D8D2EF47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Importer\Asset">
+      <UniqueIdentifier>{A67AD47F-9248-C885-7BDC-38AC6749A4EA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Importer\Dynamik">
+      <UniqueIdentifier>{53AA6EBB-3FA3-8D0D-68D5-7292542D6D19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Importer\Dynamik\DAI">
+      <UniqueIdentifier>{908BACCC-7C1A-3696-2539-4A9111A7463C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Importer\Dynamik\DMKAsset">
+      <UniqueIdentifier>{DEAE60CA-4A71-9454-9321-23E1FF226D32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{B34CFEBD-9F19-59C9-C832-4771B45E8E57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\Thread">
+      <UniqueIdentifier>{BA53F5FE-26DF-62C3-2FF0-E5B79BFABEC3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\Window">
+      <UniqueIdentifier>{3AB20406-A63D-72CA-AF4E-F5BE1B59CECA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\Window\Event">
+      <UniqueIdentifier>{0B77B95A-77E3-7455-40D7-0CB3AC0297BD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\Window\Windows">
+      <UniqueIdentifier>{74F6D53A-E02D-1ED2-E937-82F555EE44CB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems">
+      <UniqueIdentifier>{1DDE831B-89BD-02B7-92D5-8D8DFE336918}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems\Attachment">
+      <UniqueIdentifier>{15AE710C-0192-3262-6AF2-2CB556F51CE4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +101,9 @@
     </ClInclude>
     <ClInclude Include="Core\Error\MessageBox.h">
       <Filter>Core\Error</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FileSystem\FileSystem.h">
+      <Filter>Core\FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="Core\Macros\Assert.h">
       <Filter>Core\Macros</Filter>
@@ -190,6 +235,12 @@
       <Filter>Core\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Dynamik.h" />
+    <ClInclude Include="GameLibrary\Attachments\BasicAttachments.h">
+      <Filter>GameLibrary\Attachments</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLibrary\GameEntity.h">
+      <Filter>GameLibrary</Filter>
+    </ClInclude>
     <ClInclude Include="GameLibrary\GameObject.h">
       <Filter>GameLibrary</Filter>
     </ClInclude>
@@ -205,27 +256,54 @@
     <ClInclude Include="GameLibrary\SceneComponent.h">
       <Filter>GameLibrary</Filter>
     </ClInclude>
-    <ClInclude Include="Managers\Window\Event\EventListener.h" />
-    <ClInclude Include="Managers\Window\Event\KeyEventListener.h" />
-    <ClInclude Include="Managers\Window\Event\MouseButtonEventListener.h" />
-    <ClInclude Include="Managers\Window\Event\MouseScrollEventListener.h" />
-    <ClInclude Include="Managers\Window\EventHandler.h" />
-    <ClInclude Include="Managers\Window\WindowHandle.h" />
-    <ClInclude Include="Managers\Window\Windows\WindowsWindow.h" />
-    <ClInclude Include="Managers\Window\WindowManager.h" />
-    <ClInclude Include="Managers\Window\Event\KeyCodes.h" />
-    <ClInclude Include="GameLibrary\GameEntity.h">
-      <Filter>GameLibrary\GameObjects</Filter>
+    <ClInclude Include="Importer\Asset\MeshImporter.h">
+      <Filter>Importer\Asset</Filter>
     </ClInclude>
-    <ClInclude Include="Managers\Thread\Thread.h" />
-    <ClInclude Include="Managers\Thread\ThreadCommand.h" />
-    <ClInclude Include="Managers\Thread\ThreadManager.h" />
-    <ClInclude Include="Importer\Dynamik\DAI\DAIObject.h" />
-    <ClInclude Include="Importer\Dynamik\DMKAsset\DMKAsset.h" />
-    <ClInclude Include="Importer\Asset\MeshImporter.h" />
-    <ClInclude Include="Core\FileSystem\FileSystem.h" />
-    <ClInclude Include="Systems\Attachment\AttachmentManager.h" />
-    <ClInclude Include="GameLibrary\Attachments\BasicAttachments.h" />
+    <ClInclude Include="Importer\Dynamik\DAI\DAIObject.h">
+      <Filter>Importer\Dynamik\DAI</Filter>
+    </ClInclude>
+    <ClInclude Include="Importer\Dynamik\DMKAsset\DMKAsset.h">
+      <Filter>Importer\Dynamik\DMKAsset</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\Thread\Thread.h">
+      <Filter>Managers\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\Thread\ThreadCommand.h">
+      <Filter>Managers\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\Thread\ThreadManager.h">
+      <Filter>Managers\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\Window\Event\EventListener.h">
+      <Filter>Managers\Window\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\Window\Event\KeyCodes.h">
+      <Filter>Managers\Window\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\Window\Event\KeyEventListener.h">
+      <Filter>Managers\Window\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\Window\Event\MouseButtonEventListener.h">
+      <Filter>Managers\Window\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\Window\Event\MouseScrollEventListener.h">
+      <Filter>Managers\Window\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\Window\EventHandler.h">
+      <Filter>Managers\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\Window\WindowHandle.h">
+      <Filter>Managers\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\Window\WindowManager.h">
+      <Filter>Managers\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers\Window\Windows\WindowsWindow.h">
+      <Filter>Managers\Window\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Systems\Attachment\AttachmentManager.h">
+      <Filter>Systems\Attachment</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Error\ErrorManager.cpp">
@@ -233,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="Core\Error\MessageBox.cpp">
       <Filter>Core\Error</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FileSystem\FileSystem.cpp">
+      <Filter>Core\FileSystem</Filter>
     </ClCompile>
     <ClCompile Include="Core\Math\MathFunctions.cpp">
       <Filter>Core\Math</Filter>
@@ -292,19 +373,42 @@
       <Filter>Core\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Dynamik.cpp" />
-    <ClCompile Include="Managers\Window\Event\KeyEventListener.cpp" />
-    <ClCompile Include="Managers\Window\Event\MouseButtonEventListener.cpp" />
-    <ClCompile Include="Managers\Window\Event\MouseScrollEventListener.cpp" />
-    <ClCompile Include="Managers\Window\EventHandler.cpp" />
-    <ClCompile Include="Managers\Window\Windows\WindowsWindow.cpp" />
-    <ClCompile Include="Managers\Window\WindowHandle.cpp" />
-    <ClCompile Include="Managers\Window\WindowManager.cpp" />
-    <ClCompile Include="Managers\Thread\ThreadManager.cpp" />
-    <ClCompile Include="Importer\Dynamik\DAI\DAIObject.cpp" />
-    <ClCompile Include="Importer\Dynamik\DMKAsset\DMKAsset.cpp" />
-    <ClCompile Include="Importer\Asset\MeshImporter.cpp" />
-    <ClCompile Include="Core\FileSystem\FileSystem.cpp" />
-    <ClCompile Include="Systems\Attachment\AttachmentManager.cpp" />
+    <ClCompile Include="Importer\Asset\MeshImporter.cpp">
+      <Filter>Importer\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Importer\Dynamik\DAI\DAIObject.cpp">
+      <Filter>Importer\Dynamik\DAI</Filter>
+    </ClCompile>
+    <ClCompile Include="Importer\Dynamik\DMKAsset\DMKAsset.cpp">
+      <Filter>Importer\Dynamik\DMKAsset</Filter>
+    </ClCompile>
+    <ClCompile Include="Managers\Thread\ThreadManager.cpp">
+      <Filter>Managers\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Managers\Window\Event\KeyEventListener.cpp">
+      <Filter>Managers\Window\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Managers\Window\Event\MouseButtonEventListener.cpp">
+      <Filter>Managers\Window\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Managers\Window\Event\MouseScrollEventListener.cpp">
+      <Filter>Managers\Window\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Managers\Window\EventHandler.cpp">
+      <Filter>Managers\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Managers\Window\WindowHandle.cpp">
+      <Filter>Managers\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Managers\Window\WindowManager.cpp">
+      <Filter>Managers\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Managers\Window\Windows\WindowsWindow.cpp">
+      <Filter>Managers\Window\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Systems\Attachment\AttachmentManager.cpp">
+      <Filter>Systems\Attachment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />
