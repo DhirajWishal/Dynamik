@@ -191,6 +191,7 @@
     <ClInclude Include="Core\Types\TypeTraits.h" />
     <ClInclude Include="Core\Utilities\Clock.h" />
     <ClInclude Include="Dynamik.h" />
+    <ClInclude Include="GameLibrary\Attachments\BasicAttachments.h" />
     <ClInclude Include="GameLibrary\GameObject.h" />
     <ClInclude Include="GameLibrary\GameObjectAttachment.h" />
     <ClInclude Include="GameLibrary\GameEntity.h" />

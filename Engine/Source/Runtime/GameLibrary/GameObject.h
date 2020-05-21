@@ -10,7 +10,7 @@
 */
 
 #include "Object/GameComponent.h"
-#include "GameObjectAttachment.h"
+#include "Systems/Attachment/AttachmentManager.h"
 #include "Object/Descriptors/MaterialDescriptor.h"
 
 namespace Dynamik
@@ -55,11 +55,10 @@ namespace Dynamik
 
 		DMKGameObjectType type = DMKGameObjectType::DMK_GAME_OBJECT_TYPE_STATIC;
 
-		/* All attachments are required to contain the parent (this) classes address */
-		ARRAY<POINTER<DMKGameObjectAttachment>> myAttachments;
-
 		/* Material description of the game object */
 		POINTER<DMKMaterialDescriptor> materialDescription;
+
+		DMKAttachmentManager myAttachmentManager;
 	};
 }
 

@@ -60,6 +60,8 @@ namespace Dynamik
 		*/
 		static void execute();
 
+	private:
+		STRING myBasePath = DMK_TEXT("");
 	};
 }
 

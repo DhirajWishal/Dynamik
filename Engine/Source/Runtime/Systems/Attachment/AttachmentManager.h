@@ -36,15 +36,17 @@ namespace Dynamik
         {
             _allocateHeap(sizeof(TYPE));
             MemoryFunctions::moveData(myNextPtr.get(), &attachment, sizeof(TYPE));
+
+            myReferenceTable[typeid(TYPE).name()] = myNextPtr;
         }
 
         /* TEMPLATED FUNCTION
          Get an attachment stored in the buffer.
         */
         template<class TYPE>
-        TYPE getAttachment()
+        TYPE getAttachment(UI32 elementIndex = 0)
         {
-
+            return *(TYPE*)myReferenceTable[typeid(TYPE).name()].get();
         }
 
         VPTR getBuffer() { return myMemoryBuffer; }
@@ -55,6 +57,9 @@ namespace Dynamik
         */
         inline void _allocateHeap(UI32 byteSize);
 
+        inline void _recreateReferenceTable();
+
+        std::unordered_map<STRING, POINTER<BYTE>> myReferenceTable;
         VPTR myMemoryBuffer = nullptr;
         POINTER<BYTE> myNextPtr = myMemoryBuffer;
         UI32 myAllocationSize = 0;

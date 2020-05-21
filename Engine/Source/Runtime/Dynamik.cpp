@@ -42,6 +42,7 @@ namespace Dynamik
         DMKClock::end();
     }
 
+    /* Execute the game code */
     void DMKEngine::execute()
     {
         while (true) 

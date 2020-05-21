@@ -225,6 +225,7 @@
     <ClInclude Include="Importer\Asset\MeshImporter.h" />
     <ClInclude Include="Core\FileSystem\FileSystem.h" />
     <ClInclude Include="Systems\Attachment\AttachmentManager.h" />
+    <ClInclude Include="GameLibrary\Attachments\BasicAttachments.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Error\ErrorManager.cpp">

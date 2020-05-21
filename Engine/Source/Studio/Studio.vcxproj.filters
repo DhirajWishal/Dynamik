@@ -18,12 +18,14 @@
     <ClInclude Include="Core\Window\Window.h">
       <Filter>Core\Window</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Window\Windows\Win32WindowHandle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\PCH\studioafx.cpp">
       <Filter>Core\PCH</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Core\Window\Windows\Win32WindowHandle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Studio.lua" />
