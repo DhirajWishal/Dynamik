@@ -10,6 +10,12 @@
     <Filter Include="Core\Window">
       <UniqueIdentifier>{5581319D-C136-AA92-4A2B-A469B6DFA096}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Window\StudioGUI">
+      <UniqueIdentifier>{4175F83C-ADE1-B337-76D5-4B95E200D69F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Window\StudioGUI\Renderer">
+      <UniqueIdentifier>{073286A5-F357-500C-DC9D-D5D7C86275D8}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Window\Windows">
       <UniqueIdentifier>{8FB08126-FB11-5F34-847F-A5E6F0DF95F3}</UniqueIdentifier>
     </Filter>
@@ -21,16 +27,10 @@
     <ClInclude Include="Core\Window\Window.h">
       <Filter>Core\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Window\Windows\Win32WindowHandle.h">
-      <Filter>Core\Window\Windows</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\PCH\studioafx.cpp">
       <Filter>Core\PCH</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\Window\Windows\Win32WindowHandle.cpp">
-      <Filter>Core\Window\Windows</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
   </ItemGroup>

@@ -13,7 +13,6 @@
 #include "Macros/Global.h"
 #include "Macros/MemoryMacro.h"
 #include "Types/DataTypes.h"
-#include "Types/Array.h"
 
 /* Creates the basic content in a singleton */
 #define DMK_CLASS_SINGLETON(className)		private:                                                \
