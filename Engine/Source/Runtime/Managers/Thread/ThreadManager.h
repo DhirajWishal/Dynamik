@@ -33,6 +33,20 @@ namespace Dynamik
         - File operations
      
      Utility threads are often initiated by the parent thread when executing a demanding job.
+
+     There are 2 basic types of threads:
+     * Permanent threads (the threads that exist throughout the engine's runtime)
+     * Temporary threads (the threads that are used to complete a specific task)
+
+     The permenent threads run critical components of the engine (eg: Rendering engine, Physics engine, Audio engine).
+     These threads have only one instance throughout the runtime.
+     The temporary threads are used to do calculations. One of the main systems are the object updation systems. The
+     objects are sent as packages containing a number of objects. The object number depends on the number of available 
+     threads and the number of objects available. Since the engine could use all the threads available in the CPU thus
+     making the system unable to run its normal tasks, we always leave 25% of the threads to the CPU. The rest is used
+     by the engine.
+
+     Thread synchronization is done on the top of every parent thread loop.
     */
     class DMK_API DMKThreadManager : public DMKManagerObject {
         DMK_CLASS_SINGLETON(DMKThreadManager)
