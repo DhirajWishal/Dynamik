@@ -6,7 +6,7 @@
  Author:    Dhiraj Wishal
  Date:      20/05/2020
 */
-#include "GameLibrary/GameObject.h"
+#include "GameLibrary/GameAsset.h"
 #include <fstream>
 
 namespace Dynamik
@@ -46,11 +46,11 @@ namespace Dynamik
         ARRAY<STRING> tessellationShaders;
         ARRAY<STRING> geometryShaders;
         ARRAY<STRING> fragmentShaders;
-        DMKGameObjectType objectType = DMKGameObjectType::DMK_GAME_OBJECT_TYPE_STATIC;
+        DMKGameAssetType objectType = DMKGameAssetType::DMK_GAME_ASSET_TYPE_STATIC;
 
     private:
         inline void _loadContent();
-        inline DMKGameObjectType _resolveObjectType(const STRING& type);
+        inline DMKGameAssetType _resolveObjectType(const STRING& type);
 
         STRING myPath = DMK_TEXT("");
         STRING myBasePath = DMK_TEXT("");

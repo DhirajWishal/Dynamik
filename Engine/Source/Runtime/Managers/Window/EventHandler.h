@@ -17,6 +17,16 @@
 namespace Dynamik
 {
 	/*
+	 Dynamik Event Buffer
+	 This buffer contains all the events that occurred in one iteraton of the main loop.
+	*/
+	struct DMKEventBuffer {
+		ARRAY<DMKKeyEventComponent> keyEventComponents;
+		ARRAY<DMKMouseScrollEventComponent> mouseScrollEventComponents;
+		ARRAY<DMKMouseButtonEventComponent> mouseButtonEventComponents;
+	};
+
+	/*
 	 Dynamik Event Handler
 	 Event handlers are per object. Which means that each and every window handle contains its own event handler.
 
@@ -48,9 +58,7 @@ namespace Dynamik
 		static ARRAY<POINTER<DMKMouseButtonEventListener>> myMouseButtonEventListeners;
 		static ARRAY<POINTER<DMKMouseScrollEventListener>> myMouseScrollEventListeners;
 
-		static ARRAY<DMKKeyEventComponent> keyEventComponents;
-		static ARRAY<DMKMouseButtonEventComponent> mouseButtonEventComponents;
-		static ARRAY<DMKMouseScrollEventComponent> mouseScrollEventComponents;
+		static DMKEventBuffer eventBuffer;
 	};
 }
 

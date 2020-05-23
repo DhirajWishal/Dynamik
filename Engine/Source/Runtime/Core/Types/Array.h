@@ -435,6 +435,7 @@ namespace Dynamik
 
 			myBeginPtr[_getProcessedIndex(index)] = TYPE();
 			_compactAfterRemove(index);
+			myDataCount--;
 		}
 
 		/* FUNCTION

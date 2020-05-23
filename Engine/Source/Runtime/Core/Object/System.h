@@ -19,7 +19,7 @@ namespace Dynamik
      * Audio Engine
      * Destruction Engine
      * Game Mechanic Interpreter
-     * Game Component System
+     * Game Component Manager
     */
     class DMK_API DMKSystem {
     public:

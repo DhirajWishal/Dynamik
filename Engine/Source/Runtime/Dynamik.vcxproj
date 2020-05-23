@@ -187,14 +187,17 @@
     <ClInclude Include="EntryPoint.h" />
     <ClInclude Include="GameLibrary\Attachments\BasicAttachments.h" />
     <ClInclude Include="GameLibrary\GameEntity.h" />
-    <ClInclude Include="GameLibrary\GameObject.h" />
+    <ClInclude Include="GameLibrary\GameAsset.h" />
+    <ClInclude Include="GameLibrary\GameMechanics.h" />
     <ClInclude Include="GameLibrary\GameObjectAttachment.h" />
     <ClInclude Include="GameLibrary\GameObjects\StaticObject.h" />
     <ClInclude Include="GameLibrary\LevelComponent.h" />
+    <ClInclude Include="GameLibrary\Mechanics\PlayerController.h" />
     <ClInclude Include="GameLibrary\SceneComponent.h" />
     <ClInclude Include="Importer\Asset\MeshImporter.h" />
     <ClInclude Include="Importer\Dynamik\DAI\DAIObject.h" />
     <ClInclude Include="Importer\Dynamik\DMKAsset\DMKAsset.h" />
+    <ClInclude Include="Managers\GameComponent\GameComponentManager.h" />
     <ClInclude Include="Managers\Thread\Thread.h" />
     <ClInclude Include="Managers\Thread\ThreadCommand.h" />
     <ClInclude Include="Managers\Thread\ThreadManager.h" />
@@ -207,6 +210,10 @@
     <ClInclude Include="Managers\Window\WindowHandle.h" />
     <ClInclude Include="Managers\Window\WindowManager.h" />
     <ClInclude Include="Managers\Window\Windows\WindowsWindow.h" />
+    <ClInclude Include="Renderer\Backend\Components\RenderAsset.h" />
+    <ClInclude Include="Renderer\Backend\RendererBackendLayer.h" />
+    <ClInclude Include="Renderer\Backend\Vulkan\VulkanRBL.h" />
+    <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Systems\Attachment\AttachmentManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -235,9 +242,11 @@
     </ClCompile>
     <ClCompile Include="Core\Utilities\Clock.cpp" />
     <ClCompile Include="Dynamik.cpp" />
+    <ClCompile Include="GameLibrary\Mechanics\PlayerController.cpp" />
     <ClCompile Include="Importer\Asset\MeshImporter.cpp" />
     <ClCompile Include="Importer\Dynamik\DAI\DAIObject.cpp" />
     <ClCompile Include="Importer\Dynamik\DMKAsset\DMKAsset.cpp" />
+    <ClCompile Include="Managers\GameComponent\GameComponentManager.cpp" />
     <ClCompile Include="Managers\Thread\ThreadManager.cpp" />
     <ClCompile Include="Managers\Window\Event\KeyEventListener.cpp" />
     <ClCompile Include="Managers\Window\Event\MouseButtonEventListener.cpp" />
@@ -246,6 +255,8 @@
     <ClCompile Include="Managers\Window\WindowHandle.cpp" />
     <ClCompile Include="Managers\Window\WindowManager.cpp" />
     <ClCompile Include="Managers\Window\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="Renderer\Backend\Vulkan\VulkanRBL.cpp" />
+    <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Systems\Attachment\AttachmentManager.cpp" />
   </ItemGroup>
   <ItemGroup>

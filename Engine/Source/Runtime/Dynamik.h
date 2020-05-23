@@ -10,10 +10,14 @@
  Date:      15/05/2020
 */
 
-#include "Managers/Window/WindowManager.h"
-#include "Utilities/Clock.h"
 #include "Core/Macros/Global.h"
 #include "Core/Types/DataTypes.h"
+
+#include "Managers/Window/WindowManager.h"
+#include "Utilities/Clock.h"
+
+#include "GameLibrary/LevelComponent.h"
+#include "Managers/GameComponent/GameComponentManager.h"
 
 namespace Dynamik
 {
@@ -71,6 +75,11 @@ namespace Dynamik
 		void createInstance(DMKEngineInstanceDescriptor descriptor);
 
 		/*
+		 Add levels to the engine.
+		*/
+		void setLevels(ARRAY<POINTER<DMKLevelComponent>> levelComponents);
+
+		/*
 		 Main run loop.
 		*/
 		void execute();
@@ -80,6 +89,7 @@ namespace Dynamik
 
 		DMKWindowManager _windowManager;
 		DMKClock _clock;
+		DMKGameComponentManager _gameComponentManager;
 	};
 }
 

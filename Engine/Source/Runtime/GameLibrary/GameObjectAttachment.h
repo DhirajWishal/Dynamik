@@ -17,10 +17,10 @@ namespace Dynamik
 	 body entities, destruction entities, particle systems, etc...
 	 Game Objects can contain multiple attachments.
 	*/
-	class DMK_API DMKGameObjectAttachment : public DMKGameComponent {
+	class DMK_API DMKGameAssetAttachment : public DMKGameComponent {
 	public:
-		DMKGameObjectAttachment() : DMKGameComponent(DMKGameComponentType::DMK_GAME_COMPONENT_TYPE_ATTACHMENT) {}
-		virtual ~DMKGameObjectAttachment() {}
+		DMKGameAssetAttachment() : DMKGameComponent(DMKGameComponentType::DMK_GAME_COMPONENT_TYPE_ATTACHMENT) {}
+		virtual ~DMKGameAssetAttachment() {}
 	};
 }
 

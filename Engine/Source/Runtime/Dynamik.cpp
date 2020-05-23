@@ -48,6 +48,14 @@ namespace Dynamik
         auto _localPath = DMKFileSystem::getExecutablePath();
     }
 
+    void DMKEngine::setLevels(ARRAY<POINTER<DMKLevelComponent>> levelComponents)
+    {
+        for (auto _level : levelComponents)
+        {
+            _gameComponentManager.addLevel(_level);
+        }
+    }
+
     /* Execute the game code */
     void DMKEngine::execute()
     {

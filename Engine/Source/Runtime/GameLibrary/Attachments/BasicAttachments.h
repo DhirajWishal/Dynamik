@@ -15,7 +15,7 @@ namespace Dynamik
     /*
      Transform Attachment
     */
-    class DMK_API TransformAttachment : public DMKGameObjectAttachment {
+    class DMK_API TransformAttachment : public DMKGameAssetAttachment {
     public:
         TransformAttachment() {}
         ~TransformAttachment() {}
@@ -26,7 +26,7 @@ namespace Dynamik
     /*
      Scale Attachment
     */
-    class DMK_API ScaleAttachment : public DMKGameObjectAttachment {
+    class DMK_API ScaleAttachment : public DMKGameAssetAttachment {
     public:
         ScaleAttachment() {}
         ~ScaleAttachment() {}
@@ -37,7 +37,7 @@ namespace Dynamik
     /*
      Material Attachment
     */
-    class DMK_API MaterialAttachment : public DMKGameObjectAttachment {
+    class DMK_API MaterialAttachment : public DMKGameAssetAttachment {
     public:
         MaterialAttachment() {}
         ~MaterialAttachment() {}

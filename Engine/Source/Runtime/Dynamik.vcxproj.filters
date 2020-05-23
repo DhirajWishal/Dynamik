@@ -218,14 +218,8 @@
     <ClInclude Include="GameLibrary\GameEntity.h">
       <Filter>GameLibrary</Filter>
     </ClInclude>
-    <ClInclude Include="GameLibrary\GameObject.h">
-      <Filter>GameLibrary</Filter>
-    </ClInclude>
     <ClInclude Include="GameLibrary\GameObjectAttachment.h">
       <Filter>GameLibrary</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLibrary\GameObjects\StaticObject.h">
-      <Filter>GameLibrary\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="GameLibrary\LevelComponent.h">
       <Filter>GameLibrary</Filter>
@@ -281,6 +275,19 @@
     <ClInclude Include="Systems\Attachment\AttachmentManager.h">
       <Filter>Systems\Attachment</Filter>
     </ClInclude>
+    <ClInclude Include="Managers\GameComponent\GameComponentManager.h" />
+    <ClInclude Include="GameLibrary\GameObjects\StaticObject.h">
+      <Filter>GameLibrary\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLibrary\GameAsset.h">
+      <Filter>GameLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLibrary\GameMechanics.h" />
+    <ClInclude Include="GameLibrary\Mechanics\PlayerController.h" />
+    <ClInclude Include="Renderer\Renderer.h" />
+    <ClInclude Include="Renderer\Backend\Vulkan\VulkanRBL.h" />
+    <ClInclude Include="Renderer\Backend\RendererBackendLayer.h" />
+    <ClInclude Include="Renderer\Backend\Components\RenderAsset.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Error\ErrorManager.cpp">
@@ -386,6 +393,10 @@
     <ClCompile Include="Systems\Attachment\AttachmentManager.cpp">
       <Filter>Systems\Attachment</Filter>
     </ClCompile>
+    <ClCompile Include="Managers\GameComponent\GameComponentManager.cpp" />
+    <ClCompile Include="GameLibrary\Mechanics\PlayerController.cpp" />
+    <ClCompile Include="Renderer\Renderer.cpp" />
+    <ClCompile Include="Renderer\Backend\Vulkan\VulkanRBL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

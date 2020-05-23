@@ -62,13 +62,13 @@ namespace Dynamik
 	}
 
 	/* TODO */
-	inline DMKGameObjectType DAIObject::_resolveObjectType(const STRING& type)
+	inline DMKGameAssetType DAIObject::_resolveObjectType(const STRING& type)
 	{
 		if (type == "STATIC")
-			return DMKGameObjectType::DMK_GAME_OBJECT_TYPE_STATIC;
+			return DMKGameAssetType::DMK_GAME_ASSET_TYPE_STATIC;
 		if (type == "SKYBOX")
-			return DMKGameObjectType::DMK_GAME_OBJECT_TYPE_SKYBOX;
+			return DMKGameAssetType::DMK_GAME_ASSET_TYPE_SKYBOX;
 
-		return DMKGameObjectType::DMK_GAME_OBJECT_TYPE_MESH;
+		return DMKGameAssetType::DMK_GAME_ASSET_TYPE_MESH;
 	}
 }

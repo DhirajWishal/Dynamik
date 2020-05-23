@@ -9,7 +9,7 @@
  Date:      15/05/2020
 */
 
-#include "../GameObject.h"
+#include "../GameAsset.h"
 
 namespace Dynamik
 {
@@ -26,9 +26,9 @@ namespace Dynamik
 	 Dropping an asset index file will result in proper initialization and proper handle of the object. The
 	 object type must be stated in the .dai file or else it too will be initialized as a static object.
 	*/
-	class DMK_API DMKStaticObject : public DMKGameObject {
+	class DMK_API DMKStaticObject : public DMKGameAsset {
 	public:
-		DMKStaticObject() : DMKGameObject(DMKGameObjectType::DMK_GAME_OBJECT_TYPE_STATIC) {}
+		DMKStaticObject() : DMKGameAsset(DMKGameAssetType::DMK_GAME_ASSET_TYPE_STATIC) {}
 		virtual ~DMKStaticObject() {}
 	};
 }

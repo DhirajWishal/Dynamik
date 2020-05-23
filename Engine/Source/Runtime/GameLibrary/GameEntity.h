@@ -20,7 +20,7 @@ namespace Dynamik
 	 * NPC (Non-Player Characters: The objects which the user/ player cannot directly interact/ control with)
 
 	 You can imagine entities as a soul. You are required to control it. These components does not have any
-	 renderable qulities by default but once an DMKGameObject gets assigned to an entity, the qualities of the
+	 renderable qulities by default but once an DMKGameAsset gets assigned to an entity, the qualities of the
 	 entity will be rendered using that asset.
 
 	 Non Player Characters can either be hard coded or powered by the Interllect Engine. Intellect powered

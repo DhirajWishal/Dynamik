@@ -39,46 +39,44 @@ namespace Dynamik
 
 	void DMKEventHandler::addKeyEventComponent(const DMKKeyEventComponent& component)
 	{
-		keyEventComponents.pushBack(component);
+		eventBuffer.keyEventComponents.pushBack(component);
 	}
 
 	void DMKEventHandler::addMouseButtonEventComponent(const DMKMouseButtonEventComponent& component)
 	{
-		mouseButtonEventComponents.pushBack(component);
+		eventBuffer.mouseButtonEventComponents.pushBack(component);
 	}
 
 	void DMKEventHandler::addMouseScrollEventComponent(const DMKMouseScrollEventComponent& component)
 	{
-		mouseScrollEventComponents.pushBack(component);
+		eventBuffer.mouseScrollEventComponents.pushBack(component);
 	}
 
 	void DMKEventHandler::cleanComponents()
 	{
-		keyEventComponents.clear();
-		mouseButtonEventComponents.clear();
-		mouseScrollEventComponents.clear();
+		eventBuffer.keyEventComponents.clear();
+		eventBuffer.mouseButtonEventComponents.clear();
+		eventBuffer.mouseScrollEventComponents.clear();
 	}
 
 	ARRAY<DMKKeyEventComponent> DMKEventHandler::getKeyEvents()
 	{
-		return keyEventComponents;
+		return eventBuffer.keyEventComponents;
 	}
 
 	ARRAY<DMKMouseButtonEventComponent> DMKEventHandler::getMouseButtonEvents()
 	{
-		return mouseButtonEventComponents;
+		return eventBuffer.mouseButtonEventComponents;
 	}
 
 	ARRAY<DMKMouseScrollEventComponent> DMKEventHandler::getMouseScrollEvents()
 	{
-		return mouseScrollEventComponents;
+		return eventBuffer.mouseScrollEventComponents;
 	}
 
 	ARRAY<POINTER<DMKKeyEventListener>> DMKEventHandler::myKeyEventListeners;
 	ARRAY<POINTER<DMKMouseButtonEventListener>> DMKEventHandler::myMouseButtonEventListeners;
 	ARRAY<POINTER<DMKMouseScrollEventListener>> DMKEventHandler::myMouseScrollEventListeners;
 
-	ARRAY<DMKKeyEventComponent> DMKEventHandler::keyEventComponents;
-	ARRAY<DMKMouseButtonEventComponent> DMKEventHandler::mouseButtonEventComponents;
-	ARRAY<DMKMouseScrollEventComponent> DMKEventHandler::mouseScrollEventComponents;
+	DMKEventBuffer DMKEventHandler::eventBuffer;
 }
