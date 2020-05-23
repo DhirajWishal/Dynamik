@@ -8,14 +8,14 @@
  Author:    Dhiraj Wishal
  Date:      17/05/2020
 */
-#include "Object/Descriptor.h"
+
 
 namespace Dynamik
 {
 	/*
 	 This object defines the basic components tied to the Dynamik Material system.
 	*/
-	class DMK_API DMKMaterialDescriptor : public DMKDescriptor {
+	class DMK_API DMKMaterialDescriptor {
 	public:
 		DMKMaterialDescriptor() {}
 		virtual ~DMKMaterialDescriptor() {}

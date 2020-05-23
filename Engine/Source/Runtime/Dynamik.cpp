@@ -19,13 +19,10 @@
 
 namespace Dynamik
 {
-    /* Main singleton implementation */
-    DMK_CLASS_SINGLETON_IMPL(DMKEngine);
-
     /* Default constructor */
     DMKEngine::DMKEngine()
     {
-        DMKClock::start();
+        _clock.start();
 
         DAIObject _myFile("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\Skybox");
         _myFile.load();
@@ -37,27 +34,27 @@ namespace Dynamik
     /* Default destructor */
     DMKEngine::~DMKEngine()
     {
-        DMKWindowManager::terminateAll();
+        _windowManager.terminateAll();
 
-        DMKClock::end();
+        _clock.end();
+    }
+    
+    /* Create the Dynamik Engine  */
+    void DMKEngine::createInstance(DMKEngineInstanceDescriptor descriptor)
+    {
+        DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
+        _windowManager.createWindow(1280, 720, descriptor.applicationName);
+
+        auto _localPath = DMKFileSystem::getExecutablePath();
     }
 
     /* Execute the game code */
     void DMKEngine::execute()
     {
-        while (true) 
+        while (true)
         {
-            DMKWindowManager::pollEvents();
-            DMKWindowManager::clean();
+            _windowManager.pollEvents();
+            _windowManager.clean();
         }
-    }
-    
-    /* Create the Dynamik Engine instance. */
-    void DMKEngine::createInstance()
-    {
-        DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
-        DMKWindowManager::createWindow(1280, 720);
-
-        auto _localPath = DMKFileSystem::getExecutablePath();
     }
 }

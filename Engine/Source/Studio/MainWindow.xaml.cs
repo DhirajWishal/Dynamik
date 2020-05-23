@@ -25,11 +25,9 @@ namespace Studio
     {
         public MainWindow()
         {
-            EngineBindings _binding = new EngineBindings();
-
-            IntPtr _object = _binding.createEngineInstance();
-            _binding.initializeEngineInstance(_object);
-            _binding.exexuteEngineInstance(_object);
+            Engine _engine = new Engine();
+            _engine.initialize();
+            _engine.execute();
 
             InitializeComponent();
         }

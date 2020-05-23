@@ -59,7 +59,9 @@ namespace Dynamik
 			static void _applicationResizeCallback(GLFWwindow* window, I32 width, I32 height);
 
 			static void _windowCloseCallback(GLFWwindow* window);
-		} eventHandler;
+		};
+
+		static InternalEventHandler eventHandler;
 
 		static WindowsWindow instance;
 		static std::mutex _mutex;

@@ -21,12 +21,11 @@ project "Application"
 		"$(SolutionDir)Dependencies/Libraries/Local",
 		"$(SolutionDir)Engine/Source/Runtime/",
 		"$(SolutionDir)Engine/Source/Runtime/Core/",
+		"$(SolutionDir)Engine/Source/Runtime/Core/PCH/",
 		"$(SolutionDir)Engine/Source/Runtime/GameLibraries",
-		"$(SolutionDir)Engine/Source/Runtime/Core/Algorithm",
-		"$(SolutionDir)Engine/Source/Runtime/Core/DataTypes",
-		"$(SolutionDir)Engine/Source/Runtime/Core/Math",
-		"$(SolutionDir)Engine/Source/Runtime/Core/Memory",
-		"$(SolutionDir)Engine/Source/Runtime/Core/System",
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.GLEW}",
+		"%{IncludeDir.assimp}",
 	}
 
 	links {

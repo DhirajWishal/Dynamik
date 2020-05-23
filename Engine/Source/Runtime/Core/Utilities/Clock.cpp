@@ -12,16 +12,14 @@
 
 namespace Dynamik
 {
-	DMK_CLASS_SINGLETON_IMPL(DMKClock);
-
 	void DMKClock::start()
 	{
-		instance.startTime = GET_MICRO_SECONDS(GET_CURRENT_TIME);
+		startTime = GET_MICRO_SECONDS(GET_CURRENT_TIME);
 	}
 
 	void DMKClock::end()
 	{
-		auto duration = GET_MICRO_SECONDS(GET_CURRENT_TIME) - instance.startTime;
+		auto duration = GET_MICRO_SECONDS(GET_CURRENT_TIME) - startTime;
 
 		DMKErrorManager::logDebug(std::to_string(duration / 1000));
 	}
@@ -57,7 +55,7 @@ namespace Dynamik
 	Time DMKClock::get()
 	{
 		Time _time;
-		_time.micros = GET_MICRO_SECONDS(GET_CURRENT_TIME) - instance.startTime;
+		_time.micros = GET_MICRO_SECONDS(GET_CURRENT_TIME) - startTime;
 		_time.millis = _time.micros / 1000;
 		_time.seconds = _time.millis / 1000;
 		_time.minutes = _time.seconds / 60;
@@ -79,7 +77,7 @@ namespace Dynamik
 
 	UI64 DMKClock::tick()
 	{
-		auto _tick = GET_MICRO_SECONDS(GET_CURRENT_TIME) - instance.frameTime;
+		auto _tick = GET_MICRO_SECONDS(GET_CURRENT_TIME) - frameTime;
 		frameTime = GET_MICRO_SECONDS(GET_CURRENT_TIME);
 
 		return _tick;

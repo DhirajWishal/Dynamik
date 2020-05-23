@@ -6,7 +6,7 @@
  Author:    Dhiraj Wishal
  Date:      19/05/2020
 */
-#include "Object/Utility.h"
+
 
 namespace Dynamik
 {
@@ -20,7 +20,7 @@ namespace Dynamik
 	 Thread Command for the Dynamik Engine
 	 Data requests, submitions and synchronizing commands are sent using this object.
 	*/
-	class DMK_API DMKThreadCommand : public DMKUtility {
+	class DMK_API DMKThreadCommand {
 		DMKThreadCommand(DMKThreadCommandType ty) : type(ty) {}
 		virtual ~DMKThreadCommand() {}
 

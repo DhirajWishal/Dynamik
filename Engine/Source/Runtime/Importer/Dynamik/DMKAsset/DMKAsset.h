@@ -6,7 +6,6 @@
  Author:    Dhiraj Wishal
  Date:      20/05/2020
 */
-#include "Object/Resource.h"
 
 namespace Dynamik
 {
@@ -14,7 +13,7 @@ namespace Dynamik
      Dynamik Asset file
 
     */
-    class DMK_API DMKAsset : public DMKResource {
+    class DMK_API DMKAsset {
     public:
 
     };

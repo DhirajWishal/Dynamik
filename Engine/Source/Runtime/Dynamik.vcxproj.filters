@@ -25,9 +25,6 @@
     <Filter Include="Core\Object">
       <UniqueIdentifier>{F461078A-6017-807F-E90B-7A5655C07683}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Object\Components">
-      <UniqueIdentifier>{89A62A13-75A0-5365-5E0D-EA754AA6B9D1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Object\Descriptors">
       <UniqueIdentifier>{3586146D-A1BD-5C04-AAC7-C027167E83FD}</UniqueIdentifier>
     </Filter>
@@ -171,21 +168,6 @@
     <ClInclude Include="Core\Memory\StaticAllocator.h">
       <Filter>Core\Memory</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Object\Component.h">
-      <Filter>Core\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Object\Components\EngineComponent.h">
-      <Filter>Core\Object\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Object\Components\ManagerObject.h">
-      <Filter>Core\Object\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Object\Components\ServerComponent.h">
-      <Filter>Core\Object\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Object\Descriptor.h">
-      <Filter>Core\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Object\Descriptors\GameComponentDesriptors.h">
       <Filter>Core\Object\Descriptors</Filter>
     </ClInclude>
@@ -193,12 +175,6 @@
       <Filter>Core\Object\Descriptors</Filter>
     </ClInclude>
     <ClInclude Include="Core\Object\GameComponent.h">
-      <Filter>Core\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Object\Object.h">
-      <Filter>Core\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Object\Resource.h">
       <Filter>Core\Object</Filter>
     </ClInclude>
     <ClInclude Include="Core\Object\Resource\MeshComponent.h">
@@ -213,7 +189,7 @@
     <ClInclude Include="Core\Object\Resource\TextureComponent.h">
       <Filter>Core\Object\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Object\Utility.h">
+    <ClInclude Include="Core\Object\System.h">
       <Filter>Core\Object</Filter>
     </ClInclude>
     <ClInclude Include="Core\PCH\dmkafx.h">
@@ -235,6 +211,7 @@
       <Filter>Core\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Dynamik.h" />
+    <ClInclude Include="EntryPoint.h" />
     <ClInclude Include="GameLibrary\Attachments\BasicAttachments.h">
       <Filter>GameLibrary\Attachments</Filter>
     </ClInclude>

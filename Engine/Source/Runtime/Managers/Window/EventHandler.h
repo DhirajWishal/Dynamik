@@ -6,11 +6,13 @@
  Author:    Dhiraj Wishal
  Date:      19/05/2020
 */
-#include "Object/Components/ManagerObject.h"
 #include "Event/EventListener.h"
 #include "Event/KeyEventListener.h"
 #include "Event/MouseButtonEventListener.h"
 #include "Event/MouseScrollEventListener.h"
+
+#include "Macros/Global.h"
+#include "Types/Array.h"
 
 namespace Dynamik
 {
@@ -20,7 +22,7 @@ namespace Dynamik
 
 	 Event Handler can have multiple listeners of the same type.
 	*/
-	class DMK_API DMKEventHandler : public DMKManagerObject {
+	class DMK_API DMKEventHandler {
 	public:
 		DMKEventHandler() {}
 		virtual ~DMKEventHandler() {}

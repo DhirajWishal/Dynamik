@@ -9,7 +9,6 @@
  Date:      15/05/2020
 */
 #include "Math/MathTypes.h"
-#include "Object/Descriptor.h"
 
 namespace Dynamik
 {
@@ -81,7 +80,7 @@ namespace Dynamik
 	};
 
 	/* This contains all the vertex buffer attributes */
-	class DMK_API DMKVertexBufferDescriptor : public DMKDescriptor {
+	class DMK_API DMKVertexBufferDescriptor {
 	public:
 		DMKVertexBufferDescriptor() {}
 		~DMKVertexBufferDescriptor() {}
@@ -139,7 +138,7 @@ namespace Dynamik
 	};
 
 	/* Dynamik Uniform Descriptor */
-	class DMK_API DMKUniformBufferDescriptor : public DMKDescriptor {
+	class DMK_API DMKUniformBufferDescriptor {
 	public:
 		DMKUniformBufferDescriptor() {}
 		~DMKUniformBufferDescriptor() {}

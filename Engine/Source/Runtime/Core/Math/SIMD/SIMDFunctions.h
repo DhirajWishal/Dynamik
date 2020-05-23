@@ -6,7 +6,6 @@
  Author:    Dhiraj Wishal
  Date:      16/05/2020
 */
-#include "Object/Object.h"
 #include "SIMD128.h"
 #include "SIMD256.h"
 #include "SIMD512.h"
@@ -17,7 +16,6 @@ namespace Dynamik
 	 This function contains all the available primitive operations for the available SIMD data types.
 	*/
 	class DMK_API SIMDFunctions {
-		DMK_CLASS_FUNCTIONAL(SIMDFunctions)
 	public:
 		/* ---------- 128 bit operations ---------- */
 		/* Arithmetic operations */

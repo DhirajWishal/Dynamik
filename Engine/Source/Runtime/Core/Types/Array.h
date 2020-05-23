@@ -1257,7 +1257,7 @@ namespace Dynamik
 		/* PRIVATE STATIC
 		 * Internal thread execution function.
 		 *
-		 * @param _thread: A n_internalThread instance.
+		 * @param _thread: A n_internalThread 
 		 */
 		 //static void __internalThreadFunction(POINTER<_internalThread> _thread)
 		 //{

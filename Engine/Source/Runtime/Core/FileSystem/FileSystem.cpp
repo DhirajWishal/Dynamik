@@ -11,8 +11,6 @@
 
 namespace Dynamik
 {
-	DMK_CLASS_SINGLETON_IMPL(DMKFileSystem);
-
 	STRING DMKFileSystem::getExecutablePath()
 	{
 		CHR _path[MAX_PATH_SIZE] = { 0 };

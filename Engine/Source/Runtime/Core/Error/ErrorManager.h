@@ -9,7 +9,6 @@
  Date:		15/05/2020
 */
 
-#include "Object/Components/ManagerObject.h"
 #include "../Types/DataTypes.h"
 #include "MessageBox.h"
 
@@ -20,9 +19,8 @@ namespace Dynamik
 	 * Message box.
 	 * Console logging.
 	*/
-	class DMK_API DMKErrorManager : public DMKManagerObject {
-		DMK_CLASS_FUNCTIONAL(DMKErrorManager)
-
+	class DMK_API DMKErrorManager {
+	public:
 		static UserOption issueInfoBox(STRING message);
 		static UserOption issueWarnBox(STRING message);
 		static UserOption issueQuestionBox(STRING message);

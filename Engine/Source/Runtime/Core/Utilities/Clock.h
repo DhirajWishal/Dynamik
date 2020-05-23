@@ -8,8 +8,8 @@
  Author:    Dhiraj Wishal
  Date:      15/05/2020
 */
-
-#include "../Object/Utility.h"
+#include "Macros/Global.h"
+#include "Types/DataTypes.h"
 
 namespace Dynamik
 {
@@ -31,32 +31,30 @@ namespace Dynamik
 
 	/*
 	 This class contains all the time functions required by the Dynamik Engine.
-	 This object is created as a singleton.
 	*/
-	class DMK_API DMKClock : public DMKUtility {
+	class DMK_API DMKClock {
+	public:
 		DMKClock() {}
 		~DMKClock() {}
 
-		DMK_CLASS_SINGLETON(DMKClock)
-	public:
 		/*
 		 Start the clock. Users are not reuired to start the clock explicitly because it is
 		 automatically started by the engine.
 		*/
-		static void start();
+		void start();
 
 		/*
 		 End the clock. Calling this while running the engine will cause a runtime error.
 		 The engine automatically calls this function upon termination.
 		*/
-		static void end();
+		void end();
 
 #if (__cplusplus == 201704L)    /* These features are only available in C++ 20 */
-		static UI64 getCurrentUTC();
-		static UI64 getCurrentTAI();
-		static UI64 getCurrentGPS();
-		static UI64 getCurrentFileTime();
-		static UI64 getCurrentLocal();
+		UI64 getCurrentUTC();
+		UI64 getCurrentTAI();
+		UI64 getCurrentGPS();
+		UI64 getCurrentFileTime();
+		UI64 getCurrentLocal();
 
 #endif
 

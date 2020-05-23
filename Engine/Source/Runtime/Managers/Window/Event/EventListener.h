@@ -6,8 +6,8 @@
  Author:    Dhiraj Wishal
  Date:      19/05/2020
 */
-#include "Object/Utility.h"
 #include "KeyCodes.h"
+#include "Macros/Global.h"
 
 namespace Dynamik
 {
@@ -25,7 +25,7 @@ namespace Dynamik
         - Window Drop Path Event
         - Cursor On Current Event
     */
-    class DMK_API DMKEventListener : public DMKUtility {
+    class DMK_API DMKEventListener {
     public:
         DMKEventListener() {}
         virtual ~DMKEventListener() {}
@@ -53,7 +53,8 @@ namespace Dynamik
      components then later can be accessed by polling events. This event buffer will be cleared at the end of
      each main loop iteration.
     */
-    struct DMK_API DMKEventComponent {
+    class DMK_API DMKEventComponent {
+    public:
         DMKEventComponent(DMKEventComponentCategory cat) : eventCategory(cat) {}
         virtual ~DMKEventComponent() {}
 

@@ -9,8 +9,7 @@
  Author:    Dhiraj Wishal
  Date:      14/05/2020
 */
-
-#include "Object.h"
+#include "Macros/Global.h"
 
 namespace Dynamik
 {
@@ -22,7 +21,7 @@ namespace Dynamik
 		DMK_GAME_COMPONENT_TYPE_ATTACHMENT,
 	};
 
-	class DMK_API DMKGameComponent : public DMKObject {
+	class DMK_API DMKGameComponent {
 	public:
 		DMKGameComponent() {}
 		DMKGameComponent(DMKGameComponentType ty) : type(ty) {}

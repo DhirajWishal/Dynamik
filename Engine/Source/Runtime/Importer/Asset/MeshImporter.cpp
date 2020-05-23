@@ -10,8 +10,6 @@
 
 namespace Dynamik
 {
-	DMK_CLASS_SINGLETON_IMPL(DMKMeshImporter);
-
 	ARRAY<POINTER<DMKMeshComponent>> DMKMeshImporter::loadMesh(const STRING& path, const DMKVertexBufferDescriptor& vertexBufferDescriptor)
 	{
 		static Assimp::Importer _importer;

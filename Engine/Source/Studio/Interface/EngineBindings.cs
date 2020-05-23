@@ -30,7 +30,7 @@ namespace Studio.Interface
             initialize(_object);
         }
 
-        public void exexuteEngineInstance(IntPtr _object)
+        public void executeEngineInstance(IntPtr _object)
         {
             execute(_object);
         }

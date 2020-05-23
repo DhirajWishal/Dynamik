@@ -4,13 +4,11 @@
 
 /*
  Heap memory manager for the Dynamik Engine.
- This is a Singleton structure used to allocate and deallocate memory.
 */
 
 #include "Types/Pointer.h"
 #include "Macros/Global.h"
 #include "Macros/MemoryMacro.h"
-#include "Object/Components/ManagerObject.h"
 
 namespace Dynamik
 {
@@ -34,13 +32,11 @@ namespace Dynamik
 	 * One time allocation (automatically clears the memory)
 	 * Heap pool allocation (double buffered stack allocation)
 	*/
-	class DMK_API DMKMemoryManager : public DMKManagerObject {
+	class DMK_API DMKMemoryManager {
 		DMKMemoryManager() {}
 		~DMKMemoryManager();
-
-		DMK_CLASS_SINGLETON(DMKMemoryManager)
-
-			static void deallocate(POINTER<UI32> address, UI32 byteSize);
+	public:
+		static void deallocate(POINTER<UI32> address, UI32 byteSize);
 
 		static DMKHeapContainer oneTimeAllocate(UI32 byteSize);
 	};

@@ -133,6 +133,8 @@ namespace Dynamik
 	WindowsWindow WindowsWindow::instance;
 	std::mutex WindowsWindow::_mutex;
 
+	WindowsWindow::InternalEventHandler WindowsWindow::eventHandler;
+
 	void WindowsWindow::InternalEventHandler::_keyCallback(GLFWwindow* window, I32 key, I32 scancode, I32 action, I32 mods)
 	{
 		for (auto _listener : myKeyEventListeners)
@@ -144,7 +146,7 @@ namespace Dynamik
 		_component.mods = mods;
 		_component.scanCode = scancode;
 
-		instance.eventHandler.addKeyEventComponent(_component);
+		eventHandler.addKeyEventComponent(_component);
 	}
 
 	void WindowsWindow::InternalEventHandler::_textCallback(GLFWwindow* window, UI32 codepoint)
@@ -165,7 +167,7 @@ namespace Dynamik
 		_component.action = action;
 		_component.mods = mods;
 
-		instance.eventHandler.addMouseButtonEventComponent(_component);
+		eventHandler.addMouseButtonEventComponent(_component);
 	}
 
 	void WindowsWindow::InternalEventHandler::_mouseScrollCallback(GLFWwindow* window, D64 xOffset, D64 yOffset)
@@ -177,7 +179,7 @@ namespace Dynamik
 		_component.xOffset = xOffset;
 		_component.yOffset = yOffset;
 
-		instance.eventHandler.addMouseScrollEventComponent(_component);
+		eventHandler.addMouseScrollEventComponent(_component);
 	}
 
 	void WindowsWindow::InternalEventHandler::_mouseCursorEnterCallback(GLFWwindow* window, I32 entered)

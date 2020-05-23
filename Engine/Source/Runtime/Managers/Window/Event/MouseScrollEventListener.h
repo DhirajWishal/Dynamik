@@ -10,7 +10,8 @@
 
 namespace Dynamik
 {
-    struct DMK_API DMKMouseScrollEventComponent : public DMKEventComponent {
+    class DMK_API DMKMouseScrollEventComponent : public DMKEventComponent {
+    public:
         DMKMouseScrollEventComponent() : DMKEventComponent(DMKEventComponentCategory::DMK_EVENT_COMPONENT_CATEGORY_MOUSE_SCROLL) {}
         ~DMKMouseScrollEventComponent() {}
 

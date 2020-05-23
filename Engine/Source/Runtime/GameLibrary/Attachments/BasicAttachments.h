@@ -8,6 +8,7 @@
 */
 #include "../GameObjectAttachment.h"
 #include "Math/MathTypes.h"
+#include "Types/DataTypes.h"
 
 namespace Dynamik
 {

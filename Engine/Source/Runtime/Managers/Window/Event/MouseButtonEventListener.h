@@ -10,7 +10,7 @@
 
 namespace Dynamik
 {
-    struct DMKMouseButtonEventComponent : public DMKEventComponent {
+    class DMKMouseButtonEventComponent : public DMKEventComponent {
     public:
         DMKMouseButtonEventComponent() : DMKEventComponent(DMKEventComponentCategory::DMK_EVENT_COMPONENT_CATEGORY_MOUSE_BUTTON){}
         ~DMKMouseButtonEventComponent() {}

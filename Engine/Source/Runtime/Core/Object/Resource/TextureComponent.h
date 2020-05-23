@@ -15,7 +15,6 @@
  Date:      15/05/2020
 */
 
-#include "../Resource.h"
 #include "Types/Pointer.h"
 
 namespace Dynamik
@@ -33,7 +32,7 @@ namespace Dynamik
 	/*
 	 Dynamik Texture Component for the Dynamik Engine.
 	*/
-	class DMK_API DMKTextureComponent : public DMKResource {
+	class DMK_API DMKTextureComponent {
 	public:
 		DMKTextureComponent(DMKTextureType ty) : type(ty) {}
 		virtual ~DMKTextureComponent() {}

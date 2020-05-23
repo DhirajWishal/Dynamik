@@ -10,6 +10,7 @@
 */
 
 #include "Object/GameComponent.h"
+#include "Types/Pointer.h"
 
 namespace Dynamik
 {

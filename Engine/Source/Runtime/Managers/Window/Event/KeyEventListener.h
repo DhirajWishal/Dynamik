@@ -7,10 +7,12 @@
  Date:      19/05/2020
 */
 #include "EventListener.h"
+#include "Types/DataTypes.h"
 
 namespace Dynamik
 {
-    struct DMK_API DMKKeyEventComponent : public DMKEventComponent {
+    class DMK_API DMKKeyEventComponent : public DMKEventComponent {
+    public:
         DMKKeyEventComponent() : DMKEventComponent(DMKEventComponentCategory::DMK_EVENT_COMPONENT_CATEGORY_KEY) {}
         ~DMKKeyEventComponent() {}
 

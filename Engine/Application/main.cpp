@@ -10,6 +10,7 @@
 #include <iostream>
 #include <vector>
 #include "Dynamik.h"
+using namespace Dynamik;
 
 #include "Math/Vector3D.h"
 #include "Math/Vector4D.h"
@@ -29,7 +30,9 @@ __declspec(align(8)) struct test {
 };
 
 int main() {
-	Dynamik::DMKEngine::createInstance();
+	Dynamik::DMKEngine _engine;
+	_engine.createInstance(Dynamik::DMKEngineInstanceDescriptor());
+	_engine.execute();
 
 	Dynamik::Vector4F _v1 = { 0.0, 1.25, 2.0, 5.0 };
 	Dynamik::Vector4F _v2 = { 0.0, 0, 0, 1 };

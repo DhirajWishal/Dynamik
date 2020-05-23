@@ -12,7 +12,7 @@
  Date:      15/05/2020
 */
 
-#include "../Resource.h"
+
 #include "Primitives.h"
 
 namespace Dynamik
@@ -33,7 +33,7 @@ namespace Dynamik
 	 * Static mesh.
 	 * Animated mesh.
 	*/
-	class DMK_API DMKMeshComponent : public DMKResource {
+	class DMK_API DMKMeshComponent {
 	public:
 		DMKMeshComponent() {}
 		DMKMeshComponent(DMKMeshComponentType ty) : type(ty) {}

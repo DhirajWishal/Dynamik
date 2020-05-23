@@ -11,6 +11,8 @@
 
 #include "Core/Object/GameComponent.h"
 #include "SceneComponent.h"
+#include "Macros/Global.h"
+#include "Types/Array.h"
 
 namespace Dynamik
 {
@@ -23,7 +25,7 @@ namespace Dynamik
 	/*
 	 Dynamik Level Component act as a level for the Dynamik Engine.
 	 All the scenes are loaded and presented as a level to the engine. Multiple levels can be loaded to the
-	 memory at a given instance.
+	 memory at a given 
 	 Levels are of two types:
 	 * Internal (All of its data are defined in source files)
 	 * External (All of its data are stored in external files (.fbx, .dae, etc...)

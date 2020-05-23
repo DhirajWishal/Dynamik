@@ -6,7 +6,6 @@
  Author:    Dhiraj Wishal
  Date:      16/05/2020
 */
-#include "Object/Utility.h"
 
 namespace Dynamik
 {

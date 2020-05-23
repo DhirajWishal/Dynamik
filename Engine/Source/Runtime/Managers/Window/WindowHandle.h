@@ -7,7 +7,8 @@
  Date:      19/05/2020
 */
 #include "EventHandler.h"
-#include "Object/Component.h"
+#include "Types/DataTypes.h"
+#include "Types/Array.h"
 
 namespace Dynamik
 {
@@ -34,7 +35,7 @@ namespace Dynamik
 	 rendering context. Rendering contexts can have multiple viewports from one or from different window
 	 handles.
 	*/
-	class DMK_API DMKWindowHandle : public DMKComponent {
+	class DMK_API DMKWindowHandle {
 	public:
 		DMKWindowHandle() {}
 		DMKWindowHandle(const STRING& title, const I32& width, const I32 height)

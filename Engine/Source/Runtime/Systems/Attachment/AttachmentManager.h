@@ -6,7 +6,6 @@
  Author:    Dhiraj Wishal
  Date:      20/05/2020
 */
-#include "Object/Components/ManagerObject.h"
 #include "GameLibrary/GameObjectAttachment.h"
 
 namespace Dynamik
@@ -23,7 +22,7 @@ namespace Dynamik
      This system is closely related to ECS (Entity Component System) but one of the core features of this is that
      components could have functionalities.
     */
-    class DMK_API DMKAttachmentManager : public DMKManagerObject {
+    class DMK_API DMKAttachmentManager {
     public:
         DMKAttachmentManager();
         ~DMKAttachmentManager();

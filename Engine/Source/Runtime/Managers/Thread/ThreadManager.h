@@ -6,7 +6,6 @@
  Author:    Dhiraj Wishal
  Date:      15/05/2020
 */
-#include "Object/Components/ManagerObject.h"
 
 namespace Dynamik
 {
@@ -48,11 +47,12 @@ namespace Dynamik
 
      Thread synchronization is done on the top of every parent thread loop.
     */
-    class DMK_API DMKThreadManager : public DMKManagerObject {
-        DMK_CLASS_SINGLETON(DMKThreadManager)
-
+    class DMK_API DMKThreadManager {
     public:
+        DMKThreadManager() {}
+        ~DMKThreadManager() {}
 
+        UI32 getUseableThreadCount();
     };
 }
 

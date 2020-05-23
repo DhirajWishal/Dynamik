@@ -6,7 +6,6 @@
  Author:    Dhiraj Wishal
  Date:      20/05/2020
 */
-#include "Object/Resource.h"
 #include "GameLibrary/GameObject.h"
 #include <fstream>
 
@@ -33,7 +32,7 @@ namespace Dynamik
      * All the elements (M, I, V, T, G, F, >) must be in the start of each line (at index 0)
      * All the element data must be stored one space away from the element (V model.fbx)
     */
-    class DMK_API DAIObject : public DMKResource {
+    class DMK_API DAIObject {
     public:
         DAIObject() {}
         DAIObject(const STRING& path) : myPath(path) {}

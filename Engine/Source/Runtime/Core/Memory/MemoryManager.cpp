@@ -5,9 +5,6 @@
 
 namespace Dynamik
 {
-	/* Static instance of the singleton */
-	DMKMemoryManager DMKMemoryManager::instance;
-
 	/* Destructor */
 	DMKMemoryManager::~DMKMemoryManager()
 	{

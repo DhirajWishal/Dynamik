@@ -73,7 +73,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;GLEW_STATIC;GRAPHICS_API;DMK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -169,21 +169,14 @@
     <ClInclude Include="Core\Memory\MemoryManager.h" />
     <ClInclude Include="Core\Memory\MemoryPadding.h" />
     <ClInclude Include="Core\Memory\StaticAllocator.h" />
-    <ClInclude Include="Core\Object\Component.h" />
-    <ClInclude Include="Core\Object\Components\EngineComponent.h" />
-    <ClInclude Include="Core\Object\Components\ManagerObject.h" />
-    <ClInclude Include="Core\Object\Components\ServerComponent.h" />
-    <ClInclude Include="Core\Object\Descriptor.h" />
     <ClInclude Include="Core\Object\Descriptors\GameComponentDesriptors.h" />
     <ClInclude Include="Core\Object\Descriptors\MaterialDescriptor.h" />
     <ClInclude Include="Core\Object\GameComponent.h" />
-    <ClInclude Include="Core\Object\Object.h" />
-    <ClInclude Include="Core\Object\Resource.h" />
     <ClInclude Include="Core\Object\Resource\MeshComponent.h" />
     <ClInclude Include="Core\Object\Resource\MeshComponents\StaticMeshComponent.h" />
     <ClInclude Include="Core\Object\Resource\Primitives.h" />
     <ClInclude Include="Core\Object\Resource\TextureComponent.h" />
-    <ClInclude Include="Core\Object\Utility.h" />
+    <ClInclude Include="Core\Object\System.h" />
     <ClInclude Include="Core\PCH\dmkafx.h" />
     <ClInclude Include="Core\Types\Array.h" />
     <ClInclude Include="Core\Types\DataTypes.h" />
@@ -191,6 +184,7 @@
     <ClInclude Include="Core\Types\TypeTraits.h" />
     <ClInclude Include="Core\Utilities\Clock.h" />
     <ClInclude Include="Dynamik.h" />
+    <ClInclude Include="EntryPoint.h" />
     <ClInclude Include="GameLibrary\Attachments\BasicAttachments.h" />
     <ClInclude Include="GameLibrary\GameEntity.h" />
     <ClInclude Include="GameLibrary\GameObject.h" />

@@ -3,18 +3,11 @@
 Dynamik Engine is a community driven game engine currently at its basic stages. This engine is primarily
 designed for 3D FPS games.
 
-The Dynamik Engine is a library which consists a list of independent/ partially independent APIs and Tools which
-the user can use to develop their software with. 
-
-The engine is intended to be compiled to a static link library and will support multiple platforms. File structures
-are yet to be designed.
-
-The Studio is an application which uses the Dynamik Engine library extensively. It is a cross-platform tool
-which can be used to edit and/ or create objects/ scenes/ levels scripts, etc...
-
-The engine is a standalone component which handles all the provided resources by itself. The client provides the 
-engine with the appropriate data using the DMKGameComponent as its base class. Game logic is also given to the engine
-this exact way.
+Dynamik Engine is a set of systems working together to create one unified system. These systems, along with the 
+game component system are manages, controlled and manupulated by two major components. These are the Engine 
+Component and the Studio Component. Engine Component is the fastest of all which is used for game runtime and the
+Studio Component is the Dynamik Studio where users can edit and control assets and different components of the
+engine.
 
 Further improvements are yet to be made.
 

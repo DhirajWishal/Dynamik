@@ -6,7 +6,6 @@
  Author:    Dhiraj Wishal
  Date:      20/05/2020
 */
-#include "Object/Utility.h"
 #include "Object/Resource/MeshComponent.h"
 
 namespace Dynamik 
@@ -16,11 +15,9 @@ namespace Dynamik
      This importer is used to import meshes (including animated meshes) to the Dynamik Engine.
      For now we are using the library Assimp.
     */
-    class DMK_API DMKMeshImporter : public DMKUtility {
+    class DMK_API DMKMeshImporter {
         DMKMeshImporter() {}
         ~DMKMeshImporter() {}
-
-        DMK_CLASS_SINGLETON(DMKMeshImporter)
     public:
         /* Load a mesh component */
         static ARRAY<POINTER<DMKMeshComponent>> loadMesh(const STRING& path, const DMKVertexBufferDescriptor& vertexBufferDescriptor);
