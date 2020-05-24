@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Runtime">
+      <UniqueIdentifier>{4995DAC4-B574-5960-BE8C-E4362AEBBFC1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Core">
+      <UniqueIdentifier>{416F811B-2DD2-10C0-D657-4976C299DC42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Core\Error">
+      <UniqueIdentifier>{3AA3E576-2687-A6CC-8FE7-A01F7BEA904E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Core\FileSystem">
+      <UniqueIdentifier>{B5A6066F-21DE-4E06-2AE8-B229969E75FF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Core\Macros">
+      <UniqueIdentifier>{15820765-81E3-E472-0A51-2B2576B11B32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Core\Math">
+      <UniqueIdentifier>{BA84DCFB-269B-DA91-6F12-66B3DB67AB19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Core\Math\SIMD">
+      <UniqueIdentifier>{D6CCAF63-C2C6-D8B5-AB33-6FC697CC3E22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Core\Memory">
+      <UniqueIdentifier>{89535565-F5B4-3273-7E22-7925EA826932}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Core\Object">
+      <UniqueIdentifier>{A789C769-13EB-A477-9C58-EB2908B9DB36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Core\Object\Descriptors">
+      <UniqueIdentifier>{68D2BAE6-D4B5-C926-DDB8-F762491B9077}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Core\Object\Resource">
+      <UniqueIdentifier>{9E373B27-8AF2-2AD3-33AA-A31D1F447563}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Core\Object\Resource\MeshComponents">
+      <UniqueIdentifier>{C026DD1E-2C8C-70A5-B564-127E21C96514}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Core\PCH">
+      <UniqueIdentifier>{CB4A54D1-B743-7323-E075-58A8CCCD522F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Core\Types">
+      <UniqueIdentifier>{A5DFF877-91C3-B9CD-FA23-B420E626A44F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Core\Utilities">
+      <UniqueIdentifier>{EC58364F-D852-5FA1-C1BF-F5B1AD58C50D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\GameLibrary">
+      <UniqueIdentifier>{07903BF5-73F1-1803-FC5E-5FB568BF4FC2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\GameLibrary\Attachments">
+      <UniqueIdentifier>{12524F01-7E35-5E41-8738-8C7DF39A2492}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\GameLibrary\GameObjects">
+      <UniqueIdentifier>{7ADD9044-E6C0-9F84-EFC3-CDC05B2666D5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\GameLibrary\Mechanics">
+      <UniqueIdentifier>{618A4782-CDA2-2EAC-964F-BE450227C345}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Importer">
+      <UniqueIdentifier>{6ACD1ABD-56C6-390F-7FF8-1E946B50191B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Importer\Asset">
+      <UniqueIdentifier>{7969595D-6563-82AF-4ED0-18C03A69E81B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Importer\Dynamik">
+      <UniqueIdentifier>{E699EA0D-D2BE-398E-FB09-1F1EE78D38AC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Importer\Dynamik\DAI">
+      <UniqueIdentifier>{A30CECD3-8FC7-DB7F-387F-54CA24192610}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Importer\Dynamik\DMKAsset">
+      <UniqueIdentifier>{D1D3CA46-3D42-20C6-862B-DBC5F2D81562}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Managers">
+      <UniqueIdentifier>{4659B9CC-3252-D81E-5B84-BDA347DCB72A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Managers\GameComponent">
+      <UniqueIdentifier>{E2562B29-CE7C-F58F-B7C2-7A5BA3871A5C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Managers\Thread">
+      <UniqueIdentifier>{ED1C188D-5954-6024-625E-C447CE14871D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Managers\Window">
+      <UniqueIdentifier>{6D7B2794-D9B2-6F2B-E2BC-D34E4E739624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Managers\Window\Event">
+      <UniqueIdentifier>{7E1AE949-EA32-D073-B3DF-5F0D1FB7640D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Managers\Window\Windows">
+      <UniqueIdentifier>{A7427CB4-1326-8BF4-1C29-B930888B5145}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Renderer">
+      <UniqueIdentifier>{0FDB209E-FBD3-3FF0-2406-2575105E1FFC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Renderer\Backend">
+      <UniqueIdentifier>{C6803028-B2A5-7FA8-DBF0-6438C7747EC6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Renderer\Backend\Components">
+      <UniqueIdentifier>{1B9E4792-8757-B23C-10B7-CC167C6F68AC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Renderer\Backend\Vulkan">
+      <UniqueIdentifier>{86339AAA-F216-A9EA-FB19-D726677C6F3B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Systems">
+      <UniqueIdentifier>{5024F61B-BCAF-63E0-C5C0-E6D431CBBFE0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Systems\Attachment">
+      <UniqueIdentifier>{68CEA7ED-54DE-53BE-BD97-B8DCA9C64257}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Studio">
+      <UniqueIdentifier>{1D2BF0D1-09CD-1AA8-F287-2EFCDEC8A1F8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Studio\GUI">
+      <UniqueIdentifier>{B1703556-9D28-77A3-0630-50FFF2061294}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Studio\GUI\GUIComponents">
+      <UniqueIdentifier>{ABD8E7C0-97FD-3641-C048-1CD1ACCC355F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Studio\GUI\GUICore">
+      <UniqueIdentifier>{6E9FC23B-5A83-8391-C3E3-7DE4AFE66D13}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Runtime\Core\Error\ErrorDefines.h">
+      <Filter>Runtime\Core\Error</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Error\ErrorManager.h">
+      <Filter>Runtime\Core\Error</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Error\MessageBox.h">
+      <Filter>Runtime\Core\Error</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\FileSystem\FileSystem.h">
+      <Filter>Runtime\Core\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Macros\Assert.h">
+      <Filter>Runtime\Core\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Macros\Global.h">
+      <Filter>Runtime\Core\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Macros\MemoryMacro.h">
+      <Filter>Runtime\Core\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\MathFunctions.h">
+      <Filter>Runtime\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\MathTypes.h">
+      <Filter>Runtime\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\Matrix.h">
+      <Filter>Runtime\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\Matrix4F.h">
+      <Filter>Runtime\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\SIMD\Base.h">
+      <Filter>Runtime\Core\Math\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\SIMD\SIMD128.h">
+      <Filter>Runtime\Core\Math\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\SIMD\SIMD256.h">
+      <Filter>Runtime\Core\Math\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\SIMD\SIMD512.h">
+      <Filter>Runtime\Core\Math\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\SIMD\SIMDFunctions.h">
+      <Filter>Runtime\Core\Math\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\Vector.h">
+      <Filter>Runtime\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\Vector3D.h">
+      <Filter>Runtime\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\Vector3F.h">
+      <Filter>Runtime\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\Vector4D.h">
+      <Filter>Runtime\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\Vector4F.h">
+      <Filter>Runtime\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Memory\LocalHeap.h">
+      <Filter>Runtime\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Memory\MemoryFunctions.h">
+      <Filter>Runtime\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Memory\MemoryManager.h">
+      <Filter>Runtime\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Memory\MemoryPadding.h">
+      <Filter>Runtime\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Memory\StaticAllocator.h">
+      <Filter>Runtime\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Object\Descriptors\GameComponentDesriptors.h">
+      <Filter>Runtime\Core\Object\Descriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Object\Descriptors\MaterialDescriptor.h">
+      <Filter>Runtime\Core\Object\Descriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Object\GameComponent.h">
+      <Filter>Runtime\Core\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Object\Resource\MeshComponent.h">
+      <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Object\Resource\MeshComponents\StaticMeshComponent.h">
+      <Filter>Runtime\Core\Object\Resource\MeshComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Object\Resource\Primitives.h">
+      <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Object\Resource\TextureComponent.h">
+      <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Object\System.h">
+      <Filter>Runtime\Core\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\PCH\dmkafx.h">
+      <Filter>Runtime\Core\PCH</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Types\Array.h">
+      <Filter>Runtime\Core\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Types\DataTypes.h">
+      <Filter>Runtime\Core\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Types\Pointer.h">
+      <Filter>Runtime\Core\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Types\TypeTraits.h">
+      <Filter>Runtime\Core\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Utilities\Clock.h">
+      <Filter>Runtime\Core\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Dynamik.h">
+      <Filter>Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\EntryPoint.h">
+      <Filter>Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\GameLibrary\Attachments\BasicAttachments.h">
+      <Filter>Runtime\GameLibrary\Attachments</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\GameLibrary\GameAsset.h">
+      <Filter>Runtime\GameLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\GameLibrary\GameEntity.h">
+      <Filter>Runtime\GameLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\GameLibrary\GameMechanics.h">
+      <Filter>Runtime\GameLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\GameLibrary\GameObjectAttachment.h">
+      <Filter>Runtime\GameLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\GameLibrary\GameObjects\StaticObject.h">
+      <Filter>Runtime\GameLibrary\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\GameLibrary\LevelComponent.h">
+      <Filter>Runtime\GameLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\GameLibrary\Mechanics\PlayerController.h">
+      <Filter>Runtime\GameLibrary\Mechanics</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\GameLibrary\SceneComponent.h">
+      <Filter>Runtime\GameLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Importer\Asset\MeshImporter.h">
+      <Filter>Runtime\Importer\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Importer\Dynamik\DAI\DAIObject.h">
+      <Filter>Runtime\Importer\Dynamik\DAI</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Importer\Dynamik\DMKAsset\DMKAsset.h">
+      <Filter>Runtime\Importer\Dynamik\DMKAsset</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Managers\GameComponent\GameComponentManager.h">
+      <Filter>Runtime\Managers\GameComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Managers\Thread\Thread.h">
+      <Filter>Runtime\Managers\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Managers\Thread\ThreadCommand.h">
+      <Filter>Runtime\Managers\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Managers\Thread\ThreadManager.h">
+      <Filter>Runtime\Managers\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Managers\Window\Event\EventListener.h">
+      <Filter>Runtime\Managers\Window\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Managers\Window\Event\KeyCodes.h">
+      <Filter>Runtime\Managers\Window\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Managers\Window\Event\KeyEventListener.h">
+      <Filter>Runtime\Managers\Window\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Managers\Window\Event\MouseButtonEventListener.h">
+      <Filter>Runtime\Managers\Window\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Managers\Window\Event\MouseScrollEventListener.h">
+      <Filter>Runtime\Managers\Window\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Managers\Window\EventHandler.h">
+      <Filter>Runtime\Managers\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Managers\Window\WindowHandle.h">
+      <Filter>Runtime\Managers\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Managers\Window\WindowManager.h">
+      <Filter>Runtime\Managers\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Managers\Window\Windows\WindowsWindow.h">
+      <Filter>Runtime\Managers\Window\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Renderer\Backend\Components\RenderAsset.h">
+      <Filter>Runtime\Renderer\Backend\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Renderer\Backend\RendererBackendLayer.h">
+      <Filter>Runtime\Renderer\Backend</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\VulkanRBL.h">
+      <Filter>Runtime\Renderer\Backend\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Renderer\Renderer.h">
+      <Filter>Runtime\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Systems\Attachment\AttachmentManager.h">
+      <Filter>Runtime\Systems\Attachment</Filter>
+    </ClInclude>
+    <ClInclude Include="Studio\GUI\GUIComponents\Widget.h">
+      <Filter>Studio\GUI\GUIComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Studio\GUI\GUICore\GUICore.h">
+      <Filter>Studio\GUI\GUICore</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Runtime\Core\Error\ErrorManager.cpp">
+      <Filter>Runtime\Core\Error</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Error\MessageBox.cpp">
+      <Filter>Runtime\Core\Error</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\FileSystem\FileSystem.cpp">
+      <Filter>Runtime\Core\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Math\MathFunctions.cpp">
+      <Filter>Runtime\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Math\Matrix4F.cpp">
+      <Filter>Runtime\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Math\SIMD\SIMD128.cpp">
+      <Filter>Runtime\Core\Math\SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Math\SIMD\SIMD256.cpp">
+      <Filter>Runtime\Core\Math\SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Math\SIMD\SIMD512.cpp">
+      <Filter>Runtime\Core\Math\SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Math\SIMD\SIMDFunctions.cpp">
+      <Filter>Runtime\Core\Math\SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Math\Vector3D.cpp">
+      <Filter>Runtime\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Math\Vector3F.cpp">
+      <Filter>Runtime\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Math\Vector4D.cpp">
+      <Filter>Runtime\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Math\Vector4F.cpp">
+      <Filter>Runtime\Core\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Memory\LocalHeap.cpp">
+      <Filter>Runtime\Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Memory\MemoryFunctions.cpp">
+      <Filter>Runtime\Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Memory\MemoryManager.cpp">
+      <Filter>Runtime\Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Object\Resource\MeshComponent.cpp">
+      <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Object\Resource\MeshComponents\StaticMeshComponent.cpp">
+      <Filter>Runtime\Core\Object\Resource\MeshComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Object\Resource\Primitives.cpp">
+      <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Object\Resource\TextureComponent.cpp">
+      <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\PCH\dmkafx.cpp">
+      <Filter>Runtime\Core\PCH</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Utilities\Clock.cpp">
+      <Filter>Runtime\Core\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Dynamik.cpp">
+      <Filter>Runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\GameLibrary\Mechanics\PlayerController.cpp">
+      <Filter>Runtime\GameLibrary\Mechanics</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Importer\Asset\MeshImporter.cpp">
+      <Filter>Runtime\Importer\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Importer\Dynamik\DAI\DAIObject.cpp">
+      <Filter>Runtime\Importer\Dynamik\DAI</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Importer\Dynamik\DMKAsset\DMKAsset.cpp">
+      <Filter>Runtime\Importer\Dynamik\DMKAsset</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Managers\GameComponent\GameComponentManager.cpp">
+      <Filter>Runtime\Managers\GameComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Managers\Thread\ThreadManager.cpp">
+      <Filter>Runtime\Managers\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Managers\Window\Event\KeyEventListener.cpp">
+      <Filter>Runtime\Managers\Window\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Managers\Window\Event\MouseButtonEventListener.cpp">
+      <Filter>Runtime\Managers\Window\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Managers\Window\Event\MouseScrollEventListener.cpp">
+      <Filter>Runtime\Managers\Window\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Managers\Window\EventHandler.cpp">
+      <Filter>Runtime\Managers\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Managers\Window\WindowHandle.cpp">
+      <Filter>Runtime\Managers\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Managers\Window\WindowManager.cpp">
+      <Filter>Runtime\Managers\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Managers\Window\Windows\WindowsWindow.cpp">
+      <Filter>Runtime\Managers\Window\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\VulkanRBL.cpp">
+      <Filter>Runtime\Renderer\Backend\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Renderer\Renderer.cpp">
+      <Filter>Runtime\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Systems\Attachment\AttachmentManager.cpp">
+      <Filter>Runtime\Systems\Attachment</Filter>
+    </ClCompile>
+    <ClCompile Include="Studio\GUI\GUICore\GUICore.cpp">
+      <Filter>Studio\GUI\GUICore</Filter>
+    </ClCompile>
+    <ClCompile Include="Studio\main.cpp">
+      <Filter>Studio</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Dynamik.lua" />
+  </ItemGroup>
+</Project>

@@ -1,47 +1,111 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Developer", "Developer", "{D226B84F-3EB2-2514-47C3-A808B3CD8114}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StudioInterface", "Engine\Source\Developer\StudioInterface\StudioInterface.vcxproj", "{8EBE8DCC-FA49-FB90-035B-7E856F655791}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{8249BEE1-6EAC-4D86-1732-863C03741909}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Application", "Engine\Application\Application.vcxproj", "{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dynamik", "Engine\Source\Runtime\Dynamik.vcxproj", "{928A7598-FE69-F433-0782-7F0A73E05A95}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dynamik", "Engine\Source\Dynamik.vcxproj", "{928A7598-FE69-F433-0782-7F0A73E05A95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Distribution|x64 = Distribution|x64
-		Release|x64 = Release|x64
+		Debug Engine|Mac = Debug Engine|Mac
+		Debug Engine|Unix = Debug Engine|Unix
+		Debug Engine|Windows = Debug Engine|Windows
+		Debug Studio|Mac = Debug Studio|Mac
+		Debug Studio|Unix = Debug Studio|Unix
+		Debug Studio|Windows = Debug Studio|Windows
+		Distribution Engine|Mac = Distribution Engine|Mac
+		Distribution Engine|Unix = Distribution Engine|Unix
+		Distribution Engine|Windows = Distribution Engine|Windows
+		Distribution Studio|Mac = Distribution Studio|Mac
+		Distribution Studio|Unix = Distribution Studio|Unix
+		Distribution Studio|Windows = Distribution Studio|Windows
+		Release Engine|Mac = Release Engine|Mac
+		Release Engine|Unix = Release Engine|Unix
+		Release Engine|Windows = Release Engine|Windows
+		Release Studio|Mac = Release Studio|Mac
+		Release Studio|Unix = Release Studio|Unix
+		Release Studio|Windows = Release Studio|Windows
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8EBE8DCC-FA49-FB90-035B-7E856F655791}.Debug|x64.ActiveCfg = Debug|x64
-		{8EBE8DCC-FA49-FB90-035B-7E856F655791}.Debug|x64.Build.0 = Debug|x64
-		{8EBE8DCC-FA49-FB90-035B-7E856F655791}.Distribution|x64.ActiveCfg = Distribution|x64
-		{8EBE8DCC-FA49-FB90-035B-7E856F655791}.Distribution|x64.Build.0 = Distribution|x64
-		{8EBE8DCC-FA49-FB90-035B-7E856F655791}.Release|x64.ActiveCfg = Release|x64
-		{8EBE8DCC-FA49-FB90-035B-7E856F655791}.Release|x64.Build.0 = Release|x64
-		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Debug|x64.ActiveCfg = Debug|x64
-		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Debug|x64.Build.0 = Debug|x64
-		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Distribution|x64.ActiveCfg = Distribution|x64
-		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Distribution|x64.Build.0 = Distribution|x64
-		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Release|x64.ActiveCfg = Release|x64
-		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Release|x64.Build.0 = Release|x64
-		{928A7598-FE69-F433-0782-7F0A73E05A95}.Debug|x64.ActiveCfg = Debug|x64
-		{928A7598-FE69-F433-0782-7F0A73E05A95}.Debug|x64.Build.0 = Debug|x64
-		{928A7598-FE69-F433-0782-7F0A73E05A95}.Distribution|x64.ActiveCfg = Distribution|x64
-		{928A7598-FE69-F433-0782-7F0A73E05A95}.Distribution|x64.Build.0 = Distribution|x64
-		{928A7598-FE69-F433-0782-7F0A73E05A95}.Release|x64.ActiveCfg = Release|x64
-		{928A7598-FE69-F433-0782-7F0A73E05A95}.Release|x64.Build.0 = Release|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Debug Engine|Mac.ActiveCfg = Debug Engine Mac|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Debug Engine|Mac.Build.0 = Debug Engine Mac|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Debug Engine|Unix.ActiveCfg = Debug Engine Unix|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Debug Engine|Unix.Build.0 = Debug Engine Unix|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Debug Engine|Windows.ActiveCfg = Debug Engine Windows|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Debug Engine|Windows.Build.0 = Debug Engine Windows|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Debug Studio|Mac.ActiveCfg = Debug Studio Mac|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Debug Studio|Mac.Build.0 = Debug Studio Mac|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Debug Studio|Unix.ActiveCfg = Debug Studio Unix|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Debug Studio|Unix.Build.0 = Debug Studio Unix|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Debug Studio|Windows.ActiveCfg = Debug Studio Windows|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Debug Studio|Windows.Build.0 = Debug Studio Windows|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Distribution Engine|Mac.ActiveCfg = Distribution Engine Mac|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Distribution Engine|Mac.Build.0 = Distribution Engine Mac|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Distribution Engine|Unix.ActiveCfg = Distribution Engine Unix|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Distribution Engine|Unix.Build.0 = Distribution Engine Unix|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Distribution Engine|Windows.ActiveCfg = Distribution Engine Windows|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Distribution Engine|Windows.Build.0 = Distribution Engine Windows|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Distribution Studio|Mac.ActiveCfg = Distribution Studio Mac|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Distribution Studio|Mac.Build.0 = Distribution Studio Mac|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Distribution Studio|Unix.ActiveCfg = Distribution Studio Unix|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Distribution Studio|Unix.Build.0 = Distribution Studio Unix|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Distribution Studio|Windows.ActiveCfg = Distribution Studio Windows|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Distribution Studio|Windows.Build.0 = Distribution Studio Windows|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Release Engine|Mac.ActiveCfg = Release Engine Mac|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Release Engine|Mac.Build.0 = Release Engine Mac|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Release Engine|Unix.ActiveCfg = Release Engine Unix|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Release Engine|Unix.Build.0 = Release Engine Unix|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Release Engine|Windows.ActiveCfg = Release Engine Windows|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Release Engine|Windows.Build.0 = Release Engine Windows|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Release Studio|Mac.ActiveCfg = Release Studio Mac|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Release Studio|Mac.Build.0 = Release Studio Mac|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Release Studio|Unix.ActiveCfg = Release Studio Unix|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Release Studio|Unix.Build.0 = Release Studio Unix|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Release Studio|Windows.ActiveCfg = Release Studio Windows|x64
+		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8}.Release Studio|Windows.Build.0 = Release Studio Windows|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Debug Engine|Mac.ActiveCfg = Debug Engine Mac|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Debug Engine|Mac.Build.0 = Debug Engine Mac|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Debug Engine|Unix.ActiveCfg = Debug Engine Unix|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Debug Engine|Unix.Build.0 = Debug Engine Unix|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Debug Engine|Windows.ActiveCfg = Debug Engine Windows|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Debug Engine|Windows.Build.0 = Debug Engine Windows|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Debug Studio|Mac.ActiveCfg = Debug Studio Mac|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Debug Studio|Mac.Build.0 = Debug Studio Mac|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Debug Studio|Unix.ActiveCfg = Debug Studio Unix|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Debug Studio|Unix.Build.0 = Debug Studio Unix|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Debug Studio|Windows.ActiveCfg = Debug Studio Windows|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Debug Studio|Windows.Build.0 = Debug Studio Windows|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Distribution Engine|Mac.ActiveCfg = Distribution Engine Mac|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Distribution Engine|Mac.Build.0 = Distribution Engine Mac|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Distribution Engine|Unix.ActiveCfg = Distribution Engine Unix|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Distribution Engine|Unix.Build.0 = Distribution Engine Unix|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Distribution Engine|Windows.ActiveCfg = Distribution Engine Windows|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Distribution Engine|Windows.Build.0 = Distribution Engine Windows|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Distribution Studio|Mac.ActiveCfg = Distribution Studio Mac|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Distribution Studio|Mac.Build.0 = Distribution Studio Mac|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Distribution Studio|Unix.ActiveCfg = Distribution Studio Unix|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Distribution Studio|Unix.Build.0 = Distribution Studio Unix|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Distribution Studio|Windows.ActiveCfg = Distribution Studio Windows|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Distribution Studio|Windows.Build.0 = Distribution Studio Windows|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Release Engine|Mac.ActiveCfg = Release Engine Mac|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Release Engine|Mac.Build.0 = Release Engine Mac|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Release Engine|Unix.ActiveCfg = Release Engine Unix|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Release Engine|Unix.Build.0 = Release Engine Unix|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Release Engine|Windows.ActiveCfg = Release Engine Windows|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Release Engine|Windows.Build.0 = Release Engine Windows|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Release Studio|Mac.ActiveCfg = Release Studio Mac|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Release Studio|Mac.Build.0 = Release Studio Mac|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Release Studio|Unix.ActiveCfg = Release Studio Unix|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Release Studio|Unix.Build.0 = Release Studio Unix|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Release Studio|Windows.ActiveCfg = Release Studio Windows|x64
+		{928A7598-FE69-F433-0782-7F0A73E05A95}.Release Studio|Windows.Build.0 = Release Studio Windows|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{8EBE8DCC-FA49-FB90-035B-7E856F655791} = {D226B84F-3EB2-2514-47C3-A808B3CD8114}
 		{D9DE78AF-4594-F1A4-CE88-EB7B3A3DE8A8} = {8249BEE1-6EAC-4D86-1732-863C03741909}
 		{928A7598-FE69-F433-0782-7F0A73E05A95} = {8249BEE1-6EAC-4D86-1732-863C03741909}
 	EndGlobalSection

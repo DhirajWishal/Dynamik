@@ -40,17 +40,17 @@ project "Application"
 			"DMK_PLATFORM_WINDOWS"
 		}
 
-	filter "configurations:Debug"
+	filter "configurations:Debug Engine"
 		defines "DMK_DEBUG"
 		--buildoptions "/MTd"
 		symbols "On"
 		
-	filter "configurations:Release"
+	filter "configurations:Release Engine"
 		defines "DMK_RELEASE"
 		--buildoptions "/MT"
 		optimize "On"
 
-	filter "configurations:Distribution"
+	filter "configurations:Distribution Engine"
 		defines "DMK_DISTRIBUTION"
 		--buildoptions "/MT"
 		optimize "On"
