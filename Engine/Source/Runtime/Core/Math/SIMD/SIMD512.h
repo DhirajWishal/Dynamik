@@ -7,10 +7,13 @@
  Date:      16/05/2020
 */
 #include "Base.h"
-#include "../Matrix4F.h"
+#include "../Matrix/Matrix3F.h"
+#include "../Matrix/Matrix4F.h"
 
 namespace Dynamik
 {
+	class DMK_API BaseSIMD;
+
 	/*
 	 Container class to contain a 512 bit (16 floats, 8 doubles) SIMD data packet.
 	*/
@@ -44,6 +47,7 @@ namespace Dynamik
 		operator __m512i() { return myDataI; }
 
 		Matrix4F toMat4F();
+		Matrix3F toMat3F();
 
 		void load(const F32* address) override;
 		void load(const D64* address) override;

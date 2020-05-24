@@ -58,6 +58,11 @@ namespace Dynamik
 										}									\
 									}
 
+#define DMK_ERROR_BOX(msg)	{																				\
+								::Dynamik::DMKErrorManager::issueErrorBox(DMK_TEXT(msg));					\
+								__debugbreak();																\
+							}																				\
+
 #else
 #define DMK_INFO(...)
 #define DMK_WARN(...)

@@ -66,6 +66,14 @@ namespace Dynamik
 		return _matrix;
 	}
 
+	Matrix3F SIMD512::toMat3F()
+	{
+		Matrix3F _matrix;
+		store((F32*)&_matrix);
+
+		return _matrix;
+	}
+
 	void SIMD512::load(const F32* address)
 	{
 		myDataF = _mm512_loadu_ps(address);

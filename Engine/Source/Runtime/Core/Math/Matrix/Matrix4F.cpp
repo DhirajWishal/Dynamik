@@ -1,7 +1,7 @@
 #include "dmkafx.h"
 #include "Matrix4F.h"
 
-#include "SIMD/SIMDFunctions.h"
+#include "../SIMD/SIMDFunctions.h"
 
 namespace Dynamik
 {
@@ -56,7 +56,7 @@ namespace Dynamik
 		return *this;
 	}
 
-	Vector4F Matrix4F::operator[](UI32 index)
+	Vector4F& Matrix4F::operator[](UI32 index) const
 	{
 		return ((Vector4F*)this)[index];
 	}

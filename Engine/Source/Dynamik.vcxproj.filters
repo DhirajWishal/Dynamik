@@ -19,8 +19,14 @@
     <Filter Include="Runtime\Core\Math">
       <UniqueIdentifier>{BA84DCFB-269B-DA91-6F12-66B3DB67AB19}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Runtime\Core\Math\Matrix">
+      <UniqueIdentifier>{1EE79F02-0A0C-EF82-3357-D4121FDBEDA0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Runtime\Core\Math\SIMD">
       <UniqueIdentifier>{D6CCAF63-C2C6-D8B5-AB33-6FC697CC3E22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Core\Math\Vector">
+      <UniqueIdentifier>{9C6DDD17-8892-2C98-B1DD-11289D612BB6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Runtime\Core\Memory">
       <UniqueIdentifier>{89535565-F5B4-3273-7E22-7925EA826932}</UniqueIdentifier>
@@ -103,6 +109,9 @@
     <Filter Include="Runtime\Renderer\Backend\Vulkan">
       <UniqueIdentifier>{86339AAA-F216-A9EA-FB19-D726677C6F3B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Runtime\Renderer\Backend\Vulkan\Common">
+      <UniqueIdentifier>{FE4D8907-EA9F-60F7-D3BE-9D07BFAF79E0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Runtime\Systems">
       <UniqueIdentifier>{5024F61B-BCAF-63E0-C5C0-E6D431CBBFE0}</UniqueIdentifier>
     </Filter>
@@ -150,11 +159,17 @@
     <ClInclude Include="Runtime\Core\Math\MathTypes.h">
       <Filter>Runtime\Core\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Core\Math\Matrix.h">
-      <Filter>Runtime\Core\Math</Filter>
+    <ClInclude Include="Runtime\Core\Math\Matrix\Matrix.h">
+      <Filter>Runtime\Core\Math\Matrix</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Core\Math\Matrix4F.h">
-      <Filter>Runtime\Core\Math</Filter>
+    <ClInclude Include="Runtime\Core\Math\Matrix\Matrix2F.h">
+      <Filter>Runtime\Core\Math\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\Matrix\Matrix3F.h">
+      <Filter>Runtime\Core\Math\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\Matrix\Matrix4F.h">
+      <Filter>Runtime\Core\Math\Matrix</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\Core\Math\SIMD\Base.h">
       <Filter>Runtime\Core\Math\SIMD</Filter>
@@ -171,20 +186,26 @@
     <ClInclude Include="Runtime\Core\Math\SIMD\SIMDFunctions.h">
       <Filter>Runtime\Core\Math\SIMD</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Core\Math\Vector.h">
-      <Filter>Runtime\Core\Math</Filter>
+    <ClInclude Include="Runtime\Core\Math\Vector\Vector.h">
+      <Filter>Runtime\Core\Math\Vector</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Core\Math\Vector3D.h">
-      <Filter>Runtime\Core\Math</Filter>
+    <ClInclude Include="Runtime\Core\Math\Vector\Vector2D.h">
+      <Filter>Runtime\Core\Math\Vector</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Core\Math\Vector3F.h">
-      <Filter>Runtime\Core\Math</Filter>
+    <ClInclude Include="Runtime\Core\Math\Vector\Vector2F.h">
+      <Filter>Runtime\Core\Math\Vector</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Core\Math\Vector4D.h">
-      <Filter>Runtime\Core\Math</Filter>
+    <ClInclude Include="Runtime\Core\Math\Vector\Vector3D.h">
+      <Filter>Runtime\Core\Math\Vector</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Core\Math\Vector4F.h">
-      <Filter>Runtime\Core\Math</Filter>
+    <ClInclude Include="Runtime\Core\Math\Vector\Vector3F.h">
+      <Filter>Runtime\Core\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\Vector\Vector4D.h">
+      <Filter>Runtime\Core\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Math\Vector\Vector4F.h">
+      <Filter>Runtime\Core\Math\Vector</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\Core\Memory\LocalHeap.h">
       <Filter>Runtime\Core\Memory</Filter>
@@ -330,6 +351,9 @@
     <ClInclude Include="Runtime\Renderer\Backend\RendererBackendLayer.h">
       <Filter>Runtime\Renderer\Backend</Filter>
     </ClInclude>
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanControlHeader.h">
+      <Filter>Runtime\Renderer\Backend\Vulkan\Common</Filter>
+    </ClInclude>
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\VulkanRBL.h">
       <Filter>Runtime\Renderer\Backend\Vulkan</Filter>
     </ClInclude>
@@ -345,6 +369,16 @@
     <ClInclude Include="Studio\GUI\GUICore\GUICore.h">
       <Filter>Studio\GUI\GUICore</Filter>
     </ClInclude>
+    <ClInclude Include="Studio\GUI\GUICore\GUIShader.h">
+      <Filter>Studio\GUI\GUICore</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanInstance.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanDevice.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanViewPort.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSurface.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanQueue.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanCommandBuffer.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSyncObjects.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\Core\Error\ErrorManager.cpp">
@@ -359,8 +393,14 @@
     <ClCompile Include="Runtime\Core\Math\MathFunctions.cpp">
       <Filter>Runtime\Core\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Runtime\Core\Math\Matrix4F.cpp">
-      <Filter>Runtime\Core\Math</Filter>
+    <ClCompile Include="Runtime\Core\Math\Matrix\Matrix2F.cpp">
+      <Filter>Runtime\Core\Math\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Math\Matrix\Matrix3F.cpp">
+      <Filter>Runtime\Core\Math\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Math\Matrix\Matrix4F.cpp">
+      <Filter>Runtime\Core\Math\Matrix</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Core\Math\SIMD\SIMD128.cpp">
       <Filter>Runtime\Core\Math\SIMD</Filter>
@@ -374,17 +414,23 @@
     <ClCompile Include="Runtime\Core\Math\SIMD\SIMDFunctions.cpp">
       <Filter>Runtime\Core\Math\SIMD</Filter>
     </ClCompile>
-    <ClCompile Include="Runtime\Core\Math\Vector3D.cpp">
-      <Filter>Runtime\Core\Math</Filter>
+    <ClCompile Include="Runtime\Core\Math\Vector\Vector2D.cpp">
+      <Filter>Runtime\Core\Math\Vector</Filter>
     </ClCompile>
-    <ClCompile Include="Runtime\Core\Math\Vector3F.cpp">
-      <Filter>Runtime\Core\Math</Filter>
+    <ClCompile Include="Runtime\Core\Math\Vector\Vector2F.cpp">
+      <Filter>Runtime\Core\Math\Vector</Filter>
     </ClCompile>
-    <ClCompile Include="Runtime\Core\Math\Vector4D.cpp">
-      <Filter>Runtime\Core\Math</Filter>
+    <ClCompile Include="Runtime\Core\Math\Vector\Vector3D.cpp">
+      <Filter>Runtime\Core\Math\Vector</Filter>
     </ClCompile>
-    <ClCompile Include="Runtime\Core\Math\Vector4F.cpp">
-      <Filter>Runtime\Core\Math</Filter>
+    <ClCompile Include="Runtime\Core\Math\Vector\Vector3F.cpp">
+      <Filter>Runtime\Core\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Math\Vector\Vector4D.cpp">
+      <Filter>Runtime\Core\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Math\Vector\Vector4F.cpp">
+      <Filter>Runtime\Core\Math\Vector</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Core\Memory\LocalHeap.cpp">
       <Filter>Runtime\Core\Memory</Filter>
@@ -467,11 +513,21 @@
     <ClCompile Include="Studio\GUI\GUICore\GUICore.cpp">
       <Filter>Studio\GUI\GUICore</Filter>
     </ClCompile>
+    <ClCompile Include="Studio\GUI\GUICore\GUIShader.cpp">
+      <Filter>Studio\GUI\GUICore</Filter>
+    </ClCompile>
     <ClCompile Include="Studio\main.cpp">
       <Filter>Studio</Filter>
     </ClCompile>
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanInstance.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanDevice.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSurface.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanQueue.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanCommandBuffer.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSyncObjects.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />
+    <None Include="Runtime\Renderer\Backend\Vulkan\README.md" />
   </ItemGroup>
 </Project>

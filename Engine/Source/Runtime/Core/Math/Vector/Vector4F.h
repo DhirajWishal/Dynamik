@@ -36,12 +36,13 @@ namespace Dynamik
         ~Vector4F() {}
 
         Vector4F operator=(const std::initializer_list<F32>& list);
-        F32 operator[](UI32 index);
+        F32& operator[](UI32 index) const;
 
         union
         {
             struct { F32 r, g, b, a; };
             struct { F32 x, y, z, w; };
+            struct { F32 width, height, depth, zero; };
         };
     };
 

@@ -69,6 +69,14 @@ namespace Dynamik
 		return _vector;
 	}
 
+	Matrix2F SIMD128::toMat2F()
+	{
+		Matrix2F _vector;
+		storeAlign((F32*)&_vector);
+
+		return _vector;
+	}
+
 	void SIMD128::load(const F32* address)
 	{
 		myDataF = _mm_loadu_ps(address);

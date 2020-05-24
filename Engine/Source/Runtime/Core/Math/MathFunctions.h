@@ -9,10 +9,10 @@
  Date:      14/05/2020
 */
 
-#include "Vector3F.h"
-#include "Vector3D.h"
-#include "Vector4F.h"
-#include "Vector4D.h"
+#include "Vector/Vector3F.h"
+#include "Vector/Vector3D.h"
+#include "Vector/Vector4F.h"
+#include "Vector/Vector4D.h"
 
 namespace Dynamik
 {

@@ -7,8 +7,9 @@
  Date:      16/05/2020
 */
 #include "Base.h"
-#include "../Vector3F.h"
-#include "../Vector4F.h"
+#include "../Vector/Vector3F.h"
+#include "../Vector/Vector4F.h"
+#include "../Matrix/Matrix2F.h"
 
 namespace Dynamik
 {
@@ -40,6 +41,7 @@ namespace Dynamik
 		//Vector3D toVec3D();
 		Vector4F toVec4F();
 		//Vector4D toVec4D();
+		Matrix2F toMat2F();
 
 		void load(const F32* address) override;
 		void load(const D64* address) override;

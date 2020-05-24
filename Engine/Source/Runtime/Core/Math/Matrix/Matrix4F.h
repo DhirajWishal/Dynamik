@@ -9,7 +9,7 @@
  Date:      17/05/2020
 */
 #include "Matrix.h"
-#include "Vector4F.h"
+#include "../Vector/Vector4F.h"
 
 namespace Dynamik
 {
@@ -41,7 +41,7 @@ namespace Dynamik
 		~Matrix4F() {}
 
 		Matrix4F operator=(const Matrix4F& other);
-		Vector4F operator[](UI32 index);
+		Vector4F& operator[](UI32 index) const;
 
 	public:
 		union

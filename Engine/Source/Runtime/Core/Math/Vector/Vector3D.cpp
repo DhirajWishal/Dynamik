@@ -1,7 +1,7 @@
 #include "dmkafx.h"
 #include "Vector3D.h"
 
-#include "SIMD/SIMDFunctions.h"
+#include "../SIMD/SIMDFunctions.h"
 
 namespace Dynamik
 {
@@ -21,7 +21,7 @@ namespace Dynamik
 		return *this;
 	}
 
-	D64 Vector3D::operator[](UI32 index)
+	D64& Vector3D::operator[](UI32 index) const
 	{
 		return ((D64*)this)[index];
 	}

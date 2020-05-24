@@ -36,12 +36,13 @@ namespace Dynamik
         ~Vector3D() {}
 
         Vector3D operator=(const std::initializer_list<D64>& list);
-        D64 operator[](UI32 index);
+        D64& operator[](UI32 index) const;
 
         union
         {
             struct { D64 x, y, z, w; };
             struct { D64 r, g, b, a; };
+            struct { D64 width, height, depth, zero; };
         };
     };
 

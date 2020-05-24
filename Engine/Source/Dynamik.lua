@@ -23,7 +23,8 @@ project "Dynamik"
 		"**.cpp",
 		"**.h",
 		"**.lua",
-		"**.txt"
+		"**.txt",
+		"**.md",
 	}
 
 	includedirs {
@@ -32,12 +33,14 @@ project "Dynamik"
 		"$(SolutionDir)Engine/Source/Runtime/Core/",
 		"$(SolutionDir)Engine/Source/Runtime/Core/PCH/",
 		"$(SolutionDir)Engine/Source/Runtime/GameLibraries",
+		"%{IncludeDir.Vulkan}",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLEW}",
 		"%{IncludeDir.assimp}",
 	}
 
 	libdirs {
+		"%{IncludeLib.Vulkan}",
 		"%{IncludeLib.GLFW}",
 		"%{IncludeLib.GLEW}",
 		"%{IncludeLib.Assimp}",
@@ -47,6 +50,7 @@ project "Dynamik"
 		"glew32s",
 		"opengl32",
 		"glfw3dll",
+		"vulkan-1",
 		"assimp",
 	}
 
@@ -56,6 +60,7 @@ project "Dynamik"
 
 		defines {
 			"DMK_PLATFORM_WINDOWS",
+			"GLFW_INCLUDE_VULKAN",
 			"GLEW_STATIC",
 			"GRAPHICS_API",
 		}
@@ -66,6 +71,7 @@ project "Dynamik"
 
 		defines {
 			"DMK_PLATFORM_LINUX",
+			"GLFW_INCLUDE_VULKAN",
 			"GLEW_STATIC",
 			"GRAPHICS_API",
 		}
@@ -76,6 +82,7 @@ project "Dynamik"
 
 		defines {
 			"DMK_PLATFORM_MAC",
+			"GLFW_INCLUDE_VULKAN",
 			"GLEW_STATIC",
 			"GRAPHICS_API",
 		}
