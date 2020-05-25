@@ -5,8 +5,10 @@ The Vulkan RBL consists of 3 major parts:
 - Common (Contain common classes and functions for both conpute and graphics APIs)
 - Compute (Contains the Dynamik Vulkan Compute API)
 - Graphics (Contains the Dynamik Vulkan Graphics API)
+  - Context
+  - Primitives
 
-The does not contain a deep inheritance hierarchy but contains a set of systems which manages components (PODs). This
+This does not contain a deep inheritance hierarchy but contains a set of systems which manages components (PODs). This
 way the RBL does not lose time in looking up virtual tables and will be much cache friendly.
 
 The Dynamik Vulkan RBL Graphics API consists of 4 major systems:
@@ -20,7 +22,7 @@ The Dynamik Vulkan RBL Graphics API consists of 4 major systems:
   - Vulkan Render Pass
   - Vulkan Frame Buffer
   - Vulkan Frame Buffer Attachments
-- Vulkan Renderables
+- Vulkan Renderables (Primitives)
   - Vulkan Render Component
     - Resource Buffers (Vertex, Index, Uniform)
     - Texture Resources 

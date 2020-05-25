@@ -374,11 +374,17 @@
     </ClInclude>
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanInstance.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanDevice.h" />
-    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanViewPort.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSurface.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanQueue.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanCommandBuffer.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSyncObjects.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanSwapChain.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanViewport.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Graphics\VulkanTexture.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImage.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanUtilities.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanBuffer.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageSampler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\Core\Error\ErrorManager.cpp">
@@ -525,6 +531,10 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanQueue.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanCommandBuffer.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSyncObjects.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanSwapChain.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImage.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanUtilities.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

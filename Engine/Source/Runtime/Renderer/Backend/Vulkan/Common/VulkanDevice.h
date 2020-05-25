@@ -13,6 +13,10 @@ namespace Dynamik
 {
     namespace Backend
     {
+        /*
+         Vulkan Device for the Dynamik Engine
+         This contains both the physical and logical devices.
+        */
         class DMK_API VulkanDevice {
         public:
             VulkanDevice() {}
@@ -25,14 +29,14 @@ namespace Dynamik
 
             VkSampleCountFlagBits getMaxUsableSampleCount();
 
+            operator VkPhysicalDevice() const;
+            operator VkDevice() const;
+            operator VkPhysicalDeviceProperties() const;
+
             VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
             VkDevice logicalDevice = VK_NULL_HANDLE;
 
             VkPhysicalDeviceProperties physicalDeviceProperties = {};
-
-            operator VkPhysicalDevice() const;
-            operator VkDevice() const;
-            operator VkPhysicalDeviceProperties() const;
         };
     }
 }

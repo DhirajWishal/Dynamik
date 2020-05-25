@@ -120,137 +120,137 @@ namespace Dynamik
 	enum class DMK_API DMKFormat : UI32 {
 		DMK_FORMAT_UNDEFINED,			// Undefined format
 
-		DMK_FORMAT_R_8_INT,				// 8 bit R chennel as integer
-		DMK_FORMAT_R_8_UINT,			// 8 bit R chennel as unsigned integer
-		DMK_FORMAT_R_8_SINT,			// 8 bit R chennel as signed integer
-		DMK_FORMAT_R_8_F32,				// 8 bit R chennel as 32 bit float
-		DMK_FORMAT_R_8_UF32,			// 8 bit R chennel as unsigned 32 bit float
-		DMK_FORMAT_R_8_SF32,			// 8 bit R chennel as signed 32 bit float
-		DMK_FORMAT_R_8_UNIFORM,			// 8 bit R chennel as uniform
-		DMK_FORMAT_R_16_INT,			// 16 bit R chennel as integer
-		DMK_FORMAT_R_16_UINT,			// 16 bit R chennel as unsigned integer
-		DMK_FORMAT_R_16_SINT,			// 16 bit R chennel as signed integer
-		DMK_FORMAT_R_16_F32,			// 16 bit R chennel as 32 bit float
-		DMK_FORMAT_R_16_UF32,			// 16 bit R chennel as unsigned 32 bit float
-		DMK_FORMAT_R_16_SF32,			// 16 bit R chennel as signed 32 bit float
-		DMK_FORMAT_R_16_UNIFORM,		// 16 bit R chennel as uniform
-		DMK_FORMAT_R_32_INT,			// 32 bit R chennel as integer
-		DMK_FORMAT_R_32_UINT,			// 32 bit R chennel as unsigned integer
-		DMK_FORMAT_R_32_SINT,			// 32 bit R chennel as signed integer
-		DMK_FORMAT_R_32_F32,			// 32 bit R chennel as 32 bit float
-		DMK_FORMAT_R_32_UF32,			// 32 bit R chennel as unsigned 32 bit float
-		DMK_FORMAT_R_32_SF32,			// 32 bit R chennel as signed 32 bit float
-		DMK_FORMAT_R_32_UNIFORM,		// 32 bit R chennel as uniform
+		DMK_FORMAT_R_8_UINT,
+		DMK_FORMAT_R_8_SINT,
+		DMK_FORMAT_R_8_SNORMAL,
+		DMK_FORMAT_R_8_SSCALED,
+		DMK_FORMAT_R_8_USCALED,
+		DMK_FORMAT_R_8_SRGB,
+		DMK_FORMAT_R_8_UNORMAL,
+		DMK_FORMAT_R_16_UINT,
+		DMK_FORMAT_R_16_SINT,
+		DMK_FORMAT_R_16_SNORMAL,
+		DMK_FORMAT_R_16_SSCALED,
+		DMK_FORMAT_R_16_USCALED,
+		DMK_FORMAT_R_16_SRGB,
+		DMK_FORMAT_R_16_UNORMAL,
+		DMK_FORMAT_R_32_UINT,
+		DMK_FORMAT_R_32_SINT,
+		DMK_FORMAT_R_32_SNORMAL,
+		DMK_FORMAT_R_32_SSCALED,
+		DMK_FORMAT_R_32_USCALED,
+		DMK_FORMAT_R_32_SRGB,
+		DMK_FORMAT_R_32_UNORMAL,
 
-		DMK_FORMAT_RG_8_INT,			// 8 bit R, G chennel as integer
-		DMK_FORMAT_RG_8_UINT,			// 8 bit R, G chennel as unsigned integer
-		DMK_FORMAT_RG_8_SINT,			// 8 bit R, G chennel as signed integer
-		DMK_FORMAT_RG_8_F32,			// 8 bit R, G chennel as 32 bit float
-		DMK_FORMAT_RG_8_UF32,			// 8 bit R, G chennel as unsigned 32 bit float
-		DMK_FORMAT_RG_8_SF32,			// 8 bit R, G chennel as signed 32 bit float
-		DMK_FORMAT_RG_8_UNIFORM,		// 8 bit R, G chennel as uniform
-		DMK_FORMAT_RG_16_INT,			// 16 bit R, G chennel as integer
-		DMK_FORMAT_RG_16_UINT,			// 16 bit R, G chennel as unsigned integer
-		DMK_FORMAT_RG_16_SINT,			// 16 bit R, G chennel as signed integer
-		DMK_FORMAT_RG_16_F32,			// 16 bit R, G chennel as 32 bit float
-		DMK_FORMAT_RG_16_UF32,			// 16 bit R, G chennel as unsigned 32 bit float
-		DMK_FORMAT_RG_16_SF32,			// 16 bit R, G chennel as signed 32 bit float
-		DMK_FORMAT_RG_16_UNIFORM,		// 16 bit R, G chennel as uniform
-		DMK_FORMAT_RG_32_INT,			// 32 bit R, G chennel as integer
-		DMK_FORMAT_RG_32_UINT,			// 32 bit R, G chennel as unsigned integer
-		DMK_FORMAT_RG_32_SINT,			// 32 bit R, G chennel as signed integer
-		DMK_FORMAT_RG_32_F32,			// 32 bit R, G chennel as 32 bit float
-		DMK_FORMAT_RG_32_UF32,			// 32 bit R, G chennel as unsigned 32 bit float
-		DMK_FORMAT_RG_32_SF32,			// 32 bit R, G chennel as signed 32 bit float
-		DMK_FORMAT_RG_32_UNIFORM,		// 32 bit R, G chennel as uniform
+		DMK_FORMAT_RG_8_UINT,
+		DMK_FORMAT_RG_8_SINT,
+		DMK_FORMAT_RG_8_SNORMAL,
+		DMK_FORMAT_RG_8_SSCALED,
+		DMK_FORMAT_RG_8_USCALED,
+		DMK_FORMAT_RG_8_SRGB,
+		DMK_FORMAT_RG_8_UNORMAL,
+		DMK_FORMAT_RG_16_UINT,
+		DMK_FORMAT_RG_16_SINT,
+		DMK_FORMAT_RG_16_SNORMAL,
+		DMK_FORMAT_RG_16_SSCALED,
+		DMK_FORMAT_RG_16_USCALED,
+		DMK_FORMAT_RG_16_SRGB,
+		DMK_FORMAT_RG_16_UNORMAL,
+		DMK_FORMAT_RG_32_UINT,
+		DMK_FORMAT_RG_32_SINT,
+		DMK_FORMAT_RG_32_SNORMAL,
+		DMK_FORMAT_RG_32_SSCALED,
+		DMK_FORMAT_RG_32_USCALED,
+		DMK_FORMAT_RG_32_SRGB,
+		DMK_FORMAT_RG_32_UNORMAL,
 
-		DMK_FORMAT_RGB_8_INT,			// 8 bit R, G, B chennel as integer
-		DMK_FORMAT_RGB_8_UINT,			// 8 bit R, G, B chennel as unsigned integer
-		DMK_FORMAT_RGB_8_SINT,			// 8 bit R, G, B chennel as signed integer
-		DMK_FORMAT_RGB_8_F32,			// 8 bit R, G, B chennel as 32 bit float
-		DMK_FORMAT_RGB_8_UF32,			// 8 bit R, G, B chennel as unsigned 32 bit float
-		DMK_FORMAT_RGB_8_SF32,			// 8 bit R, G, B chennel as signed 32 bit float
-		DMK_FORMAT_RGB_8_UNIFORM,		// 8 bit R, G, B chennel as uniform
-		DMK_FORMAT_RGB_16_INT,			// 16 bit R, G, B chennel as integer
-		DMK_FORMAT_RGB_16_UINT,			// 16 bit R, G, B chennel as unsigned integer
-		DMK_FORMAT_RGB_16_SINT,			// 16 bit R, G, B chennel as signed integer
-		DMK_FORMAT_RGB_16_F32,			// 16 bit R, G, B chennel as 32 bit float
-		DMK_FORMAT_RGB_16_UF32,			// 16 bit R, G, B chennel as unsigned 32 bit float
-		DMK_FORMAT_RGB_16_SF32,			// 16 bit R, G, B chennel as signed 32 bit float
-		DMK_FORMAT_RGB_16_UNIFORM,		// 16 bit R, G, B chennel as uniform
-		DMK_FORMAT_RGB_32_INT,			// 32 bit R, G, B chennel as integer
-		DMK_FORMAT_RGB_32_UINT,			// 32 bit R, G, B chennel as unsigned integer
-		DMK_FORMAT_RGB_32_SINT,			// 32 bit R, G, B chennel as signed integer
-		DMK_FORMAT_RGB_32_F32,			// 32 bit R, G, B chennel as 32 bit float
-		DMK_FORMAT_RGB_32_UF32,			// 32 bit R, G, B chennel as unsigned 32 bit float
-		DMK_FORMAT_RGB_32_SF32,			// 32 bit R, G, B chennel as signed 32 bit float
-		DMK_FORMAT_RGB_32_UNIFORM,		// 32 bit R, G, B chennel as uniform
+		DMK_FORMAT_RGB_8_UINT,
+		DMK_FORMAT_RGB_8_SINT,
+		DMK_FORMAT_RGB_8_SNORMAL,
+		DMK_FORMAT_RGB_8_SSCALED,
+		DMK_FORMAT_RGB_8_USCALED,
+		DMK_FORMAT_RGB_8_SRGB,
+		DMK_FORMAT_RGB_8_UNORMAL,
+		DMK_FORMAT_RGB_16_UINT,
+		DMK_FORMAT_RGB_16_SINT,
+		DMK_FORMAT_RGB_16_SNORMAL,
+		DMK_FORMAT_RGB_16_SSCALED,
+		DMK_FORMAT_RGB_16_USCALED,
+		DMK_FORMAT_RGB_16_SRGB,
+		DMK_FORMAT_RGB_16_UNORMAL,
+		DMK_FORMAT_RGB_32_UINT,
+		DMK_FORMAT_RGB_32_SINT,
+		DMK_FORMAT_RGB_32_SNORMAL,
+		DMK_FORMAT_RGB_32_SSCALED,
+		DMK_FORMAT_RGB_32_USCALED,
+		DMK_FORMAT_RGB_32_SRGB,
+		DMK_FORMAT_RGB_32_UNORMAL,
 
-		DMK_FORMAT_BGR_8_INT,			// 8 bit B, G, R chennel as integer
-		DMK_FORMAT_BGR_8_UINT,			// 8 bit B, G, R chennel as unsigned integer
-		DMK_FORMAT_BGR_8_SINT,			// 8 bit B, G, R chennel as signed integer
-		DMK_FORMAT_BGR_8_F32,			// 8 bit B, G, R chennel as 32 bit float
-		DMK_FORMAT_BGR_8_UF32,			// 8 bit B, G, R chennel as unsigned 32 bit float
-		DMK_FORMAT_BGR_8_SF32,			// 8 bit B, G, R chennel as signed 32 bit float
-		DMK_FORMAT_BGR_8_UNIFORM,		// 8 bit B, G, R chennel as uniform
-		DMK_FORMAT_BGR_16_INT,			// 16 bit B, G, R chennel as integer
-		DMK_FORMAT_BGR_16_UINT,			// 16 bit B, G, R chennel as unsigned integer
-		DMK_FORMAT_BGR_16_SINT,			// 16 bit B, G, R chennel as signed integer
-		DMK_FORMAT_BGR_16_F32,			// 16 bit B, G, R chennel as 32 bit float
-		DMK_FORMAT_BGR_16_UF32,			// 16 bit B, G, R chennel as unsigned 32 bit float
-		DMK_FORMAT_BGR_16_SF32,			// 16 bit B, G, R chennel as signed 32 bit float
-		DMK_FORMAT_BGR_16_UNIFORM,		// 16 bit B, G, R chennel as uniform
-		DMK_FORMAT_BGR_32_INT,			// 32 bit B, G, R chennel as integer
-		DMK_FORMAT_BGR_32_UINT,			// 32 bit B, G, R chennel as unsigned integer
-		DMK_FORMAT_BGR_32_SINT,			// 32 bit B, G, R chennel as signed integer
-		DMK_FORMAT_BGR_32_F32,			// 32 bit B, G, R chennel as 32 bit float
-		DMK_FORMAT_BGR_32_UF32,			// 32 bit B, G, R chennel as unsigned 32 bit float
-		DMK_FORMAT_BGR_32_SF32,			// 32 bit B, G, R chennel as signed 32 bit float
-		DMK_FORMAT_BGR_32_UNIFORM,		// 32 bit B, G, R chennel as uniform
+		DMK_FORMAT_BGR_8_UINT,
+		DMK_FORMAT_BGR_8_SINT,
+		DMK_FORMAT_BGR_8_SNORMAL,
+		DMK_FORMAT_BGR_8_SSCALED,
+		DMK_FORMAT_BGR_8_USCALED,
+		DMK_FORMAT_BGR_8_SRGB,
+		DMK_FORMAT_BGR_8_UNORMAL,
+		DMK_FORMAT_BGR_16_UINT,
+		DMK_FORMAT_BGR_16_SINT,
+		DMK_FORMAT_BGR_16_SNORMAL,
+		DMK_FORMAT_BGR_16_SSCALED,
+		DMK_FORMAT_BGR_16_USCALED,
+		DMK_FORMAT_BGR_16_SRGB,
+		DMK_FORMAT_BGR_16_UNORMAL,
+		DMK_FORMAT_BGR_32_UINT,
+		DMK_FORMAT_BGR_32_SINT,
+		DMK_FORMAT_BGR_32_SNORMAL,
+		DMK_FORMAT_BGR_32_SSCALED,
+		DMK_FORMAT_BGR_32_USCALED,
+		DMK_FORMAT_BGR_32_SRGB,
+		DMK_FORMAT_BGR_32_UNORMAL,
 
-		DMK_FORMAT_RGBA_8_INT,			// 8 bit R, G, B, A chennel as integer
-		DMK_FORMAT_RGBA_8_UINT,			// 8 bit R, G, B, A chennel as unsigned integer
-		DMK_FORMAT_RGBA_8_SINT,			// 8 bit R, G, B, A chennel as signed integer
-		DMK_FORMAT_RGBA_8_F32,			// 8 bit R, G, B, A chennel as 32 bit float
-		DMK_FORMAT_RGBA_8_UF32,			// 8 bit R, G, B, A chennel as unsigned 32 bit float
-		DMK_FORMAT_RGBA_8_SF32,			// 8 bit R, G, B, A chennel as signed 32 bit float
-		DMK_FORMAT_RGBA_8_UNIFORM,		// 8 bit R, G, B, A chennel as uniform
-		DMK_FORMAT_RGBA_16_INT,			// 16 bit R, G, B, A chennel as integer
-		DMK_FORMAT_RGBA_16_UINT,		// 16 bit R, G, B, A chennel as unsigned integer
-		DMK_FORMAT_RGBA_16_SINT,		// 16 bit R, G, B, A chennel as signed integer
-		DMK_FORMAT_RGBA_16_F32,			// 16 bit R, G, B, A chennel as 32 bit float
-		DMK_FORMAT_RGBA_16_UF32,		// 16 bit R, G, B, A chennel as unsigned 32 bit float
-		DMK_FORMAT_RGBA_16_SF32,		// 16 bit R, G, B, A chennel as signed 32 bit float
-		DMK_FORMAT_RGBA_16_UNIFORM,		// 16 bit R, G, B, A chennel as uniform
-		DMK_FORMAT_RGBA_32_INT,			// 32 bit R, G, B, A chennel as integer
-		DMK_FORMAT_RGBA_32_UINT,		// 32 bit R, G, B, A chennel as unsigned integer
-		DMK_FORMAT_RGBA_32_SINT,		// 32 bit R, G, B, A chennel as signed integer
-		DMK_FORMAT_RGBA_32_F32,			// 32 bit R, G, B, A chennel as 32 bit float
-		DMK_FORMAT_RGBA_32_UF32,		// 32 bit R, G, B, A chennel as unsigned 32 bit float
-		DMK_FORMAT_RGBA_32_SF32,		// 32 bit R, G, B, A chennel as signed 32 bit float
-		DMK_FORMAT_RGBA_32_UNIFORM,		// 32 bit R, G, B, A chennel as uniform
+		DMK_FORMAT_RGBA_8_UINT,
+		DMK_FORMAT_RGBA_8_SINT,
+		DMK_FORMAT_RGBA_8_SNORMAL,
+		DMK_FORMAT_RGBA_8_SSCALED,
+		DMK_FORMAT_RGBA_8_USCALED,
+		DMK_FORMAT_RGBA_8_SRGB,
+		DMK_FORMAT_RGBA_8_UNORMAL,
+		DMK_FORMAT_RGBA_16_UINT,
+		DMK_FORMAT_RGBA_16_SINT,
+		DMK_FORMAT_RGBA_16_SNORMAL,
+		DMK_FORMAT_RGBA_16_SSCALED,
+		DMK_FORMAT_RGBA_16_USCALED,
+		DMK_FORMAT_RGBA_16_SRGB,
+		DMK_FORMAT_RGBA_16_UNORMAL,
+		DMK_FORMAT_RGBA_32_UINT,
+		DMK_FORMAT_RGBA_32_SINT,
+		DMK_FORMAT_RGBA_32_SNORMAL,
+		DMK_FORMAT_RGBA_32_SSCALED,
+		DMK_FORMAT_RGBA_32_USCALED,
+		DMK_FORMAT_RGBA_32_SRGB,
+		DMK_FORMAT_RGBA_32_UNORMAL,
 
-		DMK_FORMAT_BGRA_8_INT,			// 8 bit B, G, R, A chennel as integer
-		DMK_FORMAT_BGRA_8_UINT,			// 8 bit B, G, R, A chennel as unsigned integer
-		DMK_FORMAT_BGRA_8_SINT,			// 8 bit B, G, R, A chennel as signed integer
-		DMK_FORMAT_BGRA_8_F32,			// 8 bit B, G, R, A chennel as 32 bit float
-		DMK_FORMAT_BGRA_8_UF32,			// 8 bit B, G, R, A chennel as unsigned 32 bit float
-		DMK_FORMAT_BGRA_8_SF32,			// 8 bit B, G, R, A chennel as signed 32 bit float
-		DMK_FORMAT_BGRA_8_UNIFORM,		// 8 bit B, G, R, A chennel as uniform
-		DMK_FORMAT_BGRA_16_INT,			// 16 bit B, G, R, A chennel as integer
-		DMK_FORMAT_BGRA_16_UINT,		// 16 bit B, G, R, A chennel as unsigned integer
-		DMK_FORMAT_BGRA_16_SINT,		// 16 bit B, G, R, A chennel as signed integer
-		DMK_FORMAT_BGRA_16_F32,			// 16 bit B, G, R, A chennel as 32 bit float
-		DMK_FORMAT_BGRA_16_UF32,		// 16 bit B, G, R, A chennel as unsigned 32 bit float
-		DMK_FORMAT_BGRA_16_SF32,		// 16 bit B, G, R, A chennel as signed 32 bit float
-		DMK_FORMAT_BGRA_16_UNIFORM,		// 16 bit B, G, R, A chennel as uniform
-		DMK_FORMAT_BGRA_32_INT,			// 32 bit B, G, R, A chennel as integer
-		DMK_FORMAT_BGRA_32_UINT,		// 32 bit B, G, R, A chennel as unsigned integer
-		DMK_FORMAT_BGRA_32_SINT,		// 32 bit B, G, R, A chennel as signed integer
-		DMK_FORMAT_BGRA_32_F32,			// 32 bit B, G, R, A chennel as 32 bit float
-		DMK_FORMAT_BGRA_32_UF32,		// 32 bit B, G, R, A chennel as unsigned 32 bit float
-		DMK_FORMAT_BGRA_32_SF32,		// 32 bit B, G, R, A chennel as signed 32 bit float
-		DMK_FORMAT_BGRA_32_UNIFORM,		// 32 bit B, G, R, A chennel as uniform
+		DMK_FORMAT_BGRA_8_UINT,
+		DMK_FORMAT_BGRA_8_SINT,
+		DMK_FORMAT_BGRA_8_SNORMAL,
+		DMK_FORMAT_BGRA_8_SSCALED,
+		DMK_FORMAT_BGRA_8_USCALED,
+		DMK_FORMAT_BGRA_8_SRGB,
+		DMK_FORMAT_BGRA_8_UNORMAL,
+		DMK_FORMAT_BGRA_16_UINT,
+		DMK_FORMAT_BGRA_16_SINT,
+		DMK_FORMAT_BGRA_16_SNORMAL,
+		DMK_FORMAT_BGRA_16_SSCALED,
+		DMK_FORMAT_BGRA_16_USCALED,
+		DMK_FORMAT_BGRA_16_SRGB,
+		DMK_FORMAT_BGRA_16_UNORMAL,
+		DMK_FORMAT_BGRA_32_UINT,
+		DMK_FORMAT_BGRA_32_SINT,
+		DMK_FORMAT_BGRA_32_SNORMAL,
+		DMK_FORMAT_BGRA_32_SSCALED,
+		DMK_FORMAT_BGRA_32_USCALED,
+		DMK_FORMAT_BGRA_32_SRGB,
+		DMK_FORMAT_BGRA_32_UNORMAL,
 	};
 }
 

@@ -35,6 +35,7 @@ namespace Dynamik
 			void terminate(const VulkanDevice& vDevice);
 
 			operator VkCommandPool() const;
+			const VkCommandBuffer operator[](UI32 index) const;
 
 			ARRAY<VkCommandBuffer> buffers;
 			VkCommandPool pool = VK_NULL_HANDLE;

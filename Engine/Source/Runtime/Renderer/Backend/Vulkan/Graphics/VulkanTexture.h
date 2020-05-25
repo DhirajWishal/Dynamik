@@ -1,0 +1,5 @@
+#pragma once
+#ifndef _DYNAMIK_VULKAN_TEXTURE_H
+#define _DYNAMIK_VULKAN_TEXTURE_H
+
+#endif // !_DYNAMIK_VULKAN_TEXTURE_H

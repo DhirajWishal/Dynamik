@@ -26,10 +26,10 @@ namespace Dynamik
             void findQueueFamilies(const VkPhysicalDevice& physicalDevice, const VkSurfaceKHR& surface);
             void initializeQueues(const VkDevice& logicalDevice);
 
+            B1 isComplete();
+
             std::optional<UI32> processFamily;      /* Graphics Family */
             std::optional<UI32> utilityFamily;      /* Present Family */
-
-            B1 isComplete();
 
             VkQueue processQueue = VK_NULL_HANDLE;
             VkQueue utilityQueue = VK_NULL_HANDLE;

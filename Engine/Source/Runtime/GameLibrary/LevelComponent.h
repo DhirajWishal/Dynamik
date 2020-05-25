@@ -18,7 +18,7 @@ namespace Dynamik
 {
 	/* Dynamik Level Component types */
 	enum class DMK_API DMKLevelComponentType {
-		DMK_LEVEL_COMPONENT_TYPE_INTERNAL,
+		DMK_LEVEL_COMPONENT_TYPE_SINTERNAL,
 		DMK_LEVEL_COMPONENT_TYPE_EXTERNAL,
 	};
 
@@ -38,7 +38,7 @@ namespace Dynamik
 		DMKLevelComponent(DMKLevelComponentType ty) : type(ty) {}
 		virtual ~DMKLevelComponent() {}
 
-		DMKLevelComponentType type = DMKLevelComponentType::DMK_LEVEL_COMPONENT_TYPE_INTERNAL;
+		DMKLevelComponentType type = DMKLevelComponentType::DMK_LEVEL_COMPONENT_TYPE_SINTERNAL;
 
 		/* Scene component store */
 		ARRAY<POINTER<DMKSceneComponent>> mySceneComponents;

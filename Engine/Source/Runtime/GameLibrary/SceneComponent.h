@@ -16,7 +16,7 @@ namespace Dynamik
 {
 	/* Dynamik Scene component types */
 	enum class DMK_API DMKSceneComponentType {
-		DMK_SCENE_COMPONENT_INTERNAL,      /* Contents of the component are defined locally */
+		DMK_SCENE_COMPONENT_SINTERNAL,      /* Contents of the component are defined locally */
 		DMK_SCENE_COMPONENT_EXTERNAL,      /* Contents of the component are defined externally */
 	};
 
@@ -39,7 +39,7 @@ namespace Dynamik
 		virtual ~DMKSceneComponent() {}
 
 		STRING sceneName = DMK_TEXT("");
-		DMKSceneComponentType type = DMKSceneComponentType::DMK_SCENE_COMPONENT_INTERNAL;
+		DMKSceneComponentType type = DMKSceneComponentType::DMK_SCENE_COMPONENT_SINTERNAL;
 		UI32 sceneID = 0;
 	};
 
@@ -48,7 +48,7 @@ namespace Dynamik
 	*/
 	class DMK_API DMKInternalSceneComponent : public DMKSceneComponent {
 	public:
-		DMKInternalSceneComponent() : DMKSceneComponent(DMKSceneComponentType::DMK_SCENE_COMPONENT_INTERNAL) {}
+		DMKInternalSceneComponent() : DMKSceneComponent(DMKSceneComponentType::DMK_SCENE_COMPONENT_SINTERNAL) {}
 		virtual ~DMKInternalSceneComponent() {}
 	};
 

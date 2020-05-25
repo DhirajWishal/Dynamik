@@ -44,7 +44,7 @@ namespace Dynamik
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL:
 					MemoryFunctions::moveData(_nextPtr.get(), &vertex.normal, _byteSize);
 					break;
-				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_INTEGRITY:
+				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_SINTEGRITY:
 					MemoryFunctions::moveData(_nextPtr.get(), &vertex.integrity, _byteSize);
 					break;
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID:

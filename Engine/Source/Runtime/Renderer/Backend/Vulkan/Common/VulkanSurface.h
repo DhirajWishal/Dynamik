@@ -15,6 +15,9 @@ namespace Dynamik
 {
     namespace Backend
     {
+        /*
+         Vulkan Surface object
+        */
         class DMK_API VulkanSurface {
         public:
             VulkanSurface() {}
@@ -25,13 +28,13 @@ namespace Dynamik
 
             B1 isDeviceSuitable(const VkPhysicalDevice& physicalDevice);
 
+            operator VkSurfaceKHR() const;
+            operator VkSurfaceCapabilitiesKHR() const;
+
             VkSurfaceKHR surface = VK_NULL_HANDLE;
             VkSurfaceCapabilitiesKHR surfaceCapabilities = {};
             UI32 surfaceWidth = 0;
             UI32 surfaceHeight = 0;
-
-            operator VkSurfaceKHR() const;
-            operator VkSurfaceCapabilitiesKHR() const;
         };
     }
 }

@@ -56,5 +56,10 @@ namespace Dynamik
 		{
 			return this->pool;
 		}
+		
+		const VkCommandBuffer VulkanCommandBuffer::operator[](UI32 index) const
+		{
+			return this->buffers[index];
+		}
 	}
 }

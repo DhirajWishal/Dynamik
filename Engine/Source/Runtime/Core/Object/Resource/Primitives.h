@@ -66,7 +66,7 @@ namespace Dynamik
 		DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES,      /* Texture coordinates */
 		DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES,           /* UV coordinates */
 		DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL,                   /* Normal vectors */
-		DMK_VERTEX_ATTRIBUTE_TYPE_INTEGRITY,                /* Integrity value */
+		DMK_VERTEX_ATTRIBUTE_TYPE_SINTEGRITY,                /* Integrity value */
 		DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID,                  /* Bone IDs */
 		DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT,              /* Bone Weights */
 		DMK_VERTEX_ATTRIBUTE_TYPE_CUSTOM                    /* Custom */

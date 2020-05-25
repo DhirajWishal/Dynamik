@@ -28,5 +28,7 @@
 
 #endif // DMK_PLATFORM_WINDOWS
 
+#define BIT_SHIFT(count)	(1 << count)
+
 
 #endif // !_DYNAMIK_GLOBAL_MACROS_H

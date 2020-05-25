@@ -15,10 +15,10 @@ namespace Dynamik
         /*
          Vulkan View Port class
         */
-        class DMK_API VulkanViewPort {
+        class DMK_API VulkanViewport {
         public:
-            VulkanViewPort() {}
-            ~VulkanViewPort() {}
+            VulkanViewport() {}
+            ~VulkanViewport() {}
 
             POINTER<VulkanSurface> surfacePtr;
 
