@@ -813,6 +813,7 @@
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImage.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageSampler.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\VulkanRBL.h" />
+    <ClInclude Include="Runtime\Renderer\Primitives\PrimitiveTypeDefs.h" />
     <ClInclude Include="Runtime\Renderer\Renderer.h" />
     <ClInclude Include="Runtime\Systems\Attachment\AttachmentManager.h" />
     <ClInclude Include="Studio\GUI\GUIComponents\Widget.h" />
@@ -1270,6 +1271,7 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanSwapChain.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanBuffer.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImage.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageSampler.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\VulkanRBL.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Windows|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Unix|x64'">true</ExcludedFromBuild>

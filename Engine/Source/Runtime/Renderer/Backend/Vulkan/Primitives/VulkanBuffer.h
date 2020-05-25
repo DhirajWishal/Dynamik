@@ -30,6 +30,9 @@ namespace Dynamik
             void initialize(const VulkanDevice& vDevice, VulkanBufferType type, UI32 bufferSize);
             void terminate(const VulkanDevice& vDevice);
 
+            VPTR mapMemory();
+            void unmapMemory(VPTR);
+
             operator VkBuffer();
             operator VkDeviceMemory();
 

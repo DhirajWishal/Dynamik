@@ -20,10 +20,10 @@ namespace Dynamik
 			imageInfo.format = VulkanUtilities::getVulkanFormat(info.imageFormat);
 			imageInfo.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 			imageInfo.usage = (VkImageUsageFlagBits)info.imageUsage;
-			imageInfo.samples = info.numSamples;
+			imageInfo.samples = (VkSampleCountFlagBits)info.sampleCount;
 			imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-			if (info.imageType == VulkanImageType::VULKAN_IMAGE_TYPE_CUBEMAP)
+			if (info.imageType == ImageType::IMAGE_TYPE_CUBEMAP)
 				imageInfo.flags = VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT;
 
 			if (vkCreateImage(vDevice, &imageInfo, nullptr, &image) != VK_SUCCESS)

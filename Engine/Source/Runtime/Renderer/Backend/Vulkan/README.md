@@ -58,3 +58,5 @@ The termination of the RBL has 3 phases:
 ## Naming Convention
 All the classes are in PascalCase. Member variables are in camelCase. Function paramters contain a "v" prefix to 
 indicate that it is a Vulkan Base Component.
+
+Since the Dynamik Engine natively support Vulkan as its main rendering API, all the other APIs are derived from it.
