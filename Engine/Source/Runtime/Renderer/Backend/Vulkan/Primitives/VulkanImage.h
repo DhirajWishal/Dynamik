@@ -8,7 +8,8 @@
 */
 #include "../Common/VulkanDevice.h"
 #include "../Common/VulkanQueue.h"
-#include "Renderer/Primitives/PrimitiveTypeDefs.h"
+#include "Renderer/Components/PrimitiveTypeDefs.h"
+#include "Renderer/Components/CoreTypeDefs.h"
 
 namespace Dynamik
 {
@@ -36,10 +37,12 @@ namespace Dynamik
 			~VulkanImage() {}
 
 			void initialize(const VulkanDevice& vDevice, const VulkanQueue& vQueue, VulkanImageCreateInfo info);
+			void generateMipMaps(const VulkanDevice& vDevice, const VulkanQueue& vQueue);
+			void setLayout(const VulkanDevice& vDevice, const VulkanQueue& vQueue, VkImageLayout newLayout);
 			void terminate(const VulkanDevice& vDevice);
 
-			VPTR mapMemory();
-			void unmapMemory(VPTR);
+			VPTR mapMemory(const VulkanDevice& vDevice, UI32 offset = 0);
+			void unmapMemory(const VulkanDevice& vDevice);
 
 			operator VkImage() const;
 			operator VkDeviceMemory() const;
@@ -52,11 +55,13 @@ namespace Dynamik
 			ImageType type = ImageType::IMAGE_TYPE_2D;
 			ImageUsage usage = ImageUsage::IMAGE_USAGE_RENDER;
 
+			UI32 imageWidth = 0;
+			UI32 imageHeight = 0;
+			UI32 imageDepth = 1;
+			UI32 imageSize = 0;
+			UI32 availabeMipLevels = 0;
 			UI32 mipLevel = 0;
 			UI32 layers = 0;
-
-		private:
-			void _generateMipMaps(const VulkanDevice& vDevice, const VulkanQueue& vQueue);
 		};
 	}
 }

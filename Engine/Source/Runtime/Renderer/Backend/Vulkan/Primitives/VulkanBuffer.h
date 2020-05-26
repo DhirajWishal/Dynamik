@@ -7,18 +7,12 @@
  Date:       24/05/2020
 */
 #include "../Common/VulkanDevice.h"
+#include "Renderer/Components/PrimitiveTypeDefs.h"
 
 namespace Dynamik
 {
     namespace Backend
     {
-        enum class DMK_API VulkanBufferType {
-            VULKAN_BUFFER_TYPE_STAGGING,
-            VULKAN_BUFFER_TYPE_VERTEX,
-            VULKAN_BUFFER_TYPE_INDEX,
-            VULKAN_BUFFER_TYPE_UNIFORM,
-        };
-
         /*
          Vulkan Buffer Object for the Dynamik Engine
         */
@@ -27,17 +21,25 @@ namespace Dynamik
             VulkanBuffer() {}
             ~VulkanBuffer() {}
 
-            void initialize(const VulkanDevice& vDevice, VulkanBufferType type, UI32 bufferSize);
+            void initialize(
+                const VulkanDevice& vDevice,
+                BufferType type,
+                UI32 bufferSize,
+                ResourceMemoryType memoryType = 
+                (ResourceMemoryType)
+                (RESOURCE_MEMORY_TYPE_HOST_VISIBLE | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
             void terminate(const VulkanDevice& vDevice);
 
-            VPTR mapMemory();
-            void unmapMemory(VPTR);
+            VPTR mapMemory(const VulkanDevice& vDevice, UI32 offset = 0);
+            void unmapMemory(const VulkanDevice& vDevice);
 
             operator VkBuffer();
             operator VkDeviceMemory();
 
             VkBuffer buffer = VK_NULL_HANDLE;
             VkDeviceMemory bufferMemory = VK_NULL_HANDLE;
+
+            UI32 size = 0;
         };
     }
 }

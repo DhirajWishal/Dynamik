@@ -41,7 +41,6 @@ namespace Dynamik
 
 		DMKTextureType type = DMKTextureType::DMK_TEXTURE_TYPE_2D;
 
-	protected:
 		POINTER<UCHR> myTextureData;
 		UI32 myTextureWidth = 0;
 		UI32 myTextureHeight = 0;

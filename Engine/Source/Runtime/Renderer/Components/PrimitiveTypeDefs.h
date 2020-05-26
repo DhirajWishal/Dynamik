@@ -13,17 +13,6 @@
 
 namespace Dynamik
 {
-	/* Sample Count */
-	enum class DMK_API DMKSampleCount {
-		DMK_SAMPLE_COUNT_1_BIT = BIT_SHIFT(1),
-		DMK_SAMPLE_COUNT_2_BIT = BIT_SHIFT(2),
-		DMK_SAMPLE_COUNT_4_BIT = BIT_SHIFT(3),
-		DMK_SAMPLE_COUNT_8_BIT = BIT_SHIFT(4),
-		DMK_SAMPLE_COUNT_16_BIT = BIT_SHIFT(5),
-		DMK_SAMPLE_COUNT_32_BIT = BIT_SHIFT(8),
-		DMK_SAMPLE_COUNT_64_BIT = BIT_SHIFT(7),
-	};
-
 	/* Image Type enum */
 	enum class DMK_API ImageType {
 		IMAGE_TYPE_2D,
@@ -33,7 +22,7 @@ namespace Dynamik
 	};
 
 	/* Image Usage (OR operator can be used) */
-	enum class DMK_API ImageUsage {
+	enum DMK_API ImageUsage {
 		IMAGE_USAGE_TRANSFER_SRC = BIT_SHIFT(1),
 		IMAGE_USAGE_TRANSFER_DST = BIT_SHIFT(2),
 		IMAGE_USAGE_RENDER = BIT_SHIFT(3),
@@ -45,7 +34,7 @@ namespace Dynamik
 	};
 
 	/* Resource Memory Type */
-	enum class DMK_API ResourceMemoryType {
+	enum DMK_API ResourceMemoryType {
 		RESOURCE_MEMORY_TYPE_HOST_ACCESSABLE = BIT_SHIFT(1),
 		RESOURCE_MEMORY_TYPE_HOST_VISIBLE = BIT_SHIFT(2),
 		RESOURCE_MEMORY_TYPE_HOST_COHERENT = BIT_SHIFT(3),
@@ -92,9 +81,9 @@ namespace Dynamik
 	};
 
 	/* Image Sampler Mipmap mode */
-	enum class DMK_API DMKMipMapMode {
-		DMK_MIPMAP_MODE_NEAREST,
-		DMK_MIPMAP_MODE_LINEAR,
+	enum class DMK_API ResourceMipMapMode {
+		RESOURCE_MIPMAP_MODE_NEAREST,
+		RESOURCE_MIPMAP_MODE_LINEAR,
 	};
 
 	/* Image Swizzle Components */
@@ -106,6 +95,16 @@ namespace Dynamik
 		IMAGE_SWIZZLE_G,
 		IMAGE_SWIZZLE_B,
 		IMAGE_SWIZZLE_A,
+	};
+
+	/* Buffer Types */
+	enum class DMK_API BufferType {
+		BUFFER_TYPE_STAGGING,
+		BUFFER_TYPE_VERTEX,
+		BUFFER_TYPE_INDEX,
+		BUFFER_TYPE_UNIFORM,
+		BUFFER_TYPE_INDIRECT,
+		BUFFER_TYPE_RAY_TRACING,
 	};
 }
 

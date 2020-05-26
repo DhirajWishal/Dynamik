@@ -385,10 +385,15 @@
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanUtilities.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanBuffer.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageSampler.h" />
-    <ClInclude Include="Runtime\Renderer\Primitives\PrimitiveTypeDefs.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageView.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanOneTimeCommandBuffer.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanMacros.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanRenderPass.h" />
+    <ClInclude Include="Runtime\Renderer\Components\PrimitiveTypeDefs.h" />
+    <ClInclude Include="Runtime\Renderer\Components\ContextTypeDefs.h" />
+    <ClInclude Include="Runtime\Renderer\Components\CoreTypeDefs.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanFrameBuffer.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Graphics\VulkanPipeline.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\Core\Error\ErrorManager.cpp">
@@ -542,6 +547,10 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageSampler.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageView.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanOneTimeCommandBuffer.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanRenderPass.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanFrameBuffer.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Graphics\VulkanTexture.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Graphics\VulkanPipeline.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

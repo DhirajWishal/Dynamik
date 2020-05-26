@@ -24,7 +24,7 @@ namespace Dynamik
             B1 unnormalizedCoordinates = false;
             B1 compareEnable = false;
             StencilCompareOp compareOp = StencilCompareOp::STENCIL_COMPARE_OP_NEVER;
-            DMKMipMapMode mipmapMode = DMKMipMapMode::DMK_MIPMAP_MODE_LINEAR;
+            ResourceMipMapMode mipmapMode = ResourceMipMapMode::RESOURCE_MIPMAP_MODE_LINEAR;
             F32 minLOD = 0.0f;
             F32 maxLOD = 1.0f;
             F32 mipLODBias = 1.0f;

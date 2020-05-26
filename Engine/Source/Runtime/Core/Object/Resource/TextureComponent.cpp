@@ -3,5 +3,8 @@
 
 namespace Dynamik
 {
-
+	POINTER<UCHR> DMKTextureComponent::data()
+	{
+		return myTextureData;
+	}
 }
