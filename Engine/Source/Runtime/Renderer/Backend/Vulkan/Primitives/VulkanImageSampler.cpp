@@ -25,8 +25,12 @@ namespace Dynamik
 			sInfo.maxLod = info.maxLOD;
 			sInfo.mipLodBias = info.mipLODBias;
 
-			if (vkCreateSampler(vDevice, &sInfo, nullptr, &sampler) != VK_SUCCESS)
-				DMK_ERROR_BOX("Failed to create texture sampler!");
+			DMK_VULKAN_ASSERT(vkCreateSampler(vDevice, &sInfo, nullptr, &sampler), "Failed to create texture sampler!");
+		}
+
+		void VulkanImageSampler::terminate(const VulkanDevice& vDevice)
+		{
+			vkDestroySampler(vDevice, sampler, nullptr);
 		}
 		
 		VulkanImageSampler::operator VkSampler()

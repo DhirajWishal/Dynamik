@@ -20,11 +20,11 @@ namespace Dynamik
 			fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
 			fenceInfo.flags = VK_FENCE_CREATE_SIGNALED_BIT;
 
-			for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
-				if (vkCreateSemaphore(vDevice, &semaphoreInfo, nullptr, &imageAvailables.at(i)) != VK_SUCCESS ||
-					vkCreateSemaphore(vDevice, &semaphoreInfo, nullptr, &renderFinished.at(i)) != VK_SUCCESS ||
-					vkCreateFence(vDevice, &fenceInfo, nullptr, &inFlightFences.at(i)) != VK_SUCCESS)
-					DMK_ERROR_BOX("failed to create synchronization objects for a frame!");
+			for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) 
+			{
+				DMK_VULKAN_ASSERT(vkCreateSemaphore(vDevice, &semaphoreInfo, nullptr, &imageAvailables.at(i)), "Failed to create image available semaphore!");
+				DMK_VULKAN_ASSERT(vkCreateSemaphore(vDevice, &semaphoreInfo, nullptr, &renderFinished.at(i)), "Failed to create render finished semaphore!");
+				DMK_VULKAN_ASSERT(vkCreateFence(vDevice, &fenceInfo, nullptr, &inFlightFences.at(i)), "Failed to create fence object!");
 			}
 		}
 

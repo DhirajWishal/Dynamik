@@ -12,8 +12,7 @@ namespace Dynamik
 			poolInfo.queueFamilyIndex = vQueue.processFamily.value();
 			poolInfo.flags = 0;
 
-			if (vkCreateCommandPool(vDevice, &poolInfo, nullptr, &pool) != VK_SUCCESS)
-				DMK_ERROR_BOX("Failed to create command pool!");
+			DMK_VULKAN_ASSERT(vkCreateCommandPool(vDevice, &poolInfo, nullptr, &pool), "Failed to create command pool!");
 		}
 
 		void VulkanCommandBuffer::allocateCommandBuffers(const VulkanDevice& vDevice, UI32 bufferCount)
@@ -25,8 +24,7 @@ namespace Dynamik
 			allocInfo.commandBufferCount = static_cast<UI32>(bufferCount);
 
 			buffers.resize(bufferCount);
-			if (vkAllocateCommandBuffers(vDevice, &allocInfo, buffers.data()) != VK_SUCCESS)
-				DMK_ERROR_BOX("Failed to allocate command buffers!");
+			DMK_VULKAN_ASSERT(vkAllocateCommandBuffers(vDevice, &allocInfo, buffers.data()), "Failed to allocate command buffers!");
 		}
 
 		const VkCommandBuffer& VulkanCommandBuffer::beginCommandBufferRecording(const VulkanDevice& vDevice, UI32 bufferIndex)
@@ -34,17 +32,15 @@ namespace Dynamik
 			VkCommandBufferBeginInfo beginInfo = {};
 			beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 			beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
-
-			if (vkBeginCommandBuffer(buffers[bufferIndex], &beginInfo) != VK_SUCCESS)
-				DMK_ERROR_BOX("Failed to begin recording of command buffer (@ index: " + std::to_string(bufferIndex) + ")!");
 		
+			DMK_VULKAN_ASSERT(vkBeginCommandBuffer(buffers[bufferIndex], &beginInfo), "Failed to begin recording of command buffer (@ index: " + std::to_string(bufferIndex) + ")!");
+
 			return buffers[bufferIndex];
 		}
 
 		void VulkanCommandBuffer::endCommandBufferRecording(const VulkanDevice& vDevice, const VkCommandBuffer& commandBuffer)
 		{
-			if (vkEndCommandBuffer(commandBuffer) != VK_SUCCESS)
-				DMK_ERROR_BOX("Failed to record command buffer!");
+			DMK_VULKAN_ASSERT(vkEndCommandBuffer(commandBuffer), "Failed to record command buffer!");
 		}
 
 		void VulkanCommandBuffer::terminate(const VulkanDevice& vDevice)

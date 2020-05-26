@@ -8,7 +8,7 @@
 */
 #include "Macros/Global.h"
 #include "Types/DataTypes.h"
-#include <vulkan/vulkan.h>
+#include "VulkanMacros.h"
 
 namespace Dynamik
 {

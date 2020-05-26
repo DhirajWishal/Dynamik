@@ -34,7 +34,7 @@ namespace Dynamik
 
 					if (physicalDeviceProperties.deviceType == VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
 						physicalDevice = device;
-					else if (physicalDeviceProperties.deviceType == VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_SINTEGRATED_GPU)
+					else if (physicalDeviceProperties.deviceType == VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU)
 						physicalDevice = device;
 					else
 						physicalDevice = device;
@@ -60,7 +60,7 @@ namespace Dynamik
 			case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_OTHER:
 				printf("Device Type: Other GPU\n");
 				break;
-			case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_SINTEGRATED_GPU:
+			case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU:
 				printf("Device Type: Integrated GPU (onboard)\n");
 				break;
 			case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU:
@@ -124,8 +124,7 @@ namespace Dynamik
 				createInfo.enabledLayerCount = 0;
 			}
 
-			if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &logicalDevice) != VK_SUCCESS)
-				DMK_ERROR_BOX("Failed to create logical device!");
+			DMK_VULKAN_ASSERT(vkCreateDevice(physicalDevice, &createInfo, nullptr, &logicalDevice), "Failed to create logical device!");
 		}
 
 		void VulkanDevice::terminate(VulkanInstance vInstance)

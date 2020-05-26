@@ -386,6 +386,9 @@
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanBuffer.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageSampler.h" />
     <ClInclude Include="Runtime\Renderer\Primitives\PrimitiveTypeDefs.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageView.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanOneTimeCommandBuffer.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanMacros.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\Core\Error\ErrorManager.cpp">
@@ -537,6 +540,8 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanUtilities.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanBuffer.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageSampler.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageView.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanOneTimeCommandBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

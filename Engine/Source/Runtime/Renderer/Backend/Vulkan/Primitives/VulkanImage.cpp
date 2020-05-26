@@ -7,8 +7,13 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanImage::initialize(const VulkanDevice& vDevice, VulkanImageCreateInfo info)
+		void VulkanImage::initialize(const VulkanDevice& vDevice, const VulkanQueue& vQueue, VulkanImageCreateInfo info)
 		{
+			type = info.imageType;
+			usage = info.imageUsage;
+			mipLevel = info.mipLevels;
+			layers = info.layers;
+
 			VkImageCreateInfo imageInfo = {};
 			imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
 			imageInfo.imageType = VK_IMAGE_TYPE_2D;
@@ -23,11 +28,10 @@ namespace Dynamik
 			imageInfo.samples = (VkSampleCountFlagBits)info.sampleCount;
 			imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-			if (info.imageType == ImageType::IMAGE_TYPE_CUBEMAP)
+			if (info.imageType == ImageType::IMAGE_TYPE_CUBEMAP || info.imageType == ImageType::IMAGE_TYPE_CUBEMAP_ARRAY)
 				imageInfo.flags = VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT;
 
-			if (vkCreateImage(vDevice, &imageInfo, nullptr, &image) != VK_SUCCESS)
-				DMK_ERROR_BOX("Failed to create image!");
+			DMK_VULKAN_ASSERT(vkCreateImage(vDevice, &imageInfo, nullptr, &image), "Failed to create image!");
 
 			VkMemoryRequirements memRequirements;
 			vkGetImageMemoryRequirements(vDevice, image, &memRequirements);
@@ -38,10 +42,8 @@ namespace Dynamik
 			allocInfo.memoryTypeIndex = VulkanUtilities::findMemoryType(memRequirements.memoryTypeBits,
 				(VkMemoryPropertyFlagBits)info.memoryType, vDevice);
 
-			if (vkAllocateMemory(vDevice, &allocInfo, nullptr, &imageMemory) != VK_SUCCESS)
-				DMK_ERROR_BOX("Failed to allocate image memory!");
-
-			vkBindImageMemory(vDevice, image, imageMemory, 0);
+			DMK_VULKAN_ASSERT(vkAllocateMemory(vDevice, &allocInfo, nullptr, &imageMemory), "Failed to allocate image memory!");
+			DMK_VULKAN_ASSERT(vkBindImageMemory(vDevice, image, imageMemory, 0), "Failed to bind image memory!");
 		}
 
 		void VulkanImage::terminate(const VulkanDevice& vDevice)
@@ -58,6 +60,10 @@ namespace Dynamik
 		VulkanImage::operator VkDeviceMemory() const
 		{
 			return this->imageMemory;
+		}
+		
+		void VulkanImage::_generateMipMaps(const VulkanDevice& vDevice, const VulkanQueue& vQueue)
+		{
 		}
 	}
 }

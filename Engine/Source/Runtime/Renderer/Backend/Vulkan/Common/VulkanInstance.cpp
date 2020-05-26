@@ -112,8 +112,7 @@ namespace Dynamik
 				createInfo.pNext = nullptr;
 			}
 
-			if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS)
-				DMK_ERROR_BOX("Failed to create instance!");
+			DMK_VULKAN_ASSERT(vkCreateInstance(&createInfo, nullptr, &instance), "Failed to create instance!");
 
 			if (enableValidation)
 				_initializeDebugger();
@@ -137,8 +136,7 @@ namespace Dynamik
 			VkDebugUtilsMessengerCreateInfoEXT createInfo;
 			_populateDebugMessegerCreateInfo(&createInfo);
 
-			if (createDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &_debugMessenger) != VK_SUCCESS)
-				DMK_ERROR_BOX("Failed to set up debug messenger!");
+			DMK_VULKAN_ASSERT(createDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &_debugMessenger), "Failed to set up debug messenger!");
 		}
 
 		void VulkanInstance::_populateDebugMessegerCreateInfo(POINTER<VkDebugUtilsMessengerCreateInfoEXT> createInfo)

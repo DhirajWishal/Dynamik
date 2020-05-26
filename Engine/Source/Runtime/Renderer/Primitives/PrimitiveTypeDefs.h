@@ -27,7 +27,9 @@ namespace Dynamik
 	/* Image Type enum */
 	enum class DMK_API ImageType {
 		IMAGE_TYPE_2D,
+		IMAGE_TYPE_2D_ARRAY,
 		IMAGE_TYPE_CUBEMAP,
+		IMAGE_TYPE_CUBEMAP_ARRAY,
 	};
 
 	/* Image Usage (OR operator can be used) */
@@ -90,9 +92,20 @@ namespace Dynamik
 	};
 
 	/* Image Sampler Mipmap mode */
-	enum class DMKMipMapMode {
+	enum class DMK_API DMKMipMapMode {
 		DMK_MIPMAP_MODE_NEAREST,
 		DMK_MIPMAP_MODE_LINEAR,
+	};
+
+	/* Image Swizzle Components */
+	enum class DMK_API ImageSwizzleComponent {
+		IMAGE_SWIZZLE_IDENTITY,
+		IMAGE_SWIZZLE_ZERO,
+		IMAGE_SWIZZLE_ONE,
+		IMAGE_SWIZZLE_R,
+		IMAGE_SWIZZLE_G,
+		IMAGE_SWIZZLE_B,
+		IMAGE_SWIZZLE_A,
 	};
 }
 

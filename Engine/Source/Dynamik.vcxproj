@@ -802,6 +802,8 @@
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanControlHeader.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanDevice.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanInstance.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanMacros.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanOneTimeCommandBuffer.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanQueue.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSurface.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSyncObjects.h" />
@@ -812,6 +814,7 @@
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanBuffer.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImage.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageSampler.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageView.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\VulkanRBL.h" />
     <ClInclude Include="Runtime\Renderer\Primitives\PrimitiveTypeDefs.h" />
     <ClInclude Include="Runtime\Renderer\Renderer.h" />
@@ -1264,6 +1267,7 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanCommandBuffer.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanDevice.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanInstance.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanOneTimeCommandBuffer.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanQueue.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSurface.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSyncObjects.cpp" />
@@ -1272,6 +1276,7 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanBuffer.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImage.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageSampler.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageView.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\VulkanRBL.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Windows|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Unix|x64'">true</ExcludedFromBuild>

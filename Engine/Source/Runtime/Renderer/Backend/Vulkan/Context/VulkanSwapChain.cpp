@@ -142,10 +142,23 @@ namespace Dynamik
 
 			vkGetSwapchainImagesKHR(vDevice, swapChain, &imageCount, nullptr);
 			swapChainImages.resize(imageCount);
-			vkGetSwapchainImagesKHR(vDevice, swapChain, &imageCount, swapChainImages.data());
+			ARRAY<VkImage> _images(imageCount);
+			vkGetSwapchainImagesKHR(vDevice, swapChain, &imageCount, _images.data());
+
+			for (auto _image : _images)
+			{
+				VulkanImage _vImage;
+				_vImage.image = _image;
+				_vImage.imageFormat = swapChainImageFormat;
+				_vImage.layers = 1;
+				_vImage.mipLevel = 1;
+				swapChainImages.pushBack(_vImage);
+			}
 
 			swapChainImageFormat = surfaceFormat.format;
 			swapChainExtent = extent;
+
+			_initializeImageViews(vDevice);
 		}
 
 		void VulkanSwapChain::terminate(const VulkanDevice& vDevice)
@@ -157,9 +170,16 @@ namespace Dynamik
 			return this->swapChain;
 		}
 		
-		void VulkanSwapChain::_initializeImageViews()
+		void VulkanSwapChain::_initializeImageViews(const VulkanDevice& vDevice)
 		{
 			swapChainImageViews.resize(swapChainImages.size());
+
+			for (UI32 itr = 0; itr < swapChainImages.size(); itr++)
+			{
+				VulkanImageView _vView;
+				_vView.initialize(vDevice, swapChainImages[itr]);
+				swapChainImageViews.pushBack(_vView);
+			}
 		}
 	}
 }

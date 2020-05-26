@@ -39,6 +39,7 @@ namespace Dynamik
             ~VulkanImageSampler() {}
 
             void initialize(const VulkanDevice& vDevice, VulkanImageSamplerCreateInfo info);
+            void terminate(const VulkanDevice& vDevice);
 
             operator VkSampler();
 

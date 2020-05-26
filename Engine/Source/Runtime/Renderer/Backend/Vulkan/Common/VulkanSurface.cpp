@@ -2,6 +2,7 @@
 #include "VulkanSurface.h"
 
 #include "VulkanQueue.h"
+#include "../Context/VulkanSwapChain.h"
 
 #include <set>
 
@@ -26,8 +27,7 @@ namespace Dynamik
 
 		void VulkanSurface::initialize(VulkanInstance vInstance, POINTER<GLFWwindow> windowHandle)
 		{
-			if (glfwCreateWindowSurface(vInstance, windowHandle.get(), nullptr, &surface) != VK_SUCCESS)
-				DMK_ERROR_BOX("Failed to create window surface!");
+			DMK_VULKAN_ASSERT(glfwCreateWindowSurface(vInstance, windowHandle.get(), nullptr, &surface), "Failed to create window surface!");
 		}
 
 		void VulkanSurface::terminate(VulkanInstance vInstance)
@@ -44,7 +44,7 @@ namespace Dynamik
 			B1 swapChainAdequate = false;
 			if (extensionsSupported)
 			{
-				VulkanGraphicsSwapChainSupportDetails swapChainSupport = VulkanGraphicsSwapChain::querySwapChainSupport(&physicalDevice, &surface);
+				VulkanSwapChainSupportDetails swapChainSupport = VulkanSwapChain::querySwapChainSupport(physicalDevice, surface);
 				swapChainAdequate = (!swapChainSupport.formats.empty()) && (!swapChainSupport.presentModes.empty());
 			}
 

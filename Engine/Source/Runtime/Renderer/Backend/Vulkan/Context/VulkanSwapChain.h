@@ -10,6 +10,8 @@
 #include "../Common/VulkanQueue.h"
 #include "../Common/VulkanViewport.h"
 
+#include "../Primitives/VulkanImageView.h"
+
 namespace Dynamik
 {
     namespace Backend
@@ -35,14 +37,14 @@ namespace Dynamik
 
             operator VkSwapchainKHR() const;
 
-            ARRAY<VkImage> swapChainImages;
-            ARRAY<VkImageView> swapChainImageViews;
+            ARRAY<VulkanImage> swapChainImages;
+            ARRAY<VulkanImageView> swapChainImageViews;
             VkSwapchainKHR swapChain = VK_NULL_HANDLE;
             VkFormat swapChainImageFormat = VK_FORMAT_UNDEFINED;
             VkExtent2D swapChainExtent = { 0, 0 };
 
         private:
-            void _initializeImageViews();
+            void _initializeImageViews(const VulkanDevice& vDevice);
         };
     }
 }
