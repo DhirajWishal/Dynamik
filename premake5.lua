@@ -41,7 +41,7 @@ IncludeDir["tol"] = "$(SolutionDir)Dependencies/Libraries/External/tinyobjloader
 IncludeDir["gli"] = "$(SolutionDir)Dependencies/Libraries/External/gli/gli"
 --Include the Vulkan SDK Include path here
 IncludeDir["Vulkan"] = "$(SolutionDir)Dependencies/Libraries/External/Vulkan/include"
-IncludeDir["boost"] = "E:/Programming/Modules and Runtime/boost_1_70_0"
+IncludeDir["boost"] = "E:/Projects/Dynamik Engine/Libraries/boost_1_70_0"
 IncludeDir["jpeg"] = "$(SolutionDir)Dependencies/Libraries/Local/gil/jpeg-6b"
 IncludeDir["irrKlang"] = "$(SolutionDir)Dependencies/Libraries/Local/irrKlang/include"
 IncludeDir["assimp"] = "$(SolutionDir)Dependencies/Libraries/Local/assimp"
@@ -54,8 +54,7 @@ IncludeLib["GLEW"] = "$(SolutionDir)Dependencies/Libraries/Binaries/GLEW/Release
 IncludeLib["Vulkan"] = "$(SolutionDir)Dependencies/Libraries/Binaries/Vulkan"
 IncludeLib["DirectX"] = "$(SolutionDir)Dependencies/Libraries/Binaries/DirectX12"
 IncludeLib["irrKlang"] = "$(SolutionDir)Dependencies/Libraries/Binaries/irrKlang"
-IncludeLib["boostD"] = "E:/Programming/Modules and Runtime/boost_1_70_0/bin/Dependencies/iostreams/build/msvc-14.2/debug/address-model-64/link-static/threading-multi"
-IncludeLib["boostR"] = "E:/Programming/Modules and Runtime/boost_1_70_0/bin/Dependencies/iostreams/build/msvc-14.2/release/address-model-64/link-static/threading-multi"
+IncludeLib["boost"] = "E:/Projects/Dynamik Engine/Libraries/boost_1_70_0/stage/lib"
 IncludeLib["Assimp"] = "$(SolutionDir)Dependencies/Libraries/Binaries/Assimp"
 
 group "Engine"	-- Add the Engine to a virtual folder

@@ -8,6 +8,8 @@
 */
 #include "VulkanDevice.h"
 
+#include "Object/Resource/Primitives.h"
+
 namespace Dynamik
 {
     namespace Backend 
@@ -25,6 +27,10 @@ namespace Dynamik
             static B1 hasStencilComponent(const VkFormat& format);
             static VkFormat findSupportedFormat(const ARRAY<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features, VkPhysicalDevice physicalDevice);
             static VkFormat findDepthFormat(const VkPhysicalDevice& physicalDevice);
+
+            static VkDescriptorType getDescriptorType(DMKUniformType type);
+            static VkShaderStageFlagBits getShaderStage(DMKShaderLocation location);
+            static ARRAY<VkDescriptorSetLayoutBinding> getDescriptorSetLayoutBindings(ARRAY<DMKUniformBufferDescriptor> descriptors);
         };
     }
 }

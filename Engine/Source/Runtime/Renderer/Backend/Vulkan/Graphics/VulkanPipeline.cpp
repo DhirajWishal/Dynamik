@@ -1,6 +1,9 @@
 #include "dmkafx.h"
 #include "VulkanPipeline.h"
 
+#include <sys/stat.h>
+#include <fcntl.h>
+
 namespace Dynamik
 {
 	namespace Backend
