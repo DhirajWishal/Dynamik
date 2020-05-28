@@ -32,7 +32,7 @@ namespace Dynamik
 			VkCommandBufferBeginInfo beginInfo = {};
 			beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 			beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
-		
+
 			DMK_VULKAN_ASSERT(vkBeginCommandBuffer(buffers[bufferIndex], &beginInfo), "Failed to begin recording of command buffer (@ index: " + std::to_string(bufferIndex) + ")!");
 
 			return buffers[bufferIndex];
@@ -43,16 +43,28 @@ namespace Dynamik
 			DMK_VULKAN_ASSERT(vkEndCommandBuffer(commandBuffer), "Failed to record command buffer!");
 		}
 
+		void VulkanCommandBuffer::resetPool(const VulkanDevice& vDevice)
+		{
+			DMK_VULKAN_ASSERT(vkResetCommandPool(vDevice, pool, VK_NULL_HANDLE), "Failed to reset command pool!");
+		}
+
+		void VulkanCommandBuffer::resetBuffers()
+		{
+			for (auto _buffer : buffers)
+				DMK_VULKAN_ASSERT(vkResetCommandBuffer(_buffer, VK_NULL_HANDLE), "Failed to reset command buffer!");
+		}
+
 		void VulkanCommandBuffer::terminate(const VulkanDevice& vDevice)
 		{
 			vkFreeCommandBuffers(vDevice, pool, static_cast<UI32>(buffers.size()), buffers.data());
+			vkDestroyCommandPool(vDevice, pool, nullptr);
 		}
-		
+
 		VulkanCommandBuffer::operator VkCommandPool() const
 		{
 			return this->pool;
 		}
-		
+
 		const VkCommandBuffer VulkanCommandBuffer::operator[](UI32 index) const
 		{
 			return this->buffers[index];

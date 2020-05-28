@@ -8,9 +8,22 @@
 */
 #include "Macros/Global.h"
 #include "GameLibrary/LevelComponent.h"
+#include "Managers/Window/WindowHandle.h"
 
 namespace Dynamik
 {
+    /*
+     Render context types
+    */
+    enum class DMKRenderContextType {
+        DMK_RENDER_CONTEXT_DEFAULT,
+        DMK_RENDER_CONTEXT_DEFAULT_VR,
+        DMK_RENDER_CONTEXT_2D,
+        DMK_RENDER_CONTEXT_3D,
+        DMK_RENDER_CONTEXT_DEBUG,
+        DMK_RENDER_CONTEXT_DEBUG_VR,
+    };
+
     /*
      The Renderer Backend Layer contains 4 main parts (API agnostic). These are:
      * Core component
@@ -35,7 +48,7 @@ namespace Dynamik
         virtual ~DMKRendererBackendLayer() {}
 
         virtual void initializeCore() {}
-        virtual void initializeRenderingContext() {}
+        virtual void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) {}
         virtual void initializeLevel(POINTER<DMKLevelComponent> level) {}
         virtual void initializeFinalComponents() {}
 

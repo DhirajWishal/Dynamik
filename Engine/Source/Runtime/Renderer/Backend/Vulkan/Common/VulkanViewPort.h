@@ -7,28 +7,23 @@
  Date:      24/05/2020
 */
 #include "VulkanSurface.h"
+#include "Managers/Window/WindowHandle.h"
 
 namespace Dynamik
 {
-    namespace Backend
-    {
-        /*
-         Vulkan View Port class
-        */
-        class DMK_API VulkanViewport {
-        public:
-            VulkanViewport() {}
-            ~VulkanViewport() {}
+	namespace Backend
+	{
+		/*
+		 Vulkan Viewport class
+		*/
+		class DMK_API VulkanViewport : public DMKViewport {
+		public:
+			VulkanViewport() {}
+			~VulkanViewport() {}
 
-            POINTER<VulkanSurface> surfacePtr;
-
-            UI32 viewPortWidth = 0;
-            UI32 viewPortHeight = 0;
-
-            UI32 xOffset = 0;
-            UI32 yOffset = 0;
-        };
-    }
+			POINTER<VulkanSurface> surfacePtr;
+		};
+	}
 }
 
 #endif // !_DYNAMIK_VULKAN_VIEWPORT_H

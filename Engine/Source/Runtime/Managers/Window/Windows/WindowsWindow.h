@@ -12,6 +12,9 @@
 
 namespace Dynamik
 {
+	/*
+	 Windows Window handle for the Dynamik Engine
+	*/
 	class DMK_API WindowsWindow : public DMKWindowHandle {
 	public:
 		WindowsWindow() {}
@@ -40,6 +43,8 @@ namespace Dynamik
 		ARRAY<DMKKeyEventComponent> getKeyEvents() override;
 		ARRAY<DMKMouseButtonEventComponent> getMouseButtonEvents() override;
 		ARRAY<DMKMouseScrollEventComponent> getMouseScrollEvents() override;
+
+		POINTER<GLFWwindow> getHandle();
 
 	private:
 		POINTER<GLFWwindow> windowHandle;

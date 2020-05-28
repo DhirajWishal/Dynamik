@@ -32,6 +32,9 @@ namespace Dynamik
 
 			void endCommandBufferRecording(const VulkanDevice& vDevice, const VkCommandBuffer& commandBuffer);
 
+			void resetPool(const VulkanDevice& vDevice);
+			void resetBuffers();
+
 			void terminate(const VulkanDevice& vDevice);
 
 			operator VkCommandPool() const;

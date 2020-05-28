@@ -160,7 +160,7 @@ namespace Dynamik
 	*/
 	struct DMK_API DMKUniformDescription {
 		ARRAY<DMKUniformAttribute> attributes;
-		DMKUniformType type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER_OBJECT;
+		DMKUniformType type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
 		DMKShaderLocation shaderLocation = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
 		UI32 destinationBinding = 0;
 		UI32 offset = 0;

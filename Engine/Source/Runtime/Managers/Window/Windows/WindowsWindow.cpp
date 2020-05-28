@@ -130,6 +130,11 @@ namespace Dynamik
 		return eventHandler.getMouseScrollEvents();
 	}
 
+	POINTER<GLFWwindow> WindowsWindow::getHandle()
+	{
+		return windowHandle;
+	}
+
 	WindowsWindow WindowsWindow::instance;
 	std::mutex WindowsWindow::_mutex;
 

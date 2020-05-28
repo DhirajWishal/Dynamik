@@ -15,11 +15,16 @@ namespace Dynamik
 	class DMK_API DMKWindowHandle;
 
 	/*
-	 Dynamik Viewport structure
+	 Dynamik Viewport class
 	 Each viewport contains a pointer to its parent window, window extent (width, height) and the offsets
 	 (x and y).
+	 Rendering APIs can use this to derive API specific viewport types.
 	*/
-	struct DMK_API DMKViewport {
+	class DMK_API DMKViewport {
+	public:
+		DMKViewport() {}
+		virtual ~DMKViewport() {}
+
 		POINTER<DMKWindowHandle> windowHandle;
 
 		I32 width = 0;
@@ -37,8 +42,8 @@ namespace Dynamik
 	*/
 	class DMK_API DMKWindowHandle {
 	public:
-		DMKWindowHandle() {}
-		DMKWindowHandle(const STRING& title, const I32& width, const I32 height)
+		DMKWindowHandle() : windowTitle("Dynamik Engine v1"), windowWidth(1280), windowHeight(720) {}
+		DMKWindowHandle(const STRING& title, const I32& width, const I32& height)
 			: windowTitle(title), windowWidth(width), windowHeight(height) {}
 		virtual ~DMKWindowHandle() {}
 
