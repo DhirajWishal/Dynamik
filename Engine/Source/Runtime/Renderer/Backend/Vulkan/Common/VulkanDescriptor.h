@@ -25,25 +25,31 @@ namespace Dynamik
             ~VulkanDescriptorSetLayout() {}
 
             void initialize(const VulkanDevice& vDevice, const ARRAY<DMKUniformBufferDescriptor>& descriptors);
-
-            void initializeLayout(const VulkanDevice& vDevice, const ARRAY<DMKUniformBufferDescriptor>& descriptors);
-            void initializePool(const VulkanDevice& vDevice, const ARRAY<DMKUniformBufferDescriptor>& descriptors);
-
             void terminate(const VulkanDevice& vDevice);
 
             operator VkDescriptorSetLayout() const;
+
+            VkDescriptorSetLayout layout = VK_NULL_HANDLE;
+        };
+
+        /*
+         Vulkan Descriptor Sets and Descriptor Pool for the Dynamik RBL
+        */
+        class DMK_API VulkanDescriptorSets {
+        public:
+            VulkanDescriptorSets() {}
+            ~VulkanDescriptorSets() {}
+
+            void initializePool(const VulkanDevice& vDevice, const ARRAY<DMKUniformBufferDescriptor>& descriptors);
+            void initailizeSets(const VulkanDevice& vDevice, const VulkanDescriptorSetLayout& vDescriptorSetLayout);
+
+            void terminate(const VulkanDevice& vDevice);
+
             operator VkDescriptorPool() const;
             const VkDescriptorSet operator[](UI32 index) const;
 
             ARRAY<VkDescriptorSet> sets;
-            VkDescriptorSetLayout layout = VK_NULL_HANDLE;
             VkDescriptorPool pool = VK_NULL_HANDLE;
-        };
-
-        class DMK_API VulkanDescriptorPool {
-        public:
-            VulkanDescriptorPool() {}
-            ~VulkanDescriptorPool() {}
         };
     }
 }

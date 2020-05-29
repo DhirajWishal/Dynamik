@@ -7,27 +7,28 @@ namespace Dynamik
 	{
 		void VulkanFrameBuffer::initialize(
 			const VulkanDevice& vDevice,
-			UI32 bufferCount,
+			const VulkanSwapChain& vSwapChain,
 			const VulkanRenderPass& vRenderPass,
-			const ARRAY<VulkanImageView>& attachments,
-			UI32 width, UI32 height)
+			const ARRAY<POINTER<VulkanFrameBufferAttachment>>& attachments)
 		{
-			frameHeight = height;
-			frameWidth = width;
+			frameWidth = vSwapChain.swapChainExtent.width;
+			frameHeight = vSwapChain.swapChainExtent.height;
 
-			for (size_t i = 0; i < bufferCount; i++)
+			for (size_t i = 0; i < vSwapChain.swapChainImages.size(); i++)
 			{
-				std::vector<VkImageView> attachments;
-				for (VkImageView _imageView : attachments)
-					attachments.push_back(_imageView);
+				ARRAY<VkImageView> _attachments;
+				_attachments.pushBack(vSwapChain.swapChainImageViews[i]);
+
+				for (auto _attachment : attachments)
+					_attachments.pushBack(_attachment);
 
 				VkFramebufferCreateInfo framebufferInfo = {};
 				framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
 				framebufferInfo.renderPass = vRenderPass;
-				framebufferInfo.attachmentCount = static_cast<UI32>(attachments.size());
-				framebufferInfo.pAttachments = attachments.data();
-				framebufferInfo.width = width;
-				framebufferInfo.height = height;
+				framebufferInfo.attachmentCount = static_cast<UI32>(_attachments.size());
+				framebufferInfo.pAttachments = _attachments.data();
+				framebufferInfo.width = frameWidth;
+				framebufferInfo.height = frameHeight;
 				framebufferInfo.layers = 1;
 
 				VkFramebuffer _buffer = VK_NULL_HANDLE;

@@ -810,7 +810,10 @@
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSyncObjects.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanUtilities.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanViewport.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Context\Attachments\VulkanColorAttachment.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Context\Attachments\VulkanDepthAttachment.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanFrameBuffer.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanFrameBufferAttachment.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanRenderPass.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanSwapChain.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Graphics\VulkanPipeline.h" />
@@ -824,6 +827,7 @@
     <ClInclude Include="Runtime\Renderer\Components\CoreTypeDefs.h" />
     <ClInclude Include="Runtime\Renderer\Components\PrimitiveTypeDefs.h" />
     <ClInclude Include="Runtime\Renderer\Renderer.h" />
+    <ClInclude Include="Runtime\Renderer\RendererThread.h" />
     <ClInclude Include="Runtime\Systems\Attachment\AttachmentManager.h" />
     <ClInclude Include="Studio\GUI\GUIComponents\Widget.h" />
     <ClInclude Include="Studio\GUI\GUICore\GUICore.h" />
@@ -1359,6 +1363,8 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Unix|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Mac|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\Attachments\VulkanColorAttachment.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\Attachments\VulkanDepthAttachment.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanFrameBuffer.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Windows|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Unix|x64'">true</ExcludedFromBuild>
@@ -1370,6 +1376,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Unix|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Mac|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanFrameBufferAttachment.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanRenderPass.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Windows|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Unix|x64'">true</ExcludedFromBuild>

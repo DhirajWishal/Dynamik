@@ -7,7 +7,8 @@
  Date:      26/05/2020
 */
 #include "VulkanRenderPass.h"
-#include "../Primitives/VulkanImageView.h"
+#include "VulkanSwapChain.h"
+#include "VulkanFrameBufferAttachment.h"
 
 namespace Dynamik
 {
@@ -23,10 +24,9 @@ namespace Dynamik
 
             void initialize(
                 const VulkanDevice& vDevice,
-                UI32 bufferCount,
+                const VulkanSwapChain& vSwapChain,
                 const VulkanRenderPass& vRenderPass,
-                const ARRAY<VulkanImageView>& attachments,
-                UI32 width, UI32 height);
+                const ARRAY<POINTER<VulkanFrameBufferAttachment>>& attachments);
             void terminate(const VulkanDevice& vDevice);
 
             const VkFramebuffer operator[](UI32 index);

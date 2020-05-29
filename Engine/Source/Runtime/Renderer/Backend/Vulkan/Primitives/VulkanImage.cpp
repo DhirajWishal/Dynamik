@@ -254,11 +254,6 @@ namespace Dynamik
 			vkUnmapMemory(vDevice, imageMemory);
 		}
 
-		UI32 VulkanImage::size()
-		{
-			return UI32();
-		}
-
 		VulkanImage::operator VkImage() const
 		{
 			return this->image;

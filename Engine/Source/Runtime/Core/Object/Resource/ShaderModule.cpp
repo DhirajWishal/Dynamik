@@ -1,0 +1,22 @@
+#include "dmkafx.h"
+#include "ShaderModule.h"
+
+#include <fstream>
+
+namespace Dynamik
+{
+	void DMKShaderModule::loadCode(const STRING& path)
+	{
+		std::ifstream file(path, std::ios::ate | std::ios::binary);
+
+		if (!file.is_open())
+			DMK_ERROR_BOX("Failed to load the specified shader at location (" + path + ")!");
+
+		I64 fileSize = (I64)file.tellg();
+		shaderCode.resize(fileSize);
+		file.seekg(0);
+		file.read(shaderCode.data(), fileSize);
+
+		file.close();
+	}
+}

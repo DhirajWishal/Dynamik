@@ -9,6 +9,8 @@
  Date:      15/05/2020
 */
 #include "Math/MathTypes.h"
+#include "Types/Array.h"
+#include "ShaderModule.h"
 
 namespace Dynamik
 {
@@ -90,34 +92,6 @@ namespace Dynamik
 
 		/* Vertex attributes */
 		ARRAY<DMKVertexAttribute> attributes;
-	};
-
-	/* Shader */
-	/* Dynamik Shader Locations */
-	enum class DMK_API DMKShaderLocation {
-		DMK_SHADER_LOCATION_VERTEX,
-		DMK_SHADER_LOCATION_TESSELLATION,
-		DMK_SHADER_LOCATION_GEOMETRY,
-		DMK_SHADER_LOCATION_FRAGMENT,
-		DMK_SHADER_LOCATION_COMPUTE,
-		DMK_SHADER_LOCATION_ALL_GRAPHICS,
-
-		/* Ray Tracing (Nvidia) */
-		DMK_SHADER_LOCATION_RAY_GEN,
-		DMK_SHADER_LOCATION_ANY_HIT,
-		DMK_SHADER_LOCATION_CLOSEST_HIT,
-		DMK_SHADER_LOCATION_MISS,
-		DMK_SHADER_LOCATION_INTERSECTION,
-		DMK_SHADER_LOCATION_CALLABLE,
-
-		DMK_SHADER_LOCATION_TASK,
-		DMK_SHADER_LOCATION_MESH,
-	};
-
-	/* Dynamik Shader Path Container */
-	struct DMK_API DMKShaderPath {
-		STRING path = DMK_TEXT("");
-		DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
 	};
 
 	/* Uniform */

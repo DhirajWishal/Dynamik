@@ -1,6 +1,10 @@
 #include "dmkafx.h"
 #include "VulkanRBL.h"
 
+#include "Common/VulkanUtilities.h"
+#include "Context/Attachments/VulkanColorAttachment.h"
+#include "Context/Attachments/VulkanDepthAttachment.h"
+
 namespace Dynamik
 {
 	namespace Backend
@@ -55,7 +59,186 @@ namespace Dynamik
 			newContext.vSwapChain.initialize(myDevice, myQueues, _viewport);
 
 			/* Initialize render pass */
-			newContext.vRenderPass.initialize(myDevice, _getRenderSubPass(contextType));
+			VulkanRenderPassSubpass _subPass;
+
+			switch (contextType)
+			{
+			case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT:
+			{
+				/* Initialize sub passes */
+				VulkanRenerPassAtachmentDescription _description;
+				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_SWAPCHAIN;
+				_description.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				_description.msaaSamples = myMsaaSampleCount;
+				_subPass.attachments.pushBack(_description);
+
+				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_DEPTH;
+				_description.format = (DMKFormat)VulkanUtilities::findDepthFormat(myDevice);
+				_description.msaaSamples = myMsaaSampleCount;
+				_subPass.attachments.pushBack(_description);
+
+				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_COLOR;
+				_description.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				_description.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+				_subPass.attachments.pushBack(_description);
+
+				/* Add attachments */
+				VulkanFrameBufferAttachmentInitInfo FBAttachmentInitInfo;
+				FBAttachmentInitInfo.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				FBAttachmentInitInfo.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+				FBAttachmentInitInfo.imageHeight = newContext.vSwapChain.swapChainExtent.height;
+				FBAttachmentInitInfo.imageWidth = newContext.vSwapChain.swapChainExtent.width;
+
+				auto _colorAttachment = StaticAllocator<VulkanColorAttachment>::allocate();
+				_colorAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
+				newContext.FBAttachments.pushBack(_colorAttachment);
+
+				FBAttachmentInitInfo.format = (DMKFormat)VulkanUtilities::findDepthFormat(myDevice);
+				FBAttachmentInitInfo.msaaSamples = myMsaaSampleCount;
+
+				auto _depthAttachment = StaticAllocator<VulkanDepthAttachment>::allocate();
+				_colorAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
+				newContext.FBAttachments.pushBack(_colorAttachment);
+			}
+			break;
+
+			case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT_VR:
+				break;
+
+			case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_2D:
+			{
+				/* Initialize sub passes */
+				VulkanRenerPassAtachmentDescription _description;
+				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_SWAPCHAIN;
+				_description.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				_description.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+				_subPass.attachments.pushBack(_description);
+
+				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_COLOR;
+				_description.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				_description.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+				_subPass.attachments.pushBack(_description);
+
+				/* Add attachments */
+				VulkanFrameBufferAttachmentInitInfo FBAttachmentInitInfo;
+				FBAttachmentInitInfo.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				FBAttachmentInitInfo.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+				FBAttachmentInitInfo.imageHeight = newContext.vSwapChain.swapChainExtent.height;
+				FBAttachmentInitInfo.imageWidth = newContext.vSwapChain.swapChainExtent.width;
+
+				auto _colorAttachment = StaticAllocator<VulkanColorAttachment>::allocate();
+				_colorAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
+				newContext.FBAttachments.pushBack(_colorAttachment);
+			}
+			break;
+
+			case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_3D:
+			{
+				/* Initialize sub passes */
+				VulkanRenerPassAtachmentDescription _description;
+				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_SWAPCHAIN;
+				_description.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				_description.msaaSamples = myMsaaSampleCount;
+				_subPass.attachments.pushBack(_description);
+
+				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_DEPTH;
+				_description.format = (DMKFormat)VulkanUtilities::findDepthFormat(myDevice);
+				_description.msaaSamples = myMsaaSampleCount;
+				_subPass.attachments.pushBack(_description);
+
+				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_COLOR;
+				_description.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				_description.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+				_subPass.attachments.pushBack(_description);
+
+				/* Add attachments */
+				VulkanFrameBufferAttachmentInitInfo FBAttachmentInitInfo;
+				FBAttachmentInitInfo.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				FBAttachmentInitInfo.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+				FBAttachmentInitInfo.imageHeight = newContext.vSwapChain.swapChainExtent.height;
+				FBAttachmentInitInfo.imageWidth = newContext.vSwapChain.swapChainExtent.width;
+
+				auto _colorAttachment = StaticAllocator<VulkanColorAttachment>::allocate();
+				_colorAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
+				newContext.FBAttachments.pushBack(_colorAttachment);
+
+				FBAttachmentInitInfo.format = (DMKFormat)VulkanUtilities::findDepthFormat(myDevice);
+				FBAttachmentInitInfo.msaaSamples = myMsaaSampleCount;
+
+				auto _depthAttachment = StaticAllocator<VulkanDepthAttachment>::allocate();
+				_colorAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
+				newContext.FBAttachments.pushBack(_colorAttachment);
+			}
+			break;
+
+			case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEBUG:
+			{
+				/* Initialize sub passes */
+				VulkanRenerPassAtachmentDescription _description;
+				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_SWAPCHAIN;
+				_description.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				_description.msaaSamples = myMsaaSampleCount;
+				_subPass.attachments.pushBack(_description);
+
+				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_DEPTH;
+				_description.format = (DMKFormat)VulkanUtilities::findDepthFormat(myDevice);
+				_description.msaaSamples = myMsaaSampleCount;
+				_subPass.attachments.pushBack(_description);
+
+				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_COLOR;
+				_description.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				_description.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+				_subPass.attachments.pushBack(_description);
+
+				/* Add attachments */
+				VulkanFrameBufferAttachmentInitInfo FBAttachmentInitInfo;
+				FBAttachmentInitInfo.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				FBAttachmentInitInfo.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+				FBAttachmentInitInfo.imageHeight = newContext.vSwapChain.swapChainExtent.height;
+				FBAttachmentInitInfo.imageWidth = newContext.vSwapChain.swapChainExtent.width;
+
+				auto _colorAttachment = StaticAllocator<VulkanColorAttachment>::allocate();
+				_colorAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
+				newContext.FBAttachments.pushBack(_colorAttachment);
+
+				FBAttachmentInitInfo.format = (DMKFormat)VulkanUtilities::findDepthFormat(myDevice);
+				FBAttachmentInitInfo.msaaSamples = myMsaaSampleCount;
+
+				auto _depthAttachment = StaticAllocator<VulkanDepthAttachment>::allocate();
+				_colorAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
+				newContext.FBAttachments.pushBack(_colorAttachment);
+			}
+			break;
+
+			case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEBUG_VR:
+				break;
+
+			default:
+				DMK_ERROR_BOX("Invalid context type!");
+				break;
+			}
+			newContext.vRenderPass.initialize(myDevice, { _subPass });
+
+			/* Create the frame buffer */
+			newContext.vFrameBuffer.initialize(myDevice, newContext.vSwapChain, newContext.vRenderPass, newContext.FBAttachments);
+
+			myActiveContexts.pushBack(newContext);
+		}
+
+		void VulkanRBL::terminateRenderingContext()
+		{
+			for (auto _context : myActiveContexts)
+			{
+				for (auto _attachment : _context.FBAttachments)
+				{
+					_attachment->terminate(myDevice);
+					StaticAllocator<VulkanFrameBufferAttachment>::deallocate(_attachment, 0);
+				}
+
+				_context.vFrameBuffer.terminate(myDevice);
+				_context.vRenderPass.terminate(myDevice);
+				_context.vSwapChain.terminate(myDevice);
+			}
 		}
 
 		B1 VulkanRBL::_checkNewContextValidity(const DMKRenderContextType& type)
@@ -66,30 +249,10 @@ namespace Dynamik
 
 			return true;
 		}
-		
+
 		ARRAY<VulkanRenderPassSubpass> VulkanRBL::_getRenderSubPass(const DMKRenderContextType& contextType)
 		{
-			switch (contextType)
-			{
-			case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT:
-			{
-				VulkanRenderPassSubpass _subPass;
-				_subPass.attachments;
-			}
-				break;
-			case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT_VR:
-				break;
-			case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_2D:
-				break;
-			case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_3D:
-				break;
-			case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEBUG:
-				break;
-			case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEBUG_VR:
-				break;
-			default:
-				break;
-			}
+
 		}
 	}
 }

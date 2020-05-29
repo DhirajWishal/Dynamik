@@ -31,6 +31,8 @@ namespace Dynamik
 			VulkanSwapChain vSwapChain;
 			VulkanRenderPass vRenderPass;
 			VulkanFrameBuffer vFrameBuffer;
+
+			ARRAY<POINTER<VulkanFrameBufferAttachment>> FBAttachments;
 		};
 
 		/*
@@ -45,7 +47,11 @@ namespace Dynamik
 			void initializeCore() override;
 			void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) override;
 
+			void terminateRenderingContext() override;
+
 		private:
+			DMKSampleCount myMsaaSampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+
 			VulkanInstance myInstance;
 			VulkanSurface mySurface;
 			VulkanDevice myDevice;

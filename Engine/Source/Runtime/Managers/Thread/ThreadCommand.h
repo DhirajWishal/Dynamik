@@ -6,10 +6,11 @@
  Author:    Dhiraj Wishal
  Date:      19/05/2020
 */
-
+#include "Macros/Global.h"
 
 namespace Dynamik
 {
+	/* Thread command types */
 	enum class DMK_API DMKThreadCommandType {
 		DMK_THREAD_COMMAND_TYPE_SUBMIT,
 		DMK_THREAD_COMMAND_TYPE_REQUEST,

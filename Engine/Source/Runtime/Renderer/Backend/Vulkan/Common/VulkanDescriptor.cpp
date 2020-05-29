@@ -20,18 +20,8 @@ namespace Dynamik
 			DMK_VULKAN_ASSERT(vkCreateDescriptorSetLayout(vDevice, &initInfo, nullptr, &layout), "Failed to create descriptor set layout!");
 		}
 
-		void VulkanDescriptor::initializeLayout(const VulkanDevice& vDevice, const ARRAY<DMKUniformBufferDescriptor>& descriptors)
-		{
-
-		}
-
-		void VulkanDescriptor::initializePool(const VulkanDevice& vDevice, const ARRAY<DMKUniformBufferDescriptor>& descriptors)
-		{
-		}
-
 		void VulkanDescriptorSetLayout::terminate(const VulkanDevice& vDevice)
 		{
-			vkDestroyDescriptorPool(vDevice, pool, nullptr);
 			vkDestroyDescriptorSetLayout(vDevice, layout, nullptr);
 		}
 
@@ -40,12 +30,25 @@ namespace Dynamik
 			return this->layout;
 		}
 
-		VulkanDescriptor::operator VkDescriptorPool() const
+		void VulkanDescriptorSets::initializePool(const VulkanDevice& vDevice, const ARRAY<DMKUniformBufferDescriptor>& descriptors)
+		{
+		}
+
+		void VulkanDescriptorSets::initailizeSets(const VulkanDevice& vDevice, const VulkanDescriptorSetLayout& vDescriptorSetLayout)
+		{
+		}
+
+		void VulkanDescriptorSets::terminate(const VulkanDevice& vDevice)
+		{
+			vkDestroyDescriptorPool(vDevice, pool, nullptr);
+		}
+
+		VulkanDescriptorSets::operator VkDescriptorPool() const
 		{
 			return this->pool;
 		}
-
-		const VkDescriptorSet VulkanDescriptor::operator[](UI32 index) const
+		
+		const VkDescriptorSet VulkanDescriptorSets::operator[](UI32 index) const
 		{
 			return this->sets[index];
 		}

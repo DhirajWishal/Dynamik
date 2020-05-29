@@ -337,9 +337,6 @@ namespace Dynamik
 		 */
 		void pushBack(const TYPE& data)
 		{
-			if (myDataCount > (capacity() * 2))
-				myDataCount = 0;
-
 			if (myNextPtr.getPointerAsInteger() >= myEndPtr.getPointerAsInteger())
 				_reAllocateAndPushBack(_getNextSize(), data);
 			else
@@ -473,9 +470,7 @@ namespace Dynamik
 		{
 			if (index >= (I32)_getSizeOfThis() || (index <= (I32)(0 - _getSizeOfThis()))); // TODO: error handling
 
-			UI64 _processedIndex = _getProcessedIndex(index);
-
-			return myBeginPtr[_processedIndex];
+			return myBeginPtr[_getProcessedIndex(index)];
 		}
 
 		/* FUNCTION
@@ -487,6 +482,18 @@ namespace Dynamik
 		const TYPE& at(I32 index = 0) const
 		{
 			return at(index);
+		}
+
+		/* FUNCTION
+		 * Return the location of the stored data.
+		 *
+		 * @param index: Index of the stored data.
+		 */
+		const POINTER<TYPE> location(I32 index)
+		{
+			if (index >= (I32)_getSizeOfThis() || (index <= (I32)(0 - _getSizeOfThis()))); // TODO: error handling
+
+			return &myBeginPtr[_getProcessedIndex(index)];
 		}
 
 		/* FUNCTION
@@ -1141,10 +1148,11 @@ namespace Dynamik
 		 */
 		inline void _reAllocateAndPushBack(UI64 newSize, const TYPE& data)
 		{
-			if (_getSizeOfThis() > (capacity() * 2))
-				newSize = _getNextSize();
-
-			if ((newSize + _getAllocationSize()) > maxSize()) return; /* TODO: Error Flagging */
+			if ((newSize + _getAllocationSize()) > maxSize())
+			{
+				DMKErrorManager::issueErrorBox("The new allocation size is grater than the maximum allocatable size!");
+				return;
+			}
 			_reAllocateBack(newSize);
 
 			_addDataBack(data);
@@ -1255,15 +1263,15 @@ namespace Dynamik
 			}
 		}
 
-		/* PRIVATE STATIC
-		 * Internal thread execution function.
-		 *
-		 * @param _thread: A n_internalThread 
-		 */
-		 //static void __internalThreadFunction(POINTER<_internalThread> _thread)
-		 //{
-		 //	_thread->_destroy();
-		 //}
+		///* PRIVATE STATIC
+		// * Internal thread execution function.
+		// *
+		// * @param _thread: A n_internalThread
+		// */
+		// static void __internalThreadFunction(POINTER<_internalThread> _thread)
+		// {
+		// 	_thread->_destroy();
+		// }
 
 		 /* PRIVATE FUNCTION
 		  * Destroy all the data stored in a given range.
