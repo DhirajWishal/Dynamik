@@ -12,10 +12,28 @@
 
 namespace Dynamik
 {
-    class DMK_API DMKRendererThreadCommand : public DMKThreadCommand {
+    enum class DMK_API RendererInstruction {
+        RENDERER_INSTRUCTION_INITIALIZE,
+        RENDERER_INSTRUCTION_INITIALIZE_OBJECTS,
+        RENDERER_INSTRUCTION_SUBMIT_OBJECTS,
+
+        RENDERER_INSTRUCTION_DRAW_INITIALIZE,
+        RENDERER_INSTRUCTION_DRAW_UPDATE,
+        RENDERER_INSTRUCTION_DRAW_SUBMIT,
+
+        RENDERER_INSTRUCTION_TERMINATE_FRAME,
+        RENDERER_INSTRUCTION_TERMINATE_OBJECTS,
+        RENDERER_INSTRUCTION_TERMINATE,
+
+        RENDERER_INSTRUCTION_UPDATE_OBJECTS
+    };
+
+    class DMK_API DMKRendererThreadCommand : public DMKThreadSystemCommand {
     public:
         DMKRendererThreadCommand() {}
         ~DMKRendererThreadCommand() {}
+
+        RendererInstruction instruction = RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE;
     };
 
     /*
@@ -25,8 +43,16 @@ namespace Dynamik
     */
     class DMK_API DMKRendererThread : public DMKThread {
     public:
-        DMKRendererThread() {}
+        DMKRendererThread() : DMKThread(DMKThreadType::DMK_THREAD_TYPE_RENDER) {}
         ~DMKRendererThread() {}
+
+        void processCommands() override;
+        void onLoop() override;
+        void onTermination() override;
+
+    private:
+        DMKRenderer myRenderer;
+        POINTER<DMKRendererThreadCommand> myCommand;
     };
 }
 

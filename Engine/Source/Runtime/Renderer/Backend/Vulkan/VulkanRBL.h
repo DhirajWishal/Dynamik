@@ -12,6 +12,7 @@
 #include "Common/VulkanSurface.h"
 #include "Common/VulkanDevice.h"
 #include "Common/VulkanQueue.h"
+#include "Common/VulkanDescriptorSetManager.h"
 
 #include "Context/VulkanSwapChain.h"
 #include "Context/VulkanRenderPass.h"
@@ -44,6 +45,8 @@ namespace Dynamik
 			VulkanRBL() {}
 			~VulkanRBL() {}
 
+			void setMsaaSamples(const DMKSampleCount& samples) override;
+
 			void initializeCore() override;
 			void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) override;
 
@@ -73,6 +76,9 @@ namespace Dynamik
 			 Return the render subpasses required for the render context
 			*/
 			ARRAY<VulkanRenderPassSubpass> _getRenderSubPass(const DMKRenderContextType& contextType);
+
+			/* Descriptor Manager */
+			VulkanDescriptorSetManager myActiveDescriptorManager;
 		};
 	}
 }

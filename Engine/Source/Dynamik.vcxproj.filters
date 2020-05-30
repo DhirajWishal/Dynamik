@@ -408,9 +408,6 @@
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Graphics\VulkanPipeline.h">
       <Filter>Runtime\Renderer\Backend\Vulkan\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Graphics\VulkanTexture.h">
-      <Filter>Runtime\Renderer\Backend\Vulkan\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanBuffer.h">
       <Filter>Runtime\Renderer\Backend\Vulkan\Primitives</Filter>
     </ClInclude>
@@ -455,6 +452,11 @@
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanFrameBufferAttachment.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Context\Attachments\VulkanColorAttachment.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Context\Attachments\VulkanDepthAttachment.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanShader.h" />
+    <ClInclude Include="Runtime\Core\Object\Resource\ShaderModule.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanTexture.h">
+      <Filter>Runtime\Renderer\Backend\Vulkan\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\Core\Error\ErrorManager.cpp">
@@ -613,9 +615,6 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Graphics\VulkanPipeline.cpp">
       <Filter>Runtime\Renderer\Backend\Vulkan\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Graphics\VulkanTexture.cpp">
-      <Filter>Runtime\Renderer\Backend\Vulkan\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanBuffer.cpp">
       <Filter>Runtime\Renderer\Backend\Vulkan\Primitives</Filter>
     </ClCompile>
@@ -650,6 +649,11 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\Attachments\VulkanColorAttachment.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\Attachments\VulkanDepthAttachment.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanFrameBufferAttachment.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanShader.cpp" />
+    <ClCompile Include="Runtime\Core\Object\Resource\ShaderModule.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanTexture.cpp">
+      <Filter>Runtime\Renderer\Backend\Vulkan\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

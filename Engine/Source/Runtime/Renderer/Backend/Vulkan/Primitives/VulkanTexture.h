@@ -11,9 +11,9 @@
 
 #include "Core/Object/Resource/TextureComponent.h"
 
-#include "../Primitives/VulkanImage.h"
-#include "../Primitives/VulkanImageSampler.h"
-#include "../Primitives/VulkanImageView.h"
+#include "VulkanImage.h"
+#include "VulkanImageSampler.h"
+#include "VulkanImageView.h"
 
 namespace Dynamik
 {

@@ -151,6 +151,9 @@ namespace Dynamik
 
 		/* Buffer object contaienr */
 		ARRAY<DMKUniformDescription> uniformBufferObjects;
+
+		/* ID operator */
+		I64 operator()();
 	};
 
 	/*

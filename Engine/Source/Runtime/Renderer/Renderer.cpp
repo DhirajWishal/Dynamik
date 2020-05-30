@@ -10,8 +10,32 @@ namespace Dynamik
 	DMKRenderer::~DMKRenderer()
 	{
 	}
-	
-	void DMKRenderer::initialize(const POINTER<DMKLevelComponent>& level)
+
+	void DMKRenderer::setMsaaSamples(DMKSampleCount msaaSamples)
 	{
+	}
+
+	void DMKRenderer::initialize()
+	{
+		myBackend.initializeCore();
+	}
+
+	void DMKRenderer::initializeObjects(const POINTER<DMKLevelComponent>& level)
+	{
+	}
+
+	void DMKRenderer::initializeDraw()
+	{
+		myBackend.initializeDrawCall();
+	}
+
+	void DMKRenderer::updateObjects()
+	{
+		myBackend.updateRenderables();
+	}
+
+	void DMKRenderer::submitObjects()
+	{
+		myBackend.submitRenderables();
 	}
 }

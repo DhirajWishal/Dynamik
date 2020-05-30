@@ -3,6 +3,15 @@
 
 namespace Dynamik
 {
+	UI64 DMKUniformDescription::getUniformSize()
+	{
+		UI32 _size = 0;
+		for (auto _attribute : attributes)
+			_size += ((UI32)_attribute.dataType * _attribute.dataCount);
+
+		return _size;
+	}
+
 	UI32 DMKVertexBufferDescriptor::getVertexSize()
 	{
 		UI32 _size = 0;
@@ -12,13 +21,17 @@ namespace Dynamik
 		return _size;
 	}
 
-	UI64 DMKUniformDescription::getUniformSize()
+	I64 DMKUniformBufferDescriptor::operator()()
 	{
-		UI32 _size = 0;
-		for (auto _attribute : attributes)
-			_size += ((UI32)_attribute.dataType * _attribute.dataCount);
+		auto descriptorCount = this->uniformBufferObjects.size();
+		I64 _ID = 0;
 
-		return _size;
+		for (auto _object : this->uniformBufferObjects)
+		{
+
+		}
+
+		return _ID;
 	}
 
 	DMKUniformBufferObject::~DMKUniformBufferObject()
@@ -70,4 +83,5 @@ namespace Dynamik
 		MemoryFunctions::setData(uniformBufferStorage, 0, myDescription.getUniformSize());
 		nextPointer = uniformBufferStorage;
 	}
+
 }

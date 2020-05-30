@@ -22,18 +22,36 @@
 #include "Object/System.h"
 #include "GameLibrary/LevelComponent.h"
 
+#include "Components/CoreTypeDefs.h"
+
+#include "Backend/Vulkan/VulkanRBL.h"
+
 namespace Dynamik
 {
+    using namespace Backend;
+
+    /*
+     Dynamik Rendering engine
+    */
     class DMK_API DMKRenderer : public DMKSystem {
     public:
         DMKRenderer();
         ~DMKRenderer();
 
-        void initialize(const POINTER<DMKLevelComponent>& level);
+        void setMsaaSamples(DMKSampleCount msaaSamples);
+
+        void initialize();
+        void initializeObjects(const POINTER<DMKLevelComponent>& level);
+
+        void initializeDraw();
+        void updateObjects();
+        void submitObjects();
 
     private:
         POINTER<DMKLevelComponent> myActiveLevel;
         POINTER<DMKLevelComponent> myNextLevel;
+
+        VulkanRBL myBackend;
     };
 }
 

@@ -9,6 +9,11 @@ namespace Dynamik
 {
 	namespace Backend
 	{
+		void VulkanRBL::setMsaaSamples(const DMKSampleCount& samples)
+		{
+			myMsaaSampleCount = samples;
+		}
+		
 		void VulkanRBL::initializeCore()
 		{
 			/* Initialize the Vulkan Instance */
@@ -25,6 +30,12 @@ namespace Dynamik
 
 			/* Initialize the Vulkan Device */
 			myDevice.initialize(myInstance, mySurface);
+
+			if (myMsaaSampleCount > (DMKSampleCount)myDevice.getMaxUsableSampleCount())
+			{
+				DMKErrorManager::issueWarnBox("Pre defined samples are not supported by the GPU. Setting the default to the maximum usable count.");
+				myMsaaSampleCount = (DMKSampleCount)myDevice.getMaxUsableSampleCount();
+			}
 
 			/* Initialize the Vulkan Queues */
 			myQueues.initializeQueues(myDevice);
@@ -97,8 +108,8 @@ namespace Dynamik
 				FBAttachmentInitInfo.msaaSamples = myMsaaSampleCount;
 
 				auto _depthAttachment = StaticAllocator<VulkanDepthAttachment>::allocate();
-				_colorAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
-				newContext.FBAttachments.pushBack(_colorAttachment);
+				_depthAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
+				newContext.FBAttachments.pushBack(_depthAttachment);
 			}
 			break;
 
@@ -166,8 +177,8 @@ namespace Dynamik
 				FBAttachmentInitInfo.msaaSamples = myMsaaSampleCount;
 
 				auto _depthAttachment = StaticAllocator<VulkanDepthAttachment>::allocate();
-				_colorAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
-				newContext.FBAttachments.pushBack(_colorAttachment);
+				_depthAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
+				newContext.FBAttachments.pushBack(_depthAttachment);
 			}
 			break;
 
@@ -205,8 +216,8 @@ namespace Dynamik
 				FBAttachmentInitInfo.msaaSamples = myMsaaSampleCount;
 
 				auto _depthAttachment = StaticAllocator<VulkanDepthAttachment>::allocate();
-				_colorAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
-				newContext.FBAttachments.pushBack(_colorAttachment);
+				_depthAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
+				newContext.FBAttachments.pushBack(_depthAttachment);
 			}
 			break;
 

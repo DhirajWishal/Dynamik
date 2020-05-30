@@ -852,6 +852,26 @@ namespace Dynamik
 		}
 
 		/* FUNCTION
+		 * Search the current array and find the requested data and return its index and its value as a std::pair<>.
+		 * Returns an empty pair if not found.
+		 *
+		 * @warn: Only applicable for simple types.
+		 * @param key: The value to be searched for.
+		 */
+		std::pair<UI64, TYPE> findFirst(const TYPE& key)
+		{
+			for (UI64 _itr = 0; _itr < size(); _itr++)
+			{
+				if (this->at(_itr) == key)
+				{
+					return { _itr, key };
+				}
+			}
+
+			return std::pair<UI64, TYPE>();
+		}
+
+		/* FUNCTION
 		 * Returns a hash for the content stored in the array.
 		 */
 		UI64 hash()

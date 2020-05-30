@@ -47,6 +47,8 @@ namespace Dynamik
         DMKRendererBackendLayer() {}
         virtual ~DMKRendererBackendLayer() {}
 
+        virtual void setMsaaSamples(const DMKSampleCount& samples) {}
+
         virtual void initializeCore() {}
         virtual void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) {}
         virtual void initializeLevel(POINTER<DMKLevelComponent> level) {}
