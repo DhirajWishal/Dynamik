@@ -7,8 +7,10 @@
  Date:      23/05/2020
 */
 #include "Macros/Global.h"
+#include "Object/Resource/MeshComponent.h"
 #include "GameLibrary/LevelComponent.h"
 #include "Managers/Window/WindowHandle.h"
+#include "../Components/CoreTypeDefs.h"
 
 namespace Dynamik
 {
@@ -48,9 +50,11 @@ namespace Dynamik
         virtual ~DMKRendererBackendLayer() {}
 
         virtual void setMsaaSamples(const DMKSampleCount& samples) {}
+        virtual void setWindowHandle(const POINTER<DMKWindowHandle>& windowHandle) {}
 
         virtual void initializeCore() {}
         virtual void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) {}
+        virtual void initializeObject(POINTER<DMKMeshComponent> meshComponent) {}
         virtual void initializeLevel(POINTER<DMKLevelComponent> level) {}
         virtual void initializeFinalComponents() {}
 

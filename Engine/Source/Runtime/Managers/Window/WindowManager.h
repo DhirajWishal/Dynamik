@@ -23,6 +23,7 @@ namespace Dynamik
 		~DMKWindowManager() {}
 
 		I32 createWindow(I32 width, I32 height, STRING title = "Dynamik Engine");
+		POINTER<DMKWindowHandle> getWindowHandle(I32 windowID);
 		void terminateWindow(I32 windowIndex = 0);
 		void terminateAll();
 
@@ -44,6 +45,7 @@ namespace Dynamik
 
 	private:
 		ARRAY<POINTER<DMKWindowHandle>> myWindowHandles;
+		UI64 windowIDs = 0;
 	};
 }
 

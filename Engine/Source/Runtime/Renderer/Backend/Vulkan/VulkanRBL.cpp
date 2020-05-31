@@ -13,6 +13,11 @@ namespace Dynamik
 		{
 			myMsaaSampleCount = samples;
 		}
+
+		void VulkanRBL::setWindowHandle(const POINTER<DMKWindowHandle>& windowHandle)
+		{
+			baseWindowHandle = windowHandle;
+		}
 		
 		void VulkanRBL::initializeCore()
 		{
@@ -263,7 +268,7 @@ namespace Dynamik
 
 		ARRAY<VulkanRenderPassSubpass> VulkanRBL::_getRenderSubPass(const DMKRenderContextType& contextType)
 		{
-
+			return ARRAY<VulkanRenderPassSubpass>();
 		}
 	}
 }

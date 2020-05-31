@@ -14,10 +14,11 @@
 #include "Core/Types/DataTypes.h"
 
 #include "Managers/Window/WindowManager.h"
-#include "Utilities/Clock.h"
-
-#include "GameLibrary/LevelComponent.h"
 #include "Managers/GameComponent/GameComponentManager.h"
+#include "Managers/Thread/ThreadManager.h"
+
+#include "Utilities/Clock.h"
+#include "GameLibrary/LevelComponent.h"
 
 namespace Dynamik
 {
@@ -88,6 +89,7 @@ namespace Dynamik
 		STRING myBasePath = DMK_TEXT("");
 
 		DMKWindowManager _windowManager;
+		DMKThreadManager _threadManager;
 		DMKClock _clock;
 		DMKGameComponentManager _gameComponentManager;
 	};

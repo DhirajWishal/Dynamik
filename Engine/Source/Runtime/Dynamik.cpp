@@ -29,6 +29,7 @@ namespace Dynamik
         auto modelPaths = _myFile.meshes;
 
         auto file = DMKMeshImporter::loadMesh("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\Skybox\\SkySphere.obj", DMKVertexBufferDescriptor());
+        _threadManager.initializeBasicThreads();
     }
     
     /* Default destructor */
@@ -43,7 +44,8 @@ namespace Dynamik
     void DMKEngine::createInstance(DMKEngineInstanceDescriptor descriptor)
     {
         DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
-        _windowManager.createWindow(1280, 720, descriptor.applicationName);
+        UI32 windowID = _windowManager.createWindow(1280, 720, descriptor.applicationName);
+        _threadManager.issueWindowHandleCommand(_windowManager.getWindowHandle(windowID));
 
         auto _localPath = DMKFileSystem::getExecutablePath();
     }

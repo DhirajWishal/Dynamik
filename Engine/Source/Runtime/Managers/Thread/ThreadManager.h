@@ -6,53 +6,61 @@
  Author:    Dhiraj Wishal
  Date:      15/05/2020
 */
+#include "Thread.h"
+#include <thread>
+#include <list>
+
+#include "Renderer/Components/CoreTypeDefs.h"
+#include "../Window/WindowHandle.h"
 
 namespace Dynamik
 {
     /*
      Dynamik Thread Manager
-     The Dynamik Engine uses multiple threads to execute some of the complex and interactive systems. These
-     threads are,
-     * Parent thread
-        - Game code execution
-        - Thread synchronization
-        - Window and Event management
-        - Resource management
-     * Rendering thread
-        - InFlight object management
-        - Rendering pipeline management
-     * Physics thread
-        - Dynamik Destruction calculation
-        - Object simmulation
-     * Audio thread
-        - Audio controller 
-        - Audio event handler
-     * Utility thread
-        - Resource loading
-        - File operations
-     
-     Utility threads are often initiated by the parent thread when executing a demanding job.
+     The Dynamik Engine uses multiple threads to execute some of the complex and interactive systems. The 
+     engine has 3 main types of threads:
+     * Runtime threads
+       - Parent
+       - Rendering
+       - Audio
+       - Physics
+     * Game threads
+       - Update thread
+     * Utility threads
+       - Resource thread
 
-     There are 2 basic types of threads:
-     * Permanent threads (the threads that exist throughout the engine's runtime)
-     * Temporary threads (the threads that are used to complete a specific task)
-
-     The permenent threads run critical components of the engine (eg: Rendering engine, Physics engine, Audio engine).
-     These threads have only one instance throughout the runtime.
-     The temporary threads are used to do calculations. One of the main systems are the object updation systems. The
-     objects are sent as packages containing a number of objects. The object number depends on the number of available 
-     threads and the number of objects available. Since the engine could use all the threads available in the CPU thus
-     making the system unable to run its normal tasks, we always leave 25% of the threads to the CPU. The rest is used
-     by the engine.
-
-     Thread synchronization is done on the top of every parent thread loop.
+     Runtime threads are permenent and will not change depending on the available threads. The Resource threads
+     and the Game threads vary depending on the available thread count.
     */
     class DMK_API DMKThreadManager {
+        struct DMK_API ThreadContainer {
+            std::thread thread;
+            ARRAY<POINTER<DMKThreadCommand>> threadCommands;
+            DMKThreadType type = DMKThreadType::DMK_THREAD_TYPE_PARENT;
+        } myRendererThread, myAudioThread, myPhysicsThread;
+
     public:
         DMKThreadManager() {}
         ~DMKThreadManager() {}
 
         UI32 getUseableThreadCount();
+
+        /*
+         There are some threads which are initiated by default. These are the rendering, physics, destruction,
+         parent, audio and the resource thread.
+        */
+        void initializeBasicThreads();
+
+        /* Dedicated thread commands */
+    public:
+        /* Renderer thread */
+        void issueSamplesCommand(DMKSampleCount const& samples);
+        void issueWindowHandleCommand(const POINTER<DMKWindowHandle>& handle);
+
+    private:
+        static void _threadFunction(POINTER<DMKThread> mySystem, POINTER<ARRAY<POINTER<DMKThreadCommand>>> commandPoolPtr);
+
+        ARRAY<ThreadContainer> myThreads;
     };
 }
 

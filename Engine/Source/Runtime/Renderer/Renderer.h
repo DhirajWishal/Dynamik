@@ -39,6 +39,7 @@ namespace Dynamik
         ~DMKRenderer();
 
         void setMsaaSamples(DMKSampleCount msaaSamples);
+        void setWindowHandle(POINTER<DMKWindowHandle> handle);
 
         void initialize();
         void initializeObjects(const POINTER<DMKLevelComponent>& level);
@@ -46,6 +47,8 @@ namespace Dynamik
         void initializeDraw();
         void updateObjects();
         void submitObjects();
+
+        void terminate();
 
     private:
         POINTER<DMKLevelComponent> myActiveLevel;

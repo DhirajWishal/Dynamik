@@ -26,6 +26,11 @@ namespace Dynamik
 	class StaticAllocator;	// Static Allocator declaration
 	template<class TYPE>
 	class POINTER;			// Pointer declaration
+	
+	/* GLOBAL
+	 * Global Array mutex to make the array thread safe.
+	 */
+	static std::mutex __globalArrayMutex;
 
 	/* PUBLIC ENUM
 	 * Dynamik Array Destructor Call Modes.
@@ -1026,7 +1031,9 @@ namespace Dynamik
 		 */
 		inline void _addDataBack(const TYPE& data)
 		{
+			__globalArrayMutex.lock();
 			Allocator::set(myNextPtr, (TYPE&&)data);
+			__globalArrayMutex.unlock();
 			myNextPtr++;
 		}
 
@@ -1038,7 +1045,9 @@ namespace Dynamik
 		inline void _addDataFront(const TYPE& data)
 		{
 			myBeginPtr--;
+			__globalArrayMutex.lock();
 			Allocator::set(myBeginPtr, (TYPE&&)data);
+			__globalArrayMutex.unlock();
 		}
 
 		/* PRIVATE FUNCTION

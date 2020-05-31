@@ -12,6 +12,7 @@
 #include "Types/Pointer.h"
 #include "Macros/MemoryMacro.h"
 #include "Macros/Global.h"
+#include "Error/ErrorManager.h"
 #include "Types/TypeTraits.h"
 
 #include <memory>
@@ -44,7 +45,7 @@ namespace Dynamik
 		*/
 		static PTR allocate(UI32 byteSize = sizeof(TYPE), UI32 alignment = DefaultAligment, UI32 offset = 0)
 		{
-			auto _ptr = (PTR)operator new (byteSize, std::align_val_t{ alignment });
+			PTR _ptr = _rawAllocation(byteSize, alignment, offset);
 			set(_ptr, TYPE());
 
 			return _ptr;
@@ -52,14 +53,14 @@ namespace Dynamik
 
 		/*
 		 Allocates a block of memory and return its address.
-		
+
 		 @param byteSize: Size of the memory block in bytes. Default is the size of the type.
 		 @param alignment: Alignment of the allocated memory. Default is 0.
 		 @param offset: Memory offset of the allocated memory block. Default is 0;
 		*/
 		static PTR allocateInit(const TYPE& initData, UI32 byteSize = sizeof(TYPE), UI32 alignment = DefaultAligment, UI32 offset = 0)
 		{
-			auto _ptr = (PTR)operator new (byteSize, std::align_val_t{ alignment });
+			PTR _ptr = _rawAllocation(byteSize, alignment, offset);
 			set(_ptr, (TYPE&&)initData);
 
 			return _ptr;
@@ -83,7 +84,7 @@ namespace Dynamik
 
 		/*
 		 Deallocates the previously allocated block of memory.
-		
+
 		 @param begin: Begin address of the memory.
 		 @param end: Final address of the memory.
 		*/
@@ -101,7 +102,7 @@ namespace Dynamik
 		*/
 		static PTR allocateArr(UI32 byteSize = sizeof(TYPE), UI32 alignment = DefaultAligment, UI32 offset = 0)
 		{
-			auto _ptr = (PTR)operator new[](byteSize, std::align_val_t{ alignment });
+			PTR _ptr = _rawAllocationArr(byteSize, alignment, offset);
 			set(_ptr, TYPE());
 
 			return _ptr;
@@ -143,6 +144,75 @@ namespace Dynamik
 		static void set(PTR location, TYPE&& value)
 		{
 			new ((VPTR)location.get()) (TYPE)(removeReference<TYPE&&>(value));
+		}
+
+	private:
+		/*
+		 Allocate memory and check if the allocation was successful.
+		*/
+		static PTR _rawAllocation(UI32 byteSize, UI32 alignment, UI32 offset)
+		{
+			try
+			{
+				auto __newAddr = operator new (byteSize, std::align_val_t{ alignment });
+
+				if (!__newAddr)
+				{
+					DMKErrorManager::issueErrorBox("Unable to allocate memory!");
+
+#ifdef DMK_DEBUG
+					__debugbreak();
+
+#endif
+				}
+
+				return (PTR)__newAddr;
+			}
+			catch (const std::exception&)
+			{
+				DMKErrorManager::issueErrorBox("Unable to allocate memory!");
+
+#ifdef DMK_DEBUG
+				__debugbreak();
+
+#endif
+
+				return PTR();
+			}
+		}
+
+		/*
+		 Allocate memory as an array and check if the allocation was successful.
+		*/
+		static PTR _rawAllocationArr(UI32 byteSize, UI32 alignment, UI32 offset)
+		{
+			try
+			{
+				auto __newAddr = operator new[] (byteSize, std::align_val_t{ alignment });
+
+				if (!__newAddr)
+				{
+					DMKErrorManager::issueErrorBox("Unable to allocate memory!");
+
+#ifdef DMK_DEBUG
+					__debugbreak();
+
+#endif
+				}
+
+				return (PTR)__newAddr;
+			}
+			catch (const std::exception&)
+			{
+				DMKErrorManager::issueErrorBox("Unable to allocate memory!");
+
+#ifdef DMK_DEBUG
+				__debugbreak();
+
+#endif
+
+				return PTR();
+			}
 		}
 	};
 }

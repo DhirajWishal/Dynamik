@@ -25,15 +25,20 @@ namespace Dynamik
         RENDERER_INSTRUCTION_TERMINATE_OBJECTS,
         RENDERER_INSTRUCTION_TERMINATE,
 
-        RENDERER_INSTRUCTION_UPDATE_OBJECTS
+        RENDERER_INSTRUCTION_UPDATE_OBJECTS,
+
+        RENDERER_INSTRUCTION_UPDATE_SET_SAMPLES,
+        RENDERER_INSTRUCTION_UPDATE_SET_WINDOW_HANDLE,
     };
 
     class DMK_API DMKRendererThreadCommand : public DMKThreadSystemCommand {
     public:
         DMKRendererThreadCommand() {}
+        DMKRendererThreadCommand(RendererInstruction ins) : instruction(ins) {}
         ~DMKRendererThreadCommand() {}
 
         RendererInstruction instruction = RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE;
+        VPTR data = nullptr;
     };
 
     /*
@@ -43,10 +48,11 @@ namespace Dynamik
     */
     class DMK_API DMKRendererThread : public DMKThread {
     public:
-        DMKRendererThread() : DMKThread(DMKThreadType::DMK_THREAD_TYPE_RENDER) {}
+        DMKRendererThread() : DMKThread(DMKThreadType::DMK_THREAD_TYPE_RENDERER) {}
         ~DMKRendererThread() {}
 
-        void processCommands() override;
+        void initialize() override;
+        void processCommand(POINTER<DMKThreadCommand> command) override;
         void onLoop() override;
         void onTermination() override;
 

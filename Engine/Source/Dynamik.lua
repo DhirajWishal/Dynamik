@@ -37,6 +37,7 @@ project "Dynamik"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLEW}",
 		"%{IncludeDir.assimp}",
+		"%{IncludeDir.zlib}",
 	}
 
 	libdirs {
@@ -44,6 +45,7 @@ project "Dynamik"
 		"%{IncludeLib.GLFW}",
 		"%{IncludeLib.GLEW}",
 		"%{IncludeLib.Assimp}",
+		"%{IncludeLib.zlib}",
 	}
 
 	links { 

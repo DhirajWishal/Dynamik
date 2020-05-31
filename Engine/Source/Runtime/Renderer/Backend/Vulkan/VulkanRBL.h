@@ -46,6 +46,7 @@ namespace Dynamik
 			~VulkanRBL() {}
 
 			void setMsaaSamples(const DMKSampleCount& samples) override;
+			void setWindowHandle(const POINTER<DMKWindowHandle>& windowHandle) override;
 
 			void initializeCore() override;
 			void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) override;
@@ -60,7 +61,7 @@ namespace Dynamik
 			VulkanDevice myDevice;
 			VulkanQueue myQueues;
 
-			POINTER<GLFWwindow> baseWindowHandle;
+			POINTER<DMKWindowHandle> baseWindowHandle;
 
 			/* Rendering Contexts */
 			ARRAY<VulkanRenderContext> myActiveContexts;

@@ -15,6 +15,11 @@ namespace Dynamik
 	{
 	}
 
+	void DMKRenderer::setWindowHandle(POINTER<DMKWindowHandle> handle)
+	{
+		myBackend.setWindowHandle(handle);
+	}
+
 	void DMKRenderer::initialize()
 	{
 		myBackend.initializeCore();
@@ -37,5 +42,9 @@ namespace Dynamik
 	void DMKRenderer::submitObjects()
 	{
 		myBackend.submitRenderables();
+	}
+	
+	void DMKRenderer::terminate()
+	{
 	}
 }

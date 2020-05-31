@@ -17,7 +17,7 @@ namespace Dynamik
     enum class DMK_API DMKThreadType {
         DMK_THREAD_TYPE_PARENT,
         DMK_THREAD_TYPE_UTILITY,
-        DMK_THREAD_TYPE_RENDER,
+        DMK_THREAD_TYPE_RENDERER,
         DMK_THREAD_TYPE_AUDIO,
         DMK_THREAD_TYPE_PHYSICS,
         DMK_THREAD_TYPE_DESTRUCTION,
@@ -36,34 +36,13 @@ namespace Dynamik
         DMKThread(const DMKThreadType& ty) : type(ty) {}
         virtual ~DMKThread() {}
 
-        virtual void processCommands() {}
+        virtual void initialize() {}
+        virtual void processCommand(POINTER<DMKThreadCommand> command) {}
         virtual void onLoop() {}
         virtual void onTermination() {}
 
-        ARRAY<POINTER<DMKThreadCommand>> myCommands;
         DMKThreadType type = DMKThreadType::DMK_THREAD_TYPE_PARENT;
     };
-
-    /* THREAD FUNCTION
-     void thread(POINTER<ARRAY<POINTER<DMKThreadCommand>>> commandPool)
-     {
-         auto localPool = commandPool;
-         B1 run = true;
-
-         begin:
-
-         do {
-          // run
-
-          if(command == terminationCommand)
-              run = false;
-
-          if(command == resetCommand)
-              goto begin;
-
-         } while(run);
-     }
-    */
 }
 
 #endif // !_DYNAMIK_THREAD_H
