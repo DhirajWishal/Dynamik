@@ -29,7 +29,7 @@ namespace Dynamik
                 const ARRAY<POINTER<VulkanFrameBufferAttachment>>& attachments);
             void terminate(const VulkanDevice& vDevice);
 
-            const VkFramebuffer operator[](UI32 index);
+            const VkFramebuffer operator[](UI32 index) const;
 
             ARRAY<VkFramebuffer> buffers;
             UI32 frameWidth = 0, frameHeight = 0;

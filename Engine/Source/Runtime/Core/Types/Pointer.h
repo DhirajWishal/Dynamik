@@ -313,9 +313,18 @@ namespace Dynamik
 		 */
 		TYPE& operator[](const UI32& index) { return this->myPointer[index]; }
 
+		/* OPERATOR
+		 * Access data at a given index in the pointer.
+		 * Indexed value can be modified in the pointer.
+		 *
+		 * @param index: Index of the data to be retrieved.
+		 * @warn: Does not validate the index before retrieving.
+		 */
+		const TYPE& operator[](const UI32& index) const { return this->myPointer[index]; }
+
 		/* PRIVATE VARIABLES AND CONSTANTS */
 	private:
-		TYPE* myPointer = nullptr;	// pointer data store
+		mutable TYPE* myPointer = nullptr;	// pointer data store
 	};
 }
 

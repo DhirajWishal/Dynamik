@@ -12,7 +12,9 @@
 #include "Common/VulkanSurface.h"
 #include "Common/VulkanDevice.h"
 #include "Common/VulkanQueue.h"
+#include "Common/VulkanCommandBuffer.h"
 #include "Common/VulkanDescriptorSetManager.h"
+#include "Common/VulkanSyncObjects.h"
 
 #include "Context/VulkanSwapChain.h"
 #include "Context/VulkanRenderPass.h"
@@ -32,6 +34,8 @@ namespace Dynamik
 			VulkanSwapChain vSwapChain;
 			VulkanRenderPass vRenderPass;
 			VulkanFrameBuffer vFrameBuffer;
+			VulkanSyncObjects vSyncObjects;
+			VulkanCommandBuffer vCommandBuffer;
 
 			ARRAY<POINTER<VulkanFrameBufferAttachment>> FBAttachments;
 		};
@@ -50,11 +54,16 @@ namespace Dynamik
 
 			void initializeCore() override;
 			void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) override;
+			void initializeFinalComponents() override;
+
+			void initializeDrawCall() override;
+			void updateRenderables() override;
+			void submitRenderables() override;
 
 			void terminateRenderingContext() override;
 
 		private:
-			DMKSampleCount myMsaaSampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+			DMKSampleCount myMsaaSampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_64_BIT;
 
 			VulkanInstance myInstance;
 			VulkanSurface mySurface;
@@ -65,10 +74,14 @@ namespace Dynamik
 
 			/* Rendering Contexts */
 			ARRAY<VulkanRenderContext> myActiveContexts;
+			VulkanRenderContext myActiveContext;
+			UI32 imageIndex = 0;
+			VkResult frameResult = VkResult::VK_ERROR_UNKNOWN;
+			B1 readyToDraw = false;
 
 			/*
 			 Checks the current initialized contexts to see if the requested context is already initialized. The
-			 function returns true if the requested context is not present in the store. Returns false if the 
+			 function returns true if the requested context is not present in the store. Returns false if the
 			 requested context is already initialized.
 			*/
 			B1 _checkNewContextValidity(const DMKRenderContextType& type);

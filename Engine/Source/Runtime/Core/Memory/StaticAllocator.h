@@ -27,7 +27,7 @@ namespace Dynamik
 	 @template param: Output type.
 	 @template param: Default alignment type.
 	*/
-	template<class TYPE, UI32 DefaultAligment = DMK_ALIGNMENT>
+	template<class TYPE, UI64 DefaultAligment = DMK_ALIGNMENT>
 	class DMK_API StaticAllocator
 	{
 		using PTR = POINTER<TYPE>;
@@ -43,7 +43,7 @@ namespace Dynamik
 		 @param alignment: Alignment of the allocated memory. Default is 0.
 		 @param offset: Memory offset of the allocated memory block. Default is 0;
 		*/
-		static PTR allocate(UI32 byteSize = sizeof(TYPE), UI32 alignment = DefaultAligment, UI32 offset = 0)
+		static PTR allocate(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
 			PTR _ptr = _rawAllocation(byteSize, alignment, offset);
 			set(_ptr, TYPE());
@@ -58,7 +58,7 @@ namespace Dynamik
 		 @param alignment: Alignment of the allocated memory. Default is 0.
 		 @param offset: Memory offset of the allocated memory block. Default is 0;
 		*/
-		static PTR allocateInit(const TYPE& initData, UI32 byteSize = sizeof(TYPE), UI32 alignment = DefaultAligment, UI32 offset = 0)
+		static PTR allocateInit(const TYPE& initData, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
 			PTR _ptr = _rawAllocation(byteSize, alignment, offset);
 			set(_ptr, (TYPE&&)initData);
@@ -74,7 +74,7 @@ namespace Dynamik
 		 @param alignment: Alignment of the memory block. Default is 0.
 		 @param offset: Offset of the memory block. Default is 0.
 		*/
-		static void deallocate(PTR location, UI32 byteSize = sizeof(TYPE), UI32 alignment = DefaultAligment, UI32 offset = 0)
+		static void deallocate(PTR location, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
 			if (byteSize)
 				operator delete (location.get(), byteSize, std::align_val_t{ alignment });
@@ -100,7 +100,7 @@ namespace Dynamik
 		 @param alignment: Alignment of the allocated memory. Default is 0.
 		 @param offset: Memory offset of the allocated memory block. Default is 0;
 		*/
-		static PTR allocateArr(UI32 byteSize = sizeof(TYPE), UI32 alignment = DefaultAligment, UI32 offset = 0)
+		static PTR allocateArr(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
 			PTR _ptr = _rawAllocationArr(byteSize, alignment, offset);
 			set(_ptr, TYPE());
@@ -116,7 +116,7 @@ namespace Dynamik
 		 @param alignment: Alignment of the memory block. Default is 0.
 		 @param offset: Offset of the memory block. Default is 0.
 		*/
-		static void deallocateArr(PTR location, UI32 byteSize = sizeof(TYPE), UI32 alignment = DefaultAligment, UI32 offset = 0)
+		static void deallocateArr(PTR location, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
 			if (byteSize)
 				operator delete[](location.get(), byteSize, std::align_val_t{ alignment });
@@ -150,7 +150,7 @@ namespace Dynamik
 		/*
 		 Allocate memory and check if the allocation was successful.
 		*/
-		static PTR _rawAllocation(UI32 byteSize, UI32 alignment, UI32 offset)
+		static PTR _rawAllocation(UI64 byteSize, UI64 alignment, UI64 offset)
 		{
 			try
 			{
@@ -184,7 +184,7 @@ namespace Dynamik
 		/*
 		 Allocate memory as an array and check if the allocation was successful.
 		*/
-		static PTR _rawAllocationArr(UI32 byteSize, UI32 alignment, UI32 offset)
+		static PTR _rawAllocationArr(UI64 byteSize, UI64 alignment, UI64 offset)
 		{
 			try
 			{

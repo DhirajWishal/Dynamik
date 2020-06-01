@@ -7,11 +7,14 @@
  Date:      15/05/2020
 */
 #include "Thread.h"
+#include "Types/TSArray.h"
 #include <thread>
 #include <list>
 
 #include "Renderer/Components/CoreTypeDefs.h"
 #include "../Window/WindowHandle.h"
+
+#include "Renderer/RendererCommand.h"
 
 namespace Dynamik
 {
@@ -33,9 +36,16 @@ namespace Dynamik
      and the Game threads vary depending on the available thread count.
     */
     class DMK_API DMKThreadManager {
+    public:
+        struct DMK_API ThreadCommandBuffer {
+            TSArray<POINTER<DMKThreadCommand>> commands;
+            B1 hasExcuted = false;
+        };
+
+    private:
         struct DMK_API ThreadContainer {
             std::thread thread;
-            ARRAY<POINTER<DMKThreadCommand>> threadCommands;
+            ThreadCommandBuffer commandBuffer;
             DMKThreadType type = DMKThreadType::DMK_THREAD_TYPE_PARENT;
         } myRendererThread, myAudioThread, myPhysicsThread;
 
@@ -51,14 +61,24 @@ namespace Dynamik
         */
         void initializeBasicThreads();
 
+        void clearCommands();
+
         /* Dedicated thread commands */
     public:
-        /* Renderer thread */
-        void issueSamplesCommand(DMKSampleCount const& samples);
-        void issueWindowHandleCommand(const POINTER<DMKWindowHandle>& handle);
+        /* Renderer thread (RT = RendererThread) */
+        void issueSamplesCommandRT(DMKSampleCount const& samples);
+        void issueWindowHandleCommandRT(const POINTER<DMKWindowHandle>& handle);
+        void issueInitializeCommandRT();
+        void issueCreateContextCommandRT(DMKRenderContextType context, DMKViewport viewport);
+        void issueInitializeFinalsCommandRT();
 
     private:
-        static void _threadFunction(POINTER<DMKThread> mySystem, POINTER<ARRAY<POINTER<DMKThreadCommand>>> commandPoolPtr);
+        static void _threadFunction(POINTER<DMKThread> mySystem, POINTER<ThreadCommandBuffer> commandPoolPtr);
+
+        /*
+         Overrided function.
+        */
+        void _pushToThread(DMKRendererCommand command);
 
         ARRAY<ThreadContainer> myThreads;
     };

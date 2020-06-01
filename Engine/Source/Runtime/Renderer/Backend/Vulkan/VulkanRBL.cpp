@@ -43,11 +43,13 @@ namespace Dynamik
 			}
 
 			/* Initialize the Vulkan Queues */
+			myQueues.findQueueFamilies(myDevice, mySurface);
 			myQueues.initializeQueues(myDevice);
 		}
 
 		void VulkanRBL::initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport)
 		{
+			DMK_INFO("Creating new context");
 			/* Check for the context validity */
 			if (!_checkNewContextValidity(contextType))
 			{
@@ -56,8 +58,9 @@ namespace Dynamik
 			}
 
 			/* Check if the passed window handle is initialized */
-			if (mySurface.windowID != viewport.windowHandle.getAddressAsInteger())
-				DMK_ERROR_BOX("Invalid viewport! (Window handle is not initialized)");
+			//auto _new = viewport.windowHandle.getAddressAsInteger();
+			//if (mySurface.windowID != _new)
+			//	DMK_ERROR_BOX("Invalid viewport! (Window handle is not initialized)");
 
 			/* Create the new viewport */
 			VulkanViewport _viewport;
@@ -101,7 +104,7 @@ namespace Dynamik
 				/* Add attachments */
 				VulkanFrameBufferAttachmentInitInfo FBAttachmentInitInfo;
 				FBAttachmentInitInfo.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
-				FBAttachmentInitInfo.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+				FBAttachmentInitInfo.msaaSamples = myMsaaSampleCount;
 				FBAttachmentInitInfo.imageHeight = newContext.vSwapChain.swapChainExtent.height;
 				FBAttachmentInitInfo.imageWidth = newContext.vSwapChain.swapChainExtent.width;
 
@@ -138,7 +141,7 @@ namespace Dynamik
 				/* Add attachments */
 				VulkanFrameBufferAttachmentInitInfo FBAttachmentInitInfo;
 				FBAttachmentInitInfo.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
-				FBAttachmentInitInfo.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+				FBAttachmentInitInfo.msaaSamples = myMsaaSampleCount;
 				FBAttachmentInitInfo.imageHeight = newContext.vSwapChain.swapChainExtent.height;
 				FBAttachmentInitInfo.imageWidth = newContext.vSwapChain.swapChainExtent.width;
 
@@ -170,7 +173,7 @@ namespace Dynamik
 				/* Add attachments */
 				VulkanFrameBufferAttachmentInitInfo FBAttachmentInitInfo;
 				FBAttachmentInitInfo.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
-				FBAttachmentInitInfo.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+				FBAttachmentInitInfo.msaaSamples = myMsaaSampleCount;
 				FBAttachmentInitInfo.imageHeight = newContext.vSwapChain.swapChainExtent.height;
 				FBAttachmentInitInfo.imageWidth = newContext.vSwapChain.swapChainExtent.width;
 
@@ -209,7 +212,7 @@ namespace Dynamik
 				/* Add attachments */
 				VulkanFrameBufferAttachmentInitInfo FBAttachmentInitInfo;
 				FBAttachmentInitInfo.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
-				FBAttachmentInitInfo.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+				FBAttachmentInitInfo.msaaSamples = myMsaaSampleCount;
 				FBAttachmentInitInfo.imageHeight = newContext.vSwapChain.swapChainExtent.height;
 				FBAttachmentInitInfo.imageWidth = newContext.vSwapChain.swapChainExtent.width;
 
@@ -238,7 +241,70 @@ namespace Dynamik
 			/* Create the frame buffer */
 			newContext.vFrameBuffer.initialize(myDevice, newContext.vSwapChain, newContext.vRenderPass, newContext.FBAttachments);
 
-			myActiveContexts.pushBack(newContext);
+			//myActiveContexts.pushBack(newContext);
+			myActiveContext = newContext;
+		}
+
+		void VulkanRBL::initializeFinalComponents()
+		{
+			myActiveContext.vCommandBuffer.initializeCommandPool(myDevice, myQueues);
+			myActiveContext.vCommandBuffer.allocateCommandBuffers(myDevice, myActiveContext.vSwapChain.swapChainImages.size());
+
+			VkCommandBuffer _buffer = VK_NULL_HANDLE;
+			for (UI32 index = 0; index < myActiveContext.vSwapChain.swapChainImages.size(); index++)
+			{
+				_buffer = myActiveContext.vCommandBuffer.beginCommandBufferRecording(myDevice, index);
+				myActiveContext.vCommandBuffer.beginRenderPass(myDevice, myActiveContext.vRenderPass, myActiveContext.vFrameBuffer, myActiveContext.vSwapChain, index);
+
+				/* Place object drawing */
+
+				myActiveContext.vCommandBuffer.endRenderPass(_buffer);
+				myActiveContext.vCommandBuffer.endCommandBufferRecording(myDevice, _buffer);
+			}
+
+			myActiveContext.vSyncObjects.initialize(myDevice);
+
+			readyToDraw = true;
+		}
+
+		void VulkanRBL::initializeDrawCall()
+		{
+			if (!readyToDraw)
+				return;
+
+			/* Sync the inflight fence */
+			myActiveContext.vSyncObjects.syncFence(myDevice);
+
+			/* Get the next image index */
+			imageIndex = myActiveContext.vSyncObjects.getNextImage(myDevice, myActiveContext.vSwapChain);
+			frameResult = myActiveContext.vSyncObjects.getResult();
+
+			/* Check if any errors were encountered */
+			if (frameResult == VK_ERROR_OUT_OF_DATE_KHR)
+			{
+				//recreateSwapChain();
+				return;
+			}
+			else if (frameResult != VK_SUCCESS && frameResult != VK_SUBOPTIMAL_KHR)
+				DMK_ERROR_BOX("Failed to acquire Swap Chain image!");
+		}
+
+		void VulkanRBL::updateRenderables()
+		{
+			if (!readyToDraw)
+				return;
+		}
+
+		void VulkanRBL::submitRenderables()
+		{
+			if (!readyToDraw)
+				return;
+
+			/* Submit commands */
+			myActiveContext.vSyncObjects.submitCommands(myDevice, myQueues, myActiveContext.vSwapChain, myActiveContext.vCommandBuffer);
+
+			/* Increment the frame counter */
+			myActiveContext.vSyncObjects++;
 		}
 
 		void VulkanRBL::terminateRenderingContext()

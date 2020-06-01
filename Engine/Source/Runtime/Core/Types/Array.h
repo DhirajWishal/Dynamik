@@ -15,14 +15,14 @@
 #include "Memory/MemoryFunctions.h"
 #include "Macros/MemoryMacro.h"
 
-#include <vector>	/* Required when converting to std::vector<TYPE> */
+#include <vector>	/* Required when converting to ARRAY<TYPE> */
 
 #include <future>	/* REMOVE AFTER ADDING THE THREAD MANAGER */
 #include <functional>	/* Required for Lambdas */
 
 namespace Dynamik
 {
-	template<class TYPE, UI32 DefaultAlignment>
+	template<class TYPE, UI64 DefaultAlignment>
 	class StaticAllocator;	// Static Allocator declaration
 	template<class TYPE>
 	class POINTER;			// Pointer declaration
@@ -46,7 +46,7 @@ namespace Dynamik
 	/* TEMPLATED
 	 * Dynamic Array data structure for the Dynamik Engine.
 	 * This array can store any data defined in the data type TYPE and supports multiple dimensions.
-	 * Tested to be faster than the std::vector<TYPE> library/ data type.
+	 * Tested to be faster than the ARRAY<TYPE> library/ data type.
 	 * This also contains utility functions related to array and pointer manipulation.
 	 *
 	 * This can also be used as:
@@ -57,6 +57,11 @@ namespace Dynamik
 	 *
 	 * @warn: The Dynamic Array does not call the destructor for all the stored elements at default.
 				If needed to call, DestructorCallMode must be set to either ALL or ALL THREADED.
+	 *
+	 * @tparam TYPE: Data type of the array.
+	 * @tparam AllocationCount: How many extra slots should be allocated. Default is 1.
+	 * @tparam DestructorCallMode: Should or should not call the destructor of all the stored elements.
+	 * @tparam Allocator: The allocator used to allocate the memory.
 	 */
 	template<class TYPE, UI64 AllocationCount = 1, DMKArrayDestructorCallMode DestructorCallMode = DMKArrayDestructorCallMode::DMK_ARRAY_DESTRUCTOR_CALL_MODE_DESTRUCT_NONE, class Allocator = StaticAllocator<TYPE>>
 	class  DMK_API ARRAY {
@@ -136,22 +141,7 @@ namespace Dynamik
 		 */
 		ARRAY(UI64 size, const TYPE& value)
 		{
-			if (size)
-			{
-				UI64 _allocatableSize = _getAllocatableSize(size);
-				if ((size + _allocatableSize) > maxSize()) return; /* TODO: Error Flagging */
-
-				_reAllocateBack(_allocatableSize);
-				_fillWithData(size, TYPE());
-			}
-			else
-			{
-				_reAllocateBack(_getNextSize());
-				_fillWithData(capacity(), TYPE());
-			}
-
-			myDataCount = size;
-			myNextPtr += size;
+			setSizeAndValue(size, value);
 		}
 
 		/* CONSTRUCTOR
@@ -217,7 +207,7 @@ namespace Dynamik
 		}
 
 		/* CONSTRUCTOR
-		 * Constructs the Array by using std::vector<TYPE>.
+		 * Constructs the Array by using ARRAY<TYPE>.
 		 *
 		 * @param vector: Other vector.
 		 */
@@ -325,7 +315,7 @@ namespace Dynamik
 			myNextPtr += myDataCount;
 		}
 
-		/* CONSTRUCTOR
+		/* FUNCTION
 		 * Constructs the Array by using another Array.
 		 *
 		 * @param array: The other array.
@@ -445,7 +435,7 @@ namespace Dynamik
 		 *
 		 * @param size: The size to be allocated to (number of data to hold).
 		 */
-		void setSize(const UI64 size)
+		void setSize(const UI64& size)
 		{
 			if (size > maxSize()) return; /* TODO: Error Flagging */
 
@@ -462,7 +452,22 @@ namespace Dynamik
 		 * @param value: The value to fill the array with.
 		 */
 		void setSizeAndValue(const UI64& size, const TYPE& value) {
-			ARRAY(size, value);
+			if (size)
+			{
+				UI64 _allocatableSize = _getAllocatableSize(size);
+				if ((size + _allocatableSize) > maxSize()) return; /* TODO: Error Flagging */
+
+				_reAllocateBack(_allocatableSize);
+				_fillWithData(size, TYPE());
+			}
+			else
+			{
+				_reAllocateBack(_getNextSize());
+				_fillWithData(capacity(), TYPE());
+			}
+
+			myDataCount = size;
+			myNextPtr += size;
 		}
 
 		/* FUNCTION
@@ -471,9 +476,9 @@ namespace Dynamik
 		 *
 		 * @param index: Index to be accessed.
 		 */
-		TYPE& at(I32 index = 0)
+		TYPE& at(I64 index = 0)
 		{
-			if (index >= (I32)_getSizeOfThis() || (index <= (I32)(0 - _getSizeOfThis()))); // TODO: error handling
+			if (index >= (I64)_getSizeOfThis() || (index <= (I64)(0 - _getSizeOfThis()))); // TODO: error handling
 
 			return myBeginPtr[_getProcessedIndex(index)];
 		}
@@ -484,9 +489,11 @@ namespace Dynamik
 		 *
 		 * @param index: Index to be accessed.
 		 */
-		const TYPE& at(I32 index = 0) const
+		const TYPE& at(I64 index = 0) const
 		{
-			return at(index);
+			if (index >= (I64)_getSizeOfThis() || (index <= (I64)(0 - _getSizeOfThis()))); // TODO: error handling
+
+			return myBeginPtr[_getProcessedIndex(index)];
 		}
 
 		/* FUNCTION
@@ -494,9 +501,9 @@ namespace Dynamik
 		 *
 		 * @param index: Index of the stored data.
 		 */
-		const POINTER<TYPE> location(I32 index)
+		const POINTER<TYPE> location(I64 index)
 		{
-			if (index >= (I32)_getSizeOfThis() || (index <= (I32)(0 - _getSizeOfThis()))); // TODO: error handling
+			if (index >= (I64)_getSizeOfThis() || (index <= (I64)(0 - _getSizeOfThis()))); // TODO: error handling
 
 			return &myBeginPtr[_getProcessedIndex(index)];
 		}
@@ -633,7 +640,8 @@ namespace Dynamik
 		 *
 		 * @param index: Index to be checked.
 		 */
-		B1 isValidIndex(I32 index) {
+		B1 isValidIndex(I32 index) 
+		{
 			if (index > 0)
 			{
 				if (index < _getAllocationSize())
@@ -666,7 +674,7 @@ namespace Dynamik
 		 *
 		 * @param isAsc = true: Sorting type (true = ascending, false = descending)
 		 */
-		void bubbleSort(bool isAsc = true)
+		void bubbleSort(B1 isAsc = true)
 		{
 			ARRAY<TYPE> _localArray = this;
 			UI64 _indexCount = 0;
@@ -739,7 +747,7 @@ namespace Dynamik
 		}
 
 		/* FUNCTION
-		 * Convert this to a std::vector<TYPE>.
+		 * Convert this to a ARRAY<TYPE>.
 		 */
 		std::vector<TYPE> toVector()
 		{
@@ -916,7 +924,7 @@ namespace Dynamik
 		 *
 		 * @param index: Index to be returned.
 		 */
-		TYPE& operator[](I32 index)
+		TYPE& operator[](I64 index)
 		{
 			return this->at(index);
 		}
@@ -928,7 +936,7 @@ namespace Dynamik
 		 *
 		 * @param index: Index to be returned.
 		 */
-		const TYPE& operator[](I32 index) const
+		const TYPE& operator[](I64 index) const
 		{
 			return this->at(index);
 		}
@@ -1591,7 +1599,7 @@ namespace Dynamik
 		 *
 		 * @param index: Index to be processed.
 		 */
-		inline UI64 _getProcessedIndex(I32 index)
+		inline UI64 _getProcessedIndex(I64 index) const
 		{
 			if (index < 0)
 				index = (_getSizeOfThis() + index);

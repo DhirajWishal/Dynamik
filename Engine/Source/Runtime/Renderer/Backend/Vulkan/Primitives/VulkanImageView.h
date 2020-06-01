@@ -20,7 +20,7 @@ namespace Dynamik
 			VulkanImageView() {}
 			~VulkanImageView() {}
 
-			void initialize(const VulkanDevice& vDevice, const VulkanImage& vImage);
+			void initialize(const VulkanDevice& vDevice, const VulkanImage& vImage, VkComponentMapping mapping = {});
 			void terminate(const VulkanDevice& vDevice);
 
 			operator VkImageView() const;

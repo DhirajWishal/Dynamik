@@ -64,7 +64,7 @@ namespace Dynamik
 			if (extensionsSupported)
 			{
 				VulkanSwapChainSupportDetails swapChainSupport = VulkanSwapChain::querySwapChainSupport(physicalDevice, surface);
-				swapChainAdequate = (!swapChainSupport.formats.empty()) && (!swapChainSupport.presentModes.empty());
+				swapChainAdequate = (swapChainSupport.formats.empty()) && (swapChainSupport.presentModes.empty());
 			}
 
 			VkPhysicalDeviceFeatures supportedFeatures;

@@ -27,17 +27,17 @@ namespace Dynamik
 				VkSubpassDescription subpass = {};
 				subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
 				subpass.colorAttachmentCount = 0;
-
+				references.pushBack(SubpassAttachmenReferences());
 
 				UI32 attachmentCount = 0;
 				for (auto _attachment : _subpass.attachments)
 				{
-					VkAttachmentDescription description;
-
 					switch (_attachment.attachment)
 					{
 					case Dynamik::RenderPassAttachment::RENDER_PASS_ATTACHMENTS_SWAPCHAIN:
 					{
+						VkAttachmentDescription description;
+						description.flags = VK_NULL_HANDLE;
 						description.format = VulkanUtilities::getVulkanFormat(_attachment.format);
 						description.samples = (VkSampleCountFlagBits)_attachment.msaaSamples;
 						description.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
@@ -60,6 +60,7 @@ namespace Dynamik
 					case Dynamik::RenderPassAttachment::RENDER_PASS_ATTACHMENTS_DEPTH:
 					{
 						VkAttachmentDescription depthAttachment = {};
+						depthAttachment.flags = VK_NULL_HANDLE;
 						depthAttachment.format = VulkanUtilities::findDepthFormat(vDevice);
 						depthAttachment.samples = (VkSampleCountFlagBits)_attachment.msaaSamples;
 						depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
@@ -80,6 +81,7 @@ namespace Dynamik
 					case Dynamik::RenderPassAttachment::RENDER_PASS_ATTACHMENTS_COLOR:
 					{
 						VkAttachmentDescription colorAttachmentResolve = {};
+						colorAttachmentResolve.flags = VK_NULL_HANDLE;
 						colorAttachmentResolve.format = VulkanUtilities::getVulkanFormat(_attachment.format);
 						colorAttachmentResolve.samples = VK_SAMPLE_COUNT_1_BIT;
 						colorAttachmentResolve.loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
@@ -100,7 +102,7 @@ namespace Dynamik
 					case Dynamik::RenderPassAttachment::RENDER_PASS_ATTACHMENTS_OVERLAY:
 					{
 					}
-						break;
+					break;
 
 					default:
 						DMK_ERROR_BOX("Invalid Render Pass attachment description!");
@@ -112,9 +114,16 @@ namespace Dynamik
 
 				subpass.colorAttachmentCount = references[subpassIndex].colorAttachmentRefs.size();
 				subpass.pColorAttachments = references[subpassIndex].colorAttachmentRefs.data();
+
 				subpass.pDepthStencilAttachment = references[subpassIndex].depthAttachmentRefs.data();
-				subpass.preserveAttachmentCount = references[subpassIndex].resolveAttachments.size();
+
+				//subpass.preserveAttachmentCount = references[subpassIndex].resolveAttachments.size();
+				//subpass.pPreserveAttachments = references[subpassIndex].resolveAttachments.data();
+				subpass.preserveAttachmentCount = VK_NULL_HANDLE;
+				subpass.pPreserveAttachments = VK_NULL_HANDLE;
+
 				subpass.pResolveAttachments = references[subpassIndex].resolveAttachments.data();
+
 				subpass.inputAttachmentCount = references[subpassIndex].inputAttachments.size();
 				subpass.pInputAttachments = references[subpassIndex].inputAttachments.data();
 				_subpasses.pushBack(subpass);
@@ -132,6 +141,8 @@ namespace Dynamik
 
 			VkRenderPassCreateInfo createInfo;
 			createInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+			createInfo.pNext = VK_NULL_HANDLE;
+			createInfo.flags = VK_NULL_HANDLE;
 			createInfo.attachmentCount = _attachmenDescriptions.size();
 			createInfo.pAttachments = _attachmenDescriptions.data();
 			createInfo.subpassCount = _subpasses.size();

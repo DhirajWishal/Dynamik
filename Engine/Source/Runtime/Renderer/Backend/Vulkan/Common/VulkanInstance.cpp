@@ -94,12 +94,12 @@ namespace Dynamik
 			createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 			createInfo.pApplicationInfo = &appInfo;
 
+			extentions = _getRequiredExtensions();
+			createInfo.enabledExtensionCount = static_cast<UI32>(extentions.size());
+			createInfo.ppEnabledExtensionNames = extentions.data();
+
 			VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
 			if (enableValidation) {
-				extentions = _getRequiredExtensions();
-				createInfo.enabledExtensionCount = static_cast<UI32>(extentions.size());
-				createInfo.ppEnabledExtensionNames = extentions.data();
-
 				createInfo.enabledLayerCount = static_cast<UI32>(layers.size());
 				createInfo.ppEnabledLayerNames = layers.data();
 

@@ -45,9 +45,12 @@ namespace Dynamik
     {
         DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
         UI32 windowID = _windowManager.createWindow(1280, 720, descriptor.applicationName);
-        _threadManager.issueWindowHandleCommand(_windowManager.getWindowHandle(windowID));
+        _threadManager.issueWindowHandleCommandRT(_windowManager.getWindowHandle(windowID));
 
         auto _localPath = DMKFileSystem::getExecutablePath();
+
+        _threadManager.issueInitializeCommandRT();
+        _threadManager.issueCreateContextCommandRT(DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT, _windowManager.createViewport(windowID, 512, 512, 0, 0));
     }
 
     void DMKEngine::setLevels(ARRAY<POINTER<DMKLevelComponent>> levelComponents)
@@ -61,8 +64,12 @@ namespace Dynamik
     /* Execute the game code */
     void DMKEngine::execute()
     {
+        _threadManager.issueInitializeFinalsCommandRT();
+
         while (true)
         {
+            _threadManager.clearCommands();
+
             _windowManager.pollEvents();
             _windowManager.clean();
         }

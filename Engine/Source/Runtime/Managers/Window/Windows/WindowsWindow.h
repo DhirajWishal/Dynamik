@@ -24,6 +24,8 @@ namespace Dynamik
 
 		POINTER<GLFWwindow> getWindowHandle() { return windowHandle; }
 
+		DMKViewport createViewport(I32 width, I32 height, I32 xOffset, I32 yOffset);
+
 		void initialize() override;
 		void setEventCallbacks() override;
 		void setWindowIcon(STRING path) override;
@@ -64,6 +66,8 @@ namespace Dynamik
 			static void _applicationResizeCallback(GLFWwindow* window, I32 width, I32 height);
 
 			static void _windowCloseCallback(GLFWwindow* window);
+
+			static void _errorCallback(I32 error, CCPTR description);
 		};
 
 		static InternalEventHandler eventHandler;

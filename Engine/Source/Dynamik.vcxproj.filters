@@ -462,12 +462,6 @@
     <ClInclude Include="Runtime\Renderer\Components\PrimitiveTypeDefs.h">
       <Filter>Runtime\Renderer\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Renderer\Renderer.h">
-      <Filter>Runtime\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Runtime\Renderer\RendererThread.h">
-      <Filter>Runtime\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Runtime\Systems\Attachment\AttachmentManager.h">
       <Filter>Runtime\Systems\Attachment</Filter>
     </ClInclude>
@@ -480,6 +474,11 @@
     <ClInclude Include="Studio\GUI\GUICore\GUIShader.h">
       <Filter>Studio\GUI\GUICore</Filter>
     </ClInclude>
+    <ClInclude Include="Runtime\Core\Types\TSArray.h" />
+    <ClInclude Include="Runtime\Renderer\Renderer.h">
+      <Filter>Runtime\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Renderer\RendererCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\Core\Error\ErrorManager.cpp">
@@ -674,12 +673,6 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\VulkanRBL.cpp">
       <Filter>Runtime\Renderer\Backend\Vulkan</Filter>
     </ClCompile>
-    <ClCompile Include="Runtime\Renderer\Renderer.cpp">
-      <Filter>Runtime\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Runtime\Renderer\RendererThread.cpp">
-      <Filter>Runtime\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="Runtime\Systems\Attachment\AttachmentManager.cpp">
       <Filter>Runtime\Systems\Attachment</Filter>
     </ClCompile>
@@ -691,6 +684,9 @@
     </ClCompile>
     <ClCompile Include="Studio\main.cpp">
       <Filter>Studio</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Renderer\Renderer.cpp">
+      <Filter>Runtime\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

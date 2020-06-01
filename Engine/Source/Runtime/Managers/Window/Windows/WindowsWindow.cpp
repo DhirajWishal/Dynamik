@@ -6,8 +6,21 @@ namespace Dynamik
 	/* Local Mutex */
 	std::mutex _myMutex;
 
+	DMKViewport WindowsWindow::createViewport(I32 width, I32 height, I32 xOffset, I32 yOffset)
+	{
+		DMKViewport newViewport;
+		newViewport.width = width;
+		newViewport.height = height;
+		newViewport.xOffset = xOffset;
+		newViewport.yOffset = yOffset;
+		newViewport.windowHandle = this;
+
+		return newViewport;
+	}
+
 	void WindowsWindow::initialize()
 	{
+		glfwSetErrorCallback(InternalEventHandler::_errorCallback);
 		glfwInit();
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -35,6 +48,8 @@ namespace Dynamik
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
 #endif
+
+		glfwSetWindowUserPointer(windowHandle, this);
 	}
 
 	void WindowsWindow::setEventCallbacks()
@@ -201,5 +216,10 @@ namespace Dynamik
 
 	void WindowsWindow::InternalEventHandler::_windowCloseCallback(GLFWwindow* window)
 	{
+	}
+	
+	void WindowsWindow::InternalEventHandler::_errorCallback(I32 error, CCPTR description)
+	{
+		DMKErrorManager::issueErrorBox(DMK_TEXT("GLFW Error: ") + STRING(description));
 	}
 }

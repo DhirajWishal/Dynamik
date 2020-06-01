@@ -12,6 +12,7 @@ namespace Dynamik
 {
 	/* Thread command types */
 	enum class DMK_API DMKThreadCommandType {
+		DMK_THREAD_COMMAND_TYPE_UNDEFINED,
 		DMK_THREAD_COMMAND_TYPE_TERMINATE,
 		DMK_THREAD_COMMAND_TYPE_RESET,
 		DMK_THREAD_COMMAND_TYPE_SYSTEM,
@@ -28,6 +29,7 @@ namespace Dynamik
 		virtual ~DMKThreadCommand() {}
 
 		DMKThreadCommandType type = DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_SYSTEM;
+		B1 isHandled = false;
 	};
 
 	/*

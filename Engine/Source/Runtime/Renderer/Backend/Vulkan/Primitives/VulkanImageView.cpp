@@ -5,7 +5,7 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanImageView::initialize(const VulkanDevice& vDevice, const VulkanImage& vImage)
+		void VulkanImageView::initialize(const VulkanDevice& vDevice, const VulkanImage& vImage, VkComponentMapping mapping)
 		{
 			VkImageViewCreateInfo createInfo;
 			createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -37,7 +37,10 @@ namespace Dynamik
 			createInfo.subresourceRange.aspectMask = (vImage.usage == ImageUsage::IMAGE_USAGE_DEPTH_ATTACHMENT) ? VK_IMAGE_ASPECT_DEPTH_BIT : VK_IMAGE_ASPECT_COLOR_BIT;
 			createInfo.subresourceRange.layerCount = vImage.layers;
 			createInfo.subresourceRange.levelCount = vImage.mipLevel;
-			//createInfo.components;
+			createInfo.flags = VK_NULL_HANDLE;
+			createInfo.components = mapping;
+
+			// { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A }
 
 			DMK_VULKAN_ASSERT(vkCreateImageView(vDevice, &createInfo, nullptr, &imageView), "Failed to create texture image view!");
 		}
@@ -46,7 +49,7 @@ namespace Dynamik
 		{
 			vkDestroyImageView(vDevice, imageView, nullptr);
 		}
-		
+
 		VulkanImageView::operator VkImageView() const
 		{
 			return this->imageView;

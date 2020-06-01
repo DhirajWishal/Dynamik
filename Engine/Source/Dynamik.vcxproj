@@ -769,6 +769,7 @@
     <ClInclude Include="Runtime\Core\Types\Array.h" />
     <ClInclude Include="Runtime\Core\Types\DataTypes.h" />
     <ClInclude Include="Runtime\Core\Types\Pointer.h" />
+    <ClInclude Include="Runtime\Core\Types\TSArray.h" />
     <ClInclude Include="Runtime\Core\Types\TypeTraits.h" />
     <ClInclude Include="Runtime\Core\Utilities\Clock.h" />
     <ClInclude Include="Runtime\Dynamik.h" />
@@ -831,7 +832,7 @@
     <ClInclude Include="Runtime\Renderer\Components\CoreTypeDefs.h" />
     <ClInclude Include="Runtime\Renderer\Components\PrimitiveTypeDefs.h" />
     <ClInclude Include="Runtime\Renderer\Renderer.h" />
-    <ClInclude Include="Runtime\Renderer\RendererThread.h" />
+    <ClInclude Include="Runtime\Renderer\RendererCommand.h" />
     <ClInclude Include="Runtime\Systems\Attachment\AttachmentManager.h" />
     <ClInclude Include="Studio\GUI\GUIComponents\Widget.h" />
     <ClInclude Include="Studio\GUI\GUICore\GUICore.h" />
@@ -1543,17 +1544,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Mac|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Runtime\Renderer\Renderer.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Windows|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Unix|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Mac|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Engine Windows|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Engine Unix|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Engine Mac|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Windows|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Unix|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Mac|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Runtime\Renderer\RendererThread.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Windows|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Unix|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Mac|x64'">true</ExcludedFromBuild>

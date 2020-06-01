@@ -17,10 +17,11 @@ namespace Dynamik
 			for (size_t i = 0; i < vSwapChain.swapChainImages.size(); i++)
 			{
 				ARRAY<VkImageView> _attachments;
-				_attachments.pushBack(vSwapChain.swapChainImageViews[i]);
 
 				for (auto _attachment : attachments)
-					_attachments.pushBack(_attachment);
+					_attachments.pushBack(_attachment->imageView);
+
+				_attachments.pushBack(vSwapChain.swapChainImageViews[i]);
 
 				VkFramebufferCreateInfo framebufferInfo = {};
 				framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
@@ -44,7 +45,7 @@ namespace Dynamik
 				vkDestroyFramebuffer(vDevice, buffer, nullptr);
 		}
 		
-		const VkFramebuffer VulkanFrameBuffer::operator[](UI32 index)
+		const VkFramebuffer VulkanFrameBuffer::operator[](UI32 index) const
 		{
 			return this->buffers[index];
 		}

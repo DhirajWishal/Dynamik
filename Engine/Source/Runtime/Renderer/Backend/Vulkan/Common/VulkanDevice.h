@@ -37,6 +37,8 @@ namespace Dynamik
             VkDevice logicalDevice = VK_NULL_HANDLE;
 
             VkPhysicalDeviceProperties physicalDeviceProperties = {};
+
+            ARRAY<CCPTR> extentions;
         };
     }
 }

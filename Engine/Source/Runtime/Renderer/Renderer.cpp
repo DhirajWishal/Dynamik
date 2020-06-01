@@ -3,48 +3,69 @@
 
 namespace Dynamik
 {
-	DMKRenderer::DMKRenderer()
-	{
-	}
-
-	DMKRenderer::~DMKRenderer()
-	{
-	}
-
-	void DMKRenderer::setMsaaSamples(DMKSampleCount msaaSamples)
-	{
-	}
-
-	void DMKRenderer::setWindowHandle(POINTER<DMKWindowHandle> handle)
-	{
-		myBackend.setWindowHandle(handle);
-	}
-
 	void DMKRenderer::initialize()
 	{
-		myBackend.initializeCore();
+		//myRenderer.setMsaaSamples(DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT);
+		//myRenderer.initialize();
+		DMK_INFO("Entered the renderer thread!");
 	}
 
-	void DMKRenderer::initializeObjects(const POINTER<DMKLevelComponent>& level)
+	void DMKRenderer::processCommand(POINTER<DMKThreadCommand> command)
 	{
+		myCommand = (DMKRendererCommand*)command;
+
+		switch (myCommand->instruction)
+		{
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE:
+			myBackend.initializeCore();
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_CREATE_CONTEXT:
+		{
+			auto _context = (RenderContextCommand*)myCommand;
+			myBackend.initializeRenderingContext(_context->contextType, _context->viewport);
+		}
+		break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_FINALS:
+			myBackend.initializeFinalComponents();
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_OBJECTS:
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SUBMIT_OBJECTS:
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_INITIALIZE:
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE:
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_SUBMIT:
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_TERMINATE_FRAME:
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_TERMINATE_OBJECTS:
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_TERMINATE:
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_UPDATE_OBJECTS:
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SET_SAMPLES:
+			myBackend.setMsaaSamples(*(DMKSampleCount*)myCommand->data);
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SET_WINDOW_HANDLE:
+			myBackend.setWindowHandle((POINTER<DMKWindowHandle>)myCommand->data);
+			break;
+		default:
+			break;
+		}
 	}
 
-	void DMKRenderer::initializeDraw()
+	void DMKRenderer::onLoop()
 	{
 		myBackend.initializeDrawCall();
-	}
-
-	void DMKRenderer::updateObjects()
-	{
 		myBackend.updateRenderables();
-	}
-
-	void DMKRenderer::submitObjects()
-	{
 		myBackend.submitRenderables();
 	}
-	
-	void DMKRenderer::terminate()
+
+	void DMKRenderer::onTermination()
 	{
+		DMK_INFO("Terminated the renderer thread!");
 	}
 }

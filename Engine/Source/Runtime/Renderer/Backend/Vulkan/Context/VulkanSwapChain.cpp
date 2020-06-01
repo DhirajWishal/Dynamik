@@ -34,7 +34,6 @@ namespace Dynamik
 
 		VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, UI32 width, UI32 height)
 		{
-
 			if (capabilities.currentExtent.width != std::numeric_limits<UI32>::max())
 				return capabilities.currentExtent;
 			else
@@ -44,10 +43,16 @@ namespace Dynamik
 					height
 				};
 
-				actualExtent.width = std::max(capabilities.minImageExtent.width,
-					std::min(capabilities.maxImageExtent.width, actualExtent.width));
-				actualExtent.height = std::max(capabilities.minImageExtent.height,
-					std::min(capabilities.maxImageExtent.height, actualExtent.height));
+				if ((width >= capabilities.maxImageExtent.width) || (width <= capabilities.minImageExtent.width))
+				{
+					actualExtent.width = std::max(capabilities.minImageExtent.width,
+						std::min(capabilities.maxImageExtent.width, actualExtent.width));
+				}
+				if ((height >= capabilities.maxImageExtent.height) || (height <= capabilities.minImageExtent.height))
+				{
+					actualExtent.height = std::max(capabilities.minImageExtent.height,
+						std::min(capabilities.maxImageExtent.height, actualExtent.height));
+				}
 
 				return actualExtent;
 			}
@@ -81,7 +86,7 @@ namespace Dynamik
 
 		void VulkanSwapChain::initialize(const VulkanDevice& vDevice, const VulkanQueue& vQueue, VulkanViewport vViewport)
 		{
-
+			myViewport = vViewport;
 			VulkanSwapChainSupportDetails swapChainSupport = querySwapChainSupport(vDevice, vViewport.surfacePtr.dereference());
 
 			VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
@@ -124,7 +129,7 @@ namespace Dynamik
 				createInfo.queueFamilyIndexCount = 2;
 				createInfo.pQueueFamilyIndices = queueFamilyindices;
 			}
-			else 
+			else
 			{
 				createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
 				createInfo.queueFamilyIndexCount = 0;
@@ -141,9 +146,10 @@ namespace Dynamik
 				DMK_ERROR_BOX("Failed to create Swap Chain!");
 
 			vkGetSwapchainImagesKHR(vDevice, swapChain, &imageCount, nullptr);
-			swapChainImages.resize(imageCount);
 			ARRAY<VkImage> _images(imageCount);
 			vkGetSwapchainImagesKHR(vDevice, swapChain, &imageCount, _images.data());
+
+			swapChainImageFormat = surfaceFormat.format;
 
 			for (auto _image : _images)
 			{
@@ -169,11 +175,9 @@ namespace Dynamik
 		{
 			return this->swapChain;
 		}
-		
+
 		void VulkanSwapChain::_initializeImageViews(const VulkanDevice& vDevice)
 		{
-			swapChainImageViews.resize(swapChainImages.size());
-
 			for (UI32 itr = 0; itr < swapChainImages.size(); itr++)
 			{
 				VulkanImageView _vView;
