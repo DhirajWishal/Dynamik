@@ -20,6 +20,8 @@
 #include "Context/VulkanRenderPass.h"
 #include "Context/VulkanFrameBuffer.h"
 
+#include "Graphics/VulkanRenderAsset.h"
+
 namespace Dynamik
 {
 	namespace Backend
@@ -54,6 +56,7 @@ namespace Dynamik
 
 			void initializeCore() override;
 			void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) override;
+			void initializeObject(POINTER<DMKMeshComponent> meshComponent) override;
 			void initializeFinalComponents() override;
 
 			void initializeDrawCall() override;
@@ -77,6 +80,7 @@ namespace Dynamik
 			VulkanRenderContext myActiveContext;
 			UI32 imageIndex = 0;
 			VkResult frameResult = VkResult::VK_ERROR_UNKNOWN;
+			B1 isSyncObjectsInitialized = false;
 			B1 readyToDraw = false;
 
 			/*
@@ -93,6 +97,10 @@ namespace Dynamik
 
 			/* Descriptor Manager */
 			VulkanDescriptorSetManager myActiveDescriptorManager;
+
+			/* Render asset store */
+			ARRAY<VulkanRenderAsset> submitPendingAssets;
+			ARRAY<VulkanRenderAsset> inFlightAssets;
 		};
 	}
 }

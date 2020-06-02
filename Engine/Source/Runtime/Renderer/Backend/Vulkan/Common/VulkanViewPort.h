@@ -21,7 +21,10 @@ namespace Dynamik
 			VulkanViewport() {}
 			~VulkanViewport() {}
 
+			void initialize();
+
 			POINTER<VulkanSurface> surfacePtr;
+			VkViewport vkViewport = {};
 		};
 	}
 }

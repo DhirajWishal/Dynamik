@@ -6,7 +6,7 @@
  Author:    Dhiraj Wishal
  Date:      20/05/2020
 */
-#include "GameLibrary/GameObjectAttachment.h"
+#include "GameLibrary/GameAssetAttachment.h"
 
 namespace Dynamik
 {
@@ -23,30 +23,16 @@ namespace Dynamik
      components could have functionalities.
     */
     class DMK_API DMKAttachmentManager {
+        struct DMK_API AttachmentMap {
+            DMKGameAssetAttachmentType type;
+            VPTR location = nullptr;
+        };
+
     public:
         DMKAttachmentManager();
         ~DMKAttachmentManager();
 
-        /* TEMPLATED FUNCTION
-         Add attachment to the buffer.
-        */
-        template<class TYPE>
-        UI32 addAttachment(TYPE attachment)
-        {
-            _allocateHeap(sizeof(TYPE));
-            MemoryFunctions::moveData(myNextPtr.get(), &attachment, sizeof(TYPE));
-
-            myReferenceTable[typeid(TYPE).name()] = myNextPtr;
-        }
-
-        /* TEMPLATED FUNCTION
-         Get an attachment stored in the buffer.
-        */
-        template<class TYPE>
-        TYPE getAttachment(UI32 elementIndex = 0)
-        {
-            return *(TYPE*)myReferenceTable[typeid(TYPE).name()].get();
-        }
+        void addAttachment(POINTER<DMKGameAssetAttachment> attachment);
 
         VPTR getBuffer() { return myMemoryBuffer; }
 
@@ -59,6 +45,7 @@ namespace Dynamik
         inline void _recreateReferenceTable();
 
         std::unordered_map<STRING, POINTER<BYTE>> myReferenceTable;
+        ARRAY<AttachmentMap> componentMapping;
         VPTR myMemoryBuffer = nullptr;
         POINTER<BYTE> myNextPtr = myMemoryBuffer;
         UI32 myAllocationSize = 0;

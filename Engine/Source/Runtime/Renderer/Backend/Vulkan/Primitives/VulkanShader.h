@@ -22,13 +22,13 @@ namespace Dynamik
             VulkanShader() {}
             ~VulkanShader() {}
 
-            void initialize(const VulkanDevice& vDevice, const DMKShaderModule& shader, DMKShaderLocation location);
+            void initialize(const VulkanDevice& vDevice, const DMKShaderModule& shader);
             void terminate(const VulkanDevice& vDevice);
 
             operator VkShaderModule() const;
 
             VkShaderModule shaderModule = VK_NULL_HANDLE;
-            VkShaderStageFlags stageFlag = VkShaderStageFlagBits::VK_SHADER_STAGE_ALL;
+            VkShaderStageFlagBits stageFlag = VkShaderStageFlagBits::VK_SHADER_STAGE_ALL;
         };
     }
 }

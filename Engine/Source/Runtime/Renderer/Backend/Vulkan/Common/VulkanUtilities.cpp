@@ -131,5 +131,40 @@ namespace Dynamik
 
 			return _bindings;
 		}
+
+		ARRAY<VkVertexInputAttributeDescription> VulkanUtilities::getVertexAttributeDescriptions(DMKVertexBufferDescriptor descriptor)
+		{
+			ARRAY<VkVertexInputAttributeDescription> attributeDescriptions;
+			UI32 _previousTypeSize = 0;
+
+			for (UI32 _index = 0; _index < descriptor.attributes.size(); _index++)
+			{
+				VkVertexInputAttributeDescription _description = {};
+				_description.binding = 0;
+				_description.location = _index;
+				_description.format = vertexAttributeTypeToVkFormat(descriptor.attributes[_index].dataType);
+				_description.offset = _previousTypeSize;
+				attributeDescriptions.pushBack(_description);
+
+				_previousTypeSize += (UI32)descriptor.attributes[_index].dataType;
+			}
+
+			return attributeDescriptions;
+		}
+
+		VkFormat VulkanUtilities::vertexAttributeTypeToVkFormat(DMKDataType type)
+		{
+			switch ((UI32)type)
+			{
+			case (sizeof(F32) * 1): return VkFormat::VK_FORMAT_R32_SFLOAT;
+			case (sizeof(F32) * 2): return VkFormat::VK_FORMAT_R32G32_SFLOAT;
+			case (sizeof(F32) * 3): return VkFormat::VK_FORMAT_R32G32B32_SFLOAT;
+			case (sizeof(F32) * 4): return VkFormat::VK_FORMAT_R32G32B32A32_SFLOAT;
+			case (sizeof(F32) * 9): return VkFormat::VK_FORMAT_R32_SFLOAT;
+			case (sizeof(F32) * 16): return VkFormat::VK_FORMAT_R32_SFLOAT;
+			}
+
+			return VkFormat::VK_FORMAT_UNDEFINED;
+		}
 	}
 }

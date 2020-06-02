@@ -8,6 +8,7 @@
 */
 #include "../../Components/RenderAsset.h"
 
+#include "../Common/VulkanPipelineManager.h"
 #include "../Primitives/VulkanBuffer.h"
 #include "../Primitives/VulkanTexture.h"
 #include "../Primitives/VulkanShader.h"
@@ -28,6 +29,7 @@ namespace Dynamik
             VulkanBuffer indexBuffer;
             VulkanTexture texture;
             VulkanShader shader;
+            VulkanPipelineContainer pipeline;
             UI32 vertexCount = 0;
             UI32 indexCount = 0;
         };

@@ -36,7 +36,7 @@ namespace Dynamik
 
 		void VulkanSurface::initialize(VulkanInstance vInstance, POINTER<DMKWindowHandle> windowHandle)
 		{
-			windowID = windowHandle.getAddressAsInteger();
+			windowID = windowHandle.getPointerAsInteger();
 
 #if defined(DMK_PLATFORM_WINDOWS)
 			POINTER<WindowsWindow> _windPtr = windowHandle;

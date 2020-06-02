@@ -64,6 +64,7 @@ namespace Dynamik
     /* Execute the game code */
     void DMKEngine::execute()
     {
+        _threadManager.issueInitializeObjectCommandRT();
         _threadManager.issueInitializeFinalsCommandRT();
 
         while (true)

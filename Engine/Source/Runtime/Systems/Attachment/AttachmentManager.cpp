@@ -15,6 +15,10 @@ namespace Dynamik
 		StaticAllocator<BYTE>::deallocate(myMemoryBuffer, 0);
 	}
 
+	void DMKAttachmentManager::addAttachment(POINTER<DMKGameAssetAttachment> attachment)
+	{
+	}
+
 	inline void DMKAttachmentManager::_allocateHeap(UI32 byteSize)
 	{
 		if (myAllocationSize)

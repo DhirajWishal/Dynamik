@@ -18,6 +18,7 @@ namespace Dynamik
 		_simd.load(list.begin());
 		*this = _simd.toVec3D();
 
+        w = 0.0;
 		return *this;
 	}
 

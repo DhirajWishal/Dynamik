@@ -303,9 +303,6 @@
     <ClInclude Include="Runtime\GameLibrary\GameMechanics.h">
       <Filter>Runtime\GameLibrary</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\GameLibrary\GameObjectAttachment.h">
-      <Filter>Runtime\GameLibrary</Filter>
-    </ClInclude>
     <ClInclude Include="Runtime\GameLibrary\GameObjects\StaticObject.h">
       <Filter>Runtime\GameLibrary\GameObjects</Filter>
     </ClInclude>
@@ -479,6 +476,10 @@
       <Filter>Runtime\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\Renderer\RendererCommand.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanPipelineManager.h" />
+    <ClInclude Include="Runtime\GameLibrary\GameAssetAttachment.h">
+      <Filter>Runtime\GameLibrary</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\Core\Error\ErrorManager.cpp">
@@ -688,6 +689,7 @@
     <ClCompile Include="Runtime\Renderer\Renderer.cpp">
       <Filter>Runtime\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanPipelineManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

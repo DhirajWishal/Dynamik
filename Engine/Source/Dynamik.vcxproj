@@ -778,7 +778,7 @@
     <ClInclude Include="Runtime\GameLibrary\GameAsset.h" />
     <ClInclude Include="Runtime\GameLibrary\GameEntity.h" />
     <ClInclude Include="Runtime\GameLibrary\GameMechanics.h" />
-    <ClInclude Include="Runtime\GameLibrary\GameObjectAttachment.h" />
+    <ClInclude Include="Runtime\GameLibrary\GameAssetAttachment.h" />
     <ClInclude Include="Runtime\GameLibrary\GameObjects\StaticObject.h" />
     <ClInclude Include="Runtime\GameLibrary\LevelComponent.h" />
     <ClInclude Include="Runtime\GameLibrary\Mechanics\PlayerController.h" />
@@ -808,6 +808,7 @@
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanInstance.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanMacros.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanOneTimeCommandBuffer.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanPipelineManager.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanQueue.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSurface.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSyncObjects.h" />
@@ -1345,6 +1346,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Unix|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Mac|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanPipelineManager.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanQueue.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Windows|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Unix|x64'">true</ExcludedFromBuild>

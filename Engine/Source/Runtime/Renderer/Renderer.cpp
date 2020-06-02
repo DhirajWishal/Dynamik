@@ -29,6 +29,7 @@ namespace Dynamik
 			myBackend.initializeFinalComponents();
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_OBJECTS:
+			myBackend.initializeObject(POINTER<DMKMeshComponent>());
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SUBMIT_OBJECTS:
 			break;

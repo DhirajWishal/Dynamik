@@ -68,7 +68,7 @@ namespace Dynamik
 		DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES,      /* Texture coordinates */
 		DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES,           /* UV coordinates */
 		DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL,                   /* Normal vectors */
-		DMK_VERTEX_ATTRIBUTE_TYPE_SINTEGRITY,                /* Integrity value */
+		DMK_VERTEX_ATTRIBUTE_TYPE_SINTEGRITY,               /* Integrity value */
 		DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID,                  /* Bone IDs */
 		DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT,              /* Bone Weights */
 		DMK_VERTEX_ATTRIBUTE_TYPE_CUSTOM                    /* Custom */
@@ -92,6 +92,23 @@ namespace Dynamik
 
 		/* Vertex attributes */
 		ARRAY<DMKVertexAttribute> attributes;
+	};
+
+	/* Constant Block */
+	/* Dynamik Constant Attribute */
+	struct DMK_API DMKConstantAttribute {
+		DMKDataType dataType = DMKDataType::DMK_DATA_TYPE_F32;
+		UI64 dataCount = 1;
+	};
+
+	/* Dynamik Constant Block Descriptor */
+	struct DMK_API DMKConstantBlockDescription {
+		ARRAY<DMKConstantAttribute> attributes;
+		DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
+		UI32 offset = 0;
+
+		/* Block size */
+		UI64 getBlockSize();
 	};
 
 	/* Uniform */

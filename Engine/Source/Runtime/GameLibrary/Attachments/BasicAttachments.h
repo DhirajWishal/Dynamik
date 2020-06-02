@@ -6,7 +6,7 @@
  Author:    Dhiraj Wishal
  Date:      21/05/2020
 */
-#include "../GameObjectAttachment.h"
+#include "../GameAssetAttachment.h"
 #include "Math/MathTypes.h"
 #include "Types/DataTypes.h"
 
@@ -17,7 +17,7 @@ namespace Dynamik
     */
     class DMK_API TransformAttachment : public DMKGameAssetAttachment {
     public:
-        TransformAttachment() {}
+        TransformAttachment() : DMKGameAssetAttachment(DMKGameAssetAttachmentType::DMK_GAME_ASSET_ATTACHMENT_TYPE_TRANSFORM){}
         ~TransformAttachment() {}
 
         VEC3F location = { 0.0f, 0.0f, 0.0f };
@@ -28,7 +28,7 @@ namespace Dynamik
     */
     class DMK_API ScaleAttachment : public DMKGameAssetAttachment {
     public:
-        ScaleAttachment() {}
+        ScaleAttachment() : DMKGameAssetAttachment(DMKGameAssetAttachmentType::DMK_GAME_ASSET_ATTACHMENT_TYPE_SCALE){}
         ~ScaleAttachment() {}
 
         VEC3F scale = { 0.0f, 0.0f, 0.0f };
@@ -39,7 +39,7 @@ namespace Dynamik
     */
     class DMK_API MaterialAttachment : public DMKGameAssetAttachment {
     public:
-        MaterialAttachment() {}
+        MaterialAttachment() : DMKGameAssetAttachment(DMKGameAssetAttachmentType::DMK_GAME_ASSET_ATTACHMENT_TYPE_MATERIAL) {}
         ~MaterialAttachment() {}
 
         VEC4F baseColor = { 0.0f, 0.0f, 0.0f, 1.0f };

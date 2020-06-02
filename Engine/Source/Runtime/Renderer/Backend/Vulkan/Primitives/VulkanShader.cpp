@@ -9,12 +9,12 @@ namespace Dynamik
 {
 	namespace Backend 
 	{
-		void VulkanShader::initialize(const VulkanDevice& vDevice, const DMKShaderModule& shader, DMKShaderLocation location)
+		void VulkanShader::initialize(const VulkanDevice& vDevice, const DMKShaderModule& shader)
 		{
 			if (shader.codeType != DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV)
 				DMKErrorManager::issueWarnBox("Submitted shader module contains code that is not supported by Vulkan!");
 
-			stageFlag = VulkanUtilities::getShaderStage(location);
+			stageFlag = VulkanUtilities::getShaderStage(shader.location);
 
 			VkShaderModuleCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
@@ -26,6 +26,7 @@ namespace Dynamik
 
 		void VulkanShader::terminate(const VulkanDevice& vDevice)
 		{
+			vkDestroyShaderModule(vDevice, shaderModule, VK_NULL_HANDLE);
 		}
 
 		VulkanShader::operator VkShaderModule() const

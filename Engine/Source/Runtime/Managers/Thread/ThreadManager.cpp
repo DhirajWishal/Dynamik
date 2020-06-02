@@ -32,6 +32,9 @@ namespace Dynamik
 			{
 				for (index = 0; index < commandPoolPtr->commands.size(); index++)
 				{
+					/* To ensure that the main loop always gets updated */
+					mySystem.onLoop();
+
 					if (commandPoolPtr->commands.at(index)->isHandled)
 						continue;
 					commandPoolPtr->commands.at(index)->isHandled = true;
@@ -132,6 +135,13 @@ namespace Dynamik
 		/* Push to command buffer */
 		myRendererThread.commandBuffer.hasExcuted = false;
 		myRendererThread.commandBuffer.commands.pushBack(new RenderContextCommand(_command));
+	}
+
+	void DMKThreadManager::issueInitializeObjectCommandRT()
+	{
+		DMKRendererCommand _command(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_OBJECTS);
+
+		_pushToThread(_command);
 	}
 
 	void DMKThreadManager::issueInitializeFinalsCommandRT()

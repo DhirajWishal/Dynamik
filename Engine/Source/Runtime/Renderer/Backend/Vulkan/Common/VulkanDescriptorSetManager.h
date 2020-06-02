@@ -15,6 +15,15 @@ namespace Dynamik
 	namespace Backend
 	{
 		/*
+		 Vulkan Descriptor Container
+		*/
+		struct DMK_API VulkanDescriptorContainer {
+			POINTER<VkDescriptorSetLayout> layoutPtr;
+			POINTER<VkDescriptorPool> poolPtr;
+			VkDescriptorSet set = VK_NULL_HANDLE;
+		};
+
+		/*
 		 Vulkan Descriptor Set manager for the Dynamik RBL
 		 Every object contains a uniform ID which is made from its uniform buffer descriptors. This ID is unique
 		 for objects containing unique uniform buffer descriptors.
