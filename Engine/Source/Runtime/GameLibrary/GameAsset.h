@@ -10,7 +10,7 @@
 */
 
 #include "Object/GameComponent.h"
-#include "Systems/Attachment/AttachmentManager.h"
+#include "Managers/Attachment/AttachmentManager.h"
 #include "Object/Descriptors/MaterialDescriptor.h"
 #include "Types/Array.h"
 #include "Math/MathTypes.h"
@@ -52,18 +52,23 @@ namespace Dynamik
 		/* Initialize the object */
 		virtual void initialize() {}
 
-		DMKGameAssetType type = DMKGameAssetType::DMK_GAME_ASSET_TYPE_STATIC;
+		/*
+		 Locations on which the object is rendered. This way we dont have to have multiple copies of the same
+		 model/ mesh.
+		*/
+		ARRAY<VEC3F> locations;
+
+		/*
+		 Mesh data store
+		*/
+		ARRAY<DMKMeshComponent> meshComponents;
 
 		/* Material description of the game object */
 		POINTER<DMKMaterialDescriptor> materialDescription;
 
-		DMKAttachmentManager myAttachmentManager;
+		DMKGameAssetType type = DMKGameAssetType::DMK_GAME_ASSET_TYPE_STATIC;
 
-		/*
-		 Locations on which the object is rendered. This way we dont have to have multiple copies of the same 
-		 model/ mesh.
-		*/
-		ARRAY<VEC3F> locations;
+		DMKAttachmentManager myAttachmentManager;
 	};
 }
 

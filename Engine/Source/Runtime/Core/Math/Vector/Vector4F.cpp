@@ -7,16 +7,18 @@ namespace Dynamik
 {
     Vector4F::Vector4F(std::initializer_list<F32> list)
     {
-        SIMD128 _simd;
-        _simd.load(list.begin());
-        *this = _simd.toVec4F();
+        if ((list.size() > 4) || (list.size() < 4))
+            DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
+
+        MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
     }
 
     Vector4F Vector4F::operator=(const std::initializer_list<F32>& list)
     {
-        SIMD128 _simd;
-        _simd.load(list.begin());
-        *this = _simd.toVec4F();
+        if ((list.size() > 4) || (list.size() < 4))
+            DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
+
+        MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
 
         return *this;
     }
@@ -44,6 +46,11 @@ namespace Dynamik
     Vector4F operator/(const Vector4F& lhs, const Vector4F& rhs)
     {
         return SIMDFunctions::divVector128F(lhs, rhs).toVec4F();
+    }
+
+    Vector4F operator*(const Vector4F& lhs, const F32& value)
+    {
+        return SIMDFunctions::mulVector128F(lhs, value).toVec4F();
     }
 
     B1 operator==(const Vector4F& lhs, const Vector4F& rhs)

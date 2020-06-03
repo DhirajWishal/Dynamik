@@ -13,7 +13,31 @@
 namespace Dynamik
 {
 	/*
-	 This function contains all the available primitive operations for the available SIMD data types.
+	 This class contains all the available primitive operations for the available SIMD data types.
+	 Supported operations:
+	 * Arithmetic:
+	   - Addition
+	   - Subtraction
+	   - Multiplication
+	   - Division
+	   - Square root
+	   - Inverse square root
+	   - Power
+	   - Sin
+	   - Cos
+	   - Tan
+	 * Logical:
+	   - AND
+	   - OR
+	   - XOR
+	   - NOT
+	 * Comparison:
+	   - Is equal
+	   - Is not equal
+	   - Is less than
+	   - Is less than or equal
+	   - Is grater than
+	   - Is grater than or equal
 	*/
 	class DMK_API SIMDFunctions {
 	public:
@@ -23,9 +47,17 @@ namespace Dynamik
 		static SIMD128 subVector128F(SIMD128 lhs, SIMD128 rhs);
 		static SIMD128 mulVector128F(SIMD128 lhs, SIMD128 rhs);
 		static SIMD128 divVector128F(SIMD128 lhs, SIMD128 rhs);
-		static SIMD128 andVector128F(SIMD128 lhs, SIMD128 rhs);
+
+		static SIMD128 sqrtVector128F(SIMD128 rhs);
+		static SIMD128 invSqrtVector128F(SIMD128 rhs);
+		static SIMD128 powVector128F(SIMD128 lhs, SIMD128 rhs);
+
+		static SIMD128 sinVector128F(SIMD128 rhs);
+		static SIMD128 cosVector128F(SIMD128 rhs);
+		static SIMD128 tanVector128F(SIMD128 rhs);
 
 		/* Logical operations */
+		static SIMD128 andVector128F(SIMD128 lhs, SIMD128 rhs);
 		static SIMD128 orVector128F(SIMD128 lhs, SIMD128 rhs);
 		static SIMD128 xorVector128F(SIMD128 lhs, SIMD128 rhs);
 		static SIMD128 notVector128F(SIMD128 lhs, SIMD128 rhs);
@@ -43,9 +75,17 @@ namespace Dynamik
 		static SIMD128 subVector128D(SIMD128 lhs, SIMD128 rhs);
 		static SIMD128 mulVector128D(SIMD128 lhs, SIMD128 rhs);
 		static SIMD128 divVector128D(SIMD128 lhs, SIMD128 rhs);
-		static SIMD128 andVector128D(SIMD128 lhs, SIMD128 rhs);
+
+		static SIMD128 sqrtVector128D(SIMD128 rhs);
+		static SIMD128 InvSqrtVector128D(SIMD128 rhs);
+		static SIMD128 powVector128D(SIMD128 lhs, SIMD128 rhs);
+
+		static SIMD128 sinVector128D(SIMD128 rhs);
+		static SIMD128 cosVector128D(SIMD128 rhs);
+		static SIMD128 tanVector128D(SIMD128 rhs);
 
 		/* Logical operations */
+		static SIMD128 andVector128D(SIMD128 lhs, SIMD128 rhs);
 		static SIMD128 orVector128D(SIMD128 lhs, SIMD128 rhs);
 		static SIMD128 xorVector128D(SIMD128 lhs, SIMD128 rhs);
 		static SIMD128 notVector128D(SIMD128 lhs, SIMD128 rhs);
@@ -63,9 +103,9 @@ namespace Dynamik
 		static SIMD128 subVector128I(SIMD128 lhs, SIMD128 rhs);
 		static SIMD128 mulVector128I(SIMD128 lhs, SIMD128 rhs);
 		static SIMD128 divVector128I(SIMD128 lhs, SIMD128 rhs);
-		static SIMD128 andVector128I(SIMD128 lhs, SIMD128 rhs);
 
 		/* Logical operations */
+		static SIMD128 andVector128I(SIMD128 lhs, SIMD128 rhs);
 		static SIMD128 orVector128I(SIMD128 lhs, SIMD128 rhs);
 		static SIMD128 xorVector128I(SIMD128 lhs, SIMD128 rhs);
 		static SIMD128 notVector128I(SIMD128 lhs, SIMD128 rhs);
@@ -84,9 +124,17 @@ namespace Dynamik
 		static SIMD256 subVector256F(SIMD256 lhs, SIMD256 rhs);
 		static SIMD256 mulVector256F(SIMD256 lhs, SIMD256 rhs);
 		static SIMD256 divVector256F(SIMD256 lhs, SIMD256 rhs);
-		static SIMD256 andVector256F(SIMD256 lhs, SIMD256 rhs);
+
+		static SIMD256 sqrtVector256F(SIMD256 rhs);
+		static SIMD256 invSqrtVector256F(SIMD256 rhs);
+		static SIMD256 powVector256F(SIMD256 lhs, SIMD256 rhs);
+
+		static SIMD256 sinVector256F(SIMD256 rhs);
+		static SIMD256 cosVector256F(SIMD256 rhs);
+		static SIMD256 tanVector256F(SIMD256 rhs);
 
 		/* Logical operations */
+		static SIMD256 andVector256F(SIMD256 lhs, SIMD256 rhs);
 		static SIMD256 orVector256F(SIMD256 lhs, SIMD256 rhs);
 		static SIMD256 xorVector256F(SIMD256 lhs, SIMD256 rhs);
 		static SIMD256 notVector256F(SIMD256 lhs, SIMD256 rhs);
@@ -104,9 +152,17 @@ namespace Dynamik
 		static SIMD256 subVector256D(SIMD256 lhs, SIMD256 rhs);
 		static SIMD256 mulVector256D(SIMD256 lhs, SIMD256 rhs);
 		static SIMD256 divVector256D(SIMD256 lhs, SIMD256 rhs);
-		static SIMD256 andVector256D(SIMD256 lhs, SIMD256 rhs);
+
+		static SIMD256 sqrtVector256D(SIMD256 rhs);
+		static SIMD256 invSqrtVector256D(SIMD256 rhs);
+		static SIMD256 powVector256D(SIMD256 lhs, SIMD256 rhs);
+
+		static SIMD256 sinVector256D(SIMD256 rhs);
+		static SIMD256 cosVector256D(SIMD256 rhs);
+		static SIMD256 tanVector256D(SIMD256 rhs);
 
 		/* Logical operations */
+		static SIMD256 andVector256D(SIMD256 lhs, SIMD256 rhs);
 		static SIMD256 orVector256D(SIMD256 lhs, SIMD256 rhs);
 		static SIMD256 xorVector256D(SIMD256 lhs, SIMD256 rhs);
 		static SIMD256 notVector256D(SIMD256 lhs, SIMD256 rhs);
@@ -124,9 +180,9 @@ namespace Dynamik
 		static SIMD256 subVector256I(SIMD256 lhs, SIMD256 rhs);
 		static SIMD256 mulVector256I(SIMD256 lhs, SIMD256 rhs);
 		static SIMD256 divVector256I(SIMD256 lhs, SIMD256 rhs);
-		static SIMD256 andVector256I(SIMD256 lhs, SIMD256 rhs);
 
 		/* Logical operations */
+		static SIMD256 andVector256I(SIMD256 lhs, SIMD256 rhs);
 		static SIMD256 orVector256I(SIMD256 lhs, SIMD256 rhs);
 		static SIMD256 xorVector256I(SIMD256 lhs, SIMD256 rhs);
 		static SIMD256 notVector256I(SIMD256 lhs, SIMD256 rhs);
@@ -145,9 +201,17 @@ namespace Dynamik
 		static SIMD512 subVector512F(SIMD512 lhs, SIMD512 rhs);
 		static SIMD512 mulVector512F(SIMD512 lhs, SIMD512 rhs);
 		static SIMD512 divVector512F(SIMD512 lhs, SIMD512 rhs);
-		static SIMD512 andVector512F(SIMD512 lhs, SIMD512 rhs);
+
+		static SIMD512 sqrtVector512F(SIMD512 rhs);
+		static SIMD512 invSqrtVector512F(SIMD512 rhs);
+		static SIMD512 powVector512F(SIMD512 lhs, SIMD512 rhs);
+
+		static SIMD512 sinVector512F(SIMD512 rhs);
+		static SIMD512 cosVector512F(SIMD512 rhs);
+		static SIMD512 tanVector512F(SIMD512 rhs);
 
 		/* Logical operations */
+		static SIMD512 andVector512F(SIMD512 lhs, SIMD512 rhs);
 		static SIMD512 orVector512F(SIMD512 lhs, SIMD512 rhs);
 		static SIMD512 xorVector512F(SIMD512 lhs, SIMD512 rhs);
 		static SIMD512 notVector512F(SIMD512 lhs, SIMD512 rhs);
@@ -165,9 +229,17 @@ namespace Dynamik
 		static SIMD512 subVector512D(SIMD512 lhs, SIMD512 rhs);
 		static SIMD512 mulVector512D(SIMD512 lhs, SIMD512 rhs);
 		static SIMD512 divVector512D(SIMD512 lhs, SIMD512 rhs);
-		static SIMD512 andVector512D(SIMD512 lhs, SIMD512 rhs);
+
+		static SIMD512 sqrtVector512D(SIMD512 rhs);
+		static SIMD512 invSqrtVector512D(SIMD512 rhs);
+		static SIMD512 powVector512D(SIMD512 lhs, SIMD512 rhs);
+
+		static SIMD512 sinVector512D(SIMD512 rhs);
+		static SIMD512 cosVector512D(SIMD512 rhs);
+		static SIMD512 tanVector512D(SIMD512 rhs);
 
 		/* Logical operations */
+		static SIMD512 andVector512D(SIMD512 lhs, SIMD512 rhs);
 		static SIMD512 orVector512D(SIMD512 lhs, SIMD512 rhs);
 		static SIMD512 xorVector512D(SIMD512 lhs, SIMD512 rhs);
 		static SIMD512 notVector512D(SIMD512 lhs, SIMD512 rhs);
@@ -185,9 +257,9 @@ namespace Dynamik
 		static SIMD512 subVector512I(SIMD512 lhs, SIMD512 rhs);
 		static SIMD512 mulVector512I(SIMD512 lhs, SIMD512 rhs);
 		static SIMD512 divVector512I(SIMD512 lhs, SIMD512 rhs);
-		static SIMD512 andVector512I(SIMD512 lhs, SIMD512 rhs);
 
 		/* Logical operations */
+		static SIMD512 andVector512I(SIMD512 lhs, SIMD512 rhs);
 		static SIMD512 orVector512I(SIMD512 lhs, SIMD512 rhs);
 		static SIMD512 xorVector512I(SIMD512 lhs, SIMD512 rhs);
 		static SIMD512 notVector512I(SIMD512 lhs, SIMD512 rhs);

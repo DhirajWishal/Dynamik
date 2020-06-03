@@ -13,7 +13,7 @@
 namespace Dynamik
 {
 	/* Attachment types */
-	enum class DMK_API DMKGameAssetAttachmentType {
+	enum class DMK_API DMKGameAssetAttachmentType : UI32 {
 		DMK_GAME_ASSET_ATTACHMENT_TYPE_TRANSFORM,
 		DMK_GAME_ASSET_ATTACHMENT_TYPE_SCALE,
 		DMK_GAME_ASSET_ATTACHMENT_TYPE_MATERIAL,

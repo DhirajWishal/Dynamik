@@ -3,16 +3,20 @@
 
 namespace Dynamik
 {
-	Vector2D::Vector2D(std::initializer_list<D64> list) : x(0.0f), y(0.0f)
+	Vector2D::Vector2D(std::initializer_list<D64> list) 
 	{
-		D64* _addr = &x;
-		_addr = (D64*)list.begin();
+		if ((list.size() > 2) || (list.size() < 2))
+			DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
+
+		MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(D64));
 	}
 
 	Vector2D Vector2D::operator=(const std::initializer_list<D64>& list)
 	{
-		D64* _addr = &this->x;
-		_addr = (D64*)list.begin();
+		if ((list.size() > 2) || (list.size() < 2))
+			DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
+
+		MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(D64));
 
 		return *this;
 	}

@@ -760,7 +760,6 @@
     <ClInclude Include="Runtime\Core\Object\Descriptors\MaterialDescriptor.h" />
     <ClInclude Include="Runtime\Core\Object\GameComponent.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\MeshComponent.h" />
-    <ClInclude Include="Runtime\Core\Object\Resource\MeshComponents\StaticMeshComponent.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\Primitives.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\ShaderModule.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\TextureComponent.h" />
@@ -799,6 +798,7 @@
     <ClInclude Include="Runtime\Managers\Window\WindowHandle.h" />
     <ClInclude Include="Runtime\Managers\Window\WindowManager.h" />
     <ClInclude Include="Runtime\Managers\Window\Windows\WindowsWindow.h" />
+    <ClInclude Include="Runtime\Core\Object\Components\Camera.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Components\RenderAsset.h" />
     <ClInclude Include="Runtime\Renderer\Backend\RendererBackendLayer.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanCommandBuffer.h" />
@@ -834,7 +834,7 @@
     <ClInclude Include="Runtime\Renderer\Components\PrimitiveTypeDefs.h" />
     <ClInclude Include="Runtime\Renderer\Renderer.h" />
     <ClInclude Include="Runtime\Renderer\RendererCommand.h" />
-    <ClInclude Include="Runtime\Systems\Attachment\AttachmentManager.h" />
+    <ClInclude Include="Runtime\Managers\Attachment\AttachmentManager.h" />
     <ClInclude Include="Studio\GUI\GUIComponents\Widget.h" />
     <ClInclude Include="Studio\GUI\GUICore\GUICore.h" />
     <ClInclude Include="Studio\GUI\GUICore\GUIShader.h" />
@@ -1061,17 +1061,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Mac|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Runtime\Core\Object\Resource\MeshComponent.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Windows|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Unix|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Mac|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Engine Windows|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Engine Unix|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Engine Mac|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Windows|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Unix|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Mac|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Runtime\Core\Object\Resource\MeshComponents\StaticMeshComponent.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Windows|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Unix|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Mac|x64'">true</ExcludedFromBuild>
@@ -1556,7 +1545,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Unix|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Mac|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Runtime\Systems\Attachment\AttachmentManager.cpp">
+    <ClCompile Include="Runtime\Managers\Attachment\AttachmentManager.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Windows|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Unix|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Engine Mac|x64'">true</ExcludedFromBuild>

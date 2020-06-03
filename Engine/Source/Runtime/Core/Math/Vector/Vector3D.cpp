@@ -5,20 +5,22 @@
 
 namespace Dynamik
 {
-	Vector3D::Vector3D(std::initializer_list<D64> list)
+	Vector3D::Vector3D(std::initializer_list<D64> list) 
 	{
-		SIMD256 _simd;
-		_simd.load(list.begin());
-		*this = _simd.toVec3D();
+        if ((list.size() > 3) || (list.size() < 3))
+            DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
+
+        MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(D64));
+        w = 0.0;
 	}
 
 	Vector3D Vector3D::operator=(const std::initializer_list<D64>& list)
 	{
-		SIMD256 _simd;
-		_simd.load(list.begin());
-		*this = _simd.toVec3D();
+        if ((list.size() > 3) || (list.size() < 3))
+            DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
 
-        w = 0.0;
+        MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(D64));
+        this->w = 0.0;
 		return *this;
 	}
 

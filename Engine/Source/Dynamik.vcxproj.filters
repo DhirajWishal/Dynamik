@@ -252,9 +252,6 @@
     <ClInclude Include="Runtime\Core\Object\Resource\MeshComponent.h">
       <Filter>Runtime\Core\Object\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Core\Object\Resource\MeshComponents\StaticMeshComponent.h">
-      <Filter>Runtime\Core\Object\Resource\MeshComponents</Filter>
-    </ClInclude>
     <ClInclude Include="Runtime\Core\Object\Resource\Primitives.h">
       <Filter>Runtime\Core\Object\Resource</Filter>
     </ClInclude>
@@ -459,9 +456,6 @@
     <ClInclude Include="Runtime\Renderer\Components\PrimitiveTypeDefs.h">
       <Filter>Runtime\Renderer\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Systems\Attachment\AttachmentManager.h">
-      <Filter>Runtime\Systems\Attachment</Filter>
-    </ClInclude>
     <ClInclude Include="Studio\GUI\GUIComponents\Widget.h">
       <Filter>Studio\GUI\GUIComponents</Filter>
     </ClInclude>
@@ -480,6 +474,10 @@
     <ClInclude Include="Runtime\GameLibrary\GameAssetAttachment.h">
       <Filter>Runtime\GameLibrary</Filter>
     </ClInclude>
+    <ClInclude Include="Runtime\Managers\Attachment\AttachmentManager.h">
+      <Filter>Runtime\Systems\Attachment</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Object\Components\Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\Core\Error\ErrorManager.cpp">
@@ -544,9 +542,6 @@
     </ClCompile>
     <ClCompile Include="Runtime\Core\Object\Resource\MeshComponent.cpp">
       <Filter>Runtime\Core\Object\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Runtime\Core\Object\Resource\MeshComponents\StaticMeshComponent.cpp">
-      <Filter>Runtime\Core\Object\Resource\MeshComponents</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Core\Object\Resource\Primitives.cpp">
       <Filter>Runtime\Core\Object\Resource</Filter>
@@ -674,9 +669,6 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\VulkanRBL.cpp">
       <Filter>Runtime\Renderer\Backend\Vulkan</Filter>
     </ClCompile>
-    <ClCompile Include="Runtime\Systems\Attachment\AttachmentManager.cpp">
-      <Filter>Runtime\Systems\Attachment</Filter>
-    </ClCompile>
     <ClCompile Include="Studio\GUI\GUICore\GUICore.cpp">
       <Filter>Studio\GUI\GUICore</Filter>
     </ClCompile>
@@ -690,6 +682,9 @@
       <Filter>Runtime\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanPipelineManager.cpp" />
+    <ClCompile Include="Runtime\Managers\Attachment\AttachmentManager.cpp">
+      <Filter>Runtime\Systems\Attachment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

@@ -3,16 +3,20 @@
 
 namespace Dynamik
 {
-	Vector2F::Vector2F(std::initializer_list<F32> list) : x(0.0f), y(0.0f)
+	Vector2F::Vector2F(std::initializer_list<F32> list) 
 	{
-		F32* _addr = &x;
-		_addr = (F32*)list.begin();
+		if ((list.size() > 2) || (list.size() < 2))
+			DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
+
+		MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
 	}
 
 	Vector2F Vector2F::operator=(const std::initializer_list<F32>& list)
 	{
-		F32* _addr = &this->x;
-		_addr = (F32*)list.begin();
+		if ((list.size() > 2) || (list.size() < 2))
+			DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
+
+		MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
 
 		return *this;
 	}
