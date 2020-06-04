@@ -20,16 +20,16 @@ namespace Dynamik
 			myBackend.initializeCore();
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_CREATE_CONTEXT:
-		{
-			auto _context = (RenderContextCommand*)myCommand;
-			myBackend.initializeRenderingContext(_context->contextType, _context->viewport);
-		}
+			myBackend.initializeRenderingContext(((RendererCreateContextCommand*)myCommand)->contextType, ((RendererCreateContextCommand*)myCommand)->viewport);
 		break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_FINALS:
 			myBackend.initializeFinalComponents();
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_OBJECTS:
 			myBackend.initializeObject(POINTER<DMKMeshComponent>());
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_ADD_RENDER_ASSET:
+			myBackend.initializeObject(((RendererAddRenderAsset*)myCommand)->asset);
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SUBMIT_OBJECTS:
 			break;
@@ -48,10 +48,10 @@ namespace Dynamik
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_UPDATE_OBJECTS:
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SET_SAMPLES:
-			myBackend.setMsaaSamples(*(DMKSampleCount*)myCommand->data);
+			myBackend.setMsaaSamples(((RendererSetSamplesCommand*)myCommand)->samples);
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SET_WINDOW_HANDLE:
-			myBackend.setWindowHandle((POINTER<DMKWindowHandle>)myCommand->data);
+			myBackend.setWindowHandle(((RendererSetWindowHandleCommand*)myCommand)->windowHandle);
 			break;
 		default:
 			break;

@@ -2,7 +2,7 @@
 #include "WindowManager.h"
 
 #ifdef DMK_PLATFORM_WINDOWS
-	#include "Windows/WindowsWindow.h"
+	#include "Window/Windows/WindowsWindow.h"
 
 #endif
 

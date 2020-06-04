@@ -7,7 +7,7 @@
  Date:      23/05/2020
 */
 #include "../GameMechanics.h"
-#include "Managers/Window/EventHandler.h"
+#include "Events/EventHandler.h"
 
 namespace Dynamik
 {

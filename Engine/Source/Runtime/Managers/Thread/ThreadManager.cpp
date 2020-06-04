@@ -105,18 +105,22 @@ namespace Dynamik
 	/* ////////// Renderer Thread Commands \\\\\\\\\\ */
 	void DMKThreadManager::issueSamplesCommandRT(DMKSampleCount const& samples)
 	{
-		DMKRendererCommand _command(RendererInstruction::RENDERER_INSTRUCTION_SET_SAMPLES);
-		_command.data = (DMKSampleCount*)&samples;
+		RendererSetSamplesCommand _command;
+		_command.samples = samples;
 
-		_pushToThread(_command);
+		/* Push to command buffer */
+		myRendererThread.commandBuffer.hasExcuted = false;
+		myRendererThread.commandBuffer.commands.pushBack(new RendererSetSamplesCommand(_command));
 	}
 
 	void DMKThreadManager::issueWindowHandleCommandRT(const POINTER<DMKWindowHandle>& handle)
 	{
-		DMKRendererCommand _command(RendererInstruction::RENDERER_INSTRUCTION_SET_WINDOW_HANDLE);
-		_command.data = handle.get();
+		RendererSetWindowHandleCommand _command;
+		_command.windowHandle = handle;
 
-		_pushToThread(_command);
+		/* Push to command buffer */
+		myRendererThread.commandBuffer.hasExcuted = false;
+		myRendererThread.commandBuffer.commands.pushBack(new RendererSetWindowHandleCommand(_command));
 	}
 
 	void DMKThreadManager::issueInitializeCommandRT()
@@ -128,13 +132,13 @@ namespace Dynamik
 
 	void DMKThreadManager::issueCreateContextCommandRT(DMKRenderContextType context, DMKViewport viewport)
 	{
-		RenderContextCommand _command;
+		RendererCreateContextCommand _command;
 		_command.contextType = context;
 		_command.viewport = viewport;
 
 		/* Push to command buffer */
 		myRendererThread.commandBuffer.hasExcuted = false;
-		myRendererThread.commandBuffer.commands.pushBack(new RenderContextCommand(_command));
+		myRendererThread.commandBuffer.commands.pushBack(new RendererCreateContextCommand(_command));
 	}
 
 	void DMKThreadManager::issueInitializeObjectCommandRT()

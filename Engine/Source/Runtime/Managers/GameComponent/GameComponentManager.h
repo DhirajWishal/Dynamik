@@ -8,7 +8,7 @@
 */
 #include "Object/System.h"
 #include "Types/Array.h"
-#include "GameLibrary/LevelComponent.h"
+#include "GameLibrary/GamePackage.h"
 
 namespace Dynamik
 {
@@ -17,13 +17,13 @@ namespace Dynamik
         DMKGameComponentManager() {}
         ~DMKGameComponentManager() {}
 
-        void addLevel(POINTER<DMKLevelComponent> levelComponent);
+        void setGamePackage(const DMKGamePackage& package);
 
         void loadLevel(UI32 levelIndex);
         void unloadLevel(UI32 levelIndex);
 
     private:
-        ARRAY<POINTER<DMKLevelComponent>> myLevelStore;
+        DMKGamePackage myCurrentPackage;
         UI32 myCurrentLevel = 0;
     };
 }

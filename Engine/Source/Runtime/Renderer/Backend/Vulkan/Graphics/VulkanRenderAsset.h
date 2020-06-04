@@ -18,6 +18,18 @@ namespace Dynamik
     namespace Backend
     {
         /*
+         Vulkan renderable mesh
+        */
+        struct DMK_API VulkanRenderableMesh {
+            VulkanDescriptorContainer descriptor;
+            VulkanPipelineContainer pipeline;
+            VulkanBuffer vertexBuffer;
+            VulkanBuffer indexBuffer;
+            UI32 vertexCount = 0;
+            UI32 indexCount = 0;
+        };
+
+        /*
          Vulkan Render Asset for the Dynamik RBL
         */
         class DMK_API VulkanRenderAsset : public DMKRenderAsset {
@@ -25,13 +37,7 @@ namespace Dynamik
             VulkanRenderAsset() {}
             ~VulkanRenderAsset() {}
 
-            VulkanBuffer vertexBuffer;
-            VulkanBuffer indexBuffer;
-            VulkanTexture texture;
-            VulkanShader shader;
-            VulkanPipelineContainer pipeline;
-            UI32 vertexCount = 0;
-            UI32 indexCount = 0;
+            ARRAY<VulkanRenderableMesh> meshes;
         };
     }
 }

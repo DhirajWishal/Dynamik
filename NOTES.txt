@@ -1,0 +1,6 @@
+Dynamik Game Engine Notes
+
+The rendering engine does not contain any idea about game assets. All what it renders are different meshes.
+Game Asset is just a way to categorize meshes and which defines a way to manipulate them.
+The rendering engine has multiple pipelines on which how a level is rendered. Some of them are debug and PBR.
+If the client wishes to render all the meshes as physical entities, they can choose the PBR pipeline.

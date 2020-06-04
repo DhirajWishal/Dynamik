@@ -10,7 +10,7 @@
 #include "Types/Pointer.h"
 
 #include <GLFW/glfw3.h>
-#include "Managers/Window/WindowHandle.h"
+#include "Window/WindowHandle.h"
 
 namespace Dynamik
 {

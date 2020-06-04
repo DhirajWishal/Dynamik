@@ -9,7 +9,8 @@
 #include "Macros/Global.h"
 #include "Object/Resource/MeshComponent.h"
 #include "GameLibrary/LevelComponent.h"
-#include "Managers/Window/WindowHandle.h"
+#include "GameLibrary/GameAssets/RenderableAsset.h"
+#include "Window/WindowHandle.h"
 #include "../Components/CoreTypeDefs.h"
 #include "../Components/ContextTypeDefs.h"
 
@@ -43,7 +44,7 @@ namespace Dynamik
 
         virtual void initializeCore() {}
         virtual void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) {}
-        virtual void initializeObject(POINTER<DMKMeshComponent> meshComponent) {}
+        virtual void initializeObject(POINTER<DMKRenderableAsset> asset) {}
         virtual void initializeLevel(POINTER<DMKLevelComponent> level) {}
         virtual void initializeFinalComponents() {}
 

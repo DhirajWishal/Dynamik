@@ -20,10 +20,10 @@ namespace Dynamik
         ~DMKMeshImporter() {}
     public:
         /* Load a mesh component */
-        static ARRAY<POINTER<DMKMeshComponent>> loadMesh(const STRING& path, const DMKVertexBufferDescriptor& vertexBufferDescriptor);
+        static ARRAY<DMKMeshComponent> loadMeshes(const STRING& path);
 
         /* Unload a loaded mesh component */
-        static void unloadMesh(const ARRAY<POINTER<DMKMeshComponent>>& meshes);
+        static void unloadMesh(const ARRAY<DMKMeshComponent>& meshes);
     };
 }
 

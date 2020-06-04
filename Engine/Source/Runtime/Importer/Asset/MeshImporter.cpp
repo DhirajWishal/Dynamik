@@ -1,7 +1,7 @@
 #include "dmkafx.h"
 #include "MeshImporter.h"
 
-#include "Object/Resource/MeshComponents/StaticMeshComponent.h"
+#include "Object/Resource/MeshComponent.h"
 #include "Object/Resource/Primitives.h"
 
 #include <assimp/assimp/Importer.hpp>
@@ -10,7 +10,38 @@
 
 namespace Dynamik
 {
-	ARRAY<POINTER<DMKMeshComponent>> DMKMeshImporter::loadMesh(const STRING& path, const DMKVertexBufferDescriptor& vertexBufferDescriptor)
+	DMKVertexBufferDescriptor getVertexBufferDescriptor(POINTER<aiMesh> mesh)
+	{
+		DMKVertexBufferDescriptor _descriptor;
+
+		DMKVertexAttribute _attribute;
+		_attribute.dataCount = 1;
+		_attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
+		if (mesh->HasPositions())
+		{
+			_attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
+			_descriptor.attributes.pushBack(_attribute);
+		}
+		if (mesh->HasVertexColors(0))
+		{
+			_attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR;
+			_descriptor.attributes.pushBack(_attribute);
+		}
+		if (mesh->HasTextureCoords(0))
+		{
+			_attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES;
+			_descriptor.attributes.pushBack(_attribute);
+		}
+		if (mesh->HasNormals())
+		{
+			_attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL;
+			_descriptor.attributes.pushBack(_attribute);
+		}
+
+		return _descriptor;
+	}
+
+	ARRAY<DMKMeshComponent> DMKMeshImporter::loadMeshes(const STRING& path)
 	{
 		static Assimp::Importer _importer;
 		static auto _scene = _importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs);
@@ -18,16 +49,17 @@ namespace Dynamik
 		if (!_scene)
 		{
 			DMKErrorManager::issueErrorBox("Unable to load the mesh file!");
-			return ARRAY<POINTER<DMKMeshComponent>>();
+			return ARRAY<DMKMeshComponent>();
 		}
 
-		ARRAY<POINTER<DMKMeshComponent>> _myMeshes;
+		ARRAY<DMKMeshComponent> _myMeshes;
 		for (UI32 _itr = 0; _itr < _scene->mNumMeshes; _itr++)
 		{
-			POINTER<DMKStaticMeshComponent> _meshComponent = StaticAllocator<DMKStaticMeshComponent>::allocate();
+			DMKMeshComponent _meshComponent;
 			auto _mesh = _scene->mMeshes[_itr];
 
 			DMKVertexObject _object;
+			_meshComponent.vertexDescriptor = getVertexBufferDescriptor(_mesh);
 			for (UI32 _index = 0; _index < _mesh->mNumVertices; _index++)
 			{
 				if (_mesh->HasPositions())
@@ -40,7 +72,7 @@ namespace Dynamik
 				{
 					_object.color.load(&_mesh->mColors[0][_index].r);
 				}
-				else _object.color = { 1.0f, 1.0f, 1.0f, 1.0f };
+				else _object.color = { 1.0f, 1.0f, 1.0f };
 
 				if (_mesh->HasTextureCoords(0))
 				{
@@ -58,7 +90,7 @@ namespace Dynamik
 				{
 				}
 
-				_meshComponent->rawVertexBufferObject.pushBack(_object);
+				_meshComponent.rawVertexBufferObject.pushBack(_object);
 			}
 
 			aiFace face;
@@ -66,7 +98,7 @@ namespace Dynamik
 			{
 				face = _mesh->mFaces[index];
 				for (UI32 itr = 0; itr < face.mNumIndices; itr++)
-					_meshComponent->indexBufferObject.pushBack(face.mIndices[itr]);
+					_meshComponent.indexBufferObject.pushBack(face.mIndices[itr]);
 			}
 
 			_myMeshes.pushBack(_meshComponent);
@@ -75,9 +107,7 @@ namespace Dynamik
 		return _myMeshes;
 	}
 
-	void DMKMeshImporter::unloadMesh(const ARRAY<POINTER<DMKMeshComponent>>& meshes)
+	void DMKMeshImporter::unloadMesh(const ARRAY<DMKMeshComponent>& meshes)
 	{
-		for (auto _mesh : meshes)
-			StaticAllocator<DMKMeshComponent>::deallocate(_mesh, 0);
 	}
 }

@@ -23,6 +23,15 @@ namespace Dynamik
 		DMK_SAMPLE_COUNT_32_BIT = BIT_SHIFT(5),
 		DMK_SAMPLE_COUNT_64_BIT = BIT_SHIFT(6),
 	};
+
+	/*
+	 Dynamik Render Pipeline
+	 This defines how the renderer renders a given scene.
+	*/
+	enum class DMK_API DMKRenderPipeline {
+		DMK_RENDER_PIPELINE_DEBUG,
+		DMK_RENDER_PIPELINE_PBR,
+	};
 }
 
 #endif // !_DYNAMIK_RENDER_CORE_TYPE_DEFINES_H

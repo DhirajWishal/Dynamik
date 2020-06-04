@@ -7,7 +7,7 @@
  Date:      24/05/2020
 */
 #include "VulkanSurface.h"
-#include "Managers/Window/WindowHandle.h"
+#include "Window/WindowHandle.h"
 
 namespace Dynamik
 {

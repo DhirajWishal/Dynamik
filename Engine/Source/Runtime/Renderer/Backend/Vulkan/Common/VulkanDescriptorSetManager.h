@@ -29,7 +29,6 @@ namespace Dynamik
 		 for objects containing unique uniform buffer descriptors.
 		*/
 		class DMK_API VulkanDescriptorSetManager {
-
 			/*
 			 This container contains the basic information of a descriptor set.
 			*/
@@ -52,7 +51,9 @@ namespace Dynamik
 			VulkanDescriptorSetManager() {}
 			~VulkanDescriptorSetManager() {}
 
-			void createDescriptor(const VulkanDevice& vDevice, const ARRAY<DMKUniformBufferDescriptor>& descriptors, I64 ID, UI32 setCount);
+			void createDescriptor(const VulkanDevice& vDevice, const DMKUniformBufferDescriptor& descriptor, I64 ID, UI32 setCount);
+
+
 
 			void terminateDescriptor(const VulkanDevice& vDevice, I64 ID);
 			void terminate(const VulkanDevice& vDevice);

@@ -8,12 +8,14 @@
  Author:    Dhiraj Wishal
  Date:      15/05/2020
 */
-
 #include "Object/GameComponent.h"
-#include "Managers/Attachment/AttachmentManager.h"
+#include "Object/Resource/MeshComponent.h"
 #include "Object/Descriptors/MaterialDescriptor.h"
 #include "Types/Array.h"
 #include "Math/MathTypes.h"
+#include "Managers/Attachment/AttachmentManager.h"
+#include "GameEntity.h"
+#include "Mechanics/GameAssetMechanics.h"
 
 namespace Dynamik
 {
@@ -34,7 +36,7 @@ namespace Dynamik
 
 	/*
 	 This is the main Game Asset class for the Dynamik Engine.
-	 All the user defined objects (Camera, Skybox, static object, audio component,...) are derived from this.
+	 All the user defined objects (Skybox, static object, audio component,...) are derived from this.
 	 This object acts as a node in the Scene Component.
 	 Resource data can be given for each object in two ways,
 	 * Internally (By using DMKMeshComponent::createMesh() function)
@@ -52,20 +54,7 @@ namespace Dynamik
 		/* Initialize the object */
 		virtual void initialize() {}
 
-		/*
-		 Locations on which the object is rendered. This way we dont have to have multiple copies of the same
-		 model/ mesh.
-		*/
-		ARRAY<VEC3F> locations;
-
-		/*
-		 Mesh data store
-		*/
-		ARRAY<DMKMeshComponent> meshComponents;
-
-		/* Material description of the game object */
-		POINTER<DMKMaterialDescriptor> materialDescription;
-
+		ARRAY<POINTER<DMKGameAssetMechanics>> myMechanics;
 		DMKGameAssetType type = DMKGameAssetType::DMK_GAME_ASSET_TYPE_STATIC;
 
 		DMKAttachmentManager myAttachmentManager;

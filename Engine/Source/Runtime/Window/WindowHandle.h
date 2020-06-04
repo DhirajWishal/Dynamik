@@ -6,7 +6,7 @@
  Author:    Dhiraj Wishal
  Date:      19/05/2020
 */
-#include "EventHandler.h"
+#include "Events/EventHandler.h"
 #include "Types/DataTypes.h"
 #include "Types/Array.h"
 
@@ -51,6 +51,7 @@ namespace Dynamik
 		virtual void setEventCallbacks() {}
 		virtual void setWindowIcon(STRING path) {}
 		virtual void pollEvents() {}
+		virtual void onUpdate() {}
 		virtual void clean() {}
 		virtual void terminate() {}
 

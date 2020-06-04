@@ -26,8 +26,6 @@ namespace Dynamik
 		DMKMeshComponent() {}
 		DMKMeshComponent(const DMKVertexBufferDescriptor& descriptor, const DMKDataType& type)
 			: vertexDescriptor(descriptor), indexBufferType(type) {}
-		DMKMeshComponent(const DMKVertexBufferDescriptor& descriptor, const DMKDataType& type)
-			: vertexDescriptor(descriptor), indexBufferType(type) {}
 		virtual ~DMKMeshComponent() {}
 
 		/* TODO:
@@ -46,9 +44,10 @@ namespace Dynamik
 		 @warn: The pre allocated memory location must be allocated to fit the whole vertex buffer object.
 				To ensure this, use getVertexBufferObjectByteSize() to allocate the buffer percisely.
 		*/
-		void packData(const DMKVertexBufferDescriptor& descriptor, VPTR location);
+		void packData(VPTR location);
 
 		ARRAY<DMKVertexObject> rawVertexBufferObject;
+		ARRAY<DMKUniformBufferObject> uniformBUfferObjects;
 		ARRAY<UI32> indexBufferObject;
 
 		DMKVertexBufferDescriptor vertexDescriptor;

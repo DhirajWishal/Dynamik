@@ -23,12 +23,6 @@ namespace Dynamik
     DMKEngine::DMKEngine()
     {
         _clock.start();
-
-        DAIObject _myFile("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\Skybox");
-        _myFile.load();
-        auto modelPaths = _myFile.meshes;
-
-        auto file = DMKMeshImporter::loadMesh("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\Skybox\\SkySphere.obj", DMKVertexBufferDescriptor());
         _threadManager.initializeBasicThreads();
     }
     
@@ -36,7 +30,6 @@ namespace Dynamik
     DMKEngine::~DMKEngine()
     {
         _windowManager.terminateAll();
-
         _clock.end();
     }
     
@@ -44,13 +37,23 @@ namespace Dynamik
     void DMKEngine::createInstance(DMKEngineInstanceDescriptor descriptor)
     {
         DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
-        UI32 windowID = _windowManager.createWindow(1280, 720, descriptor.applicationName);
-        _threadManager.issueWindowHandleCommandRT(_windowManager.getWindowHandle(windowID));
-
         auto _localPath = DMKFileSystem::getExecutablePath();
+    }
 
-        _threadManager.issueInitializeCommandRT();
+    void DMKEngine::createWindow(STRING title, UI32 width, UI32 height)
+    {
+        UI32 windowID = _windowManager.createWindow(width, height, title);
+        _threadManager.issueWindowHandleCommandRT(_windowManager.getWindowHandle(windowID));
         _threadManager.issueCreateContextCommandRT(DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT, _windowManager.createViewport(windowID, 512, 512, 0, 0));
+    }
+
+    void DMKEngine::setGamePackage(const DMKGamePackage& package)
+    {
+    }
+
+    void DMKEngine::initializeComponents()
+    {
+        _threadManager.issueInitializeCommandRT();
     }
 
     void DMKEngine::setLevels(ARRAY<POINTER<DMKLevelComponent>> levelComponents)

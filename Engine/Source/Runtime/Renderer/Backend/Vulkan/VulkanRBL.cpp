@@ -245,77 +245,12 @@ namespace Dynamik
 			myActiveContext = newContext;
 		}
 
-		void VulkanRBL::initializeObject(POINTER<DMKMeshComponent> meshComponent)
+		void VulkanRBL::initializeObject(POINTER<DMKRenderableAsset> asset)
 		{
-			struct _local {
-				VEC3F position;
-				VEC3F color;
-			};
-
-			ARRAY<_local> _vertexBufferObject;
-			ARRAY<UI32> _indexBufferObject;
-
-			_local _object;
-			_object.color = { 1.0f, 1.0f, 1.0f };
-
-			_object.position = { 0.0f, 1.0f, 0.0f };
-			_vertexBufferObject.pushBack(_object);
-			_indexBufferObject.pushBack(0);
-
-			_object.position = { 1.0f, 0.0f, 0.0f };
-			_vertexBufferObject.pushBack(_object);
-			_indexBufferObject.pushBack(1);
-
-			_object.position = { -1.0f, 0.0f, 0.0f };
-			_vertexBufferObject.pushBack(_object);
-			_indexBufferObject.pushBack(2);
-
-			VulkanRenderAsset _asset;
-			_asset.vertexBuffer.initialize(myDevice, BufferType::BUFFER_TYPE_VERTEX, _vertexBufferObject.size() * sizeof(_local));
-			memcpy(_asset.vertexBuffer.mapMemory(myDevice), _vertexBufferObject.data(), _vertexBufferObject.size() * sizeof(_local));
-			_asset.vertexBuffer.unmapMemory(myDevice);
-			_asset.vertexCount = _vertexBufferObject.size();
-
-			_asset.indexBuffer.initialize(myDevice, BufferType::BUFFER_TYPE_INDEX, _indexBufferObject.size() * sizeof(UI32));
-			memcpy(_asset.indexBuffer.mapMemory(myDevice), _indexBufferObject.data(), _indexBufferObject.size() * sizeof(UI32));
-			_asset.indexBuffer.unmapMemory(myDevice);
-			_asset.indexCount = _indexBufferObject.size();
-
-			DMKShaderModule vertexShaderModule;
-			vertexShaderModule.codeType = DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV;
-			vertexShaderModule.location = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
-			vertexShaderModule.loadCode("E:/Projects/Dynamik Engine/Versions/DynamikEngine/Engine/Source/Studio/Assets/Shaders/Basic/vert.spv");
-			VulkanShader vertexShader;
-			vertexShader.initialize(myDevice, vertexShaderModule);
-
-			DMKShaderModule fragmentShaderModule;
-			fragmentShaderModule.codeType = DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV;
-			fragmentShaderModule.location = DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT;
-			fragmentShaderModule.loadCode("E:/Projects/Dynamik Engine/Versions/DynamikEngine/Engine/Source/Studio/Assets/Shaders/Basic/frag.spv");
-			VulkanShader fragmentShader;
-			fragmentShader.initialize(myDevice, fragmentShaderModule);
-
-			DMKVertexBufferDescriptor vertexDescriptor;
-			DMKVertexAttribute vertexAttribute;
-			vertexAttribute.dataCount = 1;
-			vertexAttribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
-			vertexAttribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
-			vertexDescriptor.attributes.pushBack(vertexAttribute);
-
-			vertexAttribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR;
-			vertexDescriptor.attributes.pushBack(vertexAttribute);
-
-			VulkanGraphicsPipelineInitInfo initInfo;
-			initInfo.shaders = { vertexShader, fragmentShader };
-			initInfo.vertexBufferDescriptor = vertexDescriptor;
-			initInfo.vRenderPass = myActiveContext.vRenderPass;
-			initInfo.viewports = { myActiveContext.vViewport };
-			initInfo.multisamplerMsaaSamples = (VkSampleCountFlagBits)myMsaaSampleCount;
-
-			VulkanPipelineManager pipelineManager;
-			_asset.pipeline = pipelineManager.createGraphicsPipeline(myDevice, initInfo);
-
-			submitPendingAssets.pushBack(_asset);
+			for (auto mesh : asset->meshComponents)
+			{
+				VulkanRenderAsset _asset;
+			}
 		}
 
 		void VulkanRBL::initializeFinalComponents()
@@ -329,18 +264,18 @@ namespace Dynamik
 				_buffer = myActiveContext.vCommandBuffer.beginCommandBufferRecording(myDevice, index);
 				myActiveContext.vCommandBuffer.beginRenderPass(myDevice, myActiveContext.vRenderPass, myActiveContext.vFrameBuffer, myActiveContext.vSwapChain, index);
 
-				for (auto _asset : submitPendingAssets)
+				for (auto _mesh : submitPendingAssets)
 				{
-					vkCmdBindPipeline(_buffer, _asset.pipeline.bindPoint, _asset.pipeline.pipeline);
+					vkCmdBindPipeline(_buffer, _mesh.pipeline.bindPoint, _mesh.pipeline.pipeline);
 
 					VkDeviceSize _offsets[1] = { 0 };
 
-					vkCmdBindVertexBuffers(_buffer, 0, 1, &_asset.vertexBuffer.buffer, _offsets);
+					vkCmdBindVertexBuffers(_buffer, 0, 1, &_mesh.vertexBuffer.buffer, _offsets);
 					//vkCmdDraw(_buffer, _asset.vertexCount, 1, 0, 0);
 
-					vkCmdBindIndexBuffer(_buffer, _asset.indexBuffer, 0, VK_INDEX_TYPE_UINT32);
+					vkCmdBindIndexBuffer(_buffer, _mesh.indexBuffer, 0, VK_INDEX_TYPE_UINT32);
 
-					vkCmdDrawIndexed(_buffer, _asset.indexCount, 1, 0, 0, 0);
+					vkCmdDrawIndexed(_buffer, _mesh.indexCount, 1, 0, 0, 0);
 				}
 
 				myActiveContext.vCommandBuffer.endRenderPass(_buffer);

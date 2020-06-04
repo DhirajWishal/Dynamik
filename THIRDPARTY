@@ -1,0 +1,5 @@
+Third Party libraries used by the Dynamik Engine and Studio.
+
+Vulkan	- Default graphics adn compute API
+Assimp	- Default asset import API
+ImGui	- Default studio interface API

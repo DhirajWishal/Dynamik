@@ -5,7 +5,7 @@
 #include "../Context/VulkanSwapChain.h"
 
 #if defined(DMK_PLATFORM_WINDOWS)
-#include "Managers/Window/Windows/WindowsWindow.h"
+#include "Window/Windows/WindowsWindow.h"
 
 #elif defined(DMK_PLATFORM_LINUX)
 

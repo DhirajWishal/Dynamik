@@ -203,6 +203,8 @@ namespace Dynamik
 	private:
 		VPTR uniformBufferStorage = nullptr;
 		POINTER<BYTE> nextPointer = uniformBufferStorage;
+
+	public:
 		DMKUniformDescription myDescription;
 	};
 }

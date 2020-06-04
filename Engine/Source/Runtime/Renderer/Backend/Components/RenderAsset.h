@@ -6,8 +6,7 @@
  Author:    Dhiraj Wishal
  Date:      23/05/2020
 */
-
-#include "GameLibrary/GameAsset.h"
+#include "GameLibrary/GameAssets/RenderableAsset.h"
 
 namespace Dynamik
 {
@@ -20,14 +19,7 @@ namespace Dynamik
     class DMK_API DMKRenderAsset {
     public:
         DMKRenderAsset() {}
-        DMKRenderAsset(const POINTER<DMKGameAsset>& asset) : myAsset(asset) {}
         virtual ~DMKRenderAsset() {}
-
-        void setAsset(const POINTER<DMKGameAsset>& asset) { myAsset = asset; }
-        POINTER<DMKGameAsset> getAsset() { return myAsset; }
-
-    protected:
-        POINTER<DMKGameAsset> myAsset;
     };
 }
 

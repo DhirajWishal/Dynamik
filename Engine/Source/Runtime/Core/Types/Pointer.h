@@ -8,7 +8,6 @@
  Author:	Dhiraj Wishal
  Date:		13/05/2020
 */
-
 #include "Macros/Global.h"
 #include "TypeTraits.h"
 
@@ -83,7 +82,7 @@ namespace Dynamik
 		/* FUNCTION
 		 * Get the type size of the pointer.
 		 */
-		UI32 getTypeSize() const { return sizeof(TYPE); }
+		UI64 getTypeSize() const { return sizeof(TYPE); }
 
 		/* FUNCTION
 		 * Set a value to the pointer.
@@ -98,7 +97,7 @@ namespace Dynamik
 		 * @param value: Value to be set.
 		 * @warn: Index is not validated before or after assignment.
 		 */
-		void setIndexed(const UI32& index, const TYPE& value) { myPointer[index] = value; }
+		void setIndexed(const UI64& index, const TYPE& value) { myPointer[index] = value; }
 
 		/* FUNCTION
 		 * Set a value to the pointer using an index.
@@ -107,7 +106,7 @@ namespace Dynamik
 		 * @param index: Index to where to store the value.
 		 * @warn: Does not validate the index before assigning.
 		 */
-		void setIndexed(const TYPE& value, const UI32 index) { myPointer[index] = value; }
+		void setIndexed(const TYPE& value, const UI64 index) { myPointer[index] = value; }
 
 		/* FUNCTION
 		 * Check if the pointer is valid.
@@ -132,7 +131,7 @@ namespace Dynamik
 		 *
 		 * @param value: Value to be incremented by.
 		 */
-		TYPE* increment(UI32 value)
+		TYPE* increment(UI64 value)
 		{
 			return (this->myPointer = (TYPE*)(((UI64)this->myPointer) + (value * sizeof(TYPE))));
 		}
@@ -142,7 +141,7 @@ namespace Dynamik
 		 *
 		 * @param value: Value to be decremented by.
 		 */
-		TYPE* decrement(UI32 value)
+		TYPE* decrement(UI64 value)
 		{
 			return (this->myPointer = (TYPE*)(((UI64)this->myPointer) - (value * sizeof(TYPE))));
 		}
@@ -154,7 +153,7 @@ namespace Dynamik
 		 * @param index: INdex to be accessed.
 		 * @warn: Index is not validated before or after indexing.
 		 */
-		TYPE& at(const UI32& index) { return myPointer[index]; }
+		TYPE& at(const UI64& index) { return myPointer[index]; }
 
 		/* FUNCTION
 		 * Get the dereferenced value behind the pointer.
@@ -204,7 +203,7 @@ namespace Dynamik
 		 *
 		 * @param increment: Value that is added to the pointer.
 		 */
-		TYPE* operator+(UI32& increment) { return (TYPE*)this->getAddressAsInteger() + increment; }
+		TYPE* operator+(UI64& increment) { return (TYPE*)this->getAddressAsInteger() + increment; }
 
 		/* OPERATOR
 		 * Return the addition of the two pointers.
@@ -218,14 +217,14 @@ namespace Dynamik
 		 *
 		 * @param increment: Value that is added to the pointer.
 		 */
-		TYPE* operator+=(const UI32 increment) { return this->increment(increment); }
+		TYPE* operator+=(const UI64 increment) { return this->increment(increment); }
 
 		/* OPERATOR
 		 * Decrement the address of the pointer by a value.
 		 *
 		 * @param decrement: Value to be subtracted to the pointer.
 		 */
-		TYPE* operator-(const UI32& decrement) { return (TYPE*)this->getAddressAsInteger() - decrement; }
+		TYPE* operator-(const UI64& decrement) { return (TYPE*)this->getAddressAsInteger() - decrement; }
 
 		/* OPERATOR
 		 * Return the difference of the two pointers.
@@ -239,7 +238,7 @@ namespace Dynamik
 		 *
 		 * @param decrement: Value to be subtracted to the pointer.
 		 */
-		TYPE* operator-=(const UI32 decrement) { return this->decrement(decrement); }
+		TYPE* operator-=(const UI64 decrement) { return this->decrement(decrement); }
 
 		/* OPERATOR
 		 * Increment the address of the pointer by one.
@@ -311,7 +310,7 @@ namespace Dynamik
 		 * @param index: Index of the data to be retrieved.
 		 * @warn: Does not validate the index before retrieving.
 		 */
-		TYPE& operator[](const UI32& index) { return this->myPointer[index]; }
+		TYPE& operator[](const UI64& index) { return this->myPointer[index]; }
 
 		/* OPERATOR
 		 * Access data at a given index in the pointer.
@@ -320,7 +319,7 @@ namespace Dynamik
 		 * @param index: Index of the data to be retrieved.
 		 * @warn: Does not validate the index before retrieving.
 		 */
-		const TYPE& operator[](const UI32& index) const { return this->myPointer[index]; }
+		const TYPE& operator[](const UI64& index) const { return this->myPointer[index]; }
 
 		/* PRIVATE VARIABLES AND CONSTANTS */
 	private:

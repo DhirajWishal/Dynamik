@@ -18,7 +18,8 @@
 #include "Managers/Thread/ThreadManager.h"
 
 #include "Utilities/Clock.h"
-#include "GameLibrary/LevelComponent.h"
+
+#include "GameLibrary/GamePackage.h"
 
 namespace Dynamik
 {
@@ -74,6 +75,21 @@ namespace Dynamik
 		 to do so.
 		*/
 		void createInstance(DMKEngineInstanceDescriptor descriptor);
+
+		/*
+		 Create a fresh window for the engine. The first active window will be set as the parent window.
+		*/
+		void createWindow(STRING title = "Dynamik Engine", UI32 width = 1280, UI32 height = 720);
+
+		/*
+		 Add the game package to the engine.
+		*/
+		void setGamePackage(const DMKGamePackage& package);
+
+		/*
+		 Initialize the engine components.
+		*/
+		void initializeComponents();
 
 		/*
 		 Add levels to the engine.

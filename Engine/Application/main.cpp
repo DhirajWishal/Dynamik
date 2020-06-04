@@ -6,9 +6,6 @@
  Author:    Dhiraj Wishal
  Date:      14/05/2020
 */
-
-#include <iostream>
-#include <vector>
 #include "Dynamik.h"
 using namespace Dynamik;
 
@@ -16,6 +13,7 @@ int main()
 {
 	Dynamik::DMKEngine _engine;
 	_engine.createInstance(Dynamik::DMKEngineInstanceDescriptor());
+	_engine.createWindow();
 	_engine.execute();
 
 	return 0;

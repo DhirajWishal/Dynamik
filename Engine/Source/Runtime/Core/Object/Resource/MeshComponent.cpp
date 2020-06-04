@@ -18,13 +18,13 @@ namespace Dynamik
 	}
 
 	/* Pack data to a given location. That location must be pre allocated */
-	void DMKMeshComponent::packData(const DMKVertexBufferDescriptor& descriptor, VPTR location)
+	void DMKMeshComponent::packData(VPTR location)
 	{
 		POINTER<BYTE> _nextPtr = location;
 
 		for (auto vertex : rawVertexBufferObject)
 		{
-			for (auto attribute : descriptor.attributes)
+			for (auto attribute : vertexDescriptor.attributes)
 			{
 				auto _byteSize = ((UI32)attribute.dataType * attribute.dataCount);
 				switch (attribute.attributeType)
