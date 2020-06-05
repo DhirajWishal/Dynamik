@@ -11,6 +11,8 @@ namespace Dynamik
 	{
 		void VulkanDevice::initialize(VulkanInstance vInstance, VulkanSurface vSurface)
 		{
+			extentions.pushBack(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+
 			initializePhysicalDevice(vInstance, vSurface);
 			initializeLogicalDevice(vInstance, vSurface);
 		}
@@ -23,7 +25,7 @@ namespace Dynamik
 			if (deviceCount == 0)
 				DMK_ERROR_BOX("Failed to find GPUs with Vulkan support!");
 
-			std::vector<VkPhysicalDevice> devices(deviceCount);
+			ARRAY<VkPhysicalDevice> devices(deviceCount);
 			vkEnumeratePhysicalDevices(vInstance, &deviceCount, devices.data());
 
 			//std::multimap<I32, VkPhysicalDevice> candidates;
@@ -79,29 +81,28 @@ namespace Dynamik
 
 			// ----------
 #endif
-
 		}
 
 		void VulkanDevice::initializeLogicalDevice(VulkanInstance vInstance, VulkanSurface vSurface)
 		{
-
 			VulkanQueue indices;
 			indices.findQueueFamilies(physicalDevice, vSurface);
 
-			std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+			ARRAY<VkDeviceQueueCreateInfo> queueCreateInfos;
 			std::set<UI32> uniqueQueueFamilies = {
 				indices.processFamily.value(),
 				indices.utilityFamily.value()
 			};
 
 			F32 queuePriority = 1.0f;
-			for (UI32 queueFamily : uniqueQueueFamilies) {
+			for (UI32 queueFamily : uniqueQueueFamilies) 
+			{
 				VkDeviceQueueCreateInfo queueCreateInfo = {};
 				queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
 				queueCreateInfo.queueFamilyIndex = queueFamily;
 				queueCreateInfo.queueCount = 1;
 				queueCreateInfo.pQueuePriorities = &queuePriority;
-				queueCreateInfos.push_back(queueCreateInfo);
+				queueCreateInfos.pushBack(queueCreateInfo);
 			}
 
 			VkPhysicalDeviceFeatures deviceFeatures = {};
@@ -113,14 +114,16 @@ namespace Dynamik
 			createInfo.queueCreateInfoCount = static_cast<UI32>(queueCreateInfos.size());
 			createInfo.pQueueCreateInfos = queueCreateInfos.data();
 			createInfo.pEnabledFeatures = &deviceFeatures;
-			createInfo.enabledExtensionCount = static_cast<UI32>(vInstance.extentions.size());
-			createInfo.ppEnabledExtensionNames = vInstance.extentions.data();
+			createInfo.enabledExtensionCount = static_cast<UI32>(extentions.size());
+			createInfo.ppEnabledExtensionNames = extentions.data();
 
-			if (vInstance.isValidationEnabled) {
+			if (vInstance.isValidationEnabled)
+			{
 				createInfo.enabledLayerCount = static_cast<UI32>(vInstance.validationLayers.size());
 				createInfo.ppEnabledLayerNames = vInstance.validationLayers.data();
 			}
-			else {
+			else
+			{
 				createInfo.enabledLayerCount = 0;
 			}
 

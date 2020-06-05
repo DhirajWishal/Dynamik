@@ -6,7 +6,7 @@
  Author:    Dhiraj Wishal
  Date:      19/05/2020
 */
-#include "WindowHandle.h"
+#include "Window/WindowHandle.h"
 #include "Macros/Global.h"
 #include "Types/DataTypes.h"
 #include "Types/Array.h"
@@ -23,6 +23,7 @@ namespace Dynamik
 		~DMKWindowManager() {}
 
 		I32 createWindow(I32 width, I32 height, STRING title = "Dynamik Engine");
+		POINTER<DMKWindowHandle> getWindowHandle(I32 windowID);
 		void terminateWindow(I32 windowIndex = 0);
 		void terminateAll();
 
@@ -44,6 +45,7 @@ namespace Dynamik
 
 	private:
 		ARRAY<POINTER<DMKWindowHandle>> myWindowHandles;
+		UI64 windowIDs = 0;
 	};
 }
 

@@ -4,37 +4,49 @@
 
 /*
  Author:    Dhiraj Wishal
- Date:      23/05/2020
-
- The rendering engine of the Dynamik Engine is of two major parts. The Renderer Abstraction Layer and the
- Renderer Backend Layer. All the global rendering calls are done through the RAL. The RAL controls and manages
- the different RBLs (VulkanRBL, OpenGLRBL, DirectX12RBL) to render all the necessary data. 
- All the RBLs contain a data structure called a RenderAsset. This contains API specific data types and objects
- to render a specific object. This also contains a pointer to the base object it belongs to (DMKGameAsset). Once
- the base object is updated, the RenderAsset will also be updated in the update phase of the draw call.
-
- The rendering engine supports multiple rendering contexts. A rendering context defines how an asset is rendered.
- This included 3D rendering, 2D, Default (both 3D and 2D), Debug and VR. Every game asset is bind to one of the
- rendering context at draw time. A window is bind to a rendering context and a window could have only one context
- at a given rendering instance. A rendering context could have multiple windows depending on the context type
- (eg: VR).
+ Date:      29/05/2020
 */
-#include "Object/System.h"
-#include "GameLibrary/LevelComponent.h"
+#include "RendererCommand.h"
+#include "Backend/Vulkan/VulkanRBL.h"
+#include "Managers/Thread/Thread.h"
+#include "Managers/Thread/ThreadCommand.h"
 
 namespace Dynamik
 {
-    class DMK_API DMKRenderer : public DMKSystem {
-    public:
-        DMKRenderer();
-        ~DMKRenderer();
+    using namespace Backend;
 
-        void initialize(const POINTER<DMKLevelComponent>& level);
+    /*
+     Renderer thread for the Dynamik Engine
+     This is the base rendering API.
+     This unit is executed on a single thread which manages all of its rendering commands sent via the thread
+     commands.
+    */
+    class DMK_API DMKRenderer : public DMKThread {
+    public:
+        DMKRenderer() : DMKThread(DMKThreadType::DMK_THREAD_TYPE_RENDERER) {}
+        ~DMKRenderer() {}
+
+        void initialize() override;
+
+        /*
+         Prcess commands and call individual functions of the backend.
+        */
+        void processCommand(POINTER<DMKThreadCommand> command) override;
+
+        /*
+         Execute the three steps of draw call.
+        */
+        void onLoop() override;
+
+        /*
+         Terminate the backend.
+        */
+        void onTermination() override;
 
     private:
-        POINTER<DMKLevelComponent> myActiveLevel;
-        POINTER<DMKLevelComponent> myNextLevel;
+        VulkanRBL myBackend;
+        POINTER<DMKRendererCommand> myCommand;
     };
 }
 
-#endif // !_DYNAMIK_RENDERER_H
+#endif // !_DYNAMIK_RENDERER_THREAD_H

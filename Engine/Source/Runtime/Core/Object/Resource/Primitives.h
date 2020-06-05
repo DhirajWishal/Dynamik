@@ -9,6 +9,8 @@
  Date:      15/05/2020
 */
 #include "Math/MathTypes.h"
+#include "Types/Array.h"
+#include "ShaderModule.h"
 
 namespace Dynamik
 {
@@ -66,7 +68,7 @@ namespace Dynamik
 		DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES,      /* Texture coordinates */
 		DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES,           /* UV coordinates */
 		DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL,                   /* Normal vectors */
-		DMK_VERTEX_ATTRIBUTE_TYPE_SINTEGRITY,                /* Integrity value */
+		DMK_VERTEX_ATTRIBUTE_TYPE_SINTEGRITY,               /* Integrity value */
 		DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID,                  /* Bone IDs */
 		DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT,              /* Bone Weights */
 		DMK_VERTEX_ATTRIBUTE_TYPE_CUSTOM                    /* Custom */
@@ -92,22 +94,42 @@ namespace Dynamik
 		ARRAY<DMKVertexAttribute> attributes;
 	};
 
-	/* Shader */
-	/* Dynamik Shader Locations */
-	enum class DMK_API DMKShaderLocation {
-		DMK_SHADER_LOCATION_VERTEX,
-		DMK_SHADER_LOCATION_TESSELLATION,
-		DMK_SHADER_LOCATION_GEOMETRY,
-		DMK_SHADER_LOCATION_FRAGMENT
+	/* Constant Block */
+	/* Dynamik Constant Attribute */
+	struct DMK_API DMKConstantAttribute {
+		DMKDataType dataType = DMKDataType::DMK_DATA_TYPE_F32;
+		UI64 dataCount = 1;
 	};
 
-	/* Dynamik Shader Path Container */
-	struct DMK_API DMKShaderPath {
-		STRING path = DMK_TEXT("");
+	/* Dynamik Constant Block Descriptor */
+	struct DMK_API DMKConstantBlockDescription {
+		ARRAY<DMKConstantAttribute> attributes;
 		DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
+		UI32 offset = 0;
+
+		/* Block size */
+		UI64 getBlockSize();
 	};
 
 	/* Uniform */
+	/* Dynamik Uniform Type */
+	enum class DMK_API DMKUniformType {
+		DMK_UNIFORM_TYPE_UNIFORM_BUFFER,
+		DMK_UNIFORM_TYPE_STORAGE_BUFFER,
+		DMK_UNIFORM_TYPE_UNIFORM_BUFFER_DYNAMIC,
+		DMK_UNIFORM_TYPE_STORAGE_BUFFER_DYNAMIC,
+		DMK_UNIFORM_TYPE_UNIFORM_TEXEL_BUFFER,
+		DMK_UNIFORM_TYPE_STORAGE_TEXEL_BUFFER,
+		DMK_UNIFORM_TYPE_INPUT_ATTACHMENT,
+		DMK_UNIFORM_TYPE_STORAGE_IMAGE,
+		DMK_UNIFORM_TYPE_CONSTANT,
+		DMK_UNIFORM_TYPE_SAMPLER_2D,
+		DMK_UNIFORM_TYPE_SAMPLER_CUBE,
+		DMK_UNIFORM_TYPE_SAMPLER_2D_ARRAY,
+		DMK_UNIFORM_TYPE_SAMPLER_CUBE_ARRAY,
+		DMK_UNIFORM_TYPE_ACCELERATION_STRUCTURE,
+	};
+
 	/* Dynamik Uniform Attribute Types */
 	enum class DMK_API DMKUniformAttributeType {
 		DMK_UNIFORM_ATTRIBUTE_TYPE_MODEL,
@@ -129,6 +151,7 @@ namespace Dynamik
 	*/
 	struct DMK_API DMKUniformDescription {
 		ARRAY<DMKUniformAttribute> attributes;
+		DMKUniformType type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
 		DMKShaderLocation shaderLocation = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
 		UI32 destinationBinding = 0;
 		UI32 offset = 0;
@@ -145,6 +168,9 @@ namespace Dynamik
 
 		/* Buffer object contaienr */
 		ARRAY<DMKUniformDescription> uniformBufferObjects;
+
+		/* ID operator */
+		I64 operator()();
 	};
 
 	/*
@@ -174,10 +200,18 @@ namespace Dynamik
 		/* Clear all the stored values in the buffer */
 		void clear();
 
-	private:
+	private:	/* Private Data Store */
 		VPTR uniformBufferStorage = nullptr;
 		POINTER<BYTE> nextPointer = uniformBufferStorage;
+
+	public:		/* Public Data */
 		DMKUniformDescription myDescription;
+
+	public:		/* Static Utility Functions */
+		/*
+		 Create a basic camera uniform buffer object (Model, View, Projection)
+		*/
+		static DMKUniformDescription createUniformMVP();
 	};
 }
 

@@ -27,7 +27,7 @@ namespace Dynamik
 			_flags = MB_ICONINFORMATION | MB_OK;
 			break;
 		case Dynamik::DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_WARN:
-			_flags = MB_ICONWARNING | MB_RETRYCANCEL;
+			_flags = MB_ICONWARNING | MB_OKCANCEL;
 			break;
 		case Dynamik::DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_QUESTION:
 			_flags = MB_ICONQUESTION | MB_OKCANCEL;

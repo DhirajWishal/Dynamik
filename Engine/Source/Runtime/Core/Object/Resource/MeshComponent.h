@@ -11,41 +11,22 @@
  Author:    Dhiraj Wishal
  Date:      15/05/2020
 */
-
-
 #include "Primitives.h"
 
 namespace Dynamik
 {
-	/* Dynamik Mesh Component Types */
-	enum class DMK_API DMKMeshComponentType {
-		DMK_MESH_COMPONENT_TYPE_STATIC,
-		DMK_MESH_COMPONENT_TYPE_ANIMATED,
-	};
-
 	/*
 	 Mesh Component super class for the Dynamik Engine.
 	 This class itself does not store any mesh data. Mesh components are derived from this to store their
 	 data.
 	 This class contains functions to manipulate a full mesh.
-
-	 There are two types of meshes:
-	 * Static mesh.
-	 * Animated mesh.
 	*/
 	class DMK_API DMKMeshComponent {
 	public:
 		DMKMeshComponent() {}
-		DMKMeshComponent(DMKMeshComponentType ty) : type(ty) {}
 		DMKMeshComponent(const DMKVertexBufferDescriptor& descriptor, const DMKDataType& type)
 			: vertexDescriptor(descriptor), indexBufferType(type) {}
-		DMKMeshComponent(DMKMeshComponentType ty, const DMKVertexBufferDescriptor& descriptor, const DMKDataType& type)
-			: vertexDescriptor(descriptor), indexBufferType(type), type(ty) {}
 		virtual ~DMKMeshComponent() {}
-
-		/* TODO:
-		 static DMKMeshComponent& createMesh(VertexData);
-		*/
 
 		/* Get the total byte size of the vertex buffer object */
 		UI32 getVertexBufferObjectByteSize();
@@ -59,15 +40,37 @@ namespace Dynamik
 		 @warn: The pre allocated memory location must be allocated to fit the whole vertex buffer object.
 				To ensure this, use getVertexBufferObjectByteSize() to allocate the buffer percisely.
 		*/
-		void packData(const DMKVertexBufferDescriptor& descriptor, VPTR location);
+		void packData(VPTR location);
 
+	public:		/* Public Data Store */
 		ARRAY<DMKVertexObject> rawVertexBufferObject;
+		ARRAY<DMKUniformBufferObject> uniformBUfferObjects;
 		ARRAY<UI32> indexBufferObject;
-
-		DMKMeshComponentType type = DMKMeshComponentType::DMK_MESH_COMPONENT_TYPE_STATIC;
 
 		DMKVertexBufferDescriptor vertexDescriptor;
 		DMKDataType indexBufferType = DMKDataType::DMK_DATA_TYPE_UI32;
+
+	public:		/* Static Utility Functions */
+		/*
+		 Create a new mesh component and add it to the mesh store. Return the address of the last element
+		 of the store.
+		 If the specified path contain more than one mesh, all of it will be loaded and added to the store.
+
+		 @param path: Path to the file tp be imported.
+		 @param UniformDescriptors:	Descriptors to the uniform buffers the mesh contains.
+		*/
+		static ARRAY<DMKMeshComponent> create(STRING path, ARRAY<DMKUniformDescription> uniformDescriptors);
+
+		/*
+		 Create a new mesh component and add it to the mesh store. Return the address of the last element
+		 of the store.
+
+		 @param vertexData:	The vertex data of the mesh.
+		 @param indexData: Index data of the mesh.
+		 @param vertexDescription: Vertex description of the mesh.
+		 @param UniformDescriptors:	Descriptors to the uniform buffers the mesh contains.
+		*/
+		static ARRAY<DMKMeshComponent> create(ARRAY<DMKVertexObject> vertexData, ARRAY<UI32> indexData, DMKVertexBufferDescriptor vertexDescription, ARRAY<DMKUniformDescription> uniformDescriptors);
 	};
 }
 

@@ -6,12 +6,12 @@ namespace Dynamik
 	/* ---------- 128 bit operations ---------- */
 	SIMD128 SIMDFunctions::addVector128F(SIMD128 lhs, SIMD128 rhs)
 	{
-		return _mm_add_ps(lhs, rhs);
+		return _mm_add_ps(lhs, rhs); 
 	}
 
 	SIMD128 SIMDFunctions::subVector128F(SIMD128 lhs, SIMD128 rhs)
 	{
-		return _mm_sub_ps(lhs, rhs);
+		return _mm_sub_ps(lhs, rhs); 
 	}
 
 	SIMD128 SIMDFunctions::mulVector128F(SIMD128 lhs, SIMD128 rhs)
@@ -21,12 +21,42 @@ namespace Dynamik
 
 	SIMD128 SIMDFunctions::divVector128F(SIMD128 lhs, SIMD128 rhs)
 	{
-		return _mm_div_ps(lhs, rhs);
+		return _mm_div_ps(lhs, rhs); 
+	}
+
+	SIMD128 SIMDFunctions::sqrtVector128F(SIMD128 rhs)
+	{
+		return _mm_sqrt_ps(rhs);
+	}
+
+	SIMD128 SIMDFunctions::invSqrtVector128F(SIMD128 rhs)
+	{
+		return mulVector128F(1.0f, sqrtVector128F(rhs));
+	}
+
+	SIMD128 SIMDFunctions::powVector128F(SIMD128 lhs, SIMD128 rhs)
+	{
+		return _mm_pow_ps(lhs, rhs);
+	}
+
+	SIMD128 SIMDFunctions::sinVector128F(SIMD128 rhs)
+	{
+		return _mm_sin_ps(rhs);
+	}
+
+	SIMD128 SIMDFunctions::cosVector128F(SIMD128 rhs)
+	{
+		return _mm_cos_ps(rhs);
+	}
+
+	SIMD128 SIMDFunctions::tanVector128F(SIMD128 rhs)
+	{
+		return _mm_tan_ps(rhs);
 	}
 
 	SIMD128 SIMDFunctions::andVector128F(SIMD128 lhs, SIMD128 rhs)
 	{
-		return _mm_and_ps(lhs, rhs);
+		return _mm_and_ps(lhs, rhs); 
 	}
 
 	SIMD128 SIMDFunctions::orVector128F(SIMD128 lhs, SIMD128 rhs)
@@ -92,6 +122,36 @@ namespace Dynamik
 	SIMD128 SIMDFunctions::divVector128D(SIMD128 lhs, SIMD128 rhs)
 	{
 		return _mm_div_pd(lhs, rhs);
+	}
+
+	SIMD128 SIMDFunctions::sqrtVector128D(SIMD128 rhs)
+	{
+		return _mm_sqrt_pd(rhs);
+	}
+
+	SIMD128 SIMDFunctions::InvSqrtVector128D(SIMD128 rhs)
+	{
+		return mulVector128D(1.0, sqrtVector128D(rhs));
+	}
+
+	SIMD128 SIMDFunctions::powVector128D(SIMD128 lhs, SIMD128 rhs)
+	{
+		return _mm_pow_pd(lhs, rhs);
+	}
+
+	SIMD128 SIMDFunctions::sinVector128D(SIMD128 rhs)
+	{
+		return _mm_sin_pd(rhs);
+	}
+
+	SIMD128 SIMDFunctions::cosVector128D(SIMD128 rhs)
+	{
+		return _mm_cos_pd(rhs);
+	}
+
+	SIMD128 SIMDFunctions::tanVector128D(SIMD128 rhs)
+	{
+		return _mm_tan_pd(rhs);
 	}
 
 	SIMD128 SIMDFunctions::andVector128D(SIMD128 lhs, SIMD128 rhs)
@@ -235,6 +295,36 @@ namespace Dynamik
 		return _mm256_div_ps(lhs, rhs);
 	}
 
+	SIMD256 SIMDFunctions::sqrtVector256F(SIMD256 rhs)
+	{
+		return _mm256_sqrt_ps(rhs);
+	}
+
+	SIMD256 SIMDFunctions::invSqrtVector256F(SIMD256 rhs)
+	{
+		return mulVector256F(1.0f, sqrtVector256F(rhs));
+	}
+
+	SIMD256 SIMDFunctions::powVector256F(SIMD256 lhs, SIMD256 rhs)
+	{
+		return _mm256_pow_ps(lhs, rhs);
+	}
+
+	SIMD256 SIMDFunctions::sinVector256F(SIMD256 rhs)
+	{
+		return _mm256_sin_ps(rhs);
+	}
+
+	SIMD256 SIMDFunctions::cosVector256F(SIMD256 rhs)
+	{
+		return _mm256_cos_ps(rhs);
+	}
+
+	SIMD256 SIMDFunctions::tanVector256F(SIMD256 rhs)
+	{
+		return _mm256_tan_ps(rhs);
+	}
+
 	SIMD256 SIMDFunctions::andVector256F(SIMD256 lhs, SIMD256 rhs)
 	{
 		return _mm256_and_ps(lhs, rhs);
@@ -303,6 +393,36 @@ namespace Dynamik
 	SIMD256 SIMDFunctions::divVector256D(SIMD256 lhs, SIMD256 rhs)
 	{
 		return _mm256_div_pd(lhs, rhs);
+	}
+
+	SIMD256 SIMDFunctions::sqrtVector256D(SIMD256 rhs)
+	{
+		return _mm256_sqrt_pd(rhs);
+	}
+
+	SIMD256 SIMDFunctions::invSqrtVector256D(SIMD256 rhs)
+	{
+		return mulVector256D(1.0, sqrtVector256D(rhs));
+	}
+
+	SIMD256 SIMDFunctions::powVector256D(SIMD256 lhs, SIMD256 rhs)
+	{
+		return _mm256_pow_pd(lhs, rhs);
+	}
+
+	SIMD256 SIMDFunctions::sinVector256D(SIMD256 rhs)
+	{
+		return _mm256_sin_pd(rhs);
+	}
+
+	SIMD256 SIMDFunctions::cosVector256D(SIMD256 rhs)
+	{
+		return _mm256_cos_pd(rhs);
+	}
+
+	SIMD256 SIMDFunctions::tanVector256D(SIMD256 rhs)
+	{
+		return _mm256_tan_pd(rhs);
 	}
 
 	SIMD256 SIMDFunctions::andVector256D(SIMD256 lhs, SIMD256 rhs)
@@ -446,6 +566,36 @@ namespace Dynamik
 		return _mm512_div_ps(lhs, rhs);
 	}
 
+	SIMD512 SIMDFunctions::sqrtVector512F(SIMD512 rhs)
+	{
+		return _mm512_sqrt_ps(rhs);
+	}
+
+	SIMD512 SIMDFunctions::invSqrtVector512F(SIMD512 rhs)
+	{
+		return mulVector512F(1.0f, sqrtVector512F(rhs));
+	}
+
+	SIMD512 SIMDFunctions::powVector512F(SIMD512 lhs, SIMD512 rhs)
+	{
+		return _mm512_pow_ps(lhs, rhs);
+	}
+
+	SIMD512 SIMDFunctions::sinVector512F(SIMD512 rhs)
+	{
+		return _mm512_sin_ps(rhs);
+	}
+
+	SIMD512 SIMDFunctions::cosVector512F(SIMD512 rhs)
+	{
+		return _mm512_cos_ps(rhs);
+	}
+
+	SIMD512 SIMDFunctions::tanVector512F(SIMD512 rhs)
+	{
+		return _mm512_tan_ps(rhs);
+	}
+
 	SIMD512 SIMDFunctions::andVector512F(SIMD512 lhs, SIMD512 rhs)
 	{
 		return _mm512_and_ps(lhs, rhs);
@@ -514,6 +664,36 @@ namespace Dynamik
 	SIMD512 SIMDFunctions::divVector512D(SIMD512 lhs, SIMD512 rhs)
 	{
 		return _mm512_div_pd(lhs, rhs);
+	}
+
+	SIMD512 SIMDFunctions::sqrtVector512D(SIMD512 rhs)
+	{
+		return _mm512_sqrt_pd(rhs);
+	}
+
+	SIMD512 SIMDFunctions::invSqrtVector512D(SIMD512 rhs)
+	{
+		return mulVector512D(1.0, sqrtVector512D(rhs));
+	}
+
+	SIMD512 SIMDFunctions::powVector512D(SIMD512 lhs, SIMD512 rhs)
+	{
+		return _mm512_pow_pd(lhs, rhs);
+	}
+
+	SIMD512 SIMDFunctions::sinVector512D(SIMD512 rhs)
+	{
+		return _mm512_sin_pd(rhs);
+	}
+
+	SIMD512 SIMDFunctions::cosVector512D(SIMD512 rhs)
+	{
+		return _mm512_cos_pd(rhs);
+	}
+
+	SIMD512 SIMDFunctions::tanVector512D(SIMD512 rhs)
+	{
+		return _mm512_tan_pd(rhs);
 	}
 
 	SIMD512 SIMDFunctions::andVector512D(SIMD512 lhs, SIMD512 rhs)

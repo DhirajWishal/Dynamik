@@ -5,8 +5,8 @@ The Vulkan RBL consists of 3 major parts:
 - Common (Contain common classes and functions for both conpute and graphics APIs)
 - Compute (Contains the Dynamik Vulkan Compute API)
 - Graphics (Contains the Dynamik Vulkan Graphics API)
-  - Context
-  - Primitives
+- Context
+- Primitives
 
 This does not contain a deep inheritance hierarchy but contains a set of systems which manages components (PODs). This
 way the RBL does not lose time in looking up virtual tables and will be much cache friendly.
@@ -57,6 +57,6 @@ The termination of the RBL has 3 phases:
 
 ## Naming Convention
 All the classes are in PascalCase. Member variables are in camelCase. Function paramters contain a "v" prefix to 
-indicate that it is a Vulkan Base Component.
+indicate that it is a Vulkan base component.
 
 Since the Dynamik Engine natively support Vulkan as its main rendering API, all the other APIs are derived from it.

@@ -2,6 +2,7 @@
 #include "MeshComponent.h"
 
 #include "Memory/MemoryFunctions.h"
+#include "Importer/Asset/MeshImporter.h"
 
 namespace Dynamik
 {
@@ -18,13 +19,13 @@ namespace Dynamik
 	}
 
 	/* Pack data to a given location. That location must be pre allocated */
-	void DMKMeshComponent::packData(const DMKVertexBufferDescriptor& descriptor, VPTR location)
+	void DMKMeshComponent::packData(VPTR location)
 	{
 		POINTER<BYTE> _nextPtr = location;
 
 		for (auto vertex : rawVertexBufferObject)
 		{
-			for (auto attribute : descriptor.attributes)
+			for (auto attribute : vertexDescriptor.attributes)
 			{
 				auto _byteSize = ((UI32)attribute.dataType * attribute.dataCount);
 				switch (attribute.attributeType)
@@ -64,5 +65,39 @@ namespace Dynamik
 				_nextPtr += _byteSize / sizeof(F32);
 			}
 		}
+	}
+
+	ARRAY<DMKMeshComponent> DMKMeshComponent::create(STRING path, ARRAY<DMKUniformDescription> uniformDescriptors)
+	{
+		auto mesh = DMKMeshImporter::loadMeshes(path);
+
+		for (UI32 index = 0; index < mesh.size(); index++)
+		{
+			for (auto _description : uniformDescriptors)
+			{
+				DMKUniformBufferObject _ubo;
+				_ubo.myDescription = _description;
+				mesh[index].uniformBUfferObjects.pushBack(_ubo);
+			}
+		}
+
+		return mesh;
+	}
+
+	ARRAY<DMKMeshComponent> DMKMeshComponent::create(ARRAY<DMKVertexObject> vertexData, ARRAY<UI32> indexData, DMKVertexBufferDescriptor vertexDescription, ARRAY<DMKUniformDescription> uniformDescriptors)
+	{
+		DMKMeshComponent _mesh;
+		_mesh.rawVertexBufferObject = vertexData;
+		_mesh.vertexDescriptor = vertexDescription;
+		_mesh.indexBufferObject = indexData;
+		_mesh.indexBufferType = DMKDataType::DMK_DATA_TYPE_UI32;
+		for (auto _description : uniformDescriptors)
+		{
+			DMKUniformBufferObject _object;
+			_object.myDescription = _description;
+			_mesh.uniformBUfferObjects.pushBack(_object);
+		}
+
+		return { _mesh };
 	}
 }

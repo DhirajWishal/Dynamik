@@ -24,10 +24,10 @@ namespace Dynamik
 	class DMK_API DMKGameComponent {
 	public:
 		DMKGameComponent() {}
-		DMKGameComponent(DMKGameComponentType ty) : type(ty) {}
+		DMKGameComponent(DMKGameComponentType ty) : componentType(ty) {}
 		virtual ~DMKGameComponent() {}
 
-		DMKGameComponentType type = DMKGameComponentType::DMK_GAME_COMPONENT_TYPE_OBJECT;
+		DMKGameComponentType componentType = DMKGameComponentType::DMK_GAME_COMPONENT_TYPE_OBJECT;
 	};
 }
 

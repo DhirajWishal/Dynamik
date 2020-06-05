@@ -13,6 +13,18 @@
 
 namespace Dynamik
 {
+	/*
+	 Render context types
+	*/
+	enum class DMKRenderContextType {
+		DMK_RENDER_CONTEXT_DEFAULT,
+		DMK_RENDER_CONTEXT_DEFAULT_VR,
+		DMK_RENDER_CONTEXT_2D,
+		DMK_RENDER_CONTEXT_3D,
+		DMK_RENDER_CONTEXT_DEBUG,
+		DMK_RENDER_CONTEXT_DEBUG_VR,
+	};
+
     /* Render Pass Attachment enum */
     enum class DMK_API RenderPassAttachment {
         RENDER_PASS_ATTACHMENTS_SWAPCHAIN,

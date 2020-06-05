@@ -6,17 +6,25 @@
  Author:    Dhiraj Wishal
  Date:      14/05/2020
 */
-
-#include <iostream>
-#include <vector>
 #include "Dynamik.h"
 using namespace Dynamik;
 
 int main() 
 {
-	Dynamik::DMKEngine _engine;
-	_engine.createInstance(Dynamik::DMKEngineInstanceDescriptor());
-	_engine.execute();
+	DMKEngineInstanceDescriptor _instanceDescriptor;
+	DMKGamePackage _package;
+
+	try
+	{
+		DMKEngine _engine(_instanceDescriptor, &_package);
+
+		_engine.execute();
+	}
+	catch (const std::exception& e)
+	{
+		DMKErrorManager::logFatal(e.what(), __FILE__, __LINE__);
+		return -1;
+	}
 
 	return 0;
 }

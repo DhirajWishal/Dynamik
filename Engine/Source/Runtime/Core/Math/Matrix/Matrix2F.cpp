@@ -37,10 +37,10 @@ namespace Dynamik
 
 	Matrix2F::Matrix2F(std::initializer_list<F32> list)
 	{
-		SIMD128 _simd;
-		_simd.load(list.begin());
-		Matrix2F _mat = _simd.toMat2F();
-		*this = _mat;
+		if ((list.size() > 4) || (list.size() < 4))
+			DMK_ERROR_BOX("The size of the provided list does not match the current Matrix size!");
+
+		MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
 	}
 
 	Matrix2F Matrix2F::operator=(const Matrix2F& other)

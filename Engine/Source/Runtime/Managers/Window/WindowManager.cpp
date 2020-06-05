@@ -2,7 +2,7 @@
 #include "WindowManager.h"
 
 #ifdef DMK_PLATFORM_WINDOWS
-	#include "Windows/WindowsWindow.h"
+	#include "Window/Windows/WindowsWindow.h"
 
 #endif
 
@@ -17,7 +17,12 @@ namespace Dynamik
 		myWindowHandles.pushBack(_window);
 #endif
 
-		return myWindowHandles[myWindowHandles.size() - 1];
+		return windowIDs++;
+	}
+
+	POINTER<DMKWindowHandle> DMKWindowManager::getWindowHandle(I32 windowID)
+	{
+		return myWindowHandles[windowID];
 	}
 	
 	void DMKWindowManager::terminateWindow(I32 windowIndex)

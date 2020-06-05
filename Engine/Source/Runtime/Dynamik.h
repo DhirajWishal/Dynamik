@@ -14,13 +14,24 @@
 #include "Core/Types/DataTypes.h"
 
 #include "Managers/Window/WindowManager.h"
+#include "Managers/GameComponent/GameComponentManager.h"
+#include "Managers/Thread/ThreadManager.h"
+
 #include "Utilities/Clock.h"
 
-#include "GameLibrary/LevelComponent.h"
-#include "Managers/GameComponent/GameComponentManager.h"
+#include "GameLibrary/GamePackage.h"
 
 namespace Dynamik
 {
+	/*
+	 Primary window information
+	*/
+	struct DMK_API DMKPrimaryWindowDescription {
+		STRING title = DMK_TEXT("Dynamik Engine");
+		UI32 width = 1280;
+		UI32 height = 720;
+	};
+
 	/*
 	 Dynamik Engine Instance Descriptor
 	 This object is used to create and initialize the Dynamik Engine.
@@ -34,62 +45,58 @@ namespace Dynamik
 		/* Versioning: (Major-Minor-Patch)*/
 		STRING applicationVersion = DMK_TEXT("00001-00001-00000");
 		STRING iconPath = DMK_TEXT("");
+
+		DMKPrimaryWindowDescription windowDescription;
 	};
 
 	/*
 	 This class provides all the necessary interfaces for the user to control the core components
 	 of the Dynamik Engine.
 
-	 Users are required to follow some steps to properly initialize and execute their game code from this engine.
-	 These steps are as follows:
-	 * Create the engine 
-	 * Create a window object (this is optional as the engine will create a window if not created).
-	 * Initialize internal components of the engine.
-	 * Set default camera if needed.
-	 * Submit level(s).
-
-	 <When rendering a scene>
-	 * Load scene data.
-	 * Generate renderables.
-	 * Finalize the renderables.
-	 * Call the main loop.
-
-	 <When shutting down>
-	 * Terminate renderables.
-	 * Unload Level.
-	 * Terminate engine components.
-	 * Terminate engine 
+	 Basic steps:
+	 * Instanciate the engine by providing the instance descriptor and the game package.
+	 * Call the initialize method.
+	 * Call the execute method.
+	 * Call the terminate method.
 	*/
 	class DMK_API DMKEngine {
 	public:
-		DMKEngine();
-		~DMKEngine();
-
 		/*
-		 Create a new engine 
-		 Since Dynamik only allows to instanciate one engine instance at a time, calling this function in the
-		 presence of a valid instance will result to a warning and would not create a new  If required
-		 to create a new instance while the engine is instantiated, the engine must be terminated successfully
-		 to do so.
+		 Default Constructor
+		 This initializes all the components of the engine.
 		*/
-		void createInstance(DMKEngineInstanceDescriptor descriptor);
-
-		/*
-		 Add levels to the engine.
-		*/
-		void setLevels(ARRAY<POINTER<DMKLevelComponent>> levelComponents);
+		DMKEngine(const DMKEngineInstanceDescriptor& instanceDescriptor, const POINTER<DMKGamePackage>& gamePackage);
 
 		/*
 		 Main run loop.
 		*/
 		void execute();
 
-	private:
+		/*
+		 Default Destructor
+		 This shuts down all the engine components and game code.
+		*/
+		~DMKEngine();
+
+	private:	/* Private runtime functions */
+		void _initializeRuntimeSystems();
+		void _loadLevel();
+
+	private:	/* Client game data store */
+		POINTER<DMKGamePackage> _gamePackage;
+		POINTER<DMKLevelComponent> _currentLevel;
+		POINTER<DMKLevelComponent> _nextLevel;
+		UI64 _nextLevelIndex = 0;
+
+	private:	/* Private runtime data store */
 		STRING myBasePath = DMK_TEXT("");
 
 		DMKWindowManager _windowManager;
+		DMKThreadManager _threadManager;
 		DMKClock _clock;
-		DMKGameComponentManager _gameComponentManager;
+		DMKEngineInstanceDescriptor _instanceDescription;
+
+		UI32 _levelIndex = 0;
 	};
 }
 

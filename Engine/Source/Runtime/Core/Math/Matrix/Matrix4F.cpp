@@ -40,10 +40,10 @@ namespace Dynamik
 
 	Matrix4F::Matrix4F(std::initializer_list<F32> list)
 	{
-		SIMD512 _simd;
-		_simd.load(list.begin());
-		Matrix4F _mat = _simd.toMat4F();
-		*this = _mat;
+		if ((list.size() > 16) || (list.size() < 16))
+			DMK_ERROR_BOX("The size of the provided list does not match the current Matrix size!");
+
+		MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
 	}
 
 	Matrix4F Matrix4F::operator=(const Matrix4F& other)

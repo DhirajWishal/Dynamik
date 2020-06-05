@@ -19,6 +19,7 @@ namespace Dynamik
 			imageHeight = info.imageHeight;
 			imageDepth = info.imageDepth;
 			availabeMipLevels = info.mipLevels;
+			imageFormat = VulkanUtilities::getVulkanFormat(info.imageFormat);
 
 			VkImageCreateInfo imageInfo = {};
 			imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
@@ -33,6 +34,7 @@ namespace Dynamik
 			imageInfo.usage = (VkImageUsageFlagBits)info.imageUsage;
 			imageInfo.samples = (VkSampleCountFlagBits)info.sampleCount;
 			imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+			imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
 
 			if (info.imageType == ImageType::IMAGE_TYPE_CUBEMAP || info.imageType == ImageType::IMAGE_TYPE_CUBEMAP_ARRAY)
 				imageInfo.flags = VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT;
@@ -252,11 +254,6 @@ namespace Dynamik
 		void VulkanImage::unmapMemory(const VulkanDevice& vDevice)
 		{
 			vkUnmapMemory(vDevice, imageMemory);
-		}
-
-		UI32 VulkanImage::size()
-		{
-			return UI32();
 		}
 
 		VulkanImage::operator VkImage() const

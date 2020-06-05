@@ -10,6 +10,7 @@
 #include "Types/Pointer.h"
 
 #include <GLFW/glfw3.h>
+#include "Window/WindowHandle.h"
 
 namespace Dynamik
 {
@@ -23,7 +24,7 @@ namespace Dynamik
             VulkanSurface() {}
             ~VulkanSurface() {}
 
-            void initialize(VulkanInstance vInstance, POINTER<GLFWwindow> windowHandle);
+            void initialize(VulkanInstance vInstance, POINTER<DMKWindowHandle> windowHandle);
             void terminate(VulkanInstance vInstance);
 
             B1 isDeviceSuitable(const VkPhysicalDevice& physicalDevice);
@@ -31,6 +32,7 @@ namespace Dynamik
             operator VkSurfaceKHR() const;
             operator VkSurfaceCapabilitiesKHR() const;
 
+            UI64 windowID = 0;
             VkSurfaceKHR surface = VK_NULL_HANDLE;
             VkSurfaceCapabilitiesKHR surfaceCapabilities = {};
             UI32 surfaceWidth = 0;

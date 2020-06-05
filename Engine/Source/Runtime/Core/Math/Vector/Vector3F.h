@@ -53,6 +53,8 @@ namespace Dynamik
     Vector3F operator*(const Vector3F& lhs, const Vector3F& rhs);
     Vector3F operator/(const Vector3F& lhs, const Vector3F& rhs);
 
+    Vector3F operator*(const Vector3F& lhs, const F32& value);
+
     B1 operator==(const Vector3F& lhs, const Vector3F& rhs);
     B1 operator!=(const Vector3F& lhs, const Vector3F& rhs);
     B1 operator<(const Vector3F& lhs, const Vector3F& rhs);
@@ -65,7 +67,6 @@ namespace Dynamik
     B1 operator^(const Vector3F& lhs, const Vector3F& rhs);
     B1 operator~(const Vector3F& rhs);
     B1 operator!(const Vector3F& rhs);
-
 }
 
 #endif // !_DYNAMIK_MATH_VECTOR_3F_H

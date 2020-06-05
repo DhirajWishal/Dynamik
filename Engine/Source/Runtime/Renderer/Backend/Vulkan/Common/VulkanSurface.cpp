@@ -4,9 +4,18 @@
 #include "VulkanQueue.h"
 #include "../Context/VulkanSwapChain.h"
 
+#if defined(DMK_PLATFORM_WINDOWS)
+#include "Window/Windows/WindowsWindow.h"
+
+#elif defined(DMK_PLATFORM_LINUX)
+
+#elif defined(DMK_PLATFORM_MAC)
+
+#endif
+
 #include <set>
 
-namespace Dynamik 
+namespace Dynamik
 {
 	namespace Backend
 	{
@@ -25,9 +34,19 @@ namespace Dynamik
 			return requiredExtensions.empty();
 		}
 
-		void VulkanSurface::initialize(VulkanInstance vInstance, POINTER<GLFWwindow> windowHandle)
+		void VulkanSurface::initialize(VulkanInstance vInstance, POINTER<DMKWindowHandle> windowHandle)
 		{
-			DMK_VULKAN_ASSERT(glfwCreateWindowSurface(vInstance, windowHandle.get(), nullptr, &surface), "Failed to create window surface!");
+			windowID = windowHandle.getPointerAsInteger();
+
+#if defined(DMK_PLATFORM_WINDOWS)
+			POINTER<WindowsWindow> _windPtr = windowHandle;
+			DMK_VULKAN_ASSERT(glfwCreateWindowSurface(vInstance, _windPtr->getHandle(), nullptr, &surface), "Failed to create window surface!");
+
+#elif defined(DMK_PLATFORM_LINUX)
+
+#elif defined(DMK_PLATFORM_MAC)
+
+#endif
 		}
 
 		void VulkanSurface::terminate(VulkanInstance vInstance)
@@ -45,7 +64,7 @@ namespace Dynamik
 			if (extensionsSupported)
 			{
 				VulkanSwapChainSupportDetails swapChainSupport = VulkanSwapChain::querySwapChainSupport(physicalDevice, surface);
-				swapChainAdequate = (!swapChainSupport.formats.empty()) && (!swapChainSupport.presentModes.empty());
+				swapChainAdequate = (swapChainSupport.formats.empty()) && (swapChainSupport.presentModes.empty());
 			}
 
 			VkPhysicalDeviceFeatures supportedFeatures;

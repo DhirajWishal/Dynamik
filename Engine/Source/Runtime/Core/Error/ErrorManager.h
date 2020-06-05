@@ -21,15 +21,31 @@ namespace Dynamik
 	*/
 	class DMK_API DMKErrorManager {
 	public:
+		/* Issue an information box to the user */
 		static UserOption issueInfoBox(STRING message);
+
+		/* Issue a warning box to the user */
 		static UserOption issueWarnBox(STRING message);
+
+		/* Issue a question box to the user */
 		static UserOption issueQuestionBox(STRING message);
+
+		/* Issue an error box to the user */
 		static UserOption issueErrorBox(STRING message);
 
+		/* Print an information log to the console */
 		static void logInfo(STRING message);
+
+		/* Print a warning log to the console */
 		static void logWarn(STRING message);
+
+		/* Print an error log to the console */
 		static void logError(STRING message);
+
+		/* Print a fatal error to the console. This by default results in a debug breakpoint*/
 		static void logFatal(STRING message, STRING file, UI32 line);
+
+		/* Print a debug log to the console */
 		static void logDebug(STRING message);
 	};
 }

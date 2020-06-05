@@ -251,14 +251,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Engine Windows|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Debug Engine\</IntDir>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Debug Engine\Application\</IntDir>
     <TargetName>Application</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Engine Unix|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Debug Engine\</IntDir>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Debug Engine\Application\</IntDir>
     <TargetName>Application</TargetName>
     <TargetExt>
     </TargetExt>
@@ -266,7 +266,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Engine Mac|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Debug Engine\</IntDir>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Debug Engine\Application\</IntDir>
     <TargetName>Application</TargetName>
     <TargetExt>
     </TargetExt>
@@ -297,14 +297,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Engine Windows|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Release Engine\</IntDir>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Release Engine\Application\</IntDir>
     <TargetName>Application</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Engine Unix|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Release Engine\</IntDir>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Release Engine\Application\</IntDir>
     <TargetName>Application</TargetName>
     <TargetExt>
     </TargetExt>
@@ -312,7 +312,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Engine Mac|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Release Engine\</IntDir>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Release Engine\Application\</IntDir>
     <TargetName>Application</TargetName>
     <TargetExt>
     </TargetExt>
@@ -343,14 +343,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Windows|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Distribution Engine\</IntDir>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Distribution Engine\Application\</IntDir>
     <TargetName>Application</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Unix|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Distribution Engine\</IntDir>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Distribution Engine\Application\</IntDir>
     <TargetName>Application</TargetName>
     <TargetExt>
     </TargetExt>
@@ -358,7 +358,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Engine Mac|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Distribution Engine\</IntDir>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Distribution Engine\Application\</IntDir>
     <TargetName>Application</TargetName>
     <TargetExt>
     </TargetExt>
@@ -664,8 +664,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Assets\KeyBinding.h" />
+    <ClInclude Include="Assets\Level1\Level1.h" />
+    <ClInclude Include="Assets\Level1\Objects\Moon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Assets\Level1\Level1.cpp" />
+    <ClCompile Include="Assets\Level1\Objects\Moon.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

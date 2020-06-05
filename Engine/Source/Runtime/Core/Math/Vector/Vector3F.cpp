@@ -7,17 +7,20 @@ namespace Dynamik
 {
     Vector3F::Vector3F(std::initializer_list<F32> list)
     {
-        SIMD128 _simd;
-        _simd.load(list.begin());
-        *this = _simd.toVec3F();
+        if ((list.size() > 3) || (list.size() < 3))
+            DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
+
+        MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
+        w = 0.0f;
     }
 
     Vector3F Vector3F::operator=(const std::initializer_list<F32>& list)
     {
-        SIMD128 _simd;
-        _simd.load(list.begin());
-        *this = _simd.toVec3F();
+        if ((list.size() > 3) || (list.size() < 3))
+            DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
 
+        MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
+        this->w = 0.0f;
         return *this;
     }
 
@@ -51,6 +54,11 @@ namespace Dynamik
     Vector3F operator/(const Vector3F& lhs, const Vector3F& rhs)
     {
         return SIMDFunctions::divVector128F(lhs, rhs).toVec3F();
+    }
+
+    Vector3F operator*(const Vector3F& lhs, const F32& value)
+    {
+        return SIMDFunctions::mulVector128F(lhs, value).toVec3F();
     }
 
     B1 operator==(const Vector3F& lhs, const Vector3F& rhs)

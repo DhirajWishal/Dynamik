@@ -9,6 +9,10 @@
 #include "VulkanDevice.h"
 #include "VulkanQueue.h"
 
+#include "../Context/VulkanRenderPass.h"
+#include "../Context/VulkanFrameBuffer.h"
+#include "../Context/VulkanSwapChain.h"
+
 namespace Dynamik
 {
 	namespace Backend
@@ -25,12 +29,22 @@ namespace Dynamik
 			void allocateCommandBuffers(const VulkanDevice& vDevice, UI32 bufferCount);
 
 			const VkCommandBuffer& beginCommandBufferRecording(const VulkanDevice& vDevice, UI32 bufferIndex = 0);
-
-			/* Begin Rendering Context */
+			void beginRenderPass(
+				const VulkanDevice& vDevice,
+				const VulkanRenderPass& vRenderPass,
+				const VulkanFrameBuffer& vFrameBuffer,
+				const VulkanSwapChain& vSwapChain,
+				UI32 bufferIndex,
+				ARRAY<F32> clearScrValues = {2.0f/256.0f, 8.0f/256.0f, 32.0f / 256.0f, 1.0f});
+			
 			/* Record Objects */
 			/* End Rendering Context */
 
+			void endRenderPass(const VkCommandBuffer& buffer);
 			void endCommandBufferRecording(const VulkanDevice& vDevice, const VkCommandBuffer& commandBuffer);
+
+			void resetPool(const VulkanDevice& vDevice);
+			void resetBuffers();
 
 			void terminate(const VulkanDevice& vDevice);
 

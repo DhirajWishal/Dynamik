@@ -21,7 +21,7 @@ namespace Dynamik
         };
 
         struct DMK_API VulkanRenderPassSubpass {
-            ARRAY<VulkanRenerPassAtachmentDescription> attachments
+            ARRAY<VulkanRenerPassAtachmentDescription> attachments;
         };
 
         /*
