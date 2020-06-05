@@ -13,6 +13,8 @@ class Level1 : public DMKLevelComponent {
 public:
 	Level1() {}
 	~Level1() {}
+
+	void onLoad() override;
 };
 
 #endif // !_DYNAMIK_LEVEL_1_H

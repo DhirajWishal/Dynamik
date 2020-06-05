@@ -7,7 +7,7 @@
  Date:      16/05/2020
 */
 #include "Macros/Global.h"
-#include "Types/DataTypes.h"
+#include "Types/Array.h"
 
 namespace Dynamik
 {

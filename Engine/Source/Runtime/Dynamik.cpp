@@ -20,62 +20,64 @@
 namespace Dynamik
 {
     /* Default constructor */
-    DMKEngine::DMKEngine()
+    DMKEngine::DMKEngine(const DMKEngineInstanceDescriptor& instanceDescriptor, const POINTER<DMKGamePackage>& gamePackage)
+        : _instanceDescription(instanceDescriptor), _gamePackage(gamePackage)
     {
         _clock.start();
-        _threadManager.initializeBasicThreads();
-    }
-    
-    /* Default destructor */
-    DMKEngine::~DMKEngine()
-    {
-        _windowManager.terminateAll();
-        _clock.end();
-    }
-    
-    /* Create the Dynamik Engine  */
-    void DMKEngine::createInstance(DMKEngineInstanceDescriptor descriptor)
-    {
+        _gamePackage->onLoad();
+
+        _initializeRuntimeSystems();
+
         DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
         auto _localPath = DMKFileSystem::getExecutablePath();
-    }
 
-    void DMKEngine::createWindow(STRING title, UI32 width, UI32 height)
-    {
-        UI32 windowID = _windowManager.createWindow(width, height, title);
+        UI32 windowID = _windowManager.createWindow(_instanceDescription.windowDescription.width, _instanceDescription.windowDescription.height, _instanceDescription.windowDescription.title);
         _threadManager.issueWindowHandleCommandRT(_windowManager.getWindowHandle(windowID));
-        _threadManager.issueCreateContextCommandRT(DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT, _windowManager.createViewport(windowID, 512, 512, 0, 0));
-    }
 
-    void DMKEngine::setGamePackage(const DMKGamePackage& package)
-    {
-    }
-
-    void DMKEngine::initializeComponents()
-    {
         _threadManager.issueInitializeCommandRT();
-    }
-
-    void DMKEngine::setLevels(ARRAY<POINTER<DMKLevelComponent>> levelComponents)
-    {
-        for (auto _level : levelComponents)
-        {
-            _gameComponentManager.addLevel(_level);
-        }
+        _threadManager.issueCreateContextCommandRT(DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT, _windowManager.createViewport(windowID, 512, 512, 0, 0));
+    
+        _gamePackage->onInit();
     }
 
     /* Execute the game code */
     void DMKEngine::execute()
     {
+
+        _gamePackage->onExecute();
         _threadManager.issueInitializeObjectCommandRT();
         _threadManager.issueInitializeFinalsCommandRT();
 
         while (true)
         {
+            _gamePackage->onBeginFrame();
+
             _threadManager.clearCommands();
 
             _windowManager.pollEvents();
             _windowManager.clean();
+
+            _gamePackage->onEndFrame();
         }
+    }
+
+    /* Default destructor */
+    DMKEngine::~DMKEngine()
+    {
+        _gamePackage->onExit();
+
+        _windowManager.terminateAll();
+        _clock.end();
+    }
+
+    void DMKEngine::_initializeRuntimeSystems()
+    {
+        _threadManager.initializeBasicThreads();
+    }
+    
+    void DMKEngine::_loadLevel()
+    {
+        _gamePackage->onLevelLoad(_nextLevelIndex);
+        _currentLevel = _gamePackage->levels[_nextLevelIndex++];
     }
 }

@@ -31,6 +31,8 @@ namespace Dynamik
 		DMKLevelComponent() : DMKGameComponent(DMKGameComponentType::DMK_GAME_COMPONENT_TYPE_LEVEL) {}
 		virtual ~DMKLevelComponent() {}
 
+		virtual void onLoad() {}
+
 		/* Game Assets */
 		ARRAY<POINTER<DMKGameAsset>> myAssets;
 

@@ -24,26 +24,23 @@ namespace Dynamik
 
 		virtual void onUpdate(const DMKEventBuffer& eventBuffer);
 
-	protected:	/* Utility functions */
+	public:		/* Public Utility Functions */
 		/*
-		 Create a new mesh component and add it to the mesh store. Return the address of the last element 
-		 of the store.
-		 If the specified path contain more than one mesh, all of it will be loaded and added to the store.
+		 Add a mesh to the mesh component store.
 		*/
-		POINTER<DMKMeshComponent> createMeshComponent(STRING path, ARRAY<DMKUniformDescription> uniformDescriptors);
-		
-		/*
-		 Create a new mesh component and add it to the mesh store. Return the address of the last element
-		 of the store.
-		*/
-		POINTER<DMKMeshComponent> createMeshComponent(ARRAY<DMKVertexObject> vertexData, ARRAY<UI32> indexData, DMKVertexBufferDescriptor vertexDescription, ARRAY<DMKUniformDescription> uniformDescriptors);
+		void addToMeshStore(const DMKMeshComponent& component);
 
 		/*
-		 Create a basic camera uniform buffer object (Model, View, Projection)
+		 Add multiple mesh components to the mesh component store.
 		*/
-		DMKUniformDescription createUniformMVP();
+		void addToMeshStore(const ARRAY<DMKMeshComponent>& components);
 
-	public:		/* Variables */
+		/*
+		 Get the stored mesh components.
+		*/
+		ARRAY<DMKMeshComponent> getMeshStore();
+
+	protected:		/* Variables */
 		/*
 		 Locations on which the object is rendered. This way we dont have to have multiple copies of the same
 		 model/ mesh.

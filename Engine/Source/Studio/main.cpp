@@ -7,11 +7,11 @@ using namespace Dynamik;
 
 I32 main(I32 argc, CCPTR argv[])
 {
-    Dynamik::DMKEngine _engine;
-    _engine.createInstance(Dynamik::DMKEngineInstanceDescriptor());
-	_engine.createWindow();
+	DMKEngineInstanceDescriptor _instanceDescriptor;
+	DMKGamePackage _package;
 
-	_engine.initializeComponents();
+	DMKEngine _engine(_instanceDescriptor, &_package);
+
 	_engine.execute();
 
 	return 0;

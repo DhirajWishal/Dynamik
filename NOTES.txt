@@ -1,5 +1,14 @@
 Dynamik Game Engine Notes
 
+The user defines an object named the DMKGamePackage. All the game data are passed to the engine using this
+object. This class has a number of virtual methods which the user can use. These methods are called at 
+predefined places.
+The DMKGamePackage contains basic game information (game name, version, playtimr, ...), level data (all the
+levels are passed to the engine using this), key bindings and other components. This can also be interpreted
+as a direct interface to some of the engine's core components.
+This object, together with the engine instance description will be used to initialize and run the Dynamik
+Engine.
+
 The rendering engine does not contain any idea about game assets. All what it renders are different meshes.
 Game Asset is just a way to categorize meshes and which defines a way to manipulate them.
 The rendering engine has multiple pipelines on which how a level is rendered. Some of them are debug and PBR.

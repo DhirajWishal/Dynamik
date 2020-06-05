@@ -247,7 +247,9 @@ namespace Dynamik
 
 		void VulkanRBL::initializeObject(POINTER<DMKRenderableAsset> asset)
 		{
-			for (auto mesh : asset->meshComponents)
+			return;	/* Until the game package pipeline is properly fixed and this function is fully functional */
+
+			for (auto mesh : asset->getMeshStore())
 			{
 				VulkanRenderAsset _asset;
 			}

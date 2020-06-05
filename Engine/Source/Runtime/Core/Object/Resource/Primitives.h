@@ -200,12 +200,18 @@ namespace Dynamik
 		/* Clear all the stored values in the buffer */
 		void clear();
 
-	private:
+	private:	/* Private Data Store */
 		VPTR uniformBufferStorage = nullptr;
 		POINTER<BYTE> nextPointer = uniformBufferStorage;
 
-	public:
+	public:		/* Public Data */
 		DMKUniformDescription myDescription;
+
+	public:		/* Static Utility Functions */
+		/*
+		 Create a basic camera uniform buffer object (Model, View, Projection)
+		*/
+		static DMKUniformDescription createUniformMVP();
 	};
 }
 
