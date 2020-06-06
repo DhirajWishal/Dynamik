@@ -1,7 +1,7 @@
 #include "dmkafx.h"
 #include "MeshImporter.h"
 
-#include "Object/Resource/MeshComponent.h"
+#include "ComponentSystem/Components/MeshComponent.h"
 #include "Object/Resource/Primitives.h"
 
 #include <assimp/assimp/Importer.hpp>

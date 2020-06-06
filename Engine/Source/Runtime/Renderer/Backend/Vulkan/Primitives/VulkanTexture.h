@@ -9,7 +9,7 @@
 #include "../Common/VulkanDevice.h"
 #include "../Common/VulkanQueue.h"
 
-#include "Core/Object/Resource/TextureComponent.h"
+#include "ComponentSystem/Components/TextureComponent.h"
 
 #include "VulkanImage.h"
 #include "VulkanImageSampler.h"

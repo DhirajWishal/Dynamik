@@ -9,13 +9,15 @@
     <ClInclude Include="Assets\KeyBinding.h">
       <Filter>Assets</Filter>
     </ClInclude>
-    <ClInclude Include="Assets\Level1\Objects\Moon.h" />
     <ClInclude Include="Assets\Level1\Level1.h" />
+    <ClInclude Include="ApplicationPackage.h" />
+    <ClInclude Include="Assets\Level1\Entities\PlayerMoon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Assets\Level1\Objects\Moon.cpp" />
     <ClCompile Include="Assets\Level1\Level1.cpp" />
+    <ClCompile Include="ApplicationPackage.cpp" />
+    <ClCompile Include="Assets\Level1\Entities\PlayerMoon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Application.lua" />

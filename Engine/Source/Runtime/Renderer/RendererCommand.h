@@ -11,7 +11,8 @@
 #include "Window/WindowHandle.h"
 #include "Components/ContextTypeDefs.h"
 #include "Components/CoreTypeDefs.h"
-#include "GameLibrary/GameAssets/RenderableAsset.h"
+#include "ComponentSystem/ComponentArray.h"
+#include "ComponentSystem/Components/MeshComponent.h"
 
 namespace Dynamik
 {
@@ -19,8 +20,8 @@ namespace Dynamik
 	enum class DMK_API RendererInstruction {
 		RENDERER_INSTRUCTION_INITIALIZE,
 		RENDERER_INSTRUCTION_CREATE_CONTEXT,
-		RENDERER_INSTRUCTION_ADD_RENDER_ASSET,
-		RENDERER_INSTRUCTION_INITIALIZE_OBJECTS,
+		RENDERER_INSTRUCTION_INITIALIZE_ENTITIES,
+		RENDERER_INSTRUCTION_INITIALIZE_ENTITY,
 		RENDERER_INSTRUCTION_INITIALIZE_FINALS,
 		RENDERER_INSTRUCTION_SUBMIT_OBJECTS,
 
@@ -79,12 +80,12 @@ namespace Dynamik
 	};
 
 	/* Add render asset */
-	class DMK_API RendererAddRenderAsset : public DMKRendererCommand {
+	class DMK_API RendererAddMeshComponents : public DMKRendererCommand {
 	public:
-		RendererAddRenderAsset() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_ADD_RENDER_ASSET) {}
-		~RendererAddRenderAsset() {}
+		RendererAddMeshComponents() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITIES) {}
+		~RendererAddMeshComponents() {}
 
-		POINTER<DMKRenderableAsset> asset;
+		ARRAY<DMKComponentArray<DMKMeshComponent>> meshComponents;
 	};
 }
 

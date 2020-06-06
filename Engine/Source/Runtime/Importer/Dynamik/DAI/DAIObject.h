@@ -6,7 +6,7 @@
  Author:    Dhiraj Wishal
  Date:      20/05/2020
 */
-#include "GameLibrary/GameAsset.h"
+#include "ComponentSystem/Components/MeshComponent.h"
 #include <fstream>
 
 namespace Dynamik
@@ -46,11 +46,11 @@ namespace Dynamik
         ARRAY<STRING> tessellationShaders;
         ARRAY<STRING> geometryShaders;
         ARRAY<STRING> fragmentShaders;
-        DMKGameAssetType objectType = DMKGameAssetType::DMK_GAME_ASSET_TYPE_STATIC;
+        DMKMeshComponentUsage meshType;
 
     private:
         inline void _loadContent();
-        inline DMKGameAssetType _resolveObjectType(const STRING& type);
+        inline DMKMeshComponentUsage _resolveObjectType(const STRING& type);
 
         STRING myPath = DMK_TEXT("");
         STRING myBasePath = DMK_TEXT("");

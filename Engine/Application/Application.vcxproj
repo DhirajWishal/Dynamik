@@ -663,13 +663,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ApplicationPackage.h" />
     <ClInclude Include="Assets\KeyBinding.h" />
+    <ClInclude Include="Assets\Level1\Entities\PlayerMoon.h" />
     <ClInclude Include="Assets\Level1\Level1.h" />
-    <ClInclude Include="Assets\Level1\Objects\Moon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ApplicationPackage.cpp" />
+    <ClCompile Include="Assets\Level1\Entities\PlayerMoon.cpp" />
     <ClCompile Include="Assets\Level1\Level1.cpp" />
-    <ClCompile Include="Assets\Level1\Objects\Moon.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

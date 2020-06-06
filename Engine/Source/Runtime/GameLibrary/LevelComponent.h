@@ -9,8 +9,7 @@
  Date:		15/05/2020
 */
 #include "Core/Object/GameComponent.h"
-#include "SceneComponent.h"
-#include "GameAsset.h"
+#include "GameEntity.h"
 #include "GameMechanics.h"
 #include "Camera/CameraModule.h"
 
@@ -32,15 +31,19 @@ namespace Dynamik
 		virtual ~DMKLevelComponent() {}
 
 		virtual void onLoad() {}
+		virtual void onUnoad() {}
 
 		/* Game Assets */
-		ARRAY<POINTER<DMKGameAsset>> myAssets;
+		ARRAY<POINTER<DMKGameEntity>> myEntities;
 
 		/* Game Mechanics */
 		ARRAY<POINTER<DMKGameMechanics>> myMechanics;
 
 		/* Camera component */
 		POINTER<DMKCameraModule> cameraModule;
+
+		/* Additional Components */
+		DMKComponentManager globalComponentManager;
 	};
 }
 

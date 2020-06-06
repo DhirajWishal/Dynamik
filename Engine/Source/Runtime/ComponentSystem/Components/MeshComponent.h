@@ -11,22 +11,29 @@
  Author:    Dhiraj Wishal
  Date:      15/05/2020
 */
-#include "Primitives.h"
+#include "../Component.h"
+#include "Object/Resource/Primitives.h"
 
 namespace Dynamik
 {
 	/*
-	 Mesh Component super class for the Dynamik Engine.
-	 This class itself does not store any mesh data. Mesh components are derived from this to store their
-	 data.
-	 This class contains functions to manipulate a full mesh.
+	 Usage of the mesh component
 	*/
-	class DMK_API DMKMeshComponent {
+	enum class DMKMeshComponentUsage {
+		DMK_MESH_COMPONENT_USAGE_STATIC,
+		DMK_MESH_COMPONENT_USAGE_ANIMATED,
+		DMK_MESH_COMPONENT_USAGE_SKYBOX,
+	};
+	/*
+	 Mesh Component for the Dynamik Engine.
+	*/
+	class DMK_API DMKMeshComponent : public DMKComponent {
 	public:
 		DMKMeshComponent() {}
-		DMKMeshComponent(const DMKVertexBufferDescriptor& descriptor, const DMKDataType& type)
-			: vertexDescriptor(descriptor), indexBufferType(type) {}
-		virtual ~DMKMeshComponent() {}
+		DMKMeshComponent(const DMKMeshComponentUsage& usage) : usage(usage) {}
+		DMKMeshComponent(const DMKMeshComponentUsage& usage, const DMKVertexBufferDescriptor& descriptor, const DMKDataType& type)
+			: usage(usage), vertexDescriptor(descriptor), indexBufferType(type) {}
+		~DMKMeshComponent() {}
 
 		/* Get the total byte size of the vertex buffer object */
 		UI32 getVertexBufferObjectByteSize();
@@ -49,6 +56,7 @@ namespace Dynamik
 
 		DMKVertexBufferDescriptor vertexDescriptor;
 		DMKDataType indexBufferType = DMKDataType::DMK_DATA_TYPE_UI32;
+		DMKMeshComponentUsage usage = DMKMeshComponentUsage::DMK_MESH_COMPONENT_USAGE_STATIC;
 
 	public:		/* Static Utility Functions */
 		/*

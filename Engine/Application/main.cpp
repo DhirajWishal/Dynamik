@@ -7,16 +7,17 @@
  Date:      14/05/2020
 */
 #include "Dynamik.h"
+#include "ApplicationPackage.h"
 using namespace Dynamik;
 
 int main() 
 {
 	DMKEngineInstanceDescriptor _instanceDescriptor;
-	DMKGamePackage _package;
+	ApplicationPackage myPackage;
 
 	try
 	{
-		DMKEngine _engine(_instanceDescriptor, &_package);
+		DMKEngine _engine(_instanceDescriptor, &myPackage);
 
 		_engine.execute();
 	}

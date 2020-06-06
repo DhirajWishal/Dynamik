@@ -14,7 +14,7 @@
 #include "../Primitives/VulkanShader.h"
 
 #include "Core/Object/Resource/Primitives.h"
-#include "GameLibrary/GameAsset.h"
+#include "ComponentSystem/Components/MeshComponent.h"
 
 namespace Dynamik
 {
@@ -33,7 +33,7 @@ namespace Dynamik
 		 Vulkan Graphics Pipeline create info structure
 		*/
 		struct DMK_API VulkanGraphicsPipelineInitInfo {
-			DMKGameAssetType assetType = DMKGameAssetType::DMK_GAME_ASSET_TYPE_MESH;
+			DMKMeshComponentUsage usage = DMKMeshComponentUsage::DMK_MESH_COMPONENT_USAGE_STATIC;
 			DMKVertexBufferDescriptor vertexBufferDescriptor;
 			ARRAY<DMKConstantBlockDescription> constantBlockDescriptions;
 

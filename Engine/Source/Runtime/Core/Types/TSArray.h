@@ -67,12 +67,12 @@ namespace Dynamik
 		/*
 		 * @param other: The other array to initailize this array with (rvalue).
 		 */
-		TSArray(const TSArray& other) : myArray(other.myArray), __isLocked(false) {}
+		TSArray(const TSArray& other) : myArray(other.myArray) {}
 
 		/*
 		 * @param other: The other array to iniaialize this array with (lvalue).
 		 */
-		TSArray(TSArray&& other) : __isLocked(false)
+		TSArray(TSArray&& other)
 		{
 			myArray = other.myArray;
 			other.myArray.clear();
@@ -81,7 +81,7 @@ namespace Dynamik
 		/*
 		 * @param other: The other ARRAY to initialize this array's store with.
 		 */
-		TSArray(const STORE& other) : myArray(other), __isLocked(false) {}
+		TSArray(const STORE& other) : myArray(other) {}
 
 		/*
 		 * Default constructor.

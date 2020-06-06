@@ -2,4 +2,5 @@
 
 void Level1::onLoad()
 {
+	myEntities.pushBack(&myMoon);
 }

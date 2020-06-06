@@ -258,16 +258,10 @@
     <ClInclude Include="Runtime\Core\Object\GameComponent.h">
       <Filter>Runtime\Core\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Core\Object\Resource\MeshComponent.h">
-      <Filter>Runtime\Core\Object\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Runtime\Core\Object\Resource\Primitives.h">
       <Filter>Runtime\Core\Object\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\Core\Object\Resource\ShaderModule.h">
-      <Filter>Runtime\Core\Object\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Runtime\Core\Object\Resource\TextureComponent.h">
       <Filter>Runtime\Core\Object\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\Core\Object\System.h">
@@ -318,20 +312,8 @@
     <ClInclude Include="Runtime\Events\EventHandler.h">
       <Filter>Runtime\Events</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\GameLibrary\Attachments\BasicAttachments.h">
-      <Filter>Runtime\GameLibrary\Attachments</Filter>
-    </ClInclude>
     <ClInclude Include="Runtime\GameLibrary\Camera\CameraModule.h">
       <Filter>Runtime\GameLibrary\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Runtime\GameLibrary\GameAsset.h">
-      <Filter>Runtime\GameLibrary</Filter>
-    </ClInclude>
-    <ClInclude Include="Runtime\GameLibrary\GameAssetAttachment.h">
-      <Filter>Runtime\GameLibrary</Filter>
-    </ClInclude>
-    <ClInclude Include="Runtime\GameLibrary\GameAssets\RenderableAsset.h">
-      <Filter>Runtime\GameLibrary\GameAssets</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\GameLibrary\GameEntity.h">
       <Filter>Runtime\GameLibrary</Filter>
@@ -354,9 +336,6 @@
     <ClInclude Include="Runtime\GameLibrary\Mechanics\PlayerController.h">
       <Filter>Runtime\GameLibrary\Mechanics</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\GameLibrary\SceneComponent.h">
-      <Filter>Runtime\GameLibrary</Filter>
-    </ClInclude>
     <ClInclude Include="Runtime\Importer\Asset\MeshImporter.h">
       <Filter>Runtime\Importer\Asset</Filter>
     </ClInclude>
@@ -365,12 +344,6 @@
     </ClInclude>
     <ClInclude Include="Runtime\Importer\Dynamik\DMKAsset\DMKAsset.h">
       <Filter>Runtime\Importer\Dynamik\DMKAsset</Filter>
-    </ClInclude>
-    <ClInclude Include="Runtime\Managers\Attachment\AttachmentManager.h">
-      <Filter>Runtime\Managers\Attachment</Filter>
-    </ClInclude>
-    <ClInclude Include="Runtime\Managers\GameComponent\GameComponentManager.h">
-      <Filter>Runtime\Managers\GameComponent</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\Managers\Thread\Thread.h">
       <Filter>Runtime\Managers\Thread</Filter>
@@ -507,6 +480,17 @@
     <ClInclude Include="Studio\GUI\GUIManager\GUIManager.h">
       <Filter>Studio\GUI\GUIManager</Filter>
     </ClInclude>
+    <ClInclude Include="Studio\Studio.h" />
+    <ClInclude Include="Runtime\GameLibrary\Entities\PlayerEntity.h" />
+    <ClInclude Include="Runtime\ComponentSystem\ComponentManager.h" />
+    <ClInclude Include="Runtime\ComponentSystem\Component.h" />
+    <ClInclude Include="Runtime\ComponentSystem\Components\MeshComponent.h">
+      <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\ComponentSystem\Components\TextureComponent.h">
+      <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\ComponentSystem\ComponentArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\Core\Error\ErrorManager.cpp">
@@ -569,16 +553,10 @@
     <ClCompile Include="Runtime\Core\Memory\MemoryManager.cpp">
       <Filter>Runtime\Core\Memory</Filter>
     </ClCompile>
-    <ClCompile Include="Runtime\Core\Object\Resource\MeshComponent.cpp">
-      <Filter>Runtime\Core\Object\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Runtime\Core\Object\Resource\Primitives.cpp">
       <Filter>Runtime\Core\Object\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Core\Object\Resource\ShaderModule.cpp">
-      <Filter>Runtime\Core\Object\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Runtime\Core\Object\Resource\TextureComponent.cpp">
       <Filter>Runtime\Core\Object\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Core\PCH\dmkafx.cpp">
@@ -605,9 +583,6 @@
     <ClCompile Include="Runtime\GameLibrary\Camera\CameraModule.cpp">
       <Filter>Runtime\GameLibrary\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Runtime\GameLibrary\GameAssets\RenderableAsset.cpp">
-      <Filter>Runtime\GameLibrary\GameAssets</Filter>
-    </ClCompile>
     <ClCompile Include="Runtime\GameLibrary\Mechanics\PlayerController.cpp">
       <Filter>Runtime\GameLibrary\Mechanics</Filter>
     </ClCompile>
@@ -619,12 +594,6 @@
     </ClCompile>
     <ClCompile Include="Runtime\Importer\Dynamik\DMKAsset\DMKAsset.cpp">
       <Filter>Runtime\Importer\Dynamik\DMKAsset</Filter>
-    </ClCompile>
-    <ClCompile Include="Runtime\Managers\Attachment\AttachmentManager.cpp">
-      <Filter>Runtime\Managers\Attachment</Filter>
-    </ClCompile>
-    <ClCompile Include="Runtime\Managers\GameComponent\GameComponentManager.cpp">
-      <Filter>Runtime\Managers\GameComponent</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Managers\Thread\ThreadManager.cpp">
       <Filter>Runtime\Managers\Thread</Filter>
@@ -725,6 +694,13 @@
     <ClCompile Include="Studio\main.cpp">
       <Filter>Studio</Filter>
     </ClCompile>
+    <ClCompile Include="Runtime\ComponentSystem\Components\MeshComponent.cpp">
+      <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\ComponentSystem\Components\TextureComponent.cpp">
+      <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\ComponentSystem\ComponentManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

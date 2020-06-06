@@ -6,7 +6,7 @@
  Author:    Dhiraj Wishal
  Date:      20/05/2020
 */
-#include "Object/Resource/MeshComponent.h"
+#include "ComponentSystem/Components/MeshComponent.h"
 
 namespace Dynamik 
 {

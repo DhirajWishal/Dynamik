@@ -9,6 +9,7 @@
  Date:      17/05/2020
 */
 #include "Object/GameComponent.h"
+#include "ComponentSystem/ComponentManager.h"
 
 namespace Dynamik
 {
@@ -19,19 +20,17 @@ namespace Dynamik
 	 * Player character (The object which the user directly interacts with using the player controls)
 	 * NPC (Non-Player Characters: The objects which the user/ player cannot directly interact/ control with)
 
-	 You can imagine entities as a soul. You are required to control it. These components does not have any
-	 renderable qulities by default but once an DMKGameAsset gets assigned to an entity, the qualities of the
-	 entity will be rendered using that asset.
-
-	 Non Player Characters can either be hard coded or powered by the Interllect Engine. Intellect powered
-	 entities can be trained either by scripting or by manual control.
-
-	 By default, this class is initialized to be a Player entity.
+	 You can imagine entities as a soul. You are required to control it. 
 	*/
 	class DMK_API DMKGameEntity : public DMKGameComponent {
 	public:
 		DMKGameEntity() : DMKGameComponent(DMKGameComponentType::DMK_GAME_COMPONENT_TYPE_ENTITY) {}
 		virtual ~DMKGameEntity() {}
+
+		virtual void initialize() {}
+
+		/* Component Manager */
+		DMKComponentManager myComponentManager;
 	};
 }
 

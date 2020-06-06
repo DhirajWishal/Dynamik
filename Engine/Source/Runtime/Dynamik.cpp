@@ -19,65 +19,74 @@
 
 namespace Dynamik
 {
-    /* Default constructor */
-    DMKEngine::DMKEngine(const DMKEngineInstanceDescriptor& instanceDescriptor, const POINTER<DMKGamePackage>& gamePackage)
-        : _instanceDescription(instanceDescriptor), _gamePackage(gamePackage)
-    {
-        _clock.start();
-        _gamePackage->onLoad();
+	/* Default constructor */
+	DMKEngine::DMKEngine(const DMKEngineInstanceDescriptor& instanceDescriptor, const POINTER<DMKGamePackage>& gamePackage)
+		: _instanceDescription(instanceDescriptor), _gamePackage(gamePackage)
+	{
+		_clock.start();
+		_gamePackage->onLoad();
 
-        _initializeRuntimeSystems();
+		_initializeRuntimeSystems();
 
-        DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
-        auto _localPath = DMKFileSystem::getExecutablePath();
+		DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
+		auto _localPath = DMKFileSystem::getExecutablePath();
 
-        UI32 windowID = _windowManager.createWindow(_instanceDescription.windowDescription.width, _instanceDescription.windowDescription.height, _instanceDescription.windowDescription.title);
-        _threadManager.issueWindowHandleCommandRT(_windowManager.getWindowHandle(windowID));
+		UI32 windowID = _windowManager.createWindow(_instanceDescription.windowDescription.width, _instanceDescription.windowDescription.height, _instanceDescription.windowDescription.title);
+		_threadManager.issueWindowHandleCommandRT(_windowManager.getWindowHandle(windowID));
 
-        _threadManager.issueInitializeCommandRT();
-        _threadManager.issueCreateContextCommandRT(DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT, _windowManager.createViewport(windowID, 512, 512, 0, 0));
-    
-        _gamePackage->onInit();
-    }
+		_threadManager.issueInitializeCommandRT();
+		_threadManager.issueCreateContextCommandRT(DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT, _windowManager.createViewport(windowID, 512, 512, 0, 0));
 
-    /* Execute the game code */
-    void DMKEngine::execute()
-    {
+		_gamePackage->onInit();
+	}
 
-        _gamePackage->onExecute();
-        _threadManager.issueInitializeObjectCommandRT();
-        _threadManager.issueInitializeFinalsCommandRT();
+	/* Execute the game code */
+	void DMKEngine::execute()
+	{
+		_gamePackage->onExecute();
+		_threadManager.issueInitializeEntityCommandRT(DMKComponentArray<DMKMeshComponent>());
+		_threadManager.issueInitializeFinalsCommandRT();
 
-        while (true)
-        {
-            _gamePackage->onBeginFrame();
+		UI64 _itrIndex = 0;
+		POINTER<DMKGameEntity> _entity;
 
-            _threadManager.clearCommands();
+		while (true)
+		{
+			_gamePackage->onBeginFrame();
 
-            _windowManager.pollEvents();
-            _windowManager.clean();
+			_threadManager.clearCommands();
 
-            _gamePackage->onEndFrame();
-        }
-    }
+			_windowManager.pollEvents();
 
-    /* Default destructor */
-    DMKEngine::~DMKEngine()
-    {
-        _gamePackage->onExit();
+			for (_itrIndex = 0; _itrIndex < _currentLevel->myEntities.size(); _itrIndex++)
+			{
+				_currentLevel->myEntities[_itrIndex];
+				/* send entity to the physics engine */
+			}
 
-        _windowManager.terminateAll();
-        _clock.end();
-    }
+			_windowManager.clean();
 
-    void DMKEngine::_initializeRuntimeSystems()
-    {
-        _threadManager.initializeBasicThreads();
-    }
-    
-    void DMKEngine::_loadLevel()
-    {
-        _gamePackage->onLevelLoad(_nextLevelIndex);
-        _currentLevel = _gamePackage->levels[_nextLevelIndex++];
-    }
+			_gamePackage->onEndFrame();
+		}
+	}
+
+	/* Default destructor */
+	DMKEngine::~DMKEngine()
+	{
+		_gamePackage->onExit();
+
+		_windowManager.terminateAll();
+		_clock.end();
+	}
+
+	void DMKEngine::_initializeRuntimeSystems()
+	{
+		_threadManager.initializeBasicThreads();
+	}
+
+	void DMKEngine::_loadLevel()
+	{
+		_gamePackage->onLevelLoad(_nextLevelIndex);
+		_currentLevel = _gamePackage->levels[_nextLevelIndex++];
+	}
 }

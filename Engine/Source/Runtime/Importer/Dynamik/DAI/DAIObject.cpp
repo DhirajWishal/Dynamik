@@ -57,18 +57,13 @@ namespace Dynamik
 			else if (_line[0] == 'F')	/* A fragment shader path has been found */
 				fragmentShaders.pushBack(myBasePath + GET_SUB_STR);
 			else if (_line[0] == '>')	/* A object type specifier was found */
-				objectType = _resolveObjectType(GET_SUB_STR);
+				meshType = _resolveObjectType(GET_SUB_STR);
 		}
 	}
 
 	/* TODO */
-	inline DMKGameAssetType DAIObject::_resolveObjectType(const STRING& type)
+	inline DMKMeshComponentUsage DAIObject::_resolveObjectType(const STRING& type)
 	{
-		if (type == "STATIC")
-			return DMKGameAssetType::DMK_GAME_ASSET_TYPE_STATIC;
-		if (type == "SKYBOX")
-			return DMKGameAssetType::DMK_GAME_ASSET_TYPE_SKYBOX;
-
-		return DMKGameAssetType::DMK_GAME_ASSET_TYPE_MESH;
+		return DMKMeshComponentUsage::DMK_MESH_COMPONENT_USAGE_STATIC;
 	}
 }

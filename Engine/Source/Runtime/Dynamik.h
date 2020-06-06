@@ -14,7 +14,6 @@
 #include "Core/Types/DataTypes.h"
 
 #include "Managers/Window/WindowManager.h"
-#include "Managers/GameComponent/GameComponentManager.h"
 #include "Managers/Thread/ThreadManager.h"
 
 #include "Utilities/Clock.h"

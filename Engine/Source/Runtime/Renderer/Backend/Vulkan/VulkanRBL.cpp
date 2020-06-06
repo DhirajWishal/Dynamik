@@ -245,14 +245,13 @@ namespace Dynamik
 			myActiveContext = newContext;
 		}
 
-		void VulkanRBL::initializeObject(POINTER<DMKRenderableAsset> asset)
+		void VulkanRBL::initializeEntity(DMKComponentArray<DMKMeshComponent> meshComponents)
+		{
+		}
+
+		void VulkanRBL::initializeEntities(ARRAY<DMKComponentArray<DMKMeshComponent>> meshComponents)
 		{
 			return;	/* Until the game package pipeline is properly fixed and this function is fully functional */
-
-			for (auto mesh : asset->getMeshStore())
-			{
-				VulkanRenderAsset _asset;
-			}
 		}
 
 		void VulkanRBL::initializeFinalComponents()

@@ -779,6 +779,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Runtime\ComponentSystem\Component.h" />
+    <ClInclude Include="Runtime\ComponentSystem\ComponentArray.h" />
+    <ClInclude Include="Runtime\ComponentSystem\ComponentManager.h" />
     <ClInclude Include="Runtime\Core\Error\ErrorDefines.h" />
     <ClInclude Include="Runtime\Core\Error\ErrorManager.h" />
     <ClInclude Include="Runtime\Core\Error\MessageBox.h" />
@@ -813,10 +816,10 @@
     <ClInclude Include="Runtime\Core\Object\Descriptors\GameComponentDesriptors.h" />
     <ClInclude Include="Runtime\Core\Object\Descriptors\MaterialDescriptor.h" />
     <ClInclude Include="Runtime\Core\Object\GameComponent.h" />
-    <ClInclude Include="Runtime\Core\Object\Resource\MeshComponent.h" />
+    <ClInclude Include="Runtime\ComponentSystem\Components\MeshComponent.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\Primitives.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\ShaderModule.h" />
-    <ClInclude Include="Runtime\Core\Object\Resource\TextureComponent.h" />
+    <ClInclude Include="Runtime\ComponentSystem\Components\TextureComponent.h" />
     <ClInclude Include="Runtime\Core\Object\System.h" />
     <ClInclude Include="Runtime\Core\PCH\dmkafx.h" />
     <ClInclude Include="Runtime\Core\Types\Array.h" />
@@ -833,11 +836,8 @@
     <ClInclude Include="Runtime\Events\Event\MouseButtonEventListener.h" />
     <ClInclude Include="Runtime\Events\Event\MouseScrollEventListener.h" />
     <ClInclude Include="Runtime\Events\EventHandler.h" />
-    <ClInclude Include="Runtime\GameLibrary\Attachments\BasicAttachments.h" />
     <ClInclude Include="Runtime\GameLibrary\Camera\CameraModule.h" />
-    <ClInclude Include="Runtime\GameLibrary\GameAsset.h" />
-    <ClInclude Include="Runtime\GameLibrary\GameAssetAttachment.h" />
-    <ClInclude Include="Runtime\GameLibrary\GameAssets\RenderableAsset.h" />
+    <ClInclude Include="Runtime\GameLibrary\Entities\PlayerEntity.h" />
     <ClInclude Include="Runtime\GameLibrary\GameEntity.h" />
     <ClInclude Include="Runtime\GameLibrary\GameMechanics.h" />
     <ClInclude Include="Runtime\GameLibrary\GameObjects\StaticObject.h" />
@@ -845,12 +845,9 @@
     <ClInclude Include="Runtime\GameLibrary\LevelComponent.h" />
     <ClInclude Include="Runtime\GameLibrary\Mechanics\GameAssetMechanics.h" />
     <ClInclude Include="Runtime\GameLibrary\Mechanics\PlayerController.h" />
-    <ClInclude Include="Runtime\GameLibrary\SceneComponent.h" />
     <ClInclude Include="Runtime\Importer\Asset\MeshImporter.h" />
     <ClInclude Include="Runtime\Importer\Dynamik\DAI\DAIObject.h" />
     <ClInclude Include="Runtime\Importer\Dynamik\DMKAsset\DMKAsset.h" />
-    <ClInclude Include="Runtime\Managers\Attachment\AttachmentManager.h" />
-    <ClInclude Include="Runtime\Managers\GameComponent\GameComponentManager.h" />
     <ClInclude Include="Runtime\Managers\Thread\Thread.h" />
     <ClInclude Include="Runtime\Managers\Thread\ThreadCommand.h" />
     <ClInclude Include="Runtime\Managers\Thread\ThreadManager.h" />
@@ -896,8 +893,10 @@
     <ClInclude Include="Studio\GUI\GUICore\GUICore.h" />
     <ClInclude Include="Studio\GUI\GUICore\GUIShader.h" />
     <ClInclude Include="Studio\GUI\GUIManager\GUIManager.h" />
+    <ClInclude Include="Studio\Studio.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Runtime\ComponentSystem\ComponentManager.cpp" />
     <ClCompile Include="Runtime\Core\Error\ErrorManager.cpp" />
     <ClCompile Include="Runtime\Core\Error\MessageBox.cpp" />
     <ClCompile Include="Runtime\Core\FileSystem\FileSystem.cpp" />
@@ -918,10 +917,10 @@
     <ClCompile Include="Runtime\Core\Memory\LocalHeap.cpp" />
     <ClCompile Include="Runtime\Core\Memory\MemoryFunctions.cpp" />
     <ClCompile Include="Runtime\Core\Memory\MemoryManager.cpp" />
-    <ClCompile Include="Runtime\Core\Object\Resource\MeshComponent.cpp" />
+    <ClCompile Include="Runtime\ComponentSystem\Components\MeshComponent.cpp" />
     <ClCompile Include="Runtime\Core\Object\Resource\Primitives.cpp" />
     <ClCompile Include="Runtime\Core\Object\Resource\ShaderModule.cpp" />
-    <ClCompile Include="Runtime\Core\Object\Resource\TextureComponent.cpp" />
+    <ClCompile Include="Runtime\ComponentSystem\Components\TextureComponent.cpp" />
     <ClCompile Include="Runtime\Core\PCH\dmkafx.cpp" />
     <ClCompile Include="Runtime\Core\Utilities\Clock.cpp" />
     <ClCompile Include="Runtime\Dynamik.cpp" />
@@ -930,13 +929,10 @@
     <ClCompile Include="Runtime\Events\Event\MouseScrollEventListener.cpp" />
     <ClCompile Include="Runtime\Events\EventHandler.cpp" />
     <ClCompile Include="Runtime\GameLibrary\Camera\CameraModule.cpp" />
-    <ClCompile Include="Runtime\GameLibrary\GameAssets\RenderableAsset.cpp" />
     <ClCompile Include="Runtime\GameLibrary\Mechanics\PlayerController.cpp" />
     <ClCompile Include="Runtime\Importer\Asset\MeshImporter.cpp" />
     <ClCompile Include="Runtime\Importer\Dynamik\DAI\DAIObject.cpp" />
     <ClCompile Include="Runtime\Importer\Dynamik\DMKAsset\DMKAsset.cpp" />
-    <ClCompile Include="Runtime\Managers\Attachment\AttachmentManager.cpp" />
-    <ClCompile Include="Runtime\Managers\GameComponent\GameComponentManager.cpp" />
     <ClCompile Include="Runtime\Managers\Thread\ThreadManager.cpp" />
     <ClCompile Include="Runtime\Managers\Window\WindowManager.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanCommandBuffer.cpp" />

@@ -43,6 +43,21 @@ namespace Dynamik
 		};
 
 		/*
+		 Vulkan mesh component
+		*/
+		struct DMK_API VulkanMeshComponent {
+			POINTER<DMKMeshComponent> parentMeshComponent;
+
+			VulkanBuffer vertexBuffer;
+			VulkanBuffer indexBuffer;
+			VulkanDescriptorContainer descriptor;
+			VulkanPipelineContainer pipeline;
+
+			UI32 vertexCount = 0;
+			UI32 indexCount = 0;
+		};
+
+		/*
 		 Vulkan Renderer Backend Layer for the Dynamik Engine
 		 This handles all the rendering backend tasks by using the Vulkan API.
 		*/
@@ -56,7 +71,8 @@ namespace Dynamik
 
 			void initializeCore() override;
 			void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) override;
-			void initializeObject(POINTER<DMKRenderableAsset> asset) override;
+			void initializeEntity(DMKComponentArray<DMKMeshComponent> meshComponents) override;
+			void initializeEntities(ARRAY<DMKComponentArray<DMKMeshComponent>> meshComponents) override;
 			void initializeFinalComponents() override;
 
 			void initializeDrawCall() override;
