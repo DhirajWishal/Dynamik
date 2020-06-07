@@ -30,7 +30,7 @@ namespace Dynamik
 		virtual void initialize() {}
 
 		/* Component Manager */
-		DMKComponentManager myComponentManager;
+		DMKComponentManager componentManager;
 	};
 }
 

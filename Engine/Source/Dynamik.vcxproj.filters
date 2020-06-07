@@ -261,9 +261,6 @@
     <ClInclude Include="Runtime\Core\Object\Resource\Primitives.h">
       <Filter>Runtime\Core\Object\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Core\Object\Resource\ShaderModule.h">
-      <Filter>Runtime\Core\Object\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Runtime\Core\Object\System.h">
       <Filter>Runtime\Core\Object</Filter>
     </ClInclude>
@@ -491,6 +488,11 @@
       <Filter>Runtime\Core\Object\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\ComponentSystem\ComponentArray.h" />
+    <ClInclude Include="Runtime\Core\Object\Resource\ShaderModule.h">
+      <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Types\HashMap.h" />
+    <ClInclude Include="Runtime\GameLibrary\Utilities\MeshFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\Core\Error\ErrorManager.cpp">
@@ -554,9 +556,6 @@
       <Filter>Runtime\Core\Memory</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Core\Object\Resource\Primitives.cpp">
-      <Filter>Runtime\Core\Object\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Runtime\Core\Object\Resource\ShaderModule.cpp">
       <Filter>Runtime\Core\Object\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Core\PCH\dmkafx.cpp">
@@ -701,6 +700,10 @@
       <Filter>Runtime\Core\Object\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\ComponentSystem\ComponentManager.cpp" />
+    <ClCompile Include="Runtime\Core\Object\Resource\ShaderModule.cpp">
+      <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Studio\Studio.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

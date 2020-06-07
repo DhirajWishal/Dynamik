@@ -87,7 +87,7 @@ namespace Dynamik
 				/* Initialize sub passes */
 				VulkanRenerPassAtachmentDescription _description;
 				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_SWAPCHAIN;
-				_description.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				_description.format = (DMKFormat)newContext.vSwapChain.format;
 				_description.msaaSamples = myMsaaSampleCount;
 				_subPass.attachments.pushBack(_description);
 
@@ -97,16 +97,16 @@ namespace Dynamik
 				_subPass.attachments.pushBack(_description);
 
 				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_COLOR;
-				_description.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				_description.format = (DMKFormat)newContext.vSwapChain.format;
 				_description.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
 				_subPass.attachments.pushBack(_description);
 
 				/* Add attachments */
 				VulkanFrameBufferAttachmentInitInfo FBAttachmentInitInfo;
-				FBAttachmentInitInfo.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				FBAttachmentInitInfo.format = (DMKFormat)newContext.vSwapChain.format;
 				FBAttachmentInitInfo.msaaSamples = myMsaaSampleCount;
-				FBAttachmentInitInfo.imageHeight = newContext.vSwapChain.swapChainExtent.height;
-				FBAttachmentInitInfo.imageWidth = newContext.vSwapChain.swapChainExtent.width;
+				FBAttachmentInitInfo.imageHeight = newContext.vSwapChain.extent.height;
+				FBAttachmentInitInfo.imageWidth = newContext.vSwapChain.extent.width;
 
 				auto _colorAttachment = StaticAllocator<VulkanColorAttachment>::allocate();
 				_colorAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
@@ -129,21 +129,21 @@ namespace Dynamik
 				/* Initialize sub passes */
 				VulkanRenerPassAtachmentDescription _description;
 				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_SWAPCHAIN;
-				_description.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				_description.format = (DMKFormat)newContext.vSwapChain.format;
 				_description.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
 				_subPass.attachments.pushBack(_description);
 
 				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_COLOR;
-				_description.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				_description.format = (DMKFormat)newContext.vSwapChain.format;
 				_description.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
 				_subPass.attachments.pushBack(_description);
 
 				/* Add attachments */
 				VulkanFrameBufferAttachmentInitInfo FBAttachmentInitInfo;
-				FBAttachmentInitInfo.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				FBAttachmentInitInfo.format = (DMKFormat)newContext.vSwapChain.format;
 				FBAttachmentInitInfo.msaaSamples = myMsaaSampleCount;
-				FBAttachmentInitInfo.imageHeight = newContext.vSwapChain.swapChainExtent.height;
-				FBAttachmentInitInfo.imageWidth = newContext.vSwapChain.swapChainExtent.width;
+				FBAttachmentInitInfo.imageHeight = newContext.vSwapChain.extent.height;
+				FBAttachmentInitInfo.imageWidth = newContext.vSwapChain.extent.width;
 
 				auto _colorAttachment = StaticAllocator<VulkanColorAttachment>::allocate();
 				_colorAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
@@ -156,7 +156,7 @@ namespace Dynamik
 				/* Initialize sub passes */
 				VulkanRenerPassAtachmentDescription _description;
 				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_SWAPCHAIN;
-				_description.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				_description.format = (DMKFormat)newContext.vSwapChain.format;
 				_description.msaaSamples = myMsaaSampleCount;
 				_subPass.attachments.pushBack(_description);
 
@@ -166,16 +166,16 @@ namespace Dynamik
 				_subPass.attachments.pushBack(_description);
 
 				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_COLOR;
-				_description.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				_description.format = (DMKFormat)newContext.vSwapChain.format;
 				_description.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
 				_subPass.attachments.pushBack(_description);
 
 				/* Add attachments */
 				VulkanFrameBufferAttachmentInitInfo FBAttachmentInitInfo;
-				FBAttachmentInitInfo.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				FBAttachmentInitInfo.format = (DMKFormat)newContext.vSwapChain.format;
 				FBAttachmentInitInfo.msaaSamples = myMsaaSampleCount;
-				FBAttachmentInitInfo.imageHeight = newContext.vSwapChain.swapChainExtent.height;
-				FBAttachmentInitInfo.imageWidth = newContext.vSwapChain.swapChainExtent.width;
+				FBAttachmentInitInfo.imageHeight = newContext.vSwapChain.extent.height;
+				FBAttachmentInitInfo.imageWidth = newContext.vSwapChain.extent.width;
 
 				auto _colorAttachment = StaticAllocator<VulkanColorAttachment>::allocate();
 				_colorAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
@@ -195,7 +195,7 @@ namespace Dynamik
 				/* Initialize sub passes */
 				VulkanRenerPassAtachmentDescription _description;
 				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_SWAPCHAIN;
-				_description.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				_description.format = (DMKFormat)newContext.vSwapChain.format;
 				_description.msaaSamples = myMsaaSampleCount;
 				_subPass.attachments.pushBack(_description);
 
@@ -205,16 +205,16 @@ namespace Dynamik
 				_subPass.attachments.pushBack(_description);
 
 				_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_COLOR;
-				_description.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				_description.format = (DMKFormat)newContext.vSwapChain.format;
 				_description.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
 				_subPass.attachments.pushBack(_description);
 
 				/* Add attachments */
 				VulkanFrameBufferAttachmentInitInfo FBAttachmentInitInfo;
-				FBAttachmentInitInfo.format = (DMKFormat)newContext.vSwapChain.swapChainImageFormat;
+				FBAttachmentInitInfo.format = (DMKFormat)newContext.vSwapChain.format;
 				FBAttachmentInitInfo.msaaSamples = myMsaaSampleCount;
-				FBAttachmentInitInfo.imageHeight = newContext.vSwapChain.swapChainExtent.height;
-				FBAttachmentInitInfo.imageWidth = newContext.vSwapChain.swapChainExtent.width;
+				FBAttachmentInitInfo.imageHeight = newContext.vSwapChain.extent.height;
+				FBAttachmentInitInfo.imageWidth = newContext.vSwapChain.extent.width;
 
 				auto _colorAttachment = StaticAllocator<VulkanColorAttachment>::allocate();
 				_colorAttachment->initialize(myDevice, myQueues, FBAttachmentInitInfo);
@@ -245,11 +245,56 @@ namespace Dynamik
 			myActiveContext = newContext;
 		}
 
-		void VulkanRBL::initializeEntity(DMKComponentArray<DMKMeshComponent> meshComponents)
+		void VulkanRBL::initializeEntity(POINTER<DMKGameEntity> entity)
 		{
+			for (auto _meshComponent : entity->componentManager.getComponentArray<DMKMeshComponent>()->myComponents)
+			{
+				VulkanRenderableMesh vMeshComponet;
+
+				/* Create vertex buffer */
+				vMeshComponet.vertexBuffer.initialize(myDevice, BufferType::BUFFER_TYPE_VERTEX, _meshComponent.getVertexBufferObjectByteSize());
+				_meshComponent.packData(vMeshComponet.vertexBuffer.mapMemory(myDevice));
+				vMeshComponet.vertexBuffer.unmapMemory(myDevice);
+				vMeshComponet.vertexCount = _meshComponent.rawVertexBufferObject.size();
+
+				/* Create index buffer */
+				vMeshComponet.indexBuffer.initialize(myDevice, BufferType::BUFFER_TYPE_INDEX, _meshComponent.getIndexBufferObjectByteSize());
+				DMKMemoryFunctions::moveData(vMeshComponet.indexBuffer.mapMemory(myDevice), _meshComponent.indexBufferObject.data(), _meshComponent.indexBufferObject.typeSize() * _meshComponent.indexBufferObject.size());
+				vMeshComponet.indexCount = _meshComponent.indexBufferObject.size();
+
+				/* Create textures */
+
+				/* Create uniform buffer */
+
+				/* Create descriptor */
+
+				/* Create pipeline */
+				ARRAY<VulkanShader> vShaders;
+				for (auto _shader : _meshComponent.renderSpecifications.shaderModules)
+				{
+					VulkanShader _vShader;
+					_vShader.initialize(myDevice, _shader);
+					vShaders.pushBack(_vShader);
+				}
+
+				VulkanGraphicsPipelineInitInfo pipelineInitInfo;
+				pipelineInitInfo.usage = _meshComponent.usage;
+				pipelineInitInfo.vertexBufferDescriptor = _meshComponent.vertexDescriptor;
+
+				pipelineInitInfo.viewports = { myActiveContext.vViewport };
+				pipelineInitInfo.vRenderPass = myActiveContext.vRenderPass;
+				pipelineInitInfo.swapChainExtent = myActiveContext.vSwapChain.extent;
+				pipelineInitInfo.shaders = vShaders;
+
+				pipelineInitInfo.multisamplerMsaaSamples = (VkSampleCountFlagBits)myMsaaSampleCount;
+				VulkanPipelineManager vPipelineManager;
+				vMeshComponet.pipeline = vPipelineManager.createGraphicsPipeline(myDevice, pipelineInitInfo);
+			
+				submitPendingMeshes.pushBack(vMeshComponet);
+			}
 		}
 
-		void VulkanRBL::initializeEntities(ARRAY<DMKComponentArray<DMKMeshComponent>> meshComponents)
+		void VulkanRBL::initializeEntities(ARRAY<POINTER<DMKGameEntity>> entities)
 		{
 			return;	/* Until the game package pipeline is properly fixed and this function is fully functional */
 		}
@@ -257,15 +302,15 @@ namespace Dynamik
 		void VulkanRBL::initializeFinalComponents()
 		{
 			myActiveContext.vCommandBuffer.initializeCommandPool(myDevice, myQueues);
-			myActiveContext.vCommandBuffer.allocateCommandBuffers(myDevice, myActiveContext.vSwapChain.swapChainImages.size());
+			myActiveContext.vCommandBuffer.allocateCommandBuffers(myDevice, myActiveContext.vSwapChain.images.size());
 
 			VkCommandBuffer _buffer = VK_NULL_HANDLE;
-			for (UI32 index = 0; index < myActiveContext.vSwapChain.swapChainImages.size(); index++)
+			for (UI32 index = 0; index < myActiveContext.vSwapChain.images.size(); index++)
 			{
 				_buffer = myActiveContext.vCommandBuffer.beginCommandBufferRecording(myDevice, index);
 				myActiveContext.vCommandBuffer.beginRenderPass(myDevice, myActiveContext.vRenderPass, myActiveContext.vFrameBuffer, myActiveContext.vSwapChain, index);
 
-				for (auto _mesh : submitPendingAssets)
+				for (auto _mesh : submitPendingMeshes)
 				{
 					vkCmdBindPipeline(_buffer, _mesh.pipeline.bindPoint, _mesh.pipeline.pipeline);
 
@@ -283,8 +328,8 @@ namespace Dynamik
 				myActiveContext.vCommandBuffer.endCommandBufferRecording(myDevice, _buffer);
 			}
 
-			inFlightAssets = submitPendingAssets;
-			submitPendingAssets.clear();
+			inFlightMeshes = submitPendingMeshes;
+			submitPendingMeshes.clear();
 
 			if (!isSyncObjectsInitialized)
 				myActiveContext.vSyncObjects.initialize(myDevice);

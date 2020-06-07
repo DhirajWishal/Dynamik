@@ -38,13 +38,15 @@ namespace Dynamik
 		_threadManager.issueCreateContextCommandRT(DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT, _windowManager.createViewport(windowID, 512, 512, 0, 0));
 
 		_gamePackage->onInit();
+
+		_loadLevel();
 	}
 
 	/* Execute the game code */
 	void DMKEngine::execute()
 	{
 		_gamePackage->onExecute();
-		_threadManager.issueInitializeEntityCommandRT(DMKComponentArray<DMKMeshComponent>());
+		_threadManager.issueInitializeEntityCommandRT(_currentLevel->myEntities[0]);
 		_threadManager.issueInitializeFinalsCommandRT();
 
 		UI64 _itrIndex = 0;
@@ -88,5 +90,10 @@ namespace Dynamik
 	{
 		_gamePackage->onLevelLoad(_nextLevelIndex);
 		_currentLevel = _gamePackage->levels[_nextLevelIndex++];
+
+		_currentLevel->onLoad();
+
+		for (auto _entity : _currentLevel->myEntities)
+			_entity->initialize();
 	}
 }

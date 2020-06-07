@@ -26,10 +26,10 @@ namespace Dynamik
 			myBackend.initializeFinalComponents();
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITY:
-			myBackend.initializeEntity(DMKComponentArray<DMKMeshComponent>());
+			myBackend.initializeEntity(((RendererAddEntity*)myCommand)->entity);
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITIES:
-			myBackend.initializeEntities(((RendererAddMeshComponents*)myCommand)->meshComponents);
+			myBackend.initializeEntities(((RendererAddEntities*)myCommand)->entities);
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SUBMIT_OBJECTS:
 			break;

@@ -10,7 +10,7 @@ namespace Dynamik
         if ((list.size() > 3) || (list.size() < 3))
             DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
 
-        MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(D64));
+        DMKMemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(D64));
         w = 0.0;
 	}
 
@@ -19,7 +19,7 @@ namespace Dynamik
         if ((list.size() > 3) || (list.size() < 3))
             DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
 
-        MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(D64));
+        DMKMemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(D64));
         this->w = 0.0;
 		return *this;
 	}

@@ -6,13 +6,27 @@
  Author:	Dhiraj Wishal
  Date:		05/06/2020
 */
+#include "GUI/GUIManager/GUIManager.h"
 
 namespace Dynamik
 {
+	/*
+	 Dynamik Studio
+	*/
 	class DMKStudio {
 	public:
-		DMKStudio() {}
-		~DMKStudio() {}
+		DMKStudio();
+		~DMKStudio();
+
+		void execute();
+
+	private:
+		void beginFrame();
+		void updateFrame();
+		void endFrame();
+
+	private:
+		GUIManager myGuiManager;
 	};
 }
 

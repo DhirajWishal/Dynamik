@@ -40,12 +40,6 @@ namespace Dynamik
 		DMK_SHADER_CODE_TYPE_SPIRV,
 	};
 
-	/* Dynamik Shader Path Container */
-	struct DMK_API DMKShaderPath {
-		STRING path = DMK_TEXT("");
-		DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_ALL;
-	};
-
 	/*
 	 Shader module for the Dynamik Engine
 	*/

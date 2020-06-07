@@ -78,10 +78,10 @@ namespace Dynamik
 
 					nextPointer = (VPTR)(((UI64)nextPointer) + (UI64)myDescription.attributes[location - 1].dataType);
 				}
-				MemoryFunctions::moveData(nextPointer, data, byteSize);
+				DMKMemoryFunctions::moveData(nextPointer, data, byteSize);
 			}
 			else
-				MemoryFunctions::moveData(uniformBufferStorage, data, byteSize);
+				DMKMemoryFunctions::moveData(uniformBufferStorage, data, byteSize);
 		}
 		else
 			DMK_FATAL("Invalid data location bound!");
@@ -89,7 +89,7 @@ namespace Dynamik
 
 	void DMKUniformBufferObject::clear()
 	{
-		MemoryFunctions::setData(uniformBufferStorage, 0, myDescription.getUniformSize());
+		DMKMemoryFunctions::setData(uniformBufferStorage, 0, myDescription.getUniformSize());
 		nextPointer = uniformBufferStorage;
 	}
 	

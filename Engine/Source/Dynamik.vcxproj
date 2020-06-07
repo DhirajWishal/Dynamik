@@ -824,6 +824,7 @@
     <ClInclude Include="Runtime\Core\PCH\dmkafx.h" />
     <ClInclude Include="Runtime\Core\Types\Array.h" />
     <ClInclude Include="Runtime\Core\Types\DataTypes.h" />
+    <ClInclude Include="Runtime\Core\Types\HashMap.h" />
     <ClInclude Include="Runtime\Core\Types\Pointer.h" />
     <ClInclude Include="Runtime\Core\Types\TSArray.h" />
     <ClInclude Include="Runtime\Core\Types\TypeTraits.h" />
@@ -845,6 +846,7 @@
     <ClInclude Include="Runtime\GameLibrary\LevelComponent.h" />
     <ClInclude Include="Runtime\GameLibrary\Mechanics\GameAssetMechanics.h" />
     <ClInclude Include="Runtime\GameLibrary\Mechanics\PlayerController.h" />
+    <ClInclude Include="Runtime\GameLibrary\Utilities\MeshFactory.h" />
     <ClInclude Include="Runtime\Importer\Asset\MeshImporter.h" />
     <ClInclude Include="Runtime\Importer\Dynamik\DAI\DAIObject.h" />
     <ClInclude Include="Runtime\Importer\Dynamik\DMKAsset\DMKAsset.h" />
@@ -966,6 +968,7 @@
     <ClCompile Include="Studio\GUI\GUICore\GUIShader.cpp" />
     <ClCompile Include="Studio\GUI\GUIManager\GUIManager.cpp" />
     <ClCompile Include="Studio\main.cpp" />
+    <ClCompile Include="Studio\Studio.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

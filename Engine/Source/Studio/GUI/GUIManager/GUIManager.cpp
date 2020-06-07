@@ -39,14 +39,34 @@ namespace Dynamik
 
 	void GUIManager::beginFrame()
 	{
+		ImGuiIO& io = ImGui::GetIO();
+		IM_ASSERT(io.Fonts->IsBuilt() && "Font atlas not built! It is generally built by the renderer back-end. Missing call to renderer _NewFrame() function? e.g. ImGui_ImplOpenGL3_NewFrame().");
+
+		// Setup display size (every frame to accommodate for window resizing)
+		int w, h;
+		int display_w, display_h;
+		glfwGetWindowSize(((POINTER<WindowsWindow>)windowHandle)->getWindowHandle(), &w, &h);
+		glfwGetFramebufferSize(((POINTER<WindowsWindow>)windowHandle)->getWindowHandle(), &display_w, &display_h);
+		io.DisplaySize = ImVec2((float)w, (float)h);
+		if (w > 0 && h > 0)
+			io.DisplayFramebufferScale = ImVec2((float)display_w / w, (float)display_h / h);
+
+		// Setup time step
+		double current_time = glfwGetTime();
+		io.DeltaTime = time > 0.0 ? (float)(current_time - time) : (float)(1.0f / 60.0f);
+		time = current_time;
+
+		ImGui::NewFrame();
 	}
 
 	void GUIManager::onUpdate()
 	{
+		ImGui::Begin("Hello, world!");
 	}
 
 	void GUIManager::endFrame()
 	{
+		ImGui::Render();
 	}
 
 	void GUIManager::terminate()

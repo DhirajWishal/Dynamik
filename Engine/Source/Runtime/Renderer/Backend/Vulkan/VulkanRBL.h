@@ -71,8 +71,8 @@ namespace Dynamik
 
 			void initializeCore() override;
 			void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) override;
-			void initializeEntity(DMKComponentArray<DMKMeshComponent> meshComponents) override;
-			void initializeEntities(ARRAY<DMKComponentArray<DMKMeshComponent>> meshComponents) override;
+			void initializeEntity(POINTER<DMKGameEntity> entity) override;
+			void initializeEntities(ARRAY<POINTER<DMKGameEntity>> entities) override;
 			void initializeFinalComponents() override;
 
 			void initializeDrawCall() override;
@@ -115,8 +115,8 @@ namespace Dynamik
 			VulkanDescriptorSetManager myActiveDescriptorManager;
 
 			/* Render asset store */
-			ARRAY<VulkanRenderableMesh> submitPendingAssets;
-			ARRAY<VulkanRenderableMesh> inFlightAssets;
+			ARRAY<VulkanRenderableMesh> submitPendingMeshes;
+			ARRAY<VulkanRenderableMesh> inFlightMeshes;
 		};
 	}
 }

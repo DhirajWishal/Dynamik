@@ -141,14 +141,14 @@ namespace Dynamik
 		myRendererThread.commandBuffer.commands.pushBack(new RendererCreateContextCommand(_command));
 	}
 
-	void DMKThreadManager::issueInitializeEntityCommandRT(DMKComponentArray<DMKMeshComponent> meshComponents)
+	void DMKThreadManager::issueInitializeEntityCommandRT(POINTER<DMKGameEntity> meshComponents)
 	{
-		RendererAddMeshComponents _command;
-		_command.meshComponents = { meshComponents };
+		RendererAddEntity _command;
+		_command.entity = meshComponents;
 
 		/* Push to command buffer */
 		myRendererThread.commandBuffer.hasExcuted = false;
-		myRendererThread.commandBuffer.commands.pushBack(new RendererAddMeshComponents(_command));
+		myRendererThread.commandBuffer.commands.pushBack(new RendererAddEntity(_command));
 	}
 
 	void DMKThreadManager::issueInitializeFinalsCommandRT()

@@ -43,7 +43,7 @@ namespace Dynamik
 		if ((list.size() > 16) || (list.size() < 16))
 			DMK_ERROR_BOX("The size of the provided list does not match the current Matrix size!");
 
-		MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
+		DMKMemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
 	}
 
 	Matrix4F Matrix4F::operator=(const Matrix4F& other)

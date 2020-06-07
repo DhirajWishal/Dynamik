@@ -33,7 +33,7 @@ namespace Dynamik
 	void LocalHeap::extend(UI32 additionalSize)
 	{
 		auto _newPool = StaticAllocator<UI32>::allocate(myAllocationSize + additionalSize);
-		MemoryFunctions::moveData(_newPool.get(), myMemoryBlock.get(), myAllocationSize);
+		DMKMemoryFunctions::moveData(_newPool.get(), myMemoryBlock.get(), myAllocationSize);
 
 		_terminateLocalBlock();
 
@@ -43,13 +43,13 @@ namespace Dynamik
 		myNextPtr = myMemoryBlock;
 
 		myAllocationSize += additionalSize;
-		MemoryFunctions::moveData(myMemoryBlock.get(), _newPool.get(), myAllocationSize);
+		DMKMemoryFunctions::moveData(myMemoryBlock.get(), _newPool.get(), myAllocationSize);
 		myNextPtr += _oldSize;
 	}
 
 	void LocalHeap::clearPool()
 	{
-		MemoryFunctions::setData(myMemoryBlock.get(), 0, myAllocationSize);
+		DMKMemoryFunctions::setData(myMemoryBlock.get(), 0, myAllocationSize);
 	}
 
 	VPTR LocalHeap::addToStore(VPTR data, UI32 byteSize)
@@ -60,7 +60,7 @@ namespace Dynamik
 			extend(myAllocationSize + byteSize);
 		}
 
-		MemoryFunctions::moveData(myNextPtr.get(), data, byteSize);
+		DMKMemoryFunctions::moveData(myNextPtr.get(), data, byteSize);
 
 		auto _tmp = myNextPtr;
 		myNextPtr += byteSize;
@@ -70,7 +70,7 @@ namespace Dynamik
 
 	void LocalHeap::deleteFromStore(VPTR data, UI32 byteSize)
 	{
-		MemoryFunctions::setData(data, 0, byteSize);
+		DMKMemoryFunctions::setData(data, 0, byteSize);
 		myNextPtr -= byteSize;
 	}
 

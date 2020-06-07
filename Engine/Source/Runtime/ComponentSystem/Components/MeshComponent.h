@@ -24,6 +24,28 @@ namespace Dynamik
 		DMK_MESH_COMPONENT_USAGE_ANIMATED,
 		DMK_MESH_COMPONENT_USAGE_SKYBOX,
 	};
+
+	/*
+	 Mesh rendering pipelin
+	 This defines which pipeline to use when rendering the mesh.
+	 Custom pipelines should provide its own shader modules.
+	*/
+	enum class DMKMeshRenderingPipeline {
+		DMK_MESH_RENDERING_PIPELINE_DEFAULT,
+		DMK_MESH_RENDERING_PIPELINE_PBR,
+		DMK_MESH_RENDERING_PIPELINE_LIGHT,
+		DMK_MESH_RENDERING_PIPELINE_CUSTOM,
+	};
+
+	/*
+	 Mesh rendering specifications
+	 This defines how the mesh should be rendered.
+	*/
+	struct DMK_API DMKMeshRenderSpecifications {
+		ARRAY<DMKShaderModule> shaderModules;
+		DMKMeshRenderingPipeline basePipeline = DMKMeshRenderingPipeline::DMK_MESH_RENDERING_PIPELINE_CUSTOM;
+	};
+
 	/*
 	 Mesh Component for the Dynamik Engine.
 	*/
@@ -54,9 +76,12 @@ namespace Dynamik
 		ARRAY<DMKUniformBufferObject> uniformBUfferObjects;
 		ARRAY<UI32> indexBufferObject;
 
+		DMKMeshRenderSpecifications renderSpecifications;
+
 		DMKVertexBufferDescriptor vertexDescriptor;
 		DMKDataType indexBufferType = DMKDataType::DMK_DATA_TYPE_UI32;
 		DMKMeshComponentUsage usage = DMKMeshComponentUsage::DMK_MESH_COMPONENT_USAGE_STATIC;
+		DMKMeshRenderingPipeline pipeline = DMKMeshRenderingPipeline::DMK_MESH_RENDERING_PIPELINE_DEFAULT;
 
 	public:		/* Static Utility Functions */
 		/*

@@ -11,8 +11,7 @@
 #include "Window/WindowHandle.h"
 #include "Components/ContextTypeDefs.h"
 #include "Components/CoreTypeDefs.h"
-#include "ComponentSystem/ComponentArray.h"
-#include "ComponentSystem/Components/MeshComponent.h"
+#include "GameLibrary/GameEntity.h"
 
 namespace Dynamik
 {
@@ -79,13 +78,22 @@ namespace Dynamik
 		DMKRenderContextType contextType;
 	};
 
-	/* Add render asset */
-	class DMK_API RendererAddMeshComponents : public DMKRendererCommand {
+	/* Add Entity */
+	class DMK_API RendererAddEntity : public DMKRendererCommand {
 	public:
-		RendererAddMeshComponents() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITIES) {}
-		~RendererAddMeshComponents() {}
+		RendererAddEntity() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITY) {}
+		~RendererAddEntity() {}
 
-		ARRAY<DMKComponentArray<DMKMeshComponent>> meshComponents;
+		POINTER<DMKGameEntity> entity;
+	};
+
+	/* Add Entities */
+	class DMK_API RendererAddEntities : public DMKRendererCommand {
+	public:
+		RendererAddEntities() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITIES) {}
+		~RendererAddEntities() {}
+
+		ARRAY<POINTER<DMKGameEntity>> entities;
 	};
 }
 

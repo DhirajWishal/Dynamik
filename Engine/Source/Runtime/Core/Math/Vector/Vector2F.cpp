@@ -8,7 +8,7 @@ namespace Dynamik
 		if ((list.size() > 2) || (list.size() < 2))
 			DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
 
-		MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
+		DMKMemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
 	}
 
 	Vector2F Vector2F::operator=(const std::initializer_list<F32>& list)
@@ -16,7 +16,7 @@ namespace Dynamik
 		if ((list.size() > 2) || (list.size() < 2))
 			DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
 
-		MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
+		DMKMemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
 
 		return *this;
 	}

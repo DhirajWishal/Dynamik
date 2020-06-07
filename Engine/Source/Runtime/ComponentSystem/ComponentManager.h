@@ -35,15 +35,14 @@ namespace Dynamik
 				DMK_ERROR_BOX("Registering component already exists!");
 			}
 
+			components[componentName] = (POINTER<IComponentArray>)StaticAllocator<DMKComponentArray<COMPONENT>>::allocate();
 			componentTypes.pushBack(componentName);
-
-			components.insert({ componentName, StaticAllocator<DMKComponentArray<COMPONENT>>::allocate() });
 		}
 
 		template<class COMPONENT>
-		void addComponent()
+		void addComponent(const COMPONENT& component)
 		{
-			getComponentArray<COMPONENT>()->myComponents.pushBack(COMPONENT());
+			getComponentArray<COMPONENT>()->myComponents.pushBack(component);
 		}
 
 		template<class COMPONENT>
@@ -53,8 +52,8 @@ namespace Dynamik
 
 			if (!componentTypes.find(componentName).size())
 			{
-				DMKErrorManager::issueWarnBox(DMK_TEXT("Requested component does not exist! Creating a new entry."));
-				addComponent<COMPONENT>();
+				DMKErrorManager::issueWarnBox(DMK_TEXT("Requested component does not exist! Creating a new component."));
+				registerComponent<COMPONENT>();
 			}
 
 			return (POINTER<DMKComponentArray<COMPONENT>>)components[componentName];
@@ -67,7 +66,7 @@ namespace Dynamik
 		}
 
 	private:
-		std::unordered_map<STRING, POINTER<DMKComponent>> components;
+		std::unordered_map<STRING, POINTER<IComponentArray>> components;
 		ARRAY<STRING> componentTypes;
 	};
 }

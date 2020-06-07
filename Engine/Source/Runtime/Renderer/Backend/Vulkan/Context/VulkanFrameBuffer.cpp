@@ -11,17 +11,17 @@ namespace Dynamik
 			const VulkanRenderPass& vRenderPass,
 			const ARRAY<POINTER<VulkanFrameBufferAttachment>>& attachments)
 		{
-			frameWidth = vSwapChain.swapChainExtent.width;
-			frameHeight = vSwapChain.swapChainExtent.height;
+			frameWidth = vSwapChain.extent.width;
+			frameHeight = vSwapChain.extent.height;
 
-			for (size_t i = 0; i < vSwapChain.swapChainImages.size(); i++)
+			for (size_t i = 0; i < vSwapChain.images.size(); i++)
 			{
 				ARRAY<VkImageView> _attachments;
 
 				for (auto _attachment : attachments)
 					_attachments.pushBack(_attachment->imageView);
 
-				_attachments.pushBack(vSwapChain.swapChainImageViews[i]);
+				_attachments.pushBack(vSwapChain.imageViews[i]);
 
 				VkFramebufferCreateInfo framebufferInfo = {};
 				framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;

@@ -42,8 +42,8 @@ namespace Dynamik
 
         virtual void initializeCore() {}
         virtual void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) {}
-        virtual void initializeEntity(DMKComponentArray<DMKMeshComponent> meshComponents) {}
-        virtual void initializeEntities(ARRAY<DMKComponentArray<DMKMeshComponent>> meshComponents) {}
+        virtual void initializeEntity(POINTER<DMKGameEntity> entity) {}
+        virtual void initializeEntities(ARRAY<POINTER<DMKGameEntity>> entities) {}
         virtual void initializeLevel(POINTER<DMKLevelComponent> level) {}
         virtual void initializeFinalComponents() {}
 

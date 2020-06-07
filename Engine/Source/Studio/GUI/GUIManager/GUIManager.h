@@ -27,6 +27,8 @@ namespace Dynamik
 		void terminate();
 
 		POINTER<DMKWindowHandle> windowHandle;
+
+		D64 time = 0.0;
 	};
 }
 
