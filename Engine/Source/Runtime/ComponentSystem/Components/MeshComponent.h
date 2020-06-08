@@ -13,6 +13,7 @@
 */
 #include "../Component.h"
 #include "Object/Resource/Primitives.h"
+#include "Object/Resource/Textures/TextureFactory.h"
 
 namespace Dynamik
 {
@@ -73,10 +74,13 @@ namespace Dynamik
 
 	public:		/* Public Data Store */
 		ARRAY<DMKVertexObject> rawVertexBufferObject;
-		ARRAY<DMKUniformBufferObject> uniformBUfferObjects;
-		ARRAY<UI32> indexBufferObject;
 
 		DMKMeshRenderSpecifications renderSpecifications;
+
+		ARRAY<DMKUniformBufferObject> uniformBufferObjects;
+		ARRAY<UI32> indexBufferObject;
+		POINTER<DMKTexture> texture;
+
 
 		DMKVertexBufferDescriptor vertexDescriptor;
 		DMKDataType indexBufferType = DMKDataType::DMK_DATA_TYPE_UI32;

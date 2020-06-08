@@ -8,6 +8,7 @@
 */
 #include "Macros/Global.h"
 #include "Types/Array.h"
+#include "Primitives.h"
 
 namespace Dynamik
 {
@@ -41,6 +42,24 @@ namespace Dynamik
 	};
 
 	/*
+	 Shader Resources
+	*/
+	struct DMK_API DMKShaderResource {
+		DMKUniformType type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
+		UI32 binding = 0;
+		UI32 offset = 0;
+	};
+
+	/*
+	 Dynamik Shader Layout
+	 This defines the resource components in a shader.
+	 Mainly this defines the uniform bindings and sampler bindings.
+	*/
+	struct DMK_API DMKShaderLayout {
+		ARRAY<DMKShaderResource> resources;
+	};
+
+	/*
 	 Shader module for the Dynamik Engine
 	*/
     class DMK_API DMKShaderModule {
@@ -51,7 +70,11 @@ namespace Dynamik
 
 		virtual void loadCode(const STRING& path);
 
+		void addResource(DMKUniformType type, UI32 binding, UI32 offset = 0);
+
+	public:
         ARRAY<CHR> shaderCode;
+		DMKShaderLayout layout;
 		DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_ALL;
 		DMKShaderCodeType codeType = DMKShaderCodeType::DMK_SHADER_CODE_TYPE_GLSL;
     };

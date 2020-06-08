@@ -110,6 +110,14 @@ namespace Dynamik
 		 Vulkan Pipeline Manager for the Dynamik RBL
 		*/
 		class DMK_API VulkanPipelineManager {
+
+			template<class INITINFO>
+			struct DMK_API VulkanPipelineCache {
+				INITINFO initInfo;
+				VkPipeline basePipeline = VK_NULL_HANDLE;
+				VkPipelineLayout basePipelineLayout = VK_NULL_HANDLE;
+				VkPipelineCache pipelineCache = VK_NULL_HANDLE;
+			};
 		public:
 			VulkanPipelineManager() {}
 			~VulkanPipelineManager() {}
@@ -119,7 +127,8 @@ namespace Dynamik
 			VulkanPipelineContainer createComputePipeline(const VulkanDevice& vDevice, VulkanGraphicsPipelineInitInfo info);
 		
 		private:
-
+			ARRAY<VulkanGraphicsPipelineInitInfo> myAllocatedInitInfos;
+			ARRAY<VulkanPipelineCache<VulkanGraphicsPipelineInitInfo>> myGraphicsPipelineCache;
 		};
 	}
 }

@@ -138,6 +138,13 @@ namespace Dynamik
 		DMK_UNIFORM_ATTRIBUTE_TYPE_CUSTOM
 	};
 
+	/* Dynamik Uniform Buffer Usage */
+	enum class DMK_API DMKUniformBufferUsage {
+		DMK_UNIFORM_BUFFER_USAGE_CAMERA,
+		DMK_UNIFORM_BUFFER_USAGE_SAMPLER,
+		DMK_UNIFORM_BUFFER_USAGE_CUSTOM,
+	};
+
 	/* Dynamik Uniform Attribute */
 	struct DMK_API DMKUniformAttribute {
 		DMKDataType dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
@@ -153,6 +160,7 @@ namespace Dynamik
 		ARRAY<DMKUniformAttribute> attributes;
 		DMKUniformType type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
 		DMKShaderLocation shaderLocation = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
+		DMKUniformBufferUsage usage = DMKUniformBufferUsage::DMK_UNIFORM_BUFFER_USAGE_CUSTOM;
 		UI32 destinationBinding = 0;
 		UI32 offset = 0;
 
@@ -209,9 +217,14 @@ namespace Dynamik
 
 	public:		/* Static Utility Functions */
 		/*
-		 Create a basic camera uniform buffer object (Model, View, Projection)
+		 Create a basic Camera uniform buffer object.
 		*/
-		static DMKUniformDescription createUniformMVP();
+		static DMKUniformDescription createUniformCamera(UI32 binding = 0, DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX);
+
+		/*
+		 Create a basic model uniform buffer object.
+		*/
+		static DMKUniformDescription createUniformModel(UI32 binding = 0, DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX);
 	};
 }
 

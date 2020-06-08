@@ -75,9 +75,12 @@ namespace Dynamik
 		{
 			for (auto _description : uniformDescriptors)
 			{
+				if (_description.type != DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER)
+					continue;
+
 				DMKUniformBufferObject _ubo;
 				_ubo.myDescription = _description;
-				mesh[index].uniformBUfferObjects.pushBack(_ubo);
+				mesh[index].uniformBufferObjects.pushBack(_ubo);
 			}
 		}
 
@@ -95,7 +98,7 @@ namespace Dynamik
 		{
 			DMKUniformBufferObject _object;
 			_object.myDescription = _description;
-			_mesh.uniformBUfferObjects.pushBack(_object);
+			_mesh.uniformBufferObjects.pushBack(_object);
 		}
 
 		return { _mesh };

@@ -75,12 +75,12 @@ namespace Dynamik
 			vkUnmapMemory(vDevice, bufferMemory);
 		}
 
-		VulkanBuffer::operator VkBuffer()
+		VulkanBuffer::operator VkBuffer() const
 		{
 			return this->buffer;
 		}
 
-		VulkanBuffer::operator VkDeviceMemory()
+		VulkanBuffer::operator VkDeviceMemory() const
 		{
 			return this->bufferMemory;
 		}

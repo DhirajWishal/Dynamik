@@ -1,14 +1,18 @@
 #include "dmkafx.h"
 #include "Texture.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
 namespace Dynamik
 {
-	DMKTexture::~DMKTexture()
+	void DMKTexture::clear()
 	{
-		StaticAllocator<CHR>::deallocate(image, 0);
+		StaticAllocator<UCHR>::deallocate(image, 0);
 	}
 	
-	void DMKTexture::load(const STRING& path)
+	UI32 DMKTexture::size()
 	{
+		return depth * width * height * channels;
 	}
 }

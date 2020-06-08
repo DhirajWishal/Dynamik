@@ -34,6 +34,9 @@ project "Dynamik"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLEW}",
 		"%{IncludeDir.assimp}",
+		"%{IncludeDir.stb}",
+		"%{IncludeDir.gli}",
+		"%{IncludeDir.glm}",
 		"%{IncludeDir.zlib}",
 	}
 

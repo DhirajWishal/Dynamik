@@ -21,12 +21,13 @@ namespace Dynamik
          Vulkan renderable mesh
         */
         struct DMK_API VulkanRenderableMesh {
-            VulkanDescriptorContainer descriptor;
+            VulkanDescriptor descriptor;
+            VulkanTexture texture;
             VulkanPipelineContainer pipeline;
-            VulkanBuffer vertexBuffer;
-            VulkanBuffer indexBuffer;
-            UI32 vertexCount = 0;
-            UI32 indexCount = 0;
+            ARRAY<VulkanBuffer> uniformBuffers;
+            POINTER<DMKMeshComponent> meshComponent;
+            UI64 vertexOffset = 0;
+            UI64 indexOffset = 0;
         };
 
         /*

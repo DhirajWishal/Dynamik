@@ -153,7 +153,7 @@ namespace Dynamik
 			{
 				VulkanImage _vImage;
 				_vImage.image = _image;
-				_vImage.imageFormat = format;
+				_vImage.format = format;
 				_vImage.layers = 1;
 				_vImage.mipLevel = 1;
 				images.pushBack(_vImage);

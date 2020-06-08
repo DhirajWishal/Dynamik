@@ -43,21 +43,6 @@ namespace Dynamik
 		};
 
 		/*
-		 Vulkan mesh component
-		*/
-		struct DMK_API VulkanMeshComponent {
-			POINTER<DMKMeshComponent> parentMeshComponent;
-
-			VulkanBuffer vertexBuffer;
-			VulkanBuffer indexBuffer;
-			VulkanDescriptorContainer descriptor;
-			VulkanPipelineContainer pipeline;
-
-			UI32 vertexCount = 0;
-			UI32 indexCount = 0;
-		};
-
-		/*
 		 Vulkan Renderer Backend Layer for the Dynamik Engine
 		 This handles all the rendering backend tasks by using the Vulkan API.
 		*/
@@ -80,6 +65,9 @@ namespace Dynamik
 			void submitRenderables() override;
 
 			void terminateRenderingContext() override;
+
+		private:
+			void _initializeBuffers();
 
 		private:
 			DMKSampleCount myMsaaSampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_64_BIT;
@@ -112,11 +100,20 @@ namespace Dynamik
 			ARRAY<VulkanRenderPassSubpass> _getRenderSubPass(const DMKRenderContextType& contextType);
 
 			/* Descriptor Manager */
-			VulkanDescriptorSetManager myActiveDescriptorManager;
+			VulkanDescriptorSetManager myDescriptorManager;
+
+			/* Pipeline Manager */
+			VulkanPipelineManager myPipelineManager;
 
 			/* Render asset store */
-			ARRAY<VulkanRenderableMesh> submitPendingMeshes;
-			ARRAY<VulkanRenderableMesh> inFlightMeshes;
+			ARRAY<VulkanRenderAsset> submitPendingAsset;
+			ARRAY<VulkanRenderAsset> inFlightAsset;
+
+			/* Avtive buffers */
+			VulkanBuffer myActiveVertexBuffer;
+			VulkanBuffer myActiveIndexBuffer;
+			UI64 vertexBufferSize = 0;
+			UI64 indexBufferSize = 0;
 		};
 	}
 }

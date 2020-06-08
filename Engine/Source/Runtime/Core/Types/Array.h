@@ -915,6 +915,21 @@ namespace Dynamik
 			return _newArr;
 		}
 
+		/* FUNCTION
+		 * Return the first index of the required data.
+		 * Return -1 if not found.
+		 *
+		 * @param data: The value to be checked.
+		 */
+		const I64 indexOf(const TYPE& data) const
+		{
+			for (I64 index = 0; index < size(); index++)
+				if (at(index) == data)
+					return index;
+
+			return -1;
+		}
+
 		/* PUBLIC OPERATORS */
 	public:
 		/* OPERATOR

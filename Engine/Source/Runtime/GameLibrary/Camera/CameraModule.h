@@ -12,6 +12,12 @@
 
 namespace Dynamik
 {
+	/* Camera matrix */
+	struct DMK_API DMKCameraMatrix {
+		MAT4F view = MAT4F(1.0f);
+		MAT4F projection = MAT4F(1.0f);
+	};
+
 	/*
 	 Camera module for the Dynamik Engine.
 	*/
@@ -22,8 +28,7 @@ namespace Dynamik
 
 		virtual void update(const DMKEventBuffer& eventBuffer);
 
-		MAT4F viewMatrix = MAT4F(1.0f);
-		MAT4F projectionMatrix = MAT4F(1.0f);
+		DMKCameraMatrix matrix;
 
 		VEC3F position = { 0.0f, 0.0f, 0.0f };
 		VEC3F front = { 0.0f, 0.0f, 1.0f };

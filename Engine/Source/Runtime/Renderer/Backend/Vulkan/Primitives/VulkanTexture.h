@@ -9,7 +9,7 @@
 #include "../Common/VulkanDevice.h"
 #include "../Common/VulkanQueue.h"
 
-#include "ComponentSystem/Components/TextureComponent.h"
+#include "Object/Resource/Texture.h"
 
 #include "VulkanImage.h"
 #include "VulkanImageSampler.h"
@@ -19,12 +19,17 @@ namespace Dynamik
 {
     namespace Backend
     {
+        /*
+         Vulkan Texture object for the Dynamik RBL
+        */
         class DMK_API VulkanTexture {
         public:
             VulkanTexture() {}
             ~VulkanTexture() {}
 
-            void initialize(const VulkanDevice& vDevice, const VulkanQueue& vQueue, const DMKTextureComponent& textureComponent);
+            void initialize(const VulkanDevice& vDevice, const VulkanQueue& vQueue, POINTER<DMKTexture> textureComponent);
+            void initializeView(const VulkanDevice& vDevice);
+            void initializeSampler(const VulkanDevice& vDevice);
             void terminate(const VulkanDevice& vDevice);
 
             operator VulkanImage() const;
@@ -34,6 +39,7 @@ namespace Dynamik
             VulkanImage image;
             VulkanImageView imageView;
             VulkanImageSampler sampler;
+            POINTER<DMKTexture> texture;
         };
     }
 }

@@ -187,11 +187,30 @@ namespace Dynamik
 			pipelineInfo.pTessellationState = nullptr;
 			pipelineInfo.layout = _container.layout;
 			pipelineInfo.renderPass = info.vRenderPass;
+			pipelineInfo.flags = VK_PIPELINE_CREATE_ALLOW_DERIVATIVES_BIT;
 
 			if (info.dynamicStateEnable)
 				pipelineInfo.pDynamicState = &dynamicStateInfo;
 
-			DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(vDevice, info.pipelineCache, 1, &pipelineInfo, VK_NULL_HANDLE, &_container.pipeline), "Failed to create graphics pipeline!");
+			if (myAllocatedInitInfos.find(info).size())
+			{
+				auto _cache = myGraphicsPipelineCache[myAllocatedInitInfos.indexOf(info)];
+				pipelineInfo.basePipelineHandle = _cache.basePipeline;
+				pipelineInfo.basePipelineIndex = -1;
+				pipelineInfo.flags = VK_PIPELINE_CREATE_DERIVATIVE_BIT;
+				DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(vDevice, info.pipelineCache, 1, &pipelineInfo, VK_NULL_HANDLE, &_container.pipeline), "Failed to create graphics pipeline!");
+			}
+			else
+			{
+				DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(vDevice, info.pipelineCache, 1, &pipelineInfo, VK_NULL_HANDLE, &_container.pipeline), "Failed to create graphics pipeline!");
+
+				VulkanPipelineCache<VulkanGraphicsPipelineInitInfo> _cache;
+				_cache.basePipeline = _container.pipeline;
+				_cache.basePipelineLayout = _container.layout;
+				_cache.initInfo = info;
+				myGraphicsPipelineCache.pushBack(_cache);
+				myAllocatedInitInfos.pushBack(info);
+			}
 
 			return _container;
 		}

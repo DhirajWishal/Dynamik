@@ -247,26 +247,41 @@ namespace Dynamik
 
 		void VulkanRBL::initializeEntity(POINTER<DMKGameEntity> entity)
 		{
-			for (auto _meshComponent : entity->componentManager.getComponentArray<DMKMeshComponent>()->myComponents)
+			VulkanRenderAsset _asset;
+
+			for (UI64 index = 0; index < entity->componentManager.getComponentArray<DMKMeshComponent>()->myComponents.size(); index++)
 			{
+				auto _meshComponent = entity->componentManager.getComponentArray<DMKMeshComponent>()->myComponents[index];
+
 				VulkanRenderableMesh vMeshComponet;
+				vMeshComponet.meshComponent = &entity->componentManager.getComponentArray<DMKMeshComponent>()->myComponents[index];
 
 				/* Create vertex buffer */
-				vMeshComponet.vertexBuffer.initialize(myDevice, BufferType::BUFFER_TYPE_VERTEX, _meshComponent.getVertexBufferObjectByteSize());
-				_meshComponent.packData(vMeshComponet.vertexBuffer.mapMemory(myDevice));
-				vMeshComponet.vertexBuffer.unmapMemory(myDevice);
-				vMeshComponet.vertexCount = _meshComponent.rawVertexBufferObject.size();
+				vMeshComponet.vertexOffset = vertexBufferSize;
+				vertexBufferSize += _meshComponent.getVertexBufferObjectByteSize();
 
 				/* Create index buffer */
-				vMeshComponet.indexBuffer.initialize(myDevice, BufferType::BUFFER_TYPE_INDEX, _meshComponent.getIndexBufferObjectByteSize());
-				DMKMemoryFunctions::moveData(vMeshComponet.indexBuffer.mapMemory(myDevice), _meshComponent.indexBufferObject.data(), _meshComponent.indexBufferObject.typeSize() * _meshComponent.indexBufferObject.size());
-				vMeshComponet.indexCount = _meshComponent.indexBufferObject.size();
+				vMeshComponet.indexOffset = indexBufferSize;
+				indexBufferSize += _meshComponent.getIndexBufferObjectByteSize();
 
 				/* Create textures */
+				vMeshComponet.texture.initialize(myDevice, myQueues, _meshComponent.texture);
+				vMeshComponet.texture.initializeView(myDevice);
+				vMeshComponet.texture.initializeSampler(myDevice);
 
 				/* Create uniform buffer */
+				for (auto _uniformBufferObject : _meshComponent.uniformBufferObjects)
+				{
+					VulkanBuffer _uniformBuffer;
+					_uniformBuffer.initialize(myDevice, BufferType::BUFFER_TYPE_UNIFORM, _uniformBufferObject.myDescription.getUniformSize());
+
+					vMeshComponet.uniformBuffers.pushBack(_uniformBuffer);
+				}
 
 				/* Create descriptor */
+				auto [ubo, descriptor] = myDescriptorManager.createCameraDescriptor(myDevice);
+				vMeshComponet.descriptor = descriptor;
+				vMeshComponet.uniformBuffers.pushBack(ubo);
 
 				/* Create pipeline */
 				ARRAY<VulkanShader> vShaders;
@@ -286,12 +301,15 @@ namespace Dynamik
 				pipelineInitInfo.swapChainExtent = myActiveContext.vSwapChain.extent;
 				pipelineInitInfo.shaders = vShaders;
 
+				pipelineInitInfo.descriptorLayouts;
+
 				pipelineInitInfo.multisamplerMsaaSamples = (VkSampleCountFlagBits)myMsaaSampleCount;
-				VulkanPipelineManager vPipelineManager;
-				vMeshComponet.pipeline = vPipelineManager.createGraphicsPipeline(myDevice, pipelineInitInfo);
-			
-				submitPendingMeshes.pushBack(vMeshComponet);
+				vMeshComponet.pipeline = myPipelineManager.createGraphicsPipeline(myDevice, pipelineInitInfo);
+
+				_asset.meshes.pushBack(vMeshComponet);
 			}
+
+			submitPendingAsset.pushBack(_asset);
 		}
 
 		void VulkanRBL::initializeEntities(ARRAY<POINTER<DMKGameEntity>> entities)
@@ -301,6 +319,8 @@ namespace Dynamik
 
 		void VulkanRBL::initializeFinalComponents()
 		{
+			_initializeBuffers();
+
 			myActiveContext.vCommandBuffer.initializeCommandPool(myDevice, myQueues);
 			myActiveContext.vCommandBuffer.allocateCommandBuffers(myDevice, myActiveContext.vSwapChain.images.size());
 
@@ -310,26 +330,27 @@ namespace Dynamik
 				_buffer = myActiveContext.vCommandBuffer.beginCommandBufferRecording(myDevice, index);
 				myActiveContext.vCommandBuffer.beginRenderPass(myDevice, myActiveContext.vRenderPass, myActiveContext.vFrameBuffer, myActiveContext.vSwapChain, index);
 
-				for (auto _mesh : submitPendingMeshes)
+				VkDeviceSize _offsets[1] = { 0 };
+				vkCmdBindVertexBuffers(_buffer, 0, 1, &myActiveVertexBuffer.buffer, _offsets);
+				vkCmdBindIndexBuffer(_buffer, myActiveIndexBuffer, 0, VK_INDEX_TYPE_UINT32);
+
+				for (auto _asset : submitPendingAsset)
 				{
-					vkCmdBindPipeline(_buffer, _mesh.pipeline.bindPoint, _mesh.pipeline.pipeline);
+					for (auto _mesh : _asset.meshes)
+					{
+						vkCmdBindPipeline(_buffer, _mesh.pipeline.bindPoint, _mesh.pipeline.pipeline);
 
-					VkDeviceSize _offsets[1] = { 0 };
-
-					vkCmdBindVertexBuffers(_buffer, 0, 1, &_mesh.vertexBuffer.buffer, _offsets);
-					//vkCmdDraw(_buffer, _asset.vertexCount, 1, 0, 0);
-
-					vkCmdBindIndexBuffer(_buffer, _mesh.indexBuffer, 0, VK_INDEX_TYPE_UINT32);
-
-					vkCmdDrawIndexed(_buffer, _mesh.indexCount, 1, 0, 0, 0);
+						//vkCmdDraw(_buffer, _asset.vertexCount, 1, 0, 0);
+						vkCmdDrawIndexed(_buffer, _mesh.meshComponent->indexBufferObject.size(), 1, _mesh.indexOffset, _mesh.vertexOffset, 0);
+					}
 				}
 
 				myActiveContext.vCommandBuffer.endRenderPass(_buffer);
 				myActiveContext.vCommandBuffer.endCommandBufferRecording(myDevice, _buffer);
 			}
 
-			inFlightMeshes = submitPendingMeshes;
-			submitPendingMeshes.clear();
+			inFlightAsset = submitPendingAsset;
+			submitPendingAsset.clear();
 
 			if (!isSyncObjectsInitialized)
 				myActiveContext.vSyncObjects.initialize(myDevice);
@@ -391,6 +412,27 @@ namespace Dynamik
 				_context.vRenderPass.terminate(myDevice);
 				_context.vSwapChain.terminate(myDevice);
 			}
+		}
+
+		void VulkanRBL::_initializeBuffers()
+		{
+			myActiveVertexBuffer.initialize(myDevice, BufferType::BUFFER_TYPE_VERTEX, vertexBufferSize);
+			POINTER<BYTE> vertexPtr = myActiveVertexBuffer.mapMemory(myDevice);
+
+			myActiveIndexBuffer.initialize(myDevice, BufferType::BUFFER_TYPE_INDEX, indexBufferSize);
+			POINTER<BYTE> indexPtr = myActiveIndexBuffer.mapMemory(myDevice);
+
+			for (auto _asset : submitPendingAsset)
+			{
+				for (auto _mesh : _asset.meshes)
+				{
+					_mesh.meshComponent->packData((vertexPtr + _mesh.vertexOffset));
+					DMKMemoryFunctions::moveData(indexPtr + _mesh.indexOffset, _mesh.meshComponent->indexBufferObject.data(), _mesh.meshComponent->getIndexBufferObjectByteSize());
+				}
+			}
+
+			myActiveVertexBuffer.unmapMemory(myDevice);
+			myActiveIndexBuffer.unmapMemory(myDevice);
 		}
 
 		B1 VulkanRBL::_checkNewContextValidity(const DMKRenderContextType& type)

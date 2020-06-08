@@ -12,6 +12,9 @@ namespace Dynamik
 {
     namespace Backend
     {
+        /*
+         Image sampler create info
+        */
         struct DMK_API VulkanImageSamplerCreateInfo {
             ImageSamplerFilter magFilter = ImageSamplerFilter::IMAGE_SAMPLER_FILTER_LINEAR;
             ImageSamplerFilter minFilter = ImageSamplerFilter::IMAGE_SAMPLER_FILTER_LINEAR;

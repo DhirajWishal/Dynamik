@@ -10,21 +10,21 @@ namespace Dynamik
 			VkImageViewCreateInfo createInfo;
 			createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 			createInfo.image = vImage;
-			createInfo.format = vImage.imageFormat;
+			createInfo.format = vImage.format;
 			createInfo.pNext = VK_NULL_HANDLE;
 
 			switch (vImage.type)
 			{
-			case Dynamik::ImageType::IMAGE_TYPE_2D:
+			case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_2D:
 				createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
 				break;
-			case Dynamik::ImageType::IMAGE_TYPE_2D_ARRAY:
+			case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_2D_ARRAY:
 				createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D_ARRAY;
 				break;
-			case Dynamik::ImageType::IMAGE_TYPE_CUBEMAP:
+			case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP:
 				createInfo.viewType = VK_IMAGE_VIEW_TYPE_CUBE;
 				break;
-			case Dynamik::ImageType::IMAGE_TYPE_CUBEMAP_ARRAY:
+			case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP_ARRAY:
 				createInfo.viewType = VK_IMAGE_VIEW_TYPE_CUBE_ARRAY;
 				break;
 			default:

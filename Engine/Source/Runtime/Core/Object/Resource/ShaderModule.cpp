@@ -19,4 +19,14 @@ namespace Dynamik
 
 		file.close();
 	}
+	
+	void DMKShaderModule::addResource(DMKUniformType type, UI32 binding, UI32 offset)
+	{
+		DMKShaderResource _resource;
+		_resource.type = type;
+		_resource.binding = binding;
+		_resource.offset = offset;
+
+		layout.resources.pushBack(_resource);
+	}
 }

@@ -9,6 +9,8 @@ namespace Dynamik
 		{
 			VkSamplerCreateInfo sInfo;
 			sInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
+			sInfo.pNext = VK_NULL_HANDLE;
+			sInfo.flags = VK_NULL_HANDLE;
 			sInfo.magFilter = (VkFilter)info.magFilter;
 			sInfo.minFilter = (VkFilter)info.minFilter;
 			sInfo.addressModeU = (VkSamplerAddressMode)info.addressModeU;

@@ -4,6 +4,12 @@
     <Filter Include="Runtime">
       <UniqueIdentifier>{4995DAC4-B574-5960-BE8C-E4362AEBBFC1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Runtime\ComponentSystem">
+      <UniqueIdentifier>{D0ECAF7E-3C24-F815-452E-5C39B1E41E0F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\ComponentSystem\Components">
+      <UniqueIdentifier>{E52F4D10-D16B-507A-3A7E-687126D9F894}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Runtime\Core">
       <UniqueIdentifier>{416F811B-2DD2-10C0-D657-4976C299DC42}</UniqueIdentifier>
     </Filter>
@@ -40,6 +46,9 @@
     <Filter Include="Runtime\Core\Object\Resource">
       <UniqueIdentifier>{9E373B27-8AF2-2AD3-33AA-A31D1F447563}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Runtime\Core\Object\Resource\Textures">
+      <UniqueIdentifier>{317BDBA4-9D3F-DA94-66A5-0A5FD22876CA}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Runtime\Core\PCH">
       <UniqueIdentifier>{CB4A54D1-B743-7323-E075-58A8CCCD522F}</UniqueIdentifier>
     </Filter>
@@ -58,20 +67,20 @@
     <Filter Include="Runtime\GameLibrary">
       <UniqueIdentifier>{07903BF5-73F1-1803-FC5E-5FB568BF4FC2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Runtime\GameLibrary\Attachments">
-      <UniqueIdentifier>{12524F01-7E35-5E41-8738-8C7DF39A2492}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Runtime\GameLibrary\Camera">
       <UniqueIdentifier>{9FF6B9A7-8B06-6678-F4BF-CA96E0EE5411}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Runtime\GameLibrary\GameAssets">
-      <UniqueIdentifier>{833166EA-6F57-3051-589D-B51C4462551D}</UniqueIdentifier>
+    <Filter Include="Runtime\GameLibrary\Entities">
+      <UniqueIdentifier>{9BA0E84F-875B-D8FB-3013-51461CAD228C}</UniqueIdentifier>
     </Filter>
     <Filter Include="Runtime\GameLibrary\GameObjects">
       <UniqueIdentifier>{7ADD9044-E6C0-9F84-EFC3-CDC05B2666D5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Runtime\GameLibrary\Mechanics">
       <UniqueIdentifier>{618A4782-CDA2-2EAC-964F-BE450227C345}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\GameLibrary\Utilities">
+      <UniqueIdentifier>{32A9CCD5-9EC1-B3FF-676E-4399D3454899}</UniqueIdentifier>
     </Filter>
     <Filter Include="Runtime\Importer">
       <UniqueIdentifier>{6ACD1ABD-56C6-390F-7FF8-1E946B50191B}</UniqueIdentifier>
@@ -90,12 +99,6 @@
     </Filter>
     <Filter Include="Runtime\Managers">
       <UniqueIdentifier>{4659B9CC-3252-D81E-5B84-BDA347DCB72A}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Runtime\Managers\Attachment">
-      <UniqueIdentifier>{9E3D5E37-0A4B-8C1D-9331-8808FF3D58D4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Runtime\Managers\GameComponent">
-      <UniqueIdentifier>{E2562B29-CE7C-F58F-B7C2-7A5BA3871A5C}</UniqueIdentifier>
     </Filter>
     <Filter Include="Runtime\Managers\Thread">
       <UniqueIdentifier>{ED1C188D-5954-6024-625E-C447CE14871D}</UniqueIdentifier>
@@ -156,6 +159,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Runtime\ComponentSystem\Component.h">
+      <Filter>Runtime\ComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\ComponentSystem\ComponentArray.h">
+      <Filter>Runtime\ComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\ComponentSystem\ComponentManager.h">
+      <Filter>Runtime\ComponentSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\ComponentSystem\Components\MeshComponent.h">
+      <Filter>Runtime\ComponentSystem\Components</Filter>
+    </ClInclude>
     <ClInclude Include="Runtime\Core\Error\ErrorDefines.h">
       <Filter>Runtime\Core\Error</Filter>
     </ClInclude>
@@ -261,6 +276,18 @@
     <ClInclude Include="Runtime\Core\Object\Resource\Primitives.h">
       <Filter>Runtime\Core\Object\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Runtime\Core\Object\Resource\ShaderModule.h">
+      <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Object\Resource\Texture.h">
+      <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Object\Resource\Textures\Texture2D.h">
+      <Filter>Runtime\Core\Object\Resource\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Object\Resource\Textures\TextureFactory.h">
+      <Filter>Runtime\Core\Object\Resource\Textures</Filter>
+    </ClInclude>
     <ClInclude Include="Runtime\Core\Object\System.h">
       <Filter>Runtime\Core\Object</Filter>
     </ClInclude>
@@ -271,6 +298,9 @@
       <Filter>Runtime\Core\Types</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\Core\Types\DataTypes.h">
+      <Filter>Runtime\Core\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Core\Types\HashMap.h">
       <Filter>Runtime\Core\Types</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\Core\Types\Pointer.h">
@@ -312,6 +342,9 @@
     <ClInclude Include="Runtime\GameLibrary\Camera\CameraModule.h">
       <Filter>Runtime\GameLibrary\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Runtime\GameLibrary\Entities\PlayerEntity.h">
+      <Filter>Runtime\GameLibrary\Entities</Filter>
+    </ClInclude>
     <ClInclude Include="Runtime\GameLibrary\GameEntity.h">
       <Filter>Runtime\GameLibrary</Filter>
     </ClInclude>
@@ -332,6 +365,9 @@
     </ClInclude>
     <ClInclude Include="Runtime\GameLibrary\Mechanics\PlayerController.h">
       <Filter>Runtime\GameLibrary\Mechanics</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\GameLibrary\Utilities\MeshFactory.h">
+      <Filter>Runtime\GameLibrary\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\Importer\Asset\MeshImporter.h">
       <Filter>Runtime\Importer\Asset</Filter>
@@ -477,24 +513,18 @@
     <ClInclude Include="Studio\GUI\GUIManager\GUIManager.h">
       <Filter>Studio\GUI\GUIManager</Filter>
     </ClInclude>
-    <ClInclude Include="Studio\Studio.h" />
-    <ClInclude Include="Runtime\GameLibrary\Entities\PlayerEntity.h" />
-    <ClInclude Include="Runtime\ComponentSystem\ComponentManager.h" />
-    <ClInclude Include="Runtime\ComponentSystem\Component.h" />
-    <ClInclude Include="Runtime\ComponentSystem\Components\MeshComponent.h">
-      <Filter>Runtime\Core\Object\Resource</Filter>
+    <ClInclude Include="Studio\Studio.h">
+      <Filter>Studio</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\ComponentSystem\Components\TextureComponent.h">
-      <Filter>Runtime\Core\Object\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Runtime\ComponentSystem\ComponentArray.h" />
-    <ClInclude Include="Runtime\Core\Object\Resource\ShaderModule.h">
-      <Filter>Runtime\Core\Object\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Runtime\Core\Types\HashMap.h" />
-    <ClInclude Include="Runtime\GameLibrary\Utilities\MeshFactory.h" />
+    <ClInclude Include="Runtime\Tools\Shader\Vulkan\AssemblerSPIRV.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Runtime\ComponentSystem\ComponentManager.cpp">
+      <Filter>Runtime\ComponentSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\ComponentSystem\Components\MeshComponent.cpp">
+      <Filter>Runtime\ComponentSystem\Components</Filter>
+    </ClCompile>
     <ClCompile Include="Runtime\Core\Error\ErrorManager.cpp">
       <Filter>Runtime\Core\Error</Filter>
     </ClCompile>
@@ -557,6 +587,18 @@
     </ClCompile>
     <ClCompile Include="Runtime\Core\Object\Resource\Primitives.cpp">
       <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Object\Resource\ShaderModule.cpp">
+      <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Object\Resource\Texture.cpp">
+      <Filter>Runtime\Core\Object\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Object\Resource\Textures\Texture2D.cpp">
+      <Filter>Runtime\Core\Object\Resource\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Core\Object\Resource\Textures\TextureFactory.cpp">
+      <Filter>Runtime\Core\Object\Resource\Textures</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Core\PCH\dmkafx.cpp">
       <Filter>Runtime\Core\PCH</Filter>
@@ -690,20 +732,12 @@
     <ClCompile Include="Studio\GUI\GUIManager\GUIManager.cpp">
       <Filter>Studio\GUI\GUIManager</Filter>
     </ClCompile>
+    <ClCompile Include="Studio\Studio.cpp">
+      <Filter>Studio</Filter>
+    </ClCompile>
     <ClCompile Include="Studio\main.cpp">
       <Filter>Studio</Filter>
     </ClCompile>
-    <ClCompile Include="Runtime\ComponentSystem\Components\MeshComponent.cpp">
-      <Filter>Runtime\Core\Object\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Runtime\ComponentSystem\Components\TextureComponent.cpp">
-      <Filter>Runtime\Core\Object\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Runtime\ComponentSystem\ComponentManager.cpp" />
-    <ClCompile Include="Runtime\Core\Object\Resource\ShaderModule.cpp">
-      <Filter>Runtime\Core\Object\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Studio\Studio.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />
