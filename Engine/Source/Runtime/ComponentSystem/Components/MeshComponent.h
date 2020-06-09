@@ -12,7 +12,7 @@
  Date:      15/05/2020
 */
 #include "../Component.h"
-#include "Object/Resource/Primitives.h"
+#include "Core/Object/Resource/ShaderModule.h"
 #include "Object/Resource/Textures/TextureFactory.h"
 
 namespace Dynamik
@@ -72,6 +72,9 @@ namespace Dynamik
 		*/
 		void packData(VPTR location);
 
+		void setMatrix(const MAT4F& matrix);
+		MAT4F getMatrix();
+
 	public:		/* Public Data Store */
 		ARRAY<DMKVertexObject> rawVertexBufferObject;
 
@@ -81,7 +84,10 @@ namespace Dynamik
 		ARRAY<UI32> indexBufferObject;
 		POINTER<DMKTexture> texture;
 
+	public:		/* Matrix */
+		MAT4F modelMatrix;
 
+	public:		/* Descriptors */
 		DMKVertexBufferDescriptor vertexDescriptor;
 		DMKDataType indexBufferType = DMKDataType::DMK_DATA_TYPE_UI32;
 		DMKMeshComponentUsage usage = DMKMeshComponentUsage::DMK_MESH_COMPONENT_USAGE_STATIC;

@@ -8,6 +8,7 @@
 */
 #include "../../Components/RenderAsset.h"
 
+#include "../Common/VulkanDescriptorSetManager.h"
 #include "../Common/VulkanPipelineManager.h"
 #include "../Primitives/VulkanBuffer.h"
 #include "../Primitives/VulkanTexture.h"

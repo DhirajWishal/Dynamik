@@ -52,7 +52,7 @@ namespace Dynamik
 
 			if (!componentTypes.find(componentName).size())
 			{
-				DMKErrorManager::issueWarnBox(DMK_TEXT("Requested component does not exist! Creating a new component."));
+				DMKErrorManager::logWarn(DMK_TEXT("Requested component does not exist! Creating a new component."));
 				registerComponent<COMPONENT>();
 			}
 

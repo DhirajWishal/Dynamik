@@ -67,6 +67,16 @@ namespace Dynamik
 		}
 	}
 
+	void DMKMeshComponent::setMatrix(const MAT4F& matrix)
+	{
+		modelMatrix = matrix;
+	}
+
+	MAT4F DMKMeshComponent::getMatrix()
+	{
+		return modelMatrix;
+	}
+
 	ARRAY<DMKMeshComponent> DMKMeshComponent::create(STRING path, ARRAY<DMKUniformDescription> uniformDescriptors)
 	{
 		auto mesh = DMKMeshImporter::loadMeshes(path);

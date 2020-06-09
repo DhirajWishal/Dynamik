@@ -7,6 +7,7 @@
  Date:		08/06/2020
 */
 #include "Core/Macros/Global.h"
+#include "Types/Array.h"
 
 namespace Dynamik
 {
@@ -19,6 +20,8 @@ namespace Dynamik
 		public:
 			AssemblerSPIRV() {}
 			~AssemblerSPIRV() {}
+
+			ARRAY<CHR> getCodeSPIRV(const STRING& glslCode);
 		};
 	}
 }

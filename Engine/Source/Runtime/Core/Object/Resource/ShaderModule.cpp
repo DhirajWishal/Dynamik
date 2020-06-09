@@ -15,7 +15,7 @@ namespace Dynamik
 		I64 fileSize = (I64)file.tellg();
 		shaderCode.resize(fileSize);
 		file.seekg(0);
-		file.read(shaderCode.data(), fileSize);
+		file.read((CPTR)shaderCode.data(), fileSize);
 
 		file.close();
 	}

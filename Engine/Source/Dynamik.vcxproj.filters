@@ -10,6 +10,9 @@
     <Filter Include="Runtime\ComponentSystem\Components">
       <UniqueIdentifier>{E52F4D10-D16B-507A-3A7E-687126D9F894}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Runtime\ComponentSystem\SubComponent">
+      <UniqueIdentifier>{9CDC23AE-88C3-E5A5-3114-4CC31DDA5E0C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Runtime\Core">
       <UniqueIdentifier>{416F811B-2DD2-10C0-D657-4976C299DC42}</UniqueIdentifier>
     </Filter>
@@ -136,6 +139,15 @@
     <Filter Include="Runtime\Renderer\Components">
       <UniqueIdentifier>{C45871F6-3066-9FDC-B94C-9BC725596B93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Runtime\Tools">
+      <UniqueIdentifier>{89ECE28C-F5AC-5EC3-BEE7-A7402A67A39F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Tools\Shader">
+      <UniqueIdentifier>{0F883A05-FB16-C4CE-A435-D8C990A3D474}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Runtime\Tools\Shader\Vulkan">
+      <UniqueIdentifier>{AF0EFC63-1B1C-2A4A-A402-2635100FF600}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Runtime\Window">
       <UniqueIdentifier>{10B6D22F-FC83-C635-E517-375CD184A29A}</UniqueIdentifier>
     </Filter>
@@ -170,6 +182,15 @@
     </ClInclude>
     <ClInclude Include="Runtime\ComponentSystem\Components\MeshComponent.h">
       <Filter>Runtime\ComponentSystem\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\ComponentSystem\SubComponent\SubComponent.h">
+      <Filter>Runtime\ComponentSystem\SubComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\ComponentSystem\SubComponent\SubComponentArray.h">
+      <Filter>Runtime\ComponentSystem\SubComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\ComponentSystem\SubComponent\SubComponentManager.h">
+      <Filter>Runtime\ComponentSystem\SubComponent</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\Core\Error\ErrorDefines.h">
       <Filter>Runtime\Core\Error</Filter>
@@ -495,6 +516,12 @@
     <ClInclude Include="Runtime\Renderer\RendererCommand.h">
       <Filter>Runtime\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="Runtime\Tools\Shader\SPIRVTools.h">
+      <Filter>Runtime\Tools\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Tools\Shader\Vulkan\AssemblerSPIRV.h">
+      <Filter>Runtime\Tools\Shader\Vulkan</Filter>
+    </ClInclude>
     <ClInclude Include="Runtime\Window\WindowHandle.h">
       <Filter>Runtime\Window</Filter>
     </ClInclude>
@@ -516,7 +543,6 @@
     <ClInclude Include="Studio\Studio.h">
       <Filter>Studio</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Tools\Shader\Vulkan\AssemblerSPIRV.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\ComponentSystem\ComponentManager.cpp">
@@ -524,6 +550,9 @@
     </ClCompile>
     <ClCompile Include="Runtime\ComponentSystem\Components\MeshComponent.cpp">
       <Filter>Runtime\ComponentSystem\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\ComponentSystem\SubComponent\SubComponentManager.cpp">
+      <Filter>Runtime\ComponentSystem\SubComponent</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Core\Error\ErrorManager.cpp">
       <Filter>Runtime\Core\Error</Filter>
@@ -716,6 +745,12 @@
     </ClCompile>
     <ClCompile Include="Runtime\Renderer\Renderer.cpp">
       <Filter>Runtime\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Tools\Shader\SPIRVTools.cpp">
+      <Filter>Runtime\Tools\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\Tools\Shader\Vulkan\AssemblerSPIRV.cpp">
+      <Filter>Runtime\Tools\Shader\Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Window\WindowHandle.cpp">
       <Filter>Runtime\Window</Filter>

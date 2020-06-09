@@ -10,7 +10,6 @@
 #include "../Primitives/VulkanBuffer.h"
 #include "../Primitives/VulkanTexture.h"
 #include "ComponentSystem/Components/MeshComponent.h"
-#include "../Graphics/VulkanRenderAsset.h"
 
 namespace Dynamik
 {
@@ -53,14 +52,7 @@ namespace Dynamik
 			VulkanDescriptorSetManager() {}
 			~VulkanDescriptorSetManager() {}
 
-			std::pair<VulkanBuffer, VulkanDescriptor> createCameraDescriptor(const VulkanDevice& vDevice, UI32 binding = 0);
-
-			void createDescriptor(const VulkanDevice& vDevice, const DMKUniformBufferDescriptor& descriptor, I64 ID, UI32 setCount);
-
-			void terminateDescriptor(const VulkanDevice& vDevice, I64 ID);
-			void terminate(const VulkanDevice& vDevice);
-
-			VulkanDescriptor createDescriptor(const VulkanDevice& vDevice, VulkanRenderableMesh meshComponent);
+			//VulkanDescriptor createDescriptor(const VulkanDevice& vDevice, VulkanRenderableMesh meshComponent);
 
 		private:
 			B1 _isNewAvailable(I64 ID);

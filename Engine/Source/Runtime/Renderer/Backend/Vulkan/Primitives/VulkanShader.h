@@ -8,7 +8,7 @@
 */
 #include "../Common/VulkanDevice.h"
 
-#include "Core/Object/Resource/Primitives.h"
+#include "Object/Resource/ShaderModule.h"
 
 namespace Dynamik
 {
@@ -25,8 +25,11 @@ namespace Dynamik
             void initialize(const VulkanDevice& vDevice, const DMKShaderModule& shader);
             void terminate(const VulkanDevice& vDevice);
 
+            VkDescriptorSetLayout createDescriptorSetLayout(const VulkanDevice& vDevice);
+
             operator VkShaderModule() const;
 
+            DMKShaderModule parentModule;
             VkShaderModule shaderModule = VK_NULL_HANDLE;
             VkShaderStageFlagBits stageFlag = VkShaderStageFlagBits::VK_SHADER_STAGE_ALL;
         };

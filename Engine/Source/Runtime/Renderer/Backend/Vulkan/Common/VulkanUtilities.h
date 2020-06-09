@@ -7,7 +7,7 @@
  Date:      25/05/2020
 */
 #include "VulkanDevice.h"
-
+#include "Object/Resource/ShaderModule.h"
 #include "Object/Resource/Primitives.h"
 
 namespace Dynamik
@@ -31,6 +31,7 @@ namespace Dynamik
             static VkDescriptorType getDescriptorType(DMKUniformType type);
             static VkShaderStageFlagBits getShaderStage(DMKShaderLocation location);
             static ARRAY<VkDescriptorSetLayoutBinding> getDescriptorSetLayoutBindings(DMKUniformBufferDescriptor descriptor);
+            static ARRAY<VkDescriptorSetLayoutBinding> getDescriptorSetLayoutBindings(ARRAY<DMKShaderModule> modules);
             static ARRAY<VkDescriptorPoolSize> getDescriptorPoolSizes(DMKUniformBufferDescriptor descriptor, UI32 descriptorCount);
         
             static ARRAY<VkVertexInputAttributeDescription> VulkanUtilities::getVertexAttributeDescriptions(DMKVertexBufferDescriptor descriptor);

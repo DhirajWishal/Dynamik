@@ -39,7 +39,7 @@ namespace Dynamik
 
 			if (myMsaaSampleCount > (DMKSampleCount)myDevice.getMaxUsableSampleCount())
 			{
-				DMKErrorManager::issueWarnBox("Pre defined samples are not supported by the GPU. Setting the default to the maximum usable count.");
+				DMKErrorManager::logWarn(DMK_TEXT("Pre defined samples are not supported by the GPU. Setting the default to the maximum usable count."));
 				myMsaaSampleCount = (DMKSampleCount)myDevice.getMaxUsableSampleCount();
 			}
 
@@ -59,7 +59,7 @@ namespace Dynamik
 
 			/* Check if the passed window handle is initialized */
 			if (mySurface.windowID != viewport.windowHandle.getPointerAsInteger())
-				DMK_ERROR_BOX("Invalid viewport! (Window handle is not initialized)");
+				DMKErrorManager::logWarn(DMK_TEXT("Invalid viewport! (Window handle is not initialized)"));
 
 			/* Create the new viewport */
 			VulkanViewport _viewport;
@@ -279,9 +279,7 @@ namespace Dynamik
 				}
 
 				/* Create descriptor */
-				auto [ubo, descriptor] = myDescriptorManager.createCameraDescriptor(myDevice);
-				vMeshComponet.descriptor = descriptor;
-				vMeshComponet.uniformBuffers.pushBack(ubo);
+				//vMeshComponet.descriptor = myDescriptorManager.createDescriptor(myDevice, vMeshComponet);
 
 				/* Create pipeline */
 				ARRAY<VulkanShader> vShaders;
@@ -289,6 +287,7 @@ namespace Dynamik
 				{
 					VulkanShader _vShader;
 					_vShader.initialize(myDevice, _shader);
+					auto _layout = _vShader.createDescriptorSetLayout(myDevice);
 					vShaders.pushBack(_vShader);
 				}
 

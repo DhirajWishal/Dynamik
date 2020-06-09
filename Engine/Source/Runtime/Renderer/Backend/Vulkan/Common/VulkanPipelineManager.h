@@ -125,10 +125,6 @@ namespace Dynamik
 			VulkanPipelineContainer createGraphicsPipeline(const VulkanDevice& vDevice, VulkanGraphicsPipelineInitInfo info);
 			VulkanPipelineContainer createRayTracingPipeline(const VulkanDevice& vDevice, VulkanGraphicsPipelineInitInfo info);
 			VulkanPipelineContainer createComputePipeline(const VulkanDevice& vDevice, VulkanGraphicsPipelineInitInfo info);
-		
-		private:
-			ARRAY<VulkanGraphicsPipelineInitInfo> myAllocatedInitInfos;
-			ARRAY<VulkanPipelineCache<VulkanGraphicsPipelineInitInfo>> myGraphicsPipelineCache;
 		};
 	}
 }

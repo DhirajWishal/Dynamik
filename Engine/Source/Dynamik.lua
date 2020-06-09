@@ -30,6 +30,7 @@ project "Dynamik"
 		"$(SolutionDir)Engine/Source/Runtime/Core/PCH/",
 		"$(SolutionDir)Engine/Source/Runtime/GameLibraries",
 		"$(SolutionDir)Engine/ThirdParty/imgui",
+		"$(SolutionDir)Engine/ThirdParty/SPIRV-Cross",
 		"%{IncludeDir.Vulkan}",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLEW}",
@@ -38,6 +39,7 @@ project "Dynamik"
 		"%{IncludeDir.gli}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.zlib}",
+		"%{IncludeDir.SPIRVTools}",
 	}
 
 	libdirs {
@@ -46,6 +48,7 @@ project "Dynamik"
 		"%{IncludeLib.GLEW}",
 		"%{IncludeLib.Assimp}",
 		"%{IncludeLib.zlib}",
+		"%{IncludeLib.SPIRVTools}",
 	}
 
 	links { 
@@ -55,6 +58,8 @@ project "Dynamik"
 		"vulkan-1",
 		"assimp",
 		"imgui",
+		"SPIRV-Tools",
+		"SPIRV-Cross",
 	}
 
 	filter "system:windows"
