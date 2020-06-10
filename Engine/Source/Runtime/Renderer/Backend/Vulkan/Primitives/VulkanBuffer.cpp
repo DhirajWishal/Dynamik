@@ -66,13 +66,23 @@ namespace Dynamik
 		VPTR VulkanBuffer::mapMemory(const VulkanDevice& vDevice, UI32 offset)
 		{
 			VPTR data = nullptr;
-			DMK_VULKAN_ASSERT(vkMapMemory(vDevice, bufferMemory, offset, size, 0, &data), "Unable to map the buffer memory!");
+			DMK_VULKAN_ASSERT(vkMapMemory(vDevice, bufferMemory, offset, size, VK_NULL_HANDLE, &data), "Unable to map the buffer memory!");
 			return data;
 		}
 
 		void VulkanBuffer::unmapMemory(const VulkanDevice& vDevice)
 		{
 			vkUnmapMemory(vDevice, bufferMemory);
+		}
+
+		VkDescriptorBufferInfo VulkanBuffer::createDescriptorInfo(UI32 offset)
+		{
+			VkDescriptorBufferInfo _info;
+			_info.buffer = buffer;
+			_info.range = size;
+			_info.offset = offset;
+
+			return _info;
 		}
 
 		VulkanBuffer::operator VkBuffer() const

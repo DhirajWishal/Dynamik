@@ -33,6 +33,8 @@ namespace Dynamik
             VPTR mapMemory(const VulkanDevice& vDevice, UI32 offset = 0);
             void unmapMemory(const VulkanDevice& vDevice);
 
+            VkDescriptorBufferInfo createDescriptorInfo(UI32 offset = 0);
+
             operator VkBuffer() const;
             operator VkDeviceMemory() const;
 

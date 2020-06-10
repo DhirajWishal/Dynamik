@@ -7,7 +7,7 @@ namespace Dynamik
 	{
 		UI64 _size = 0;
 		for (auto _attribute : attributes)
-			_size += ((UI32)_attribute.dataType * _attribute.dataCount);
+			_size += ((UI64)_attribute.dataType * _attribute.dataCount);
 
 		return _size;
 	}
@@ -16,7 +16,7 @@ namespace Dynamik
 	{
 		UI64 _size = 0;
 		for (auto _attribute : attributes)
-			_size += ((UI32)_attribute.dataType * _attribute.dataCount);
+			_size += ((UI64)_attribute.dataType * _attribute.dataCount);
 
 		return _size;
 	}
@@ -25,7 +25,7 @@ namespace Dynamik
 	{
 		UI32 _size = 0;
 		for (auto _attribute : attributes)
-			_size += ((UI32)_attribute.dataType * _attribute.dataCount);
+			_size += ((UI64)_attribute.dataType * _attribute.dataCount);
 
 		return _size;
 	}
@@ -102,17 +102,17 @@ namespace Dynamik
 		_description.type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
 		_description.usage = DMKUniformBufferUsage::DMK_UNIFORM_BUFFER_USAGE_CAMERA;
 
+		DMKUniformAttribute _attribute1;
+		_attribute1.attributeType = DMKUniformAttributeType::DMK_UNIFORM_ATTRIBUTE_TYPE_VIEW;
+		_attribute1.dataCount = 1;
+		_attribute1.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
+		_description.attributes.pushBack(_attribute1);
+
 		DMKUniformAttribute _attribute2;
-		_attribute2.attributeType = DMKUniformAttributeType::DMK_UNIFORM_ATTRIBUTE_TYPE_VIEW;
+		_attribute2.attributeType = DMKUniformAttributeType::DMK_UNIFORM_ATTRIBUTE_TYPE_PROJECTION;
 		_attribute2.dataCount = 1;
 		_attribute2.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
 		_description.attributes.pushBack(_attribute2);
-
-		DMKUniformAttribute _attribute3;
-		_attribute3.attributeType = DMKUniformAttributeType::DMK_UNIFORM_ATTRIBUTE_TYPE_PROJECTION;
-		_attribute3.dataCount = 1;
-		_attribute3.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
-		_description.attributes.pushBack(_attribute3);
 
 		return _description;
 	}

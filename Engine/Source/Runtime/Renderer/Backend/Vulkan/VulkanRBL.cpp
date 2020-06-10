@@ -6,6 +6,21 @@
 #include "Context/Attachments/VulkanColorAttachment.h"
 #include "Context/Attachments/VulkanDepthAttachment.h"
 
+#include "Core/Math/MathFunctions.h"
+
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
+#define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES
+#include <glm/glm.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/hash.hpp>
+
 namespace Dynamik
 {
 	namespace Backend
@@ -265,32 +280,58 @@ namespace Dynamik
 				indexBufferSize += _meshComponent.getIndexBufferObjectByteSize();
 
 				/* Create textures */
+				ARRAY<VkDescriptorImageInfo> imageDescriptors;
 				vMeshComponet.texture.initialize(myDevice, myQueues, _meshComponent.texture);
 				vMeshComponet.texture.initializeView(myDevice);
 				vMeshComponet.texture.initializeSampler(myDevice);
+				vMeshComponet.texture.makeRenderable(myDevice, myQueues);
+				imageDescriptors.pushBack(vMeshComponet.texture.createDescriptorInfo());
 
 				/* Create uniform buffer */
+				UI32 bufferOffset = 0;
+				ARRAY<VkDescriptorBufferInfo> bufferDescriptors;
 				for (auto _uniformBufferObject : _meshComponent.uniformBufferObjects)
 				{
 					VulkanBuffer _uniformBuffer;
 					_uniformBuffer.initialize(myDevice, BufferType::BUFFER_TYPE_UNIFORM, _uniformBufferObject.myDescription.getUniformSize());
 
 					vMeshComponet.uniformBuffers.pushBack(_uniformBuffer);
+					bufferDescriptors.pushBack(_uniformBuffer.createDescriptorInfo(bufferOffset));
 				}
 
-				/* Create descriptor */
-				//vMeshComponet.descriptor = myDescriptorManager.createDescriptor(myDevice, vMeshComponet);
+				glm::mat4 _matrices[2];
+				_matrices[0] = glm::lookAt(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+				_matrices[1] = glm::perspective(DMKMathFunctions::radians(45.0f), (F32)myActiveContext.vViewport.width / (F32)myActiveContext.vViewport.height, 0.001f, 256.0f);
+				_matrices[1][1][1] *= -1.0f;
 
-				/* Create pipeline */
+				DMKMemoryFunctions::moveData(vMeshComponet.uniformBuffers[0].mapMemory(myDevice), _matrices, sizeof(MAT4F) * 2);
+				vMeshComponet.uniformBuffers[0].unmapMemory(myDevice);
+
+				MAT4F model = DMKMathFunctions::translate(MAT4F(1.0f), { 0.0f, 0.0f, 10.0f });
+				DMKMemoryFunctions::moveData(vMeshComponet.uniformBuffers[1].mapMemory(myDevice), &model, sizeof(MAT4F));
+				vMeshComponet.uniformBuffers[1].unmapMemory(myDevice);
+
+				/* Resolve shaders */
 				ARRAY<VulkanShader> vShaders;
+				ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> vDescriptorLayoutBindings;
+				ARRAY<ARRAY<VkDescriptorPoolSize>> vDescriptorPoolSizes;
 				for (auto _shader : _meshComponent.renderSpecifications.shaderModules)
 				{
 					VulkanShader _vShader;
 					_vShader.initialize(myDevice, _shader);
-					auto _layout = _vShader.createDescriptorSetLayout(myDevice);
+
+					auto [bindings, sizes] = _vShader.createDescriptorLayoutAndSizes(myDevice);
+					vDescriptorLayoutBindings.pushBack(bindings);
+					vDescriptorPoolSizes.pushBack(sizes);
+
 					vShaders.pushBack(_vShader);
 				}
 
+				/* Create descriptor */
+				vMeshComponet.descriptor = myDescriptorManager.createDescriptor(myDevice, vDescriptorLayoutBindings, vDescriptorPoolSizes);
+				myDescriptorManager.updateDescriptor(myDevice, vMeshComponet.descriptor.set, bufferDescriptors, imageDescriptors, vDescriptorLayoutBindings);
+
+				/* Create pipeline */
 				VulkanGraphicsPipelineInitInfo pipelineInitInfo;
 				pipelineInitInfo.usage = _meshComponent.usage;
 				pipelineInitInfo.vertexBufferDescriptor = _meshComponent.vertexDescriptor;
@@ -300,7 +341,7 @@ namespace Dynamik
 				pipelineInitInfo.swapChainExtent = myActiveContext.vSwapChain.extent;
 				pipelineInitInfo.shaders = vShaders;
 
-				pipelineInitInfo.descriptorLayouts;
+				pipelineInitInfo.descriptorLayouts = { vMeshComponet.descriptor.layout };
 
 				pipelineInitInfo.multisamplerMsaaSamples = (VkSampleCountFlagBits)myMsaaSampleCount;
 				vMeshComponet.pipeline = myPipelineManager.createGraphicsPipeline(myDevice, pipelineInitInfo);
@@ -339,7 +380,8 @@ namespace Dynamik
 					{
 						vkCmdBindPipeline(_buffer, _mesh.pipeline.bindPoint, _mesh.pipeline.pipeline);
 
-						//vkCmdDraw(_buffer, _asset.vertexCount, 1, 0, 0);
+						vkCmdBindDescriptorSets(_buffer, _mesh.pipeline.bindPoint, _mesh.pipeline.layout, 0, 1, &_mesh.descriptor.set, 0, nullptr);
+
 						vkCmdDrawIndexed(_buffer, _mesh.meshComponent->indexBufferObject.size(), 1, _mesh.indexOffset, _mesh.vertexOffset, 0);
 					}
 				}
@@ -415,22 +457,24 @@ namespace Dynamik
 
 		void VulkanRBL::_initializeBuffers()
 		{
+			/* Create vertex buffer */
 			myActiveVertexBuffer.initialize(myDevice, BufferType::BUFFER_TYPE_VERTEX, vertexBufferSize);
 			POINTER<BYTE> vertexPtr = myActiveVertexBuffer.mapMemory(myDevice);
 
+			for (auto _asset : submitPendingAsset)
+				for (auto _mesh : _asset.meshes)
+					_mesh.meshComponent->packData((vertexPtr + _mesh.vertexOffset));
+
+			myActiveVertexBuffer.unmapMemory(myDevice);
+
+			/* Create index buffer */
 			myActiveIndexBuffer.initialize(myDevice, BufferType::BUFFER_TYPE_INDEX, indexBufferSize);
 			POINTER<BYTE> indexPtr = myActiveIndexBuffer.mapMemory(myDevice);
 
 			for (auto _asset : submitPendingAsset)
-			{
 				for (auto _mesh : _asset.meshes)
-				{
-					_mesh.meshComponent->packData((vertexPtr + _mesh.vertexOffset));
 					DMKMemoryFunctions::moveData(indexPtr + _mesh.indexOffset, _mesh.meshComponent->indexBufferObject.data(), _mesh.meshComponent->getIndexBufferObjectByteSize());
-				}
-			}
 
-			myActiveVertexBuffer.unmapMemory(myDevice);
 			myActiveIndexBuffer.unmapMemory(myDevice);
 		}
 

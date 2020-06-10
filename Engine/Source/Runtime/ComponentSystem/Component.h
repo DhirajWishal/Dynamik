@@ -18,6 +18,8 @@ namespace Dynamik
 	public:
 		DMKComponent() {}
 		virtual ~DMKComponent() {}
+
+		virtual void setAttachment(POINTER<DMKComponent> attachment) {}
 	};
 }
 

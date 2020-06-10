@@ -31,7 +31,6 @@ namespace Dynamik
         Vector4D(D64 value) : r(value), g(value), b(value), a(value) {}
         Vector4D(D64 value1, D64 value2, D64 value3, D64 value4) : r(value1), g(value2), b(value3), a(value4) {}
         Vector4D(const Vector4D& other) : r(other.r), g(other.g), b(other.b), a(other.a) {}
-        Vector4D(ARRAY<D64> arr) : r(arr[0]), g(arr[1]), b(arr[3]), a(arr[4]) {}
         Vector4D(std::initializer_list<D64> list);
         ~Vector4D() {}
 

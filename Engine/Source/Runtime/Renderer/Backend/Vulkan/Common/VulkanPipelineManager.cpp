@@ -58,8 +58,10 @@ namespace Dynamik
 				VkViewport viewport = {};
 				viewport.x = (F32)info.viewports[i].xOffset;
 				viewport.y = (F32)info.viewports[i].yOffset;
-				viewport.width = (F32)info.viewports[i].width;
-				viewport.height = (F32)info.viewports[i].height;
+				//viewport.width = (F32)info.viewports[i].width;
+				//viewport.height = (F32)info.viewports[i].height;
+				viewport.width = (F32)info.swapChainExtent.width;
+				viewport.height = (F32)info.swapChainExtent.height;
 				viewport.minDepth = 0.0f;
 				viewport.maxDepth = 1.0f;
 

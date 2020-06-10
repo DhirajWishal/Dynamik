@@ -52,12 +52,10 @@ namespace Dynamik
 			VulkanDescriptorSetManager() {}
 			~VulkanDescriptorSetManager() {}
 
-			//VulkanDescriptor createDescriptor(const VulkanDevice& vDevice, VulkanRenderableMesh meshComponent);
+			VulkanDescriptor createDescriptor(const VulkanDevice& vDevice, ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> layouts, ARRAY<ARRAY<VkDescriptorPoolSize>> poolSizes);
+			void terminateDescriptor(const VulkanDevice& vDevice, const VulkanDescriptor& vDescriptor);
 
-		private:
-			B1 _isNewAvailable(I64 ID);
-
-			ARRAY<VulkanDescriptor> descriptors;
+			void updateDescriptor(const VulkanDevice& vDevice, const VkDescriptorSet vSet, ARRAY<VkDescriptorBufferInfo> bufferInfos, ARRAY<VkDescriptorImageInfo> imageInfos, ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> layouts);
 		};
 	}
 }

@@ -1,5 +1,4 @@
 #include "PlayerMoon.h"
-#include "Tools/Shader/SPIRVTools.h"
 
 void PlayerMoon::initialize()
 {
@@ -9,9 +8,6 @@ void PlayerMoon::initialize()
 	DMKShaderModule _shaderModuleV(DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
 	_shaderModuleV.loadCode(DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/vert.spv"));
 	meshComponent.renderSpecifications.shaderModules.pushBack(_shaderModuleV);
-
-	//Tools::SPIRVTools _tools;
-	//STRING _glslCode = _tools.toGLSL(_shaderModuleV.shaderCode);
 
 	DMKShaderModule _shaderModuleF(DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
 	_shaderModuleF.loadCode(DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/frag.spv"));

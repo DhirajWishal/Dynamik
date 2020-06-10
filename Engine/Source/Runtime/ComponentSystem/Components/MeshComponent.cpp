@@ -7,27 +7,28 @@
 namespace Dynamik
 {
 	/* Get the vertex buffer object byte size */
-	UI32 DMKMeshComponent::getVertexBufferObjectByteSize()
+	UI64 DMKMeshComponent::getVertexBufferObjectByteSize()
 	{
 		return vertexDescriptor.getVertexSize() * rawVertexBufferObject.size();
 	}
 
 	/* Get the index buffer object byte size */
-	UI32 DMKMeshComponent::getIndexBufferObjectByteSize()
+	UI64 DMKMeshComponent::getIndexBufferObjectByteSize()
 	{
-		return (UI32)indexBufferType * indexBufferObject.size();
+		return (UI64)indexBufferType * indexBufferObject.size();
 	}
 
 	/* Pack data to a given location. That location must be pre allocated */
 	void DMKMeshComponent::packData(VPTR location)
 	{
 		POINTER<BYTE> _nextPtr = location;
+		UI64 _byteSize = 0;
 
 		for (auto vertex : rawVertexBufferObject)
 		{
 			for (auto attribute : vertexDescriptor.attributes)
 			{
-				auto _byteSize = ((UI32)attribute.dataType * attribute.dataCount);
+				_byteSize = ((UI64)attribute.dataType * attribute.dataCount);
 				switch (attribute.attributeType)
 				{
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION:
@@ -45,7 +46,7 @@ namespace Dynamik
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL:
 					DMKMemoryFunctions::moveData(_nextPtr.get(), &vertex.normal, _byteSize);
 					break;
-				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_SINTEGRITY:
+				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_INTEGRITY:
 					DMKMemoryFunctions::moveData(_nextPtr.get(), &vertex.integrity, _byteSize);
 					break;
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID:
@@ -62,7 +63,7 @@ namespace Dynamik
 					break;
 				}
 
-				_nextPtr += _byteSize / sizeof(F32);
+				_nextPtr += _byteSize;
 			}
 		}
 	}
@@ -75,6 +76,10 @@ namespace Dynamik
 	MAT4F DMKMeshComponent::getMatrix()
 	{
 		return modelMatrix;
+	}
+
+	void DMKMeshComponent::setAttachment(POINTER<DMKComponent> attachment)
+	{
 	}
 
 	ARRAY<DMKMeshComponent> DMKMeshComponent::create(STRING path, ARRAY<DMKUniformDescription> uniformDescriptors)

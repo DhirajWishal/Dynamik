@@ -30,7 +30,10 @@ namespace Dynamik
             void initialize(const VulkanDevice& vDevice, const VulkanQueue& vQueue, POINTER<DMKTexture> textureComponent);
             void initializeView(const VulkanDevice& vDevice);
             void initializeSampler(const VulkanDevice& vDevice);
+            void makeRenderable(const VulkanDevice& vDevice, const VulkanQueue& vQueue);
             void terminate(const VulkanDevice& vDevice);
+
+            VkDescriptorImageInfo createDescriptorInfo();
 
             operator VulkanImage() const;
             operator VulkanImageView() const;

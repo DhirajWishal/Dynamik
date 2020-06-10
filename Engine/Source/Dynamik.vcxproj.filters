@@ -516,12 +516,6 @@
     <ClInclude Include="Runtime\Renderer\RendererCommand.h">
       <Filter>Runtime\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Tools\Shader\SPIRVTools.h">
-      <Filter>Runtime\Tools\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Runtime\Tools\Shader\Vulkan\AssemblerSPIRV.h">
-      <Filter>Runtime\Tools\Shader\Vulkan</Filter>
-    </ClInclude>
     <ClInclude Include="Runtime\Window\WindowHandle.h">
       <Filter>Runtime\Window</Filter>
     </ClInclude>
@@ -543,6 +537,8 @@
     <ClInclude Include="Studio\Studio.h">
       <Filter>Studio</Filter>
     </ClInclude>
+    <ClInclude Include="Runtime\Tools\Shader\SPIR-V\Disassembler.h" />
+    <ClInclude Include="Runtime\ComponentSystem\Components\CameraComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\ComponentSystem\ComponentManager.cpp">
@@ -746,12 +742,6 @@
     <ClCompile Include="Runtime\Renderer\Renderer.cpp">
       <Filter>Runtime\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Runtime\Tools\Shader\SPIRVTools.cpp">
-      <Filter>Runtime\Tools\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="Runtime\Tools\Shader\Vulkan\AssemblerSPIRV.cpp">
-      <Filter>Runtime\Tools\Shader\Vulkan</Filter>
-    </ClCompile>
     <ClCompile Include="Runtime\Window\WindowHandle.cpp">
       <Filter>Runtime\Window</Filter>
     </ClCompile>
@@ -773,6 +763,7 @@
     <ClCompile Include="Studio\main.cpp">
       <Filter>Studio</Filter>
     </ClCompile>
+    <ClCompile Include="Runtime\Tools\Shader\SPIR-V\Disassembler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

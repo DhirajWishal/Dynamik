@@ -25,7 +25,7 @@ namespace Dynamik
             void initialize(const VulkanDevice& vDevice, const DMKShaderModule& shader);
             void terminate(const VulkanDevice& vDevice);
 
-            VkDescriptorSetLayout createDescriptorSetLayout(const VulkanDevice& vDevice);
+            std::pair<ARRAY<VkDescriptorSetLayoutBinding>, ARRAY<VkDescriptorPoolSize>> createDescriptorLayoutAndSizes(const VulkanDevice& vDevice);
 
             operator VkShaderModule() const;
 

@@ -58,11 +58,26 @@ namespace Dynamik
 			sampler.initialize(vDevice, initInfo);
 		}
 
+		void VulkanTexture::makeRenderable(const VulkanDevice& vDevice, const VulkanQueue& vQueue)
+		{
+			image.setLayout(vDevice, vQueue, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+		}
+
 		void VulkanTexture::terminate(const VulkanDevice& vDevice)
 		{
 			image.terminate(vDevice);
 			imageView.terminate(vDevice);
 			sampler.terminate(vDevice);
+		}
+
+		VkDescriptorImageInfo VulkanTexture::createDescriptorInfo()
+		{
+			VkDescriptorImageInfo _info;
+			_info.imageLayout = VkImageLayout::VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+			_info.imageView = imageView;
+			_info.sampler = sampler;
+
+			return _info;
 		}
 
 		VulkanTexture::operator VulkanImage() const

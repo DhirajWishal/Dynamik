@@ -32,6 +32,7 @@ engineOutputDir = "$(SolutionDir)Builds/Engine/"
 engineOutputBinaryDir = "Binaries/"
 engineOutputIntermediateDir = "Intermediate/"
 
+-- Libraries
 IncludeDir = {}
 IncludeDir["GLFW"] = "$(SolutionDir)Dependencies/Libraries/External/glfw/include"
 IncludeDir["GLEW"] = "$(SolutionDir)Dependencies/GLEW/include"
@@ -41,15 +42,15 @@ IncludeDir["tol"] = "$(SolutionDir)Dependencies/Libraries/External/tinyobjloader
 IncludeDir["gli"] = "$(SolutionDir)Dependencies/Libraries/External/gli/gli"
 IncludeDir["zlib"] = "$(SolutionDir)Dependencies/Libraries/External/zlib/"
 IncludeDir["Vulkan"] = "$(SolutionDir)Dependencies/Libraries/External/Vulkan/include"
-IncludeDir["imgui"] = "$(SolutionDir)Dependencies/Libraries/External/Vulkan/include"
 IncludeDir["SPIRVTools"] = "$(SolutionDir)Dependencies/Libraries/External/SPIRV-Tools/include"
-IncludeDir["SPIRVCross"] = "$(SolutionDir)Dependencies/Libraries/External/SPIRV-Cross/"
+IncludeDir["glslang"] = "$(SolutionDir)Dependencies/Libraries/External/glslang"
 
 IncludeDir["boost"] = "E:/Projects/Dynamik Engine/Libraries/boost_1_70_0"
 IncludeDir["jpeg"] = "$(SolutionDir)Dependencies/Libraries/Local/gil/jpeg-6b"
 IncludeDir["irrKlang"] = "$(SolutionDir)Dependencies/Libraries/Local/irrKlang/include"
 IncludeDir["assimp"] = "$(SolutionDir)Dependencies/Libraries/Local/assimp"
 
+-- Binaries
 IncludeLib = {}
 IncludeLib["GLFW"] = "$(SolutionDir)Dependencies/Libraries/Binaries/GLFW/lib-vc2019"
 IncludeLib["GLEW"] = "$(SolutionDir)Dependencies/Libraries/Binaries/GLEW/Release/x64"
@@ -59,8 +60,9 @@ IncludeLib["irrKlang"] = "$(SolutionDir)Dependencies/Libraries/Binaries/irrKlang
 IncludeLib["boost"] = "E:/Projects/Dynamik Engine/Libraries/boost_1_70_0/stage/lib"
 IncludeLib["Assimp"] = "$(SolutionDir)Dependencies/Libraries/Binaries/Assimp"
 IncludeLib["zlib"] = "$(SolutionDir)Dependencies/Libraries/External/zlib//contrib/vstudio/vc14/x64/ZlibStatRelease"
-IncludeLib["SPIRVTools"] = "$(SolutionDir)Dependencies/Libraries/External/SPIRV-Tools/build/lib"
-IncludeLib["SPIRVCross"] = "$(SolutionDir)Dependencies/Libraries/External/SPIRV-Cross/Release"
+IncludeLib["SPIRVTools"] = "$(SolutionDir)Dependencies/Libraries/External/SPIRV-Tools/lib"
+IncludeLib["glslang"] = "$(SolutionDir)Dependencies/Libraries/External/glslang/lib"
+
 
 group "Engine"	-- Add the Engine to a virtual folder
 include "Engine/Source/Dynamik.lua"

@@ -59,10 +59,10 @@ namespace Dynamik
 		~DMKMeshComponent() {}
 
 		/* Get the total byte size of the vertex buffer object */
-		UI32 getVertexBufferObjectByteSize();
+		UI64 getVertexBufferObjectByteSize();
 
 		/* Get the total byte size of the index buffer object */
-		UI32 getIndexBufferObjectByteSize();
+		UI64 getIndexBufferObjectByteSize();
 
 		/*
 		 Pack all vertex data into a location.
@@ -74,6 +74,8 @@ namespace Dynamik
 
 		void setMatrix(const MAT4F& matrix);
 		MAT4F getMatrix();
+
+		void setAttachment(POINTER<DMKComponent> attachment) override;
 
 	public:		/* Public Data Store */
 		ARRAY<DMKVertexObject> rawVertexBufferObject;
