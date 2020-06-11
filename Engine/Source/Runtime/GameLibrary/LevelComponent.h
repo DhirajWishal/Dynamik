@@ -8,7 +8,6 @@
  Author:	Dhiraj Wishal
  Date:		15/05/2020
 */
-#include "Core/Object/GameComponent.h"
 #include "GameEntity.h"
 #include "GameMechanics.h"
 #include "Camera/CameraModule.h"
@@ -25,12 +24,13 @@ namespace Dynamik
 
 	 By default, this class can be used as an internal level component.
 	*/
-	class DMK_API DMKLevelComponent : public DMKGameComponent {
+	class DMK_API DMKLevelComponent {
 	public:
-		DMKLevelComponent() : DMKGameComponent(DMKGameComponentType::DMK_GAME_COMPONENT_TYPE_LEVEL) {}
+		DMKLevelComponent()  {}
 		virtual ~DMKLevelComponent() {}
 
 		virtual void onLoad() {}
+		virtual void initializeComponents() {}
 		virtual void onUnoad() {}
 
 		/* Game Assets */
@@ -43,7 +43,10 @@ namespace Dynamik
 		POINTER<DMKCameraModule> cameraModule;
 
 		/* Additional Components */
-		DMKComponentManager globalComponentManager;
+		DMKComponentManager sceneComponentManager;
+
+	public:		/* Constant methods */
+		void initializeCameraModule();
 	};
 }
 

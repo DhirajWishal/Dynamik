@@ -3,4 +3,6 @@
 void Level1::onLoad()
 {
 	myEntities.pushBack(&myMoon);
+
+	cameraModule = StaticAllocator<DMKCameraModule>::allocate();
 }

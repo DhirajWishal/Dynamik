@@ -23,7 +23,7 @@ namespace Dynamik
         */
         struct DMK_API VulkanRenderableMesh {
             VulkanDescriptor descriptor;
-            VulkanTexture texture;
+            ARRAY<VulkanTexture> textures;
             VulkanPipelineContainer pipeline;
             ARRAY<VulkanBuffer> uniformBuffers;
             POINTER<DMKMeshComponent> meshComponent;

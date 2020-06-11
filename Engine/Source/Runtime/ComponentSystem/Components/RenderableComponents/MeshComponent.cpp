@@ -73,49 +73,41 @@ namespace Dynamik
 		modelMatrix = matrix;
 	}
 
+	void DMKMeshComponent::update(const MAT4F& matrix)
+	{
+		modelMatrix = matrix;
+	}
+
 	MAT4F DMKMeshComponent::getMatrix()
 	{
 		return modelMatrix;
 	}
 
-	void DMKMeshComponent::setAttachment(POINTER<DMKComponent> attachment)
+	DMKMeshComponent::operator MAT4F() const
 	{
+		return this->modelMatrix;
 	}
 
-	ARRAY<DMKMeshComponent> DMKMeshComponent::create(STRING path, ARRAY<DMKUniformDescription> uniformDescriptors)
+	ARRAY<DMKMeshComponent> DMKMeshComponent::create(STRING path)
 	{
 		auto mesh = DMKMeshImporter::loadMeshes(path);
-
-		for (UI32 index = 0; index < mesh.size(); index++)
-		{
-			for (auto _description : uniformDescriptors)
-			{
-				if (_description.type != DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER)
-					continue;
-
-				DMKUniformBufferObject _ubo;
-				_ubo.myDescription = _description;
-				mesh[index].uniformBufferObjects.pushBack(_ubo);
-			}
-		}
 
 		return mesh;
 	}
 
-	ARRAY<DMKMeshComponent> DMKMeshComponent::create(ARRAY<DMKVertexObject> vertexData, ARRAY<UI32> indexData, DMKVertexBufferDescriptor vertexDescription, ARRAY<DMKUniformDescription> uniformDescriptors)
+	ARRAY<DMKMeshComponent> DMKMeshComponent::create(ARRAY<DMKVertexObject> vertexData, ARRAY<UI32> indexData, DMKVertexBufferDescriptor vertexDescription)
 	{
 		DMKMeshComponent _mesh;
 		_mesh.rawVertexBufferObject = vertexData;
 		_mesh.vertexDescriptor = vertexDescription;
 		_mesh.indexBufferObject = indexData;
 		_mesh.indexBufferType = DMKDataType::DMK_DATA_TYPE_UI32;
-		for (auto _description : uniformDescriptors)
-		{
-			DMKUniformBufferObject _object;
-			_object.myDescription = _description;
-			_mesh.uniformBufferObjects.pushBack(_object);
-		}
 
 		return { _mesh };
+	}
+	
+	void DMKMeshComponent::_initializeUniformBufferDescription()
+	{
+		addUniformBufferDescription(DMKUniformBufferObject::createUniformModel());
 	}
 }

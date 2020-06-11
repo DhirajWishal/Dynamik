@@ -281,41 +281,53 @@ namespace Dynamik
 
 				/* Create textures */
 				ARRAY<VkDescriptorImageInfo> imageDescriptors;
-				vMeshComponet.texture.initialize(myDevice, myQueues, _meshComponent.texture);
-				vMeshComponet.texture.initializeView(myDevice);
-				vMeshComponet.texture.initializeSampler(myDevice);
-				vMeshComponet.texture.makeRenderable(myDevice, myQueues);
-				imageDescriptors.pushBack(vMeshComponet.texture.createDescriptorInfo());
+				for (auto _texture : _meshComponent.textureModules)
+				{
+					VulkanTexture texture;
+					texture.initialize(myDevice, myQueues, _texture);
+					texture.initializeView(myDevice);
+					texture.initializeSampler(myDevice);
+					texture.makeRenderable(myDevice, myQueues);
+
+					vMeshComponet.textures.pushBack(texture);
+					imageDescriptors.pushBack(texture.createDescriptorInfo());
+				}
 
 				/* Create uniform buffer */
 				UI32 bufferOffset = 0;
-				ARRAY<VkDescriptorBufferInfo> bufferDescriptors;
-				for (auto _uniformBufferObject : _meshComponent.uniformBufferObjects)
+				ARRAY<std::pair<VkDescriptorBufferInfo, UI32>> bufferDescriptors;
+
+				VulkanBuffer _uniformBuffer;
+				_uniformBuffer.initialize(myDevice, BufferType::BUFFER_TYPE_UNIFORM, _meshComponent.uniformDescription.getUniformSize());
+
+				vMeshComponet.uniformBuffers.pushBack(_uniformBuffer);
+				bufferDescriptors.pushBack({ _uniformBuffer.createDescriptorInfo(bufferOffset),  _meshComponent.uniformDescription.destinationBinding });
+
+				for (auto _uniformDescription : _meshComponent.renderComponents)
 				{
-					VulkanBuffer _uniformBuffer;
-					_uniformBuffer.initialize(myDevice, BufferType::BUFFER_TYPE_UNIFORM, _uniformBufferObject.myDescription.getUniformSize());
+					_uniformBuffer.initialize(myDevice, BufferType::BUFFER_TYPE_UNIFORM, _uniformDescription->uniformDescription.getUniformSize());
 
 					vMeshComponet.uniformBuffers.pushBack(_uniformBuffer);
-					bufferDescriptors.pushBack(_uniformBuffer.createDescriptorInfo(bufferOffset));
+					bufferDescriptors.pushBack({ _uniformBuffer.createDescriptorInfo(bufferOffset), _uniformDescription->uniformDescription.destinationBinding });
 				}
 
-				glm::mat4 _matrices[2];
-				_matrices[0] = glm::lookAt(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-				_matrices[1] = glm::perspective(DMKMathFunctions::radians(45.0f), (F32)myActiveContext.vViewport.width / (F32)myActiveContext.vViewport.height, 0.001f, 256.0f);
-				_matrices[1][1][1] *= -1.0f;
-
-				DMKMemoryFunctions::moveData(vMeshComponet.uniformBuffers[0].mapMemory(myDevice), _matrices, sizeof(MAT4F) * 2);
-				vMeshComponet.uniformBuffers[0].unmapMemory(myDevice);
-
-				MAT4F model = DMKMathFunctions::translate(MAT4F(1.0f), { 0.0f, 0.0f, 10.0f });
-				DMKMemoryFunctions::moveData(vMeshComponet.uniformBuffers[1].mapMemory(myDevice), &model, sizeof(MAT4F));
-				vMeshComponet.uniformBuffers[1].unmapMemory(myDevice);
+				//glm::mat4 _matrices[2];
+				//_matrices[0] = glm::lookAt(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+				//_matrices[1] = glm::perspective(DMKMathFunctions::radians(45.0f), (F32)myActiveContext.vViewport.width / (F32)myActiveContext.vViewport.height, 0.001f, 256.0f);
+				//_matrices[1][1][1] *= -1.0f;
+				//
+				//MAT4F model = DMKMathFunctions::translate(MAT4F(1.0f), { 0.0f, 0.0f, 10.0f });
+				//DMKMemoryFunctions::moveData(vMeshComponet.uniformBuffers[1].mapMemory(myDevice), &model, sizeof(MAT4F));
+				//vMeshComponet.uniformBuffers[1].unmapMemory(myDevice);
+				//
+				//DMKMemoryFunctions::moveData(vMeshComponet.uniformBuffers[0].mapMemory(myDevice), _matrices, sizeof(MAT4F) * 2);
+				//vMeshComponet.uniformBuffers[0].unmapMemory(myDevice);
 
 				/* Resolve shaders */
 				ARRAY<VulkanShader> vShaders;
 				ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> vDescriptorLayoutBindings;
 				ARRAY<ARRAY<VkDescriptorPoolSize>> vDescriptorPoolSizes;
-				for (auto _shader : _meshComponent.renderSpecifications.shaderModules)
+				for (auto _shader : _meshComponent.shaderModules)
 				{
 					VulkanShader _vShader;
 					_vShader.initialize(myDevice, _shader);
@@ -352,7 +364,7 @@ namespace Dynamik
 			submitPendingAsset.pushBack(_asset);
 		}
 
-		void VulkanRBL::initializeEntities(ARRAY<POINTER<DMKGameEntity>> entities)
+		void VulkanRBL::initializeLevel(POINTER<DMKLevelComponent> level)
 		{
 			return;	/* Until the game package pipeline is properly fixed and this function is fully functional */
 		}
@@ -425,6 +437,32 @@ namespace Dynamik
 		{
 			if (!readyToDraw)
 				return;
+
+			for (auto _asset : inFlightAsset)
+			{
+				for (auto _mesh : _asset.meshes)
+				{
+					for (UI32 index = 0; index < _mesh.uniformBuffers.size(); index++)
+					{
+						if (_mesh.meshComponent->uniformDescription.usage == DMKUniformBufferUsage::DMK_UNIFORM_BUFFER_USAGE_MODEL)
+						{
+							MAT4F model = DMKMathFunctions::translate(MAT4F(1.0f), { 0.0f, 0.0f, 10.0f });
+							DMKMemoryFunctions::moveData(_mesh.uniformBuffers[index].mapMemory(myDevice), &model, sizeof(MAT4F));
+							_mesh.uniformBuffers[index].unmapMemory(myDevice);
+						}
+						else if (_mesh.meshComponent->renderComponents[index]->uniformDescription.usage == DMKUniformBufferUsage::DMK_UNIFORM_BUFFER_USAGE_CAMERA)
+						{
+							glm::mat4 _matrices[2];
+							_matrices[0] = glm::lookAt(glm::vec3(0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+							_matrices[1] = glm::perspective(DMKMathFunctions::radians(45.0f), (F32)myActiveContext.vViewport.width / (F32)myActiveContext.vViewport.height, 0.001f, 256.0f);
+							_matrices[1][1][1] *= -1.0f;
+
+							DMKMemoryFunctions::moveData(_mesh.uniformBuffers[index].mapMemory(myDevice), _matrices, sizeof(MAT4F) * 2);
+							_mesh.uniformBuffers[index].unmapMemory(myDevice);
+						} 
+					}
+				}
+			}
 		}
 
 		void VulkanRBL::submitRenderables()

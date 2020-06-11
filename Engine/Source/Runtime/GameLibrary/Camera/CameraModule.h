@@ -9,6 +9,7 @@
 #include "Macros/Global.h"
 #include "Math/MathTypes.h"
 #include "Events/EventHandler.h"
+#include "Core/Object/Resource/Primitives.h"
 
 namespace Dynamik
 {
@@ -23,10 +24,11 @@ namespace Dynamik
 	*/
 	class DMK_API DMKCameraModule {
 	public:
-		DMKCameraModule() {}
+		DMKCameraModule();
 		virtual ~DMKCameraModule() {}
 
 		virtual void update(const DMKEventBuffer& eventBuffer);
+		DMKUniformDescription getDescription() const;
 
 		DMKCameraMatrix matrix;
 
@@ -35,6 +37,9 @@ namespace Dynamik
 		VEC3F right = { 1.0f, 0.0f, 0.0f };
 		VEC3F cameraUp = { 0.0f, 1.0f, 0.0f };
 		VEC3F worldUp = { 0.0f, 1.0f, 0.0f };
+
+	private:
+		DMKUniformDescription myDescription;
 	};
 }
 

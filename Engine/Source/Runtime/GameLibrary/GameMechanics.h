@@ -6,8 +6,7 @@
  Author:    Dhiraj Wishal
  Date:      23/05/2020
 */
-
-#include "Object/GameComponent.h"
+#include "Macros/Global.h"
 
 namespace Dynamik
 {
@@ -15,7 +14,7 @@ namespace Dynamik
      Dynamik Game Mechanics object
      All the game mechanics, logic, player controls are derived from this object.
     */
-    class DMK_API DMKGameMechanics : public DMKGameComponent {
+    class DMK_API DMKGameMechanics  {
     public:
         DMKGameMechanics() {}
         virtual ~DMKGameMechanics() {}

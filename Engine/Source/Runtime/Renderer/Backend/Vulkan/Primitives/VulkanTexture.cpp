@@ -52,9 +52,10 @@ namespace Dynamik
 		void VulkanTexture::initializeSampler(const VulkanDevice& vDevice)
 		{
 			VulkanImageSamplerCreateInfo initInfo;
-			initInfo.addressModeU = ImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-			initInfo.addressModeV = ImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-			initInfo.addressModeW = ImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+			initInfo.addressModeU = ImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
+			initInfo.addressModeV = ImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
+			initInfo.addressModeW = ImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
+			initInfo.borderColor = ImageSamplerBorderColor::IMAGE_SAMPLER_BORDER_COLOR_I32_OPAQUE_BLACK;
 			sampler.initialize(vDevice, initInfo);
 		}
 

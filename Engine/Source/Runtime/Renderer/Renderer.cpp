@@ -28,8 +28,8 @@ namespace Dynamik
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITY:
 			myBackend.initializeEntity(((RendererAddEntity*)myCommand)->entity);
 			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITIES:
-			myBackend.initializeEntities(((RendererAddEntities*)myCommand)->entities);
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_LEVEL:
+			myBackend.initializeLevel(POINTER<DMKLevelComponent>());
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SUBMIT_OBJECTS:
 			break;

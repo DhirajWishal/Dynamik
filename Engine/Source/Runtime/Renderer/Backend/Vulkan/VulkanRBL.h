@@ -57,7 +57,7 @@ namespace Dynamik
 			void initializeCore() override;
 			void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) override;
 			void initializeEntity(POINTER<DMKGameEntity> entity) override;
-			void initializeEntities(ARRAY<POINTER<DMKGameEntity>> entities) override;
+			void initializeLevel(POINTER<DMKLevelComponent> level) override;
 			void initializeFinalComponents() override;
 
 			void initializeDrawCall() override;

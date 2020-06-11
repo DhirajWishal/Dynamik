@@ -14,7 +14,7 @@
 #include "../Primitives/VulkanShader.h"
 
 #include "Core/Object/Resource/Primitives.h"
-#include "ComponentSystem/Components/MeshComponent.h"
+#include "ComponentSystem/Components/RenderableComponents/MeshComponent.h"
 
 namespace Dynamik
 {

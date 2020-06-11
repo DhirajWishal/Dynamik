@@ -22,10 +22,7 @@ Game entities are the components of the game which carries out a task. This task
 as a simple door, a weapon, a character, the player instance, etc... This entity by default very basic
 hierarchy,
 - Game Entity
-  - Character Entity (Entities with a controller attached to it)
-	- Player Entity
-	- NonPlayer Entity
-  - Static entity (Entities which the character entities can interact with)
+  - Scene Components
 
 Since this is a basic object which the user is required to define, entity components give the entities its 
 resources. Picture it as the brain and body. The brain is the Game Entity. The body is made up of multiple
@@ -43,7 +40,7 @@ Some of the basic components are,
 This defines the game rules, level loading, key mappings, and other game details. 
 
 >> Game Level Component
-This object defines a single level in the game. This contains a camera module, entities in the level, 
+This object defines a single level in the game. This contains a entities in the level, 
 game mechanics of the level, and other level related data.
 The engine works with one level at a time. By using the game mechanics, there are two main ways a level
 is loaded. One is right after the current level is completed. The other is when the player completes a
@@ -51,6 +48,17 @@ certain percentage of the game.
 Quite often the device which the game is running would not be able to load all of the level data at once. To
 handle this issue, the engine by default loads the immediate surrounding of the player and then load other
 level details as the player progresses. This method can be overrided by the client.
+
+Levels have a scene component manager which defines all the components in the level. This might be renderable
+components, audiable components and even scripts.
+
+>> Component System
+Components are the ones which handles data and provides data for rendering, audio, physics entities and others.
+All the components in a level is used at runtime. Components inside entities are still rendered but the entity
+defines its functionalities. Scene components defined in the level component itself can have scripts attached
+to it which defines its functionalities.
+Camera component does not fall under a component but it is passed to the renderable components to render it
+to the surface/ screen.
 
 >> Game Subsystems
 Subsystems allow clients to create their own systems and hand it over to the engine via the Game Package. These

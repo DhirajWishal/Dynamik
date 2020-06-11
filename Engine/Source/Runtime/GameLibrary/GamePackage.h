@@ -15,7 +15,7 @@ namespace Dynamik
 	 The client game application is passed to the engine using this object. Clients are required to derive
 	 their own package from this and submit it to the engine upon instantiating.
 	*/
-	class DMK_API DMKGamePackage : public DMKGameComponent {
+	class DMK_API DMKGamePackage  {
 	public:
 		DMKGamePackage() {}
 		virtual ~DMKGamePackage() {}

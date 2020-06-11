@@ -22,7 +22,7 @@ namespace Dynamik
             ImageSamplerAddressMode addressModeV = ImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
             ImageSamplerAddressMode addressModeW = ImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
             B1 enableAnisotropy = false;
-            F32 maxAntisotropy = 0.0f;
+            F32 maxAntisotropy = 16.0f;
             ImageSamplerBorderColor borderColor = ImageSamplerBorderColor::IMAGE_SAMPLER_BORDER_COLOR_F32_OPAQUE_BLACK;
             B1 unnormalizedCoordinates = false;
             B1 compareEnable = false;
@@ -30,7 +30,7 @@ namespace Dynamik
             ResourceMipMapMode mipmapMode = ResourceMipMapMode::RESOURCE_MIPMAP_MODE_LINEAR;
             F32 minLOD = 0.0f;
             F32 maxLOD = 1.0f;
-            F32 mipLODBias = 1.0f;
+            F32 mipLODBias = 0.0f;
         };
 
         /*

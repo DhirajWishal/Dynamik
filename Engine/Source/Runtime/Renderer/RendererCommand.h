@@ -19,7 +19,7 @@ namespace Dynamik
 	enum class DMK_API RendererInstruction {
 		RENDERER_INSTRUCTION_INITIALIZE,
 		RENDERER_INSTRUCTION_CREATE_CONTEXT,
-		RENDERER_INSTRUCTION_INITIALIZE_ENTITIES,
+		RENDERER_INSTRUCTION_INITIALIZE_LEVEL,
 		RENDERER_INSTRUCTION_INITIALIZE_ENTITY,
 		RENDERER_INSTRUCTION_INITIALIZE_FINALS,
 		RENDERER_INSTRUCTION_SUBMIT_OBJECTS,
@@ -88,12 +88,12 @@ namespace Dynamik
 	};
 
 	/* Add Entities */
-	class DMK_API RendererAddEntities : public DMKRendererCommand {
+	class DMK_API RendererSubmitLevel : public DMKRendererCommand {
 	public:
-		RendererAddEntities() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITIES) {}
-		~RendererAddEntities() {}
+		RendererSubmitLevel() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_LEVEL) {}
+		~RendererSubmitLevel() {}
 
-		ARRAY<POINTER<DMKGameEntity>> entities;
+		POINTER<DMKLevelComponent> level;
 	};
 }
 

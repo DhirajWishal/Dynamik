@@ -124,7 +124,7 @@ namespace Dynamik
 		_description.offset = 0;
 		_description.shaderLocation = location;
 		_description.type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
-		_description.usage = DMKUniformBufferUsage::DMK_UNIFORM_BUFFER_USAGE_CUSTOM;
+		_description.usage = DMKUniformBufferUsage::DMK_UNIFORM_BUFFER_USAGE_MODEL;
 
 		DMKUniformAttribute _attribute1;
 		_attribute1.attributeType = DMKUniformAttributeType::DMK_UNIFORM_ATTRIBUTE_TYPE_MODEL;

@@ -7,7 +7,7 @@
  Date:		06/06/2020
 */
 #include "Macros/Global.h"
-#include "Components/MeshComponent.h"
+#include "Components/RenderableComponents/MeshComponent.h"
 #include "ComponentArray.h"
 
 namespace Dynamik
@@ -18,13 +18,15 @@ namespace Dynamik
 	 are:
 	 * Mesh Component
 	 * Audio Component
-	 * Physics Body
 	*/
 	class DMK_API DMKComponentManager {
 	public:
 		DMKComponentManager() {}
 		~DMKComponentManager();
 
+		/*
+		 Register a component
+		*/
 		template<class COMPONENT>
 		void registerComponent()
 		{
@@ -39,12 +41,18 @@ namespace Dynamik
 			componentTypes.pushBack(componentName);
 		}
 
+		/*
+		 Add a component
+		*/
 		template<class COMPONENT>
 		void addComponent(const COMPONENT& component)
 		{
 			getComponentArray<COMPONENT>()->myComponents.pushBack(component);
 		}
 
+		/*
+		 Get the component array
+		*/
 		template<class COMPONENT>
 		POINTER<DMKComponentArray<COMPONENT>> getComponentArray()
 		{
@@ -59,6 +67,10 @@ namespace Dynamik
 			return (POINTER<DMKComponentArray<COMPONENT>>)components[componentName];
 		}
 
+		/*
+		 Get a component at a given index.
+		 By default its 0.
+		*/
 		template<class COMPONENT>
 		POINTER<COMPONENT> getComponent(UI64 index = 0)
 		{

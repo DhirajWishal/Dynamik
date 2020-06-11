@@ -92,8 +92,11 @@ namespace Dynamik
 		_currentLevel = _gamePackage->levels[_nextLevelIndex++];
 
 		_currentLevel->onLoad();
+		_currentLevel->initializeComponents();
 
 		for (auto _entity : _currentLevel->myEntities)
 			_entity->initialize();
+
+		_currentLevel->initializeCameraModule();
 	}
 }

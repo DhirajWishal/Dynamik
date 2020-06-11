@@ -9,7 +9,7 @@
 #include "VulkanDevice.h"
 #include "../Primitives/VulkanBuffer.h"
 #include "../Primitives/VulkanTexture.h"
-#include "ComponentSystem/Components/MeshComponent.h"
+#include "ComponentSystem/Components/RenderableComponents/MeshComponent.h"
 
 namespace Dynamik
 {
@@ -55,7 +55,7 @@ namespace Dynamik
 			VulkanDescriptor createDescriptor(const VulkanDevice& vDevice, ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> layouts, ARRAY<ARRAY<VkDescriptorPoolSize>> poolSizes);
 			void terminateDescriptor(const VulkanDevice& vDevice, const VulkanDescriptor& vDescriptor);
 
-			void updateDescriptor(const VulkanDevice& vDevice, const VkDescriptorSet vSet, ARRAY<VkDescriptorBufferInfo> bufferInfos, ARRAY<VkDescriptorImageInfo> imageInfos, ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> layouts);
+			void updateDescriptor(const VulkanDevice& vDevice, const VkDescriptorSet vSet, ARRAY<std::pair<VkDescriptorBufferInfo, UI32>> bufferInfos, ARRAY<VkDescriptorImageInfo> imageInfos, ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> layouts);
 		};
 	}
 }

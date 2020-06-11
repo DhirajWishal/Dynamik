@@ -180,18 +180,6 @@
     <ClInclude Include="Runtime\ComponentSystem\ComponentManager.h">
       <Filter>Runtime\ComponentSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\ComponentSystem\Components\MeshComponent.h">
-      <Filter>Runtime\ComponentSystem\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Runtime\ComponentSystem\SubComponent\SubComponent.h">
-      <Filter>Runtime\ComponentSystem\SubComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="Runtime\ComponentSystem\SubComponent\SubComponentArray.h">
-      <Filter>Runtime\ComponentSystem\SubComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="Runtime\ComponentSystem\SubComponent\SubComponentManager.h">
-      <Filter>Runtime\ComponentSystem\SubComponent</Filter>
-    </ClInclude>
     <ClInclude Include="Runtime\Core\Error\ErrorDefines.h">
       <Filter>Runtime\Core\Error</Filter>
     </ClInclude>
@@ -290,9 +278,6 @@
     </ClInclude>
     <ClInclude Include="Runtime\Core\Object\Descriptors\MaterialDescriptor.h">
       <Filter>Runtime\Core\Object\Descriptors</Filter>
-    </ClInclude>
-    <ClInclude Include="Runtime\Core\Object\GameComponent.h">
-      <Filter>Runtime\Core\Object</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\Core\Object\Resource\Primitives.h">
       <Filter>Runtime\Core\Object\Resource</Filter>
@@ -538,17 +523,16 @@
       <Filter>Studio</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\Tools\Shader\SPIR-V\Disassembler.h" />
-    <ClInclude Include="Runtime\ComponentSystem\Components\CameraComponent.h" />
+    <ClInclude Include="Runtime\ComponentSystem\ComponentAttachments\PhysicsAttachment.h" />
+    <ClInclude Include="Runtime\ComponentSystem\ComponentAttachments\ComponentAttachment.h" />
+    <ClInclude Include="Runtime\ComponentSystem\Components\RenderableComponents\MeshComponent.h">
+      <Filter>Runtime\ComponentSystem\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\ComponentSystem\Components\RenderableComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\ComponentSystem\ComponentManager.cpp">
       <Filter>Runtime\ComponentSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Runtime\ComponentSystem\Components\MeshComponent.cpp">
-      <Filter>Runtime\ComponentSystem\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Runtime\ComponentSystem\SubComponent\SubComponentManager.cpp">
-      <Filter>Runtime\ComponentSystem\SubComponent</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Core\Error\ErrorManager.cpp">
       <Filter>Runtime\Core\Error</Filter>
@@ -764,6 +748,12 @@
       <Filter>Studio</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Tools\Shader\SPIR-V\Disassembler.cpp" />
+    <ClCompile Include="Runtime\ComponentSystem\Components\RenderableComponents\MeshComponent.cpp">
+      <Filter>Runtime\ComponentSystem\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\GameLibrary\LevelComponent.cpp" />
+    <ClCompile Include="Runtime\GameLibrary\GameEntity.cpp" />
+    <ClCompile Include="Runtime\ComponentSystem\Components\RenderableComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

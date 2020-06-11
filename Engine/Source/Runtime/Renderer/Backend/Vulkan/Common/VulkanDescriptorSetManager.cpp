@@ -63,7 +63,7 @@ namespace Dynamik
 			vkDestroyDescriptorPool(vDevice, vDescriptor.pool, VK_NULL_HANDLE);
 		}
 
-		void VulkanDescriptorSetManager::updateDescriptor(const VulkanDevice& vDevice, const VkDescriptorSet vSet, ARRAY<VkDescriptorBufferInfo> bufferInfos, ARRAY<VkDescriptorImageInfo> imageInfos, ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> layouts)
+		void VulkanDescriptorSetManager::updateDescriptor(const VulkanDevice& vDevice, const VkDescriptorSet vSet, ARRAY<std::pair<VkDescriptorBufferInfo, UI32>> bufferInfos, ARRAY<VkDescriptorImageInfo> imageInfos, ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> layouts)
 		{
 			ARRAY<VkWriteDescriptorSet> descriptorWrites;
 			UI64 bufferIndex = 0;
@@ -72,6 +72,13 @@ namespace Dynamik
 			VkWriteDescriptorSet _write;
 			_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
 			_write.pNext = VK_NULL_HANDLE;
+
+			_write.dstArrayElement = VK_NULL_HANDLE;
+
+			_write.pTexelBufferView = VK_NULL_HANDLE;
+			_write.pBufferInfo = VK_NULL_HANDLE;
+			_write.pImageInfo = VK_NULL_HANDLE;
+
 			for (auto _layouts : layouts)
 			{
 				for (auto _binding : _layouts)
@@ -80,11 +87,6 @@ namespace Dynamik
 					_write.descriptorType = _binding.descriptorType;
 					_write.dstBinding = _binding.binding;
 					_write.dstSet = vSet;
-					_write.dstArrayElement = VK_NULL_HANDLE;
-
-					_write.pTexelBufferView = VK_NULL_HANDLE;
-					_write.pBufferInfo = VK_NULL_HANDLE;
-					_write.pImageInfo = VK_NULL_HANDLE;
 
 					switch (_binding.descriptorType)
 					{
@@ -101,22 +103,28 @@ namespace Dynamik
 						_write.pImageInfo = &imageInfos[imageIndex++];
 						break;
 					case VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER:
-						_write.pBufferInfo = &bufferInfos[bufferIndex++];
+						_write.pBufferInfo = &bufferInfos[bufferIndex].first;
+						_write.dstBinding = bufferInfos[bufferIndex++].second;
 						break;
 					case VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER:
-						_write.pBufferInfo = &bufferInfos[bufferIndex++];
+						_write.pBufferInfo = &bufferInfos[bufferIndex].first;
+						_write.dstBinding = bufferInfos[bufferIndex++].second;
 						break;
 					case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER:
-						_write.pBufferInfo = &bufferInfos[bufferIndex++];
+						_write.pBufferInfo = &bufferInfos[bufferIndex].first;
+						_write.dstBinding = bufferInfos[bufferIndex++].second;
 						break;
 					case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER:
-						_write.pBufferInfo = &bufferInfos[bufferIndex++];
+						_write.pBufferInfo = &bufferInfos[bufferIndex].first;
+						_write.dstBinding = bufferInfos[bufferIndex++].second;
 						break;
 					case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC:
-						_write.pBufferInfo = &bufferInfos[bufferIndex++];
+						_write.pBufferInfo = &bufferInfos[bufferIndex].first;
+						_write.dstBinding = bufferInfos[bufferIndex++].second;
 						break;
 					case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC:
-						_write.pBufferInfo = &bufferInfos[bufferIndex++];
+						_write.pBufferInfo = &bufferInfos[bufferIndex].first;
+						_write.dstBinding = bufferInfos[bufferIndex++].second;
 						break;
 					case VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT:
 						DMK_ERROR_BOX("Unsupported descriptor type!");

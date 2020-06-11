@@ -43,7 +43,6 @@ namespace Dynamik
         virtual void initializeCore() {}
         virtual void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) {}
         virtual void initializeEntity(POINTER<DMKGameEntity> entity) {}
-        virtual void initializeEntities(ARRAY<POINTER<DMKGameEntity>> entities) {}
         virtual void initializeLevel(POINTER<DMKLevelComponent> level) {}
         virtual void initializeFinalComponents() {}
 
@@ -55,6 +54,9 @@ namespace Dynamik
         virtual void terminateLevelData() {}
         virtual void terminateRenderingContext() {}
         virtual void terminateCore() {}
+
+    protected:      /* Protected methods */
+        virtual void _initializeMeshComponents(const ARRAY<DMKComponentArray<DMKMeshComponent>>& meshComponents) {}
     };
 }
 
