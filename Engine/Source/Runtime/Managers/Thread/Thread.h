@@ -38,7 +38,9 @@ namespace Dynamik
 
         virtual void initialize() {}
         virtual void processCommand(POINTER<DMKThreadCommand> command) {}
+
         virtual void onLoop() {}
+
         virtual void onTermination() {}
 
         DMKThreadType type = DMKThreadType::DMK_THREAD_TYPE_PARENT;

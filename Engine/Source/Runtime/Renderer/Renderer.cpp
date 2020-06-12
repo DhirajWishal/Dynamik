@@ -36,6 +36,9 @@ namespace Dynamik
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_INITIALIZE:
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE:
+			myBackend.initializeDrawCall();
+			myBackend.updateRenderables();
+			myBackend.submitRenderables();
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_SUBMIT:
 			break;
@@ -61,7 +64,6 @@ namespace Dynamik
 	void DMKRenderer::onLoop()
 	{
 		myBackend.initializeDrawCall();
-		myBackend.updateRenderables();
 		myBackend.submitRenderables();
 	}
 
