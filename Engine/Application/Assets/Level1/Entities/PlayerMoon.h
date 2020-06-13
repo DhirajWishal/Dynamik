@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _APPLICATION_PLAYER_MOON_H
 #define _APPLICATION_PLAYER_MOON_H

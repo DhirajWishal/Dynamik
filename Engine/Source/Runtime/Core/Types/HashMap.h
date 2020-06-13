@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_TYPES_HASH_MAP_H
 #define _DYNAMIK_TYPES_HASH_MAP_H

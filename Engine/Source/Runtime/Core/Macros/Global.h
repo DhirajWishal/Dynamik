@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_GLOBAL_MACROS_H
 #define _DYNAMIK_GLOBAL_MACROS_H

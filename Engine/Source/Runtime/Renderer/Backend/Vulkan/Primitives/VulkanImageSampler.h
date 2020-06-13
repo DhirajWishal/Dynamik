@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_VULKAN_IMAGE_SAMPLER_H
 #define _DYNAMIK_VULKAN_IMAGE_SAMPLER_H

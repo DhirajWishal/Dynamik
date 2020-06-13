@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 /*
  This file contains all the definitions of the Dynamik Engine interface.
 

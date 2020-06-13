@@ -871,11 +871,11 @@
     <ClInclude Include="Runtime\GameLibrary\Camera\CameraModule.h" />
     <ClInclude Include="Runtime\GameLibrary\GameEntity.h" />
     <ClInclude Include="Runtime\GameLibrary\GameMechanics.h" />
-    <ClInclude Include="Runtime\GameLibrary\GameObjects\StaticObject.h" />
     <ClInclude Include="Runtime\GameLibrary\GamePackage.h" />
     <ClInclude Include="Runtime\GameLibrary\LevelComponent.h" />
     <ClInclude Include="Runtime\GameLibrary\Mechanics\GameAssetMechanics.h" />
     <ClInclude Include="Runtime\GameLibrary\Mechanics\PlayerController.h" />
+    <ClInclude Include="Runtime\GameLibrary\Menus\Layer.h" />
     <ClInclude Include="Runtime\GameLibrary\PlayerObject.h" />
     <ClInclude Include="Runtime\GameLibrary\Utilities\MeshFactory.h" />
     <ClInclude Include="Runtime\Importer\Asset\MeshImporter.h" />

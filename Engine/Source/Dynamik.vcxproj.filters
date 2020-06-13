@@ -354,9 +354,6 @@
     <ClInclude Include="Runtime\GameLibrary\GameMechanics.h">
       <Filter>Runtime\GameLibrary</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\GameLibrary\GameObjects\StaticObject.h">
-      <Filter>Runtime\GameLibrary\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="Runtime\GameLibrary\GamePackage.h">
       <Filter>Runtime\GameLibrary</Filter>
     </ClInclude>
@@ -527,6 +524,7 @@
     </ClInclude>
     <ClInclude Include="Runtime\ComponentSystem\Components\RenderableComponent.h" />
     <ClInclude Include="Runtime\GameLibrary\PlayerObject.h" />
+    <ClInclude Include="Runtime\GameLibrary\Menus\Layer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\ComponentSystem\ComponentManager.cpp">
