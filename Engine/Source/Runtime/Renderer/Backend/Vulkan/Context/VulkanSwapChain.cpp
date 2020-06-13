@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "VulkanSwapChain.h"
 
@@ -89,7 +92,7 @@ namespace Dynamik
 
 			VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
 			VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes);
-			VkExtent2D extent = chooseSwapExtent(swapChainSupport.capabilities, vViewport.width, vViewport.width);
+			VkExtent2D scExtent = chooseSwapExtent(swapChainSupport.capabilities, vViewport.width, vViewport.width);
 
 			VkCompositeAlphaFlagBitsKHR surfaceComposite =
 				(vViewport.surfacePtr->surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR)
@@ -111,7 +114,7 @@ namespace Dynamik
 			createInfo.minImageCount = imageCount;
 			createInfo.imageFormat = surfaceFormat.format;
 			createInfo.imageColorSpace = surfaceFormat.colorSpace;
-			createInfo.imageExtent = extent;
+			createInfo.imageExtent = scExtent;
 			createInfo.imageArrayLayers = 1;
 			createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 			//createInfo.imageUsage = VK_IMAGE_USAGE_TRANSFER_DST_BIT;
@@ -147,20 +150,20 @@ namespace Dynamik
 			ARRAY<VkImage> _images(imageCount);
 			vkGetSwapchainImagesKHR(vDevice, swapChain, &imageCount, _images.data());
 
-			swapChainImageFormat = surfaceFormat.format;
+			format = surfaceFormat.format;
 
 			for (auto _image : _images)
 			{
 				VulkanImage _vImage;
 				_vImage.image = _image;
-				_vImage.imageFormat = swapChainImageFormat;
+				_vImage.format = format;
 				_vImage.layers = 1;
 				_vImage.mipLevel = 1;
-				swapChainImages.pushBack(_vImage);
+				images.pushBack(_vImage);
 			}
 
-			swapChainImageFormat = surfaceFormat.format;
-			swapChainExtent = extent;
+			format = surfaceFormat.format;
+			extent = scExtent;
 
 			_initializeImageViews(vDevice);
 		}
@@ -176,11 +179,11 @@ namespace Dynamik
 
 		void VulkanSwapChain::_initializeImageViews(const VulkanDevice& vDevice)
 		{
-			for (UI32 itr = 0; itr < swapChainImages.size(); itr++)
+			for (UI32 itr = 0; itr < images.size(); itr++)
 			{
 				VulkanImageView _vView;
-				_vView.initialize(vDevice, swapChainImages[itr]);
-				swapChainImageViews.pushBack(_vView);
+				_vView.initialize(vDevice, images[itr]);
+				imageViews.pushBack(_vView);
 			}
 		}
 	}

@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_VULKAN_SHADER_H
 #define _DYNAMIK_VULKAN_SHADER_H
@@ -8,7 +11,7 @@
 */
 #include "../Common/VulkanDevice.h"
 
-#include "Core/Object/Resource/Primitives.h"
+#include "Object/Resource/ShaderModule.h"
 
 namespace Dynamik
 {
@@ -25,8 +28,11 @@ namespace Dynamik
             void initialize(const VulkanDevice& vDevice, const DMKShaderModule& shader);
             void terminate(const VulkanDevice& vDevice);
 
+            std::pair<ARRAY<VkDescriptorSetLayoutBinding>, ARRAY<VkDescriptorPoolSize>> createDescriptorLayoutAndSizes(const VulkanDevice& vDevice);
+
             operator VkShaderModule() const;
 
+            DMKShaderModule parentModule;
             VkShaderModule shaderModule = VK_NULL_HANDLE;
             VkShaderStageFlagBits stageFlag = VkShaderStageFlagBits::VK_SHADER_STAGE_ALL;
         };

@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_GAME_ENTITY_H
 #define _DYNAMIK_GAME_ENTITY_H
@@ -8,7 +11,7 @@
  Author:    Dhiraj Wishal
  Date:      17/05/2020
 */
-#include "Object/GameComponent.h"
+#include "ComponentSystem/ComponentManager.h"
 
 namespace Dynamik
 {
@@ -16,22 +19,29 @@ namespace Dynamik
 	 The entity class is the component which the user directly interact with. Player character and other
 	 input based characters are derived from this.
 	 Basically, Game Entities are of two types,
-	 * Player character (The object which the user directly interacts with using the player controls)
-	 * NPC (Non-Player Characters: The objects which the user/ player cannot directly interact/ control with)
 
-	 You can imagine entities as a soul. You are required to control it. These components does not have any
-	 renderable qulities by default but once an DMKGameAsset gets assigned to an entity, the qualities of the
-	 entity will be rendered using that asset.
-
-	 Non Player Characters can either be hard coded or powered by the Interllect Engine. Intellect powered
-	 entities can be trained either by scripting or by manual control.
-
-	 By default, this class is initialized to be a Player entity.
+	 You can imagine entities as a soul. You are required to control it. 
 	*/
-	class DMK_API DMKGameEntity : public DMKGameComponent {
+	class DMK_API DMKGameEntity {
 	public:
-		DMKGameEntity() : DMKGameComponent(DMKGameComponentType::DMK_GAME_COMPONENT_TYPE_ENTITY) {}
+		DMKGameEntity() {}
 		virtual ~DMKGameEntity() {}
+
+		/*
+		 Initialize the entity
+		*/
+		virtual void initialize() {}
+
+		/*
+		 Setup camera module
+		 Camera modules are added to the renderable components after initializing the entity.
+		 Shaders will have the uniform buffer of the camera at the last binding. by default view and 
+		 projection matrixes are passed respectively.
+		*/
+		virtual void setupCamera(const POINTER<DMKCameraModule>& cModule);
+
+		/* Component Manager */
+		DMKComponentManager componentManager;
 	};
 }
 

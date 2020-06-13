@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_VULKAN_RBL_H
 #define _DYNAMIK_VULKAN_RBL_H
@@ -56,7 +59,8 @@ namespace Dynamik
 
 			void initializeCore() override;
 			void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) override;
-			void initializeObject(POINTER<DMKRenderableAsset> asset) override;
+			void initializeEntity(POINTER<DMKGameEntity> entity) override;
+			void initializeLevel(POINTER<DMKLevelComponent> level) override;
 			void initializeFinalComponents() override;
 
 			void initializeDrawCall() override;
@@ -64,6 +68,9 @@ namespace Dynamik
 			void submitRenderables() override;
 
 			void terminateRenderingContext() override;
+
+		private:
+			void _initializeBuffers();
 
 		private:
 			DMKSampleCount myMsaaSampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_64_BIT;
@@ -96,11 +103,20 @@ namespace Dynamik
 			ARRAY<VulkanRenderPassSubpass> _getRenderSubPass(const DMKRenderContextType& contextType);
 
 			/* Descriptor Manager */
-			VulkanDescriptorSetManager myActiveDescriptorManager;
+			VulkanDescriptorSetManager myDescriptorManager;
+
+			/* Pipeline Manager */
+			VulkanPipelineManager myPipelineManager;
 
 			/* Render asset store */
-			ARRAY<VulkanRenderableMesh> submitPendingAssets;
-			ARRAY<VulkanRenderableMesh> inFlightAssets;
+			ARRAY<VulkanRenderAsset> submitPendingAsset;
+			ARRAY<VulkanRenderAsset> inFlightAsset;
+
+			/* Avtive buffers */
+			VulkanBuffer myActiveVertexBuffer;
+			VulkanBuffer myActiveIndexBuffer;
+			UI64 vertexBufferSize = 0;
+			UI64 indexBufferSize = 0;
 		};
 	}
 }

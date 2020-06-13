@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_VULKAN_RENDER_ASSET_H
 #define _DYNAMIK_VULKAN_RENDER_ASSET_H
@@ -8,6 +11,7 @@
 */
 #include "../../Components/RenderAsset.h"
 
+#include "../Common/VulkanDescriptorSetManager.h"
 #include "../Common/VulkanPipelineManager.h"
 #include "../Primitives/VulkanBuffer.h"
 #include "../Primitives/VulkanTexture.h"
@@ -21,12 +25,13 @@ namespace Dynamik
          Vulkan renderable mesh
         */
         struct DMK_API VulkanRenderableMesh {
-            VulkanDescriptorContainer descriptor;
+            VulkanDescriptor descriptor;
+            ARRAY<VulkanTexture> textures;
             VulkanPipelineContainer pipeline;
-            VulkanBuffer vertexBuffer;
-            VulkanBuffer indexBuffer;
-            UI32 vertexCount = 0;
-            UI32 indexCount = 0;
+            ARRAY<VulkanBuffer> uniformBuffers;
+            POINTER<DMKMeshComponent> meshComponent;
+            UI64 vertexOffset = 0;
+            UI64 indexOffset = 0;
         };
 
         /*

@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "VulkanDepthAttachment.h"
 
@@ -9,7 +12,7 @@ namespace Dynamik
 		{
 			VulkanImageCreateInfo imgCreateInfo;
 			imgCreateInfo.imageFormat = initInfo.format;
-			imgCreateInfo.imageType = ImageType::IMAGE_TYPE_2D;
+			imgCreateInfo.imageType = DMKTextureType::DMK_TEXTURE_TYPE_2D;
 			imgCreateInfo.imageUsage = IMAGE_USAGE_DEPTH_ATTACHMENT;
 			imgCreateInfo.layers = 1;
 			imgCreateInfo.mipLevels = 1;

@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_LEVEL_COMPONENT_H
 #define _DYNAMIK_LEVEL_COMPONENT_H
@@ -8,11 +11,9 @@
  Author:	Dhiraj Wishal
  Date:		15/05/2020
 */
-#include "Core/Object/GameComponent.h"
-#include "SceneComponent.h"
-#include "GameAsset.h"
+#include "GameEntity.h"
 #include "GameMechanics.h"
-#include "Camera/CameraModule.h"
+#include "PlayerObject.h"
 
 #include "Macros/Global.h"
 #include "Types/Array.h"
@@ -26,21 +27,29 @@ namespace Dynamik
 
 	 By default, this class can be used as an internal level component.
 	*/
-	class DMK_API DMKLevelComponent : public DMKGameComponent {
+	class DMK_API DMKLevelComponent {
 	public:
-		DMKLevelComponent() : DMKGameComponent(DMKGameComponentType::DMK_GAME_COMPONENT_TYPE_LEVEL) {}
+		DMKLevelComponent()  {}
 		virtual ~DMKLevelComponent() {}
 
 		virtual void onLoad() {}
+		virtual void initializeComponents() {}
+		virtual void onUnoad() {}
 
 		/* Game Assets */
-		ARRAY<POINTER<DMKGameAsset>> myAssets;
+		ARRAY<POINTER<DMKGameEntity>> myEntities;
 
 		/* Game Mechanics */
 		ARRAY<POINTER<DMKGameMechanics>> myMechanics;
 
-		/* Camera component */
-		POINTER<DMKCameraModule> cameraModule;
+		/* Player Object */
+		POINTER<DMKPlayerObject> playerObject;
+
+		/* Additional Components */
+		DMKComponentManager sceneComponentManager;
+
+	public:		/* Constant methods */
+		void initializeCameraModule();
 	};
 }
 

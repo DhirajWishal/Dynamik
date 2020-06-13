@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "VulkanDescriptorSetManager.h"
 
@@ -7,109 +10,144 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		VulkanDescriptorSetManager::VulkanDescriptor::operator VkDescriptorSetLayout() const
+		VulkanDescriptor VulkanDescriptorSetManager::createDescriptor(const VulkanDevice& vDevice, ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> layouts, ARRAY<ARRAY<VkDescriptorPoolSize>> poolSizes)
 		{
-			return this->layout;
-		}
+			VulkanDescriptor _descriptor;
 
-		VulkanDescriptorSetManager::VulkanDescriptor::operator VkDescriptorPool() const
-		{
-			return this->pool;
-		}
+			/* Initialize basic data */
+			ARRAY<VkDescriptorSetLayoutBinding> _finalBindings;
+			ARRAY<VkDescriptorPoolSize> _finalSizes;
 
-		const VkDescriptorSet VulkanDescriptorSetManager::VulkanDescriptor::operator[](I32 index) const
-		{
-			return this->sets[index];
-		}
+			for (auto _layout : layouts)
+				for (auto _binding : _layout)
+					_finalBindings.pushBack(_binding);
 
-		VkDescriptorSet VulkanDescriptorSetManager::VulkanDescriptor::get()
-		{
-			return this->sets[this->nextSet++];
-		}
+			for (auto _pool : poolSizes)
+				for (auto _size : _pool)
+					_finalSizes.pushBack(_size);
 
-		void VulkanDescriptorSetManager::createDescriptor(const VulkanDevice& vDevice, const DMKUniformBufferDescriptor& descriptor, I64 ID, UI32 setCount)
-		{
-			/* Check if the requested descriptor ID already exists */
-			if (!_isNewAvailable(ID))
-			{
-				DMKErrorManager::issueWarnBox("Requested descriptor is already created!");
-				return;
-			}
+			/* Initialize layout */
+			VkDescriptorSetLayoutCreateInfo layoutCrateInfo;
+			layoutCrateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+			layoutCrateInfo.flags = VK_NULL_HANDLE;
+			layoutCrateInfo.pNext = VK_NULL_HANDLE;
+			layoutCrateInfo.bindingCount = _finalBindings.size();
+			layoutCrateInfo.pBindings = _finalBindings.data();
 
-			VulkanDescriptor _newDescriptor;
+			DMK_VULKAN_ASSERT(vkCreateDescriptorSetLayout(vDevice, &layoutCrateInfo, nullptr, &_descriptor.layout), "Failed to create descriptor set layout!");
 
-			/* Initialize descriptor layout */
-			VkDescriptorSetLayoutCreateInfo initInfo;
-			initInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-			initInfo.pNext = VK_NULL_HANDLE;
-
-			auto bindings = VulkanUtilities::getDescriptorSetLayoutBindings(descriptor);
-			initInfo.bindingCount = bindings.size();
-			initInfo.pBindings = bindings.data();
-
-			DMK_VULKAN_ASSERT(vkCreateDescriptorSetLayout(vDevice, &initInfo, nullptr, &_newDescriptor.layout), "Failed to create descriptor set layout!");
-
-			/* Initialize descriptor pool */
+			/* Initialize pool */
 			VkDescriptorPoolCreateInfo poolCreateInfo;
 			poolCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
 			poolCreateInfo.flags = VK_NULL_HANDLE;
 			poolCreateInfo.pNext = VK_NULL_HANDLE;
+			poolCreateInfo.maxSets = 1;
+			poolCreateInfo.poolSizeCount = _finalSizes.size();
+			poolCreateInfo.pPoolSizes = _finalSizes.data();
+			
+			DMK_VULKAN_ASSERT(vkCreateDescriptorPool(vDevice, &poolCreateInfo, VK_NULL_HANDLE, &_descriptor.pool), "Failed to create descriptor pool!");
 
-			auto _poolSizes = VulkanUtilities::getDescriptorPoolSizes(descriptor, setCount);
-
-			poolCreateInfo.poolSizeCount = _poolSizes.size();
-			poolCreateInfo.pPoolSizes = _poolSizes.data();
-			poolCreateInfo.maxSets = setCount;
-
-			DMK_VULKAN_ASSERT(vkCreateDescriptorPool(vDevice, &poolCreateInfo, nullptr, &_newDescriptor.pool), "Failed to create descriptor pool!");
-
-			/* Initialize descriptor sets */
+			/* Initialize set */
 			VkDescriptorSetAllocateInfo setAllocateInfo;
 			setAllocateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
 			setAllocateInfo.pNext = VK_NULL_HANDLE;
-			setAllocateInfo.descriptorPool = _newDescriptor.pool;
-			setAllocateInfo.pSetLayouts = &_newDescriptor.layout;
-			setAllocateInfo.descriptorSetCount = setCount;
+			setAllocateInfo.descriptorSetCount = 1;
+			setAllocateInfo.descriptorPool = _descriptor.pool;
+			setAllocateInfo.pSetLayouts = &_descriptor.layout;
 
-			_newDescriptor.sets.resize(setCount);
-			DMK_VULKAN_ASSERT(vkAllocateDescriptorSets(vDevice, &setAllocateInfo, _newDescriptor.sets.data()), "Failed to allocate descriptor sets!");
+			DMK_VULKAN_ASSERT(vkAllocateDescriptorSets(vDevice, &setAllocateInfo, &_descriptor.set), "Failed to allocate descriptor sets!");
 
-			descriptors.pushBack(_newDescriptor);
+			return _descriptor;
 		}
 
-		void VulkanDescriptorSetManager::terminateDescriptor(const VulkanDevice& vDevice, I64 ID)
+		void VulkanDescriptorSetManager::terminateDescriptor(const VulkanDevice& vDevice, const VulkanDescriptor& vDescriptor)
 		{
-			for (UI32 index = 0; index < descriptors.size(); index++)
-			{
-				if (descriptors[index].baseID == ID)
-				{
-					vkDestroyDescriptorPool(vDevice, descriptors[index], nullptr);
-					vkDestroyDescriptorSetLayout(vDevice, descriptors[index], nullptr);
+			vkDestroyDescriptorSetLayout(vDevice, vDescriptor.layout, VK_NULL_HANDLE);
+			vkDestroyDescriptorPool(vDevice, vDescriptor.pool, VK_NULL_HANDLE);
+		}
 
-					descriptors.remove(index);
-					return;
+		void VulkanDescriptorSetManager::updateDescriptor(const VulkanDevice& vDevice, const VkDescriptorSet vSet, ARRAY<std::pair<VkDescriptorBufferInfo, UI32>> bufferInfos, ARRAY<VkDescriptorImageInfo> imageInfos, ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> layouts)
+		{
+			ARRAY<VkWriteDescriptorSet> descriptorWrites;
+			UI64 bufferIndex = 0;
+			UI64 imageIndex = 0;
+
+			VkWriteDescriptorSet _write;
+			_write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			_write.pNext = VK_NULL_HANDLE;
+
+			_write.dstArrayElement = VK_NULL_HANDLE;
+
+			_write.pTexelBufferView = VK_NULL_HANDLE;
+			_write.pBufferInfo = VK_NULL_HANDLE;
+			_write.pImageInfo = VK_NULL_HANDLE;
+
+			for (auto _layouts : layouts)
+			{
+				for (auto _binding : _layouts)
+				{
+					_write.descriptorCount = 1;
+					_write.descriptorType = _binding.descriptorType;
+					_write.dstBinding = _binding.binding;
+					_write.dstSet = vSet;
+
+					switch (_binding.descriptorType)
+					{
+					case VK_DESCRIPTOR_TYPE_SAMPLER:
+						_write.pImageInfo = &imageInfos[imageIndex++];
+						break;
+					case VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER:
+						_write.pImageInfo = &imageInfos[imageIndex++];
+						break;
+					case VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE:
+						_write.pImageInfo = &imageInfos[imageIndex++];
+						break;
+					case VK_DESCRIPTOR_TYPE_STORAGE_IMAGE:
+						_write.pImageInfo = &imageInfos[imageIndex++];
+						break;
+					case VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER:
+						_write.pBufferInfo = &bufferInfos[bufferIndex].first;
+						_write.dstBinding = bufferInfos[bufferIndex++].second;
+						break;
+					case VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER:
+						_write.pBufferInfo = &bufferInfos[bufferIndex].first;
+						_write.dstBinding = bufferInfos[bufferIndex++].second;
+						break;
+					case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER:
+						_write.pBufferInfo = &bufferInfos[bufferIndex].first;
+						_write.dstBinding = bufferInfos[bufferIndex++].second;
+						break;
+					case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER:
+						_write.pBufferInfo = &bufferInfos[bufferIndex].first;
+						_write.dstBinding = bufferInfos[bufferIndex++].second;
+						break;
+					case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC:
+						_write.pBufferInfo = &bufferInfos[bufferIndex].first;
+						_write.dstBinding = bufferInfos[bufferIndex++].second;
+						break;
+					case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC:
+						_write.pBufferInfo = &bufferInfos[bufferIndex].first;
+						_write.dstBinding = bufferInfos[bufferIndex++].second;
+						break;
+					case VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT:
+						DMK_ERROR_BOX("Unsupported descriptor type!");
+						break;
+					case VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK_EXT:
+						DMK_ERROR_BOX("Unsupported descriptor type!");
+						break;
+					case VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_NV:
+						DMK_ERROR_BOX("Unsupported descriptor type!");
+						break;
+					default:
+						DMK_ERROR_BOX("Invalid descriptor type!");
+						break;
+					}
+
+					descriptorWrites.pushBack(_write);
 				}
 			}
-		}
 
-		void VulkanDescriptorSetManager::terminate(const VulkanDevice& vDevice)
-		{
-			for (auto _descriptor : descriptors)
-			{
-				vkDestroyDescriptorPool(vDevice, _descriptor, nullptr);
-				vkDestroyDescriptorSetLayout(vDevice, _descriptor, nullptr);
-			}
-
-			descriptors.clear();
-		}
-
-		B1 VulkanDescriptorSetManager::_isNewAvailable(I64 ID)
-		{
-			for (auto _descriptor : descriptors)
-				if (_descriptor.baseID == ID)
-					return false;
-
-			return true;
+			vkUpdateDescriptorSets(vDevice, descriptorWrites.size(), descriptorWrites.data(), VK_NULL_HANDLE, VK_NULL_HANDLE);
 		}
 	}
 }

@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_RENDERER_BACKEND_LAYER_H
 #define _DYNAMIK_RENDERER_BACKEND_LAYER_H
@@ -7,9 +10,7 @@
  Date:      23/05/2020
 */
 #include "Macros/Global.h"
-#include "Object/Resource/MeshComponent.h"
 #include "GameLibrary/LevelComponent.h"
-#include "GameLibrary/GameAssets/RenderableAsset.h"
 #include "Window/WindowHandle.h"
 #include "../Components/CoreTypeDefs.h"
 #include "../Components/ContextTypeDefs.h"
@@ -44,7 +45,7 @@ namespace Dynamik
 
         virtual void initializeCore() {}
         virtual void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) {}
-        virtual void initializeObject(POINTER<DMKRenderableAsset> asset) {}
+        virtual void initializeEntity(POINTER<DMKGameEntity> entity) {}
         virtual void initializeLevel(POINTER<DMKLevelComponent> level) {}
         virtual void initializeFinalComponents() {}
 
@@ -56,6 +57,9 @@ namespace Dynamik
         virtual void terminateLevelData() {}
         virtual void terminateRenderingContext() {}
         virtual void terminateCore() {}
+
+    protected:      /* Protected methods */
+        virtual void _initializeMeshComponents(const ARRAY<DMKComponentArray<DMKMeshComponent>>& meshComponents) {}
     };
 }
 

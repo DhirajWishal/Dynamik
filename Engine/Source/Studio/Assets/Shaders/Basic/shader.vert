@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #version 450 core
 
 layout (location = 0) in vec3 inPosition;

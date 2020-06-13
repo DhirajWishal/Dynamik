@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_PCH
 #define _DYNAMIK_PCH
@@ -13,6 +16,7 @@
 
 #ifdef DMK_PLATFORM_WINDOWS
 #include "Error/ErrorManager.h"
+#include "Memory/MemoryFunctions.h"
 
 #endif // DMK_PLATFORM_WINDOWS
 

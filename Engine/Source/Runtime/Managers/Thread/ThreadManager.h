@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_THREAD_MANAGER_H
 #define _DYNAMIK_THREAD_MANAGER_H
@@ -70,7 +73,7 @@ namespace Dynamik
         void issueWindowHandleCommandRT(const POINTER<DMKWindowHandle>& handle);
         void issueInitializeCommandRT();
         void issueCreateContextCommandRT(DMKRenderContextType context, DMKViewport viewport);
-        void issueInitializeObjectCommandRT(); /* Support for submitting objects */
+        void issueInitializeEntityCommandRT(POINTER<DMKGameEntity> meshComponents); /* Support for submitting objects */
         void issueInitializeFinalsCommandRT();
 
     private:

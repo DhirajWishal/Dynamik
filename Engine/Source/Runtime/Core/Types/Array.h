@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_TYPES_ARRAY_H
 #define _DYNAMIK_TYPES_ARRAY_H
@@ -155,7 +158,7 @@ namespace Dynamik
 
 			myDataCount = _getSizeOfRawArray(arr);
 			_reAllocateBack(_getNextSizeToFit(myDataCount));
-			MemoryFunctions::setData(myBeginPtr, 0, capacity());
+			DMKMemoryFunctions::setData(myBeginPtr, 0, capacity());
 		}
 
 		/* CONSTRUCTOR
@@ -177,12 +180,12 @@ namespace Dynamik
 					_reAllocateBack(_getNextSize());
 
 				if (list.size())
-					MemoryFunctions::moveData(myBeginPtr, (PTR)list.begin(), (PTR)list.end() - (PTR)list.begin());
+					DMKMemoryFunctions::moveData(myBeginPtr, (PTR)list.begin(), (PTR)list.end() - (PTR)list.begin());
 			}
 			else
 			{
 				_reAllocateBack(_getNextSizeToFit(_getAllocatableSize(list.size())));
-				MemoryFunctions::moveData(myBeginPtr, (PTR)list.begin(), (PTR)list.end() - (PTR)list.begin());
+				DMKMemoryFunctions::moveData(myBeginPtr, (PTR)list.begin(), (PTR)list.end() - (PTR)list.begin());
 			}
 
 			myDataCount = list.size();
@@ -216,7 +219,7 @@ namespace Dynamik
 			if (vector.size() > maxSize()); /* TODO: Error Flagging */
 
 			_reAllocateBack(_getAllocatableSize(vector.size()));
-			MemoryFunctions::moveData(myBeginPtr, (PTR)vector.begin()._Unwrapped(), (PTR)vector.end()._Unwrapped() - (PTR)vector.begin()._Unwrapped());
+			DMKMemoryFunctions::moveData(myBeginPtr, (PTR)vector.begin()._Unwrapped(), (PTR)vector.end()._Unwrapped() - (PTR)vector.begin()._Unwrapped());
 
 			myDataCount = vector.size();
 			myNextPtr += myDataCount;
@@ -254,7 +257,7 @@ namespace Dynamik
 
 			myDataCount = _getSizeOfRawArray(arr);
 			_reAllocateBack(_getNextSizeToFit(myDataCount));
-			MemoryFunctions::moveData(myBeginPtr, arr.get(), _getAllocationSize());
+			DMKMemoryFunctions::moveData(myBeginPtr, arr.get(), _getAllocationSize());
 		}
 
 		/* FUNCTION
@@ -288,7 +291,7 @@ namespace Dynamik
 				if (_byteSize > _getAllocationSize())
 					_reAllocateAssign(_getAllocatableSize(_byteSize));
 
-				MemoryFunctions::moveData(myBeginPtr, first, last - first);
+				DMKMemoryFunctions::moveData(myBeginPtr, first, last - first);
 				myNextPtr += myDataCount;
 			}
 			else
@@ -310,7 +313,7 @@ namespace Dynamik
 			if (list.size() > capacity())
 				_reAllocateAssign(_getAllocatableSize(list.size()));
 
-			MemoryFunctions::moveData(myBeginPtr, (PTR)list.begin(), (PTR)list.end() - (PTR)list.begin());
+			DMKMemoryFunctions::moveData(myBeginPtr, (PTR)list.begin(), (PTR)list.end() - (PTR)list.begin());
 			myDataCount = list.size();
 			myNextPtr += myDataCount;
 		}
@@ -600,7 +603,7 @@ namespace Dynamik
 			if (arr.size() > capacity())
 				_reAllocateAssign(_getAllocatableSize(arr.size()));
 
-			MemoryFunctions::moveData(myBeginPtr, arr.begin().get(), typeSize() * arr.size());
+			DMKMemoryFunctions::moveData(myBeginPtr, arr.begin().get(), typeSize() * arr.size());
 		}
 
 		/* FUNCTION
@@ -614,7 +617,7 @@ namespace Dynamik
 			if ((UI64)(last - first) > _getAllocationSize())
 				_reAllocateAssign(last.getPointerAsInteger() - first.getPointerAsInteger());
 
-			MemoryFunctions::moveData(myBeginPtr, first, last - first);
+			DMKMemoryFunctions::moveData(myBeginPtr, first, last - first);
 			UI64 _size = (UI64)(last - first);
 			myDataCount += _size;
 			myNextPtr += _size;
@@ -915,6 +918,21 @@ namespace Dynamik
 			return _newArr;
 		}
 
+		/* FUNCTION
+		 * Return the first index of the required data.
+		 * Return -1 if not found.
+		 *
+		 * @param data: The value to be checked.
+		 */
+		const I64 indexOf(const TYPE& data) const
+		{
+			for (I64 index = 0; index < size(); index++)
+				if (at(index) == data)
+					return index;
+
+			return -1;
+		}
+
 		/* PUBLIC OPERATORS */
 	public:
 		/* OPERATOR
@@ -1081,7 +1099,7 @@ namespace Dynamik
 			{
 				if (myBeginPtr.isValid())
 				{
-					MemoryFunctions::moveData(_newArr, myBeginPtr, myNextPtr - myBeginPtr);
+					DMKMemoryFunctions::moveData(_newArr, myBeginPtr, myNextPtr - myBeginPtr);
 					Allocator::deallocateRange(myBeginPtr, myEndPtr);
 				}
 			}
@@ -1113,7 +1131,7 @@ namespace Dynamik
 			{
 				if (myBeginPtr.isValid())
 				{
-					MemoryFunctions::moveData(_nxtPtr, myBeginPtr, myNextPtr - myBeginPtr);
+					DMKMemoryFunctions::moveData(_nxtPtr, myBeginPtr, myNextPtr - myBeginPtr);
 					Allocator::deallocateRange(myBeginPtr, myEndPtr);
 				}
 			}
@@ -1143,7 +1161,7 @@ namespace Dynamik
 			{
 				if (myBeginPtr.isValid())
 				{
-					MemoryFunctions::moveData(_newArr, myBeginPtr, myNextPtr - myBeginPtr);
+					DMKMemoryFunctions::moveData(_newArr, myBeginPtr, myNextPtr - myBeginPtr);
 					Allocator::deallocateRange(myBeginPtr, myEndPtr);
 				}
 			}
@@ -1222,18 +1240,18 @@ namespace Dynamik
 				return TYPE();
 
 			TYPE _data = front();
-			MemoryFunctions::setData((PTR)&myBeginPtr[0], 0, sizeof(TYPE));
+			DMKMemoryFunctions::setData((PTR)&myBeginPtr[0], 0, sizeof(TYPE));
 
 			_pointerContainer _container = _reAllocateGetRaw(_getNextSize());
 
 			PTR _localVec = &myBeginPtr[0];
-			MemoryFunctions::moveData(_localVec, (PTR)&myBeginPtr[0], _getSizeOfThis() - 1);
+			DMKMemoryFunctions::moveData(_localVec, (PTR)&myBeginPtr[0], _getSizeOfThis() - 1);
 
 			try
 			{
 				if (_container._beginPtr.isValid())
 				{
-					MemoryFunctions::moveData(_container._beginPtr, _localVec, _getSizeOfThis());
+					DMKMemoryFunctions::moveData(_container._beginPtr, _localVec, _getSizeOfThis());
 					_localVec.turnNull();
 					Allocator::deallocateRange(myBeginPtr, myEndPtr);
 				}
@@ -1261,8 +1279,8 @@ namespace Dynamik
 		inline void _compactAfterRemove(UI64 removedIndex)
 		{
 			PTR _newArr = _allocateBuffer(_getAllocationSize());
-			MemoryFunctions::moveData(_newArr, (PTR)&myBeginPtr[removedIndex - 1], removedIndex);
-			MemoryFunctions::moveData((PTR)&_newArr[removedIndex], (PTR)&myBeginPtr[removedIndex + 1], myEndPtr - (PTR)&myBeginPtr[removedIndex + 1]);
+			DMKMemoryFunctions::moveData(_newArr, (PTR)&myBeginPtr[removedIndex - 1], removedIndex);
+			DMKMemoryFunctions::moveData((PTR)&_newArr[removedIndex], (PTR)&myBeginPtr[removedIndex + 1], myEndPtr - (PTR)&myBeginPtr[removedIndex + 1]);
 
 			try
 			{
@@ -1529,7 +1547,7 @@ namespace Dynamik
 		 */
 		inline void _moveToThis(VPTR newSpace, UI64 newSpaceSize)
 		{
-			MemoryFunctions::moveData(myBeginPtr, (PTR)newSpace, newSpaceSize);
+			DMKMemoryFunctions::moveData(myBeginPtr, (PTR)newSpace, newSpaceSize);
 		}
 
 		/* PRIVATE FUNCTION
@@ -1540,7 +1558,7 @@ namespace Dynamik
 		 */
 		inline void _moveFromThis(VPTR newSpace, UI64 count)
 		{
-			MemoryFunctions::moveData((PTR)newSpace, myBeginPtr, count);
+			DMKMemoryFunctions::moveData((PTR)newSpace, myBeginPtr, count);
 		}
 
 		/* PRIVATE FUNCTION

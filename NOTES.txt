@@ -1,13 +1,69 @@
 Dynamik Game Engine Notes
 
+The clients are able to write game code using 5 major components:
+- Game Package
+- Game Entity
+- Game Mechanics
+- Game Level Component
+- Game Subsystem
+
+>> Game Package
 The user defines an object named the DMKGamePackage. All the game data are passed to the engine using this
 object. This class has a number of virtual methods which the user can use. These methods are called at 
 predefined places.
-The DMKGamePackage contains basic game information (game name, version, playtimr, ...), level data (all the
+The DMKGamePackage contains basic game information (game name, version, playtime, ...), level data (all the
 levels are passed to the engine using this), key bindings and other components. This can also be interpreted
 as a direct interface to some of the engine's core components.
 This object, together with the engine instance description will be used to initialize and run the Dynamik
 Engine.
+
+>> Game Entity
+Game entities are the components of the game which carries out a task. This task could be to render itself
+as a simple door, a weapon, a character, the player instance, etc... This entity by default very basic
+hierarchy,
+- Game Entity
+  - Scene Components
+
+Since this is a basic object which the user is required to define, entity components give the entities its 
+resources. Picture it as the brain and body. The brain is the Game Entity. The body is made up of multiple
+different components (hands, legs, eyes, etc...). The Game Entity defines the behaviour and the components
+allow the engine to use the resources and to carry out the behaviour.
+Some of the basic components are,
+- Mech Component
+- Texture Component 
+  * By default the mesh components have its own texture but this can be used to provide the engine with other
+    types of texture resources (spite sheets, cubemaps, etc...).
+- Physics Component
+- Audio Component
+
+>> Game Mechanics
+This defines the game rules, level loading, key mappings, and other game details. 
+
+>> Game Level Component
+This object defines a single level in the game. This contains a entities in the level, 
+game mechanics of the level, and other level related data.
+The engine works with one level at a time. By using the game mechanics, there are two main ways a level
+is loaded. One is right after the current level is completed. The other is when the player completes a
+certain percentage of the game. 
+Quite often the device which the game is running would not be able to load all of the level data at once. To
+handle this issue, the engine by default loads the immediate surrounding of the player and then load other
+level details as the player progresses. This method can be overrided by the client.
+
+Levels have a scene component manager which defines all the components in the level. This might be renderable
+components, audiable components and even scripts.
+
+>> Component System
+Components are the ones which handles data and provides data for rendering, audio, physics entities and others.
+All the components in a level is used at runtime. Components inside entities are still rendered but the entity
+defines its functionalities. Scene components defined in the level component itself can have scripts attached
+to it which defines its functionalities.
+Camera component does not fall under a component but it is passed to the renderable components to render it
+to the surface/ screen.
+
+>> Game Subsystems
+Subsystems allow clients to create their own systems and hand it over to the engine via the Game Package. These
+systems allow the client to write their own systems which a game might require. Additionally these systems 
+can be added to the engine via PlugIns.
 
 The rendering engine does not contain any idea about game assets. All what it renders are different meshes.
 Game Asset is just a way to categorize meshes and which defines a way to manipulate them.

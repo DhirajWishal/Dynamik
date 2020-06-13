@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "ShaderModule.h"
 
@@ -15,8 +18,18 @@ namespace Dynamik
 		I64 fileSize = (I64)file.tellg();
 		shaderCode.resize(fileSize);
 		file.seekg(0);
-		file.read(shaderCode.data(), fileSize);
+		file.read((CPTR)shaderCode.data(), fileSize);
 
 		file.close();
+	}
+	
+	void DMKShaderModule::addResource(DMKUniformType type, UI32 binding, UI32 offset)
+	{
+		DMKShaderResource _resource;
+		_resource.type = type;
+		_resource.binding = binding;
+		_resource.offset = offset;
+
+		layout.resources.pushBack(_resource);
 	}
 }

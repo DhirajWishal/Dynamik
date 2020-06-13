@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_VULKAN_TEXTURE_H
 #define _DYNAMIK_VULKAN_TEXTURE_H
@@ -9,7 +12,7 @@
 #include "../Common/VulkanDevice.h"
 #include "../Common/VulkanQueue.h"
 
-#include "Core/Object/Resource/TextureComponent.h"
+#include "Object/Resource/Texture.h"
 
 #include "VulkanImage.h"
 #include "VulkanImageSampler.h"
@@ -19,13 +22,21 @@ namespace Dynamik
 {
     namespace Backend
     {
+        /*
+         Vulkan Texture object for the Dynamik RBL
+        */
         class DMK_API VulkanTexture {
         public:
             VulkanTexture() {}
             ~VulkanTexture() {}
 
-            void initialize(const VulkanDevice& vDevice, const VulkanQueue& vQueue, const DMKTextureComponent& textureComponent);
+            void initialize(const VulkanDevice& vDevice, const VulkanQueue& vQueue, POINTER<DMKTexture> textureComponent);
+            void initializeView(const VulkanDevice& vDevice);
+            void initializeSampler(const VulkanDevice& vDevice);
+            void makeRenderable(const VulkanDevice& vDevice, const VulkanQueue& vQueue);
             void terminate(const VulkanDevice& vDevice);
+
+            VkDescriptorImageInfo createDescriptorInfo();
 
             operator VulkanImage() const;
             operator VulkanImageView() const;
@@ -34,6 +45,7 @@ namespace Dynamik
             VulkanImage image;
             VulkanImageView imageView;
             VulkanImageSampler sampler;
+            POINTER<DMKTexture> texture;
         };
     }
 }

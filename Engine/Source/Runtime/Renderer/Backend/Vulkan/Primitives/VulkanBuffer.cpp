@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "VulkanBuffer.h"
 
@@ -66,7 +69,7 @@ namespace Dynamik
 		VPTR VulkanBuffer::mapMemory(const VulkanDevice& vDevice, UI32 offset)
 		{
 			VPTR data = nullptr;
-			DMK_VULKAN_ASSERT(vkMapMemory(vDevice, bufferMemory, offset, size, 0, &data), "Unable to map the buffer memory!");
+			DMK_VULKAN_ASSERT(vkMapMemory(vDevice, bufferMemory, offset, size, VK_NULL_HANDLE, &data), "Unable to map the buffer memory!");
 			return data;
 		}
 
@@ -75,12 +78,22 @@ namespace Dynamik
 			vkUnmapMemory(vDevice, bufferMemory);
 		}
 
-		VulkanBuffer::operator VkBuffer()
+		VkDescriptorBufferInfo VulkanBuffer::createDescriptorInfo(UI32 offset)
+		{
+			VkDescriptorBufferInfo _info;
+			_info.buffer = buffer;
+			_info.range = size;
+			_info.offset = offset;
+
+			return _info;
+		}
+
+		VulkanBuffer::operator VkBuffer() const
 		{
 			return this->buffer;
 		}
 
-		VulkanBuffer::operator VkDeviceMemory()
+		VulkanBuffer::operator VkDeviceMemory() const
 		{
 			return this->bufferMemory;
 		}

@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_MATERIAL_DESCRIPTOR_H
 #define _DYNAMIK_MATERIAL_DESCRIPTOR_H
@@ -8,7 +11,7 @@
  Author:    Dhiraj Wishal
  Date:      17/05/2020
 */
-
+#include "Core/Macros/Global.h"
 
 namespace Dynamik
 {

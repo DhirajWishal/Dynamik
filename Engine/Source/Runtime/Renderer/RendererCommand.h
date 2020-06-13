@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_RENDERER_COMMANDS_H
 #define _DYNAMIK_RENDERER_COMMANDS_H
@@ -11,7 +14,7 @@
 #include "Window/WindowHandle.h"
 #include "Components/ContextTypeDefs.h"
 #include "Components/CoreTypeDefs.h"
-#include "GameLibrary/GameAssets/RenderableAsset.h"
+#include "GameLibrary/LevelComponent.h"
 
 namespace Dynamik
 {
@@ -19,8 +22,8 @@ namespace Dynamik
 	enum class DMK_API RendererInstruction {
 		RENDERER_INSTRUCTION_INITIALIZE,
 		RENDERER_INSTRUCTION_CREATE_CONTEXT,
-		RENDERER_INSTRUCTION_ADD_RENDER_ASSET,
-		RENDERER_INSTRUCTION_INITIALIZE_OBJECTS,
+		RENDERER_INSTRUCTION_INITIALIZE_LEVEL,
+		RENDERER_INSTRUCTION_INITIALIZE_ENTITY,
 		RENDERER_INSTRUCTION_INITIALIZE_FINALS,
 		RENDERER_INSTRUCTION_SUBMIT_OBJECTS,
 
@@ -78,13 +81,22 @@ namespace Dynamik
 		DMKRenderContextType contextType;
 	};
 
-	/* Add render asset */
-	class DMK_API RendererAddRenderAsset : public DMKRendererCommand {
+	/* Add Entity */
+	class DMK_API RendererAddEntity : public DMKRendererCommand {
 	public:
-		RendererAddRenderAsset() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_ADD_RENDER_ASSET) {}
-		~RendererAddRenderAsset() {}
+		RendererAddEntity() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITY) {}
+		~RendererAddEntity() {}
 
-		POINTER<DMKRenderableAsset> asset;
+		POINTER<DMKGameEntity> entity;
+	};
+
+	/* Add Entities */
+	class DMK_API RendererSubmitLevel : public DMKRendererCommand {
+	public:
+		RendererSubmitLevel() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_LEVEL) {}
+		~RendererSubmitLevel() {}
+
+		POINTER<DMKLevelComponent> level;
 	};
 }
 

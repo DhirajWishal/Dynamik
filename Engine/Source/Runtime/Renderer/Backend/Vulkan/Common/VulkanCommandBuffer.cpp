@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "VulkanCommandBuffer.h"
 
@@ -53,7 +56,7 @@ namespace Dynamik
 			renderPassInfo.renderPass = vRenderPass;
 			renderPassInfo.framebuffer = vFrameBuffer[bufferIndex];
 			renderPassInfo.renderArea.offset = { 0, 0 };
-			renderPassInfo.renderArea.extent = vSwapChain.swapChainExtent;
+			renderPassInfo.renderArea.extent = vSwapChain.extent;
 
 			std::array<VkClearValue, 2> clearValues = {};
 

@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_VULKAN_SWAP_CHAIN_H
 #define _DYNAMIK_VULKAN_SWAP_CHAIN_H
@@ -37,11 +40,11 @@ namespace Dynamik
 
             operator VkSwapchainKHR() const;
 
-            ARRAY<VulkanImage> swapChainImages;
-            ARRAY<VulkanImageView> swapChainImageViews;
+            ARRAY<VulkanImage> images;
+            ARRAY<VulkanImageView> imageViews;
             VkSwapchainKHR swapChain = VK_NULL_HANDLE;
-            VkFormat swapChainImageFormat = VK_FORMAT_UNDEFINED;
-            VkExtent2D swapChainExtent = { 0, 0 };
+            VkFormat format = VK_FORMAT_UNDEFINED;
+            VkExtent2D extent = { 0, 0 };
             VulkanViewport myViewport;
 
         private:

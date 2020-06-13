@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "Vector4D.h"
 
@@ -10,7 +13,7 @@ namespace Dynamik
         if ((list.size() > 4) || (list.size() < 4))
             DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
 
-        MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(D64));
+        DMKMemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(D64));
     }
 
     Vector4D Vector4D::operator=(const std::initializer_list<D64>& list)
@@ -18,7 +21,7 @@ namespace Dynamik
         if ((list.size() > 4) || (list.size() < 4))
             DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
 
-        MemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(D64));
+        DMKMemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(D64));
 
         return *this;
     }

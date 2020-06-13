@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_POINTER_H
 #define _DYNAMIK_POINTER_H
@@ -203,7 +206,7 @@ namespace Dynamik
 		 *
 		 * @param increment: Value that is added to the pointer.
 		 */
-		TYPE* operator+(UI64& increment) { return (TYPE*)this->getAddressAsInteger() + increment; }
+		TYPE* operator+(UI64& increment) { return (TYPE*)(((UI64)this->myPointer) + increment); }
 
 		/* OPERATOR
 		 * Return the addition of the two pointers.
@@ -224,7 +227,7 @@ namespace Dynamik
 		 *
 		 * @param decrement: Value to be subtracted to the pointer.
 		 */
-		TYPE* operator-(const UI64& decrement) { return (TYPE*)this->getAddressAsInteger() - decrement; }
+		TYPE* operator-(const UI64& decrement) { return (TYPE*)(((UI64)this->myPointer) - decrement); }
 
 		/* OPERATOR
 		 * Return the difference of the two pointers.

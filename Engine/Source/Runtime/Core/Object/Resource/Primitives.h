@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_RESOURCE_PRIMITIVES_H
 #define _DYNAMIK_RESOURCE_PRIMITIVES_H
@@ -10,10 +13,31 @@
 */
 #include "Math/MathTypes.h"
 #include "Types/Array.h"
-#include "ShaderModule.h"
 
 namespace Dynamik
 {
+	/* Dynamik Shader Locations */
+	enum class DMK_API DMKShaderLocation {
+		DMK_SHADER_LOCATION_ALL,
+		DMK_SHADER_LOCATION_VERTEX,
+		DMK_SHADER_LOCATION_TESSELLATION,
+		DMK_SHADER_LOCATION_GEOMETRY,
+		DMK_SHADER_LOCATION_FRAGMENT,
+		DMK_SHADER_LOCATION_COMPUTE,
+		DMK_SHADER_LOCATION_ALL_GRAPHICS,
+
+		/* Ray Tracing (Nvidia) */
+		DMK_SHADER_LOCATION_RAY_GEN,
+		DMK_SHADER_LOCATION_ANY_HIT,
+		DMK_SHADER_LOCATION_CLOSEST_HIT,
+		DMK_SHADER_LOCATION_MISS,
+		DMK_SHADER_LOCATION_INTERSECTION,
+		DMK_SHADER_LOCATION_CALLABLE,
+
+		DMK_SHADER_LOCATION_TASK,
+		DMK_SHADER_LOCATION_MESH,
+	};
+
 	/* Vertex */
 	/* TEMPLATED CONTAINER
 	 Dynamik Engine supports multiple sizes of vertex bone information types. These types are based on the number
@@ -68,7 +92,7 @@ namespace Dynamik
 		DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES,      /* Texture coordinates */
 		DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES,           /* UV coordinates */
 		DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL,                   /* Normal vectors */
-		DMK_VERTEX_ATTRIBUTE_TYPE_SINTEGRITY,               /* Integrity value */
+		DMK_VERTEX_ATTRIBUTE_TYPE_INTEGRITY,               /* Integrity value */
 		DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID,                  /* Bone IDs */
 		DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT,              /* Bone Weights */
 		DMK_VERTEX_ATTRIBUTE_TYPE_CUSTOM                    /* Custom */
@@ -138,6 +162,14 @@ namespace Dynamik
 		DMK_UNIFORM_ATTRIBUTE_TYPE_CUSTOM
 	};
 
+	/* Dynamik Uniform Buffer Usage */
+	enum class DMK_API DMKUniformBufferUsage {
+		DMK_UNIFORM_BUFFER_USAGE_CAMERA,
+		DMK_UNIFORM_BUFFER_USAGE_SAMPLER,
+		DMK_UNIFORM_BUFFER_USAGE_MODEL,
+		DMK_UNIFORM_BUFFER_USAGE_CUSTOM,
+	};
+
 	/* Dynamik Uniform Attribute */
 	struct DMK_API DMKUniformAttribute {
 		DMKDataType dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
@@ -153,6 +185,7 @@ namespace Dynamik
 		ARRAY<DMKUniformAttribute> attributes;
 		DMKUniformType type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
 		DMKShaderLocation shaderLocation = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
+		DMKUniformBufferUsage usage = DMKUniformBufferUsage::DMK_UNIFORM_BUFFER_USAGE_CUSTOM;
 		UI32 destinationBinding = 0;
 		UI32 offset = 0;
 
@@ -209,9 +242,14 @@ namespace Dynamik
 
 	public:		/* Static Utility Functions */
 		/*
-		 Create a basic camera uniform buffer object (Model, View, Projection)
+		 Create a basic Camera uniform buffer object.
 		*/
-		static DMKUniformDescription createUniformMVP();
+		static DMKUniformDescription createUniformCamera(UI32 binding = 0, DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX);
+
+		/*
+		 Create a basic model uniform buffer object.
+		*/
+		static DMKUniformDescription createUniformModel(UI32 binding = 0, DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX);
 	};
 }
 

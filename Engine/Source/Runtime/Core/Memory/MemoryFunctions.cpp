@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "MemoryFunctions.h"
 
@@ -5,13 +8,13 @@
 
 namespace Dynamik
 {
-	void MemoryFunctions::moveData(VPTR destination, VPTR source, UI64 byteSize)
+	void DMKMemoryFunctions::moveData(VPTR destination, VPTR source, UI64 byteSize)
 	{
 		/* TODO: Proper memory move function */
 		std::memmove(destination, source, byteSize);
 	}
 
-	void MemoryFunctions::setData(VPTR destination, BYTE byteValue, UI64 byteSize)
+	void DMKMemoryFunctions::setData(VPTR destination, BYTE byteValue, UI64 byteSize)
 	{
 		/* TODO: Proper memory set function */
 		std::memset(destination, byteValue, byteSize);

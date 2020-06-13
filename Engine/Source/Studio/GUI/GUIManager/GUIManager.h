@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_STUDIO_GUI_MANAGER_H
 #define _DYNAMIK_STUDIO_GUI_MANAGER_H
@@ -27,6 +30,8 @@ namespace Dynamik
 		void terminate();
 
 		POINTER<DMKWindowHandle> windowHandle;
+
+		D64 time = 0.0;
 	};
 }
 

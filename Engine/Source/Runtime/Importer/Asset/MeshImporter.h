@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_MESH_IMPORTER_H
 #define _DYNAMIK_MESH_IMPORTER_H
@@ -6,7 +9,7 @@
  Author:    Dhiraj Wishal
  Date:      20/05/2020
 */
-#include "Object/Resource/MeshComponent.h"
+#include "ComponentSystem/Components/RenderableComponents/MeshComponent.h"
 
 namespace Dynamik 
 {

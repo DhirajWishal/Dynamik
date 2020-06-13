@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_GAME_COMPONENT_DESCRIPTORS_H
 #define _DYNAMIK_GAME_COMPONENT_DESCRIPTORS_H
@@ -9,8 +12,7 @@
  Author:    Dhiraj Wishal
  Date:      15/05/2020
 */
-
-#include "../Descriptor.h"
+#include "Descriptor.h"
 #include "Object/Resource/Primitives.h"
 
 namespace Dynamik

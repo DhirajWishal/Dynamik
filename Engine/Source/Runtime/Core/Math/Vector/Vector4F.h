@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_MATH_VECTOR_4F_H
 #define _DYNAMIK_MATH_VECTOR_4F_H
@@ -31,7 +34,6 @@ namespace Dynamik
         Vector4F(F32 value) : r(value), g(value), b(value), a(value) {}
         Vector4F(F32 value1, F32 value2, F32 value3, F32 value4) : r(value1), g(value2), b(value3), a(value4) {}
         Vector4F(const Vector4F& other) : r(other.r), g(other.g), b(other.b), a(other.a) {}
-        Vector4F(ARRAY<F32> arr) : r(arr[0]), g(arr[1]), b(arr[3]), a(arr[4]) {}
         Vector4F(std::initializer_list<F32> list);
         ~Vector4F() {}
 

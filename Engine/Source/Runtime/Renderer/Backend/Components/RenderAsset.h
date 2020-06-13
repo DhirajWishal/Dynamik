@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_RENDER_ASSET_H
 #define _DYNAMIK_RENDER_ASSET_H
@@ -6,7 +9,7 @@
  Author:    Dhiraj Wishal
  Date:      23/05/2020
 */
-#include "GameLibrary/GameAssets/RenderableAsset.h"
+#include "Macros/Global.h"
 
 namespace Dynamik
 {

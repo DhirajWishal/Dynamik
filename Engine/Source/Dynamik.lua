@@ -1,3 +1,6 @@
+-- Copyright 2020 Dhiraj Wishal
+-- SPDX-License-Identifier: Apache-2.0
+
 ---------- Dynamik Engine project description ----------
 
 project "Dynamik"
@@ -30,11 +33,16 @@ project "Dynamik"
 		"$(SolutionDir)Engine/Source/Runtime/Core/PCH/",
 		"$(SolutionDir)Engine/Source/Runtime/GameLibraries",
 		"$(SolutionDir)Engine/ThirdParty/imgui",
+		"$(SolutionDir)Engine/ThirdParty/SPIRV-Cross",
 		"%{IncludeDir.Vulkan}",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLEW}",
 		"%{IncludeDir.assimp}",
+		"%{IncludeDir.stb}",
+		"%{IncludeDir.gli}",
+		"%{IncludeDir.glm}",
 		"%{IncludeDir.zlib}",
+		"%{IncludeDir.SPIRVTools}",
 	}
 
 	libdirs {
@@ -43,6 +51,7 @@ project "Dynamik"
 		"%{IncludeLib.GLEW}",
 		"%{IncludeLib.Assimp}",
 		"%{IncludeLib.zlib}",
+		"%{IncludeLib.SPIRVTools}",
 	}
 
 	links { 
@@ -52,6 +61,8 @@ project "Dynamik"
 		"vulkan-1",
 		"assimp",
 		"imgui",
+		"SPIRV-Tools",
+		"SPIRV-Cross",
 	}
 
 	filter "system:windows"

@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "ThreadManager.h"
 
@@ -141,11 +144,14 @@ namespace Dynamik
 		myRendererThread.commandBuffer.commands.pushBack(new RendererCreateContextCommand(_command));
 	}
 
-	void DMKThreadManager::issueInitializeObjectCommandRT()
+	void DMKThreadManager::issueInitializeEntityCommandRT(POINTER<DMKGameEntity> meshComponents)
 	{
-		DMKRendererCommand _command(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_OBJECTS);
+		RendererAddEntity _command;
+		_command.entity = meshComponents;
 
-		_pushToThread(_command);
+		/* Push to command buffer */
+		myRendererThread.commandBuffer.hasExcuted = false;
+		myRendererThread.commandBuffer.commands.pushBack(new RendererAddEntity(_command));
 	}
 
 	void DMKThreadManager::issueInitializeFinalsCommandRT()

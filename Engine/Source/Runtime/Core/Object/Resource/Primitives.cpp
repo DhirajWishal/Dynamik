@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "Primitives.h"
 
@@ -7,7 +10,7 @@ namespace Dynamik
 	{
 		UI64 _size = 0;
 		for (auto _attribute : attributes)
-			_size += ((UI32)_attribute.dataType * _attribute.dataCount);
+			_size += ((UI64)_attribute.dataType * _attribute.dataCount);
 
 		return _size;
 	}
@@ -16,7 +19,7 @@ namespace Dynamik
 	{
 		UI64 _size = 0;
 		for (auto _attribute : attributes)
-			_size += ((UI32)_attribute.dataType * _attribute.dataCount);
+			_size += ((UI64)_attribute.dataType * _attribute.dataCount);
 
 		return _size;
 	}
@@ -25,7 +28,7 @@ namespace Dynamik
 	{
 		UI32 _size = 0;
 		for (auto _attribute : attributes)
-			_size += ((UI32)_attribute.dataType * _attribute.dataCount);
+			_size += ((UI64)_attribute.dataType * _attribute.dataCount);
 
 		return _size;
 	}
@@ -78,10 +81,10 @@ namespace Dynamik
 
 					nextPointer = (VPTR)(((UI64)nextPointer) + (UI64)myDescription.attributes[location - 1].dataType);
 				}
-				MemoryFunctions::moveData(nextPointer, data, byteSize);
+				DMKMemoryFunctions::moveData(nextPointer, data, byteSize);
 			}
 			else
-				MemoryFunctions::moveData(uniformBufferStorage, data, byteSize);
+				DMKMemoryFunctions::moveData(uniformBufferStorage, data, byteSize);
 		}
 		else
 			DMK_FATAL("Invalid data location bound!");
@@ -89,35 +92,48 @@ namespace Dynamik
 
 	void DMKUniformBufferObject::clear()
 	{
-		MemoryFunctions::setData(uniformBufferStorage, 0, myDescription.getUniformSize());
+		DMKMemoryFunctions::setData(uniformBufferStorage, 0, myDescription.getUniformSize());
 		nextPointer = uniformBufferStorage;
 	}
-	
-	DMKUniformDescription DMKUniformBufferObject::createUniformMVP()
+
+	DMKUniformDescription DMKUniformBufferObject::createUniformCamera(UI32 binding, DMKShaderLocation location)
 	{
 		DMKUniformDescription _description;
-		_description.destinationBinding = 1;
+		_description.destinationBinding = binding;
 		_description.offset = 0;
-		_description.shaderLocation = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
+		_description.shaderLocation = location;
 		_description.type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
+		_description.usage = DMKUniformBufferUsage::DMK_UNIFORM_BUFFER_USAGE_CAMERA;
+
+		DMKUniformAttribute _attribute1;
+		_attribute1.attributeType = DMKUniformAttributeType::DMK_UNIFORM_ATTRIBUTE_TYPE_VIEW;
+		_attribute1.dataCount = 1;
+		_attribute1.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
+		_description.attributes.pushBack(_attribute1);
+
+		DMKUniformAttribute _attribute2;
+		_attribute2.attributeType = DMKUniformAttributeType::DMK_UNIFORM_ATTRIBUTE_TYPE_PROJECTION;
+		_attribute2.dataCount = 1;
+		_attribute2.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
+		_description.attributes.pushBack(_attribute2);
+
+		return _description;
+	}
+
+	DMKUniformDescription DMKUniformBufferObject::createUniformModel(UI32 binding, DMKShaderLocation location)
+	{
+		DMKUniformDescription _description;
+		_description.destinationBinding = binding;
+		_description.offset = 0;
+		_description.shaderLocation = location;
+		_description.type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
+		_description.usage = DMKUniformBufferUsage::DMK_UNIFORM_BUFFER_USAGE_MODEL;
 
 		DMKUniformAttribute _attribute1;
 		_attribute1.attributeType = DMKUniformAttributeType::DMK_UNIFORM_ATTRIBUTE_TYPE_MODEL;
 		_attribute1.dataCount = 1;
 		_attribute1.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
 		_description.attributes.pushBack(_attribute1);
-
-		DMKUniformAttribute _attribute2;
-		_attribute2.attributeType = DMKUniformAttributeType::DMK_UNIFORM_ATTRIBUTE_TYPE_VIEW;
-		_attribute2.dataCount = 1;
-		_attribute2.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
-		_description.attributes.pushBack(_attribute2);
-
-		DMKUniformAttribute _attribute3;
-		_attribute3.attributeType = DMKUniformAttributeType::DMK_UNIFORM_ATTRIBUTE_TYPE_PROJECTION;
-		_attribute3.dataCount = 1;
-		_attribute3.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
-		_description.attributes.pushBack(_attribute3);
 
 		return _description;
 	}

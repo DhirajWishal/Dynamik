@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_VULKAN_BUFFER_H
 #define _DYNAMIK_VULKAN_BUFFER_H
@@ -33,8 +36,10 @@ namespace Dynamik
             VPTR mapMemory(const VulkanDevice& vDevice, UI32 offset = 0);
             void unmapMemory(const VulkanDevice& vDevice);
 
-            operator VkBuffer();
-            operator VkDeviceMemory();
+            VkDescriptorBufferInfo createDescriptorInfo(UI32 offset = 0);
+
+            operator VkBuffer() const;
+            operator VkDeviceMemory() const;
 
             VkBuffer buffer = VK_NULL_HANDLE;
             VkDeviceMemory bufferMemory = VK_NULL_HANDLE;

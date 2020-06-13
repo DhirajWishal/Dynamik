@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_WINDOW_MANAGER_H
 #define _DYNAMIK_WINDOW_MANAGER_H

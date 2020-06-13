@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_RENDER_CORE_TYPE_DEFINES_H
 #define _DYNAMIK_RENDER_CORE_TYPE_DEFINES_H

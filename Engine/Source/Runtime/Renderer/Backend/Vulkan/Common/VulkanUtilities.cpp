@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "VulkanUtilities.h"
 
@@ -124,6 +127,30 @@ namespace Dynamik
 				_binding.pImmutableSamplers = VK_NULL_HANDLE;
 				_binding.stageFlags = getShaderStage(_object.shaderLocation);
 				_bindings.pushBack(_binding);
+			}
+
+			return _bindings;
+		}
+
+		ARRAY<VkDescriptorSetLayoutBinding> VulkanUtilities::getDescriptorSetLayoutBindings(ARRAY<DMKShaderModule> modules)
+		{
+			ARRAY<VkDescriptorSetLayoutBinding> _bindings;
+
+			for (auto _shader : modules)
+			{
+				for (auto _resource : _shader.layout.resources)
+				{
+					if (_resource.type == DMKUniformType::DMK_UNIFORM_TYPE_CONSTANT)
+						continue;
+
+					VkDescriptorSetLayoutBinding _binding;
+					_binding.binding = _resource.binding;
+					_binding.descriptorCount = 1;
+					_binding.descriptorType = getDescriptorType(_resource.type);
+					_binding.pImmutableSamplers = VK_NULL_HANDLE;
+					_binding.stageFlags = getShaderStage(_shader.location);
+					_bindings.pushBack(_binding);
+				}
 			}
 
 			return _bindings;

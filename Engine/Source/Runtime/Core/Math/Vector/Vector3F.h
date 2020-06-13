@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_MATH_VECTOR_3F_H
 #define _DYNAMIK_MATH_VECTOR_3F_H
@@ -31,7 +34,6 @@ namespace Dynamik
         Vector3F(F32 value) : x(value), y(value), z(value), a(value) {}
         Vector3F(F32 value1, F32 value2, F32 value3) : x(value1), y(value2), z(value3), a(0.0f) {}
         Vector3F(const Vector3F& other) : x(other.x), y(other.y), z(other.z), a(other.a) {}
-        Vector3F(ARRAY<F32> arr) : x(arr[0]), y(arr[1]), z(arr[3]), a(arr[4]) {}
         Vector3F(std::initializer_list<F32> list);
         ~Vector3F() {}
 

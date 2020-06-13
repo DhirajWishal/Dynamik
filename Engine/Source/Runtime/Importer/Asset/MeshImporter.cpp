@@ -1,7 +1,10 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "MeshImporter.h"
 
-#include "Object/Resource/MeshComponent.h"
+#include "ComponentSystem/Components/RenderableComponents/MeshComponent.h"
 #include "Object/Resource/Primitives.h"
 
 #include <assimp/assimp/Importer.hpp>

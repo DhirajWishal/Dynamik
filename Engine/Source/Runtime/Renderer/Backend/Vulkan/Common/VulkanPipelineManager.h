@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_VULKAN_PIPELINE_MANAGER_H
 #define _DYNAMIK_VULKAN_PIPELINE_MANAGER_H
@@ -14,7 +17,7 @@
 #include "../Primitives/VulkanShader.h"
 
 #include "Core/Object/Resource/Primitives.h"
-#include "GameLibrary/GameAsset.h"
+#include "ComponentSystem/Components/RenderableComponents/MeshComponent.h"
 
 namespace Dynamik
 {
@@ -33,7 +36,7 @@ namespace Dynamik
 		 Vulkan Graphics Pipeline create info structure
 		*/
 		struct DMK_API VulkanGraphicsPipelineInitInfo {
-			DMKGameAssetType assetType = DMKGameAssetType::DMK_GAME_ASSET_TYPE_MESH;
+			DMKMeshComponentUsage usage = DMKMeshComponentUsage::DMK_MESH_COMPONENT_USAGE_STATIC;
 			DMKVertexBufferDescriptor vertexBufferDescriptor;
 			ARRAY<DMKConstantBlockDescription> constantBlockDescriptions;
 
@@ -110,6 +113,14 @@ namespace Dynamik
 		 Vulkan Pipeline Manager for the Dynamik RBL
 		*/
 		class DMK_API VulkanPipelineManager {
+
+			template<class INITINFO>
+			struct DMK_API VulkanPipelineCache {
+				INITINFO initInfo;
+				VkPipeline basePipeline = VK_NULL_HANDLE;
+				VkPipelineLayout basePipelineLayout = VK_NULL_HANDLE;
+				VkPipelineCache pipelineCache = VK_NULL_HANDLE;
+			};
 		public:
 			VulkanPipelineManager() {}
 			~VulkanPipelineManager() {}
@@ -117,9 +128,6 @@ namespace Dynamik
 			VulkanPipelineContainer createGraphicsPipeline(const VulkanDevice& vDevice, VulkanGraphicsPipelineInitInfo info);
 			VulkanPipelineContainer createRayTracingPipeline(const VulkanDevice& vDevice, VulkanGraphicsPipelineInitInfo info);
 			VulkanPipelineContainer createComputePipeline(const VulkanDevice& vDevice, VulkanGraphicsPipelineInitInfo info);
-		
-		private:
-
 		};
 	}
 }

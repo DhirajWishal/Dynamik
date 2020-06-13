@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_THREAD_H
 #define _DYNAMIK_THREAD_H
@@ -38,7 +41,9 @@ namespace Dynamik
 
         virtual void initialize() {}
         virtual void processCommand(POINTER<DMKThreadCommand> command) {}
+
         virtual void onLoop() {}
+
         virtual void onTermination() {}
 
         DMKThreadType type = DMKThreadType::DMK_THREAD_TYPE_PARENT;

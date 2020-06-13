@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "VulkanImage.h"
 
@@ -14,12 +17,12 @@ namespace Dynamik
 			usage = info.imageUsage;
 			mipLevel = info.mipLevels;
 			layers = info.layers;
-			imageSize = info.imageWidth * info.imageHeight * info.imageDepth * 4;
-			imageWidth = info.imageWidth;
-			imageHeight = info.imageHeight;
-			imageDepth = info.imageDepth;
+			size = info.imageWidth * info.imageHeight * info.imageDepth * 4;
+			width = info.imageWidth;
+			height = info.imageHeight;
+			depth = info.imageDepth;
 			availabeMipLevels = info.mipLevels;
-			imageFormat = VulkanUtilities::getVulkanFormat(info.imageFormat);
+			format = VulkanUtilities::getVulkanFormat(info.imageFormat);
 
 			VkImageCreateInfo imageInfo = {};
 			imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
@@ -36,7 +39,7 @@ namespace Dynamik
 			imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 			imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
 
-			if (info.imageType == ImageType::IMAGE_TYPE_CUBEMAP || info.imageType == ImageType::IMAGE_TYPE_CUBEMAP_ARRAY)
+			if (info.imageType == DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP || info.imageType == DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP_ARRAY)
 				imageInfo.flags = VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT;
 
 			DMK_VULKAN_ASSERT(vkCreateImage(vDevice, &imageInfo, nullptr, &image), "Failed to create image!");
@@ -54,11 +57,43 @@ namespace Dynamik
 			DMK_VULKAN_ASSERT(vkBindImageMemory(vDevice, image, imageMemory, 0), "Failed to bind image memory!");
 		}
 
+		void VulkanImage::copyBuffer(const VulkanDevice& vDevice, const VulkanQueue& vQueue, const VulkanBuffer& vBuffer)
+		{
+			setLayout(vDevice, vQueue, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+
+			VkBufferImageCopy region = {};
+			region.bufferOffset = 0;
+			region.bufferRowLength = 0;
+			region.bufferImageHeight = 0;
+
+			region.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+			region.imageSubresource.mipLevel = 0;
+			region.imageSubresource.baseArrayLayer = 0;
+			region.imageSubresource.layerCount = layers;
+
+			region.imageOffset = { 0, 0, 0 };
+			region.imageExtent = {
+				width,
+				height,
+				depth
+			};
+
+			VulkanOneTimeCommandBuffer _commandBuffer(vDevice, vQueue);
+			vkCmdCopyBufferToImage(
+				_commandBuffer,
+				vBuffer,
+				image,
+				VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+				1,
+				&region
+			);
+		}
+
 		void VulkanImage::generateMipMaps(const VulkanDevice& vDevice, const VulkanQueue& vQueue)
 		{
 			VulkanOneTimeCommandBuffer _buffer(vDevice, vQueue);
 			VkFormatProperties formatProperties;
-			vkGetPhysicalDeviceFormatProperties(vDevice, imageFormat, &formatProperties);
+			vkGetPhysicalDeviceFormatProperties(vDevice, format, &formatProperties);
 
 			if (!(formatProperties.optimalTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT))
 				DMK_ERROR_BOX("Texture image format does not support linear blitting!");
@@ -88,13 +123,13 @@ namespace Dynamik
 
 				VkImageBlit blit = {};
 				blit.srcOffsets[0] = { 0, 0, 0 };
-				blit.srcOffsets[1] = { (I32)imageWidth, (I32)imageHeight, 1 };
+				blit.srcOffsets[1] = { (I32)width, (I32)height, 1 };
 				blit.srcSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 				blit.srcSubresource.mipLevel = i - 1;
 				blit.srcSubresource.baseArrayLayer = 0;
 				blit.srcSubresource.layerCount = 1;
 				blit.dstOffsets[0] = { 0, 0, 0 };
-				blit.dstOffsets[1] = { (I32)imageWidth > 1 ? (I32)imageWidth / 2 : 1, (I32)imageHeight > 1 ? (I32)imageHeight / 2 : 1, 1 };
+				blit.dstOffsets[1] = { (I32)width > 1 ? (I32)width / 2 : 1, (I32)height > 1 ? (I32)height / 2 : 1, 1 };
 				blit.dstSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 				blit.dstSubresource.mipLevel = i;
 				blit.dstSubresource.baseArrayLayer = 0;
@@ -117,8 +152,8 @@ namespace Dynamik
 					0, nullptr,
 					1, &barrier);
 
-				if (imageWidth > 1) imageWidth /= 2;
-				if (imageHeight > 1) imageHeight /= 2;
+				if (width > 1) width /= 2;
+				if (height > 1) height /= 2;
 			}
 		}
 
@@ -138,7 +173,7 @@ namespace Dynamik
 			{
 				barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
 
-				if (VulkanUtilities::hasStencilComponent(imageFormat))
+				if (VulkanUtilities::hasStencilComponent(format))
 					barrier.subresourceRange.aspectMask |= VK_IMAGE_ASPECT_STENCIL_BIT;
 			}
 			else
@@ -247,7 +282,7 @@ namespace Dynamik
 		VPTR VulkanImage::mapMemory(const VulkanDevice& vDevice, UI32 offset)
 		{
 			VPTR data = nullptr;
-			DMK_VULKAN_ASSERT(vkMapMemory(vDevice, imageMemory, offset, imageSize, 0, &data), "Unable to map image memory!");
+			DMK_VULKAN_ASSERT(vkMapMemory(vDevice, imageMemory, offset, size, 0, &data), "Unable to map image memory!");
 			return data;
 		}
 

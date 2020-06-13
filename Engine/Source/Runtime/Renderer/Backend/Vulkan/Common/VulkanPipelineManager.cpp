@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "VulkanPipelineManager.h"
 
@@ -58,8 +61,10 @@ namespace Dynamik
 				VkViewport viewport = {};
 				viewport.x = (F32)info.viewports[i].xOffset;
 				viewport.y = (F32)info.viewports[i].yOffset;
-				viewport.width = (F32)info.viewports[i].width;
-				viewport.height = (F32)info.viewports[i].height;
+				//viewport.width = (F32)info.viewports[i].width;
+				//viewport.height = (F32)info.viewports[i].height;
+				viewport.width = (F32)info.swapChainExtent.width;
+				viewport.height = (F32)info.swapChainExtent.height;
 				viewport.minDepth = 0.0f;
 				viewport.maxDepth = 1.0f;
 
@@ -92,7 +97,7 @@ namespace Dynamik
 			rasterizer.lineWidth = info.rasterizerLineWidth;
 			rasterizer.cullMode = info.rasterizerCullMode;
 
-			if (info.assetType == DMKGameAssetType::DMK_GAME_ASSET_TYPE_SKYBOX)
+			if (info.usage == DMKMeshComponentUsage::DMK_MESH_COMPONENT_USAGE_SKYBOX)
 				rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;
 			else
 				rasterizer.frontFace = info.rasterizerFrontFace;
@@ -187,11 +192,30 @@ namespace Dynamik
 			pipelineInfo.pTessellationState = nullptr;
 			pipelineInfo.layout = _container.layout;
 			pipelineInfo.renderPass = info.vRenderPass;
+			pipelineInfo.flags = VK_PIPELINE_CREATE_ALLOW_DERIVATIVES_BIT;
 
 			if (info.dynamicStateEnable)
 				pipelineInfo.pDynamicState = &dynamicStateInfo;
 
-			DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(vDevice, info.pipelineCache, 1, &pipelineInfo, VK_NULL_HANDLE, &_container.pipeline), "Failed to create graphics pipeline!");
+			//if (myAllocatedInitInfos.find(info).size())
+			//{
+			//	auto _cache = myGraphicsPipelineCache[myAllocatedInitInfos.indexOf(info)];
+			//	pipelineInfo.basePipelineHandle = _cache.basePipeline;
+			//	pipelineInfo.basePipelineIndex = -1;
+			//	pipelineInfo.flags = VK_PIPELINE_CREATE_DERIVATIVE_BIT;
+			//	DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(vDevice, info.pipelineCache, 1, &pipelineInfo, VK_NULL_HANDLE, &_container.pipeline), "Failed to create graphics pipeline!");
+			//}
+			//else
+			//{
+				DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(vDevice, info.pipelineCache, 1, &pipelineInfo, VK_NULL_HANDLE, &_container.pipeline), "Failed to create graphics pipeline!");
+
+			//	VulkanPipelineCache<VulkanGraphicsPipelineInitInfo> _cache;
+			//	_cache.basePipeline = _container.pipeline;
+			//	_cache.basePipelineLayout = _container.layout;
+			//	_cache.initInfo = info;
+			//	myGraphicsPipelineCache.pushBack(_cache);
+			//	myAllocatedInitInfos.pushBack(info);
+			//}
 
 			return _container;
 		}

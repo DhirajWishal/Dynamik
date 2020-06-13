@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_MOUSE_BUTTON_EVENT_LISTENER_H
 #define _DYNAMIK_MOUSE_BUTTON_EVENT_LISTENER_H

@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 #ifndef _DYNAMIK_RENDERER_PRIMITIVE_TYPE_DEFINES_H
 #define _DYNAMIK_RENDERER_PRIMITIVE_TYPE_DEFINES_H
@@ -13,14 +16,6 @@
 
 namespace Dynamik
 {
-	/* Image Type enum */
-	enum class DMK_API ImageType {
-		IMAGE_TYPE_2D,
-		IMAGE_TYPE_2D_ARRAY,
-		IMAGE_TYPE_CUBEMAP,
-		IMAGE_TYPE_CUBEMAP_ARRAY,
-	};
-
 	/* Image Usage (OR operator can be used) */
 	enum DMK_API ImageUsage {
 		IMAGE_USAGE_TRANSFER_SRC = BIT_SHIFT(0),

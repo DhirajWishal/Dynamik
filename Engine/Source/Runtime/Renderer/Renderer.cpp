@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "Renderer.h"
 
@@ -25,17 +28,20 @@ namespace Dynamik
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_FINALS:
 			myBackend.initializeFinalComponents();
 			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_OBJECTS:
-			myBackend.initializeObject(POINTER<DMKMeshComponent>());
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITY:
+			myBackend.initializeEntity(((RendererAddEntity*)myCommand)->entity);
 			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_ADD_RENDER_ASSET:
-			myBackend.initializeObject(((RendererAddRenderAsset*)myCommand)->asset);
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_LEVEL:
+			myBackend.initializeLevel(POINTER<DMKLevelComponent>());
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SUBMIT_OBJECTS:
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_INITIALIZE:
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE:
+			myBackend.initializeDrawCall();
+			myBackend.updateRenderables();
+			myBackend.submitRenderables();
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_SUBMIT:
 			break;
@@ -61,7 +67,6 @@ namespace Dynamik
 	void DMKRenderer::onLoop()
 	{
 		myBackend.initializeDrawCall();
-		myBackend.updateRenderables();
 		myBackend.submitRenderables();
 	}
 
