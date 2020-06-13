@@ -22,6 +22,7 @@
     <ClInclude Include="Assets\Level1\Level1.h">
       <Filter>Assets\Level1</Filter>
     </ClInclude>
+    <ClInclude Include="Assets\Level1\Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ApplicationPackage.cpp" />

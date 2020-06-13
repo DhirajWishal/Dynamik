@@ -1,8 +1,11 @@
 #include "Level1.h"
+#include "Player.h"
 
 void Level1::onLoad()
 {
-	myEntities.pushBack(&myMoon);
+	playerObject = (POINTER<DMKPlayerObject>)StaticAllocator<Player>::allocate();
 
-	cameraModule = StaticAllocator<DMKCameraModule>::allocate();
+	myMoon.setupCamera(playerObject->getCameraModule());
+
+	myEntities.pushBack(&myMoon);
 }

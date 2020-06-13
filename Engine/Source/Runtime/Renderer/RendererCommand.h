@@ -11,7 +11,7 @@
 #include "Window/WindowHandle.h"
 #include "Components/ContextTypeDefs.h"
 #include "Components/CoreTypeDefs.h"
-#include "GameLibrary/GameEntity.h"
+#include "GameLibrary/LevelComponent.h"
 
 namespace Dynamik
 {

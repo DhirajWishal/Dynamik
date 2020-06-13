@@ -108,6 +108,6 @@ namespace Dynamik
 	
 	void DMKMeshComponent::_initializeUniformBufferDescription()
 	{
-		addUniformBufferDescription(DMKUniformBufferObject::createUniformModel());
+		//addUniformBufferDescription(DMKUniformBufferObject::createUniformModel());
 	}
 }

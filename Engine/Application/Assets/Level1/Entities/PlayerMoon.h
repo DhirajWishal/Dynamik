@@ -6,10 +6,10 @@
  Author:	Dhiraj Wishal
  Date:		06/06/2020
 */
-#include "GameLibrary/Entities/PlayerEntity.h"
+#include "GameLibrary/GameEntity.h"
 using namespace Dynamik;
 
-class PlayerMoon : public DMKPlayerEntity {
+class PlayerMoon : public DMKGameEntity {
 public:
 	PlayerMoon() {}
 	~PlayerMoon() {}

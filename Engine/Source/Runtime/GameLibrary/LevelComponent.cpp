@@ -6,6 +6,6 @@ namespace Dynamik
 	void DMKLevelComponent::initializeCameraModule()
 	{
 		for (auto _entity : myEntities)
-			_entity->setupCamera(cameraModule);
+			_entity->setupCamera(playerObject->getCameraModule());
 	}
 }

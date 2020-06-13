@@ -869,7 +869,6 @@
     <ClInclude Include="Runtime\Events\Event\MouseScrollEventListener.h" />
     <ClInclude Include="Runtime\Events\EventHandler.h" />
     <ClInclude Include="Runtime\GameLibrary\Camera\CameraModule.h" />
-    <ClInclude Include="Runtime\GameLibrary\Entities\PlayerEntity.h" />
     <ClInclude Include="Runtime\GameLibrary\GameEntity.h" />
     <ClInclude Include="Runtime\GameLibrary\GameMechanics.h" />
     <ClInclude Include="Runtime\GameLibrary\GameObjects\StaticObject.h" />
@@ -877,6 +876,7 @@
     <ClInclude Include="Runtime\GameLibrary\LevelComponent.h" />
     <ClInclude Include="Runtime\GameLibrary\Mechanics\GameAssetMechanics.h" />
     <ClInclude Include="Runtime\GameLibrary\Mechanics\PlayerController.h" />
+    <ClInclude Include="Runtime\GameLibrary\PlayerObject.h" />
     <ClInclude Include="Runtime\GameLibrary\Utilities\MeshFactory.h" />
     <ClInclude Include="Runtime\Importer\Asset\MeshImporter.h" />
     <ClInclude Include="Runtime\Importer\Dynamik\DAI\DAIObject.h" />

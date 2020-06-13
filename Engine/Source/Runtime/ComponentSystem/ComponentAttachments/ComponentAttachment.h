@@ -10,6 +10,9 @@
 
 namespace Dynamik
 {
+	/*
+	 Dynamik Component Attachment
+	*/
 	class DMK_API DMKComponentAttachment {
 	public:
 		DMKComponentAttachment() {}

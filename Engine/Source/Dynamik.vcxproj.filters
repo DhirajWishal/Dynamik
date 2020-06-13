@@ -348,9 +348,6 @@
     <ClInclude Include="Runtime\GameLibrary\Camera\CameraModule.h">
       <Filter>Runtime\GameLibrary\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\GameLibrary\Entities\PlayerEntity.h">
-      <Filter>Runtime\GameLibrary\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Runtime\GameLibrary\GameEntity.h">
       <Filter>Runtime\GameLibrary</Filter>
     </ClInclude>
@@ -529,6 +526,7 @@
       <Filter>Runtime\ComponentSystem\Components</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\ComponentSystem\Components\RenderableComponent.h" />
+    <ClInclude Include="Runtime\GameLibrary\PlayerObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\ComponentSystem\ComponentManager.cpp">

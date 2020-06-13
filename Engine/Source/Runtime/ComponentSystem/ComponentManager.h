@@ -42,6 +42,25 @@ namespace Dynamik
 		}
 
 		/*
+		 Create a new component and return its address.
+		*/
+		template<class COMPONENT>
+		POINTER<COMPONENT> createComponent()
+		{
+			STRING componentName = typeid(COMPONENT).name();
+
+			if (!componentTypes.find(componentName).size())
+			{
+				DMKErrorManager::logWarn(DMK_TEXT("Requested component does not exist! Creating a new component."));
+				registerComponent<COMPONENT>();
+			}
+
+			addComponent(COMPONENT());
+
+			return &getComponentArray<COMPONENT>()->myComponents[-1];
+		}
+
+		/*
 		 Add a component
 		*/
 		template<class COMPONENT>

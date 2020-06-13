@@ -1,0 +1,24 @@
+#pragma once
+#ifndef _DYNAMIK_LAYER_H
+#define _DYNAMIK_LAYER_H
+
+/*
+ Author:	Dhiraj Wishal
+ Date:		13/06/2020
+*/
+#include "Core/Macros/Global.h"
+
+namespace Dynamik
+{
+	/*
+	 Dynamik Layer
+	 This is a single menu UI used in games.
+	*/
+	class DMK_API DMKLayer {
+	public:
+		DMKLayer() {}
+		virtual ~DMKLayer() {}
+	};
+}
+
+#endif // !_DYNAMIK_LAYER_H

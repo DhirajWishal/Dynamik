@@ -10,7 +10,7 @@
 */
 #include "GameEntity.h"
 #include "GameMechanics.h"
-#include "Camera/CameraModule.h"
+#include "PlayerObject.h"
 
 #include "Macros/Global.h"
 #include "Types/Array.h"
@@ -39,8 +39,8 @@ namespace Dynamik
 		/* Game Mechanics */
 		ARRAY<POINTER<DMKGameMechanics>> myMechanics;
 
-		/* Camera component */
-		POINTER<DMKCameraModule> cameraModule;
+		/* Player Object */
+		POINTER<DMKPlayerObject> playerObject;
 
 		/* Additional Components */
 		DMKComponentManager sceneComponentManager;
