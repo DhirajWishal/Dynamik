@@ -12,6 +12,10 @@ namespace Dynamik
 	{
 		image = (UCPTR)stbi_load(path.c_str(), (I32*)&width, (I32*)&height, (I32*)&channels, NULL);
 
+		/* Check if the texture file was successfully loaded */
+		if (!image)
+			DMK_ERROR_BOX("Unable to import the requested texture file!");
+
 		if (channels == 1)
 			format = DMKFormat::DMK_FORMAT_R_8_UNORMAL;
 		else if (channels == 2)

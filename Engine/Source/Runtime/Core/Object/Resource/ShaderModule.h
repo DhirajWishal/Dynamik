@@ -47,9 +47,12 @@ namespace Dynamik
     public:
         DMKShaderModule() {}
         DMKShaderModule(const DMKShaderLocation& sLocation, const DMKShaderCodeType& sType) : location(sLocation), codeType(sType) {}
-        virtual ~DMKShaderModule() {}
+        ~DMKShaderModule() {}
 
-		virtual void loadCode(const STRING& path);
+		/*
+		 Load shader code from file.
+		*/
+		void loadCode(const STRING& path);
 
 		void addResource(DMKUniformType type, UI32 binding, UI32 offset = 0);
 

@@ -14,6 +14,8 @@
 #include "Managers/Thread/Thread.h"
 #include "Managers/Thread/ThreadCommand.h"
 
+#include "Components/RCoreObject.h"
+
 namespace Dynamik
 {
     using namespace Backend;
@@ -46,9 +48,15 @@ namespace Dynamik
         */
         void onTermination() override;
 
+    private:    /* Internal methods */
+        POINTER<RCoreObject> create(POINTER<DMKWindowHandle> pWindow, B1 bEnableValidation);
+
     private:
         VulkanRBL myBackend;
         POINTER<DMKRendererCommand> myCommand;
+
+        DMKRenderingAPI myAPI;
+        DMKSampleCount mySampleCount;
     };
 }
 

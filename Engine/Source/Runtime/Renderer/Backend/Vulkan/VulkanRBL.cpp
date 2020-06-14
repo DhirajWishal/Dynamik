@@ -296,6 +296,22 @@ namespace Dynamik
 					imageDescriptors.pushBack(texture.createDescriptorInfo());
 				}
 
+				/* Resolve shaders */
+				ARRAY<VulkanShader> vShaders;
+				ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> vDescriptorLayoutBindings;
+				ARRAY<ARRAY<VkDescriptorPoolSize>> vDescriptorPoolSizes;
+				for (auto _shader : _meshComponent.shaderModules)
+				{
+					VulkanShader _vShader;
+					_vShader.initialize(myDevice, _shader);
+
+					auto [bindings, sizes] = _vShader.createDescriptorLayoutAndSizes(myDevice);
+					vDescriptorLayoutBindings.pushBack(bindings);
+					vDescriptorPoolSizes.pushBack(sizes);
+
+					vShaders.pushBack(_vShader);
+				}
+
 				/* Create uniform buffer */
 				UI32 bufferOffset = 0;
 				ARRAY<std::pair<VkDescriptorBufferInfo, UI32>> bufferDescriptors;
@@ -325,22 +341,6 @@ namespace Dynamik
 				//
 				//DMKMemoryFunctions::moveData(vMeshComponet.uniformBuffers[0].mapMemory(myDevice), _matrices, sizeof(MAT4F) * 2);
 				//vMeshComponet.uniformBuffers[0].unmapMemory(myDevice);
-
-				/* Resolve shaders */
-				ARRAY<VulkanShader> vShaders;
-				ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> vDescriptorLayoutBindings;
-				ARRAY<ARRAY<VkDescriptorPoolSize>> vDescriptorPoolSizes;
-				for (auto _shader : _meshComponent.shaderModules)
-				{
-					VulkanShader _vShader;
-					_vShader.initialize(myDevice, _shader);
-
-					auto [bindings, sizes] = _vShader.createDescriptorLayoutAndSizes(myDevice);
-					vDescriptorLayoutBindings.pushBack(bindings);
-					vDescriptorPoolSizes.pushBack(sizes);
-
-					vShaders.pushBack(_vShader);
-				}
 
 				/* Create descriptor */
 				vMeshComponet.descriptor = myDescriptorManager.createDescriptor(myDevice, vDescriptorLayoutBindings, vDescriptorPoolSizes);

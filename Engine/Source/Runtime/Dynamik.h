@@ -15,6 +15,7 @@
 
 #include "Core/Macros/Global.h"
 #include "Core/Types/DataTypes.h"
+#include "Core/Globals/RenderSettings.h"
 
 #include "Managers/Window/WindowManager.h"
 #include "Managers/Thread/ThreadManager.h"
@@ -49,6 +50,7 @@ namespace Dynamik
 		STRING iconPath = DMK_TEXT("");
 
 		DMKPrimaryWindowDescription windowDescription;
+		DMKRenderingAPI renderingAPI = DMKRenderingAPI::DMK_RENDERING_API_VULKAN;
 	};
 
 	/*

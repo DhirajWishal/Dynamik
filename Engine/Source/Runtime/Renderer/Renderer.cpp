@@ -4,6 +4,8 @@
 #include "dmkafx.h"
 #include "Renderer.h"
 
+#include "Backend/Vulkan/VulkanCoreObject.h"
+
 namespace Dynamik
 {
 	void DMKRenderer::initialize()
@@ -24,7 +26,7 @@ namespace Dynamik
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_CREATE_CONTEXT:
 			myBackend.initializeRenderingContext(((RendererCreateContextCommand*)myCommand)->contextType, ((RendererCreateContextCommand*)myCommand)->viewport);
-		break;
+			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_FINALS:
 			myBackend.initializeFinalComponents();
 			break;
@@ -73,5 +75,30 @@ namespace Dynamik
 	void DMKRenderer::onTermination()
 	{
 		DMK_INFO("Terminated the renderer thread!");
+	}
+
+	/* ---------- INTERNAL METHODS ---------- */
+	POINTER<RCoreObject> DMKRenderer::create(POINTER<DMKWindowHandle> pWindow, B1 bEnableValidation)
+	{
+		switch (myAPI)
+		{
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
+		{
+			auto myPtr = StaticAllocator<VulkanCoreObject>::allocate();
+			myPtr->initialize(pWindow, mySampleCount, bEnableValidation);
+
+			return myPtr;
+		}
+		break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
+			break;
+		default:
+			DMK_ERROR_BOX("Invalid rendering API!");
+			break;
+		}
+
+		return POINTER<RCoreObject>();
 	}
 }

@@ -84,11 +84,17 @@ namespace Dynamik
 		{
 			spirv_cross::CompilerGLSL _glslCompiler(std::move(convertToUI32Vector(shaderModule.shaderCode)));
 			spirv_cross::ShaderResources resources = _glslCompiler.get_shader_resources();
+			spirv_cross::SPIRType _type;
 
 			VkDescriptorPoolSize _poolSize;
 			VkDescriptorSetLayoutBinding _binding;
 			_binding.pImmutableSamplers = VK_NULL_HANDLE;
 			_binding.stageFlags = Backend::VulkanUtilities::getShaderStage(shaderModule.location);
+
+			DMKUniformBufferDescriptor shaderResourceDescriptor;
+			DMKUniformDescription resourceDescription;
+			resourceDescription.shaderLocation = shaderModule.location;
+			DMKUniformAttribute resourceAttribute;
 
 			/* Uniform buffers */
 			for (auto& resource : resources.uniform_buffers)
@@ -102,6 +108,9 @@ namespace Dynamik
 					printf("\t Members: %s\n", _glslCompiler.get_member_name(resource.base_type_id, index).c_str());
 #endif // DMK_DEBUG
 
+				resourceDescription.type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
+				resourceDescription.destinationBinding = binding;
+
 				_binding.binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
 				_binding.descriptorCount = 1;
 				_binding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
@@ -110,6 +119,31 @@ namespace Dynamik
 				_poolSize.descriptorCount = 1;
 				_poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 				poolSizes.pushBack(_poolSize);
+
+				for (auto ID : _glslCompiler.get_type(resource.base_type_id).member_types)
+				{
+					auto Ty = _glslCompiler.get_type(ID);
+					UI32 byteSize = (Ty.width / 8) * Ty.vecsize * Ty.columns;
+					resourceAttribute.dataCount = ((Ty.array.size()) ? Ty.array.size() : 1);
+
+					/* Check if the member is a matrix */
+					if (Ty.vecsize == Ty.columns)
+					{
+						if (byteSize == 64)
+							resourceAttribute.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
+						else if (byteSize == 36)
+							resourceAttribute.dataType = DMKDataType::DMK_DATA_TYPE_MAT3;
+						else if (byteSize == 16)
+							resourceAttribute.dataType = DMKDataType::DMK_DATA_TYPE_MAT2;
+						else
+							resourceAttribute.dataType = (DMKDataType)byteSize;
+					}
+
+					resourceDescription.attributes.pushBack(resourceAttribute);
+				}
+
+				shaderResourceDescriptor.uniformBufferObjects.pushBack(resourceDescription);
+				resourceDescription.attributes.clear();
 			}
 
 			/* Storage buffers */
@@ -137,7 +171,6 @@ namespace Dynamik
 			/* Shader inputs */
 			VkVertexInputAttributeDescription _attributeDescription;
 			_attributeDescription.offset = 0;
-			spirv_cross::SPIRType _type;
 			for (auto& resource : resources.stage_inputs)
 			{
 #ifdef DMK_DEBUG
