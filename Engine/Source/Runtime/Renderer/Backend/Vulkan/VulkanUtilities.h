@@ -9,7 +9,11 @@
  Author:    Dhiraj Wishal
  Date:      25/05/2020
 */
-#include "VulkanDevice.h"
+#include "VulkanCoreObject.h"
+#include "Context/VulkanSwapChain.h"
+#include "Common/VulkanViewPort.h"
+#include "Context/VulkanRenderPass.h"
+
 #include "Object/Resource/ShaderModule.h"
 #include "Object/Resource/Primitives.h"
 
@@ -24,8 +28,16 @@ namespace Dynamik
             VulkanUtilities() {}
             ~VulkanUtilities() {}
 
+        public:     /* Global utilities */
+            static VulkanViewport getViewport(DMKViewport viewport);
+            static VulkanSwapChain getSwapChain(POINTER<RSwapChain> pSwapChain);
+            static VkPresentModeKHR getPresentMode(RSwapChainPresentMode ePresentMode);
+            static VulkanRenderPass getRenderPass(POINTER<RRenderPass> pRenderPass);
+            static VulkanBuffer getBuffer(POINTER<RBuffer> pBuffer);
+
         public:
             static VkFormat getVulkanFormat(DMKFormat format);
+            static VkImageLayout getVulkanLayout(ImageLayout layout);
             static UI32 findMemoryType(UI32 typeFilter, VkMemoryPropertyFlags properties, VkPhysicalDevice physicalDevice);
             static B1 hasStencilComponent(const VkFormat& format);
             static VkFormat findSupportedFormat(const ARRAY<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features, VkPhysicalDevice physicalDevice);

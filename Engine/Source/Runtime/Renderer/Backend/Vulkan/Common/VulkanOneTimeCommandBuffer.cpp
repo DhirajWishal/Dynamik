@@ -4,20 +4,22 @@
 #include "dmkafx.h"
 #include "VulkanOneTimeCommandBuffer.h"
 
+#include "../VulkanUtilities.h"
+
 namespace Dynamik
 {
 	namespace Backend
 	{
-		VulkanOneTimeCommandBuffer::VulkanOneTimeCommandBuffer(const VulkanDevice& vDevice, const VulkanQueue& vQueue)
-			: myDevice(vDevice), myQueues(vQueue)
+		VulkanOneTimeCommandBuffer::VulkanOneTimeCommandBuffer(POINTER<RCoreObject> pCoreObject)
+			: myDevice(InheritCast<VulkanCoreObject>(pCoreObject).device), myQueues(InheritCast<VulkanCoreObject>(pCoreObject).queues)
 		{
 			/* Create the command pool for the command buffer */
 			VkCommandPoolCreateInfo poolInfo = {};
 			poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-			poolInfo.queueFamilyIndex = vQueue.processFamily.value();
+			poolInfo.queueFamilyIndex = myQueues.processFamily.value();
 			poolInfo.flags = 0;
 
-			DMK_VULKAN_ASSERT(vkCreateCommandPool(vDevice, &poolInfo, nullptr, &pool), "Failed to create the one time command pool!");
+			DMK_VULKAN_ASSERT(vkCreateCommandPool(myDevice, &poolInfo, nullptr, &pool), "Failed to create the one time command pool!");
 
 			/* Create the command buffer */
 			VkCommandBufferAllocateInfo allocInfo = {};
@@ -26,7 +28,7 @@ namespace Dynamik
 			allocInfo.commandPool = pool;
 			allocInfo.commandBufferCount = 1;
 
-			DMK_VULKAN_ASSERT(vkAllocateCommandBuffers(vDevice, &allocInfo, &buffer), "Unable to allocate the one time command buffer!");
+			DMK_VULKAN_ASSERT(vkAllocateCommandBuffers(myDevice, &allocInfo, &buffer), "Unable to allocate the one time command buffer!");
 
 			/* Begin recording the command buffer */
 			VkCommandBufferBeginInfo beginInfo = {};

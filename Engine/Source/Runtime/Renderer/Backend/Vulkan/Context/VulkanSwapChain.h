@@ -9,6 +9,9 @@
  Author:    Dhiraj Wishal
  Date:      25/05/2020
 */
+#include "Renderer/Components/Context/RSwapChain.h"
+#include "../VulkanCoreObject.h"
+
 #include "../Common/VulkanDevice.h"
 #include "../Common/VulkanQueue.h"
 #include "../Common/VulkanViewport.h"
@@ -19,6 +22,9 @@ namespace Dynamik
 {
     namespace Backend
     {
+        /*
+         Swap chain support details
+        */
         struct DMK_API VulkanSwapChainSupportDetails {
             VkSurfaceCapabilitiesKHR capabilities = {};
             ARRAY<VkSurfaceFormatKHR> formats = {};
@@ -28,15 +34,15 @@ namespace Dynamik
         /*
          Vulkan Swap Chain for the Dynamik RBL
         */
-        class DMK_API VulkanSwapChain {
+        class DMK_API VulkanSwapChain : public RSwapChain {
         public:
             VulkanSwapChain() {}
             ~VulkanSwapChain() {}
 
             static VulkanSwapChainSupportDetails querySwapChainSupport(const VkPhysicalDevice& physicalDevice, const VkSurfaceKHR& surface);
 
-            void initialize(const VulkanDevice& vDevice, const VulkanQueue& vQueue, VulkanViewport vViewport);
-            void terminate(const VulkanDevice& vDevice);
+            virtual void initialize(POINTER<RCoreObject> pCoreObject, DMKViewport viewport, RSwapChainPresentMode ePresentMode) override final;
+            virtual void terminate(POINTER<RCoreObject> pCoreObject) override final;
 
             operator VkSwapchainKHR() const;
 
@@ -44,7 +50,6 @@ namespace Dynamik
             ARRAY<VulkanImageView> imageViews;
             VkSwapchainKHR swapChain = VK_NULL_HANDLE;
             VkFormat format = VK_FORMAT_UNDEFINED;
-            VkExtent2D extent = { 0, 0 };
             VulkanViewport myViewport;
 
         private:

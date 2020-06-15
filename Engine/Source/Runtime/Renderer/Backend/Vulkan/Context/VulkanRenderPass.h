@@ -9,6 +9,8 @@
  Author:    Dhiraj Wishal
  Date:      26/05/2020
 */
+#include "Renderer/Components/Context/RRenderPass.h"
+
 #include "../Common/VulkanDevice.h"
 #include "Renderer/Components/ContextTypeDefs.h"
 #include "Renderer/Components/CoreTypeDefs.h"
@@ -30,13 +32,13 @@ namespace Dynamik
         /*
          Vulkan Render Pass object for the Dynamik RBL
         */
-        class DMK_API VulkanRenderPass {
+        class DMK_API VulkanRenderPass : public RRenderPass {
         public:
             VulkanRenderPass() {}
             ~VulkanRenderPass() {}
 
-            void initialize(const VulkanDevice& vDevice, ARRAY<VulkanRenderPassSubpass> subPasses);
-            void terminate(const VulkanDevice& vDevice);
+            virtual void initialize(POINTER<RCoreObject> pCoreObject, ARRAY<RSubPasses> aSubPasses, POINTER<RSwapChain> pSwapChain) override;
+            virtual void terminate(POINTER<RCoreObject> pCoreObject) override;
 
             operator VkRenderPass() const;
 

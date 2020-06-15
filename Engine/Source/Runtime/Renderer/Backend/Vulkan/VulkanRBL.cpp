@@ -4,7 +4,7 @@
 #include "dmkafx.h"
 #include "VulkanRBL.h"
 
-#include "Common/VulkanUtilities.h"
+#include "VulkanUtilities.h"
 #include "Common/VulkanPipelineManager.h"
 #include "Context/Attachments/VulkanColorAttachment.h"
 #include "Context/Attachments/VulkanDepthAttachment.h"

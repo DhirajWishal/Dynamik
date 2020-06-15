@@ -15,10 +15,18 @@
 #include "Managers/Thread/ThreadCommand.h"
 
 #include "Components/RCoreObject.h"
+#include "Components/Context/RFrameBuffer.h"
 
 namespace Dynamik
 {
     using namespace Backend;
+
+    /*
+     Dynamik Renderer Compatibility structure
+    */
+    struct DMK_API DMKRendererCompatibility {
+        B1 isVulkanAvailable = false;
+    };
 
     /*
      Renderer thread for the Dynamik Engine
@@ -31,6 +39,9 @@ namespace Dynamik
         DMKRenderer() : DMKThread(DMKThreadType::DMK_THREAD_TYPE_RENDERER) {}
         ~DMKRenderer() {}
 
+        /*
+         Initialize the core components.
+        */
         void initialize() override;
 
         /*
@@ -48,15 +59,37 @@ namespace Dynamik
         */
         void onTermination() override;
 
-    private:    /* Internal methods */
-        POINTER<RCoreObject> create(POINTER<DMKWindowHandle> pWindow, B1 bEnableValidation);
+    private:    /* Core */
+        void setSamples(const DMKSampleCount& samples);
+        void setWindowHandle(const POINTER<DMKWindowHandle>& windowHandle);
 
-    private:
+        POINTER<RCoreObject> createCore(B1 bEnableValidation);
+
+    private:    /* Context */
+        POINTER<RSwapChain> createSwapChain(DMKViewport viewport, RSwapChainPresentMode presentMode);
+        POINTER<RRenderPass> createRenderPass(ARRAY<RSubPasses> subPasses);
+        POINTER<RFrameBuffer> createFrameBuffer();
+
+        void createContext(DMKRenderContextType type, DMKViewport viewport);
+
+    private:    /* Resource */
+        void createEntityResources(POINTER<DMKGameEntity> pGameEntity);
+
+    private:    /* Internal */
+        DMKRendererCompatibility myCompatibility;
+
         VulkanRBL myBackend;
         POINTER<DMKRendererCommand> myCommand;
 
         DMKRenderingAPI myAPI;
         DMKSampleCount mySampleCount;
+        POINTER<DMKWindowHandle> myWindowHandle;
+
+        POINTER<RCoreObject> myCoreObject;
+
+        POINTER<RRenderPass> myRenderPass;
+        POINTER<RSwapChain> mySwapChain;
+        POINTER<RFrameBuffer> myFrameBuffer;
     };
 }
 

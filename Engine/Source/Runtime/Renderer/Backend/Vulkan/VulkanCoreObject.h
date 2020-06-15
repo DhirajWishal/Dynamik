@@ -27,10 +27,15 @@ namespace Dynamik
 		virtual void initialize(POINTER<DMKWindowHandle> pWindow, DMKSampleCount eSamples, B1 bEnableValidation);
 		virtual void terminate();
 
-		Backend::VulkanInstance myInstance;
-		Backend::VulkanDevice myDevice;
-		Backend::VulkanSurface mySurface;
-		Backend::VulkanQueue myQueue;
+		operator Backend::VulkanInstance() const;
+		operator Backend::VulkanDevice() const;
+		operator Backend::VulkanSurface() const;
+		operator Backend::VulkanQueue() const;
+
+		Backend::VulkanInstance instance;
+		Backend::VulkanDevice device;
+		Backend::VulkanSurface surface;
+		Backend::VulkanQueue queues;
 	};
 }
 

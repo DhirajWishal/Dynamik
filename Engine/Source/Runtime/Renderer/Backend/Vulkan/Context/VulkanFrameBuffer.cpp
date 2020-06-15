@@ -4,48 +4,84 @@
 #include "dmkafx.h"
 #include "VulkanFrameBuffer.h"
 
+#include "Attachments/VulkanColorAttachment.h"
+#include "Attachments/VulkanDepthAttachment.h"
+
+#include "../VulkanUtilities.h"
+
 namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanFrameBuffer::initialize(
-			const VulkanDevice& vDevice,
-			const VulkanSwapChain& vSwapChain,
-			const VulkanRenderPass& vRenderPass,
-			const ARRAY<POINTER<VulkanFrameBufferAttachment>>& attachments)
+		void VulkanFrameBuffer::initialize(POINTER<RCoreObject> pCoreObject, POINTER<RRenderPass> pRenderPass, POINTER<RSwapChain> pSwapChain)
 		{
-			frameWidth = vSwapChain.extent.width;
-			frameHeight = vSwapChain.extent.height;
+			width = pSwapChain->extent.width;
+			height = pSwapChain->extent.height;
 
-			for (size_t i = 0; i < vSwapChain.images.size(); i++)
+			for (size_t i = 0; i < InheritCast<VulkanSwapChain>(pSwapChain).images.size(); i++)
 			{
 				ARRAY<VkImageView> _attachments;
 
-				for (auto _attachment : attachments)
-					_attachments.pushBack(_attachment->imageView);
+				for (auto _subpass : pRenderPass->subPasses)
+				{
+					switch (_subpass)
+					{
+					case Dynamik::RSubPasses::SUBPASSES_SWAPCHAIN:
+						_attachments.pushBack(InheritCast<VulkanSwapChain>(pSwapChain).imageViews[i]);
+						break;
+					case Dynamik::RSubPasses::SUBPASSES_DEPTH:
+					{
+						VulkanFrameBufferAttachmentInitInfo attachmentInfo;
+						attachmentInfo.format = (DMKFormat)VulkanUtilities::findDepthFormat(InheritCast<VulkanCoreObject>(pCoreObject).device);
+						attachmentInfo.imageWidth = width;
+						attachmentInfo.imageHeight = height;
+						attachmentInfo.msaaSamples = InheritCast<VulkanCoreObject>(pCoreObject).sampleCount;
 
-				_attachments.pushBack(vSwapChain.imageViews[i]);
+						VulkanColorAttachment depthAttachment;
+						depthAttachment.initialize(InheritCast<VulkanCoreObject>(pCoreObject), InheritCast<VulkanCoreObject>(pCoreObject), attachmentInfo);
+						_attachments.pushBack(depthAttachment.imageView);
+					}
+						break;
+					case Dynamik::RSubPasses::SUBPASSES_COLOR:
+					{
+						VulkanFrameBufferAttachmentInitInfo attachmentInfo;
+						attachmentInfo.format = (DMKFormat)InheritCast<VulkanSwapChain>(pSwapChain).format;
+						attachmentInfo.imageWidth = width;
+						attachmentInfo.imageHeight = height;
+						attachmentInfo.msaaSamples = InheritCast<VulkanCoreObject>(pCoreObject).sampleCount;
+
+						VulkanColorAttachment colorAttachment;
+						colorAttachment.initialize(InheritCast<VulkanCoreObject>(pCoreObject), InheritCast<VulkanCoreObject>(pCoreObject), attachmentInfo);
+						_attachments.pushBack(colorAttachment.imageView);
+					}
+						break;
+					case Dynamik::RSubPasses::SUBPASSES_OVERLAY:
+						break;
+					default:
+						break;
+					}
+				}
 
 				VkFramebufferCreateInfo framebufferInfo = {};
 				framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-				framebufferInfo.renderPass = vRenderPass;
+				framebufferInfo.renderPass = InheritCast<VulkanRenderPass>(pRenderPass);
 				framebufferInfo.attachmentCount = static_cast<UI32>(_attachments.size());
 				framebufferInfo.pAttachments = _attachments.data();
-				framebufferInfo.width = frameWidth;
-				framebufferInfo.height = frameHeight;
+				framebufferInfo.width = width;
+				framebufferInfo.height = height;
 				framebufferInfo.layers = 1;
 
 				VkFramebuffer _buffer = VK_NULL_HANDLE;
-				DMK_VULKAN_ASSERT(vkCreateFramebuffer(vDevice, &framebufferInfo, nullptr, &_buffer), "Failed to create frame buffer!");
+				DMK_VULKAN_ASSERT(vkCreateFramebuffer(InheritCast<VulkanCoreObject>(pCoreObject).device, &framebufferInfo, nullptr, &_buffer), "Failed to create frame buffer!");
 
 				buffers.pushBack(_buffer);
 			}
 		}
-		
-		void VulkanFrameBuffer::terminate(const VulkanDevice& vDevice)
+
+		void VulkanFrameBuffer::terminate(POINTER<RCoreObject> pCoreObject)
 		{
 			for (auto buffer : buffers)
-				vkDestroyFramebuffer(vDevice, buffer, nullptr);
+				vkDestroyFramebuffer(InheritCast<VulkanCoreObject>(pCoreObject).device, buffer, nullptr);
 		}
 		
 		const VkFramebuffer VulkanFrameBuffer::operator[](UI32 index) const

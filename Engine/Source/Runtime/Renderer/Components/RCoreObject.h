@@ -31,6 +31,8 @@ namespace Dynamik
 
 		virtual void initialize(POINTER<DMKWindowHandle> pWindow, DMKSampleCount eSamples, B1 bEnableValidation) = 0;
 		virtual void terminate() = 0;
+
+		DMKSampleCount sampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_64_BIT;
 	};
 }
 

@@ -33,6 +33,7 @@ namespace Dynamik
 
 		DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
 		auto _localPath = DMKFileSystem::getExecutablePath();
+		auto _workingDirectory = DMKFileSystem::getWorkingDirectory();
 
 		UI32 windowID = _windowManager.createWindow(_instanceDescription.windowDescription.width, _instanceDescription.windowDescription.height, _instanceDescription.windowDescription.title);
 		_threadManager.issueWindowHandleCommandRT(_windowManager.getWindowHandle(windowID));

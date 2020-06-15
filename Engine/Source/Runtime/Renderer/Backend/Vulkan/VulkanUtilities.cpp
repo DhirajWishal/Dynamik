@@ -8,9 +8,67 @@ namespace Dynamik
 {
 	namespace Backend
 	{
+		VulkanViewport VulkanUtilities::getViewport(DMKViewport viewport)
+		{
+			VulkanViewport _viewport;
+			_viewport.width = viewport.width;
+			_viewport.height = viewport.height;
+			_viewport.xOffset = viewport.xOffset;
+			_viewport.yOffset = viewport.yOffset;
+			return _viewport;
+		}
+
+		VkPresentModeKHR VulkanUtilities::getPresentMode(RSwapChainPresentMode ePresentMode)
+		{
+			switch (ePresentMode)
+			{
+			case Dynamik::RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_IMMEDIATE:					return VK_PRESENT_MODE_IMMEDIATE_KHR;
+			case Dynamik::RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_FIFO:						return VK_PRESENT_MODE_FIFO_KHR;
+			case Dynamik::RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_MAILBOX:					return VK_PRESENT_MODE_MAILBOX_KHR;
+			case Dynamik::RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_SHADER_DEMAND_REFRESH:		return VK_PRESENT_MODE_SHARED_DEMAND_REFRESH_KHR;
+			case Dynamik::RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_SHADER_CONTINUOUS_REFRESH:	return VK_PRESENT_MODE_SHARED_CONTINUOUS_REFRESH_KHR;
+			default:
+				DMK_ERROR_BOX("Unsupported swapchain present mode!");
+				break;
+			}
+
+			return VK_PRESENT_MODE_FIFO_KHR;
+		}
+		
 		VkFormat VulkanUtilities::getVulkanFormat(DMKFormat format)
 		{
 			return (VkFormat)(UI32)format;
+		}
+
+		VkImageLayout VulkanUtilities::getVulkanLayout(ImageLayout layout)
+		{
+			switch (layout)
+			{
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_UNDEFINED:							return VK_IMAGE_LAYOUT_UNDEFINED;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_GENERAL:							return VK_IMAGE_LAYOUT_GENERAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_COLOR_ATTACHMENT:					return VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_DEPTH_STECIL_ATTACHMENT:			return VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_DEPTH_STECIL_READ_ONLY:				return VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY:					return VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_TRANSFER_SRC:						return VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_TRANSFER_DST:						return VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_PREINITIALIZED:						return VK_IMAGE_LAYOUT_PREINITIALIZED;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT: return VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY: return VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL:			return VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_DEPTH_READ_ONLY_OPTIMAL:			return VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_OPTIMAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_STENCIL_ATTACHMENT_OPTIMAL:			return VK_IMAGE_LAYOUT_STENCIL_ATTACHMENT_OPTIMAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_STENCIL_READ_ONLY_OPTIMAL:			return VK_IMAGE_LAYOUT_STENCIL_READ_ONLY_OPTIMAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_PRESENT_SRC:						return VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_SHARED_PRESENT:						return VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_SHADING_RATE:						return VK_IMAGE_LAYOUT_SHADING_RATE_OPTIMAL_NV;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_FRAGMENT_DENSITY_MAP:				return VK_IMAGE_LAYOUT_FRAGMENT_DENSITY_MAP_OPTIMAL_EXT;
+			default:
+				DMK_ERROR_BOX("Invalid image layout!");
+				break;
+			}
+
+			return VK_IMAGE_LAYOUT_UNDEFINED;
 		}
 
 		UI32 VulkanUtilities::findMemoryType(UI32 typeFilter, VkMemoryPropertyFlags properties, VkPhysicalDevice physicalDevice)

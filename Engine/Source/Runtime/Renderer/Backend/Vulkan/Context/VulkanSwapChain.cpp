@@ -4,6 +4,8 @@
 #include "dmkafx.h"
 #include "VulkanSwapChain.h"
 
+#include "../VulkanUtilities.h"
+
 namespace Dynamik
 {
 	namespace Backend
@@ -18,12 +20,15 @@ namespace Dynamik
 			return ((ARRAY<VkSurfaceFormatKHR>)availableFormats)[0];
 		}
 
-		VkPresentModeKHR chooseSwapPresentMode(const ARRAY<VkPresentModeKHR>& availablePresentModes)
+		VkPresentModeKHR chooseSwapPresentMode(const ARRAY<VkPresentModeKHR>& availablePresentModes, RSwapChainPresentMode presentMode)
 		{
 			VkPresentModeKHR bestMode = VK_PRESENT_MODE_FIFO_KHR;
 
 			for (const auto& availablePresentMode : availablePresentModes)
 			{
+				if (availablePresentMode == VulkanUtilities::getPresentMode(presentMode))
+					return availablePresentMode;
+
 				if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
 					return availablePresentMode;
 				else if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR)
@@ -85,21 +90,21 @@ namespace Dynamik
 			return details;
 		}
 
-		void VulkanSwapChain::initialize(const VulkanDevice& vDevice, const VulkanQueue& vQueue, VulkanViewport vViewport)
+		void VulkanSwapChain::initialize(POINTER<RCoreObject> pCoreObject, DMKViewport viewport, RSwapChainPresentMode ePresentMode)
 		{
-			myViewport = vViewport;
-			VulkanSwapChainSupportDetails swapChainSupport = querySwapChainSupport(vDevice, vViewport.surfacePtr.dereference());
+			myViewport = VulkanUtilities::getViewport(viewport);
+			VulkanSwapChainSupportDetails swapChainSupport = querySwapChainSupport(InheritCast<VulkanCoreObject>(pCoreObject).device, myViewport.surfacePtr.dereference());
 
 			VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
-			VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes);
-			VkExtent2D scExtent = chooseSwapExtent(swapChainSupport.capabilities, vViewport.width, vViewport.width);
+			VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes, ePresentMode);
+			VkExtent2D scExtent = chooseSwapExtent(swapChainSupport.capabilities, myViewport.width, myViewport.width);
 
 			VkCompositeAlphaFlagBitsKHR surfaceComposite =
-				(vViewport.surfacePtr->surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR)
+				(myViewport.surfacePtr->surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR)
 				? VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR
-				: (vViewport.surfacePtr->surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR)
+				: (myViewport.surfacePtr->surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR)
 				? VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR
-				: (vViewport.surfacePtr->surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR)
+				: (myViewport.surfacePtr->surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR)
 				? VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR
 				: VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR;
 
@@ -110,7 +115,7 @@ namespace Dynamik
 
 			VkSwapchainCreateInfoKHR createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-			createInfo.surface = vViewport.surfacePtr->surface;
+			createInfo.surface = myViewport.surfacePtr->surface;
 			createInfo.minImageCount = imageCount;
 			createInfo.imageFormat = surfaceFormat.format;
 			createInfo.imageColorSpace = surfaceFormat.colorSpace;
@@ -120,11 +125,11 @@ namespace Dynamik
 			//createInfo.imageUsage = VK_IMAGE_USAGE_TRANSFER_DST_BIT;
 
 			UI32 queueFamilyindices[] = {
-				vQueue.processFamily.value(),
-				vQueue.utilityFamily.value()
+				InheritCast<VulkanCoreObject>(pCoreObject).queues.processFamily.value(),
+				InheritCast<VulkanCoreObject>(pCoreObject).queues.utilityFamily.value()
 			};
 
-			if (vQueue.processFamily != vQueue.utilityFamily)
+			if (InheritCast<VulkanCoreObject>(pCoreObject).queues.processFamily != InheritCast<VulkanCoreObject>(pCoreObject).queues.utilityFamily)
 			{
 				createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
 				createInfo.queueFamilyIndexCount = 2;
@@ -143,12 +148,12 @@ namespace Dynamik
 			createInfo.clipped = VK_TRUE;
 			createInfo.oldSwapchain = VK_NULL_HANDLE;
 
-			if (vkCreateSwapchainKHR(vDevice, &createInfo, nullptr, &swapChain))
+			if (vkCreateSwapchainKHR(InheritCast<VulkanCoreObject>(pCoreObject).device, &createInfo, nullptr, &swapChain))
 				DMK_ERROR_BOX("Failed to create Swap Chain!");
 
-			vkGetSwapchainImagesKHR(vDevice, swapChain, &imageCount, nullptr);
+			vkGetSwapchainImagesKHR(InheritCast<VulkanCoreObject>(pCoreObject).device, swapChain, &imageCount, nullptr);
 			ARRAY<VkImage> _images(imageCount);
-			vkGetSwapchainImagesKHR(vDevice, swapChain, &imageCount, _images.data());
+			vkGetSwapchainImagesKHR(InheritCast<VulkanCoreObject>(pCoreObject).device, swapChain, &imageCount, _images.data());
 
 			format = surfaceFormat.format;
 
@@ -163,12 +168,14 @@ namespace Dynamik
 			}
 
 			format = surfaceFormat.format;
-			extent = scExtent;
 
-			_initializeImageViews(vDevice);
+			extent.width = scExtent.width;
+			extent.height = scExtent.height;
+
+			_initializeImageViews(InheritCast<VulkanCoreObject>(pCoreObject));
 		}
 
-		void VulkanSwapChain::terminate(const VulkanDevice& vDevice)
+		void VulkanSwapChain::terminate(POINTER<RCoreObject> pCoreObject)
 		{
 		}
 

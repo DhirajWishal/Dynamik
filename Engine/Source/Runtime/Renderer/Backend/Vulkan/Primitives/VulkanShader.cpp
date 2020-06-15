@@ -4,7 +4,7 @@
 #include "dmkafx.h"
 #include "VulkanShader.h"
 
-#include "../Common/VulkanUtilities.h"
+#include "../VulkanUtilities.h"
 #include "Tools/Shader/SPIR-V/Disassembler.h"
 
 namespace Dynamik

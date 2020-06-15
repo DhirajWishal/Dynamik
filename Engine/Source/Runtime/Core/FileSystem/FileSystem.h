@@ -21,6 +21,8 @@ namespace Dynamik
 		/* Get the path of the executable */
 		static STRING getExecutablePath();
 
+		/* Get the current working directory */
+		static STRING getWorkingDirectory();
 	};
 }
 

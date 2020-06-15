@@ -6,6 +6,7 @@
 
 #ifdef DMK_PLATFORM_WINDOWS
 	#include <Windows.h>  
+	#include <filesystem>
 
 #endif // DMK_PLATFORM_WINDOWS
 
@@ -23,5 +24,10 @@ namespace Dynamik
 
 #endif // DMK_PLATFORM_WINDOWS
 		return _path;
+	}
+	
+	STRING DMKFileSystem::getWorkingDirectory()
+	{
+		return std::filesystem::current_path().string();
 	}
 }

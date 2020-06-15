@@ -9,6 +9,7 @@
  Author:    Dhiraj Wishal
  Date:      26/05/2020
 */
+#include "Renderer/Components/Context/RFrameBuffer.h"
 #include "VulkanRenderPass.h"
 #include "VulkanSwapChain.h"
 #include "VulkanFrameBufferAttachment.h"
@@ -20,22 +21,17 @@ namespace Dynamik
         /*
          Vulkan Frame Buffer object for the Dynamik Engine
         */
-        class DMK_API VulkanFrameBuffer {
+        class DMK_API VulkanFrameBuffer : public RFrameBuffer {
         public:
             VulkanFrameBuffer() {}
             ~VulkanFrameBuffer() {}
 
-            void initialize(
-                const VulkanDevice& vDevice,
-                const VulkanSwapChain& vSwapChain,
-                const VulkanRenderPass& vRenderPass,
-                const ARRAY<POINTER<VulkanFrameBufferAttachment>>& attachments);
-            void terminate(const VulkanDevice& vDevice);
+            virtual void initialize(POINTER<RCoreObject> pCoreObject, POINTER<RRenderPass> pRenderPass, POINTER<RSwapChain> pSwapChain) override final;
+            virtual void terminate(POINTER<RCoreObject> pCoreObject) override final;
 
             const VkFramebuffer operator[](UI32 index) const;
 
             ARRAY<VkFramebuffer> buffers;
-            UI32 frameWidth = 0, frameHeight = 0;
         };
     }
 }

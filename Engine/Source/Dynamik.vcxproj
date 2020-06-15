@@ -818,6 +818,7 @@
     <ClInclude Include="Runtime\Core\Error\MessageBox.h" />
     <ClInclude Include="Runtime\Core\FileSystem\FileCompressor.h" />
     <ClInclude Include="Runtime\Core\FileSystem\FileSystem.h" />
+    <ClInclude Include="Runtime\Core\Globals\RenderSettings.h" />
     <ClInclude Include="Runtime\Core\Macros\Assert.h" />
     <ClInclude Include="Runtime\Core\Macros\Global.h" />
     <ClInclude Include="Runtime\Core\Macros\MemoryMacro.h" />
@@ -859,6 +860,7 @@
     <ClInclude Include="Runtime\Core\Types\Pointer.h" />
     <ClInclude Include="Runtime\Core\Types\TSArray.h" />
     <ClInclude Include="Runtime\Core\Types\TypeTraits.h" />
+    <ClInclude Include="Runtime\Core\Types\Utilities.h" />
     <ClInclude Include="Runtime\Core\Utilities\Clock.h" />
     <ClInclude Include="Runtime\Dynamik.h" />
     <ClInclude Include="Runtime\EntryPoint.h" />
@@ -898,8 +900,8 @@
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanQueue.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSurface.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSyncObjects.h" />
-    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanUtilities.h" />
-    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanViewport.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\VulkanUtilities.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanViewPort.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Context\Attachments\VulkanColorAttachment.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Context\Attachments\VulkanDepthAttachment.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanFrameBuffer.h" />
@@ -914,10 +916,23 @@
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageView.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanShader.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanTexture.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\VulkanCoreObject.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\VulkanRBL.h" />
     <ClInclude Include="Runtime\Renderer\Components\ContextTypeDefs.h" />
     <ClInclude Include="Runtime\Renderer\Components\CoreTypeDefs.h" />
     <ClInclude Include="Runtime\Renderer\Components\PrimitiveTypeDefs.h" />
+    <ClInclude Include="Runtime\Renderer\Components\Primitives\RBuffer.h" />
+    <ClInclude Include="Runtime\Renderer\Components\Primitives\RImage.h" />
+    <ClInclude Include="Runtime\Renderer\Components\Primitives\RImageSampler.h" />
+    <ClInclude Include="Runtime\Renderer\Components\Primitives\RImageView.h" />
+    <ClInclude Include="Runtime\Renderer\Components\RCommandBuffer.h" />
+    <ClInclude Include="Runtime\Renderer\Components\RContext.h" />
+    <ClInclude Include="Runtime\Renderer\Components\RCoreObject.h" />
+    <ClInclude Include="Runtime\Renderer\Components\Context\RFrameBuffer.h" />
+    <ClInclude Include="Runtime\Renderer\Components\Context\RFrameBufferAttachment.h" />
+    <ClInclude Include="Runtime\Renderer\Components\Context\RRenderPass.h" />
+    <ClInclude Include="Runtime\Renderer\Components\RRenderTarget.h" />
+    <ClInclude Include="Runtime\Renderer\Components\Context\RSwapChain.h" />
     <ClInclude Include="Runtime\Renderer\Renderer.h" />
     <ClInclude Include="Runtime\Renderer\RendererCommand.h" />
     <ClInclude Include="Runtime\Tools\Shader\SPIR-V\Disassembler.h" />
@@ -983,7 +998,7 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanQueue.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSurface.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSyncObjects.cpp" />
-    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanUtilities.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\VulkanUtilities.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\Attachments\VulkanColorAttachment.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\Attachments\VulkanDepthAttachment.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\VulkanFrameBuffer.cpp" />
@@ -997,6 +1012,7 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanImageView.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanShader.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanTexture.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\VulkanCoreObject.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\VulkanRBL.cpp" />
     <ClCompile Include="Runtime\Renderer\Renderer.cpp" />
     <ClCompile Include="Runtime\Tools\Shader\SPIR-V\Disassembler.cpp" />

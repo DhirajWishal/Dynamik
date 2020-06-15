@@ -9,6 +9,7 @@
  Author:    Dhiraj Wishal
  Date:      25/05/2020
 */
+#include "Renderer/Components/Primitives/RImage.h"
 #include "Object/Resource/Texture.h"
 #include "../Common/VulkanDevice.h"
 #include "../Common/VulkanQueue.h"
@@ -36,38 +37,27 @@ namespace Dynamik
 		/*
 		 Vulkan Image object for the Dynamik Engine
 		*/
-		class DMK_API VulkanImage {
+		class DMK_API VulkanImage : public RImage {
 		public:
 			VulkanImage() {}
 			~VulkanImage() {}
 
-			void initialize(const VulkanDevice& vDevice, const VulkanQueue& vQueue, VulkanImageCreateInfo info);
-			void copyBuffer(const VulkanDevice& vDevice, const VulkanQueue& vQueue, const VulkanBuffer& vBuffer);
-			void generateMipMaps(const VulkanDevice& vDevice, const VulkanQueue& vQueue);
-			void setLayout(const VulkanDevice& vDevice, const VulkanQueue& vQueue, VkImageLayout newLayout);
-			void terminate(const VulkanDevice& vDevice);
+			virtual void initialize(POINTER<RCoreObject> pCoreObject, RImageCreateInfo createInfo) override final;
+			virtual void copyBuffer(POINTER<RCoreObject> pCoreObject, POINTER<RBuffer> pBuffer) override final;
+			virtual void generateMipMaps(POINTER<RCoreObject> pCoreObject) override final;
+			virtual void setLayout(POINTER<RCoreObject> pCoreObject, ImageLayout newLayout) override final;
+			virtual void createImageView(POINTER<RCoreObject> pCoreObject) override final;
+			virtual void terminate(POINTER<RCoreObject> pCoreObject) override final;
 
-			VPTR mapMemory(const VulkanDevice& vDevice, UI32 offset = 0);
-			void unmapMemory(const VulkanDevice& vDevice);
+			virtual void setData(POINTER<RCoreObject> pCoreObject, UI64 uSize, UI64 offset, VPTR data) override final;
+			virtual VPTR getData(POINTER<RCoreObject> pCoreObject, UI64 uSize, UI64 offset) override final;
+			virtual void unmapMemory(POINTER<RCoreObject> pCoreObject) override final;
 
 			operator VkImage() const;
 			operator VkDeviceMemory() const;
 
 			VkImage image = VK_NULL_HANDLE;
 			VkDeviceMemory imageMemory = VK_NULL_HANDLE;
-			VkFormat format = VK_FORMAT_UNDEFINED;
-			VkImageLayout currentLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-
-			DMKTextureType type = DMKTextureType::DMK_TEXTURE_TYPE_2D;
-			ImageUsage usage = ImageUsage::IMAGE_USAGE_RENDER;
-
-			UI32 width = 0;
-			UI32 height = 0;
-			UI32 depth = 1;
-			UI32 size = 0;
-			UI32 availabeMipLevels = 0;
-			UI32 mipLevel = 0;
-			UI32 layers = 0;
 		};
 	}
 }

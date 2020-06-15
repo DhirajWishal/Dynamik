@@ -21,8 +21,11 @@ namespace Dynamik
 		RFrameBuffer() {}
 		virtual ~RFrameBuffer() {}
 
-		virtual void initialize(POINTER<RCoreObject> pCoreObject, POINTER<RRenderPass> pRenderPass) = 0;
+		virtual void initialize(POINTER<RCoreObject> pCoreObject, POINTER<RRenderPass> pRenderPass, POINTER<RSwapChain> pSwapChain) = 0;
 		virtual void terminate(POINTER<RCoreObject> pCoreObject) = 0;
+
+		UI32 width = 0;
+		UI32 height = 0;
 	};
 }
 

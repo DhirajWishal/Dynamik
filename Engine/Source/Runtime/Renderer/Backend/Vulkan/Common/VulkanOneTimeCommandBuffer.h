@@ -12,13 +12,15 @@
 #include "VulkanDevice.h"
 #include "VulkanQueue.h"
 
+#include "Renderer/Components/RCoreObject.h"
+
 namespace Dynamik
 {
     namespace Backend
     {
         class DMK_API VulkanOneTimeCommandBuffer {
         public:
-            VulkanOneTimeCommandBuffer(const VulkanDevice& vDevice, const VulkanQueue& vQueue);
+            VulkanOneTimeCommandBuffer(POINTER<RCoreObject> pCoreObject);
             ~VulkanOneTimeCommandBuffer();
 
             operator VkCommandBuffer() const;

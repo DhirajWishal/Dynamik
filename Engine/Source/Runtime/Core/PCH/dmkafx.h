@@ -17,6 +17,7 @@
 #ifdef DMK_PLATFORM_WINDOWS
 #include "Error/ErrorManager.h"
 #include "Memory/MemoryFunctions.h"
+#include "Types/Utilities.h"
 
 #endif // DMK_PLATFORM_WINDOWS
 

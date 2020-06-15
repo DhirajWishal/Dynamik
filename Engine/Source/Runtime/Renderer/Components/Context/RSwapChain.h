@@ -9,7 +9,8 @@
  Author:	Dhiraj Wishal
  Date:		14/06/2020
 */
-#include "RCoreObject.h"
+#include "../RCoreObject.h"
+#include "Core/Math/MathTypes.h"
 
 namespace Dynamik
 {
@@ -30,8 +31,10 @@ namespace Dynamik
 		RSwapChain() {}
 		virtual ~RSwapChain() {}
 
-		virtual void initialize(POINTER<RCoreObject> pCoreObject, RSwapChainPresentMode ePresentMode) = 0;
+		virtual void initialize(POINTER<RCoreObject> pCoreObject, DMKViewport viewport, RSwapChainPresentMode ePresentMode) = 0;
 		virtual void terminate(POINTER<RCoreObject> pCoreObject) = 0;
+
+		VEC2F extent = VEC2F(0.0f);
 	};
 }
 

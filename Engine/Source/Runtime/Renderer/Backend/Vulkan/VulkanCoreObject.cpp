@@ -9,34 +9,55 @@ namespace Dynamik
 	void VulkanCoreObject::initialize(POINTER<DMKWindowHandle> pWindow, DMKSampleCount eSamples, B1 bEnableValidation)
 	{
 		/* Initialize the Vulkan Instance */
-		myInstance.initialize(bEnableValidation);
+		instance.initialize(bEnableValidation);
 
 		/* Initialize the Vulkan Surface */
-		mySurface.initialize(myInstance, pWindow);
+		surface.initialize(instance, pWindow);
 
 		/* Initialize the Vulkan Device */
-		myDevice.initialize(myInstance, mySurface);
+		device.initialize(instance, surface);
 
-		if (eSamples > (DMKSampleCount)myDevice.getMaxUsableSampleCount())
+		sampleCount = eSamples;
+		if (eSamples > (DMKSampleCount)device.getMaxUsableSampleCount())
 		{
 			DMKErrorManager::logWarn(DMK_TEXT("Pre defined samples are not supported by the GPU. Setting the default to the maximum usable count."));
-			eSamples = (DMKSampleCount)myDevice.getMaxUsableSampleCount();
+			sampleCount = (DMKSampleCount)device.getMaxUsableSampleCount();
 		}
 
 		/* Initialize the Vulkan Queues */
-		myQueue.findQueueFamilies(myDevice, mySurface);
-		myQueue.initializeQueues(myDevice);
+		queues.findQueueFamilies(device, surface);
+		queues.initializeQueues(device);
 	}
 
 	void VulkanCoreObject::terminate()
 	{
 		/* Terminate surface */
-		mySurface.terminate(myInstance);
+		surface.terminate(instance);
 
 		/* Terminate devices */
-		myDevice.terminate(myInstance);
+		device.terminate(instance);
 
 		/* Terminate instance */
-		myInstance.terminate();
+		instance.terminate();
+	}
+
+	VulkanCoreObject::operator Backend::VulkanInstance() const
+	{
+		return instance;
+	}
+
+	VulkanCoreObject::operator Backend::VulkanDevice() const
+	{
+		return device;
+	}
+
+	VulkanCoreObject::operator Backend::VulkanSurface() const
+	{
+		return surface;
+	}
+
+	VulkanCoreObject::operator Backend::VulkanQueue() const
+	{
+		return queues;
 	}
 }
