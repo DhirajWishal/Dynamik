@@ -16,6 +16,14 @@
 
 namespace Dynamik
 {
+	namespace Backend
+	{
+		class DMK_API VulkanInstance;
+		class DMK_API VulkanDevice;
+		class DMK_API VulkanSurface;
+		class DMK_API VulkanQueue;
+	}
+
 	/*
 	 Vulkan Core Object
 	*/
@@ -24,8 +32,11 @@ namespace Dynamik
 		VulkanCoreObject() {}
 		~VulkanCoreObject() {}
 
-		virtual void initialize(POINTER<DMKWindowHandle> pWindow, DMKSampleCount eSamples, B1 bEnableValidation);
-		virtual void terminate();
+		virtual void initialize(POINTER<DMKWindowHandle> pWindow, DMKSampleCount eSamples, B1 bEnableValidation) override final;
+		virtual void terminate() override final;
+
+		virtual UI32 prepareFrame(POINTER<RSwapChain> pSwapChain) override final;
+		virtual void submitCommand(POINTER<RCommandBuffer> pCommandBuffer, POINTER<RSwapChain> pSwapChain) override final;
 
 		operator Backend::VulkanInstance() const;
 		operator Backend::VulkanDevice() const;
@@ -36,6 +47,23 @@ namespace Dynamik
 		Backend::VulkanDevice device;
 		Backend::VulkanSurface surface;
 		Backend::VulkanQueue queues;
+
+	private:
+		virtual void initializeSyncComponents() override final;
+
+		ARRAY<VkSemaphore> imageAvailables;
+		ARRAY<VkSemaphore> renderFinished;
+		ARRAY<VkFence> inFlightFences;
+
+		UI32 currentFrameIndex = 0;
+		UI32 imageIndex = 0;
+
+	private:
+		VkResult frameResult = VkResult::VK_ERROR_UNKNOWN;
+
+		VkSubmitInfo submitInfo = {};
+		VkPresentInfoKHR presentInfo = {};
+		VkPipelineStageFlags stageFlags[1] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
 	};
 }
 

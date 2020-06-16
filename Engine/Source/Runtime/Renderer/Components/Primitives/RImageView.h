@@ -13,6 +13,7 @@
 
 namespace Dynamik
 {
+	class DMK_API RCoreObject;
 	class DMK_API RImage;
 
 	/*
@@ -23,7 +24,7 @@ namespace Dynamik
 		RImageView() {}
 		virtual ~RImageView() {}
 
-		virtual void initialize(POINTER<RCoreObject> pCoreObject, POINTER<RImage> pImage) = 0;
+		virtual void initialize(POINTER<RCoreObject> pCoreObject, POINTER<RImage> pImage, DMKTexture::TextureSwizzles swizzles) = 0;
 		virtual void terminate(POINTER<RCoreObject> pCoreObject) = 0;
 	};
 }

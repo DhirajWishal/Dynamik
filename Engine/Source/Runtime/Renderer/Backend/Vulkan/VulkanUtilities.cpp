@@ -55,10 +55,10 @@ namespace Dynamik
 			case Dynamik::ImageLayout::IMAGE_LAYOUT_PREINITIALIZED:						return VK_IMAGE_LAYOUT_PREINITIALIZED;
 			case Dynamik::ImageLayout::IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT: return VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL;
 			case Dynamik::ImageLayout::IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY: return VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL;
-			case Dynamik::ImageLayout::IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL:			return VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL;
-			case Dynamik::ImageLayout::IMAGE_LAYOUT_DEPTH_READ_ONLY_OPTIMAL:			return VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_OPTIMAL;
-			case Dynamik::ImageLayout::IMAGE_LAYOUT_STENCIL_ATTACHMENT_OPTIMAL:			return VK_IMAGE_LAYOUT_STENCIL_ATTACHMENT_OPTIMAL;
-			case Dynamik::ImageLayout::IMAGE_LAYOUT_STENCIL_READ_ONLY_OPTIMAL:			return VK_IMAGE_LAYOUT_STENCIL_READ_ONLY_OPTIMAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_DEPTH_ATTACHMENT:			return VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_DEPTH_READ_ONLY:			return VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_OPTIMAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_STENCIL_ATTACHMENT:			return VK_IMAGE_LAYOUT_STENCIL_ATTACHMENT_OPTIMAL;
+			case Dynamik::ImageLayout::IMAGE_LAYOUT_STENCIL_READ_ONLY:			return VK_IMAGE_LAYOUT_STENCIL_READ_ONLY_OPTIMAL;
 			case Dynamik::ImageLayout::IMAGE_LAYOUT_PRESENT_SRC:						return VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 			case Dynamik::ImageLayout::IMAGE_LAYOUT_SHARED_PRESENT:						return VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR;
 			case Dynamik::ImageLayout::IMAGE_LAYOUT_SHADING_RATE:						return VK_IMAGE_LAYOUT_SHADING_RATE_OPTIMAL_NV;
@@ -116,6 +116,17 @@ namespace Dynamik
 				VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT,
 				physicalDevice
 			);
+		}
+
+		VkComponentMapping VulkanUtilities::getComponentMapping(DMKTexture::TextureSwizzles swizzles)
+		{
+			VkComponentMapping _mapping;
+			_mapping.r = (VkComponentSwizzle)swizzles.componentOne;
+			_mapping.g = (VkComponentSwizzle)swizzles.componentTwo;
+			_mapping.b = (VkComponentSwizzle)swizzles.componentThree;
+			_mapping.a = (VkComponentSwizzle)swizzles.componentFour;
+
+			return _mapping;
 		}
 
 		VkDescriptorType VulkanUtilities::getDescriptorType(DMKUniformType type)

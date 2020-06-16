@@ -18,13 +18,13 @@ namespace Dynamik
 		/*
 		 Vulkan Image View object for the Dynamik RBL
 		*/
-		class DMK_API VulkanImageView {
+		class DMK_API VulkanImageView : public RImageView {
 		public:
 			VulkanImageView() {}
 			~VulkanImageView() {}
 
-			void initialize(const VulkanDevice& vDevice, const VulkanImage& vImage, VkComponentMapping mapping = {});
-			void terminate(const VulkanDevice& vDevice);
+			virtual void initialize(POINTER<RCoreObject> pCoreObject, POINTER<RImage> pImage, DMKTexture::TextureSwizzles swizzles) override final;
+			virtual void terminate(POINTER<RCoreObject> pCoreObject) override final;
 
 			operator VkImageView() const;
 

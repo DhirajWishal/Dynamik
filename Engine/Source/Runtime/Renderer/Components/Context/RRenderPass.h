@@ -13,6 +13,9 @@
 
 namespace Dynamik
 {
+	class DMK_API RCoreObject;
+	class DMK_API RSwapChain;
+
 	/* Subpasses */
 	enum class DMK_API RSubPasses {
 		SUBPASSES_SWAPCHAIN,

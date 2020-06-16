@@ -23,7 +23,7 @@ namespace Dynamik
             VulkanColorAttachment() {}
             ~VulkanColorAttachment() {}
 
-            void initialize(const VulkanDevice& vDevice, const VulkanQueue& vQueue, VulkanFrameBufferAttachmentInitInfo initInfo) override;
+            void initialize(POINTER<RCoreObject> pCoreObject, VulkanFrameBufferAttachmentInitInfo initInfo) override;
         };
     }
 }

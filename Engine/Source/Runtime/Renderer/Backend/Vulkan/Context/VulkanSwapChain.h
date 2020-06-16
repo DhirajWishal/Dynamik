@@ -10,8 +10,8 @@
  Date:      25/05/2020
 */
 #include "Renderer/Components/Context/RSwapChain.h"
-#include "../VulkanCoreObject.h"
 
+#include "../VulkanCoreObject.h"
 #include "../Common/VulkanDevice.h"
 #include "../Common/VulkanQueue.h"
 #include "../Common/VulkanViewport.h"
@@ -46,14 +46,7 @@ namespace Dynamik
 
             operator VkSwapchainKHR() const;
 
-            ARRAY<VulkanImage> images;
-            ARRAY<VulkanImageView> imageViews;
             VkSwapchainKHR swapChain = VK_NULL_HANDLE;
-            VkFormat format = VK_FORMAT_UNDEFINED;
-            VulkanViewport myViewport;
-
-        private:
-            void _initializeImageViews(const VulkanDevice& vDevice);
         };
     }
 }

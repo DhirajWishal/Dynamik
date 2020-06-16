@@ -4,99 +4,83 @@
 #include "dmkafx.h"
 #include "VulkanTexture.h"
 
-#include "../Primitives/VulkanBuffer.h"
+#include "VulkanBuffer.h"
+#include "../VulkanUtilities.h"
 
 namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanTexture::initialize(const VulkanDevice& vDevice, const VulkanQueue& vQueue, POINTER<DMKTexture> textureComponent)
+		void VulkanTexture::initialize(POINTER<RCoreObject> pCoreObject, POINTER<DMKTexture> pTextureObject)
 		{
-			texture = textureComponent;
+			pTexture = pTextureObject;
 
 			VulkanBuffer staggingBuffer;
-			staggingBuffer.initialize(vDevice, BufferType::BUFFER_TYPE_STAGGING, textureComponent->size());
-			DMKMemoryFunctions::moveData(staggingBuffer.mapMemory(vDevice), textureComponent->image, textureComponent->size());
-			staggingBuffer.unmapMemory(vDevice);
+			staggingBuffer.initialize(pCoreObject, BufferType::BUFFER_TYPE_STAGGING, pTextureObject->size());
+			staggingBuffer.setData(pCoreObject, pTextureObject->size(), 0, pTextureObject->image);
 
-			VulkanImageCreateInfo initInfo;
-			initInfo.imageWidth = textureComponent->width;
-			initInfo.imageHeight = textureComponent->height;
-			initInfo.imageDepth = textureComponent->depth;
-			initInfo.imageType = textureComponent->type;
+			RImageCreateInfo initInfo;
+			initInfo.vDimentions.width = pTextureObject->width;
+			initInfo.vDimentions.height = pTextureObject->height;
+			initInfo.vDimentions.depth = pTextureObject->depth;
+			initInfo.imageType = pTextureObject->type;
 			initInfo.imageUsage = (ImageUsage)(ImageUsage::IMAGE_USAGE_RENDER | ImageUsage::IMAGE_USAGE_TRANSFER_SRC | ImageUsage::IMAGE_USAGE_TRANSFER_DST);
-			initInfo.layers = textureComponent->layerCount;
-			initInfo.mipLevels = textureComponent->mipLevels;
+			initInfo.layers = pTextureObject->layerCount;
+			initInfo.mipLevels = pTextureObject->mipLevels;
 			initInfo.sampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
-			initInfo.imageFormat = textureComponent->format;
-			image.initialize(vDevice, vQueue, initInfo);
+			initInfo.imageFormat = pTextureObject->format;
 
-			image.copyBuffer(vDevice, vQueue, staggingBuffer);
+			pImage = (POINTER<RImage>)StaticAllocator<VulkanImage>::allocate();
+			pImage->initialize(pCoreObject, initInfo);
 
-			image.generateMipMaps(vDevice, vQueue);
+			pImage->copyBuffer(pCoreObject, &staggingBuffer);
+
+			pImage->generateMipMaps(pCoreObject);
 		}
 
-		VkComponentMapping getComponentMapping(DMKTexture::TextureSwizzles swizzles)
+		void VulkanTexture::createView(POINTER<RCoreObject> pCoreObject)
 		{
-			VkComponentMapping _mapping;
-			_mapping.r = (VkComponentSwizzle)swizzles.componentOne;
-			_mapping.g = (VkComponentSwizzle)swizzles.componentTwo;
-			_mapping.b = (VkComponentSwizzle)swizzles.componentThree;
-			_mapping.a = (VkComponentSwizzle)swizzles.componentFour;
-
-			return _mapping;
+			pImageView = (POINTER<RImageView>)StaticAllocator<VulkanImageView>::allocate();
+			pImageView->initialize(pCoreObject, pImage, pTexture->swizzles);
 		}
 
-		void VulkanTexture::initializeView(const VulkanDevice& vDevice)
+		void VulkanTexture::createSampler(POINTER<RCoreObject> pCoreObject, RImageSamplerCreateInfo createInfo)
 		{
-			imageView.initialize(vDevice, image, getComponentMapping(texture->swizzles));
-		}
-
-		void VulkanTexture::initializeSampler(const VulkanDevice& vDevice)
-		{
-			VulkanImageSamplerCreateInfo initInfo;
+			RImageSamplerCreateInfo initInfo;
 			initInfo.addressModeU = ImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
 			initInfo.addressModeV = ImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
 			initInfo.addressModeW = ImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
 			initInfo.borderColor = ImageSamplerBorderColor::IMAGE_SAMPLER_BORDER_COLOR_I32_OPAQUE_BLACK;
-			sampler.initialize(vDevice, initInfo);
+
+			pSampler = (POINTER<RImageSampler>)StaticAllocator<VulkanImageSampler>::allocate();
+			pSampler->initialize(pCoreObject, initInfo);
 		}
 
-		void VulkanTexture::makeRenderable(const VulkanDevice& vDevice, const VulkanQueue& vQueue)
+		void VulkanTexture::makeRenderable(POINTER<RCoreObject> pCoreObject)
 		{
-			image.setLayout(vDevice, vQueue, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+			pImage->setLayout(pCoreObject, ImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY);
 		}
 
-		void VulkanTexture::terminate(const VulkanDevice& vDevice)
+		void VulkanTexture::terminate(POINTER<RCoreObject> pCoreObject)
 		{
-			image.terminate(vDevice);
-			imageView.terminate(vDevice);
-			sampler.terminate(vDevice);
-		}
-
-		VkDescriptorImageInfo VulkanTexture::createDescriptorInfo()
-		{
-			VkDescriptorImageInfo _info;
-			_info.imageLayout = VkImageLayout::VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-			_info.imageView = imageView;
-			_info.sampler = sampler;
-
-			return _info;
+			pImage->terminate(pCoreObject);
+			pImageView->terminate(pCoreObject);
+			pSampler->terminate(pCoreObject);
 		}
 
 		VulkanTexture::operator VulkanImage() const
 		{
-			return this->image;
+			return InheritCast<VulkanImage>(this->pImage);
 		}
 
 		VulkanTexture::operator VulkanImageView() const
 		{
-			return this->imageView;
+			return InheritCast<VulkanImageView>(this->pImageView);
 		}
 
 		VulkanTexture::operator VulkanImageSampler() const
 		{
-			return this->sampler;
+			return InheritCast<VulkanImageSampler>(this->pSampler);
 		}
 	}
 }

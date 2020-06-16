@@ -15,6 +15,12 @@ namespace Dynamik
 {
     namespace Backend
     {
+        class DMK_API VulkanImage;
+        class DMK_API VulkanImageView;
+
+        /*
+         Vulkan Frame Buffer Attachment Info
+        */
         struct DMK_API VulkanFrameBufferAttachmentInitInfo {
             DMKFormat format = DMKFormat::DMK_FORMAT_UNDEFINED;
             DMKSampleCount msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
@@ -30,8 +36,8 @@ namespace Dynamik
             VulkanFrameBufferAttachment() {}
             virtual ~VulkanFrameBufferAttachment() {}
 
-            virtual void initialize(const VulkanDevice& vDevice, const VulkanQueue& vQueue, VulkanFrameBufferAttachmentInitInfo initInfo) {}
-            virtual void terminate(const VulkanDevice& vDevice);
+            virtual void initialize(POINTER<RCoreObject> pCoreObject, VulkanFrameBufferAttachmentInitInfo initInfo) {}
+            virtual void terminate(POINTER<RCoreObject> pCoreObject);
 
             operator VulkanImage() const;
             operator VulkanImageView() const;

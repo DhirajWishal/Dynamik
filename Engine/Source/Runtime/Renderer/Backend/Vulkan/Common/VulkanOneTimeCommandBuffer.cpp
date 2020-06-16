@@ -11,7 +11,7 @@ namespace Dynamik
 	namespace Backend
 	{
 		VulkanOneTimeCommandBuffer::VulkanOneTimeCommandBuffer(POINTER<RCoreObject> pCoreObject)
-			: myDevice(InheritCast<VulkanCoreObject>(pCoreObject).device), myQueues(InheritCast<VulkanCoreObject>(pCoreObject).queues)
+			: myDevice(Inherit<VulkanCoreObject>(pCoreObject)->device), myQueues(Inherit<VulkanCoreObject>(pCoreObject)->queues)
 		{
 			/* Create the command pool for the command buffer */
 			VkCommandPoolCreateInfo poolInfo = {};

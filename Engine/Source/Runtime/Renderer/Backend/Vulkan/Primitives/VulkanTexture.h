@@ -13,6 +13,7 @@
 #include "../Common/VulkanQueue.h"
 
 #include "Object/Resource/Texture.h"
+#include "Renderer/Components/Primitives/RTexture.h"
 
 #include "VulkanImage.h"
 #include "VulkanImageSampler.h"
@@ -25,27 +26,20 @@ namespace Dynamik
         /*
          Vulkan Texture object for the Dynamik RBL
         */
-        class DMK_API VulkanTexture {
+        class DMK_API VulkanTexture : public RTexture {
         public:
             VulkanTexture() {}
             ~VulkanTexture() {}
 
-            void initialize(const VulkanDevice& vDevice, const VulkanQueue& vQueue, POINTER<DMKTexture> textureComponent);
-            void initializeView(const VulkanDevice& vDevice);
-            void initializeSampler(const VulkanDevice& vDevice);
-            void makeRenderable(const VulkanDevice& vDevice, const VulkanQueue& vQueue);
-            void terminate(const VulkanDevice& vDevice);
-
-            VkDescriptorImageInfo createDescriptorInfo();
+            virtual void initialize(POINTER<RCoreObject> pCoreObject, POINTER<DMKTexture> pTextureObject) override final;
+            virtual void createView(POINTER<RCoreObject> pCoreObject) override final;
+            virtual void createSampler(POINTER<RCoreObject> pCoreObject, RImageSamplerCreateInfo createInfo) override final;
+            virtual void makeRenderable(POINTER<RCoreObject> pCoreObject) override final;
+            virtual void terminate(POINTER<RCoreObject> pCoreObject) override final;
 
             operator VulkanImage() const;
             operator VulkanImageView() const;
             operator VulkanImageSampler() const;
-
-            VulkanImage image;
-            VulkanImageView imageView;
-            VulkanImageSampler sampler;
-            POINTER<DMKTexture> texture;
         };
     }
 }

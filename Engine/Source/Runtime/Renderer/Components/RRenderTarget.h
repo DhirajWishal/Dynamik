@@ -9,7 +9,8 @@
  Author:	Dhiraj Wishal
  Date:		14/06/2020
 */
-#include "RFrameBuffer.h"
+#include "Context/RFrameBuffer.h"
+#include "RCommandBuffer.h"
 
 namespace Dynamik
 {
@@ -20,6 +21,13 @@ namespace Dynamik
 	public:
 		RRenderTarget() {}
 		virtual ~RRenderTarget() {}
+
+		virtual void setComponents(POINTER<RFrameBuffer> frameBuffer, POINTER<RRenderPass> renderPass, POINTER<RSwapChain> swapChain) { pFrameBuffer = frameBuffer, pRenderPass = renderPass, pSwapChain = swapChain; }
+		virtual void submit(POINTER<RCommandBuffer> pCommandBuffer) {}
+
+		POINTER<RFrameBuffer> pFrameBuffer;
+		POINTER<RRenderPass> pRenderPass;
+		POINTER<RSwapChain> pSwapChain;
 	};
 
 	/*

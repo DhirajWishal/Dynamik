@@ -8,22 +8,25 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanColorAttachment::initialize(const VulkanDevice& vDevice, const VulkanQueue& vQueue, VulkanFrameBufferAttachmentInitInfo initInfo)
+		void VulkanColorAttachment::initialize(POINTER<RCoreObject> pCoreObject, VulkanFrameBufferAttachmentInitInfo initInfo)
 		{
-			VulkanImageCreateInfo imgCreateInfo;
+			RImageCreateInfo imgCreateInfo;
 			imgCreateInfo.imageFormat = initInfo.format;
 			imgCreateInfo.imageType = DMKTextureType::DMK_TEXTURE_TYPE_2D;
 			imgCreateInfo.imageUsage = (ImageUsage)(IMAGE_USAGE_TRANSIENT_ATTACHMENT | IMAGE_USAGE_COLOR_ATTACHMENT);
 			imgCreateInfo.layers = 1;
 			imgCreateInfo.mipLevels = 1;
-			imgCreateInfo.imageWidth = initInfo.imageWidth;
-			imgCreateInfo.imageHeight = initInfo.imageHeight;
+			imgCreateInfo.vDimentions.width = initInfo.imageWidth;
+			imgCreateInfo.vDimentions.height = initInfo.imageHeight;
 			imgCreateInfo.sampleCount = initInfo.msaaSamples;
-			image.initialize(vDevice, vQueue, imgCreateInfo);
 
-			imageView.initialize(vDevice, image);
+			image = StaticAllocator<VulkanImage>::allocate();
+			image.initialize(pCoreObject, imgCreateInfo);
 
-			image.setLayout(vDevice, vQueue, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL);
+			imageView = StaticAllocator<VulkanImageView>::allocate();
+			imageView.initialize(pCoreObject, &image, DMKTexture::TextureSwizzles());
+
+			image.setLayout(pCoreObject, ImageLayout::IMAGE_LAYOUT_COLOR_ATTACHMENT);
 		}
 	}
 }

@@ -33,5 +33,7 @@
 
 #define BIT_SHIFT(count)	(1 << count)
 
+#define DMK_FORCEINLINE		__forceinline
+
 
 #endif // !_DYNAMIK_GLOBAL_MACROS_H

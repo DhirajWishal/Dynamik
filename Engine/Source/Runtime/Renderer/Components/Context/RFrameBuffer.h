@@ -13,6 +13,10 @@
 
 namespace Dynamik
 {
+	class DMK_API RCoreObject;
+	class DMK_API RSwapChain;
+	class DMK_API RRenderPass;
+
 	/*
 	 Renderer Frame Buffer
 	*/

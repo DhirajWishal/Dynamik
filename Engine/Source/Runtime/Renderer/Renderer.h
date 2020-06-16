@@ -10,17 +10,15 @@
  Date:      29/05/2020
 */
 #include "RendererCommand.h"
-#include "Backend/Vulkan/VulkanRBL.h"
 #include "Managers/Thread/Thread.h"
 #include "Managers/Thread/ThreadCommand.h"
 
 #include "Components/RCoreObject.h"
 #include "Components/Context/RFrameBuffer.h"
+#include "Components/RCommandBufferManager.h"
 
 namespace Dynamik
 {
-    using namespace Backend;
-
     /*
      Dynamik Renderer Compatibility structure
     */
@@ -75,10 +73,12 @@ namespace Dynamik
     private:    /* Resource */
         void createEntityResources(POINTER<DMKGameEntity> pGameEntity);
 
+    private:    /* Finals */
+        void initializeFinals();
+
     private:    /* Internal */
         DMKRendererCompatibility myCompatibility;
 
-        VulkanRBL myBackend;
         POINTER<DMKRendererCommand> myCommand;
 
         DMKRenderingAPI myAPI;
@@ -87,9 +87,11 @@ namespace Dynamik
 
         POINTER<RCoreObject> myCoreObject;
 
-        POINTER<RRenderPass> myRenderPass;
-        POINTER<RSwapChain> mySwapChain;
-        POINTER<RFrameBuffer> myFrameBuffer;
+        POINTER<RRenderTarget> myRenderTarget;
+
+        POINTER<RCommandBufferManager> myCommandBufferManager;
+        ARRAY<POINTER<RCommandBuffer>> myCommandBuffers;
+        B1 isInitialized = false;
     };
 }
 

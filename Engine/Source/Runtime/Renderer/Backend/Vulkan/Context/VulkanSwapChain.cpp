@@ -92,31 +92,31 @@ namespace Dynamik
 
 		void VulkanSwapChain::initialize(POINTER<RCoreObject> pCoreObject, DMKViewport viewport, RSwapChainPresentMode ePresentMode)
 		{
-			myViewport = VulkanUtilities::getViewport(viewport);
-			VulkanSwapChainSupportDetails swapChainSupport = querySwapChainSupport(InheritCast<VulkanCoreObject>(pCoreObject).device, myViewport.surfacePtr.dereference());
+			viewPort = viewport;
+			VulkanSwapChainSupportDetails swapChainSupport = querySwapChainSupport(Inherit<VulkanCoreObject>(pCoreObject)->device, Inherit<VulkanCoreObject>(pCoreObject)->surface);
 
 			VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
 			VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes, ePresentMode);
-			VkExtent2D scExtent = chooseSwapExtent(swapChainSupport.capabilities, myViewport.width, myViewport.width);
+			VkExtent2D scExtent = chooseSwapExtent(swapChainSupport.capabilities, viewPort.width, viewPort.width);
 
 			VkCompositeAlphaFlagBitsKHR surfaceComposite =
-				(myViewport.surfacePtr->surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR)
+				(Inherit<VulkanCoreObject>(pCoreObject)->surface.surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR)
 				? VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR
-				: (myViewport.surfacePtr->surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR)
+				: (Inherit<VulkanCoreObject>(pCoreObject)->surface.surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR)
 				? VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR
-				: (myViewport.surfacePtr->surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR)
+				: (Inherit<VulkanCoreObject>(pCoreObject)->surface.surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR)
 				? VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR
 				: VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR;
 
-			UI32 imageCount = swapChainSupport.capabilities.minImageCount + 1;
+			bufferCount = swapChainSupport.capabilities.minImageCount + 1;
 			if (swapChainSupport.capabilities.maxImageCount > 0
-				&& imageCount > swapChainSupport.capabilities.maxImageCount)
-				imageCount = swapChainSupport.capabilities.maxImageCount;
+				&& bufferCount > swapChainSupport.capabilities.maxImageCount)
+				bufferCount = swapChainSupport.capabilities.maxImageCount;
 
 			VkSwapchainCreateInfoKHR createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-			createInfo.surface = myViewport.surfacePtr->surface;
-			createInfo.minImageCount = imageCount;
+			createInfo.surface = Inherit<VulkanCoreObject>(pCoreObject)->surface;
+			createInfo.minImageCount = bufferCount;
 			createInfo.imageFormat = surfaceFormat.format;
 			createInfo.imageColorSpace = surfaceFormat.colorSpace;
 			createInfo.imageExtent = scExtent;
@@ -125,11 +125,11 @@ namespace Dynamik
 			//createInfo.imageUsage = VK_IMAGE_USAGE_TRANSFER_DST_BIT;
 
 			UI32 queueFamilyindices[] = {
-				InheritCast<VulkanCoreObject>(pCoreObject).queues.processFamily.value(),
-				InheritCast<VulkanCoreObject>(pCoreObject).queues.utilityFamily.value()
+				Inherit<VulkanCoreObject>(pCoreObject)->queues.processFamily.value(),
+				Inherit<VulkanCoreObject>(pCoreObject)->queues.utilityFamily.value()
 			};
 
-			if (InheritCast<VulkanCoreObject>(pCoreObject).queues.processFamily != InheritCast<VulkanCoreObject>(pCoreObject).queues.utilityFamily)
+			if (Inherit<VulkanCoreObject>(pCoreObject)->queues.processFamily != Inherit<VulkanCoreObject>(pCoreObject)->queues.utilityFamily)
 			{
 				createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
 				createInfo.queueFamilyIndexCount = 2;
@@ -148,31 +148,34 @@ namespace Dynamik
 			createInfo.clipped = VK_TRUE;
 			createInfo.oldSwapchain = VK_NULL_HANDLE;
 
-			if (vkCreateSwapchainKHR(InheritCast<VulkanCoreObject>(pCoreObject).device, &createInfo, nullptr, &swapChain))
+			if (vkCreateSwapchainKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, &createInfo, nullptr, &swapChain))
 				DMK_ERROR_BOX("Failed to create Swap Chain!");
 
-			vkGetSwapchainImagesKHR(InheritCast<VulkanCoreObject>(pCoreObject).device, swapChain, &imageCount, nullptr);
-			ARRAY<VkImage> _images(imageCount);
-			vkGetSwapchainImagesKHR(InheritCast<VulkanCoreObject>(pCoreObject).device, swapChain, &imageCount, _images.data());
+			vkGetSwapchainImagesKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, swapChain, &bufferCount, nullptr);
+			ARRAY<VkImage> _images(bufferCount);
+			vkGetSwapchainImagesKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, swapChain, &bufferCount, _images.data());
 
-			format = surfaceFormat.format;
+			format = (DMKFormat)surfaceFormat.format;
 
 			for (auto _image : _images)
 			{
-				VulkanImage _vImage;
-				_vImage.image = _image;
-				_vImage.format = format;
-				_vImage.layers = 1;
-				_vImage.mipLevel = 1;
+				POINTER<VulkanImage> _vImage = StaticAllocator<VulkanImage>::allocate();
+				_vImage->image = _image;
+				_vImage->format = format;
+				_vImage->layers = 1;
+				_vImage->mipLevel = 1;
 				images.pushBack(_vImage);
 			}
-
-			format = surfaceFormat.format;
 
 			extent.width = scExtent.width;
 			extent.height = scExtent.height;
 
-			_initializeImageViews(InheritCast<VulkanCoreObject>(pCoreObject));
+			for (UI32 itr = 0; itr < images.size(); itr++)
+			{
+				POINTER<VulkanImageView> _vView = StaticAllocator<VulkanImageView>::allocate();
+				_vView->initialize(pCoreObject, images[itr], DMKTexture::TextureSwizzles());
+				imageViews.pushBack(_vView);
+			}
 		}
 
 		void VulkanSwapChain::terminate(POINTER<RCoreObject> pCoreObject)
@@ -182,16 +185,6 @@ namespace Dynamik
 		VulkanSwapChain::operator VkSwapchainKHR() const
 		{
 			return this->swapChain;
-		}
-
-		void VulkanSwapChain::_initializeImageViews(const VulkanDevice& vDevice)
-		{
-			for (UI32 itr = 0; itr < images.size(); itr++)
-			{
-				VulkanImageView _vView;
-				_vView.initialize(vDevice, images[itr]);
-				imageViews.pushBack(_vView);
-			}
 		}
 	}
 }

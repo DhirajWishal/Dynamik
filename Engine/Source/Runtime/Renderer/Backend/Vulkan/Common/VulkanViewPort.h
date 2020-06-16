@@ -16,6 +16,8 @@ namespace Dynamik
 {
 	namespace Backend
 	{
+		class DMK_API VulkanSurface;
+
 		/*
 		 Vulkan Viewport class
 		*/

@@ -12,7 +12,6 @@
 #include "Backend/Vulkan/Common/VulkanQueue.h"
 #include "Backend/Vulkan/Common/VulkanCommandBuffer.h"
 #include "Backend/Vulkan/Common/VulkanDescriptorSetManager.h"
-#include "Backend/Vulkan/Common/VulkanSyncObjects.h"
 #include "Backend/Vulkan/Context/VulkanSwapChain.h"
 #include "Backend/Vulkan/Context/VulkanRenderPass.h"
 #include "Backend/Vulkan/Context/VulkanFrameBuffer.h"
@@ -20,12 +19,15 @@
 
 namespace Dynamik
 {
-	/* ---------- HELPERS ---------- */
+	using namespace Backend;
 
 	/* ---------- CLASS DEFINITION ---------- */
 	void DMKRenderer::initialize()
 	{
 		myCompatibility.isVulkanAvailable = glfwVulkanSupported();
+
+		myAPI = DMKRenderingAPI::DMK_RENDERING_API_VULKAN;
+		myRenderTarget = new RRenderTarget;
 
 		//myRenderer.setMsaaSamples(DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT);
 		//myRenderer.initialize();
@@ -52,22 +54,22 @@ namespace Dynamik
 			createContext(((RendererCreateContextCommand*)myCommand)->contextType, ((RendererCreateContextCommand*)myCommand)->viewport);
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_FINALS:
-			myBackend.initializeFinalComponents();
+			initializeFinals();
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITY:
 			createEntityResources(((RendererAddEntity*)myCommand)->entity);
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_LEVEL:
-			myBackend.initializeLevel(POINTER<DMKLevelComponent>());
+			//myBackend.initializeLevel(POINTER<DMKLevelComponent>());
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SUBMIT_OBJECTS:
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_INITIALIZE:
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE:
-			myBackend.initializeDrawCall();
-			myBackend.updateRenderables();
-			myBackend.submitRenderables();
+			//myBackend.initializeDrawCall();
+			//myBackend.updateRenderables();
+			//myBackend.submitRenderables();
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_SUBMIT:
 			break;
@@ -92,8 +94,10 @@ namespace Dynamik
 
 	void DMKRenderer::onLoop()
 	{
-		myBackend.initializeDrawCall();
-		myBackend.submitRenderables();
+		if (!isInitialized)
+			return;
+
+		myCoreObject->submitCommand(myCommandBuffers[myCoreObject->prepareFrame(myRenderTarget->pSwapChain)], myRenderTarget->pSwapChain);
 	}
 
 	void DMKRenderer::onTermination()
@@ -142,8 +146,8 @@ namespace Dynamik
 		{
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			mySwapChain = (POINTER<RSwapChain>)StaticAllocator<VulkanSwapChain>::allocate();
-			mySwapChain->initialize(&myCoreObject, viewport, presentMode);
+			myRenderTarget->pSwapChain = (POINTER<RSwapChain>)StaticAllocator<VulkanSwapChain>::allocate();
+			myRenderTarget->pSwapChain->initialize(myCoreObject, viewport, presentMode);
 		}
 		break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
@@ -155,7 +159,7 @@ namespace Dynamik
 			break;
 		}
 
-		return mySwapChain;
+		return myRenderTarget->pSwapChain;
 	}
 
 	POINTER<RRenderPass> DMKRenderer::createRenderPass(ARRAY<RSubPasses> subPasses)
@@ -164,9 +168,9 @@ namespace Dynamik
 		{
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			myRenderPass = (POINTER<RRenderPass>)StaticAllocator<VulkanRenderPass>::allocate();
+			myRenderTarget->pRenderPass = (POINTER<RRenderPass>)StaticAllocator<VulkanRenderPass>::allocate();
 			/* Attachments: SwapChain, Depth, Color */
-			myRenderPass->initialize(&myCoreObject, subPasses, mySwapChain);
+			myRenderTarget->pRenderPass->initialize(myCoreObject, subPasses, myRenderTarget->pSwapChain);
 		}
 		break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
@@ -178,7 +182,7 @@ namespace Dynamik
 			break;
 		}
 
-		return myRenderPass;
+		return myRenderTarget->pRenderPass;
 	}
 
 	POINTER<RFrameBuffer> DMKRenderer::createFrameBuffer()
@@ -187,8 +191,8 @@ namespace Dynamik
 		{
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			myFrameBuffer = (POINTER<RFrameBuffer>)StaticAllocator<VulkanFrameBuffer>::allocate();
-			myFrameBuffer->initialize(&myCoreObject, myRenderPass, mySwapChain);
+			myRenderTarget->pFrameBuffer = (POINTER<RFrameBuffer>)StaticAllocator<VulkanFrameBuffer>::allocate();
+			myRenderTarget->pFrameBuffer->initialize(myCoreObject, myRenderTarget->pRenderPass, myRenderTarget->pSwapChain);
 		}
 		break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
@@ -200,7 +204,7 @@ namespace Dynamik
 			break;
 		}
 
-		return myFrameBuffer;
+		return myRenderTarget->pFrameBuffer;
 	}
 
 	void DMKRenderer::createContext(DMKRenderContextType type, DMKViewport viewport)
@@ -237,8 +241,27 @@ namespace Dynamik
 		/* Initialize Framebuffer */
 		createFrameBuffer();
 	}
-	
+
 	void DMKRenderer::createEntityResources(POINTER<DMKGameEntity> pGameEntity)
 	{
+	}
+
+	void DMKRenderer::initializeFinals()
+	{
+		myCommandBufferManager->initialize(myCoreObject);
+		myCommandBuffers = myCommandBufferManager->allocateCommandBuffers(myCoreObject, myRenderTarget->pSwapChain->images.size());
+
+		for (UI32 itr = 0; itr < myCommandBuffers.size(); itr++)
+		{
+			auto buffer = myCommandBuffers[itr];
+			buffer->begin();
+
+			myCommandBufferManager->bindRenderTarget(buffer, myRenderTarget, itr);
+			myCommandBufferManager->unbindRenderTarget(buffer);
+
+			buffer->end();
+		}
+
+		isInitialized = true;
 	}
 }

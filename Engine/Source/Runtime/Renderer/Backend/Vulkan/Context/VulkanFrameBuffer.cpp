@@ -32,13 +32,13 @@ namespace Dynamik
 					case Dynamik::RSubPasses::SUBPASSES_DEPTH:
 					{
 						VulkanFrameBufferAttachmentInitInfo attachmentInfo;
-						attachmentInfo.format = (DMKFormat)VulkanUtilities::findDepthFormat(InheritCast<VulkanCoreObject>(pCoreObject).device);
+						attachmentInfo.format = (DMKFormat)VulkanUtilities::findDepthFormat(Inherit<VulkanCoreObject>(pCoreObject)->device);
 						attachmentInfo.imageWidth = width;
 						attachmentInfo.imageHeight = height;
-						attachmentInfo.msaaSamples = InheritCast<VulkanCoreObject>(pCoreObject).sampleCount;
+						attachmentInfo.msaaSamples = Inherit<VulkanCoreObject>(pCoreObject)->sampleCount;
 
 						VulkanColorAttachment depthAttachment;
-						depthAttachment.initialize(InheritCast<VulkanCoreObject>(pCoreObject), InheritCast<VulkanCoreObject>(pCoreObject), attachmentInfo);
+						depthAttachment.initialize(pCoreObject, attachmentInfo);
 						_attachments.pushBack(depthAttachment.imageView);
 					}
 						break;
@@ -48,10 +48,10 @@ namespace Dynamik
 						attachmentInfo.format = (DMKFormat)InheritCast<VulkanSwapChain>(pSwapChain).format;
 						attachmentInfo.imageWidth = width;
 						attachmentInfo.imageHeight = height;
-						attachmentInfo.msaaSamples = InheritCast<VulkanCoreObject>(pCoreObject).sampleCount;
+						attachmentInfo.msaaSamples = Inherit<VulkanCoreObject>(pCoreObject)->sampleCount;
 
 						VulkanColorAttachment colorAttachment;
-						colorAttachment.initialize(InheritCast<VulkanCoreObject>(pCoreObject), InheritCast<VulkanCoreObject>(pCoreObject), attachmentInfo);
+						colorAttachment.initialize(pCoreObject, attachmentInfo);
 						_attachments.pushBack(colorAttachment.imageView);
 					}
 						break;
@@ -72,7 +72,7 @@ namespace Dynamik
 				framebufferInfo.layers = 1;
 
 				VkFramebuffer _buffer = VK_NULL_HANDLE;
-				DMK_VULKAN_ASSERT(vkCreateFramebuffer(InheritCast<VulkanCoreObject>(pCoreObject).device, &framebufferInfo, nullptr, &_buffer), "Failed to create frame buffer!");
+				DMK_VULKAN_ASSERT(vkCreateFramebuffer(Inherit<VulkanCoreObject>(pCoreObject)->device, &framebufferInfo, nullptr, &_buffer), "Failed to create frame buffer!");
 
 				buffers.pushBack(_buffer);
 			}
@@ -81,7 +81,7 @@ namespace Dynamik
 		void VulkanFrameBuffer::terminate(POINTER<RCoreObject> pCoreObject)
 		{
 			for (auto buffer : buffers)
-				vkDestroyFramebuffer(InheritCast<VulkanCoreObject>(pCoreObject).device, buffer, nullptr);
+				vkDestroyFramebuffer(Inherit<VulkanCoreObject>(pCoreObject)->device, buffer, nullptr);
 		}
 		
 		const VkFramebuffer VulkanFrameBuffer::operator[](UI32 index) const

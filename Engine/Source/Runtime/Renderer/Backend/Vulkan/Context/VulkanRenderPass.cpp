@@ -23,10 +23,14 @@ namespace Dynamik
 			subPasses = aSubPasses;
 
 			ARRAY<VkAttachmentDescription> _attachmenDescriptions;
-			ARRAY<VkSubpassDescription> _subpasses;
-			ARRAY<SubpassAttachmenReferences> references;
+			SubpassAttachmenReferences attachmentReferences;
 
-			UI32 subpassIndex = 0;
+			VkSubpassDescription subpass = {};
+			subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
+			subpass.colorAttachmentCount = 0;
+			subpass.inputAttachmentCount = 0;
+			subpass.preserveAttachmentCount = 0;
+
 			for (auto _subpass : aSubPasses)
 			{
 				VulkanRenerPassAtachmentDescription _description;
@@ -43,7 +47,7 @@ namespace Dynamik
 				case Dynamik::RSubPasses::SUBPASSES_DEPTH:
 					/* Initialize sub passes */
 					_description.attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_DEPTH;
-					_description.format = (DMKFormat)VulkanUtilities::findDepthFormat(InheritCast<VulkanCoreObject>(pCoreObject).device);
+					_description.format = (DMKFormat)VulkanUtilities::findDepthFormat(Inherit<VulkanCoreObject>(pCoreObject)->device);
 					_description.msaaSamples = pCoreObject->sampleCount;
 
 					break;
@@ -65,11 +69,6 @@ namespace Dynamik
 					break;
 				}
 
-				VkSubpassDescription subpass = {};
-				subpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-				subpass.colorAttachmentCount = 0;
-				references.pushBack(SubpassAttachmenReferences());
-
 				switch (_description.attachment)
 				{
 				case Dynamik::RenderPassAttachment::RENDER_PASS_ATTACHMENTS_SWAPCHAIN:
@@ -90,7 +89,7 @@ namespace Dynamik
 					attachmentReference.attachment = 1;
 					attachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 
-					references[subpassIndex].colorAttachmentRefs.pushBack(attachmentReference);
+					attachmentReferences.colorAttachmentRefs.pushBack(attachmentReference);
 					subpass.colorAttachmentCount++;
 				}
 				break;
@@ -99,7 +98,7 @@ namespace Dynamik
 				{
 					VkAttachmentDescription depthAttachment = {};
 					depthAttachment.flags = VK_NULL_HANDLE;
-					depthAttachment.format = VulkanUtilities::findDepthFormat(InheritCast<VulkanCoreObject>(pCoreObject).device);
+					depthAttachment.format = VulkanUtilities::findDepthFormat(Inherit<VulkanCoreObject>(pCoreObject)->device);
 					depthAttachment.samples = (VkSampleCountFlagBits)_description.msaaSamples;
 					depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 					depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
@@ -112,7 +111,7 @@ namespace Dynamik
 					VkAttachmentReference depthAttachmentRef = {};
 					depthAttachmentRef.attachment = 1;
 					depthAttachmentRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-					references[subpassIndex].depthAttachmentRefs.pushBack(depthAttachmentRef);
+					attachmentReferences.depthAttachmentRefs.pushBack(depthAttachmentRef);
 				}
 				break;
 
@@ -133,7 +132,7 @@ namespace Dynamik
 					VkAttachmentReference colorAttachmentResolveRef = {};
 					colorAttachmentResolveRef.attachment = 1;
 					colorAttachmentResolveRef.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-					references[subpassIndex].resolveAttachments.pushBack(colorAttachmentResolveRef);
+					attachmentReferences.resolveAttachments.pushBack(colorAttachmentResolveRef);
 				}
 				break;
 
@@ -146,25 +145,13 @@ namespace Dynamik
 					DMK_ERROR_BOX("Invalid Render Pass attachment description!");
 					break;
 				}
-
-				subpass.colorAttachmentCount = references[subpassIndex].colorAttachmentRefs.size();
-				subpass.pColorAttachments = references[subpassIndex].colorAttachmentRefs.data();
-
-				subpass.pDepthStencilAttachment = references[subpassIndex].depthAttachmentRefs.data();
-
-				//subpass.preserveAttachmentCount = references[subpassIndex].resolveAttachments.size();
-				//subpass.pPreserveAttachments = references[subpassIndex].resolveAttachments.data();
-				subpass.preserveAttachmentCount = VK_NULL_HANDLE;
-				subpass.pPreserveAttachments = VK_NULL_HANDLE;
-
-				subpass.pResolveAttachments = references[subpassIndex].resolveAttachments.data();
-
-				subpass.inputAttachmentCount = references[subpassIndex].inputAttachments.size();
-				subpass.pInputAttachments = references[subpassIndex].inputAttachments.data();
-				_subpasses.pushBack(subpass);
-
-				subpassIndex++;
 			}
+
+			subpass.pColorAttachments = attachmentReferences.colorAttachmentRefs.data();
+			subpass.pDepthStencilAttachment = attachmentReferences.depthAttachmentRefs.data();
+			subpass.pInputAttachments = attachmentReferences.inputAttachments.data();
+			subpass.pResolveAttachments = attachmentReferences.resolveAttachments.data();
+			subpass.pPreserveAttachments = VK_NULL_HANDLE;
 
 			VkSubpassDependency dependency = {};
 			dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
@@ -180,17 +167,17 @@ namespace Dynamik
 			createInfo.flags = VK_NULL_HANDLE;
 			createInfo.attachmentCount = _attachmenDescriptions.size();
 			createInfo.pAttachments = _attachmenDescriptions.data();
-			createInfo.subpassCount = _subpasses.size();
-			createInfo.pSubpasses = _subpasses.data();
+			createInfo.subpassCount = 1;
+			createInfo.pSubpasses = &subpass;
 			createInfo.dependencyCount = 1;		/* TODO */
 			createInfo.pDependencies = &dependency;		/* TODO */
 
-			DMK_VULKAN_ASSERT(vkCreateRenderPass(InheritCast<VulkanCoreObject>(pCoreObject).device, &createInfo, nullptr, &renderPass), "Failed to create the Render Pass!");
+			DMK_VULKAN_ASSERT(vkCreateRenderPass(Inherit<VulkanCoreObject>(pCoreObject)->device, &createInfo, nullptr, &renderPass), "Failed to create the Render Pass!");
 		}
 
 		void VulkanRenderPass::terminate(POINTER<RCoreObject> pCoreObject)
 		{
-			vkDestroyRenderPass(InheritCast<VulkanCoreObject>(pCoreObject).device, renderPass, nullptr);
+			vkDestroyRenderPass(Inherit<VulkanCoreObject>(pCoreObject)->device, renderPass, nullptr);
 		}
 
 		VulkanRenderPass::operator VkRenderPass() const

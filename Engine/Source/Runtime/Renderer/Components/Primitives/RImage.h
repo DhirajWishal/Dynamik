@@ -9,12 +9,16 @@
  Author:	Dhiraj Wishal
  Date:		14/06/2020
 */
+#include "Core/Object/Resource/Texture.h"
 #include "RImageView.h"
 #include "../PrimitiveTypeDefs.h"
 #include "Core/Math/MathTypes.h"
 
 namespace Dynamik
 {
+	class DMK_API RCoreObject;
+	class DMK_API RBuffer;
+
 	/*
 	 Renderer Image Create Info
 	*/
@@ -41,7 +45,7 @@ namespace Dynamik
 		virtual void copyBuffer(POINTER<RCoreObject> pCoreObject, POINTER<RBuffer> pBuffer) = 0;
 		virtual void generateMipMaps(POINTER<RCoreObject> pCoreObject) = 0;
 		virtual void setLayout(POINTER<RCoreObject> pCoreObject, ImageLayout newLayout) = 0;
-		virtual void createImageView(POINTER<RCoreObject> pCoreObject) = 0;
+		virtual void createImageView(POINTER<RCoreObject> pCoreObject, DMKTexture::TextureSwizzles swizzles) = 0;
 		virtual void terminate(POINTER<RCoreObject> pCoreObject) = 0;
 
 		virtual void setData(POINTER<RCoreObject> pCoreObject, UI64 uSize, UI64 offset, VPTR data) = 0;

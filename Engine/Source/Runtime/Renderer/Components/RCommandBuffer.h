@@ -9,7 +9,7 @@
  Author:	Dhiraj Wishal
  Date:		14/06/2020
 */
-#include "RFrameBuffer.h"
+#include "Context/RFrameBuffer.h"
 
 namespace Dynamik
 {
@@ -20,6 +20,9 @@ namespace Dynamik
 	public:
 		RCommandBuffer() {}
 		virtual ~RCommandBuffer() {}
+
+		virtual void begin() = 0;
+		virtual void end() = 0;
 	};
 }
 

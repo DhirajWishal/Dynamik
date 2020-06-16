@@ -453,9 +453,6 @@
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSurface.h">
       <Filter>Runtime\Renderer\Backend\Vulkan\Common</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSyncObjects.h">
-      <Filter>Runtime\Renderer\Backend\Vulkan\Common</Filter>
-    </ClInclude>
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanViewPort.h">
       <Filter>Runtime\Renderer\Backend\Vulkan\Common</Filter>
     </ClInclude>
@@ -502,9 +499,6 @@
       <Filter>Runtime\Renderer\Backend\Vulkan\Primitives</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\VulkanCoreObject.h">
-      <Filter>Runtime\Renderer\Backend\Vulkan</Filter>
-    </ClInclude>
-    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\VulkanRBL.h">
       <Filter>Runtime\Renderer\Backend\Vulkan</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\Renderer\Components\ContextTypeDefs.h">
@@ -584,6 +578,10 @@
       <Filter>Runtime\Renderer\Backend\Vulkan\Common</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\Core\Types\Utilities.h" />
+    <ClInclude Include="Runtime\Renderer\Components\Primitives\RTexture.h" />
+    <ClInclude Include="Runtime\Renderer\Components\RCommandBufferManager.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\VulkanRenderTarget.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanCommandBufferManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\ComponentSystem\ComponentManager.cpp">
@@ -742,9 +740,6 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSurface.cpp">
       <Filter>Runtime\Renderer\Backend\Vulkan\Common</Filter>
     </ClCompile>
-    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSyncObjects.cpp">
-      <Filter>Runtime\Renderer\Backend\Vulkan\Common</Filter>
-    </ClCompile>
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\Attachments\VulkanColorAttachment.cpp">
       <Filter>Runtime\Renderer\Backend\Vulkan\Context\Attachments</Filter>
     </ClCompile>
@@ -787,9 +782,6 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\VulkanCoreObject.cpp">
       <Filter>Runtime\Renderer\Backend\Vulkan</Filter>
     </ClCompile>
-    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\VulkanRBL.cpp">
-      <Filter>Runtime\Renderer\Backend\Vulkan</Filter>
-    </ClCompile>
     <ClCompile Include="Runtime\Renderer\Renderer.cpp">
       <Filter>Runtime\Renderer</Filter>
     </ClCompile>
@@ -820,6 +812,7 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\VulkanUtilities.cpp">
       <Filter>Runtime\Renderer\Backend\Vulkan\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanCommandBufferManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

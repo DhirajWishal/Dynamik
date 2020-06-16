@@ -40,19 +40,19 @@ namespace Dynamik
 			if (info.imageType == DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP || info.imageType == DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP_ARRAY)
 				imageInfo.flags = VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT;
 
-			DMK_VULKAN_ASSERT(vkCreateImage(InheritCast<VulkanCoreObject>(pCoreObject).device, &imageInfo, nullptr, &image), "Failed to create image!");
+			DMK_VULKAN_ASSERT(vkCreateImage(Inherit<VulkanCoreObject>(pCoreObject)->device, &imageInfo, nullptr, &image), "Failed to create image!");
 
 			VkMemoryRequirements memRequirements;
-			vkGetImageMemoryRequirements(InheritCast<VulkanCoreObject>(pCoreObject).device, image, &memRequirements);
+			vkGetImageMemoryRequirements(Inherit<VulkanCoreObject>(pCoreObject)->device, image, &memRequirements);
 
 			VkMemoryAllocateInfo allocInfo = {};
 			allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 			allocInfo.allocationSize = memRequirements.size;
 			allocInfo.memoryTypeIndex = VulkanUtilities::findMemoryType(memRequirements.memoryTypeBits,
-				(VkMemoryPropertyFlagBits)info.memoryType, InheritCast<VulkanCoreObject>(pCoreObject).device);
+				(VkMemoryPropertyFlagBits)info.memoryType, Inherit<VulkanCoreObject>(pCoreObject)->device);
 
-			DMK_VULKAN_ASSERT(vkAllocateMemory(InheritCast<VulkanCoreObject>(pCoreObject).device, &allocInfo, nullptr, &imageMemory), "Failed to allocate image memory!");
-			DMK_VULKAN_ASSERT(vkBindImageMemory(InheritCast<VulkanCoreObject>(pCoreObject).device, image, imageMemory, 0), "Failed to bind image memory!");
+			DMK_VULKAN_ASSERT(vkAllocateMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, &allocInfo, nullptr, &imageMemory), "Failed to allocate image memory!");
+			DMK_VULKAN_ASSERT(vkBindImageMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, image, imageMemory, 0), "Failed to bind image memory!");
 		}
 
 		void VulkanImage::copyBuffer(POINTER<RCoreObject> pCoreObject, POINTER<RBuffer> pBuffer)
@@ -71,15 +71,15 @@ namespace Dynamik
 
 			region.imageOffset = { 0, 0, 0 };
 			region.imageExtent = {
-				extent.width,
-				extent.height,
-				extent.depth
+				(UI32)extent.width,
+				(UI32)extent.height,
+				(UI32)extent.depth
 			};
 
 			VulkanOneTimeCommandBuffer _commandBuffer(pCoreObject);
 			vkCmdCopyBufferToImage(
 				_commandBuffer,
-				VulkanUtilities::getBuffer(pBuffer),
+				InheritCast<VulkanBuffer>(pBuffer),
 				image,
 				VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
 				1,
@@ -91,7 +91,7 @@ namespace Dynamik
 		{
 			VulkanOneTimeCommandBuffer _buffer(pCoreObject);
 			VkFormatProperties formatProperties;
-			vkGetPhysicalDeviceFormatProperties(InheritCast<VulkanCoreObject>(pCoreObject).device, VulkanUtilities::getVulkanFormat(format), &formatProperties);
+			vkGetPhysicalDeviceFormatProperties(Inherit<VulkanCoreObject>(pCoreObject)->device, VulkanUtilities::getVulkanFormat(format), &formatProperties);
 
 			if (!(formatProperties.optimalTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT))
 				DMK_ERROR_BOX("Texture image format does not support linear blitting!");
@@ -121,7 +121,7 @@ namespace Dynamik
 
 				VkImageBlit blit = {};
 				blit.srcOffsets[0] = { 0, 0, 0 };
-				blit.srcOffsets[1] = { (I32)extent.width, (I32)extent.height, extent.depth };
+				blit.srcOffsets[1] = { (I32)extent.width, (I32)extent.height, (I32)extent.depth };
 				blit.srcSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 				blit.srcSubresource.mipLevel = i - 1;
 				blit.srcSubresource.baseArrayLayer = 0;
@@ -271,16 +271,16 @@ namespace Dynamik
 			);
 		}
 
-		void VulkanImage::createImageView(POINTER<RCoreObject> pCoreObject)
+		void VulkanImage::createImageView(POINTER<RCoreObject> pCoreObject, DMKTexture::TextureSwizzles swizzles)
 		{
 			pImageView = (POINTER<RImageView>)StaticAllocator<VulkanImageView>::allocate();
-			pImageView->initialize(pCoreObject, this);
+			pImageView->initialize(pCoreObject, this, swizzles);
 		}
 
 		void VulkanImage::terminate(POINTER<RCoreObject> pCoreObject)
 		{
-			vkDestroyImage(InheritCast<VulkanCoreObject>(pCoreObject).device, image, nullptr);
-			vkFreeMemory(InheritCast<VulkanCoreObject>(pCoreObject).device, imageMemory, nullptr);
+			vkDestroyImage(Inherit<VulkanCoreObject>(pCoreObject)->device, image, nullptr);
+			vkFreeMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, imageMemory, nullptr);
 		}
 
 		void VulkanImage::setData(POINTER<RCoreObject> pCoreObject, UI64 uSize, UI64 offset, VPTR data)
@@ -293,13 +293,13 @@ namespace Dynamik
 		VPTR VulkanImage::getData(POINTER<RCoreObject> pCoreObject, UI64 uSize, UI64 offset)
 		{
 			VPTR data = nullptr;
-			DMK_VULKAN_ASSERT(vkMapMemory(InheritCast<VulkanCoreObject>(pCoreObject).device, imageMemory, offset, size, 0, &data), "Unable to map image memory!");
+			DMK_VULKAN_ASSERT(vkMapMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, imageMemory, offset, size, 0, &data), "Unable to map image memory!");
 			return data;
 		}
 
 		void VulkanImage::unmapMemory(POINTER<RCoreObject> pCoreObject)
 		{
-			vkUnmapMemory(InheritCast<VulkanCoreObject>(pCoreObject).device, imageMemory);
+			vkUnmapMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, imageMemory);
 		}
 
 		VulkanImage::operator VkImage() const

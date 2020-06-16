@@ -30,10 +30,7 @@ namespace Dynamik
 
         public:     /* Global utilities */
             static VulkanViewport getViewport(DMKViewport viewport);
-            static VulkanSwapChain getSwapChain(POINTER<RSwapChain> pSwapChain);
             static VkPresentModeKHR getPresentMode(RSwapChainPresentMode ePresentMode);
-            static VulkanRenderPass getRenderPass(POINTER<RRenderPass> pRenderPass);
-            static VulkanBuffer getBuffer(POINTER<RBuffer> pBuffer);
 
         public:
             static VkFormat getVulkanFormat(DMKFormat format);
@@ -42,6 +39,7 @@ namespace Dynamik
             static B1 hasStencilComponent(const VkFormat& format);
             static VkFormat findSupportedFormat(const ARRAY<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features, VkPhysicalDevice physicalDevice);
             static VkFormat findDepthFormat(const VkPhysicalDevice& physicalDevice);
+            static VkComponentMapping getComponentMapping(DMKTexture::TextureSwizzles swizzles);
 
             static VkDescriptorType getDescriptorType(DMKUniformType type);
             static VkShaderStageFlagBits getShaderStage(DMKShaderLocation location);

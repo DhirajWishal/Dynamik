@@ -9,6 +9,7 @@
  Author:    Dhiraj Wishal
  Date:      24/05/2020
 */
+#include "Renderer/Components/RCommandBuffer.h"
 #include "VulkanDevice.h"
 #include "VulkanQueue.h"
 
@@ -23,39 +24,17 @@ namespace Dynamik
 		/*
 		 Vulkan Command Buffer for the Dynamik RBL
 		*/
-		class DMK_API VulkanCommandBuffer {
+		class DMK_API VulkanCommandBuffer : public RCommandBuffer {
 		public:
 			VulkanCommandBuffer() {}
 			~VulkanCommandBuffer() {}
 
-			void initializeCommandPool(const VulkanDevice& vDevice, const VulkanQueue& vQueue);
-			void allocateCommandBuffers(const VulkanDevice& vDevice, UI32 bufferCount);
+			virtual void begin() override final;
+			virtual void end() override final;
 
-			const VkCommandBuffer& beginCommandBufferRecording(const VulkanDevice& vDevice, UI32 bufferIndex = 0);
-			void beginRenderPass(
-				const VulkanDevice& vDevice,
-				const VulkanRenderPass& vRenderPass,
-				const VulkanFrameBuffer& vFrameBuffer,
-				const VulkanSwapChain& vSwapChain,
-				UI32 bufferIndex,
-				ARRAY<F32> clearScrValues = {2.0f/256.0f, 8.0f/256.0f, 32.0f / 256.0f, 1.0f});
-			
-			/* Record Objects */
-			/* End Rendering Context */
+			operator VkCommandBuffer() const;
 
-			void endRenderPass(const VkCommandBuffer& buffer);
-			void endCommandBufferRecording(const VulkanDevice& vDevice, const VkCommandBuffer& commandBuffer);
-
-			void resetPool(const VulkanDevice& vDevice);
-			void resetBuffers();
-
-			void terminate(const VulkanDevice& vDevice);
-
-			operator VkCommandPool() const;
-			const VkCommandBuffer operator[](UI32 index) const;
-
-			ARRAY<VkCommandBuffer> buffers;
-			VkCommandPool pool = VK_NULL_HANDLE;
+			VkCommandBuffer buffer = VK_NULL_HANDLE;
 		};
 	}
 }

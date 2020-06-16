@@ -21,6 +21,14 @@ workspace "Dynamik"
 	filter "platforms:Mac"
 		system "macosx"
 
+	filter "configurations:*Engine"
+		startproject "Application"
+
+	filter "configurations:*Studio"
+		startproject "Dynamik"
+
+	filter ""
+
 outputDir = "$(Configuration)-$(Platform)"
 solutionDir = "$(SolutionDir)"
 configurationMacro = "$(Configuration)"

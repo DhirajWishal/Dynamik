@@ -4,7 +4,7 @@
 #include "dmkafx.h"
 #include "VulkanDescriptorSetManager.h"
 
-#include "VulkanUtilities.h"
+#include "../VulkanUtilities.h"
 
 namespace Dynamik
 {

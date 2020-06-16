@@ -21,19 +21,6 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		struct DMK_API VulkanImageCreateInfo {
-			UI32 imageWidth = 0;
-			UI32 imageHeight = 0;
-			UI32 imageDepth = 1;
-			DMKTextureType imageType = DMKTextureType::DMK_TEXTURE_TYPE_2D;
-			ImageUsage imageUsage = ImageUsage::IMAGE_USAGE_RENDER;
-			UI32 layers = 1;
-			UI32 mipLevels = 1;
-			DMKFormat imageFormat = DMKFormat::DMK_FORMAT_UNDEFINED;
-			ResourceMemoryType memoryType = ResourceMemoryType::RESOURCE_MEMORY_TYPE_HOST_ACCESSABLE;
-			DMKSampleCount sampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
-		};
-
 		/*
 		 Vulkan Image object for the Dynamik Engine
 		*/
@@ -46,7 +33,7 @@ namespace Dynamik
 			virtual void copyBuffer(POINTER<RCoreObject> pCoreObject, POINTER<RBuffer> pBuffer) override final;
 			virtual void generateMipMaps(POINTER<RCoreObject> pCoreObject) override final;
 			virtual void setLayout(POINTER<RCoreObject> pCoreObject, ImageLayout newLayout) override final;
-			virtual void createImageView(POINTER<RCoreObject> pCoreObject) override final;
+			virtual void createImageView(POINTER<RCoreObject> pCoreObject, DMKTexture::TextureSwizzles swizzles) override final;
 			virtual void terminate(POINTER<RCoreObject> pCoreObject) override final;
 
 			virtual void setData(POINTER<RCoreObject> pCoreObject, UI64 uSize, UI64 offset, VPTR data) override final;
