@@ -173,13 +173,28 @@ namespace Dynamik
 			for (UI32 itr = 0; itr < images.size(); itr++)
 			{
 				POINTER<VulkanImageView> _vView = StaticAllocator<VulkanImageView>::allocate();
-				_vView->initialize(pCoreObject, images[itr], DMKTexture::TextureSwizzles());
+				DMKTexture::TextureSwizzles _swizzles = { 
+					DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_IDENTITY,
+					DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_IDENTITY,
+					DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_IDENTITY,
+					DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_IDENTITY };
+				_vView->initialize(pCoreObject, images[itr], _swizzles);
 				imageViews.pushBack(_vView);
 			}
 		}
 
 		void VulkanSwapChain::terminate(POINTER<RCoreObject> pCoreObject)
 		{
+			for (auto image : imageViews)
+				vkDestroyImageView(InheritCast<VulkanCoreObject>(pCoreObject).device, InheritCast<VulkanImageView>(image), nullptr);
+
+			for (auto image : images)
+			{
+				vkDestroyImage(InheritCast<VulkanCoreObject>(pCoreObject).device, InheritCast<VulkanImage>(image), nullptr);
+				vkFreeMemory(InheritCast<VulkanCoreObject>(pCoreObject).device, InheritCast<VulkanImage>(image), nullptr);
+			}
+
+			vkDestroySwapchainKHR(InheritCast<VulkanCoreObject>(pCoreObject).device, swapChain, nullptr);
 		}
 
 		VulkanSwapChain::operator VkSwapchainKHR() const

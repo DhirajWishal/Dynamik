@@ -582,6 +582,10 @@
     <ClInclude Include="Runtime\Renderer\Components\RCommandBufferManager.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\VulkanRenderTarget.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanCommandBufferManager.h" />
+    <ClInclude Include="Runtime\Core\Memory\AutomatedMemoryManager.h" />
+    <ClInclude Include="Runtime\Renderer\Components\RMeshObject.h" />
+    <ClInclude Include="Runtime\Renderer\Components\RPipelineObject.h" />
+    <ClInclude Include="Runtime\Renderer\Components\PipelineTypeDefs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\ComponentSystem\ComponentManager.cpp">
@@ -813,6 +817,7 @@
       <Filter>Runtime\Renderer\Backend\Vulkan\Common</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanCommandBufferManager.cpp" />
+    <ClCompile Include="Runtime\Core\Memory\AutomatedMemoryManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

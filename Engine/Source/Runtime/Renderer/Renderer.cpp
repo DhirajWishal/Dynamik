@@ -11,6 +11,7 @@
 #include "Backend/Vulkan/Common/VulkanDevice.h"
 #include "Backend/Vulkan/Common/VulkanQueue.h"
 #include "Backend/Vulkan/Common/VulkanCommandBuffer.h"
+#include "Backend/Vulkan/Common/VulkanCommandBufferManager.h"
 #include "Backend/Vulkan/Common/VulkanDescriptorSetManager.h"
 #include "Backend/Vulkan/Context/VulkanSwapChain.h"
 #include "Backend/Vulkan/Context/VulkanRenderPass.h"
@@ -102,6 +103,20 @@ namespace Dynamik
 
 	void DMKRenderer::onTermination()
 	{
+		terminateComponents();
+
+		StaticAllocator<VulkanCoreObject>::deallocate(myCoreObject, 0);
+
+		StaticAllocator<RSwapChain>::deallocate(myRenderTarget->pSwapChain, 0);
+		StaticAllocator<RRenderPass>::deallocate(myRenderTarget->pRenderPass, 0);
+		StaticAllocator<RFrameBuffer>::deallocate(myRenderTarget->pFrameBuffer, 0);
+		StaticAllocator<RRenderTarget>::deallocate(myRenderTarget, 0);
+
+		StaticAllocator<RCommandBufferManager>::deallocate(myCommandBufferManager, 0);
+
+		for (auto buffer : myCommandBuffers)
+			StaticAllocator<RCommandBuffer>::deallocate(buffer, 0);
+
 		DMK_INFO("Terminated the renderer thread!");
 	}
 
@@ -212,26 +227,28 @@ namespace Dynamik
 		/* Initialize Swapchain */
 		createSwapChain(viewport, RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_FIFO);
 
+		ARRAY<RSubPasses> subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
+
 		/* Initialize Render pass */
 		switch (type)
 		{
 		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT:
-			createRenderPass({ RSubPasses::SUBPASSES_SWAPCHAIN, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_COLOR });
+			createRenderPass(subpasses);
 			break;
 		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT_VR:
-			createRenderPass({ RSubPasses::SUBPASSES_SWAPCHAIN, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_COLOR });
+			createRenderPass(subpasses);
 			break;
 		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_2D:
-			createRenderPass({ RSubPasses::SUBPASSES_SWAPCHAIN, RSubPasses::SUBPASSES_COLOR });
+			createRenderPass(subpasses);
 			break;
 		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_3D:
-			createRenderPass({ RSubPasses::SUBPASSES_SWAPCHAIN, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_COLOR });
+			createRenderPass(subpasses);
 			break;
 		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEBUG:
-			createRenderPass({ RSubPasses::SUBPASSES_SWAPCHAIN, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_COLOR });
+			createRenderPass(subpasses);
 			break;
 		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEBUG_VR:
-			createRenderPass({ RSubPasses::SUBPASSES_SWAPCHAIN, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_COLOR });
+			createRenderPass(subpasses);
 			break;
 		default:
 			DMK_ERROR_BOX("Invalid context type!");
@@ -248,6 +265,7 @@ namespace Dynamik
 
 	void DMKRenderer::initializeFinals()
 	{
+		myCommandBufferManager = (POINTER<RCommandBufferManager>)StaticAllocator<VulkanCommandBufferManager>::allocate();
 		myCommandBufferManager->initialize(myCoreObject);
 		myCommandBuffers = myCommandBufferManager->allocateCommandBuffers(myCoreObject, myRenderTarget->pSwapChain->images.size());
 
@@ -263,5 +281,18 @@ namespace Dynamik
 		}
 
 		isInitialized = true;
+	}
+	
+	void DMKRenderer::terminateComponents()
+	{
+		myCoreObject->idleCall();
+
+		myCommandBufferManager->terminate(myCoreObject, myCommandBuffers);
+
+		myRenderTarget->pSwapChain->terminate(myCoreObject);
+		myRenderTarget->pRenderPass->terminate(myCoreObject);
+		myRenderTarget->pFrameBuffer->terminate(myCoreObject);
+
+		myCoreObject->terminate();
 	}
 }

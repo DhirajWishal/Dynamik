@@ -18,7 +18,7 @@ namespace Dynamik
 			width = pSwapChain->extent.width;
 			height = pSwapChain->extent.height;
 
-			for (size_t i = 0; i < InheritCast<VulkanSwapChain>(pSwapChain).images.size(); i++)
+			for (size_t i = 0; i < pSwapChain->bufferCount; i++)
 			{
 				ARRAY<VkImageView> _attachments;
 
@@ -27,7 +27,7 @@ namespace Dynamik
 					switch (_subpass)
 					{
 					case Dynamik::RSubPasses::SUBPASSES_SWAPCHAIN:
-						_attachments.pushBack(InheritCast<VulkanSwapChain>(pSwapChain).imageViews[i]);
+						_attachments.pushBack(((POINTER<VulkanImageView>)InheritCast<VulkanSwapChain>(pSwapChain).imageViews[i])->imageView);
 						break;
 					case Dynamik::RSubPasses::SUBPASSES_DEPTH:
 					{
@@ -35,9 +35,9 @@ namespace Dynamik
 						attachmentInfo.format = (DMKFormat)VulkanUtilities::findDepthFormat(Inherit<VulkanCoreObject>(pCoreObject)->device);
 						attachmentInfo.imageWidth = width;
 						attachmentInfo.imageHeight = height;
-						attachmentInfo.msaaSamples = Inherit<VulkanCoreObject>(pCoreObject)->sampleCount;
+						attachmentInfo.msaaSamples = pCoreObject->sampleCount;
 
-						VulkanColorAttachment depthAttachment;
+						VulkanDepthAttachment depthAttachment;
 						depthAttachment.initialize(pCoreObject, attachmentInfo);
 						_attachments.pushBack(depthAttachment.imageView);
 					}
@@ -48,7 +48,7 @@ namespace Dynamik
 						attachmentInfo.format = (DMKFormat)InheritCast<VulkanSwapChain>(pSwapChain).format;
 						attachmentInfo.imageWidth = width;
 						attachmentInfo.imageHeight = height;
-						attachmentInfo.msaaSamples = Inherit<VulkanCoreObject>(pCoreObject)->sampleCount;
+						attachmentInfo.msaaSamples = pCoreObject->sampleCount;
 
 						VulkanColorAttachment colorAttachment;
 						colorAttachment.initialize(pCoreObject, attachmentInfo);

@@ -48,6 +48,11 @@ namespace Dynamik
 		instance.terminate();
 	}
 
+	void VulkanCoreObject::idleCall()
+	{
+		vkDeviceWaitIdle(device);
+	}
+
 	UI32 VulkanCoreObject::prepareFrame(POINTER<RSwapChain> pSwapChain)
 	{
 		vkWaitForFences(device, 1, &inFlightFences[currentFrameIndex], VK_TRUE, std::numeric_limits<uint64_t>::max());

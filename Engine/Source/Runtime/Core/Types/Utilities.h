@@ -38,6 +38,18 @@ namespace Dynamik
 	{
 		return ((DERIVED*)pBase.get());
 	}
+
+	/*
+	 Add a byte offset to a given address.
+	 This function does not alter the argument address or the byte size.
+
+	 @param baseAddress: Base address to be offsetted.
+	 @param byteSize: Offset.
+	*/
+	DMK_FORCEINLINE VPTR NextLocation(const VPTR baseAddress, const UI64 byteSize)
+	{
+		return (VPTR)(((UI64)baseAddress) + byteSize);
+	}
 }
 
 #endif // !_DYNAMIK_UTILITIES_H

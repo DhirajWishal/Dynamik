@@ -22,8 +22,8 @@ namespace Dynamik
 		RBuffer() {}
 		virtual ~RBuffer() {}
 
-		virtual void initialize(POINTER<RCoreObject> pCoreObject, BufferType eType, UI64 uSize,
-			ResourceMemoryType memoryType = (ResourceMemoryType)
+		virtual void initialize(POINTER<RCoreObject> pCoreObject, RBufferType eType, UI64 uSize,
+			RResourceMemoryType memoryType = (RResourceMemoryType)
 			(RESOURCE_MEMORY_TYPE_HOST_VISIBLE | RESOURCE_MEMORY_TYPE_HOST_COHERENT)) = 0;
 		virtual void terminate(POINTER<RCoreObject> pCoreObject) = 0;
 
@@ -35,11 +35,11 @@ namespace Dynamik
 		virtual void unmapMemory(POINTER<RCoreObject> pCoreObject) = 0;
 
 		virtual UI64 getSize() { return size; }
-		virtual BufferType getType() { return type; }
+		virtual RBufferType getType() { return type; }
 
 	protected:
 		UI64 size = 0;
-		BufferType type = BufferType::BUFFER_TYPE_VERTEX;
+		RBufferType type = RBufferType::BUFFER_TYPE_VERTEX;
 	};
 }
 

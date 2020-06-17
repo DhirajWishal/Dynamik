@@ -16,7 +16,7 @@ namespace Dynamik
 			pTexture = pTextureObject;
 
 			VulkanBuffer staggingBuffer;
-			staggingBuffer.initialize(pCoreObject, BufferType::BUFFER_TYPE_STAGGING, pTextureObject->size());
+			staggingBuffer.initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, pTextureObject->size());
 			staggingBuffer.setData(pCoreObject, pTextureObject->size(), 0, pTextureObject->image);
 
 			RImageCreateInfo initInfo;
@@ -24,7 +24,7 @@ namespace Dynamik
 			initInfo.vDimentions.height = pTextureObject->height;
 			initInfo.vDimentions.depth = pTextureObject->depth;
 			initInfo.imageType = pTextureObject->type;
-			initInfo.imageUsage = (ImageUsage)(ImageUsage::IMAGE_USAGE_RENDER | ImageUsage::IMAGE_USAGE_TRANSFER_SRC | ImageUsage::IMAGE_USAGE_TRANSFER_DST);
+			initInfo.imageUsage = (RImageUsage)(RImageUsage::IMAGE_USAGE_RENDER | RImageUsage::IMAGE_USAGE_TRANSFER_SRC | RImageUsage::IMAGE_USAGE_TRANSFER_DST);
 			initInfo.layers = pTextureObject->layerCount;
 			initInfo.mipLevels = pTextureObject->mipLevels;
 			initInfo.sampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
@@ -40,17 +40,16 @@ namespace Dynamik
 
 		void VulkanTexture::createView(POINTER<RCoreObject> pCoreObject)
 		{
-			pImageView = (POINTER<RImageView>)StaticAllocator<VulkanImageView>::allocate();
-			pImageView->initialize(pCoreObject, pImage, pTexture->swizzles);
+			pImage->createImageView(pCoreObject, pTexture->swizzles);
 		}
 
 		void VulkanTexture::createSampler(POINTER<RCoreObject> pCoreObject, RImageSamplerCreateInfo createInfo)
 		{
 			RImageSamplerCreateInfo initInfo;
-			initInfo.addressModeU = ImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
-			initInfo.addressModeV = ImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
-			initInfo.addressModeW = ImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
-			initInfo.borderColor = ImageSamplerBorderColor::IMAGE_SAMPLER_BORDER_COLOR_I32_OPAQUE_BLACK;
+			initInfo.addressModeU = RImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
+			initInfo.addressModeV = RImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
+			initInfo.addressModeW = RImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
+			initInfo.borderColor = RImageSamplerBorderColor::IMAGE_SAMPLER_BORDER_COLOR_I32_OPAQUE_BLACK;
 
 			pSampler = (POINTER<RImageSampler>)StaticAllocator<VulkanImageSampler>::allocate();
 			pSampler->initialize(pCoreObject, initInfo);
@@ -58,13 +57,12 @@ namespace Dynamik
 
 		void VulkanTexture::makeRenderable(POINTER<RCoreObject> pCoreObject)
 		{
-			pImage->setLayout(pCoreObject, ImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY);
+			pImage->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY);
 		}
 
 		void VulkanTexture::terminate(POINTER<RCoreObject> pCoreObject)
 		{
 			pImage->terminate(pCoreObject);
-			pImageView->terminate(pCoreObject);
 			pSampler->terminate(pCoreObject);
 		}
 
@@ -75,7 +73,7 @@ namespace Dynamik
 
 		VulkanTexture::operator VulkanImageView() const
 		{
-			return InheritCast<VulkanImageView>(this->pImageView);
+			return InheritCast<VulkanImageView>(this->pImage->pImageView);
 		}
 
 		VulkanTexture::operator VulkanImageSampler() const

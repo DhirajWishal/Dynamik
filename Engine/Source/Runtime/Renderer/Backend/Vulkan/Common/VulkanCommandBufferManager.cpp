@@ -50,7 +50,8 @@ namespace Dynamik
 			renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 			renderPassInfo.renderPass = InheritCast<VulkanRenderPass>(pRenderTarget->pRenderPass);
 			renderPassInfo.framebuffer = InheritCast<VulkanFrameBuffer>(pRenderTarget->pFrameBuffer)[bufferIndex];
-			renderPassInfo.renderArea.offset = { 0, 0 };
+			renderPassInfo.renderArea.offset.x = pRenderTarget->pSwapChain->viewPort.xOffset;
+			renderPassInfo.renderArea.offset.y = pRenderTarget->pSwapChain->viewPort.yOffset;
 			renderPassInfo.renderArea.extent.width = pRenderTarget->pSwapChain->extent.width;
 			renderPassInfo.renderArea.extent.height = pRenderTarget->pSwapChain->extent.height;
 
@@ -62,6 +63,8 @@ namespace Dynamik
 				(32.0f / 255.0f),
 				1.0f
 			};
+			clearValues[1].depthStencil.depth = 1.0f;
+			clearValues[1].depthStencil.stencil = 0;
 
 			renderPassInfo.clearValueCount = static_cast<UI32>(clearValues.size());
 			renderPassInfo.pClearValues = clearValues.data();

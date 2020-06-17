@@ -31,7 +31,6 @@ namespace Dynamik
 	public:		/* Internal Data */
 		POINTER<DMKTexture> pTexture;
 		POINTER<RImage> pImage;
-		POINTER<RImageView> pImageView;
 		POINTER<RImageSampler> pSampler;
 	};
 }

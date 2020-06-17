@@ -1083,7 +1083,7 @@ namespace Dynamik
 		 */
 		inline PTR _allocateBuffer(UI64 size)
 		{
-			return Allocator::allocate(size);
+			return Allocator::rawAllocate(size);
 		}
 
 		/* PRIVATE FUNCTION
@@ -1093,7 +1093,7 @@ namespace Dynamik
 		 */
 		inline void _reAllocateBack(UI64 newSize)
 		{
-			PTR _newArr = Allocator::allocate(newSize + _getAllocatableSize(capacity()));
+			PTR _newArr = Allocator::rawAllocate(newSize + _getAllocatableSize(capacity()));
 
 			try
 			{
@@ -1123,7 +1123,7 @@ namespace Dynamik
 		 */
 		inline void _reAllocateFront(UI64 newSize)
 		{
-			PTR _newArr = Allocator::allocate(newSize + _getAllocatableSize(capacity()));
+			PTR _newArr = Allocator::rawAllocate(newSize + _getAllocatableSize(capacity()));
 			PTR _nxtPtr = _newArr;
 			_nxtPtr += _calculateCapacityInSize(newSize);
 
@@ -1155,7 +1155,7 @@ namespace Dynamik
 		 */
 		inline void _reAllocateAssign(UI64 size)
 		{
-			PTR _newArr = Allocator::allocate(size + _getAllocatableSize(capacity()));
+			PTR _newArr = Allocator::rawAllocate(size + _getAllocatableSize(capacity()));
 
 			try
 			{
@@ -1186,7 +1186,7 @@ namespace Dynamik
 		inline _pointerContainer _reAllocateGetRaw(UI64 newSize)
 		{
 			_pointerContainer _container;
-			_container._beginPtr = Allocator::allocate(newSize + _getAllocatableSize(capacity()));
+			_container._beginPtr = Allocator::rawAllocate(newSize + _getAllocatableSize(capacity()));
 			_container._endPtr = _container._beginPtr;
 			_container._endPtr += (capacity() + _calculateCapacityInSize(newSize));
 			_container._nextPtr = _container._beginPtr;

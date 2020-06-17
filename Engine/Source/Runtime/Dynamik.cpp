@@ -56,6 +56,8 @@ namespace Dynamik
 		UI64 _itrIndex = 0;
 		POINTER<DMKGameEntity> _entity;
 
+		printf("Allocation count: %u", DMKAutomatedMemoryManager::getAllocationCount());
+
 		while (true)
 		{
 			_gamePackage->onBeginFrame();

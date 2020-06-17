@@ -13,7 +13,7 @@ namespace Dynamik
 			RImageCreateInfo imgCreateInfo;
 			imgCreateInfo.imageFormat = initInfo.format;
 			imgCreateInfo.imageType = DMKTextureType::DMK_TEXTURE_TYPE_2D;
-			imgCreateInfo.imageUsage = (ImageUsage)(IMAGE_USAGE_TRANSIENT_ATTACHMENT | IMAGE_USAGE_COLOR_ATTACHMENT);
+			imgCreateInfo.imageUsage = (RImageUsage)(IMAGE_USAGE_TRANSIENT_ATTACHMENT | IMAGE_USAGE_COLOR_ATTACHMENT);
 			imgCreateInfo.layers = 1;
 			imgCreateInfo.mipLevels = 1;
 			imgCreateInfo.vDimentions.width = initInfo.imageWidth;
@@ -26,7 +26,7 @@ namespace Dynamik
 			imageView = StaticAllocator<VulkanImageView>::allocate();
 			imageView.initialize(pCoreObject, &image, DMKTexture::TextureSwizzles());
 
-			image.setLayout(pCoreObject, ImageLayout::IMAGE_LAYOUT_COLOR_ATTACHMENT);
+			image.setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_COLOR_ATTACHMENT);
 		}
 	}
 }

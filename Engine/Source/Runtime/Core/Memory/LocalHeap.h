@@ -38,6 +38,20 @@ namespace Dynamik
 		void allocate(UI32 byteSize);
 
 		/*
+		 Allocate the requested data type in heap.
+		 This allocates a memory buffer sing the size of the requested data type. This actually extends the 
+		 internal size to currentSize + requestedTypeSize.
+
+		 @param size: Size of the required allocation. By default it is set to the size of the type.
+		*/
+		template<class TYPE>
+		POINTER<TYPE> allocate(UI32 size = sizeof(TYPE))
+		{
+			TYPE _instance;
+			return (POINTER<TYPE>)addToStore(&_instance, size);
+		}
+
+		/*
 		 Extend the memory buffer.
 
 		 @param newByteSize: The total size to be extended.

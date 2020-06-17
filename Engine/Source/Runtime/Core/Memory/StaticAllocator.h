@@ -17,6 +17,7 @@
 #include "Macros/Global.h"
 #include "Error/ErrorManager.h"
 #include "Types/TypeTraits.h"
+#include "AutomatedMemoryManager.h"
 
 #include <memory>
 
@@ -35,9 +36,9 @@ namespace Dynamik
 	{
 		using PTR = POINTER<TYPE>;
 
-	public:
 		StaticAllocator() {}
 		~StaticAllocator() {}
+	public:
 
 		/*
 		 Allocates a block of memory and return its address.
@@ -46,9 +47,25 @@ namespace Dynamik
 		 @param alignment: Alignment of the allocated memory. Default is 0.
 		 @param offset: Memory offset of the allocated memory block. Default is 0;
 		*/
-		static PTR allocate(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		DMK_FORCEINLINE static PTR rawAllocate(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
 			PTR _ptr = _rawAllocation(byteSize, alignment, offset);
+			set(_ptr, TYPE());
+
+			return _ptr;
+		}
+
+		/*
+		 Allocates a block of memory and return its address.
+		 This type of allocation is slow.
+
+		 @param byteSize: Size of the memory block in bytes. Default is the size of the type.
+		 @param alignment: Alignment of the allocated memory. Default is 0.
+		 @param offset: Memory offset of the allocated memory block. Default is 0;
+		*/
+		DMK_FORCEINLINE static PTR allocate(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		{
+			PTR _ptr = (PTR)DMKAutomatedMemoryManager::allocateNew(byteSize, offset, alignment);
 			set(_ptr, TYPE());
 
 			return _ptr;
@@ -61,7 +78,7 @@ namespace Dynamik
 		 @param alignment: Alignment of the allocated memory. Default is 0.
 		 @param offset: Memory offset of the allocated memory block. Default is 0;
 		*/
-		static PTR allocateInit(const TYPE& initData, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		DMK_FORCEINLINE static PTR allocateInit(const TYPE& initData, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
 			PTR _ptr = _rawAllocation(byteSize, alignment, offset);
 			set(_ptr, (TYPE&&)initData);
@@ -77,7 +94,7 @@ namespace Dynamik
 		 @param alignment: Alignment of the memory block. Default is 0.
 		 @param offset: Offset of the memory block. Default is 0.
 		*/
-		static void deallocate(PTR location, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		DMK_FORCEINLINE static void rawDeallocate(PTR location, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
 			if (byteSize)
 				operator delete (location.get(), byteSize, std::align_val_t{ alignment });
@@ -88,10 +105,23 @@ namespace Dynamik
 		/*
 		 Deallocates the previously allocated block of memory.
 
+		 @param location: Address of the memory block.
+		 @param byteSize: Size of the memory block. Default is the size of type. If size is unknown, enter 0.
+		 @param alignment: Alignment of the memory block. Default is 0.
+		 @param offset: Offset of the memory block. Default is 0.
+		*/
+		DMK_FORCEINLINE static void deallocate(PTR location, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		{
+			DMKAutomatedMemoryManager::deallocate(location, byteSize, offset, alignment);
+		}
+
+		/*
+		 Deallocates the previously allocated block of memory.
+
 		 @param begin: Begin address of the memory.
 		 @param end: Final address of the memory.
 		*/
-		static void deallocateRange(PTR begin, PTR end)
+		DMK_FORCEINLINE static void deallocateRange(PTR begin, PTR end)
 		{
 			operator delete(begin.get(), end.get());
 		}
@@ -103,7 +133,7 @@ namespace Dynamik
 		 @param alignment: Alignment of the allocated memory. Default is 0.
 		 @param offset: Memory offset of the allocated memory block. Default is 0;
 		*/
-		static PTR allocateArr(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		DMK_FORCEINLINE static PTR allocateArr(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
 			PTR _ptr = _rawAllocationArr(byteSize, alignment, offset);
 			set(_ptr, TYPE());
@@ -119,7 +149,7 @@ namespace Dynamik
 		 @param alignment: Alignment of the memory block. Default is 0.
 		 @param offset: Offset of the memory block. Default is 0.
 		*/
-		static void deallocateArr(PTR location, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		DMK_FORCEINLINE static void deallocateArr(PTR location, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
 			if (byteSize)
 				operator delete[](location.get(), byteSize, std::align_val_t{ alignment });
@@ -133,7 +163,7 @@ namespace Dynamik
 		 @param begin: Begin address of the memory.
 		 @param end: Final address of the memory.
 		*/
-		static void deallocateArrRange(PTR begin, PTR end)
+		DMK_FORCEINLINE static void deallocateArrRange(PTR begin, PTR end)
 		{
 			operator delete[](begin.get(), end.get());
 		}
@@ -153,7 +183,7 @@ namespace Dynamik
 		/*
 		 Allocate memory and check if the allocation was successful.
 		*/
-		static PTR _rawAllocation(UI64 byteSize, UI64 alignment, UI64 offset)
+		DMK_FORCEINLINE static PTR _rawAllocation(UI64 byteSize, UI64 alignment, UI64 offset)
 		{
 			try
 			{
@@ -187,11 +217,11 @@ namespace Dynamik
 		/*
 		 Allocate memory as an array and check if the allocation was successful.
 		*/
-		static PTR _rawAllocationArr(UI64 byteSize, UI64 alignment, UI64 offset)
+		DMK_FORCEINLINE static PTR _rawAllocationArr(UI64 byteSize, UI64 alignment, UI64 offset)
 		{
 			try
 			{
-				auto __newAddr = operator new[] (byteSize, std::align_val_t{ alignment });
+				auto __newAddr = operator new[](byteSize, std::align_val_t{ alignment });
 
 				if (!__newAddr)
 				{

@@ -156,7 +156,7 @@ namespace Dynamik
 		 * @param index: INdex to be accessed.
 		 * @warn: Index is not validated before or after indexing.
 		 */
-		DMK_FORCEINLINE TYPE& at(const UI64& index) { return myPointer[index]; }
+		DMK_FORCEINLINE TYPE& at(const UI64& index) const { return myPointer[index]; }
 
 		/* FUNCTION
 		 * Get the dereferenced value behind the pointer.
@@ -168,17 +168,17 @@ namespace Dynamik
 		/* OPERATOR
 		 * Return the de-referenced pointer.
 		 */
-		DMK_FORCEINLINE operator TYPE() { return *this->myPointer; }
+		DMK_FORCEINLINE operator TYPE() const { return *this->myPointer; }
 
 		/* OPERATOR
 		 * Return the pointer.
 		 */
-		DMK_FORCEINLINE operator TYPE* () { return this->myPointer; }
+		DMK_FORCEINLINE operator TYPE* () const { return this->myPointer; }
 
 		/* OPERATOR
 		 * Return the pointer.
 		 */
-		DMK_FORCEINLINE operator const TYPE* () { return this->myPointer; }
+		DMK_FORCEINLINE operator const TYPE* () const { return this->myPointer; }
 
 		///* OPERATOR
 		// * Return the casted pointer.
@@ -189,31 +189,31 @@ namespace Dynamik
 		 * Return the casted pointer.
 		 */
 		template<class SUB_TYPE>
-		DMK_FORCEINLINE operator SUB_TYPE() { return (SUB_TYPE)this->myPointer; }
+		DMK_FORCEINLINE operator SUB_TYPE() const { return (SUB_TYPE)this->myPointer; }
 
 		/* OPERATOR
 		 * Return the de-referenced pointer.
 		 */
-		DMK_FORCEINLINE TYPE operator*() { return *this->myPointer; }
+		DMK_FORCEINLINE TYPE operator*() const { return *this->myPointer; }
 
 		/* OPERATOR
 		 * Return the de-referenced pointer.
 		 */
-		DMK_FORCEINLINE TYPE* operator->() { return this->myPointer; }
+		DMK_FORCEINLINE TYPE* operator->() const { return this->myPointer; }
 
 		/* OPERATOR
 		 * Increment the address of the pointer by a value.
 		 *
 		 * @param increment: Value that is added to the pointer.
 		 */
-		DMK_FORCEINLINE TYPE* operator+(UI64& increment) { return (TYPE*)(((UI64)this->myPointer) + increment); }
+		DMK_FORCEINLINE TYPE* operator+(UI64& increment) const { return (TYPE*)(((UI64)this->myPointer) + increment); }
 
 		/* OPERATOR
 		 * Return the addition of the two pointers.
 		 *
 		 * @param other: The other pointer.
 		 */
-		DMK_FORCEINLINE UI64 operator+(const POINTER<TYPE>& other) { return this->getPointerAsInteger() + other.getPointerAsInteger(); }
+		DMK_FORCEINLINE UI64 operator+(const POINTER<TYPE>& other) const { return this->getPointerAsInteger() + other.getPointerAsInteger(); }
 
 		/* OPERATOR
 		 * Increment the address of the pointer by a value and assign it to this.
@@ -227,14 +227,14 @@ namespace Dynamik
 		 *
 		 * @param decrement: Value to be subtracted to the pointer.
 		 */
-		DMK_FORCEINLINE TYPE* operator-(const UI64& decrement) { return (TYPE*)(((UI64)this->myPointer) - decrement); }
+		DMK_FORCEINLINE TYPE* operator-(const UI64& decrement) const { return (TYPE*)(((UI64)this->myPointer) - decrement); }
 
 		/* OPERATOR
 		 * Return the difference of the two pointers.
 		 *
 		 * @param other: The other pointer.
 		 */
-		DMK_FORCEINLINE UI64 operator-(const POINTER<TYPE>& other) { return this->getPointerAsInteger() - other.getPointerAsInteger(); }
+		DMK_FORCEINLINE UI64 operator-(const POINTER<TYPE>& other) const { return this->getPointerAsInteger() - other.getPointerAsInteger(); }
 
 		/* OPERATOR
 		 * Decrement the address of the pointer by a value and assign to this.
@@ -268,7 +268,7 @@ namespace Dynamik
 		 *
 		 * @param ptr: Pointer to be checked with.
 		 */
-		DMK_FORCEINLINE B1 operator==(const POINTER<TYPE>& ptr) { return ((UI64)this->myPointer) == ((UI64)ptr.myPointer); }
+		DMK_FORCEINLINE B1 operator==(const POINTER<TYPE>& ptr) const { return ((UI64)this->myPointer) == ((UI64)ptr.myPointer); }
 
 		/* OPERATOR
 		 * Asign the address of one POINTER to this.
@@ -304,7 +304,7 @@ namespace Dynamik
 		 *
 		 * @param ptr: Pointer to be checked with this.
 		 */
-		DMK_FORCEINLINE B1 operator!=(const POINTER<TYPE>& ptr) { return this->myPointer != ptr.get(); }
+		DMK_FORCEINLINE B1 operator!=(const POINTER<TYPE>& ptr) const { return this->myPointer != ptr.get(); }
 
 		/* OPERATOR
 		 * Access data at a given index in the pointer.

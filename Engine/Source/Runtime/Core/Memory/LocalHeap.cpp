@@ -26,7 +26,7 @@ namespace Dynamik
 	{
 		if (byteSize)
 		{
-			/* Issue a warning. */;
+			DMKErrorManager::issueWarnBox(DMK_TEXT("Reallocating the local heap!"));
 			_terminateLocalBlock();
 		}
 
@@ -81,5 +81,4 @@ namespace Dynamik
 	{
 		StaticAllocator<UI32>::deallocate(myMemoryBlock, myAllocationSize);
 	}
-
 }

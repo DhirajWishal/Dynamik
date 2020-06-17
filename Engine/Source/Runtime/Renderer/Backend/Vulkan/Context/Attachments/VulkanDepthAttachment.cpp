@@ -26,7 +26,7 @@ namespace Dynamik
 			imageView = StaticAllocator<VulkanImageView>::allocate();
 			imageView.initialize(pCoreObject, &image, DMKTexture::TextureSwizzles());
 
-			image.setLayout(pCoreObject, ImageLayout::IMAGE_LAYOUT_DEPTH_ATTACHMENT);
+			image.setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_DEPTH_STECIL_ATTACHMENT);
 		}
 	}
 }

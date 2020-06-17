@@ -25,8 +25,8 @@ namespace Dynamik
             VulkanBuffer() {}
             ~VulkanBuffer() {}
 
-            virtual void initialize(POINTER<RCoreObject> pCoreObject, BufferType eType, UI64 uSize,
-                ResourceMemoryType memoryType = (ResourceMemoryType)
+            virtual void initialize(POINTER<RCoreObject> pCoreObject, RBufferType eType, UI64 uSize,
+                RResourceMemoryType memoryType = (RResourceMemoryType)
                 (RESOURCE_MEMORY_TYPE_HOST_VISIBLE | RESOURCE_MEMORY_TYPE_HOST_COHERENT)) override final;
             virtual void terminate(POINTER<RCoreObject> pCoreObject) override final;
 

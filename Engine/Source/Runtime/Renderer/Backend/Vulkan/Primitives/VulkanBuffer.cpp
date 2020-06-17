@@ -10,7 +10,7 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanBuffer::initialize(POINTER<RCoreObject> pCoreObject, BufferType eType, UI64 uSize, ResourceMemoryType memoryType)
+		void VulkanBuffer::initialize(POINTER<RCoreObject> pCoreObject, RBufferType eType, UI64 uSize, RResourceMemoryType memoryType)
 		{
 			size = uSize;
 			VkBufferCreateInfo bufferInfo = {};
@@ -20,22 +20,22 @@ namespace Dynamik
 			type = eType;
 			switch (eType)
 			{
-			case Dynamik::BufferType::BUFFER_TYPE_STAGGING:
+			case Dynamik::RBufferType::BUFFER_TYPE_STAGGING:
 				bufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 				break;
-			case Dynamik::BufferType::BUFFER_TYPE_VERTEX:
+			case Dynamik::RBufferType::BUFFER_TYPE_VERTEX:
 				bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
 				break;
-			case Dynamik::BufferType::BUFFER_TYPE_INDEX:
+			case Dynamik::RBufferType::BUFFER_TYPE_INDEX:
 				bufferInfo.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
 				break;
-			case Dynamik::BufferType::BUFFER_TYPE_UNIFORM:
+			case Dynamik::RBufferType::BUFFER_TYPE_UNIFORM:
 				bufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
 				break;
-			case Dynamik::BufferType::BUFFER_TYPE_INDIRECT:
+			case Dynamik::RBufferType::BUFFER_TYPE_INDIRECT:
 				bufferInfo.usage = VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT;
 				break;
-			case Dynamik::BufferType::BUFFER_TYPE_RAY_TRACING:
+			case Dynamik::RBufferType::BUFFER_TYPE_RAY_TRACING:
 				bufferInfo.usage = VK_BUFFER_USAGE_RAY_TRACING_BIT_NV;
 				break;
 			default:

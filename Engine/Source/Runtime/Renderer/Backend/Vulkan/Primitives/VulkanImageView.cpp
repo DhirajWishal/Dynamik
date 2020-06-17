@@ -40,7 +40,7 @@ namespace Dynamik
 
 			createInfo.subresourceRange.baseArrayLayer = 0;
 			createInfo.subresourceRange.baseMipLevel = 0;
-			createInfo.subresourceRange.aspectMask = (InheritCast<VulkanImage>(pImage).usage == ImageUsage::IMAGE_USAGE_DEPTH_ATTACHMENT) ? VK_IMAGE_ASPECT_DEPTH_BIT : VK_IMAGE_ASPECT_COLOR_BIT;
+			createInfo.subresourceRange.aspectMask = (InheritCast<VulkanImage>(pImage).usage == RImageUsage::IMAGE_USAGE_DEPTH_ATTACHMENT) ? VK_IMAGE_ASPECT_DEPTH_BIT : VK_IMAGE_ASPECT_COLOR_BIT;
 			createInfo.subresourceRange.layerCount = InheritCast<VulkanImage>(pImage).layers;
 			createInfo.subresourceRange.levelCount = InheritCast<VulkanImage>(pImage).mipLevel;
 			createInfo.flags = VK_NULL_HANDLE;

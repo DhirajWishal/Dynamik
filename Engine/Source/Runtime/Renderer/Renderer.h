@@ -76,6 +76,9 @@ namespace Dynamik
     private:    /* Finals */
         void initializeFinals();
 
+    private:    /* Internal Methods */
+        void terminateComponents();
+
     private:    /* Internal */
         DMKRendererCompatibility myCompatibility;
 
@@ -92,6 +95,11 @@ namespace Dynamik
         POINTER<RCommandBufferManager> myCommandBufferManager;
         ARRAY<POINTER<RCommandBuffer>> myCommandBuffers;
         B1 isInitialized = false;
+
+        POINTER<RBuffer> myVertexBuffer;
+        UI64 myVertexBufferByteSize = 0;
+        POINTER<RBuffer> myIndexBuffer;
+        UI64 myIndexBufferByteSize = 0;
     };
 }
 

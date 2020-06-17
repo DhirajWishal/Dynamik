@@ -840,6 +840,7 @@
     <ClInclude Include="Runtime\Core\Math\Vector\Vector3F.h" />
     <ClInclude Include="Runtime\Core\Math\Vector\Vector4D.h" />
     <ClInclude Include="Runtime\Core\Math\Vector\Vector4F.h" />
+    <ClInclude Include="Runtime\Core\Memory\AutomatedMemoryManager.h" />
     <ClInclude Include="Runtime\Core\Memory\LocalHeap.h" />
     <ClInclude Include="Runtime\Core\Memory\MemoryFunctions.h" />
     <ClInclude Include="Runtime\Core\Memory\MemoryManager.h" />
@@ -920,6 +921,7 @@
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\VulkanCoreObject.h" />
     <ClInclude Include="Runtime\Renderer\Components\ContextTypeDefs.h" />
     <ClInclude Include="Runtime\Renderer\Components\CoreTypeDefs.h" />
+    <ClInclude Include="Runtime\Renderer\Components\PipelineTypeDefs.h" />
     <ClInclude Include="Runtime\Renderer\Components\Primitives\RTexture.h" />
     <ClInclude Include="Runtime\Renderer\Components\PrimitiveTypeDefs.h" />
     <ClInclude Include="Runtime\Renderer\Components\Primitives\RBuffer.h" />
@@ -933,6 +935,8 @@
     <ClInclude Include="Runtime\Renderer\Components\Context\RFrameBuffer.h" />
     <ClInclude Include="Runtime\Renderer\Components\Context\RFrameBufferAttachment.h" />
     <ClInclude Include="Runtime\Renderer\Components\Context\RRenderPass.h" />
+    <ClInclude Include="Runtime\Renderer\Components\RMeshObject.h" />
+    <ClInclude Include="Runtime\Renderer\Components\RPipelineObject.h" />
     <ClInclude Include="Runtime\Renderer\Components\RRenderTarget.h" />
     <ClInclude Include="Runtime\Renderer\Components\Context\RSwapChain.h" />
     <ClInclude Include="Runtime\Renderer\Renderer.h" />
@@ -967,6 +971,7 @@
     <ClCompile Include="Runtime\Core\Math\Vector\Vector3F.cpp" />
     <ClCompile Include="Runtime\Core\Math\Vector\Vector4D.cpp" />
     <ClCompile Include="Runtime\Core\Math\Vector\Vector4F.cpp" />
+    <ClCompile Include="Runtime\Core\Memory\AutomatedMemoryManager.cpp" />
     <ClCompile Include="Runtime\Core\Memory\LocalHeap.cpp" />
     <ClCompile Include="Runtime\Core\Memory\MemoryFunctions.cpp" />
     <ClCompile Include="Runtime\Core\Memory\MemoryManager.cpp" />

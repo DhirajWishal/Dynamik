@@ -34,7 +34,7 @@ namespace Dynamik
 
         public:
             static VkFormat getVulkanFormat(DMKFormat format);
-            static VkImageLayout getVulkanLayout(ImageLayout layout);
+            static VkImageLayout getVulkanLayout(RImageLayout layout);
             static UI32 findMemoryType(UI32 typeFilter, VkMemoryPropertyFlags properties, VkPhysicalDevice physicalDevice);
             static B1 hasStencilComponent(const VkFormat& format);
             static VkFormat findSupportedFormat(const ARRAY<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features, VkPhysicalDevice physicalDevice);

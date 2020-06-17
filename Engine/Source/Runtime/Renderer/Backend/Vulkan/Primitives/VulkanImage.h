@@ -32,7 +32,7 @@ namespace Dynamik
 			virtual void initialize(POINTER<RCoreObject> pCoreObject, RImageCreateInfo createInfo) override final;
 			virtual void copyBuffer(POINTER<RCoreObject> pCoreObject, POINTER<RBuffer> pBuffer) override final;
 			virtual void generateMipMaps(POINTER<RCoreObject> pCoreObject) override final;
-			virtual void setLayout(POINTER<RCoreObject> pCoreObject, ImageLayout newLayout) override final;
+			virtual void setLayout(POINTER<RCoreObject> pCoreObject, RImageLayout newLayout) override final;
 			virtual void createImageView(POINTER<RCoreObject> pCoreObject, DMKTexture::TextureSwizzles swizzles) override final;
 			virtual void terminate(POINTER<RCoreObject> pCoreObject) override final;
 

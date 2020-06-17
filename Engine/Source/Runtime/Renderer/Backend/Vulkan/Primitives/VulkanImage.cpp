@@ -57,7 +57,7 @@ namespace Dynamik
 
 		void VulkanImage::copyBuffer(POINTER<RCoreObject> pCoreObject, POINTER<RBuffer> pBuffer)
 		{
-			setLayout(pCoreObject, ImageLayout::IMAGE_LAYOUT_TRANSFER_DST);
+			setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_TRANSFER_DST);
 
 			VkBufferImageCopy region = {};
 			region.bufferOffset = 0;
@@ -155,7 +155,7 @@ namespace Dynamik
 			}
 		}
 
-		void VulkanImage::setLayout(POINTER<RCoreObject> pCoreObject, ImageLayout newLayout)
+		void VulkanImage::setLayout(POINTER<RCoreObject> pCoreObject, RImageLayout newLayout)
 		{
 			VulkanOneTimeCommandBuffer oneTimeCommandBuffer(pCoreObject);
 

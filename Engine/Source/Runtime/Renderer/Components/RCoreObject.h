@@ -36,6 +36,8 @@ namespace Dynamik
 		virtual void initialize(POINTER<DMKWindowHandle> pWindow, DMKSampleCount eSamples, B1 bEnableValidation) = 0;
 		virtual void terminate() = 0;
 
+		virtual void idleCall() = 0;
+
 		virtual UI32 prepareFrame(POINTER<RSwapChain> pSwapChain) = 0;
 		virtual void submitCommand(POINTER<RCommandBuffer> pCommandBuffer, POINTER<RSwapChain> pSwapChain) = 0;
 

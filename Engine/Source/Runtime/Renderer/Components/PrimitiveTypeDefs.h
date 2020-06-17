@@ -17,7 +17,7 @@
 namespace Dynamik
 {
 	/* Image Usage (OR operator can be used) */
-	enum DMK_API ImageUsage {
+	enum DMK_API RImageUsage {
 		IMAGE_USAGE_TRANSFER_SRC = BIT_SHIFT(0),
 		IMAGE_USAGE_TRANSFER_DST = BIT_SHIFT(1),
 		IMAGE_USAGE_RENDER = BIT_SHIFT(2),
@@ -29,7 +29,7 @@ namespace Dynamik
 	};
 
 	/* Resource Memory Type */
-	enum DMK_API ResourceMemoryType {
+	enum DMK_API RResourceMemoryType {
 		RESOURCE_MEMORY_TYPE_HOST_ACCESSABLE = BIT_SHIFT(0),
 		RESOURCE_MEMORY_TYPE_HOST_VISIBLE = BIT_SHIFT(1),
 		RESOURCE_MEMORY_TYPE_HOST_COHERENT = BIT_SHIFT(2),
@@ -38,14 +38,14 @@ namespace Dynamik
 	};
 
     /* Image Sampler Filter */
-    enum class DMK_API ImageSamplerFilter {
+    enum class DMK_API RImageSamplerFilter {
         IMAGE_SAMPLER_FILTER_NEAR = 0,
         IMAGE_SAMPLER_FILTER_LINEAR = 1,
         IMAGE_SAMPLER_FILTER_CUBIC = 1000015000,
     };
 
     /* Image Sampler Address Mode */
-    enum class DMK_API ImageSamplerAddressMode {
+    enum class DMK_API RImageSamplerAddressMode {
         IMAGE_SAMPLER_ADDRESS_MODE_REPEAT,
         IMAGE_SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT,
         IMAGE_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE,
@@ -54,7 +54,7 @@ namespace Dynamik
     };
 
 	/* Image Sampler Border Color */
-	enum class DMK_API ImageSamplerBorderColor {
+	enum class DMK_API RImageSamplerBorderColor {
 		IMAGE_SAMPLER_BORDER_COLOR_F32_TRANSPARENT_BLACK,
 		IMAGE_SAMPLER_BORDER_COLOR_I32_TRANSPARENT_BLACK,
 		IMAGE_SAMPLER_BORDER_COLOR_F32_OPAQUE_BLACK,
@@ -64,7 +64,7 @@ namespace Dynamik
 	};
 
 	/* Dynamik Pipeline Compare Op */
-	enum class DMK_API StencilCompareOp {
+	enum class DMK_API RStencilCompareOp {
 		STENCIL_COMPARE_OP_NEVER,
 		STENCIL_COMPARE_OP_LESS,
 		STENCIL_COMPARE_OP_EQUAL,
@@ -76,13 +76,13 @@ namespace Dynamik
 	};
 
 	/* Image Sampler Mipmap mode */
-	enum class DMK_API ResourceMipMapMode {
+	enum class DMK_API RResourceMipMapMode {
 		RESOURCE_MIPMAP_MODE_NEAREST,
 		RESOURCE_MIPMAP_MODE_LINEAR,
 	};
 
 	/* Image Swizzle Components */
-	enum class DMK_API ImageSwizzleComponent {
+	enum class DMK_API RImageSwizzleComponent {
 		IMAGE_SWIZZLE_IDENTITY,
 		IMAGE_SWIZZLE_ZERO,
 		IMAGE_SWIZZLE_ONE,
@@ -93,7 +93,7 @@ namespace Dynamik
 	};
 
 	/* Image Layouts */
-	enum class DMK_API ImageLayout {
+	enum class DMK_API RImageLayout {
 		IMAGE_LAYOUT_UNDEFINED,
 		IMAGE_LAYOUT_GENERAL,
 		IMAGE_LAYOUT_COLOR_ATTACHMENT,
@@ -116,7 +116,7 @@ namespace Dynamik
 	};
 
 	/* Buffer Types */
-	enum class DMK_API BufferType {
+	enum class DMK_API RBufferType {
 		BUFFER_TYPE_STAGGING,
 		BUFFER_TYPE_VERTEX,
 		BUFFER_TYPE_INDEX,
