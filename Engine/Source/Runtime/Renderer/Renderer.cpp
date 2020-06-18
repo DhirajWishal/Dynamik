@@ -152,6 +152,8 @@ namespace Dynamik
 			break;
 		}
 
+		myBufferFactory.setDefaults(myAPI, myCoreObject);
+
 		return myCoreObject;
 	}
 

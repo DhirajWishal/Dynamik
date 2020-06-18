@@ -921,6 +921,8 @@
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\VulkanCoreObject.h" />
     <ClInclude Include="Runtime\Renderer\Components\ContextTypeDefs.h" />
     <ClInclude Include="Runtime\Renderer\Components\CoreTypeDefs.h" />
+    <ClInclude Include="Runtime\Renderer\Components\Factories\BufferFactory.h" />
+    <ClInclude Include="Runtime\Renderer\Components\Factories\PipelineFactory.h" />
     <ClInclude Include="Runtime\Renderer\Components\PipelineTypeDefs.h" />
     <ClInclude Include="Runtime\Renderer\Components\Primitives\RTexture.h" />
     <ClInclude Include="Runtime\Renderer\Components\PrimitiveTypeDefs.h" />
@@ -1020,6 +1022,8 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanShader.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Primitives\VulkanTexture.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\VulkanCoreObject.cpp" />
+    <ClCompile Include="Runtime\Renderer\Components\Factories\BufferFactory.cpp" />
+    <ClCompile Include="Runtime\Renderer\Components\Factories\PipelineFactory.cpp" />
     <ClCompile Include="Runtime\Renderer\Renderer.cpp" />
     <ClCompile Include="Runtime\Tools\Shader\SPIR-V\Disassembler.cpp" />
     <ClCompile Include="Runtime\Window\WindowHandle.cpp" />

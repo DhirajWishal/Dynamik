@@ -16,6 +16,7 @@
 #include "Components/RCoreObject.h"
 #include "Components/Context/RFrameBuffer.h"
 #include "Components/RCommandBufferManager.h"
+#include "Components/Factories/BufferFactory.h"
 
 namespace Dynamik
 {
@@ -100,6 +101,9 @@ namespace Dynamik
         UI64 myVertexBufferByteSize = 0;
         POINTER<RBuffer> myIndexBuffer;
         UI64 myIndexBufferByteSize = 0;
+
+    private:    /* Factories */
+        DMKBufferFactory myBufferFactory;
     };
 }
 

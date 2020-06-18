@@ -274,5 +274,25 @@ namespace Dynamik
 
 			return VkFormat::VK_FORMAT_UNDEFINED;
 		}
+		
+		VkPolygonMode VulkanUtilities::getPolygonMode(const RPolygonMode ePolygonMode)
+		{
+			switch (ePolygonMode)
+			{
+			case Dynamik::RPolygonMode::POLYGON_MODE_FILL:
+				return VK_POLYGON_MODE_FILL;
+			case Dynamik::RPolygonMode::POLYGON_MODE_LINE:
+				return VK_POLYGON_MODE_LINE;
+			case Dynamik::RPolygonMode::POLYGON_MODE_POINT:
+				return VK_POLYGON_MODE_POINT;
+			case Dynamik::RPolygonMode::POLYGON_MODE_FILL_RECTANGLE:
+				return VK_POLYGON_MODE_FILL_RECTANGLE_NV;
+			default:
+				DMK_ERROR_BOX("Invalid polygon mode!");
+				break;
+			}
+
+			return VkPolygonMode();
+		}
 	}
 }

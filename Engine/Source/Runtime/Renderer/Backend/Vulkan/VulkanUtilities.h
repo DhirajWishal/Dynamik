@@ -13,6 +13,7 @@
 #include "Context/VulkanSwapChain.h"
 #include "Common/VulkanViewPort.h"
 #include "Context/VulkanRenderPass.h"
+#include "Pipelines/VulkanGraphicsPipeline.h"
 
 #include "Object/Resource/ShaderModule.h"
 #include "Object/Resource/Primitives.h"
@@ -49,6 +50,9 @@ namespace Dynamik
         
             static ARRAY<VkVertexInputAttributeDescription> VulkanUtilities::getVertexAttributeDescriptions(DMKVertexBufferDescriptor descriptor);
             static VkFormat VulkanUtilities::vertexAttributeTypeToVkFormat(DMKDataType type);
+
+        public:     /* Pipeline */
+            static VkPolygonMode getPolygonMode(const RPolygonMode ePolygonMode);
         };
     }
 }

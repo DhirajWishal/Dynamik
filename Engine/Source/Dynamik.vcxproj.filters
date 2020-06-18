@@ -586,6 +586,8 @@
     <ClInclude Include="Runtime\Renderer\Components\RMeshObject.h" />
     <ClInclude Include="Runtime\Renderer\Components\RPipelineObject.h" />
     <ClInclude Include="Runtime\Renderer\Components\PipelineTypeDefs.h" />
+    <ClInclude Include="Runtime\Renderer\Components\Factories\BufferFactory.h" />
+    <ClInclude Include="Runtime\Renderer\Components\Factories\PipelineFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\ComponentSystem\ComponentManager.cpp">
@@ -818,6 +820,8 @@
     </ClCompile>
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanCommandBufferManager.cpp" />
     <ClCompile Include="Runtime\Core\Memory\AutomatedMemoryManager.cpp" />
+    <ClCompile Include="Runtime\Renderer\Components\Factories\BufferFactory.cpp" />
+    <ClCompile Include="Runtime\Renderer\Components\Factories\PipelineFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />
