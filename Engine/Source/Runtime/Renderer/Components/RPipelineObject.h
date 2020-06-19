@@ -75,6 +75,8 @@ namespace Dynamik
 
 	/*
 	 Renderer Pipeline Object
+	 Pipeline objects consists all the necessary data to be passed to the shader (Vertex inputs, resource 
+	 descriptors).
 	*/
 	class DMK_API RPipelineObject {
 	public:

@@ -42,6 +42,11 @@ namespace Dynamik
 			ARRAY<VkVertexInputAttributeDescription> getVertexAttributeDescriptions();
 
 			/*
+			 Get the push constant information in the current shader.
+			*/
+			ARRAY<VkPushConstantRange> getPushConstantRanges();
+
+			/*
 			 Set the shader module
 			*/
 			void setShaderModule(const DMKShaderModule& sModule);
@@ -64,6 +69,7 @@ namespace Dynamik
 			ARRAY<VkDescriptorSetLayoutBinding> layoutBindings;
 			ARRAY<VkDescriptorPoolSize> poolSizes;
 			ARRAY<VkVertexInputAttributeDescription> vertexAttributes;
+			ARRAY<VkPushConstantRange> pushConstantRanges;
 			B1 isParsed = false;
 		};
 	}

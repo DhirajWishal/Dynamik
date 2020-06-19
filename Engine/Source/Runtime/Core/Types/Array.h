@@ -29,7 +29,7 @@ namespace Dynamik
 	class StaticAllocator;	// Static Allocator declaration
 	template<class TYPE>
 	class POINTER;			// Pointer declaration
-	
+
 	/* GLOBAL
 	 * Global Array mutex to make the array thread safe.
 	 */
@@ -207,6 +207,16 @@ namespace Dynamik
 			}
 			else
 				_reAllocateBack(_getNextSize());
+		}
+
+		/* CONSTRUCTOR
+		 * Constructs the Array by using another Array.
+		 *
+		 * @param vector: Other Array.
+		 */
+		ARRAY(ARRAY<TYPE>&& arr)
+		{
+			_move(arr);
 		}
 
 		/* CONSTRUCTOR
@@ -643,7 +653,7 @@ namespace Dynamik
 		 *
 		 * @param index: Index to be checked.
 		 */
-		B1 isValidIndex(I32 index) 
+		B1 isValidIndex(I32 index)
 		{
 			if (index > 0)
 			{
@@ -1008,7 +1018,8 @@ namespace Dynamik
 		 */
 		ARRAY<TYPE>& operator=(ARRAY<TYPE>&& arr) noexcept
 		{
-			this->set(arr.begin(), arr.end());
+			this->_move(arr);
+
 			return *this;
 		}
 
@@ -1050,6 +1061,27 @@ namespace Dynamik
 
 		/* ARRAY MANIPULATION FUNCTIONS */
 	private:
+		/* PRIVATE FUNCTION
+		 * Move data to this from another array.
+		 *
+		 * @param arr: Other array.
+		 */
+		inline void _move(ARRAY<TYPE>&& arr)
+		{
+			if (this == &arr)
+				return;
+
+			this->myBeginPtr = arr.myBeginPtr;
+			this->myNextPtr = arr.myNextPtr;
+			this->myEndPtr = arr.myEndPtr;
+			this->myDataCount = arr.myDataCount;
+
+			arr.myBeginPtr = nullptr;
+			arr.myNextPtr = nullptr;
+			arr.myEndPtr = nullptr;
+			arr.myDataCount = 0;
+		}
+
 		/* PRIVATE FUNCTION
 		 * Add data to the end of the Array.
 		 *

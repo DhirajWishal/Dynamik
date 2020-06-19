@@ -588,6 +588,7 @@
     <ClInclude Include="Runtime\Renderer\Components\PipelineTypeDefs.h" />
     <ClInclude Include="Runtime\Renderer\Components\Factories\BufferFactory.h" />
     <ClInclude Include="Runtime\Renderer\Components\Factories\PipelineFactory.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Pipelines\VulkanGraphicsPipeline.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\ComponentSystem\ComponentManager.cpp">
@@ -822,11 +823,13 @@
     <ClCompile Include="Runtime\Core\Memory\AutomatedMemoryManager.cpp" />
     <ClCompile Include="Runtime\Renderer\Components\Factories\BufferFactory.cpp" />
     <ClCompile Include="Runtime\Renderer\Components\Factories\PipelineFactory.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Pipelines\VulkanGraphicsPipeline.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />
     <None Include="Runtime\Renderer\Backend\Vulkan\README.md">
       <Filter>Runtime\Renderer\Backend\Vulkan</Filter>
     </None>
+    <None Include="Runtime\Renderer\README.md" />
   </ItemGroup>
 </Project>

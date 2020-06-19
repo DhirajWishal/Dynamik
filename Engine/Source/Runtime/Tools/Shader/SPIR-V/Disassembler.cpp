@@ -61,6 +61,14 @@ namespace Dynamik
 			return vertexAttributes;
 		}
 
+		ARRAY<VkPushConstantRange> SPIRVDisassembler::getPushConstantRanges()
+		{
+			if (!isParsed)
+				_parseModule();
+
+			return pushConstantRanges;
+		}
+
 		void SPIRVDisassembler::setShaderModule(const DMKShaderModule& sModule)
 		{
 			shaderModule = sModule;
@@ -95,6 +103,7 @@ namespace Dynamik
 			DMKUniformDescription resourceDescription;
 			resourceDescription.shaderLocation = shaderModule.location;
 			DMKUniformAttribute resourceAttribute;
+			UI64 offsetCount = 0;
 
 			/* Uniform buffers */
 			for (auto& resource : resources.uniform_buffers)
@@ -123,8 +132,9 @@ namespace Dynamik
 				for (auto ID : _glslCompiler.get_type(resource.base_type_id).member_types)
 				{
 					auto Ty = _glslCompiler.get_type(ID);
-					UI32 byteSize = (Ty.width / 8) * Ty.vecsize * Ty.columns;
+					UI32 byteSize = (Ty.width / sizeof(F32)) * Ty.vecsize * Ty.columns;
 					resourceAttribute.dataCount = ((Ty.array.size()) ? Ty.array.size() : 1);
+					offsetCount += byteSize;
 
 					/* Check if the member is a matrix */
 					if (Ty.vecsize == Ty.columns)
@@ -286,16 +296,26 @@ namespace Dynamik
 			}
 
 			/* Shader push constant buffers */
+			VkPushConstantRange _range;
+			_range.stageFlags = Backend::VulkanUtilities::getShaderStage(shaderModule.location);
+			_range.offset = offsetCount;
 			for (auto& resource : resources.push_constant_buffers)
 			{
+			_range.size = 0;
 #ifdef DMK_DEBUG
 				unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
 				unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
 				printf("Set: %u\t Binding: %u\t Type: %s\n", set, binding, resource.name.c_str());
 #endif // DMK_DEBUG
 
-				for (UI32 index = 0; index < _glslCompiler.get_type(resource.base_type_id).member_types.size(); index++)
-					printf("\tMembers: %s\n", _glslCompiler.get_member_name(resource.base_type_id, index).c_str());
+				for (auto ID : _glslCompiler.get_type(resource.base_type_id).member_types)
+				{
+					auto Ty = _glslCompiler.get_type(ID);
+					_range.size += ((Ty.width / sizeof(F32)) * Ty.vecsize * Ty.columns);
+				}
+
+				pushConstantRanges.pushBack(_range);
+				offsetCount += _range.size;
 			}
 
 			/* Shader separate images */

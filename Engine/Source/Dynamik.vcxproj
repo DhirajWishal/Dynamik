@@ -901,6 +901,7 @@
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanPipelineManager.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanQueue.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSurface.h" />
+    <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Pipelines\VulkanGraphicsPipeline.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\VulkanRenderTarget.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\VulkanUtilities.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanViewPort.h" />
@@ -1007,6 +1008,7 @@
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanPipelineManager.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanQueue.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Common\VulkanSurface.cpp" />
+    <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Pipelines\VulkanGraphicsPipeline.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\VulkanUtilities.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\Attachments\VulkanColorAttachment.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Context\Attachments\VulkanDepthAttachment.cpp" />
@@ -1037,6 +1039,7 @@
   <ItemGroup>
     <None Include="Dynamik.lua" />
     <None Include="Runtime\Renderer\Backend\Vulkan\README.md" />
+    <None Include="Runtime\Renderer\README.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ThirdParty\imgui\ImGui.vcxproj">

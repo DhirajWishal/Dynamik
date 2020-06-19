@@ -10,6 +10,7 @@
  Date:		14/06/2020
 */
 #include "Context/RFrameBuffer.h"
+#include "RPipelineObject.h"
 
 namespace Dynamik
 {
@@ -22,6 +23,10 @@ namespace Dynamik
 		virtual ~RCommandBuffer() {}
 
 		virtual void begin() = 0;
+		/*
+		 Bind pipeline and resources
+		*/
+		virtual void bindPipeline(POINTER<RPipelineObject> pPipelineObject) = 0;
 		virtual void end() = 0;
 	};
 }
