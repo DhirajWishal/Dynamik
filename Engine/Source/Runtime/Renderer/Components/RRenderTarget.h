@@ -27,7 +27,6 @@ namespace Dynamik
 
 		POINTER<RFrameBuffer> pFrameBuffer;
 		POINTER<RRenderPass> pRenderPass;
-		POINTER<RSwapChain> pSwapChain;
 	};
 
 	/*

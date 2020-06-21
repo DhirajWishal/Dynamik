@@ -226,7 +226,7 @@ namespace Dynamik
 
 	void DMKRenderer::createContext(DMKRenderContextType type, DMKViewport viewport)
 	{
-		/* Initialize Swapchain */
+		/* Initialize Swap chain */
 		createSwapChain(viewport, RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_FIFO);
 
 		ARRAY<RSubPasses> subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
@@ -257,7 +257,7 @@ namespace Dynamik
 			break;
 		}
 
-		/* Initialize Framebuffer */
+		/* Initialize Frame buffer */
 		createFrameBuffer();
 	}
 
@@ -267,6 +267,16 @@ namespace Dynamik
 
 	void DMKRenderer::initializeFinals()
 	{
+		/*
+		 Initialize vertex buffers.
+		 Copy vertex data from mesh to the vertex buffers.
+		 Clear vertex data from the mesh.
+
+		 Initialize index buffers.
+		 Copy index data from mesh to the index buffers.
+		 Clear index data from the mesh.
+		*/
+
 		myCommandBufferManager = (POINTER<RCommandBufferManager>)StaticAllocator<VulkanCommandBufferManager>::allocate();
 		myCommandBufferManager->initialize(myCoreObject);
 		myCommandBuffers = myCommandBufferManager->allocateCommandBuffers(myCoreObject, myRenderTarget->pSwapChain->images.size());

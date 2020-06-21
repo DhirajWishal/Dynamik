@@ -44,7 +44,7 @@ namespace Dynamik
         void initialize() override;
 
         /*
-         Prcess commands and call individual functions of the backend.
+         Process commands and call individual functions of the backend.
         */
         void processCommand(POINTER<DMKThreadCommand> command) override;
 

@@ -44,16 +44,16 @@ namespace Dynamik
 			return _buffers;
 		}
 
-		void VulkanCommandBufferManager::bindRenderTarget(POINTER<RCommandBuffer> pCommandBuffer, POINTER<RRenderTarget> pRenderTarget, UI32 bufferIndex)
+		void VulkanCommandBufferManager::bindRenderTarget(POINTER<RCommandBuffer> pCommandBuffer, POINTER<RRenderTarget> pRenderTarget, DMKViewport viewport, UI32 bufferIndex)
 		{
 			VkRenderPassBeginInfo renderPassInfo = {};
 			renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 			renderPassInfo.renderPass = InheritCast<VulkanRenderPass>(pRenderTarget->pRenderPass);
 			renderPassInfo.framebuffer = InheritCast<VulkanFrameBuffer>(pRenderTarget->pFrameBuffer)[bufferIndex];
-			renderPassInfo.renderArea.offset.x = pRenderTarget->pSwapChain->viewPort.xOffset;
-			renderPassInfo.renderArea.offset.y = pRenderTarget->pSwapChain->viewPort.yOffset;
-			renderPassInfo.renderArea.extent.width = pRenderTarget->pSwapChain->extent.width;
-			renderPassInfo.renderArea.extent.height = pRenderTarget->pSwapChain->extent.height;
+			renderPassInfo.renderArea.offset.x = viewport.xOffset;
+			renderPassInfo.renderArea.offset.y = viewport.yOffset;
+			renderPassInfo.renderArea.extent.width = viewport.width;
+			renderPassInfo.renderArea.extent.height = viewport.height;
 
 			std::array<VkClearValue, 2> clearValues = {};
 
@@ -69,34 +69,34 @@ namespace Dynamik
 			renderPassInfo.clearValueCount = static_cast<UI32>(clearValues.size());
 			renderPassInfo.pClearValues = clearValues.data();
 
-			vkCmdBeginRenderPass(InheritCast<VulkanCommandBuffer>(pCommandBuffer), &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+			vkCmdBeginRenderPass(Inherit<VulkanCommandBuffer>(pCommandBuffer)->buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-			VkViewport viewport;
-			viewport.width = (F32)pRenderTarget->pSwapChain->extent.width;
-			viewport.height = (F32)pRenderTarget->pSwapChain->extent.height;
-			viewport.minDepth = 0.0f;
-			viewport.maxDepth = 1.0f;
-			viewport.x = pRenderTarget->pSwapChain->viewPort.xOffset;
-			viewport.y = pRenderTarget->pSwapChain->viewPort.yOffset;
-			vkCmdSetViewport(InheritCast<VulkanCommandBuffer>(pCommandBuffer), 0, 1, &viewport);
+			VkViewport viewPort;
+			viewPort.width = (F32)viewport.width;
+			viewPort.height = (F32)viewport.height;
+			viewPort.minDepth = 0.0f;
+			viewPort.maxDepth = 1.0f;
+			viewPort.x = viewport.xOffset;
+			viewPort.y = viewport.yOffset;
+			vkCmdSetViewport(Inherit<VulkanCommandBuffer>(pCommandBuffer)->buffer, 0, 1, &viewPort);
 		}
 
 		void VulkanCommandBufferManager::unbindRenderTarget(POINTER<RCommandBuffer> pCommandBuffer)
 		{
-			vkCmdEndRenderPass(InheritCast<VulkanCommandBuffer>(pCommandBuffer));
+			vkCmdEndRenderPass(Inherit<VulkanCommandBuffer>(pCommandBuffer)->buffer);
 		}
 
 		void VulkanCommandBufferManager::resetBuffers(POINTER<RCoreObject> pCoreObject, ARRAY<POINTER<RCommandBuffer>> commandBuffers)
 		{
 			for (auto _buffer : commandBuffers)
-				DMK_VULKAN_ASSERT(vkResetCommandBuffer(InheritCast<VulkanCommandBuffer>(_buffer), VK_NULL_HANDLE), "Failed to reset command buffer!");
+				DMK_VULKAN_ASSERT(vkResetCommandBuffer(Inherit<VulkanCommandBuffer>(_buffer)->buffer, VK_NULL_HANDLE), "Failed to reset command buffer!");
 		}
 
 		void VulkanCommandBufferManager::terminate(POINTER<RCoreObject> pCoreObject, ARRAY<POINTER<RCommandBuffer>> commandBuffers)
 		{
 			for (auto _buffer : commandBuffers)
 			{
-				auto vBuffer = InheritCast<VulkanCommandBuffer>(_buffer).buffer;
+				auto vBuffer = Inherit<VulkanCommandBuffer>(_buffer)->buffer;
 				vkFreeCommandBuffers(Inherit<VulkanCoreObject>(pCoreObject)->device, pool, 1, &vBuffer);
 			}
 
