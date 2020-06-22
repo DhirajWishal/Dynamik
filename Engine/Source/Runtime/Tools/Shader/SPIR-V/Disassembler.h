@@ -47,6 +47,11 @@ namespace Dynamik
 			ARRAY<VkPushConstantRange> getPushConstantRanges();
 
 			/*
+			 Get the shader resource map from the current shader.
+			*/
+			DMKShaderResourceMap getResourceMap();
+
+			/*
 			 Set the shader module
 			*/
 			void setShaderModule(const DMKShaderModule& sModule);
@@ -66,6 +71,7 @@ namespace Dynamik
 
 		private:
 			DMKShaderModule shaderModule;
+			DMKShaderResourceMap resourceMap;
 			ARRAY<VkDescriptorSetLayoutBinding> layoutBindings;
 			ARRAY<VkDescriptorPoolSize> poolSizes;
 			ARRAY<VkVertexInputAttributeDescription> vertexAttributes;

@@ -14,6 +14,10 @@
 
 namespace Dynamik
 {
+	class DMK_API RCommandBuffer;
+	class DMK_API RRenderPass;
+	class DMK_API RFrameBuffer;
+
 	/*
 	 Renderer Render Target
 	*/
@@ -22,7 +26,7 @@ namespace Dynamik
 		RRenderTarget() {}
 		virtual ~RRenderTarget() {}
 
-		virtual void setComponents(POINTER<RFrameBuffer> frameBuffer, POINTER<RRenderPass> renderPass, POINTER<RSwapChain> swapChain) { pFrameBuffer = frameBuffer, pRenderPass = renderPass, pSwapChain = swapChain; }
+		virtual void setComponents(POINTER<RFrameBuffer> frameBuffer, POINTER<RRenderPass> renderPass) { pFrameBuffer = frameBuffer, pRenderPass = renderPass; }
 		virtual void submit(POINTER<RCommandBuffer> pCommandBuffer) {}
 
 		POINTER<RFrameBuffer> pFrameBuffer;

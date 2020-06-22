@@ -15,7 +15,7 @@
  Date:      15/05/2020
 */
 #include "../RenderableComponent.h"
-#include "Core/Object/Resource/ShaderModule.h"
+#include "Core/Object/Resource/ShaderFactory.h"
 #include "Object/Resource/Textures/TextureFactory.h"
 
 namespace Dynamik

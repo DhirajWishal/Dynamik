@@ -22,14 +22,29 @@ namespace Dynamik
 
 		file.close();
 	}
-	
-	void DMKShaderModule::addResource(DMKUniformType type, UI32 binding, UI32 offset)
-	{
-		DMKShaderResource _resource;
-		_resource.type = type;
-		_resource.binding = binding;
-		_resource.offset = offset;
 
-		layout.resources.pushBack(_resource);
+	void DMKShaderModule::setLocation(const DMKShaderLocation& location)
+	{
+		this->location = location;
+	}
+
+	void DMKShaderModule::setResourceMap(const DMKShaderResourceMap& resourceMap)
+	{
+		this->resourceMap = resourceMap;
+	}
+
+	void DMKShaderModule::addResource(const DMKVertexAttribute& inputAttribute)
+	{
+		resourceMap.inputAttributes.pushBack(inputAttribute);
+	}
+
+	void DMKShaderModule::addResource(const DMKUniformDescription& uniformDescription)
+	{
+		resourceMap.uniforms.pushBack(uniformDescription);
+	}
+
+	const DMKShaderResourceMap DMKShaderModule::getResourceMap() const
+	{
+		return this->resourceMap;
 	}
 }

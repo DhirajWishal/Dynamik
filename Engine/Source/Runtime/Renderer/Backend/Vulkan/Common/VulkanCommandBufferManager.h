@@ -26,7 +26,7 @@ namespace Dynamik
 
 			virtual void initialize(POINTER<RCoreObject> pCoreObject) override final;
 			virtual ARRAY<POINTER<RCommandBuffer>> allocateCommandBuffers(POINTER<RCoreObject> pCoreObject, UI32 bufferCount) override final;
-			virtual void bindRenderTarget(POINTER<RCommandBuffer> pCommandBuffer, POINTER<RRenderTarget> pRenderTarget, DMKViewport viewport, UI32 bufferIndex) override final;
+			virtual void bindRenderTarget(POINTER<RCommandBuffer> pCommandBuffer, POINTER<RRenderTarget> pRenderTarget, POINTER<RSwapChain> pSwapChain, UI32 bufferIndex) override final;
 			virtual void unbindRenderTarget(POINTER<RCommandBuffer> pCommandBuffer) override final;
 			virtual void resetBuffers(POINTER<RCoreObject> pCoreObject, ARRAY<POINTER<RCommandBuffer>> commandBuffers) override final;
 			virtual void terminate(POINTER<RCoreObject> pCoreObject, ARRAY<POINTER<RCommandBuffer>> commandBuffers) override final;

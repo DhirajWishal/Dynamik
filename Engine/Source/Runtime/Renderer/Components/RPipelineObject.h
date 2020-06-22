@@ -17,6 +17,8 @@
 
 namespace Dynamik
 {
+	class DMK_API RCoreObject;
+
 	/* Renderer Pipeline Usage */
 	enum class DMK_API RPipelineUsage {
 		PIPELINE_USAGE_GRAPHICS,

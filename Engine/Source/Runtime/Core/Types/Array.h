@@ -216,7 +216,7 @@ namespace Dynamik
 		 */
 		ARRAY(ARRAY<TYPE>&& arr)
 		{
-			_move(arr);
+			_move(std::move(arr));
 		}
 
 		/* CONSTRUCTOR
@@ -1018,7 +1018,7 @@ namespace Dynamik
 		 */
 		ARRAY<TYPE>& operator=(ARRAY<TYPE>&& arr) noexcept
 		{
-			this->_move(arr);
+			this->_move(std::move(arr));
 
 			return *this;
 		}
@@ -1076,9 +1076,9 @@ namespace Dynamik
 			this->myEndPtr = arr.myEndPtr;
 			this->myDataCount = arr.myDataCount;
 
-			arr.myBeginPtr = nullptr;
-			arr.myNextPtr = nullptr;
-			arr.myEndPtr = nullptr;
+			arr.myBeginPtr.turnNull();
+			arr.myNextPtr.turnNull();
+			arr.myEndPtr.turnNull();
 			arr.myDataCount = 0;
 		}
 

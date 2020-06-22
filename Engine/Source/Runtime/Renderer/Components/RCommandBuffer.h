@@ -14,6 +14,8 @@
 
 namespace Dynamik
 {
+	class DMK_API RPipelineObject;
+
 	/*
 	 Renderer Command Buffer
 	*/

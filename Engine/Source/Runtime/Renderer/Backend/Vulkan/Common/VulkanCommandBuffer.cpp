@@ -19,6 +19,10 @@ namespace Dynamik
 			DMK_VULKAN_ASSERT(vkBeginCommandBuffer(buffer, &beginInfo), "Failed to begin recording of command buffer!");
 		}
 
+		void VulkanCommandBuffer::bindPipeline(POINTER<RPipelineObject> pPipelineObject)
+		{
+		}
+
 		void VulkanCommandBuffer::end()
 		{
 			DMK_VULKAN_ASSERT(vkEndCommandBuffer(buffer), "Failed to record command buffer!");

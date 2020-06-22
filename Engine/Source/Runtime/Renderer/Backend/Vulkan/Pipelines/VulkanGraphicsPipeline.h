@@ -11,6 +11,7 @@
 */
 #include "Renderer/Components/RPipelineObject.h"
 #include "Core/Types/Array.h"
+#include <vulkan/vulkan.h>
 
 namespace Dynamik
 {

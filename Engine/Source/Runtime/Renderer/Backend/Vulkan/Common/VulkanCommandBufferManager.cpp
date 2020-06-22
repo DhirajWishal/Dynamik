@@ -31,7 +31,7 @@ namespace Dynamik
 			allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 			allocInfo.commandBufferCount = static_cast<UI32>(bufferCount);
 
-			ARRAY<POINTER<RCommandBuffer>> _buffers(bufferCount);
+			ARRAY<POINTER<RCommandBuffer>> _buffers;
 			POINTER<VulkanCommandBuffer> _buffer;
 			for (UI32 itr = 0; itr < bufferCount; itr++)
 			{
@@ -44,16 +44,16 @@ namespace Dynamik
 			return _buffers;
 		}
 
-		void VulkanCommandBufferManager::bindRenderTarget(POINTER<RCommandBuffer> pCommandBuffer, POINTER<RRenderTarget> pRenderTarget, DMKViewport viewport, UI32 bufferIndex)
+		void VulkanCommandBufferManager::bindRenderTarget(POINTER<RCommandBuffer> pCommandBuffer, POINTER<RRenderTarget> pRenderTarget, POINTER<RSwapChain> pSwapChain, UI32 bufferIndex)
 		{
 			VkRenderPassBeginInfo renderPassInfo = {};
 			renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 			renderPassInfo.renderPass = InheritCast<VulkanRenderPass>(pRenderTarget->pRenderPass);
 			renderPassInfo.framebuffer = InheritCast<VulkanFrameBuffer>(pRenderTarget->pFrameBuffer)[bufferIndex];
-			renderPassInfo.renderArea.offset.x = viewport.xOffset;
-			renderPassInfo.renderArea.offset.y = viewport.yOffset;
-			renderPassInfo.renderArea.extent.width = viewport.width;
-			renderPassInfo.renderArea.extent.height = viewport.height;
+			renderPassInfo.renderArea.offset.x = pSwapChain->viewPort.xOffset;
+			renderPassInfo.renderArea.offset.y = pSwapChain->viewPort.yOffset;
+			renderPassInfo.renderArea.extent.width = pSwapChain->extent.width;
+			renderPassInfo.renderArea.extent.height = pSwapChain->extent.height;
 
 			std::array<VkClearValue, 2> clearValues = {};
 
@@ -72,12 +72,12 @@ namespace Dynamik
 			vkCmdBeginRenderPass(Inherit<VulkanCommandBuffer>(pCommandBuffer)->buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
 			VkViewport viewPort;
-			viewPort.width = (F32)viewport.width;
-			viewPort.height = (F32)viewport.height;
+			viewPort.width = (F32)pSwapChain->extent.width;
+			viewPort.height = (F32)pSwapChain->extent.height;
 			viewPort.minDepth = 0.0f;
 			viewPort.maxDepth = 1.0f;
-			viewPort.x = viewport.xOffset;
-			viewPort.y = viewport.yOffset;
+			viewPort.x = pSwapChain->viewPort.xOffset;
+			viewPort.y = pSwapChain->viewPort.yOffset;
 			vkCmdSetViewport(Inherit<VulkanCommandBuffer>(pCommandBuffer)->buffer, 0, 1, &viewPort);
 		}
 
@@ -95,10 +95,7 @@ namespace Dynamik
 		void VulkanCommandBufferManager::terminate(POINTER<RCoreObject> pCoreObject, ARRAY<POINTER<RCommandBuffer>> commandBuffers)
 		{
 			for (auto _buffer : commandBuffers)
-			{
-				auto vBuffer = Inherit<VulkanCommandBuffer>(_buffer)->buffer;
-				vkFreeCommandBuffers(Inherit<VulkanCoreObject>(pCoreObject)->device, pool, 1, &vBuffer);
-			}
+				vkFreeCommandBuffers(Inherit<VulkanCoreObject>(pCoreObject)->device, pool, 1, &Inherit<VulkanCommandBuffer>(_buffer)->buffer);
 
 			vkDestroyCommandPool(Inherit<VulkanCoreObject>(pCoreObject)->device, pool, nullptr);
 		}

@@ -849,6 +849,7 @@
     <ClInclude Include="Runtime\Core\Object\Descriptors\GameComponentDesriptors.h" />
     <ClInclude Include="Runtime\Core\Object\Descriptors\MaterialDescriptor.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\Primitives.h" />
+    <ClInclude Include="Runtime\Core\Object\Resource\ShaderFactory.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\ShaderModule.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\Texture.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\Textures\Texture2D.h" />
@@ -979,6 +980,7 @@
     <ClCompile Include="Runtime\Core\Memory\MemoryFunctions.cpp" />
     <ClCompile Include="Runtime\Core\Memory\MemoryManager.cpp" />
     <ClCompile Include="Runtime\Core\Object\Resource\Primitives.cpp" />
+    <ClCompile Include="Runtime\Core\Object\Resource\ShaderFactory.cpp" />
     <ClCompile Include="Runtime\Core\Object\Resource\ShaderModule.cpp" />
     <ClCompile Include="Runtime\Core\Object\Resource\Texture.cpp" />
     <ClCompile Include="Runtime\Core\Object\Resource\Textures\Texture2D.cpp" />

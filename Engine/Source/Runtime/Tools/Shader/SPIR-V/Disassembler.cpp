@@ -69,6 +69,14 @@ namespace Dynamik
 			return pushConstantRanges;
 		}
 
+		DMKShaderResourceMap SPIRVDisassembler::getResourceMap()
+		{
+			if (!isParsed)
+				_parseModule();
+
+			return resourceMap;
+		}
+
 		void SPIRVDisassembler::setShaderModule(const DMKShaderModule& sModule)
 		{
 			shaderModule = sModule;
@@ -153,6 +161,7 @@ namespace Dynamik
 				}
 
 				shaderResourceDescriptor.uniformBufferObjects.pushBack(resourceDescription);
+				resourceMap.uniforms.pushBack(resourceDescription);
 				resourceDescription.attributes.clear();
 			}
 

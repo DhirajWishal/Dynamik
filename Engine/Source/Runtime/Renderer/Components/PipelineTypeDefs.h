@@ -9,6 +9,7 @@
  Author:	Dhiraj Wishal
  Date:		17/06/2020
 */
+#include "PrimitiveTypeDefs.h"
 
 namespace Dynamik
 {

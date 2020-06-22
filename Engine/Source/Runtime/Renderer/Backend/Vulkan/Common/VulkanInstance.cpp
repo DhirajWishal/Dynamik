@@ -21,11 +21,11 @@ namespace Dynamik
 			std::string myMessageStatement = "Vulkan Validation Layer ";
 			std::string myMessagePreStatement = ": ";
 
-			if (messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT)
+			if (messageType == VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT)
 				myMessagePreStatement = "(General): ";
-			else if (messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT)
+			else if (messageType == VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT)
 				myMessagePreStatement = "(Validation): ";
-			else if (messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT)
+			else if (messageType == VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT)
 				myMessagePreStatement = "(Performance): ";
 
 			switch (messageSeverity) {

@@ -91,6 +91,7 @@ namespace Dynamik
 
         POINTER<RCoreObject> myCoreObject;
 
+        POINTER<RSwapChain> mySwapChain;
         POINTER<RRenderTarget> myRenderTarget;
 
         POINTER<RCommandBufferManager> myCommandBufferManager;
