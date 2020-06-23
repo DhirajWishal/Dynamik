@@ -17,27 +17,27 @@ namespace Dynamik
 	{
 		DMKVertexBufferDescriptor _descriptor;
 
-		DMKVertexAttribute _attribute;
+		DMKShaderInputAttribute _attribute;
 		_attribute.dataCount = 1;
 		_attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
 		if (mesh->HasPositions())
 		{
-			_attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
+			_attribute.attributeType = DMKShaderInputAttributeType::DMK_SHADER_INPUT_ATTRIBUTE_TYPE_POSITION;
 			_descriptor.attributes.pushBack(_attribute);
 		}
 		if (mesh->HasVertexColors(0))
 		{
-			_attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR;
+			_attribute.attributeType = DMKShaderInputAttributeType::DMK_SHADER_INPUT_ATTRIBUTE_TYPE_COLOR;
 			_descriptor.attributes.pushBack(_attribute);
 		}
 		if (mesh->HasTextureCoords(0))
 		{
-			_attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES;
+			_attribute.attributeType = DMKShaderInputAttributeType::DMK_SHADER_INPUT_ATTRIBUTE_TYPE_TEXTURE_COORDINATES;
 			_descriptor.attributes.pushBack(_attribute);
 		}
 		if (mesh->HasNormals())
 		{
-			_attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL;
+			_attribute.attributeType = DMKShaderInputAttributeType::DMK_SHADER_INPUT_ATTRIBUTE_TYPE_NORMAL;
 			_descriptor.attributes.pushBack(_attribute);
 		}
 

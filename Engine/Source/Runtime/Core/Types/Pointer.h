@@ -72,7 +72,7 @@ namespace Dynamik
 
 		/* FUNCTION
 		 * Get the pointer as a UI64 value.
-		 * Converts the address sotred in the pointer to a unsigned 64bit integer.
+		 * Converts the address stored in the pointer to a unsigned 64bit integer.
 		 */
 		DMK_FORCEINLINE UI64 getPointerAsInteger() const { return (UI64)myPointer; }
 
@@ -90,7 +90,6 @@ namespace Dynamik
 		/* FUNCTION
 		 * Set a value to the pointer.
 		 */
-		 //void set(const TYPE& value) { StaticAllocator<TYPE>::set(myPointer, value); }
 		DMK_FORCEINLINE void set(TYPE&& value) { StaticAllocator<TYPE>::set(myPointer, (TYPE&&)value); }
 
 		/* FUNCTION
@@ -118,14 +117,14 @@ namespace Dynamik
 		DMK_FORCEINLINE B1 isValid() const { return ((myPointer != nullptr) || (sizeof(myPointer) > sizeof(TYPE*))); }
 
 		/* FUNCTION
-		 * Assign the pointer to a gien pointer.
+		 * Assign the pointer to a given pointer.
 		 *
 		 * @param pointer: The pointer to be assigned.
 		 */
 		DMK_FORCEINLINE void assign(VPTR pointer) { myPointer = (TYPE*)pointer; }
 
 		/* FUNCTION
-		 * Turn the pointer to a nullptr.
+		 * Turn the pointer to a null pointer.
 		 */
 		DMK_FORCEINLINE void turnNull() { myPointer = nullptr; }
 
@@ -153,7 +152,7 @@ namespace Dynamik
 		 * Return the data stored at a given index in the pointer.
 		 * Indexed value can be modified in the pointer.
 		 *
-		 * @param index: INdex to be accessed.
+		 * @param index: Index to be accessed.
 		 * @warn: Index is not validated before or after indexing.
 		 */
 		DMK_FORCEINLINE TYPE& at(const UI64& index) const { return myPointer[index]; }
@@ -166,7 +165,7 @@ namespace Dynamik
 		/* PUBLIC OPERATORS */
 	public:
 		/* OPERATOR
-		 * Return the de-referenced pointer.
+		 * Return the dereferenced pointer.
 		 */
 		DMK_FORCEINLINE operator TYPE() const { return *this->myPointer; }
 
@@ -192,12 +191,12 @@ namespace Dynamik
 		DMK_FORCEINLINE operator SUB_TYPE() const { return (SUB_TYPE)this->myPointer; }
 
 		/* OPERATOR
-		 * Return the de-referenced pointer.
+		 * Return the dereferenced pointer.
 		 */
 		DMK_FORCEINLINE TYPE operator*() const { return *this->myPointer; }
 
 		/* OPERATOR
-		 * Return the de-referenced pointer.
+		 * Return the dereferenced pointer.
 		 */
 		DMK_FORCEINLINE TYPE* operator->() const { return this->myPointer; }
 
@@ -271,14 +270,14 @@ namespace Dynamik
 		DMK_FORCEINLINE B1 operator==(const POINTER<TYPE>& ptr) const { return ((UI64)this->myPointer) == ((UI64)ptr.myPointer); }
 
 		/* OPERATOR
-		 * Asign the address of one POINTER to this.
+		 * Assign the address of one POINTER to this.
 		 *
 		 * @param ptr: Pointer to the address to be assigned.
 		 */
 		DMK_FORCEINLINE void operator()(const POINTER<TYPE>& ptr) { this->myPointer = ptr.get(); }
 
 		/* OPERATOR
-		 * Asign an address to the pointer.
+		 * Assign an address to the pointer.
 		 * Accepts void pointers.
 		 *
 		 * @param value: Value to be assigned to the pointer.
@@ -286,14 +285,14 @@ namespace Dynamik
 		DMK_FORCEINLINE void operator=(const VPTR address) { this->myPointer = (TYPE*)address; }
 
 		/* OPERATOR
-		 * Asign a value to the pointer.
+		 * Assign a value to the pointer.
 		 *
 		 * @param value: Value to be assigned to the pointer.
 		 */
 		DMK_FORCEINLINE void operator=(const TYPE& value) { this->set((TYPE&&)value); }
 
 		/* OPERATOR
-		 * Asign a value to the pointer.
+		 * Assign a value to the pointer.
 		 *
 		 * @param ptr: Pointer to be copied to the pointer.
 		 */

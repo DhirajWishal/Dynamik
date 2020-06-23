@@ -85,23 +85,23 @@ namespace Dynamik
 		F32 integrity = 0.0f;   /* For the Dynamik Destruction Engine */
 	};
 
-	/* Vertex attribute types */
-	enum class DMK_API DMKVertexAttributeType {
-		DMK_VERTEX_ATTRIBUTE_TYPE_POSITION,                 /* Position coordinates */
-		DMK_VERTEX_ATTRIBUTE_TYPE_COLOR,                    /* Color coordinates */
-		DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES,      /* Texture coordinates */
-		DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES,           /* UV coordinates */
-		DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL,                   /* Normal vectors */
-		DMK_VERTEX_ATTRIBUTE_TYPE_INTEGRITY,               /* Integrity value */
-		DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID,                  /* Bone IDs */
-		DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT,              /* Bone Weights */
-		DMK_VERTEX_ATTRIBUTE_TYPE_CUSTOM                    /* Custom */
+	/* Shader input attribute types */
+	enum class DMK_API DMKShaderInputAttributeType {
+		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_POSITION,                 /* Position coordinates */
+		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_COLOR,                    /* Color coordinates */
+		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_TEXTURE_COORDINATES,      /* Texture coordinates */
+		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_UV_COORDINATES,           /* UV coordinates */
+		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_NORMAL,                   /* Normal vectors */
+		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_INTEGRITY,               /* Integrity value */
+		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_BONE_ID,                  /* Bone IDs */
+		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_BONE_WEIGHT,              /* Bone Weights */
+		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_CUSTOM                    /* Custom */
 	};
 
-	/* Dynamik Vertex Attribute */
-	struct DMK_API DMKVertexAttribute {
+	/* Dynamik Shader Input Attribute */
+	struct DMK_API DMKShaderInputAttribute {
 		DMKDataType dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
-		DMKVertexAttributeType attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
+		DMKShaderInputAttributeType attributeType = DMKShaderInputAttributeType::DMK_SHADER_INPUT_ATTRIBUTE_TYPE_POSITION;
 		UI32 dataCount = 1;     /* Number of elements of data which is sent. Used for sending arrays. */
 	};
 
@@ -115,7 +115,7 @@ namespace Dynamik
 		UI32 getVertexSize();
 
 		/* Vertex attributes */
-		ARRAY<DMKVertexAttribute> attributes;
+		ARRAY<DMKShaderInputAttribute> attributes;
 	};
 
 	/* Constant Block */

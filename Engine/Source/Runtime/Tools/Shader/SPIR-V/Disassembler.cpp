@@ -185,11 +185,39 @@ namespace Dynamik
 				_poolSize.descriptorCount = 1;
 				_poolSize.type = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
 				poolSizes.pushBack(_poolSize);
+
+				for (auto ID : _glslCompiler.get_type(resource.base_type_id).member_types)
+				{
+					auto Ty = _glslCompiler.get_type(ID);
+					UI32 byteSize = (Ty.width / sizeof(F32)) * Ty.vecsize * Ty.columns;
+					resourceAttribute.dataCount = ((Ty.array.size()) ? Ty.array.size() : 1);
+					offsetCount += byteSize;
+
+					/* Check if the member is a matrix */
+					if (Ty.vecsize == Ty.columns)
+					{
+						if (byteSize == 64)
+							resourceAttribute.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
+						else if (byteSize == 36)
+							resourceAttribute.dataType = DMKDataType::DMK_DATA_TYPE_MAT3;
+						else if (byteSize == 16)
+							resourceAttribute.dataType = DMKDataType::DMK_DATA_TYPE_MAT2;
+						else
+							resourceAttribute.dataType = (DMKDataType)byteSize;
+					}
+					else
+						resourceAttribute.dataType = (DMKDataType)byteSize;
+
+					resourceDescription.attributes.pushBack(resourceAttribute);
+				}
+
+				resourceMap.uniforms.pushBack(resourceDescription);
 			}
 
 			/* Shader inputs */
 			VkVertexInputAttributeDescription _attributeDescription;
 			_attributeDescription.offset = 0;
+			DMKShaderInputAttribute inputAttribute;
 			for (auto& resource : resources.stage_inputs)
 			{
 #ifdef DMK_DEBUG

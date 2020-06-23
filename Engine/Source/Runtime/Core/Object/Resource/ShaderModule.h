@@ -28,7 +28,7 @@ namespace Dynamik
 	*/
 	struct DMK_API DMKShaderResourceMap {
 		ARRAY<DMKUniformDescription> uniforms;
-		ARRAY<DMKVertexAttribute> inputAttributes;
+		ARRAY<DMKShaderInputAttribute> inputAttributes;
 	};
 
 	/*
@@ -71,7 +71,7 @@ namespace Dynamik
 		/*
 		 Add input attribute resource to the map.
 		*/
-		void addResource(const DMKVertexAttribute& inputAttribute);
+		void addResource(const DMKShaderInputAttribute& inputAttribute);
 
 		/*
 		 Add uniform description resource to the map.

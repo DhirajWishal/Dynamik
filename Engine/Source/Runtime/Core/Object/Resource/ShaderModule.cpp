@@ -33,7 +33,7 @@ namespace Dynamik
 		this->resourceMap = resourceMap;
 	}
 
-	void DMKShaderModule::addResource(const DMKVertexAttribute& inputAttribute)
+	void DMKShaderModule::addResource(const DMKShaderInputAttribute& inputAttribute)
 	{
 		resourceMap.inputAttributes.pushBack(inputAttribute);
 	}
