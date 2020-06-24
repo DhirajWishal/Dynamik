@@ -21,14 +21,14 @@ namespace Dynamik
 		DMKPipelineFactory() {}
 		~DMKPipelineFactory() {}
 
-		void setDefaults(DMKRenderingAPI api, POINTER<RCoreObject> pCoreObject);
+		void setDefaults(DMKRenderingAPI api, RCoreObject* pCoreObject);
 
-		POINTER<RPipelineObject> createGraphicsPipeline(RPipelineCreateInfo createInfo);
-		POINTER<RPipelineObject> createComputePipeline(RPipelineCreateInfo createInfo);
+		RPipelineObject* createGraphicsPipeline(RPipelineCreateInfo createInfo);
+		RPipelineObject* createComputePipeline(RPipelineCreateInfo createInfo);
 
 	private:
 		DMKRenderingAPI myRenderingAPI = DMKRenderingAPI::DMK_RENDERING_API_VULKAN;
-		POINTER<RCoreObject> myCoreObject;
+		RCoreObject* myCoreObject;
 	};
 }
 

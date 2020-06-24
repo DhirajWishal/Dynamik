@@ -7,13 +7,13 @@ namespace Dynamik
 {
     using namespace Backend;
 
-    void DMKBufferFactory::setDefaults(DMKRenderingAPI api, POINTER<RCoreObject> pCoreObject)
+    void DMKBufferFactory::setDefaults(DMKRenderingAPI api, RCoreObject* pCoreObject)
     {
         myRenderingAPI = api;
         myCoreObject = pCoreObject;
     }
 
-    POINTER<RBuffer> DMKBufferFactory::createVertexBuffer(UI64 uSize, RResourceMemoryType memoryType)
+    RBuffer* DMKBufferFactory::createVertexBuffer(UI64 uSize, RResourceMemoryType memoryType)
     {
         switch (myRenderingAPI)
         {
@@ -31,10 +31,10 @@ namespace Dynamik
             break;
         }
 
-        return POINTER<RBuffer>();
+        return nullptr;
     }
 
-    POINTER<RBuffer> DMKBufferFactory::createIndexBuffer(UI64 uSize, RResourceMemoryType memoryType)
+    RBuffer* DMKBufferFactory::createIndexBuffer(UI64 uSize, RResourceMemoryType memoryType)
     {
         switch (myRenderingAPI)
         {
@@ -52,10 +52,10 @@ namespace Dynamik
             break;
         }
 
-        return POINTER<RBuffer>();
+        return nullptr;
     }
 
-    POINTER<RBuffer> DMKBufferFactory::createUniformBuffer(UI64 uSize, RResourceMemoryType memoryType)
+    RBuffer* DMKBufferFactory::createUniformBuffer(UI64 uSize, RResourceMemoryType memoryType)
     {
         switch (myRenderingAPI)
         {
@@ -73,10 +73,10 @@ namespace Dynamik
             break;
         }
 
-        return POINTER<RBuffer>();
+        return nullptr;
     }
 
-    POINTER<RBuffer> DMKBufferFactory::createStaggingBuffer(UI64 uSize, RResourceMemoryType memoryType)
+    RBuffer* DMKBufferFactory::createStaggingBuffer(UI64 uSize, RResourceMemoryType memoryType)
     {
         switch (myRenderingAPI)
         {
@@ -94,6 +94,6 @@ namespace Dynamik
             break;
         }
 
-        return POINTER<RBuffer>();
+        return nullptr;
     }
 }

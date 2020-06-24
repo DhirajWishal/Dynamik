@@ -27,19 +27,21 @@ namespace Dynamik
 	   - Physical Device
 	   - Logical Device
 	   - Queues
+
+	   Session("something")
 	*/
 	class DMK_API RCoreObject {
 	public:
 		RCoreObject() {}
 		virtual ~RCoreObject() {}
 
-		virtual void initialize(POINTER<DMKWindowHandle> pWindow, DMKSampleCount eSamples, B1 bEnableValidation) = 0;
+		virtual void initialize(DMKWindowHandle* pWindow, DMKSampleCount eSamples, B1 bEnableValidation) = 0;
 		virtual void terminate() = 0;
 
 		virtual void idleCall() = 0;
 
-		virtual UI32 prepareFrame(POINTER<RSwapChain> pSwapChain) = 0;
-		virtual void submitCommand(POINTER<RCommandBuffer> pCommandBuffer, POINTER<RSwapChain> pSwapChain) = 0;
+		virtual UI32 prepareFrame(RSwapChain* pSwapChain) = 0;
+		virtual void submitCommand(RCommandBuffer* pCommandBuffer, RSwapChain* pSwapChain) = 0;
 
 		DMKSampleCount sampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_64_BIT;
 

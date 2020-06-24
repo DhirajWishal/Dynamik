@@ -35,18 +35,18 @@ namespace Dynamik
 		 Create a new component and return its address.
 		*/
 		template<class COMPONENT>
-		POINTER<COMPONENT> createComponent()
+		COMPONENT* createComponent()
 		{
 			return componentManager.createComponent<COMPONENT>();
 		}
 
 	public:		/* Camera Module */
-		POINTER<DMKCameraModule> cameraModule;
+		DMKCameraModule* cameraModule;
 
 		/*
 		 Get the camera module
 		*/
-		virtual POINTER<DMKCameraModule> getCameraModule() { return cameraModule; }
+		virtual DMKCameraModule* getCameraModule() { return cameraModule; }
 	};
 }
 

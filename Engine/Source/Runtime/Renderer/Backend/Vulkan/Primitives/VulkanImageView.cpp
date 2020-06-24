@@ -11,7 +11,7 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanImageView::initialize(POINTER<RCoreObject> pCoreObject, POINTER<RImage> pImage, DMKTexture::TextureSwizzles swizzles)
+		void VulkanImageView::initialize(RCoreObject* pCoreObject, RImage* pImage, DMKTexture::TextureSwizzles swizzles)
 		{
 			VkImageViewCreateInfo createInfo;
 			createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -50,7 +50,7 @@ namespace Dynamik
 			DMK_VULKAN_ASSERT(vkCreateImageView(Inherit<VulkanCoreObject>(pCoreObject)->device, &createInfo, nullptr, &imageView), "Failed to create texture image view!");
 		}
 
-		void VulkanImageView::terminate(POINTER<RCoreObject> pCoreObject)
+		void VulkanImageView::terminate(RCoreObject* pCoreObject)
 		{
 			vkDestroyImageView(Inherit<VulkanCoreObject>(pCoreObject)->device, imageView, nullptr);
 		}

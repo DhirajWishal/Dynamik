@@ -23,7 +23,7 @@ namespace Dynamik
             VulkanDepthAttachment() {}
             ~VulkanDepthAttachment() {}
 
-            void initialize(POINTER<RCoreObject> pCoreObject, VulkanFrameBufferAttachmentInitInfo initInfo) override;
+            void initialize(RCoreObject* pCoreObject, VulkanFrameBufferAttachmentInitInfo initInfo) override;
         };
     }
 }

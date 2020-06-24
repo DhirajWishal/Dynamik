@@ -11,7 +11,7 @@ namespace Dynamik
 {
 	GUIManager::GUIManager()
 	{
-		windowHandle = (POINTER<DMKWindowHandle>)StaticAllocator<WindowsWindow>::allocateInit(WindowsWindow("Dynamik Studio v1", 1280, 720));
+		windowHandle = (DMKWindowHandle*)StaticAllocator<WindowsWindow>::allocateInit(WindowsWindow("Dynamik Studio v1", 1280, 720));
 		windowHandle->initialize();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -48,8 +48,8 @@ namespace Dynamik
 		// Setup display size (every frame to accommodate for window resizing)
 		int w, h;
 		int display_w, display_h;
-		glfwGetWindowSize(((POINTER<WindowsWindow>)windowHandle)->getWindowHandle(), &w, &h);
-		glfwGetFramebufferSize(((POINTER<WindowsWindow>)windowHandle)->getWindowHandle(), &display_w, &display_h);
+		glfwGetWindowSize(((WindowsWindow*)windowHandle)->getWindowHandle(), &w, &h);
+		glfwGetFramebufferSize(((WindowsWindow*)windowHandle)->getWindowHandle(), &display_w, &display_h);
 		io.DisplaySize = ImVec2((float)w, (float)h);
 		if (w > 0 && h > 0)
 			io.DisplayFramebufferScale = ImVec2((float)display_w / w, (float)display_h / h);

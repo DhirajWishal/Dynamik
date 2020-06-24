@@ -40,9 +40,9 @@ namespace Dynamik
 		DMKEventHandler() {}
 		virtual ~DMKEventHandler() {}
 
-		void addKeyEventListener(const POINTER<DMKKeyEventListener>& listener);
-		void addMouseButtonEventListener(const POINTER<DMKMouseButtonEventListener>& listener);
-		void addMouseScrollEventListener(const POINTER<DMKMouseScrollEventListener>& listener);
+		void addKeyEventListener(const DMKKeyEventListener* listener);
+		void addMouseButtonEventListener(const DMKMouseButtonEventListener* listener);
+		void addMouseScrollEventListener(const DMKMouseScrollEventListener* listener);
 		void removeKeyEventListener(I32 listenerIndex);
 		void removeMouseButtonEventListener(I32 listenerIndex);
 		void removeMouseScrollEventListener(I32 listenerIndex);
@@ -57,9 +57,9 @@ namespace Dynamik
 		ARRAY<DMKMouseScrollEventComponent> getMouseScrollEvents();
 
 	protected:
-		static ARRAY<POINTER<DMKKeyEventListener>> myKeyEventListeners;
-		static ARRAY<POINTER<DMKMouseButtonEventListener>> myMouseButtonEventListeners;
-		static ARRAY<POINTER<DMKMouseScrollEventListener>> myMouseScrollEventListeners;
+		static ARRAY<DMKKeyEventListener*> myKeyEventListeners;
+		static ARRAY<DMKMouseButtonEventListener*> myMouseButtonEventListeners;
+		static ARRAY<DMKMouseScrollEventListener*> myMouseScrollEventListeners;
 
 		static DMKEventBuffer eventBuffer;
 	};

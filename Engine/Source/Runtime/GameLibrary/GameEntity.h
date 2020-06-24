@@ -32,13 +32,24 @@ namespace Dynamik
 		*/
 		virtual void initialize() {}
 
+		// void addInstance(Vector3F position, Vector3F rotation);
+
 		/*
 		 Setup camera module
 		 Camera modules are added to the renderable components after initializing the entity.
 		 Shaders will have the uniform buffer of the camera at the last binding. by default view and 
 		 projection matrixes are passed respectively.
 		*/
-		virtual void setupCamera(const POINTER<DMKCameraModule>& cModule);
+		virtual void setupCamera(const DMKCameraModule* pCameraModule);
+
+		/*
+		 Add a component to the component manager.
+		*/
+		template<class COMPONENT>
+		void addComponent(const COMPONENT& component)
+		{
+			componentManager.addComponent<COMPONENT>(component);
+		}
 
 		/* Component Manager */
 		DMKComponentManager componentManager;

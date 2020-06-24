@@ -25,10 +25,10 @@ namespace Dynamik
 		DMKTextureFactory(const DMKTextureFactory&) = delete;
 		DMKTextureFactory(DMKTextureFactory&&) = delete;
 
-		static POINTER<DMKTexture> create(const DMKTextureType& type, const STRING& path);
-		static POINTER<DMKTexture> create(const DMKTextureType& type, const ARRAY<STRING>& paths);
+		static DMKTexture* create(const DMKTextureType& type, const STRING& path);
+		static DMKTexture* create(const DMKTextureType& type, const ARRAY<STRING>& paths);
 
-		static void destroy(POINTER<DMKTexture> texture);
+		static void destroy(DMKTexture* texture);
 	};
 }
 

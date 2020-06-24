@@ -21,24 +21,24 @@ namespace Dynamik
 		DMKBufferFactory() {}
 		~DMKBufferFactory() {}
 
-		void setDefaults(DMKRenderingAPI api, POINTER<RCoreObject> pCoreObject);
+		void setDefaults(DMKRenderingAPI api, RCoreObject* pCoreObject);
 
-		POINTER<RBuffer> createVertexBuffer(UI64 uSize,
+		RBuffer* createVertexBuffer(UI64 uSize,
 			RResourceMemoryType memoryType = (RResourceMemoryType)
 			(RESOURCE_MEMORY_TYPE_HOST_VISIBLE | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
-		POINTER<RBuffer> createIndexBuffer(UI64 uSize,
+		RBuffer* createIndexBuffer(UI64 uSize,
 			RResourceMemoryType memoryType = (RResourceMemoryType)
 			(RESOURCE_MEMORY_TYPE_HOST_VISIBLE | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
-		POINTER<RBuffer> createUniformBuffer(UI64 uSize,
+		RBuffer* createUniformBuffer(UI64 uSize,
 			RResourceMemoryType memoryType = (RResourceMemoryType)
 			(RESOURCE_MEMORY_TYPE_HOST_VISIBLE | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
-		POINTER<RBuffer> createStaggingBuffer(UI64 uSize,
+		RBuffer* createStaggingBuffer(UI64 uSize,
 			RResourceMemoryType memoryType = (RResourceMemoryType)
 			(RESOURCE_MEMORY_TYPE_HOST_VISIBLE | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
 
 	private:
 		DMKRenderingAPI myRenderingAPI = DMKRenderingAPI::DMK_RENDERING_API_VULKAN;
-		POINTER<RCoreObject> myCoreObject;
+		RCoreObject* myCoreObject;
 	};
 }
 

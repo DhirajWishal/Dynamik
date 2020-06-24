@@ -26,11 +26,11 @@ namespace Dynamik
 		RRenderTarget() {}
 		virtual ~RRenderTarget() {}
 
-		virtual void setComponents(POINTER<RFrameBuffer> frameBuffer, POINTER<RRenderPass> renderPass) { pFrameBuffer = frameBuffer, pRenderPass = renderPass; }
-		virtual void submit(POINTER<RCommandBuffer> pCommandBuffer) {}
+		virtual void setComponents(RFrameBuffer* frameBuffer, RRenderPass* renderPass) { pFrameBuffer = frameBuffer, pRenderPass = renderPass; }
+		virtual void submit(RCommandBuffer* pCommandBuffer) {}
 
-		POINTER<RFrameBuffer> pFrameBuffer;
-		POINTER<RRenderPass> pRenderPass;
+		RFrameBuffer* pFrameBuffer;
+		RRenderPass* pRenderPass;
 	};
 
 	/*

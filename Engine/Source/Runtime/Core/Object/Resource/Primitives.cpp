@@ -24,13 +24,34 @@ namespace Dynamik
 		return _size;
 	}
 
-	UI32 DMKVertexBufferDescriptor::getVertexSize()
+	const UI64 DMKVertexLayout::getVertexSize() const
 	{
-		UI32 _size = 0;
+		UI64 _size = 0;
 		for (auto _attribute : attributes)
 			_size += ((UI64)_attribute.dataType * _attribute.dataCount);
 
 		return _size;
+	}
+
+	DMKVertexLayout DMKVertexLayout::createBasic()
+	{
+		DMKVertexLayout layout;
+		DMKVertexAttribute attribute;
+		attribute.dataCount = 1;
+
+		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
+		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
+		layout.attributes.pushBack(attribute);
+
+		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR;
+		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
+		layout.attributes.pushBack(attribute);
+
+		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES;
+		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC2;
+		layout.attributes.pushBack(attribute);
+
+		return layout;
 	}
 
 	I64 DMKUniformBufferDescriptor::operator()()
@@ -50,14 +71,14 @@ namespace Dynamik
 	{
 		StaticAllocator<VPTR>::deallocate(uniformBufferStorage, myDescription.getUniformSize());
 		uniformBufferStorage = nullptr;
-		nextPointer = uniformBufferStorage;
+		nextPointer = (BYTE*)uniformBufferStorage;
 	}
 
 	void DMKUniformBufferObject::initialize(const DMKUniformDescription& description)
 	{
 		myDescription = description;
 		uniformBufferStorage = StaticAllocator<UI32>::allocateArr(myDescription.getUniformSize());
-		nextPointer = uniformBufferStorage;
+		nextPointer = (BYTE*)uniformBufferStorage;
 	}
 
 	void DMKUniformBufferObject::setData(const VPTR& data, const UI32& byteSize, const UI32& location, const UI32& arrayIndex)
@@ -71,7 +92,7 @@ namespace Dynamik
 			{
 				if (arrayIndex < (UI32)myDescription.attributes[location - 1].dataCount)
 				{
-					nextPointer = (VPTR)(((UI64)nextPointer) + (UI64)myDescription.attributes[location - 1].dataType * (arrayIndex + 1));
+					nextPointer = (BYTE*)(((UI64)nextPointer) + (UI64)myDescription.attributes[location - 1].dataType * (arrayIndex + 1));
 				}
 				else
 				{
@@ -79,7 +100,7 @@ namespace Dynamik
 						std::to_string(location) +
 						". Niglecting the array location and binding to the data to the given location.");
 
-					nextPointer = (VPTR)(((UI64)nextPointer) + (UI64)myDescription.attributes[location - 1].dataType);
+					nextPointer = (BYTE*)(((UI64)nextPointer) + (UI64)myDescription.attributes[location - 1].dataType);
 				}
 				DMKMemoryFunctions::moveData(nextPointer, data, byteSize);
 			}
@@ -93,7 +114,7 @@ namespace Dynamik
 	void DMKUniformBufferObject::clear()
 	{
 		DMKMemoryFunctions::setData(uniformBufferStorage, 0, myDescription.getUniformSize());
-		nextPointer = uniformBufferStorage;
+		nextPointer = (BYTE*)uniformBufferStorage;
 	}
 
 	DMKUniformDescription DMKUniformBufferObject::createUniformCamera(UI32 binding, DMKShaderLocation location)

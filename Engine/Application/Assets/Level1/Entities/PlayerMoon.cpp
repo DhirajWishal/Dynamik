@@ -16,7 +16,7 @@ void PlayerMoon::initialize()
 	_shaderModuleF.loadCode(DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/frag.spv"));
 	meshComponent.addShaderModule(_shaderModuleF);
 
-	meshComponent.addShaderModule(DMKShaderFactory::createModule(DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/frag.spv"), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, )
+	//meshComponent.addShaderModule(DMKShaderFactory::createModule(DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/frag.spv"), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, );
 
 	meshComponent.textureModules.pushBack(DMKTextureFactory::create(DMKTextureType::DMK_TEXTURE_TYPE_2D, DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Diffuse_2K.png")));
 

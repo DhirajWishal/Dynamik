@@ -28,7 +28,7 @@ namespace Dynamik
 		DMKViewport() {}
 		virtual ~DMKViewport() {}
 
-		POINTER<DMKWindowHandle> windowHandle;
+		DMKWindowHandle* windowHandle;
 
 		I32 width = 0;
 		I32 height = 0;
@@ -58,9 +58,9 @@ namespace Dynamik
 		virtual void clean() {}
 		virtual void terminate() {}
 
-		virtual void addKeyEventListner(const POINTER<DMKKeyEventListener>& listener) {}
-		virtual void addMouseButtonEventListener(const POINTER<DMKMouseButtonEventListener>& listener) {}
-		virtual void addMouseScrollEventListener(const POINTER<DMKMouseScrollEventListener>& listener) {}
+		virtual void addKeyEventListner(const DMKKeyEventListener* listener) {}
+		virtual void addMouseButtonEventListener(const DMKMouseButtonEventListener* listener) {}
+		virtual void addMouseScrollEventListener(const DMKMouseScrollEventListener* listener) {}
 		virtual void removeKeyEventListener(I32 listenerIndex) {}
 		virtual void removeMouseButtonEventListener(I32 listenerIndex) {}
 		virtual void removeMouseScrollEventListener(I32 listenerIndex) {}

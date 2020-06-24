@@ -23,8 +23,8 @@ namespace Dynamik
 			VulkanImageView() {}
 			~VulkanImageView() {}
 
-			virtual void initialize(POINTER<RCoreObject> pCoreObject, POINTER<RImage> pImage, DMKTexture::TextureSwizzles swizzles) override final;
-			virtual void terminate(POINTER<RCoreObject> pCoreObject) override final;
+			virtual void initialize(RCoreObject* pCoreObject, RImage* pImage, DMKTexture::TextureSwizzles swizzles) override final;
+			virtual void terminate(RCoreObject* pCoreObject) override final;
 
 			operator VkImageView() const;
 

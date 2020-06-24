@@ -28,7 +28,7 @@ namespace Dynamik
 			return 0;
 		}
 
-		void VulkanGraphicsPipeline::initialize(POINTER<RCoreObject> pCoreObject, RPipelineCreateInfo createInfo, RPipelineUsage usage)
+		void VulkanGraphicsPipeline::initialize(RCoreObject* pCoreObject, RPipelineCreateInfo createInfo, RPipelineUsage usage)
 		{
 			ARRAY<VkDescriptorSetLayout> descriptorLayouts;
 
@@ -93,7 +93,7 @@ namespace Dynamik
 			}
 		}
 
-		void VulkanGraphicsPipeline::terminate(POINTER<RCoreObject> pCoreObject)
+		void VulkanGraphicsPipeline::terminate(RCoreObject* pCoreObject)
 		{
 		}
 	}

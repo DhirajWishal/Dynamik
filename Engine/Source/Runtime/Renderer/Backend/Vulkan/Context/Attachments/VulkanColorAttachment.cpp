@@ -8,7 +8,7 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanColorAttachment::initialize(POINTER<RCoreObject> pCoreObject, VulkanFrameBufferAttachmentInitInfo initInfo)
+		void VulkanColorAttachment::initialize(RCoreObject* pCoreObject, VulkanFrameBufferAttachmentInitInfo initInfo)
 		{
 			RImageCreateInfo imgCreateInfo;
 			imgCreateInfo.imageFormat = initInfo.format;

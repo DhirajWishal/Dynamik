@@ -37,7 +37,7 @@ namespace Dynamik
 		*/
 		struct DMK_API VulkanGraphicsPipelineInitInfo {
 			DMKMeshComponentUsage usage = DMKMeshComponentUsage::DMK_MESH_COMPONENT_USAGE_STATIC;
-			DMKVertexBufferDescriptor vertexBufferDescriptor;
+			DMKVertexLayout vertexBufferDescriptor;
 			ARRAY<DMKConstantBlockDescription> constantBlockDescriptions;
 
 			VulkanRenderPass vRenderPass;

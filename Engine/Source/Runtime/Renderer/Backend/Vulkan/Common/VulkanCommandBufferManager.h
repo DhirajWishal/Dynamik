@@ -24,12 +24,12 @@ namespace Dynamik
 			VulkanCommandBufferManager() {}
 			~VulkanCommandBufferManager() {}
 
-			virtual void initialize(POINTER<RCoreObject> pCoreObject) override final;
-			virtual ARRAY<POINTER<RCommandBuffer>> allocateCommandBuffers(POINTER<RCoreObject> pCoreObject, UI32 bufferCount) override final;
-			virtual void bindRenderTarget(POINTER<RCommandBuffer> pCommandBuffer, POINTER<RRenderTarget> pRenderTarget, POINTER<RSwapChain> pSwapChain, UI32 bufferIndex) override final;
-			virtual void unbindRenderTarget(POINTER<RCommandBuffer> pCommandBuffer) override final;
-			virtual void resetBuffers(POINTER<RCoreObject> pCoreObject, ARRAY<POINTER<RCommandBuffer>> commandBuffers) override final;
-			virtual void terminate(POINTER<RCoreObject> pCoreObject, ARRAY<POINTER<RCommandBuffer>> commandBuffers) override final;
+			virtual void initialize(RCoreObject* pCoreObject) override final;
+			virtual ARRAY<RCommandBuffer*> allocateCommandBuffers(RCoreObject* pCoreObject, UI32 bufferCount) override final;
+			virtual void bindRenderTarget(RCommandBuffer* pCommandBuffer, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, UI32 bufferIndex) override final;
+			virtual void unbindRenderTarget(RCommandBuffer* pCommandBuffer) override final;
+			virtual void resetBuffers(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) override final;
+			virtual void terminate(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) override final;
 
 		private:
 			VkCommandPool pool = VK_NULL_HANDLE;

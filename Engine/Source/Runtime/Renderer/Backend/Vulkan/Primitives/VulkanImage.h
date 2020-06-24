@@ -29,16 +29,16 @@ namespace Dynamik
 			VulkanImage() {}
 			~VulkanImage() {}
 
-			virtual void initialize(POINTER<RCoreObject> pCoreObject, RImageCreateInfo createInfo) override final;
-			virtual void copyBuffer(POINTER<RCoreObject> pCoreObject, POINTER<RBuffer> pBuffer) override final;
-			virtual void generateMipMaps(POINTER<RCoreObject> pCoreObject) override final;
-			virtual void setLayout(POINTER<RCoreObject> pCoreObject, RImageLayout newLayout) override final;
-			virtual void createImageView(POINTER<RCoreObject> pCoreObject, DMKTexture::TextureSwizzles swizzles) override final;
-			virtual void terminate(POINTER<RCoreObject> pCoreObject) override final;
+			virtual void initialize(RCoreObject* pCoreObject, RImageCreateInfo createInfo) override final;
+			virtual void copyBuffer(RCoreObject* pCoreObject, RBuffer* pBuffer) override final;
+			virtual void generateMipMaps(RCoreObject* pCoreObject) override final;
+			virtual void setLayout(RCoreObject* pCoreObject, RImageLayout newLayout) override final;
+			virtual void createImageView(RCoreObject* pCoreObject, DMKTexture::TextureSwizzles swizzles) override final;
+			virtual void terminate(RCoreObject* pCoreObject) override final;
 
-			virtual void setData(POINTER<RCoreObject> pCoreObject, UI64 uSize, UI64 offset, VPTR data) override final;
-			virtual VPTR getData(POINTER<RCoreObject> pCoreObject, UI64 uSize, UI64 offset) override final;
-			virtual void unmapMemory(POINTER<RCoreObject> pCoreObject) override final;
+			virtual void setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, VPTR data) override final;
+			virtual VPTR getData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset) override final;
+			virtual void unmapMemory(RCoreObject* pCoreObject) override final;
 
 			operator VkImage() const;
 			operator VkDeviceMemory() const;

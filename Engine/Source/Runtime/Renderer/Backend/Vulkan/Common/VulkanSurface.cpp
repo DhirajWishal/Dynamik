@@ -37,12 +37,12 @@ namespace Dynamik
 			return requiredExtensions.empty();
 		}
 
-		void VulkanSurface::initialize(VulkanInstance vInstance, POINTER<DMKWindowHandle> windowHandle)
+		void VulkanSurface::initialize(VulkanInstance vInstance, DMKWindowHandle* windowHandle)
 		{
-			windowID = windowHandle.getPointerAsInteger();
+			windowID = GetPointerAsInteger(windowHandle);
 
 #if defined(DMK_PLATFORM_WINDOWS)
-			POINTER<WindowsWindow> _windPtr = windowHandle;
+			WindowsWindow* _windPtr = (WindowsWindow*)windowHandle;
 			DMK_VULKAN_ASSERT(glfwCreateWindowSurface(vInstance, _windPtr->getHandle(), nullptr, &surface), "Failed to create window surface!");
 
 #elif defined(DMK_PLATFORM_LINUX)

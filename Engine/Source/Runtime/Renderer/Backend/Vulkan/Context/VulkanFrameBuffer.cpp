@@ -13,7 +13,7 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanFrameBuffer::initialize(POINTER<RCoreObject> pCoreObject, POINTER<RRenderPass> pRenderPass, POINTER<RSwapChain> pSwapChain)
+		void VulkanFrameBuffer::initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, RSwapChain* pSwapChain)
 		{
 			width = pSwapChain->extent.width;
 			height = pSwapChain->extent.height;
@@ -27,7 +27,7 @@ namespace Dynamik
 					switch (_subpass)
 					{
 					case Dynamik::RSubPasses::SUBPASSES_SWAPCHAIN:
-						_attachments.pushBack(((POINTER<VulkanImageView>)InheritCast<VulkanSwapChain>(pSwapChain).imageViews[i])->imageView);
+						_attachments.pushBack(((VulkanImageView*)InheritCast<VulkanSwapChain>(pSwapChain).imageViews[i])->imageView);
 						break;
 					case Dynamik::RSubPasses::SUBPASSES_DEPTH:
 					{
@@ -78,7 +78,7 @@ namespace Dynamik
 			}
 		}
 
-		void VulkanFrameBuffer::terminate(POINTER<RCoreObject> pCoreObject)
+		void VulkanFrameBuffer::terminate(RCoreObject* pCoreObject)
 		{
 			for (auto buffer : buffers)
 				vkDestroyFramebuffer(Inherit<VulkanCoreObject>(pCoreObject)->device, buffer, nullptr);

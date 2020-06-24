@@ -36,8 +36,8 @@ namespace Dynamik
             VulkanFrameBufferAttachment() {}
             virtual ~VulkanFrameBufferAttachment() {}
 
-            virtual void initialize(POINTER<RCoreObject> pCoreObject, VulkanFrameBufferAttachmentInitInfo initInfo) {}
-            virtual void terminate(POINTER<RCoreObject> pCoreObject);
+            virtual void initialize(RCoreObject* pCoreObject, VulkanFrameBufferAttachmentInitInfo initInfo) {}
+            virtual void terminate(RCoreObject* pCoreObject);
 
             operator VulkanImage() const;
             operator VulkanImageView() const;

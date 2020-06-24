@@ -23,9 +23,9 @@ namespace Dynamik
 		DMKComponent() {}
 		virtual ~DMKComponent() {}
 
-		virtual void setAttachment(POINTER<DMKComponentAttachment> attachment) { attachments.pushBack(attachment); }
+		virtual void setAttachment(DMKComponentAttachment* attachment) { attachments.pushBack(attachment); }
 
-		ARRAY<POINTER<DMKComponentAttachment>> attachments;
+		ARRAY<DMKComponentAttachment*> attachments;
 	};
 }
 

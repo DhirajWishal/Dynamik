@@ -47,24 +47,24 @@ namespace Dynamik
 		virtual ~DMKRenderableComponent() {}
 
 		virtual void addShaderModule(const DMKShaderModule& sModule);
-		virtual void addTextureModule(const POINTER<DMKTexture>& tModule);
+		virtual void addTextureModule(DMKTexture* pTexture);
 		virtual void setBaseRenderingPipeline(const DMKBaseRenderingPipeline& pipeline);
 
 		/*
 		 Add a renderable component which this component uses.
 		*/
-		virtual void addRenderableComponent(const POINTER<DMKRenderableComponent>& component);
-		virtual void setCameraModule(const POINTER<DMKCameraModule> cModule);
+		virtual void addRenderableComponent(DMKRenderableComponent* component);
+		virtual void setCameraModule(DMKCameraModule* cModule);
 
 	public:		/* Constant methods */
 		void setBindingIndex(const UI32& index);
 
 	public:		/* Data Store */
 		ARRAY<DMKShaderModule> shaderModules;
-		ARRAY<POINTER<DMKTexture>> textureModules;
-		ARRAY<POINTER<DMKRenderableComponent>> renderComponents;
+		ARRAY<DMKTexture*> textureModules;
+		ARRAY<DMKRenderableComponent*> renderComponents;
 		DMKUniformDescription uniformDescription;
-		POINTER<DMKCameraModule> cameraModule;
+		DMKCameraModule* cameraModule;
 		DMKBaseRenderingPipeline basePipeline = DMKBaseRenderingPipeline::DMK_BASE_RENDERING_PIPELINE_CUSTOM;
 	};
 }

@@ -28,7 +28,7 @@ namespace Dynamik
 
 			void initialize();
 
-			POINTER<VulkanSurface> surfacePtr;
+			VulkanSurface* surfacePtr;
 			VkViewport vkViewport = {};
 		};
 	}

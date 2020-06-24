@@ -32,13 +32,13 @@ namespace Dynamik
 		VulkanCoreObject() {}
 		~VulkanCoreObject() {}
 
-		virtual void initialize(POINTER<DMKWindowHandle> pWindow, DMKSampleCount eSamples, B1 bEnableValidation) override final;
+		virtual void initialize(DMKWindowHandle* pWindow, DMKSampleCount eSamples, B1 bEnableValidation) override final;
 		virtual void terminate() override final;
 
 		virtual void idleCall() override final;
 
-		virtual UI32 prepareFrame(POINTER<RSwapChain> pSwapChain) override final;
-		virtual void submitCommand(POINTER<RCommandBuffer> pCommandBuffer, POINTER<RSwapChain> pSwapChain) override final;
+		virtual UI32 prepareFrame(RSwapChain* pSwapChain) override final;
+		virtual void submitCommand(RCommandBuffer* pCommandBuffer, RSwapChain* pSwapChain) override final;
 
 		operator Backend::VulkanInstance() const;
 		operator Backend::VulkanDevice() const;

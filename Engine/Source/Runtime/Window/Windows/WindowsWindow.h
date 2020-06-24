@@ -25,7 +25,7 @@ namespace Dynamik
 			: DMKWindowHandle(title, width, height) {}
 		~WindowsWindow() {}
 
-		POINTER<GLFWwindow> getWindowHandle() { return windowHandle; }
+		GLFWwindow* getWindowHandle() { return windowHandle; }
 
 		DMKViewport createViewport(I32 width, I32 height, I32 xOffset, I32 yOffset);
 
@@ -38,9 +38,9 @@ namespace Dynamik
 
 		B1 isVulkanCompatible();
 
-		void addKeyEventListner(const POINTER<DMKKeyEventListener>& listener) override;
-		void addMouseButtonEventListener(const POINTER<DMKMouseButtonEventListener>& listener) override;
-		void addMouseScrollEventListener(const POINTER<DMKMouseScrollEventListener>& listener) override;
+		void addKeyEventListner(const DMKKeyEventListener* listener) override;
+		void addMouseButtonEventListener(const DMKMouseButtonEventListener* listener) override;
+		void addMouseScrollEventListener(const DMKMouseScrollEventListener* listener) override;
 		void removeKeyEventListener(I32 listenerIndex) override;
 		void removeMouseButtonEventListener(I32 listenerIndex) override;
 		void removeMouseScrollEventListener(I32 listenerIndex) override;
@@ -49,10 +49,10 @@ namespace Dynamik
 		ARRAY<DMKMouseButtonEventComponent> getMouseButtonEvents() override;
 		ARRAY<DMKMouseScrollEventComponent> getMouseScrollEvents() override;
 
-		POINTER<GLFWwindow> getHandle();
+		GLFWwindow* getHandle();
 
 	private:
-		POINTER<GLFWwindow> windowHandle;
+		GLFWwindow* windowHandle;
 
 		class InternalEventHandler : public DMKEventHandler {
 		public:

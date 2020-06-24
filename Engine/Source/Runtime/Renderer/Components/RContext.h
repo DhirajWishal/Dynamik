@@ -22,13 +22,13 @@ namespace Dynamik
 		RContext() {}
 		virtual ~RContext() {}
 
-		virtual void initialize(POINTER<RCoreObject> pCoreObject, DMKRenderContextType eType, DMKViewport viewport) {}
-		virtual void terminate(POINTER<RCoreObject> pCoreObject) {}
+		virtual void initialize(RCoreObject* pCoreObject, DMKRenderContextType eType, DMKViewport viewport) {}
+		virtual void terminate(RCoreObject* pCoreObject) {}
 
 	public:
-		POINTER<RRenderPass> renderPass;
-		POINTER<RSwapChain> swapChain;
-		POINTER<RFrameBuffer> frameBuffer;
+		RRenderPass* renderPass;
+		RSwapChain* swapChain;
+		RFrameBuffer* frameBuffer;
 	};
 }
 

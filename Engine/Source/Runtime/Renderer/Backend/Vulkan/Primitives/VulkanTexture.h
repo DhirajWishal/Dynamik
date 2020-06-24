@@ -31,11 +31,11 @@ namespace Dynamik
             VulkanTexture() {}
             ~VulkanTexture() {}
 
-            virtual void initialize(POINTER<RCoreObject> pCoreObject, POINTER<DMKTexture> pTextureObject) override final;
-            virtual void createView(POINTER<RCoreObject> pCoreObject) override final;
-            virtual void createSampler(POINTER<RCoreObject> pCoreObject, RImageSamplerCreateInfo createInfo) override final;
-            virtual void makeRenderable(POINTER<RCoreObject> pCoreObject) override final;
-            virtual void terminate(POINTER<RCoreObject> pCoreObject) override final;
+            virtual void initialize(RCoreObject* pCoreObject, DMKTexture* pTextureObject) override final;
+            virtual void createView(RCoreObject* pCoreObject) override final;
+            virtual void createSampler(RCoreObject* pCoreObject, RImageSamplerCreateInfo createInfo) override final;
+            virtual void makeRenderable(RCoreObject* pCoreObject) override final;
+            virtual void terminate(RCoreObject* pCoreObject) override final;
 
             operator VulkanImage() const;
             operator VulkanImageView() const;

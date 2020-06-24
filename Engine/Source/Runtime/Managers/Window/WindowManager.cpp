@@ -14,7 +14,7 @@ namespace Dynamik
 	I32 DMKWindowManager::createWindow(I32 width, I32 height, STRING title)
 	{
 #ifdef DMK_PLATFORM_WINDOWS
-		POINTER<WindowsWindow> _window = StaticAllocator<WindowsWindow>::allocateInit(WindowsWindow(title, width, height));
+		WindowsWindow* _window = StaticAllocator<WindowsWindow>::allocateInit(WindowsWindow(title, width, height));
 		_window->initialize();
 		_window->setEventCallbacks();
 		myWindowHandles.pushBack(_window);
@@ -23,7 +23,7 @@ namespace Dynamik
 		return windowIDs++;
 	}
 
-	POINTER<DMKWindowHandle> DMKWindowManager::getWindowHandle(I32 windowID)
+	DMKWindowHandle* DMKWindowManager::getWindowHandle(I32 windowID)
 	{
 		return myWindowHandles[windowID];
 	}
@@ -45,17 +45,17 @@ namespace Dynamik
 		return myWindowHandles[windowIndex]->createViewport(width, height, xOffset, yOffset);
 	}
 
-	void DMKWindowManager::addKeyEventListener(I32 windowIndex, POINTER<DMKKeyEventListener> listener)
+	void DMKWindowManager::addKeyEventListener(I32 windowIndex, DMKKeyEventListener* listener)
 	{
 		myWindowHandles[windowIndex]->addKeyEventListner(listener);
 	}
 
-	void DMKWindowManager::addMouseButtonEventListener(I32 windowIndex, POINTER<DMKMouseButtonEventListener> listener)
+	void DMKWindowManager::addMouseButtonEventListener(I32 windowIndex, DMKMouseButtonEventListener* listener)
 	{
 		myWindowHandles[windowIndex]->addMouseButtonEventListener(listener);
 	}
 
-	void DMKWindowManager::addMouseScrollEventListener(I32 windowIndex, POINTER<DMKMouseScrollEventListener> listener)
+	void DMKWindowManager::addMouseScrollEventListener(I32 windowIndex, DMKMouseScrollEventListener* listener)
 	{
 		myWindowHandles[windowIndex]->addMouseScrollEventListener(listener);
 	}

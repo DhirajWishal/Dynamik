@@ -90,7 +90,7 @@ namespace Dynamik
 			return details;
 		}
 
-		void VulkanSwapChain::initialize(POINTER<RCoreObject> pCoreObject, DMKViewport viewport, RSwapChainPresentMode ePresentMode)
+		void VulkanSwapChain::initialize(RCoreObject* pCoreObject, DMKViewport viewport, RSwapChainPresentMode ePresentMode)
 		{
 			viewPort = viewport;
 			VulkanSwapChainSupportDetails swapChainSupport = querySwapChainSupport(Inherit<VulkanCoreObject>(pCoreObject)->device, Inherit<VulkanCoreObject>(pCoreObject)->surface);
@@ -159,7 +159,7 @@ namespace Dynamik
 
 			for (auto _image : _images)
 			{
-				POINTER<VulkanImage> _vImage = StaticAllocator<VulkanImage>::allocate();
+				VulkanImage* _vImage = StaticAllocator<VulkanImage>::allocate();
 				_vImage->image = _image;
 				_vImage->format = format;
 				_vImage->layers = 1;
@@ -172,7 +172,7 @@ namespace Dynamik
 
 			for (UI32 itr = 0; itr < images.size(); itr++)
 			{
-				POINTER<VulkanImageView> _vView = StaticAllocator<VulkanImageView>::allocate();
+				VulkanImageView* _vView = StaticAllocator<VulkanImageView>::allocate();
 				DMKTexture::TextureSwizzles _swizzles = { 
 					DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_IDENTITY,
 					DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_IDENTITY,
@@ -183,7 +183,7 @@ namespace Dynamik
 			}
 		}
 
-		void VulkanSwapChain::terminate(POINTER<RCoreObject> pCoreObject)
+		void VulkanSwapChain::terminate(RCoreObject* pCoreObject)
 		{
 			for (auto image : imageViews)
 				vkDestroyImageView(InheritCast<VulkanCoreObject>(pCoreObject).device, InheritCast<VulkanImageView>(image), nullptr);

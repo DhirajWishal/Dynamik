@@ -589,6 +589,10 @@
     <ClInclude Include="Runtime\Renderer\Components\Factories\BufferFactory.h" />
     <ClInclude Include="Runtime\Renderer\Components\Factories\PipelineFactory.h" />
     <ClInclude Include="Runtime\Renderer\Backend\Vulkan\Pipelines\VulkanGraphicsPipeline.h" />
+    <ClInclude Include="Runtime\Core\Object\Resource\ShaderFactory.h" />
+    <ClInclude Include="Runtime\Core\Object\Resource\VertexObject.h" />
+    <ClInclude Include="Runtime\Core\Object\Resource\VertexBuffer.h" />
+    <ClInclude Include="Runtime\Core\Object\Resource\IndexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\ComponentSystem\ComponentManager.cpp">
@@ -824,6 +828,7 @@
     <ClCompile Include="Runtime\Renderer\Components\Factories\BufferFactory.cpp" />
     <ClCompile Include="Runtime\Renderer\Components\Factories\PipelineFactory.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Pipelines\VulkanGraphicsPipeline.cpp" />
+    <ClCompile Include="Runtime\Core\Object\Resource\ShaderFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

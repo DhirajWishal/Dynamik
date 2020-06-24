@@ -75,7 +75,7 @@ namespace Dynamik
 	*/
 	struct DMK_API DMKVertexObject {
 		/* Bone information container */
-		POINTER<VertexBoneInformation<8U>> boneInformation;
+		VertexBoneInformation<8U> boneInformation;
 
 		VEC3F position;
 		VEC3F color;
@@ -86,36 +86,56 @@ namespace Dynamik
 	};
 
 	/* Shader input attribute types */
-	enum class DMK_API DMKShaderInputAttributeType {
-		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_POSITION,                 /* Position coordinates */
-		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_COLOR,                    /* Color coordinates */
-		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_TEXTURE_COORDINATES,      /* Texture coordinates */
-		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_UV_COORDINATES,           /* UV coordinates */
-		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_NORMAL,                   /* Normal vectors */
-		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_INTEGRITY,               /* Integrity value */
-		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_BONE_ID,                  /* Bone IDs */
-		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_BONE_WEIGHT,              /* Bone Weights */
-		DMK_SHADER_INPUT_ATTRIBUTE_TYPE_CUSTOM                    /* Custom */
+	enum class DMK_API DMKVertexAttributeType {
+		DMK_VERTEX_ATTRIBUTE_TYPE_POSITION,                 /* Position coordinates */
+		DMK_VERTEX_ATTRIBUTE_TYPE_COLOR,                    /* Color coordinates */
+		DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES,      /* Texture coordinates */
+		DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES,           /* UV coordinates */
+		DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL,                   /* Normal vectors */
+		DMK_VERTEX_ATTRIBUTE_TYPE_INTEGRITY,				/* Integrity value */
+		DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID,                  /* Bone IDs */
+		DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT,              /* Bone Weights */
+		DMK_VERTEX_ATTRIBUTE_TYPE_CUSTOM                    /* Custom */
 	};
 
 	/* Dynamik Shader Input Attribute */
 	struct DMK_API DMKShaderInputAttribute {
+		DMKShaderInputAttribute() = default;
+		virtual ~DMKShaderInputAttribute() = default;
+
 		DMKDataType dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
-		DMKShaderInputAttributeType attributeType = DMKShaderInputAttributeType::DMK_SHADER_INPUT_ATTRIBUTE_TYPE_POSITION;
 		UI32 dataCount = 1;     /* Number of elements of data which is sent. Used for sending arrays. */
 	};
 
-	/* This contains all the vertex buffer attributes */
-	class DMK_API DMKVertexBufferDescriptor {
+	/* Dynamik Vertex Attribute */
+	struct DMK_API DMKVertexAttribute : public DMKShaderInputAttribute {
+		DMKVertexAttribute() = default;
+		~DMKVertexAttribute() = default;
+
+		DMKVertexAttributeType attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
+	};
+
+	/* This contains all the vertex attributes */
+	class DMK_API DMKVertexLayout {
 	public:
-		DMKVertexBufferDescriptor() {}
-		~DMKVertexBufferDescriptor() {}
+		DMKVertexLayout() {}
+		~DMKVertexLayout() {}
 
 		/* Get the size of the vertex using the attributes */
-		UI32 getVertexSize();
+		const UI64 getVertexSize() const;
 
 		/* Vertex attributes */
-		ARRAY<DMKShaderInputAttribute> attributes;
+		ARRAY<DMKVertexAttribute> attributes;
+
+	public:		/* Helper methods */
+		/*
+		 Create a basic vertex layout.
+		 This contains,
+		 - Position				[Vector3F * 1]
+		 - Color				[Vector3F * 1]
+		 - Texture Coordinates	[Vector2F * 1]
+		*/
+		static DMKVertexLayout createBasic();
 	};
 
 	/* Constant Block */
@@ -235,7 +255,7 @@ namespace Dynamik
 
 	private:	/* Private Data Store */
 		VPTR uniformBufferStorage = nullptr;
-		POINTER<BYTE> nextPointer = uniformBufferStorage;
+		BYTE* nextPointer = (BYTE*)uniformBufferStorage;
 
 	public:		/* Public Data */
 		DMKUniformDescription myDescription;

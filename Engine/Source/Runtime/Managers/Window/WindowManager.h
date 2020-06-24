@@ -26,15 +26,15 @@ namespace Dynamik
 		~DMKWindowManager() {}
 
 		I32 createWindow(I32 width, I32 height, STRING title = "Dynamik Engine");
-		POINTER<DMKWindowHandle> getWindowHandle(I32 windowID);
+		DMKWindowHandle* getWindowHandle(I32 windowID);
 		void terminateWindow(I32 windowIndex = 0);
 		void terminateAll();
 
 		DMKViewport createViewport(I32 windowIndex, I32 width, I32 height, I32 xOffset, I32 yOffset);
 
-		void addKeyEventListener(I32 windowIndex, POINTER<DMKKeyEventListener> listener);
-		void addMouseButtonEventListener(I32 windowIndex, POINTER<DMKMouseButtonEventListener> listener);
-		void addMouseScrollEventListener(I32 windowIndex, POINTER<DMKMouseScrollEventListener> listener);
+		void addKeyEventListener(I32 windowIndex, DMKKeyEventListener* listener);
+		void addMouseButtonEventListener(I32 windowIndex, DMKMouseButtonEventListener* listener);
+		void addMouseScrollEventListener(I32 windowIndex, DMKMouseScrollEventListener* listener);
 		void removeKeyEventListener(I32 windowIndex, I32 listenerIndex);
 		void removeMouseButtonEventListener(I32 windowIndex, I32 listenerIndex);
 		void removeMouseScrollEventListener(I32 windowIndex, I32 listenerIndex);
@@ -47,7 +47,7 @@ namespace Dynamik
 		ARRAY<DMKMouseScrollEventComponent> getMouseScrollEventComponents(I32 windowIndex);
 
 	private:
-		ARRAY<POINTER<DMKWindowHandle>> myWindowHandles;
+		ARRAY<DMKWindowHandle*> myWindowHandles;
 		UI64 windowIDs = 0;
 	};
 }

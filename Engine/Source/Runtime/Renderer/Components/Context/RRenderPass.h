@@ -33,8 +33,8 @@ namespace Dynamik
 		RRenderPass(ARRAY<RSubPasses> aSubPasses) : subPasses(aSubPasses) {}
 		virtual ~RRenderPass() {}
 
-		virtual void initialize(POINTER<RCoreObject> pCoreObject, ARRAY<RSubPasses> aSubPasses, POINTER<RSwapChain> pSwapChain) = 0;
-		virtual void terminate(POINTER<RCoreObject> pCoreObject) = 0;
+		virtual void initialize(RCoreObject* pCoreObject, ARRAY<RSubPasses> aSubPasses, RSwapChain* pSwapChain) = 0;
+		virtual void terminate(RCoreObject* pCoreObject) = 0;
 
 		ARRAY<RSubPasses> subPasses;
 	};

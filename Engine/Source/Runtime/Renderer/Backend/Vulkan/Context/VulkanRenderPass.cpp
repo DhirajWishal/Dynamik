@@ -18,7 +18,7 @@ namespace Dynamik
 			ARRAY<VkAttachmentReference> inputAttachments;
 		};
 
-		void VulkanRenderPass::initialize(POINTER<RCoreObject> pCoreObject, ARRAY<RSubPasses> aSubPasses, POINTER<RSwapChain> pSwapChain)
+		void VulkanRenderPass::initialize(RCoreObject* pCoreObject, ARRAY<RSubPasses> aSubPasses, RSwapChain* pSwapChain)
 		{
 			subPasses = aSubPasses;
 
@@ -136,7 +136,7 @@ namespace Dynamik
 			DMK_VULKAN_ASSERT(vkCreateRenderPass(Inherit<VulkanCoreObject>(pCoreObject)->device, &createInfo, nullptr, &renderPass), "Failed to create the Render Pass!");
 		}
 
-		void VulkanRenderPass::terminate(POINTER<RCoreObject> pCoreObject)
+		void VulkanRenderPass::terminate(RCoreObject* pCoreObject)
 		{
 			vkDestroyRenderPass(Inherit<VulkanCoreObject>(pCoreObject)->device, renderPass, nullptr);
 		}

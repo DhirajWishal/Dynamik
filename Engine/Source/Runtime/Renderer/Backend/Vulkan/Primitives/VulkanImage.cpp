@@ -11,7 +11,7 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanImage::initialize(POINTER<RCoreObject> pCoreObject, RImageCreateInfo info)
+		void VulkanImage::initialize(RCoreObject* pCoreObject, RImageCreateInfo info)
 		{
 			type = info.imageType;
 			usage = info.imageUsage;
@@ -55,7 +55,7 @@ namespace Dynamik
 			DMK_VULKAN_ASSERT(vkBindImageMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, image, imageMemory, 0), "Failed to bind image memory!");
 		}
 
-		void VulkanImage::copyBuffer(POINTER<RCoreObject> pCoreObject, POINTER<RBuffer> pBuffer)
+		void VulkanImage::copyBuffer(RCoreObject* pCoreObject, RBuffer* pBuffer)
 		{
 			setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_TRANSFER_DST);
 
@@ -87,7 +87,7 @@ namespace Dynamik
 			);
 		}
 
-		void VulkanImage::generateMipMaps(POINTER<RCoreObject> pCoreObject)
+		void VulkanImage::generateMipMaps(RCoreObject* pCoreObject)
 		{
 			VulkanOneTimeCommandBuffer _buffer(pCoreObject);
 			VkFormatProperties formatProperties;
@@ -155,7 +155,7 @@ namespace Dynamik
 			}
 		}
 
-		void VulkanImage::setLayout(POINTER<RCoreObject> pCoreObject, RImageLayout newLayout)
+		void VulkanImage::setLayout(RCoreObject* pCoreObject, RImageLayout newLayout)
 		{
 			VulkanOneTimeCommandBuffer oneTimeCommandBuffer(pCoreObject);
 
@@ -271,33 +271,33 @@ namespace Dynamik
 			);
 		}
 
-		void VulkanImage::createImageView(POINTER<RCoreObject> pCoreObject, DMKTexture::TextureSwizzles swizzles)
+		void VulkanImage::createImageView(RCoreObject* pCoreObject, DMKTexture::TextureSwizzles swizzles)
 		{
-			pImageView = (POINTER<RImageView>)StaticAllocator<VulkanImageView>::allocate();
+			pImageView = (RImageView*)StaticAllocator<VulkanImageView>::allocate();
 			pImageView->initialize(pCoreObject, this, swizzles);
 		}
 
-		void VulkanImage::terminate(POINTER<RCoreObject> pCoreObject)
+		void VulkanImage::terminate(RCoreObject* pCoreObject)
 		{
 			vkDestroyImage(Inherit<VulkanCoreObject>(pCoreObject)->device, image, nullptr);
 			vkFreeMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, imageMemory, nullptr);
 		}
 
-		void VulkanImage::setData(POINTER<RCoreObject> pCoreObject, UI64 uSize, UI64 offset, VPTR data)
+		void VulkanImage::setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, VPTR data)
 		{
 			VPTR myData = getData(pCoreObject, uSize, offset);
 			DMKMemoryFunctions::moveData(myData, data, uSize);
 			unmapMemory(pCoreObject);
 		}
 
-		VPTR VulkanImage::getData(POINTER<RCoreObject> pCoreObject, UI64 uSize, UI64 offset)
+		VPTR VulkanImage::getData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset)
 		{
 			VPTR data = nullptr;
 			DMK_VULKAN_ASSERT(vkMapMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, imageMemory, offset, size, 0, &data), "Unable to map image memory!");
 			return data;
 		}
 
-		void VulkanImage::unmapMemory(POINTER<RCoreObject> pCoreObject)
+		void VulkanImage::unmapMemory(RCoreObject* pCoreObject)
 		{
 			vkUnmapMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, imageMemory);
 		}

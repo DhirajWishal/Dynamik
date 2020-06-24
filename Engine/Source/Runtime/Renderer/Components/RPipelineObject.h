@@ -29,7 +29,7 @@ namespace Dynamik
 	 Renderer Pipeline Create Info
 	*/
 	struct DMK_API RPipelineCreateInfo {
-		POINTER<RRenderTarget> pRenderTarget;
+		RRenderTarget* pRenderTarget;
 		ARRAY<DMKShaderModule> shaders;
 		// Descriptors
 
@@ -85,8 +85,8 @@ namespace Dynamik
 		RPipelineObject() {}
 		virtual ~RPipelineObject() {}
 
-		virtual void initialize(POINTER<RCoreObject> pCoreObject, RPipelineCreateInfo createInfo, RPipelineUsage usage) = 0;
-		virtual void terminate(POINTER<RCoreObject> pCoreObject) = 0;
+		virtual void initialize(RCoreObject* pCoreObject, RPipelineCreateInfo createInfo, RPipelineUsage usage) = 0;
+		virtual void terminate(RCoreObject* pCoreObject) = 0;
 	};
 }
 

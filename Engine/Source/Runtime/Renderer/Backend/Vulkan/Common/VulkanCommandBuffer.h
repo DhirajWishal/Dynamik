@@ -30,7 +30,7 @@ namespace Dynamik
 			~VulkanCommandBuffer() {}
 
 			virtual void begin() override final;
-			virtual void bindPipeline(POINTER<RPipelineObject> pPipelineObject) override final;
+			virtual void bindPipeline(RPipelineObject* pPipelineObject) override final;
 			virtual void end() override final;
 
 			operator VkCommandBuffer() const;

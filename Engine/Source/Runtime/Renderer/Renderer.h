@@ -46,7 +46,7 @@ namespace Dynamik
         /*
          Process commands and call individual functions of the backend.
         */
-        void processCommand(POINTER<DMKThreadCommand> command) override;
+        void processCommand(DMKThreadCommand* command) override;
 
         /*
          Execute the three steps of draw call.
@@ -60,19 +60,19 @@ namespace Dynamik
 
     private:    /* Core */
         void setSamples(const DMKSampleCount& samples);
-        void setWindowHandle(const POINTER<DMKWindowHandle>& windowHandle);
+        void setWindowHandle(const DMKWindowHandle* windowHandle);
 
-        POINTER<RCoreObject> createCore(B1 bEnableValidation);
+        RCoreObject* createCore(B1 bEnableValidation);
 
     private:    /* Context */
-        POINTER<RSwapChain> createSwapChain(DMKViewport viewport, RSwapChainPresentMode presentMode);
-        POINTER<RRenderPass> createRenderPass(ARRAY<RSubPasses> subPasses);
-        POINTER<RFrameBuffer> createFrameBuffer();
+        RSwapChain* createSwapChain(DMKViewport viewport, RSwapChainPresentMode presentMode);
+        RRenderPass* createRenderPass(ARRAY<RSubPasses> subPasses);
+        RFrameBuffer* createFrameBuffer();
 
         void createContext(DMKRenderContextType type, DMKViewport viewport);
 
     private:    /* Resource */
-        void createEntityResources(POINTER<DMKGameEntity> pGameEntity);
+        void createEntityResources(DMKGameEntity* pGameEntity);
 
     private:    /* Finals */
         void initializeFinals();
@@ -83,24 +83,24 @@ namespace Dynamik
     private:    /* Internal */
         DMKRendererCompatibility myCompatibility;
 
-        POINTER<DMKRendererCommand> myCommand;
+        DMKRendererCommand* myCommand;
 
         DMKRenderingAPI myAPI;
         DMKSampleCount mySampleCount;
-        POINTER<DMKWindowHandle> myWindowHandle;
+        DMKWindowHandle* myWindowHandle;
 
-        POINTER<RCoreObject> myCoreObject;
+        RCoreObject* myCoreObject;
 
-        POINTER<RSwapChain> mySwapChain;
-        POINTER<RRenderTarget> myRenderTarget;
+        RSwapChain* mySwapChain;
+        RRenderTarget* myRenderTarget;
 
-        POINTER<RCommandBufferManager> myCommandBufferManager;
-        ARRAY<POINTER<RCommandBuffer>> myCommandBuffers;
+        RCommandBufferManager* myCommandBufferManager;
+        ARRAY<RCommandBuffer*> myCommandBuffers;
         B1 isInitialized = false;
 
-        POINTER<RBuffer> myVertexBuffer;
+        RBuffer* myVertexBuffer;
         UI64 myVertexBufferByteSize = 0;
-        POINTER<RBuffer> myIndexBuffer;
+        RBuffer* myIndexBuffer;
         UI64 myIndexBufferByteSize = 0;
 
     private:    /* Factories */

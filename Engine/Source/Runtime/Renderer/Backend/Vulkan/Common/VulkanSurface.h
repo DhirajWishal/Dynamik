@@ -27,7 +27,7 @@ namespace Dynamik
             VulkanSurface() {}
             ~VulkanSurface() {}
 
-            void initialize(VulkanInstance vInstance, POINTER<DMKWindowHandle> windowHandle);
+            void initialize(VulkanInstance vInstance, DMKWindowHandle* windowHandle);
             void terminate(VulkanInstance vInstance);
 
             B1 isDeviceSuitable(const VkPhysicalDevice& physicalDevice);

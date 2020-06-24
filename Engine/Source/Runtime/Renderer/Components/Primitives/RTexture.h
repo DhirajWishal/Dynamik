@@ -22,16 +22,16 @@ namespace Dynamik
 		RTexture() {}
 		virtual ~RTexture() {}
 
-		virtual void initialize(POINTER<RCoreObject> pCoreObject, POINTER<DMKTexture> pTextureObject) = 0;
-		virtual void createView(POINTER<RCoreObject> pCoreObject) = 0;
-		virtual void createSampler(POINTER<RCoreObject> pCoreObject, RImageSamplerCreateInfo createInfo) = 0;
-		virtual void makeRenderable(POINTER<RCoreObject> pCoreObject) = 0;
-		virtual void terminate(POINTER<RCoreObject> pCoreObject) = 0;
+		virtual void initialize(RCoreObject* pCoreObject, DMKTexture* pTextureObject) = 0;
+		virtual void createView(RCoreObject* pCoreObject) = 0;
+		virtual void createSampler(RCoreObject* pCoreObject, RImageSamplerCreateInfo createInfo) = 0;
+		virtual void makeRenderable(RCoreObject* pCoreObject) = 0;
+		virtual void terminate(RCoreObject* pCoreObject) = 0;
 
 	public:		/* Internal Data */
-		POINTER<DMKTexture> pTexture;
-		POINTER<RImage> pImage;
-		POINTER<RImageSampler> pSampler;
+		DMKTexture* pTexture;
+		RImage* pImage;
+		RImageSampler* pSampler;
 	};
 }
 

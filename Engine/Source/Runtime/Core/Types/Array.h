@@ -152,7 +152,7 @@ namespace Dynamik
 		 *
 		 * @param arr: Array used to initialize this.
 		 */
-		ARRAY(const POINTER<TYPE> arr)
+		ARRAY(const TYPE* arr)
 		{
 			if (_getAllocationSize() > maxSize()) return; /* TODO: Error Flagging */
 
@@ -514,7 +514,7 @@ namespace Dynamik
 		 *
 		 * @param index: Index of the stored data.
 		 */
-		const POINTER<TYPE> location(I64 index)
+		const TYPE* location(I64 index)
 		{
 			if (index >= (I64)_getSizeOfThis() || (index <= (I64)(0 - _getSizeOfThis()))); // TODO: error handling
 
@@ -1355,7 +1355,7 @@ namespace Dynamik
 		// *
 		// * @param _thread: A n_internalThread
 		// */
-		// static void __internalThreadFunction(POINTER<_internalThread> _thread)
+		// static void __internalThreadFunction(_internalThread* _thread)
 		// {
 		// 	_thread->_destroy();
 		// }

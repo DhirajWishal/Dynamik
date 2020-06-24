@@ -45,10 +45,10 @@ namespace Dynamik
 		 @param size: Size of the required allocation. By default it is set to the size of the type.
 		*/
 		template<class TYPE>
-		POINTER<TYPE> allocate(UI32 size = sizeof(TYPE))
+		TYPE* allocate(UI32 size = sizeof(TYPE))
 		{
 			TYPE _instance;
-			return (POINTER<TYPE>)addToStore(&_instance, size);
+			return (TYPE*)addToStore(&_instance, size);
 		}
 
 		/*

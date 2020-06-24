@@ -20,7 +20,7 @@ namespace Dynamik
     {
         class DMK_API VulkanOneTimeCommandBuffer {
         public:
-            VulkanOneTimeCommandBuffer(POINTER<RCoreObject> pCoreObject);
+            VulkanOneTimeCommandBuffer(RCoreObject* pCoreObject);
             ~VulkanOneTimeCommandBuffer();
 
             operator VkCommandBuffer() const;

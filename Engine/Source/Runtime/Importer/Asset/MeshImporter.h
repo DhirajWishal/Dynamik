@@ -23,7 +23,7 @@ namespace Dynamik
         ~DMKMeshImporter() {}
     public:
         /* Load a mesh component */
-        static ARRAY<DMKMeshComponent> loadMeshes(const STRING& path);
+        static ARRAY<DMKMeshComponent> loadMeshes(const STRING& path, const DMKVertexLayout& vertexLayout);
 
         /* Unload a loaded mesh component */
         static void unloadMesh(const ARRAY<DMKMeshComponent>& meshes);

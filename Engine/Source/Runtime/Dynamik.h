@@ -69,7 +69,7 @@ namespace Dynamik
 		 Default Constructor
 		 This initializes all the components of the engine.
 		*/
-		DMKEngine(const DMKEngineInstanceDescriptor& instanceDescriptor, const POINTER<DMKGamePackage>& gamePackage);
+		DMKEngine(const DMKEngineInstanceDescriptor& instanceDescriptor, const DMKGamePackage* gamePackage);
 
 		/*
 		 Main run loop.
@@ -87,9 +87,9 @@ namespace Dynamik
 		void _loadLevel();
 
 	private:	/* Client game data store */
-		POINTER<DMKGamePackage> _gamePackage;
-		POINTER<DMKLevelComponent> _currentLevel;
-		POINTER<DMKLevelComponent> _nextLevel;
+		DMKGamePackage* _gamePackage;
+		DMKLevelComponent* _currentLevel;
+		DMKLevelComponent* _nextLevel;
 		UI64 _nextLevelIndex = 0;
 
 	private:	/* Private runtime data store */

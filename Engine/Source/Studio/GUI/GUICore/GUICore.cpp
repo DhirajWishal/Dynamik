@@ -9,7 +9,7 @@
 
 namespace Dynamik
 {
-	static POINTER<GLFWwindow> myWindow;
+	static GLFWwindow* myWindow;
 
 	GUICore::GUICore() : windowWidth(1280), windowHeight(720), windowTitle(DMK_TEXT("Dynamik Studio v1"))
 	{
@@ -21,7 +21,7 @@ namespace Dynamik
 
 	GUICore::~GUICore()
 	{
-		glfwDestroyWindow(myWindow.get());
+		glfwDestroyWindow(myWindow);
 	}
 
 	void GUICore::initialize()
@@ -53,7 +53,7 @@ namespace Dynamik
 
 #endif
 
-		if (!myWindow.isValid())
+		if (!myWindow)
 		{
 			DMK_FATAL("Failed to create window!");
 			glfwTerminate();

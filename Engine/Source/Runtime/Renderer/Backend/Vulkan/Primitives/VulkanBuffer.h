@@ -25,14 +25,14 @@ namespace Dynamik
             VulkanBuffer() {}
             ~VulkanBuffer() {}
 
-            virtual void initialize(POINTER<RCoreObject> pCoreObject, RBufferType eType, UI64 uSize,
+            virtual void initialize(RCoreObject* pCoreObject, RBufferType eType, UI64 uSize,
                 RResourceMemoryType memoryType = (RResourceMemoryType)
                 (RESOURCE_MEMORY_TYPE_HOST_VISIBLE | RESOURCE_MEMORY_TYPE_HOST_COHERENT)) override final;
-            virtual void terminate(POINTER<RCoreObject> pCoreObject) override final;
+            virtual void terminate(RCoreObject* pCoreObject) override final;
 
-            virtual void setData(POINTER<RCoreObject> pCoreObject, UI64 uSize, UI64 offset, VPTR data) override final;
-            virtual VPTR getData(POINTER<RCoreObject> pCoreObject, UI64 uSize, UI64 offset) override final;
-            virtual void unmapMemory(POINTER<RCoreObject> pCoreObject) override final;
+            virtual void setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, VPTR data) override final;
+            virtual VPTR getData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset) override final;
+            virtual void unmapMemory(RCoreObject* pCoreObject) override final;
 
             VkDescriptorBufferInfo createDescriptorInfo(UI32 offset = 0);
 

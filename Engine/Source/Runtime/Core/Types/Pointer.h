@@ -31,7 +31,7 @@ namespace Dynamik
 		 * Check if the Template argument is not void.
 		 * Compile time check.
 		 */
-		static_assert(!isType<TYPE, void>::result, "POINTER<TYPE> Does not support void!");
+		static_assert(!isType<TYPE, void>::result, "TYPE* Does not support void!");
 
 	public:
 		/* CONSTRUCTOR

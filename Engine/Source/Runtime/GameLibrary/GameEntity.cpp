@@ -6,9 +6,9 @@
 
 namespace Dynamik
 {
-	void DMKGameEntity::setupCamera(const POINTER<DMKCameraModule>& cModule)
+	void DMKGameEntity::setupCamera(const DMKCameraModule* pCameraModule)
 	{
 		for (UI64 index = 0; index < componentManager.getComponentArray<DMKMeshComponent>()->myComponents.size(); index++)
-			componentManager.getComponent<DMKMeshComponent>(index)->setCameraModule(cModule);
+			componentManager.getComponent<DMKMeshComponent>(index)->setCameraModule((DMKCameraModule*)pCameraModule);
 	}
 }

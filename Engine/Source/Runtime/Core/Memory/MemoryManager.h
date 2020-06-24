@@ -39,7 +39,7 @@ namespace Dynamik
 		DMKMemoryManager() {}
 		~DMKMemoryManager();
 	public:
-		static void deallocate(POINTER<UI32> address, UI32 byteSize);
+		static void deallocate(UI32* address, UI32 byteSize);
 
 		static DMKHeapContainer oneTimeAllocate(UI32 byteSize);
 	};

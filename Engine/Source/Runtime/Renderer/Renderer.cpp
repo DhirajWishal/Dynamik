@@ -35,7 +35,7 @@ namespace Dynamik
 		DMK_INFO("Entered the renderer thread!");
 	}
 
-	void DMKRenderer::processCommand(POINTER<DMKThreadCommand> command)
+	void DMKRenderer::processCommand(DMKThreadCommand* command)
 	{
 		myCommand = (DMKRendererCommand*)command;
 
@@ -61,7 +61,7 @@ namespace Dynamik
 			createEntityResources(((RendererAddEntity*)myCommand)->entity);
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_LEVEL:
-			//myBackend.initializeLevel(POINTER<DMKLevelComponent>());
+			//myBackend.initializeLevel(DMKLevelComponent*());
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SUBMIT_OBJECTS:
 			break;
@@ -126,12 +126,12 @@ namespace Dynamik
 		mySampleCount = samples;
 	}
 
-	void DMKRenderer::setWindowHandle(const POINTER<DMKWindowHandle>& windowHandle)
+	void DMKRenderer::setWindowHandle(const DMKWindowHandle* windowHandle)
 	{
-		myWindowHandle = windowHandle;
+		myWindowHandle = (DMKWindowHandle*)windowHandle;
 	}
 
-	POINTER<RCoreObject> DMKRenderer::createCore(B1 bEnableValidation)
+	RCoreObject* DMKRenderer::createCore(B1 bEnableValidation)
 	{
 		switch (myAPI)
 		{
@@ -157,13 +157,13 @@ namespace Dynamik
 		return myCoreObject;
 	}
 
-	POINTER<RSwapChain> DMKRenderer::createSwapChain(DMKViewport viewport, RSwapChainPresentMode presentMode)
+	RSwapChain* DMKRenderer::createSwapChain(DMKViewport viewport, RSwapChainPresentMode presentMode)
 	{
 		switch (myAPI)
 		{
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			mySwapChain = (POINTER<RSwapChain>)StaticAllocator<VulkanSwapChain>::allocate();
+			mySwapChain = (RSwapChain*)StaticAllocator<VulkanSwapChain>::allocate();
 			mySwapChain->initialize(myCoreObject, viewport, presentMode);
 		}
 		break;
@@ -179,13 +179,13 @@ namespace Dynamik
 		return mySwapChain;
 	}
 
-	POINTER<RRenderPass> DMKRenderer::createRenderPass(ARRAY<RSubPasses> subPasses)
+	RRenderPass* DMKRenderer::createRenderPass(ARRAY<RSubPasses> subPasses)
 	{
 		switch (myAPI)
 		{
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			myRenderTarget->pRenderPass = (POINTER<RRenderPass>)StaticAllocator<VulkanRenderPass>::allocate();
+			myRenderTarget->pRenderPass = (RRenderPass*)StaticAllocator<VulkanRenderPass>::allocate();
 			/* Attachments: SwapChain, Depth, Color */
 			myRenderTarget->pRenderPass->initialize(myCoreObject, subPasses, mySwapChain);
 		}
@@ -202,13 +202,13 @@ namespace Dynamik
 		return myRenderTarget->pRenderPass;
 	}
 
-	POINTER<RFrameBuffer> DMKRenderer::createFrameBuffer()
+	RFrameBuffer* DMKRenderer::createFrameBuffer()
 	{
 		switch (myAPI)
 		{
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			myRenderTarget->pFrameBuffer = (POINTER<RFrameBuffer>)StaticAllocator<VulkanFrameBuffer>::allocate();
+			myRenderTarget->pFrameBuffer = (RFrameBuffer*)StaticAllocator<VulkanFrameBuffer>::allocate();
 			myRenderTarget->pFrameBuffer->initialize(myCoreObject, myRenderTarget->pRenderPass, mySwapChain);
 		}
 		break;
@@ -262,7 +262,7 @@ namespace Dynamik
 		createFrameBuffer();
 	}
 
-	void DMKRenderer::createEntityResources(POINTER<DMKGameEntity> pGameEntity)
+	void DMKRenderer::createEntityResources(DMKGameEntity* pGameEntity)
 	{
 	}
 
@@ -278,7 +278,7 @@ namespace Dynamik
 		 Clear index data from the mesh.
 		*/
 
-		myCommandBufferManager = (POINTER<RCommandBufferManager>)StaticAllocator<VulkanCommandBufferManager>::allocate();
+		myCommandBufferManager = (RCommandBufferManager*)StaticAllocator<VulkanCommandBufferManager>::allocate();
 		myCommandBufferManager->initialize(myCoreObject);
 		myCommandBuffers = myCommandBufferManager->allocateCommandBuffers(myCoreObject, mySwapChain->bufferCount);
 

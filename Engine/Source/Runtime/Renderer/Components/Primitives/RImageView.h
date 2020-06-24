@@ -24,8 +24,8 @@ namespace Dynamik
 		RImageView() {}
 		virtual ~RImageView() {}
 
-		virtual void initialize(POINTER<RCoreObject> pCoreObject, POINTER<RImage> pImage, DMKTexture::TextureSwizzles swizzles) = 0;
-		virtual void terminate(POINTER<RCoreObject> pCoreObject) = 0;
+		virtual void initialize(RCoreObject* pCoreObject, RImage* pImage, DMKTexture::TextureSwizzles swizzles) = 0;
+		virtual void terminate(RCoreObject* pCoreObject) = 0;
 	};
 }
 

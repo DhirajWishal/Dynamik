@@ -68,7 +68,7 @@ namespace Dynamik
 		RendererSetWindowHandleCommand() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_SET_WINDOW_HANDLE) {}
 		~RendererSetWindowHandleCommand() {}
 
-		POINTER<DMKWindowHandle> windowHandle;
+		DMKWindowHandle* windowHandle;
 	};
 
 	/* Render context command */
@@ -87,7 +87,7 @@ namespace Dynamik
 		RendererAddEntity() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITY) {}
 		~RendererAddEntity() {}
 
-		POINTER<DMKGameEntity> entity;
+		DMKGameEntity* entity;
 	};
 
 	/* Add Entities */
@@ -96,7 +96,7 @@ namespace Dynamik
 		RendererSubmitLevel() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_LEVEL) {}
 		~RendererSubmitLevel() {}
 
-		POINTER<DMKLevelComponent> level;
+		DMKLevelComponent* level;
 	};
 }
 

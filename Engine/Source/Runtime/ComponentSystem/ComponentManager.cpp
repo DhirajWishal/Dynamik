@@ -9,6 +9,6 @@ namespace Dynamik
 	DMKComponentManager::~DMKComponentManager()
 	{
 		for (auto _component : components)
-			StaticAllocator<IComponentArray>::deallocate(_component.second, 0);
+			StaticAllocator<I_ComponentArray>::deallocate(_component.second, 0);
 	}
 }

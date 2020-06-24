@@ -11,7 +11,7 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanTexture::initialize(POINTER<RCoreObject> pCoreObject, POINTER<DMKTexture> pTextureObject)
+		void VulkanTexture::initialize(RCoreObject* pCoreObject, DMKTexture* pTextureObject)
 		{
 			pTexture = pTextureObject;
 
@@ -30,7 +30,7 @@ namespace Dynamik
 			initInfo.sampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
 			initInfo.imageFormat = pTextureObject->format;
 
-			pImage = (POINTER<RImage>)StaticAllocator<VulkanImage>::allocate();
+			pImage = (RImage*)StaticAllocator<VulkanImage>::allocate();
 			pImage->initialize(pCoreObject, initInfo);
 
 			pImage->copyBuffer(pCoreObject, &staggingBuffer);
@@ -38,12 +38,12 @@ namespace Dynamik
 			pImage->generateMipMaps(pCoreObject);
 		}
 
-		void VulkanTexture::createView(POINTER<RCoreObject> pCoreObject)
+		void VulkanTexture::createView(RCoreObject* pCoreObject)
 		{
 			pImage->createImageView(pCoreObject, pTexture->swizzles);
 		}
 
-		void VulkanTexture::createSampler(POINTER<RCoreObject> pCoreObject, RImageSamplerCreateInfo createInfo)
+		void VulkanTexture::createSampler(RCoreObject* pCoreObject, RImageSamplerCreateInfo createInfo)
 		{
 			RImageSamplerCreateInfo initInfo;
 			initInfo.addressModeU = RImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
@@ -51,16 +51,16 @@ namespace Dynamik
 			initInfo.addressModeW = RImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
 			initInfo.borderColor = RImageSamplerBorderColor::IMAGE_SAMPLER_BORDER_COLOR_I32_OPAQUE_BLACK;
 
-			pSampler = (POINTER<RImageSampler>)StaticAllocator<VulkanImageSampler>::allocate();
+			pSampler = (RImageSampler*)StaticAllocator<VulkanImageSampler>::allocate();
 			pSampler->initialize(pCoreObject, initInfo);
 		}
 
-		void VulkanTexture::makeRenderable(POINTER<RCoreObject> pCoreObject)
+		void VulkanTexture::makeRenderable(RCoreObject* pCoreObject)
 		{
 			pImage->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY);
 		}
 
-		void VulkanTexture::terminate(POINTER<RCoreObject> pCoreObject)
+		void VulkanTexture::terminate(RCoreObject* pCoreObject)
 		{
 			pImage->terminate(pCoreObject);
 			pSampler->terminate(pCoreObject);

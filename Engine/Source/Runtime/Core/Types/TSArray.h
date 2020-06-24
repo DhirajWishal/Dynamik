@@ -39,7 +39,7 @@ namespace Dynamik
 		/* PRIVATE DATATYPE
 		 * Used as a private data type.
 		 */
-		using PTR = POINTER<TYPE>;
+		using PTR = TYPE*;
 
 		/* PRIVATE DATATYPE
 		 * Used as a raw pointer.
@@ -322,7 +322,7 @@ namespace Dynamik
 		 *
 		 * @param index: Index of the stored data.
 		 */
-		const POINTER<TYPE> location(I64 index)
+		const TYPE* location(I64 index)
 		{
 			InternalLock _lock;
 			return myArray.location(index);

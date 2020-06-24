@@ -14,6 +14,7 @@
 #include "GameEntity.h"
 #include "GameMechanics.h"
 #include "PlayerObject.h"
+#include "EnvironmentMap.h"
 
 #include "Macros/Global.h"
 #include "Types/Array.h"
@@ -37,19 +38,44 @@ namespace Dynamik
 		virtual void onUnoad() {}
 
 		/* Game Assets */
-		ARRAY<POINTER<DMKGameEntity>> myEntities;
+		ARRAY<DMKGameEntity*> myEntities;
 
 		/* Game Mechanics */
-		ARRAY<POINTER<DMKGameMechanics>> myMechanics;
+		ARRAY<DMKGameMechanics*> myMechanics;
 
 		/* Player Object */
-		POINTER<DMKPlayerObject> playerObject;
+		DMKPlayerObject* playerObject;
+
+		/* Environment Map */
+		DMKEnvironmentMap* environmentMap;
 
 		/* Additional Components */
 		DMKComponentManager sceneComponentManager;
 
 	public:		/* Constant methods */
 		void initializeCameraModule();
+
+	protected:	/* Helper methods */
+		/*
+		 Create a basic hollow entity.
+		 These entities does not have any functionalities and are basically empty.
+		 By default, this adds the entity to the entity array.
+		*/
+		DMKGameEntity* createHollowEntity();
+
+		/*
+		 Create static entity.
+		 This entity contains a static mesh without any other functionality attached to it by default.
+		 By default, this adds the entity to the entity array.
+		*/
+		DMKGameEntity* createStaticEntity(const STRING& assetPath);
+
+		/*
+		 Create static entity.
+		 This entity contains a static mesh without any other functionality attached to it by default.
+		 By default, this adds the entity to the entity array.
+		*/
+		DMKGameEntity* createStaticEntity(const STRING& assetPath, const DMKVertexLayout& vertexLayout);
 	};
 }
 

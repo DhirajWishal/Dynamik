@@ -36,11 +36,11 @@ namespace Dynamik
 		RSwapChain() {}
 		virtual ~RSwapChain() {}
 
-		virtual void initialize(POINTER<RCoreObject> pCoreObject, DMKViewport viewport, RSwapChainPresentMode ePresentMode) = 0;
-		virtual void terminate(POINTER<RCoreObject> pCoreObject) = 0;
+		virtual void initialize(RCoreObject* pCoreObject, DMKViewport viewport, RSwapChainPresentMode ePresentMode) = 0;
+		virtual void terminate(RCoreObject* pCoreObject) = 0;
 
-		ARRAY<POINTER<RImage>> images;
-		ARRAY<POINTER<RImageView>> imageViews;
+		ARRAY<RImage*> images;
+		ARRAY<RImageView*> imageViews;
 		VEC2F extent = VEC2F(0.0f);
 		UI32 bufferCount = 0;
 		DMKFormat format = DMKFormat::DMK_FORMAT_UNDEFINED;

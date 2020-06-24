@@ -28,7 +28,7 @@ namespace Dynamik
 		/*
 		 Bind pipeline and resources
 		*/
-		virtual void bindPipeline(POINTER<RPipelineObject> pPipelineObject) = 0;
+		virtual void bindPipeline(RPipelineObject* pPipelineObject) = 0;
 		virtual void end() = 0;
 	};
 }

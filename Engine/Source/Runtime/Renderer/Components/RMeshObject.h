@@ -28,7 +28,7 @@ namespace Dynamik
 		UI64 indexCount = 0;
 		UI64 indexOffset = 0;
 
-		POINTER<RTexture> pTexture;
+		RTexture* pTexture;
 	};
 }
 

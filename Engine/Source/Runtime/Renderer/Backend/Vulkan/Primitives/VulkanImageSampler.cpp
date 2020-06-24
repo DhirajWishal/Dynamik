@@ -10,7 +10,7 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanImageSampler::initialize(POINTER<RCoreObject> pCoreObject, RImageSamplerCreateInfo createInfo)
+		void VulkanImageSampler::initialize(RCoreObject* pCoreObject, RImageSamplerCreateInfo createInfo)
 		{
 			VkSamplerCreateInfo sInfo;
 			sInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
@@ -35,7 +35,7 @@ namespace Dynamik
 			DMK_VULKAN_ASSERT(vkCreateSampler(Inherit<VulkanCoreObject>(pCoreObject)->device, &sInfo, nullptr, &sampler), "Failed to create texture sampler!");
 		}
 
-		void VulkanImageSampler::terminate(POINTER<RCoreObject> pCoreObject)
+		void VulkanImageSampler::terminate(RCoreObject* pCoreObject)
 		{
 			vkDestroySampler(Inherit<VulkanCoreObject>(pCoreObject)->device, sampler, nullptr);
 		}

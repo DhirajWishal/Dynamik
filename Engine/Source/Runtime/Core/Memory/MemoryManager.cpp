@@ -13,7 +13,7 @@ namespace Dynamik
 	{
 	}
 
-	void DMKMemoryManager::deallocate(POINTER<UI32> address, UI32 byteSize)
+	void DMKMemoryManager::deallocate(UI32* address, UI32 byteSize)
 	{
 		StaticAllocator<UI32>::deallocate(address, byteSize);
 	}

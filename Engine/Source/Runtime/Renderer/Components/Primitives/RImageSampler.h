@@ -43,8 +43,8 @@ namespace Dynamik
 		RImageSampler() {}
 		virtual ~RImageSampler() {}
 
-		virtual void initialize(POINTER<RCoreObject> pCoreObject, RImageSamplerCreateInfo createInfo) = 0;
-		virtual void terminate(POINTER<RCoreObject> pCoreObject) = 0;
+		virtual void initialize(RCoreObject* pCoreObject, RImageSamplerCreateInfo createInfo) = 0;
+		virtual void terminate(RCoreObject* pCoreObject) = 0;
 	};
 }
 

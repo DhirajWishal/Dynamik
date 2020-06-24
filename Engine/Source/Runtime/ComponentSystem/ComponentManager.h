@@ -40,7 +40,7 @@ namespace Dynamik
 				DMK_ERROR_BOX("Registering component already exists!");
 			}
 
-			components[componentName] = (POINTER<IComponentArray>)StaticAllocator<DMKComponentArray<COMPONENT>>::allocate();
+			components[componentName] = (I_ComponentArray*)StaticAllocator<DMKComponentArray<COMPONENT>>::allocate();
 			componentTypes.pushBack(componentName);
 		}
 
@@ -48,7 +48,7 @@ namespace Dynamik
 		 Create a new component and return its address.
 		*/
 		template<class COMPONENT>
-		POINTER<COMPONENT> createComponent()
+		COMPONENT* createComponent()
 		{
 			STRING componentName = typeid(COMPONENT).name();
 
@@ -76,7 +76,7 @@ namespace Dynamik
 		 Get the component array
 		*/
 		template<class COMPONENT>
-		POINTER<DMKComponentArray<COMPONENT>> getComponentArray()
+		DMKComponentArray<COMPONENT>* getComponentArray()
 		{
 			STRING componentName = typeid(COMPONENT).name();
 
@@ -86,7 +86,7 @@ namespace Dynamik
 				registerComponent<COMPONENT>();
 			}
 
-			return (POINTER<DMKComponentArray<COMPONENT>>)components[componentName];
+			return (DMKComponentArray<COMPONENT>*)components[componentName];
 		}
 
 		/*
@@ -94,13 +94,13 @@ namespace Dynamik
 		 By default its 0.
 		*/
 		template<class COMPONENT>
-		POINTER<COMPONENT> getComponent(UI64 index = 0)
+		COMPONENT* getComponent(UI64 index = 0)
 		{
-			return getComponentArray<COMPONENT>()->myComponents.location(index);
+			return (COMPONENT*)getComponentArray<COMPONENT>()->myComponents.location(index);
 		}
 
 	private:
-		std::unordered_map<STRING, POINTER<IComponentArray>> components;
+		std::unordered_map<STRING, I_ComponentArray*> components;
 		ARRAY<STRING> componentTypes;
 	};
 }

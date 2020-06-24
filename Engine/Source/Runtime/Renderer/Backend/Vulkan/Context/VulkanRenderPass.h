@@ -37,8 +37,8 @@ namespace Dynamik
             VulkanRenderPass() {}
             ~VulkanRenderPass() {}
 
-            virtual void initialize(POINTER<RCoreObject> pCoreObject, ARRAY<RSubPasses> aSubPasses, POINTER<RSwapChain> pSwapChain) override;
-            virtual void terminate(POINTER<RCoreObject> pCoreObject) override;
+            virtual void initialize(RCoreObject* pCoreObject, ARRAY<RSubPasses> aSubPasses, RSwapChain* pSwapChain) override;
+            virtual void terminate(RCoreObject* pCoreObject) override;
 
             operator VkRenderPass() const;
 

@@ -22,8 +22,8 @@ namespace Dynamik
 		 Vulkan Descriptor Container
 		*/
 		struct DMK_API VulkanDescriptorContainer {
-			POINTER<VkDescriptorSetLayout> layoutPtr;
-			POINTER<VkDescriptorPool> poolPtr;
+			VkDescriptorSetLayout* layoutPtr;
+			VkDescriptorPool* poolPtr;
 			VkDescriptorSet set = VK_NULL_HANDLE;
 		};
 

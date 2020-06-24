@@ -41,22 +41,22 @@ namespace Dynamik
 		RImage() {}
 		virtual ~RImage() {}
 
-		virtual void initialize(POINTER<RCoreObject> pCoreObject, RImageCreateInfo createInfo) = 0;
-		virtual void copyBuffer(POINTER<RCoreObject> pCoreObject, POINTER<RBuffer> pBuffer) = 0;
-		virtual void generateMipMaps(POINTER<RCoreObject> pCoreObject) = 0;
-		virtual void setLayout(POINTER<RCoreObject> pCoreObject, RImageLayout newLayout) = 0;
-		virtual void createImageView(POINTER<RCoreObject> pCoreObject, DMKTexture::TextureSwizzles swizzles) = 0;
-		virtual void terminate(POINTER<RCoreObject> pCoreObject) = 0;
+		virtual void initialize(RCoreObject* pCoreObject, RImageCreateInfo createInfo) = 0;
+		virtual void copyBuffer(RCoreObject* pCoreObject, RBuffer* pBuffer) = 0;
+		virtual void generateMipMaps(RCoreObject* pCoreObject) = 0;
+		virtual void setLayout(RCoreObject* pCoreObject, RImageLayout newLayout) = 0;
+		virtual void createImageView(RCoreObject* pCoreObject, DMKTexture::TextureSwizzles swizzles) = 0;
+		virtual void terminate(RCoreObject* pCoreObject) = 0;
 
-		virtual void setData(POINTER<RCoreObject> pCoreObject, UI64 uSize, UI64 offset, VPTR data) = 0;
+		virtual void setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, VPTR data) = 0;
 		/*
 		 Automatically maps memory
 		*/
-		virtual VPTR getData(POINTER<RCoreObject> pCoreObject, UI64 uSize, UI64 offset) { return nullptr; }
-		virtual void unmapMemory(POINTER<RCoreObject> pCoreObject) = 0;
+		virtual VPTR getData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset) { return nullptr; }
+		virtual void unmapMemory(RCoreObject* pCoreObject) = 0;
 
 		VEC3F extent = VEC3F(0.0f);
-		POINTER<RImageView> pImageView;
+		RImageView* pImageView;
 		DMKTextureType type = DMKTextureType::DMK_TEXTURE_TYPE_2D;
 		RImageUsage usage = RImageUsage::IMAGE_USAGE_RENDER;
 		UI32 size = 0;

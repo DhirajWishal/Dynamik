@@ -11,9 +11,9 @@ namespace Dynamik
 		shaderModules.pushBack(sModule);
 	}
 
-	void DMKRenderableComponent::addTextureModule(const POINTER<DMKTexture>& tModule)
+	void DMKRenderableComponent::addTextureModule(DMKTexture* pTexture)
 	{
-		textureModules.pushBack(tModule);
+		textureModules.pushBack(pTexture);
 	}
 
 	void DMKRenderableComponent::setBaseRenderingPipeline(const DMKBaseRenderingPipeline& pipeline)
@@ -21,12 +21,12 @@ namespace Dynamik
 		basePipeline = pipeline;
 	}
 
-	void DMKRenderableComponent::addRenderableComponent(const POINTER<DMKRenderableComponent>& component)
+	void DMKRenderableComponent::addRenderableComponent(DMKRenderableComponent* component)
 	{
 		renderComponents.pushBack(component);
 	}
 
-	void Dynamik::DMKRenderableComponent::setCameraModule(const POINTER<DMKCameraModule> cModule)
+	void Dynamik::DMKRenderableComponent::setCameraModule(DMKCameraModule* cModule)
 	{
 		cameraModule = cModule;
 	}

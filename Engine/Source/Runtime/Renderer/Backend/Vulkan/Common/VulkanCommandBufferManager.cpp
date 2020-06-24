@@ -13,7 +13,7 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanCommandBufferManager::initialize(POINTER<RCoreObject> pCoreObject)
+		void VulkanCommandBufferManager::initialize(RCoreObject* pCoreObject)
 		{
 			VkCommandPoolCreateInfo poolInfo = {};
 			poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
@@ -23,7 +23,7 @@ namespace Dynamik
 			DMK_VULKAN_ASSERT(vkCreateCommandPool(Inherit<VulkanCoreObject>(pCoreObject)->device, &poolInfo, nullptr, &pool), "Failed to create command pool!");
 		}
 
-		ARRAY<POINTER<RCommandBuffer>> VulkanCommandBufferManager::allocateCommandBuffers(POINTER<RCoreObject> pCoreObject, UI32 bufferCount)
+		ARRAY<RCommandBuffer*> VulkanCommandBufferManager::allocateCommandBuffers(RCoreObject* pCoreObject, UI32 bufferCount)
 		{
 			VkCommandBufferAllocateInfo allocInfo = {};
 			allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -31,8 +31,8 @@ namespace Dynamik
 			allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 			allocInfo.commandBufferCount = static_cast<UI32>(bufferCount);
 
-			ARRAY<POINTER<RCommandBuffer>> _buffers;
-			POINTER<VulkanCommandBuffer> _buffer;
+			ARRAY<RCommandBuffer*> _buffers;
+			VulkanCommandBuffer* _buffer;
 			for (UI32 itr = 0; itr < bufferCount; itr++)
 			{
 				_buffer = StaticAllocator<VulkanCommandBuffer>::allocate();
@@ -44,7 +44,7 @@ namespace Dynamik
 			return _buffers;
 		}
 
-		void VulkanCommandBufferManager::bindRenderTarget(POINTER<RCommandBuffer> pCommandBuffer, POINTER<RRenderTarget> pRenderTarget, POINTER<RSwapChain> pSwapChain, UI32 bufferIndex)
+		void VulkanCommandBufferManager::bindRenderTarget(RCommandBuffer* pCommandBuffer, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, UI32 bufferIndex)
 		{
 			VkRenderPassBeginInfo renderPassInfo = {};
 			renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -81,18 +81,18 @@ namespace Dynamik
 			vkCmdSetViewport(Inherit<VulkanCommandBuffer>(pCommandBuffer)->buffer, 0, 1, &viewPort);
 		}
 
-		void VulkanCommandBufferManager::unbindRenderTarget(POINTER<RCommandBuffer> pCommandBuffer)
+		void VulkanCommandBufferManager::unbindRenderTarget(RCommandBuffer* pCommandBuffer)
 		{
 			vkCmdEndRenderPass(Inherit<VulkanCommandBuffer>(pCommandBuffer)->buffer);
 		}
 
-		void VulkanCommandBufferManager::resetBuffers(POINTER<RCoreObject> pCoreObject, ARRAY<POINTER<RCommandBuffer>> commandBuffers)
+		void VulkanCommandBufferManager::resetBuffers(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers)
 		{
 			for (auto _buffer : commandBuffers)
 				DMK_VULKAN_ASSERT(vkResetCommandBuffer(Inherit<VulkanCommandBuffer>(_buffer)->buffer, VK_NULL_HANDLE), "Failed to reset command buffer!");
 		}
 
-		void VulkanCommandBufferManager::terminate(POINTER<RCoreObject> pCoreObject, ARRAY<POINTER<RCommandBuffer>> commandBuffers)
+		void VulkanCommandBufferManager::terminate(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers)
 		{
 			for (auto _buffer : commandBuffers)
 				vkFreeCommandBuffers(Inherit<VulkanCoreObject>(pCoreObject)->device, pool, 1, &Inherit<VulkanCommandBuffer>(_buffer)->buffer);

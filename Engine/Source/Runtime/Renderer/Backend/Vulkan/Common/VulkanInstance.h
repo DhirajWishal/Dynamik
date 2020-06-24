@@ -39,7 +39,7 @@ namespace Dynamik
 			VkDebugUtilsMessengerEXT _debugMessenger = VK_NULL_HANDLE;
 
 			void _initializeDebugger();
-			void _populateDebugMessegerCreateInfo(POINTER<VkDebugUtilsMessengerCreateInfoEXT> createInfo);
+			void _populateDebugMessegerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT* createInfo);
 
 			B1 _checkValidationLayerSupport(ARRAY<CCPTR> layers);
 			ARRAY<CCPTR> _getRequiredExtensions(B1 pushDescriptorsSupported = false, B1 checkpointsSupported = false, B1 meshShadingSupported = false);

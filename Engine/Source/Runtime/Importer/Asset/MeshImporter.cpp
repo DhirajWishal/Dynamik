@@ -13,38 +13,7 @@
 
 namespace Dynamik
 {
-	DMKVertexBufferDescriptor getVertexBufferDescriptor(POINTER<aiMesh> mesh)
-	{
-		DMKVertexBufferDescriptor _descriptor;
-
-		DMKShaderInputAttribute _attribute;
-		_attribute.dataCount = 1;
-		_attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
-		if (mesh->HasPositions())
-		{
-			_attribute.attributeType = DMKShaderInputAttributeType::DMK_SHADER_INPUT_ATTRIBUTE_TYPE_POSITION;
-			_descriptor.attributes.pushBack(_attribute);
-		}
-		if (mesh->HasVertexColors(0))
-		{
-			_attribute.attributeType = DMKShaderInputAttributeType::DMK_SHADER_INPUT_ATTRIBUTE_TYPE_COLOR;
-			_descriptor.attributes.pushBack(_attribute);
-		}
-		if (mesh->HasTextureCoords(0))
-		{
-			_attribute.attributeType = DMKShaderInputAttributeType::DMK_SHADER_INPUT_ATTRIBUTE_TYPE_TEXTURE_COORDINATES;
-			_descriptor.attributes.pushBack(_attribute);
-		}
-		if (mesh->HasNormals())
-		{
-			_attribute.attributeType = DMKShaderInputAttributeType::DMK_SHADER_INPUT_ATTRIBUTE_TYPE_NORMAL;
-			_descriptor.attributes.pushBack(_attribute);
-		}
-
-		return _descriptor;
-	}
-
-	ARRAY<DMKMeshComponent> DMKMeshImporter::loadMeshes(const STRING& path)
+	ARRAY<DMKMeshComponent> DMKMeshImporter::loadMeshes(const STRING& path, const DMKVertexLayout& vertexLayout)
 	{
 		static Assimp::Importer _importer;
 		static auto _scene = _importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs);
@@ -58,42 +27,55 @@ namespace Dynamik
 		ARRAY<DMKMeshComponent> _myMeshes;
 		for (UI32 _itr = 0; _itr < _scene->mNumMeshes; _itr++)
 		{
-			DMKMeshComponent _meshComponent;
 			auto _mesh = _scene->mMeshes[_itr];
 
-			DMKVertexObject _object;
-			_meshComponent.vertexDescriptor = getVertexBufferDescriptor(_mesh);
+			DMKMeshComponent _meshComponent;
+			_meshComponent.vertexLayout = vertexLayout;
+			_meshComponent.vertexBuffer = StaticAllocator<BYTE>::allocate(vertexLayout.getVertexSize() * _mesh->mNumVertices);
+			_meshComponent.vertexCount = _mesh->mNumVertices;
+			POINTER<BYTE> vertexPointer = _meshComponent.vertexBuffer;
+			UI64 attributeSize = 0;
+
 			for (UI32 _index = 0; _index < _mesh->mNumVertices; _index++)
 			{
-				if (_mesh->HasPositions())
+				for (auto attribute : vertexLayout.attributes)
 				{
-					_object.position.load(&_mesh->mVertices[_index].x);
-				}
-				else _object.position = { 0.0f, 0.0f, 0.0f };
+					attributeSize = (UI32)attribute.dataType * attribute.dataCount;
+					switch (attribute.attributeType)
+					{
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION:
+						if (_mesh->HasPositions())
+							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mVertices[_index].x, attributeSize);
+						break;
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR:
+						if (_mesh->HasVertexColors(0))
+							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mColors[0][_index].r, attributeSize);
+						break;
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES:
+						if (_mesh->HasTextureCoords(0))
+							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mTextureCoords[0][_index].x, attributeSize);
+						break;
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES:
+						break;
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL:
+						if (_mesh->HasNormals())
+							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mNormals[_index].x, attributeSize);
+						break;
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_INTEGRITY:
+						break;
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID:
+						break;
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT:
+						break;
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_CUSTOM:
+						break;
+					default:
+						DMK_ERROR_BOX("Invalid vertex attribute!");
+						break;
+					}
 
-				if (_mesh->HasVertexColors(0))
-				{
-					_object.color.load(&_mesh->mColors[0][_index].r);
+					vertexPointer += attributeSize;
 				}
-				else _object.color = { 1.0f, 1.0f, 1.0f };
-
-				if (_mesh->HasTextureCoords(0))
-				{
-					_object.textureCoord.load(&_mesh->mTextureCoords[0][_index].x);
-				}
-				else _object.textureCoord = { 0.0f, 0.0f, 0.0f };
-
-				if (_mesh->HasNormals())
-				{
-					_object.normal.load(&_mesh->mNormals[_index].x);
-				}
-				else _object.normal = { 0.0f, 0.0f, 0.0f };
-
-				if (_mesh->HasBones())
-				{
-				}
-
-				_meshComponent.rawVertexBufferObject.pushBack(_object);
 			}
 
 			aiFace face;
@@ -101,7 +83,7 @@ namespace Dynamik
 			{
 				face = _mesh->mFaces[index];
 				for (UI32 itr = 0; itr < face.mNumIndices; itr++)
-					_meshComponent.indexBufferObject.pushBack(face.mIndices[itr]);
+					_meshComponent.indexBuffer.pushBack(face.mIndices[itr]);
 			}
 
 			_myMeshes.pushBack(_meshComponent);
@@ -112,5 +94,9 @@ namespace Dynamik
 
 	void DMKMeshImporter::unloadMesh(const ARRAY<DMKMeshComponent>& meshes)
 	{
+		for (UI32 index = 0; index < meshes.size(); index++)
+		{
+			StaticAllocator<BYTE>::deallocate(meshes[index].vertexBuffer, meshes[index].vertexCount * meshes[index].vertexLayout.getVertexSize());
+		}
 	}
 }

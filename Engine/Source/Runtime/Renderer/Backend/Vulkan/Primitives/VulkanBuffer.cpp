@@ -10,7 +10,7 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanBuffer::initialize(POINTER<RCoreObject> pCoreObject, RBufferType eType, UI64 uSize, RResourceMemoryType memoryType)
+		void VulkanBuffer::initialize(RCoreObject* pCoreObject, RBufferType eType, UI64 uSize, RResourceMemoryType memoryType)
 		{
 			size = uSize;
 			VkBufferCreateInfo bufferInfo = {};
@@ -61,27 +61,27 @@ namespace Dynamik
 			vkBindBufferMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, buffer, bufferMemory, 0);
 		}
 
-		void VulkanBuffer::terminate(POINTER<RCoreObject> pCoreObject)
+		void VulkanBuffer::terminate(RCoreObject* pCoreObject)
 		{
 			vkDestroyBuffer(Inherit<VulkanCoreObject>(pCoreObject)->device, buffer, nullptr);
 			vkFreeMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, bufferMemory, nullptr);
 		}
 
-		void VulkanBuffer::setData(POINTER<RCoreObject> pCoreObject, UI64 uSize, UI64 offset, VPTR data)
+		void VulkanBuffer::setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, VPTR data)
 		{
 			VPTR myData = getData(pCoreObject, uSize, offset);
 			DMKMemoryFunctions::moveData(myData, data, uSize);
 			unmapMemory(pCoreObject);
 		}
 
-		VPTR VulkanBuffer::getData(POINTER<RCoreObject> pCoreObject, UI64 size, UI64 offset)
+		VPTR VulkanBuffer::getData(RCoreObject* pCoreObject, UI64 size, UI64 offset)
 		{
 			VPTR data = nullptr;
 			DMK_VULKAN_ASSERT(vkMapMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, bufferMemory, offset, size, VK_NULL_HANDLE, &data), "Unable to map the buffer memory!");
 			return data;
 		}
 
-		void VulkanBuffer::unmapMemory(POINTER<RCoreObject> pCoreObject)
+		void VulkanBuffer::unmapMemory(RCoreObject* pCoreObject)
 		{
 			vkUnmapMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, bufferMemory);
 		}

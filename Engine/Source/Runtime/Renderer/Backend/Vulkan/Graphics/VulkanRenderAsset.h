@@ -29,7 +29,7 @@ namespace Dynamik
             ARRAY<VulkanTexture> textures;
             VulkanPipelineContainer pipeline;
             ARRAY<VulkanBuffer> uniformBuffers;
-            POINTER<DMKMeshComponent> meshComponent;
+            DMKMeshComponent* meshComponent;
             UI64 vertexOffset = 0;
             UI64 indexOffset = 0;
         };

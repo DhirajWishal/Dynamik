@@ -6,13 +6,13 @@
 
 namespace Dynamik
 {
-	POINTER<DMKTexture> DMKTextureFactory::create(const DMKTextureType& type, const STRING& path)
+	DMKTexture* DMKTextureFactory::create(const DMKTextureType& type, const STRING& path)
 	{
 		switch (type)
 		{
 		case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_2D:
 		{
-			POINTER<DMKTexture2D> _texture = StaticAllocator<DMKTexture2D>::allocate();
+			DMKTexture2D* _texture = StaticAllocator<DMKTexture2D>::allocate();
 			_texture->load(path);
 			return _texture;
 		}
@@ -28,10 +28,10 @@ namespace Dynamik
 			break;
 		}
 
-		return POINTER<DMKTexture>();
+		return nullptr;
 	}
 
-	POINTER<DMKTexture> DMKTextureFactory::create(const DMKTextureType& type, const ARRAY<STRING>& paths)
+	DMKTexture* DMKTextureFactory::create(const DMKTextureType& type, const ARRAY<STRING>& paths)
 	{
 		switch (type)
 		{
@@ -48,10 +48,10 @@ namespace Dynamik
 			break;
 		}
 
-		return POINTER<DMKTexture>();
+		return nullptr;
 	}
 	
-	void DMKTextureFactory::destroy(POINTER<DMKTexture> texture)
+	void DMKTextureFactory::destroy(DMKTexture* texture)
 	{
 		StaticAllocator<DMKTexture>::deallocate(texture, 0);
 	}

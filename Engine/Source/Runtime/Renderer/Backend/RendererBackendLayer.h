@@ -41,12 +41,12 @@ namespace Dynamik
         virtual ~DMKRendererBackendLayer() {}
 
         virtual void setMsaaSamples(const DMKSampleCount& samples) {}
-        virtual void setWindowHandle(const POINTER<DMKWindowHandle>& windowHandle) {}
+        virtual void setWindowHandle(const DMKWindowHandle* windowHandle) {}
 
         virtual void initializeCore() {}
         virtual void initializeRenderingContext(const DMKRenderContextType& contextType, const DMKViewport& viewport) {}
-        virtual void initializeEntity(POINTER<DMKGameEntity> entity) {}
-        virtual void initializeLevel(POINTER<DMKLevelComponent> level) {}
+        virtual void initializeEntity(DMKGameEntity* entity) {}
+        virtual void initializeLevel(DMKLevelComponent* level) {}
         virtual void initializeFinalComponents() {}
 
         virtual void initializeDrawCall() {}

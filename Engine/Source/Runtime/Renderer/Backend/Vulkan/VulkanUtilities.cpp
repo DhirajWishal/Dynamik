@@ -207,13 +207,13 @@ namespace Dynamik
 
 			for (auto _shader : modules)
 			{
-				for (auto _resource : _shader.layout.resources)
+				for (auto _resource : _shader.resourceMap.uniforms)
 				{
 					if (_resource.type == DMKUniformType::DMK_UNIFORM_TYPE_CONSTANT)
 						continue;
 
 					VkDescriptorSetLayoutBinding _binding;
-					_binding.binding = _resource.binding;
+					//_binding.binding = _resource.binding;
 					_binding.descriptorCount = 1;
 					_binding.descriptorType = getDescriptorType(_resource.type);
 					_binding.pImmutableSamplers = VK_NULL_HANDLE;
@@ -240,7 +240,7 @@ namespace Dynamik
 			return _sizes;
 		}
 
-		ARRAY<VkVertexInputAttributeDescription> VulkanUtilities::getVertexAttributeDescriptions(DMKVertexBufferDescriptor descriptor)
+		ARRAY<VkVertexInputAttributeDescription> VulkanUtilities::getVertexAttributeDescriptions(DMKVertexLayout descriptor)
 		{
 			ARRAY<VkVertexInputAttributeDescription> attributeDescriptions;
 			UI32 _previousTypeSize = 0;

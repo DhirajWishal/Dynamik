@@ -17,20 +17,20 @@ namespace Dynamik
 	/*
 	 Component Array for the Game Entity Component system
 	*/
-	class DMK_API IComponentArray {
+	class DMK_API I_ComponentArray {
 	public:
-		IComponentArray() {}
-		virtual ~IComponentArray() {}
+		I_ComponentArray() = default;
+		virtual ~I_ComponentArray() = default;
 	};
 
 	/*
 	 Component array for the Dynamik Engine
 	*/
 	template<class COMPONENT>
-	class DMK_API DMKComponentArray : public IComponentArray {
+	class DMK_API DMKComponentArray : public I_ComponentArray {
 	public:
-		DMKComponentArray() {}
-		~DMKComponentArray() {}
+		DMKComponentArray() = default;
+		~DMKComponentArray() = default;
 
 		TSArray<COMPONENT> myComponents;
 	};

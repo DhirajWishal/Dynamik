@@ -103,17 +103,17 @@ namespace Dynamik
 		return glfwVulkanSupported();
 	}
 
-	void WindowsWindow::addKeyEventListner(const POINTER<DMKKeyEventListener>& listener)
+	void WindowsWindow::addKeyEventListner(const DMKKeyEventListener* listener)
 	{
 		eventHandler.addKeyEventListener(listener);
 	}
 
-	void WindowsWindow::addMouseButtonEventListener(const POINTER<DMKMouseButtonEventListener>& listener)
+	void WindowsWindow::addMouseButtonEventListener(const DMKMouseButtonEventListener* listener)
 	{
 		eventHandler.addMouseButtonEventListener(listener);
 	}
 
-	void WindowsWindow::addMouseScrollEventListener(const POINTER<DMKMouseScrollEventListener>& listener)
+	void WindowsWindow::addMouseScrollEventListener(const DMKMouseScrollEventListener* listener)
 	{
 		eventHandler.addMouseScrollEventListener(listener);
 	}
@@ -148,7 +148,7 @@ namespace Dynamik
 		return eventHandler.getMouseScrollEvents();
 	}
 
-	POINTER<GLFWwindow> WindowsWindow::getHandle()
+	GLFWwindow* WindowsWindow::getHandle()
 	{
 		return windowHandle;
 	}

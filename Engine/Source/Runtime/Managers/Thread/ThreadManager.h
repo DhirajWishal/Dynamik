@@ -41,7 +41,7 @@ namespace Dynamik
     class DMK_API DMKThreadManager {
     public:
         struct DMK_API ThreadCommandBuffer {
-            TSArray<POINTER<DMKThreadCommand>> commands;
+            TSArray<DMKThreadCommand*> commands;
             B1 hasExcuted = false;
         };
 
@@ -70,14 +70,14 @@ namespace Dynamik
     public:
         /* Renderer thread (RT = RendererThread) */
         void issueSamplesCommandRT(DMKSampleCount const& samples);
-        void issueWindowHandleCommandRT(const POINTER<DMKWindowHandle>& handle);
+        void issueWindowHandleCommandRT(const DMKWindowHandle* handle);
         void issueInitializeCommandRT();
         void issueCreateContextCommandRT(DMKRenderContextType context, DMKViewport viewport);
-        void issueInitializeEntityCommandRT(POINTER<DMKGameEntity> meshComponents); /* Support for submitting objects */
+        void issueInitializeEntityCommandRT(DMKGameEntity* meshComponents); /* Support for submitting objects */
         void issueInitializeFinalsCommandRT();
 
     private:
-        static void _threadFunction(POINTER<DMKThread> mySystem, POINTER<ThreadCommandBuffer> commandPoolPtr);
+        static void _threadFunction(DMKThread* mySystem, ThreadCommandBuffer* commandPoolPtr);
 
         /*
          Overrided function.

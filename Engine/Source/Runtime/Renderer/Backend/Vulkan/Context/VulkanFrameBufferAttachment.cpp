@@ -8,7 +8,7 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanFrameBufferAttachment::terminate(POINTER<RCoreObject> pCoreObject)
+		void VulkanFrameBufferAttachment::terminate(RCoreObject* pCoreObject)
 		{
 			image.terminate(pCoreObject);
 			imageView.terminate(pCoreObject);

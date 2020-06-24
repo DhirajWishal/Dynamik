@@ -66,7 +66,7 @@ namespace Dynamik
 		/*
 		 All the levels in a game.
 		*/
-		ARRAY<POINTER<DMKLevelComponent>> levels;
+		ARRAY<DMKLevelComponent*> levels;
 
 		/*
 		 Basic game data

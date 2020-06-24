@@ -41,8 +41,8 @@ namespace Dynamik
 
             static VulkanSwapChainSupportDetails querySwapChainSupport(const VkPhysicalDevice& physicalDevice, const VkSurfaceKHR& surface);
 
-            virtual void initialize(POINTER<RCoreObject> pCoreObject, DMKViewport viewport, RSwapChainPresentMode ePresentMode) override final;
-            virtual void terminate(POINTER<RCoreObject> pCoreObject) override final;
+            virtual void initialize(RCoreObject* pCoreObject, DMKViewport viewport, RSwapChainPresentMode ePresentMode) override final;
+            virtual void terminate(RCoreObject* pCoreObject) override final;
 
             operator VkSwapchainKHR() const;
 

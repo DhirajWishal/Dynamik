@@ -848,12 +848,15 @@
     <ClInclude Include="Runtime\Core\Memory\StaticAllocator.h" />
     <ClInclude Include="Runtime\Core\Object\Descriptors\GameComponentDesriptors.h" />
     <ClInclude Include="Runtime\Core\Object\Descriptors\MaterialDescriptor.h" />
+    <ClInclude Include="Runtime\Core\Object\Resource\IndexBuffer.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\Primitives.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\ShaderFactory.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\ShaderModule.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\Texture.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\Textures\Texture2D.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\Textures\TextureFactory.h" />
+    <ClInclude Include="Runtime\Core\Object\Resource\VertexBuffer.h" />
+    <ClInclude Include="Runtime\Core\Object\Resource\VertexObject.h" />
     <ClInclude Include="Runtime\Core\Object\System.h" />
     <ClInclude Include="Runtime\Core\PCH\dmkafx.h" />
     <ClInclude Include="Runtime\Core\Types\Array.h" />

@@ -20,7 +20,7 @@ namespace Dynamik
 	 @param commandPoolPtr: Pointer to the shared command pool.
 	*/
 	template<class THREAD>
-	void _runtimeThread(POINTER<DMKThreadManager::ThreadCommandBuffer> commandPoolPtr)
+	void _runtimeThread(DMKThreadManager::ThreadCommandBuffer* commandPoolPtr)
 	{
 		THREAD mySystem;
 		UI64 index = 0;
@@ -116,10 +116,10 @@ namespace Dynamik
 		myRendererThread.commandBuffer.commands.pushBack(new RendererSetSamplesCommand(_command));
 	}
 
-	void DMKThreadManager::issueWindowHandleCommandRT(const POINTER<DMKWindowHandle>& handle)
+	void DMKThreadManager::issueWindowHandleCommandRT(const DMKWindowHandle* handle)
 	{
 		RendererSetWindowHandleCommand _command;
-		_command.windowHandle = handle;
+		_command.windowHandle = (DMKWindowHandle*)handle;
 
 		/* Push to command buffer */
 		myRendererThread.commandBuffer.hasExcuted = false;
@@ -144,7 +144,7 @@ namespace Dynamik
 		myRendererThread.commandBuffer.commands.pushBack(new RendererCreateContextCommand(_command));
 	}
 
-	void DMKThreadManager::issueInitializeEntityCommandRT(POINTER<DMKGameEntity> meshComponents)
+	void DMKThreadManager::issueInitializeEntityCommandRT(DMKGameEntity* meshComponents)
 	{
 		RendererAddEntity _command;
 		_command.entity = meshComponents;
@@ -164,7 +164,7 @@ namespace Dynamik
 	/*
 	 Main thread function
 	*/
-	void DMKThreadManager::_threadFunction(POINTER<DMKThread> mySystem, POINTER<ThreadCommandBuffer> commandPoolPtr)
+	void DMKThreadManager::_threadFunction(DMKThread* mySystem, ThreadCommandBuffer* commandPoolPtr)
 	{
 		UI64 index = 0;
 

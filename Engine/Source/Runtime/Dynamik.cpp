@@ -23,8 +23,8 @@
 namespace Dynamik
 {
 	/* Default constructor */
-	DMKEngine::DMKEngine(const DMKEngineInstanceDescriptor& instanceDescriptor, const POINTER<DMKGamePackage>& gamePackage)
-		: _instanceDescription(instanceDescriptor), _gamePackage(gamePackage)
+	DMKEngine::DMKEngine(const DMKEngineInstanceDescriptor& instanceDescriptor, const DMKGamePackage* gamePackage)
+		: _instanceDescription(instanceDescriptor), _gamePackage((DMKGamePackage*)gamePackage)
 	{
 		_clock.start();
 		_gamePackage->onLoad();
@@ -54,7 +54,7 @@ namespace Dynamik
 		_threadManager.issueInitializeFinalsCommandRT();
 
 		UI64 _itrIndex = 0;
-		POINTER<DMKGameEntity> _entity;
+		DMKGameEntity* _entity;
 
 		printf("Allocation count: %u", DMKAutomatedMemoryManager::getAllocationCount());
 

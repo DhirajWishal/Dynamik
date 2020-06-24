@@ -10,7 +10,7 @@
 
 namespace Dynamik
 {
-	void VulkanCoreObject::initialize(POINTER<DMKWindowHandle> pWindow, DMKSampleCount eSamples, B1 bEnableValidation)
+	void VulkanCoreObject::initialize(DMKWindowHandle* pWindow, DMKSampleCount eSamples, B1 bEnableValidation)
 	{
 		/* Initialize the Vulkan Instance */
 		instance.initialize(bEnableValidation);
@@ -53,7 +53,7 @@ namespace Dynamik
 		vkDeviceWaitIdle(device);
 	}
 
-	UI32 VulkanCoreObject::prepareFrame(POINTER<RSwapChain> pSwapChain)
+	UI32 VulkanCoreObject::prepareFrame(RSwapChain* pSwapChain)
 	{
 		vkWaitForFences(device, 1, &inFlightFences[currentFrameIndex], VK_TRUE, std::numeric_limits<uint64_t>::max());
 
@@ -72,7 +72,7 @@ namespace Dynamik
 		return imageIndex;
 	}
 
-	void VulkanCoreObject::submitCommand(POINTER<RCommandBuffer> pCommandBuffer, POINTER<RSwapChain> pSwapChain)
+	void VulkanCoreObject::submitCommand(RCommandBuffer* pCommandBuffer, RSwapChain* pSwapChain)
 	{
 		submitInfo.pWaitSemaphores = &imageAvailables[currentFrameIndex];
 		submitInfo.pCommandBuffers = &Inherit<Backend::VulkanCommandBuffer>(pCommandBuffer)->buffer;

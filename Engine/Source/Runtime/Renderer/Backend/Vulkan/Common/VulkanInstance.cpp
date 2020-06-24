@@ -142,7 +142,7 @@ namespace Dynamik
 			DMK_VULKAN_ASSERT(createDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &_debugMessenger), "Failed to set up debug messenger!");
 		}
 
-		void VulkanInstance::_populateDebugMessegerCreateInfo(POINTER<VkDebugUtilsMessengerCreateInfoEXT> createInfo)
+		void VulkanInstance::_populateDebugMessegerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT* createInfo)
 		{
 			createInfo->sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
 			createInfo->messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT

@@ -26,8 +26,8 @@ namespace Dynamik
             VulkanFrameBuffer() {}
             ~VulkanFrameBuffer() {}
 
-            virtual void initialize(POINTER<RCoreObject> pCoreObject, POINTER<RRenderPass> pRenderPass, POINTER<RSwapChain> pSwapChain) override final;
-            virtual void terminate(POINTER<RCoreObject> pCoreObject) override final;
+            virtual void initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, RSwapChain* pSwapChain) override final;
+            virtual void terminate(RCoreObject* pCoreObject) override final;
 
             const VkFramebuffer operator[](UI32 index) const;
 
