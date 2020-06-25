@@ -312,9 +312,6 @@
     <ClInclude Include="Runtime\Core\Object\Resource\Textures\Texture2D.h">
       <Filter>Runtime\Core\Object\Resource\Textures</Filter>
     </ClInclude>
-    <ClInclude Include="Runtime\Core\Object\Resource\Textures\TextureFactory.h">
-      <Filter>Runtime\Core\Object\Resource\Textures</Filter>
-    </ClInclude>
     <ClInclude Include="Runtime\Core\Object\System.h">
       <Filter>Runtime\Core\Object</Filter>
     </ClInclude>
@@ -593,6 +590,12 @@
     <ClInclude Include="Runtime\Core\Object\Resource\VertexObject.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\VertexBuffer.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\IndexBuffer.h" />
+    <ClInclude Include="Runtime\GameLibrary\Utilities\EntityFactory.h" />
+    <ClInclude Include="Runtime\GameLibrary\EnvironmentMap.h" />
+    <ClInclude Include="Runtime\Core\Object\Resource\TextureFactory.h">
+      <Filter>Runtime\Core\Object\Resource\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Renderer\Components\REntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Runtime\ComponentSystem\ComponentManager.cpp">
@@ -674,9 +677,6 @@
       <Filter>Runtime\Core\Object\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Core\Object\Resource\Textures\Texture2D.cpp">
-      <Filter>Runtime\Core\Object\Resource\Textures</Filter>
-    </ClCompile>
-    <ClCompile Include="Runtime\Core\Object\Resource\Textures\TextureFactory.cpp">
       <Filter>Runtime\Core\Object\Resource\Textures</Filter>
     </ClCompile>
     <ClCompile Include="Runtime\Core\PCH\dmkafx.cpp">
@@ -829,6 +829,10 @@
     <ClCompile Include="Runtime\Renderer\Components\Factories\PipelineFactory.cpp" />
     <ClCompile Include="Runtime\Renderer\Backend\Vulkan\Pipelines\VulkanGraphicsPipeline.cpp" />
     <ClCompile Include="Runtime\Core\Object\Resource\ShaderFactory.cpp" />
+    <ClCompile Include="Runtime\Core\Object\Resource\TextureFactory.cpp">
+      <Filter>Runtime\Core\Object\Resource\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Runtime\GameLibrary\Utilities\MeshFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dynamik.lua" />

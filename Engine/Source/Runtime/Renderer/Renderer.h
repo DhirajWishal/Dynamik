@@ -17,6 +17,7 @@
 #include "Components/Context/RFrameBuffer.h"
 #include "Components/RCommandBufferManager.h"
 #include "Components/Factories/BufferFactory.h"
+#include "Components/REntity.h"
 
 namespace Dynamik
 {
@@ -72,13 +73,21 @@ namespace Dynamik
         void createContext(DMKRenderContextType type, DMKViewport viewport);
 
     private:    /* Resource */
+        RBuffer* createBuffer(const RBufferType& type, UI64 size);
+        RPipelineObject* allocatePipeline();
+
         void createEntityResources(DMKGameEntity* pGameEntity);
 
     private:    /* Finals */
+        void initializeBuffers();
         void initializeFinals();
 
     private:    /* Internal Methods */
         void terminateComponents();
+        void terminateEntities();
+
+    private:    /* Utility Methods */
+        ARRAY<RColorBlendState> createBasicBlendStates();
 
     private:    /* Internal */
         DMKRendererCompatibility myCompatibility;
@@ -98,6 +107,7 @@ namespace Dynamik
         ARRAY<RCommandBuffer*> myCommandBuffers;
         B1 isInitialized = false;
 
+        ARRAY<REntity> myEntities;
         RBuffer* myVertexBuffer;
         UI64 myVertexBufferByteSize = 0;
         RBuffer* myIndexBuffer;

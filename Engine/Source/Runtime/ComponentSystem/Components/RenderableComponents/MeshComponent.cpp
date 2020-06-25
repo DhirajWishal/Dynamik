@@ -6,19 +6,20 @@
 
 #include "Memory/MemoryFunctions.h"
 #include "Importer/Asset/MeshImporter.h"
+#include "Core/Object/Resource/TextureFactory.h"
 
 namespace Dynamik
 {
 	/* Get the vertex buffer object byte size */
 	UI64 DMKMeshComponent::getVertexBufferObjectByteSize()
 	{
-		return vertexDescriptor.getVertexSize() * vertexBuffer->size();
+		return vertexCount * vertexLayout.getVertexSize();
 	}
 
 	/* Get the index buffer object byte size */
 	UI64 DMKMeshComponent::getIndexBufferObjectByteSize()
 	{
-		return (UI64)indexBufferType * indexBuffer->size();
+		return (UI64)indexBufferType * indexBuffer.size();
 	}
 
 	/* Pack data to a given location. That location must be pre allocated */
@@ -39,6 +40,21 @@ namespace Dynamik
 	MAT4F DMKMeshComponent::getMatrix()
 	{
 		return modelMatrix;
+	}
+
+	void DMKMeshComponent::addTexture(const STRING& path, const DMKTextureType& type)
+	{
+		pTextures.pushBack(DMKTextureFactory::create(type, path));
+	}
+
+	void DMKMeshComponent::clearVertexBuffer()
+	{
+		StaticAllocator<BYTE>::deallocate(vertexBuffer, getVertexBufferObjectByteSize());
+	}
+
+	void DMKMeshComponent::clearIndexBuffer()
+	{
+		indexBuffer.clear();
 	}
 
 	DMKMeshComponent::operator MAT4F() const

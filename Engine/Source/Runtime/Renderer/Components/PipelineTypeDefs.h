@@ -10,6 +10,7 @@
  Date:		17/06/2020
 */
 #include "PrimitiveTypeDefs.h"
+#include "Core/Math/Vector/Vector2F.h"
 
 namespace Dynamik
 {
@@ -38,10 +39,10 @@ namespace Dynamik
 
 	/* Renderer Cull Mode */
 	enum class DMK_API RCullMode {
-		CULL_MODE_NONE = 0,
-		CULL_MODE_FRONT_BIT = BIT_SHIFT(1),
-		CULL_MODE_BACK_BIT = BIT_SHIFT(2),
-		CULL_MODE_FRONT_AND_BACK_BIT = BIT_SHIFT(3),
+		CULL_MODE_NONE,
+		CULL_MODE_FRONT_BIT,
+		CULL_MODE_BACK_BIT,
+		CULL_MODE_FRONT_AND_BACK_BIT,
 	};
 
 	/* Renderer Front Face */
@@ -168,16 +169,101 @@ namespace Dynamik
 		COLOR_BLEND_OP_BLUE,
 	};
 
+	/* Renderer Stencil Op */
+	enum class DMK_API RStencilOp {
+		STENCIL_OP_KEEP,
+		STENCIL_OP_ZERO,
+		STENCIL_OP_REPLACE,
+		STENCIL_OP_INCREMENT_AND_CLAMP,
+		STENCIL_OP_DECREMENT_AND_CLAMP,
+		STENCIL_OP_INVERT,
+		STENCIL_OP_INCREMENT_AND_WRAP,
+		STENCIL_OP_DECREMENT_AND_WRAP,
+	};
+
 	/* Renderer Color Blend State */
-	struct RColorBlendState {
-		B1 enable;
-		RColorBlendFactor srcColorBlendFactor;
-		RColorBlendFactor dstColorBlendFactor;
-		RColorBlendOp colorBlendOp;
-		RColorBlendFactor srcAlphaBlendFactor;
-		RColorBlendFactor dstAlphaBlendFactor;
-		RColorBlendOp alphaBlendOp;
-		RColorComponent colorWriteMask;
+	struct DMK_API RColorBlendState {
+		RColorBlendFactor srcColorBlendFactor = {};
+		RColorBlendFactor dstColorBlendFactor = {};
+		RColorBlendOp colorBlendOp = {};
+		RColorBlendFactor srcAlphaBlendFactor = {};
+		RColorBlendFactor dstAlphaBlendFactor = {};
+		RColorBlendOp alphaBlendOp = {};
+		RColorComponent colorWriteMask = {};
+		B1 enable = false;
+	};
+
+	/* Renderer Depth Stencil Op State */
+	struct DMK_API RStencilOpState {
+		RStencilOp failOp;
+		RStencilOp passOp;
+		RStencilOp depthFailOp;
+		RStencilCompareOp compareOp;
+		UI32 compareMask = 0;
+		UI32 writeMask = 0;
+		UI32 reference = 0;
+	};
+
+	/* Renderer Pipeline Primitive Assembly Info */
+	struct DMK_API RPipelinePrimitiveAssemblyInfo {
+		RPrimitiveTopology primitiveTopology = RPrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+		B1 enablePrimitiveRestart = false;
+	};
+
+	/* Renderer Pipeline Tessellation State Control Info */
+	struct DMK_API RPipelineTessellationStateControlInfo {
+		UI32 patchControlPoints = 0;
+	};
+
+	/* Renderer Pipeline Scissor Info */
+	struct DMK_API RPipelineScissorInfo {
+		Vector2F offset = Vector2F(0.0f);
+	};
+
+	/* Renderer Pipeline Rasterizer info */
+	struct DMK_API RPipelineRasterizerInfo {
+		RPolygonMode polygonMode = RPolygonMode::POLYGON_MODE_FILL;
+		RCullMode cullMode = RCullMode::CULL_MODE_BACK_BIT;
+		RFrontFace frontFace = RFrontFace::FRONT_FACE_COUNTER_CLOCKWISE;
+		F32 lineWidth = 1.0f;
+		F32 constantFactor = 1.0f;
+		F32 slopeFactor = 1.0f;
+		B1 depthClampEnable = false;
+		B1 discardEnable = false;
+		B1 depthBiasEnable = false;
+	};
+
+	/* Renderer Pipeline Multi Sampling Info */
+	struct DMK_API RPipelineMultiSamplingInfo {
+		DMKSampleCount sampleCount = DMK_SAMPLE_COUNT_32_BIT;
+		F32 minSampleShading = 0.2f;
+		B1 enableSampleShading = false;
+		B1 enableAlphaToCoverage = false;
+		B1 enableAlphaToOne = false;
+	};
+
+	/* Renderer Pipeline Depth Stencil Info */
+	struct DMK_API RPipelineDepthStencilInfo {
+		RStencilCompareOp compareOp = RStencilCompareOp::STENCIL_COMPARE_OP_LESS;
+		RStencilOpState frontOpState;
+		RStencilOpState backOpState;
+		F32 minBounds = 0.0f;
+		F32 maxBounds = 0.0f;
+		B1 enableStencil = true;
+		B1 enableWrite = true;
+		B1 enableBoundsTest = false;
+		B1 enableStencilTests = false;
+	};
+
+	/* Renderer Pipeline Color Blend Info */
+	struct DMK_API RPipelineColorBlendInfo {
+		ARRAY<RColorBlendState> blendStates;
+		ARRAY<RColorComponent> colorComponents;
+		ARRAY<F32> blendConstants = {
+			0.0f, 0.0f, 0.0f, 0.0f /* R, G, B, A */
+		};
+		RLogicOp blendLogicOp = RLogicOp::LOGIC_OP_COPY;
+		B1 enableColorBlendLogicOp = false;
 	};
 }
 

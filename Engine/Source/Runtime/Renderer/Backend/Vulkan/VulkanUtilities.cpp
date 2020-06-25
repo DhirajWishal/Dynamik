@@ -34,7 +34,7 @@ namespace Dynamik
 
 			return VK_PRESENT_MODE_FIFO_KHR;
 		}
-		
+
 		VkFormat VulkanUtilities::getVulkanFormat(DMKFormat format)
 		{
 			return (VkFormat)(UI32)format;
@@ -129,6 +129,51 @@ namespace Dynamik
 			return _mapping;
 		}
 
+		VulkanResourceLayout VulkanUtilities::getResourceLayout(const DMKShaderResourceLayout& resourceLayout, const DMKShaderLocation& location)
+		{
+			VulkanResourceLayout layout;
+
+			VkDescriptorSetLayoutBinding layoutBinding;
+			layoutBinding.descriptorCount = 1;
+			layoutBinding.stageFlags = getShaderStage(location);
+			layoutBinding.pImmutableSamplers = VK_NULL_HANDLE;
+
+			VkDescriptorPoolSize poolSize;
+			poolSize.descriptorCount = 1;
+
+			for (auto uniform : resourceLayout.uniforms)
+			{
+				layoutBinding.binding = uniform.destinationBinding;
+				layoutBinding.descriptorType = getDescriptorType(uniform.type);
+				layout.descriptorBindings.pushBack(layoutBinding);
+
+				poolSize.type = layoutBinding.descriptorType;
+				layout.descriptorPoolSizes.pushBack(poolSize);
+			}
+
+			VkVertexInputAttributeDescription inputAttribute;
+			inputAttribute.binding = 0;
+			inputAttribute.location = 0;
+			inputAttribute.offset = 0;
+
+			for (auto attribute : resourceLayout.inputAttributes)
+			{
+				inputAttribute.format = vertexAttributeTypeToVkFormat((DMKDataType)((UI64)attribute.dataType * attribute.dataCount));
+				layout.vertexInputAttributes.pushBack(inputAttribute);
+
+				inputAttribute.location++;
+				inputAttribute.offset += (UI64)attribute.dataType * attribute.dataCount;
+			}
+
+			VkVertexInputBindingDescription bindingDescription;
+			bindingDescription.binding = 0;
+			bindingDescription.inputRate = VkVertexInputRate::VK_VERTEX_INPUT_RATE_VERTEX;
+			bindingDescription.stride = inputAttribute.offset;
+			layout.vertexInputBinding = bindingDescription;
+
+			return layout;
+		}
+
 		VkDescriptorType VulkanUtilities::getDescriptorType(DMKUniformType type)
 		{
 			switch (type)
@@ -207,7 +252,7 @@ namespace Dynamik
 
 			for (auto _shader : modules)
 			{
-				for (auto _resource : _shader.resourceMap.uniforms)
+				for (auto _resource : _shader.resourceLayout.uniforms)
 				{
 					if (_resource.type == DMKUniformType::DMK_UNIFORM_TYPE_CONSTANT)
 						continue;
@@ -274,8 +319,23 @@ namespace Dynamik
 
 			return VkFormat::VK_FORMAT_UNDEFINED;
 		}
-		
-		VkPolygonMode VulkanUtilities::getPolygonMode(const RPolygonMode ePolygonMode)
+
+		VkShaderModule VulkanUtilities::createShaderModule(const RCoreObject* pCoreObject, const DMKShaderModule& shaderModule)
+		{
+			VkShaderModuleCreateInfo createInfo = {};
+			createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+			createInfo.flags = VK_NULL_HANDLE;
+			createInfo.pNext = VK_NULL_HANDLE;
+			createInfo.codeSize = shaderModule.shaderCode.size();
+			createInfo.pCode = shaderModule.shaderCode.data();
+
+			VkShaderModule vModule = VK_NULL_HANDLE;
+			DMK_VULKAN_ASSERT(vkCreateShaderModule(InheritCast<VulkanCoreObject>(pCoreObject).device, &createInfo, nullptr, &vModule), "Failed to create shader module!");
+
+			return vModule;
+		}
+
+		VkPolygonMode VulkanUtilities::getPolygonMode(const RPolygonMode& ePolygonMode)
 		{
 			switch (ePolygonMode)
 			{
@@ -293,6 +353,51 @@ namespace Dynamik
 			}
 
 			return VkPolygonMode();
+		}
+
+		VkStencilOpState VulkanUtilities::getStencilOpState(const RStencilOpState& opState)
+		{
+			VkStencilOpState state;
+			state.compareMask = opState.compareMask;
+			state.compareOp = (VkCompareOp)opState.compareOp;
+			state.depthFailOp = (VkStencilOp)opState.depthFailOp;
+			state.failOp = (VkStencilOp)opState.failOp;
+			state.passOp = (VkStencilOp)opState.passOp;
+			state.reference = opState.reference;
+			state.writeMask = opState.writeMask;
+
+			return state;
+		}
+
+		ARRAY<VkPipelineColorBlendAttachmentState> VulkanUtilities::getBlendStates(const ARRAY<RColorBlendState>& blendStates)
+		{
+			ARRAY<VkPipelineColorBlendAttachmentState> states;
+			VkPipelineColorBlendAttachmentState attachmentState;
+			for (auto state : blendStates)
+			{
+				attachmentState.alphaBlendOp = (VkBlendOp)state.alphaBlendOp;
+				attachmentState.blendEnable = state.enable;
+				attachmentState.colorBlendOp = (VkBlendOp)state.colorBlendOp;
+				attachmentState.colorWriteMask = (VkColorComponentFlags)state.colorWriteMask;
+				attachmentState.srcAlphaBlendFactor = (VkBlendFactor)state.srcAlphaBlendFactor;
+				attachmentState.dstAlphaBlendFactor = (VkBlendFactor)state.dstAlphaBlendFactor;
+				attachmentState.srcColorBlendFactor = (VkBlendFactor)state.srcAlphaBlendFactor;
+				attachmentState.dstColorBlendFactor = (VkBlendFactor)state.dstAlphaBlendFactor;
+				states.pushBack(attachmentState);
+			}
+
+			return states;
+		}
+		
+		ARRAY<VkDynamicState> VulkanUtilities::getDynamicStates(const ARRAY<RDynamicState>& states)
+		{
+			ARRAY<VkDynamicState> vStates;
+			for (auto state : states)
+			{
+				vStates.pushBack((VkDynamicState)state);
+			}
+
+			return vStates;
 		}
 	}
 }

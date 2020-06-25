@@ -28,23 +28,23 @@ namespace Dynamik
 		this->location = location;
 	}
 
-	void DMKShaderModule::setResourceMap(const DMKShaderResourceMap& resourceMap)
+	void DMKShaderModule::setResourceLayout(const DMKShaderResourceLayout& resourceLayout)
 	{
-		this->resourceMap = resourceMap;
+		this->resourceLayout = resourceLayout;
 	}
 
 	void DMKShaderModule::addResource(const DMKShaderInputAttribute& inputAttribute)
 	{
-		resourceMap.inputAttributes.pushBack(inputAttribute);
+		resourceLayout.inputAttributes.pushBack(inputAttribute);
 	}
 
 	void DMKShaderModule::addResource(const DMKUniformDescription& uniformDescription)
 	{
-		resourceMap.uniforms.pushBack(uniformDescription);
+		resourceLayout.uniforms.pushBack(uniformDescription);
 	}
 
-	const DMKShaderResourceMap DMKShaderModule::getResourceMap() const
+	const DMKShaderResourceLayout DMKShaderModule::getResourceLayout() const
 	{
-		return this->resourceMap;
+		return this->resourceLayout;
 	}
 }

@@ -854,7 +854,7 @@
     <ClInclude Include="Runtime\Core\Object\Resource\ShaderModule.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\Texture.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\Textures\Texture2D.h" />
-    <ClInclude Include="Runtime\Core\Object\Resource\Textures\TextureFactory.h" />
+    <ClInclude Include="Runtime\Core\Object\Resource\TextureFactory.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\VertexBuffer.h" />
     <ClInclude Include="Runtime\Core\Object\Resource\VertexObject.h" />
     <ClInclude Include="Runtime\Core\Object\System.h" />
@@ -876,6 +876,7 @@
     <ClInclude Include="Runtime\Events\Event\MouseScrollEventListener.h" />
     <ClInclude Include="Runtime\Events\EventHandler.h" />
     <ClInclude Include="Runtime\GameLibrary\Camera\CameraModule.h" />
+    <ClInclude Include="Runtime\GameLibrary\EnvironmentMap.h" />
     <ClInclude Include="Runtime\GameLibrary\GameEntity.h" />
     <ClInclude Include="Runtime\GameLibrary\GameMechanics.h" />
     <ClInclude Include="Runtime\GameLibrary\GamePackage.h" />
@@ -884,6 +885,7 @@
     <ClInclude Include="Runtime\GameLibrary\Mechanics\PlayerController.h" />
     <ClInclude Include="Runtime\GameLibrary\Menus\Layer.h" />
     <ClInclude Include="Runtime\GameLibrary\PlayerObject.h" />
+    <ClInclude Include="Runtime\GameLibrary\Utilities\EntityFactory.h" />
     <ClInclude Include="Runtime\GameLibrary\Utilities\MeshFactory.h" />
     <ClInclude Include="Runtime\Importer\Asset\MeshImporter.h" />
     <ClInclude Include="Runtime\Importer\Dynamik\DAI\DAIObject.h" />
@@ -942,6 +944,7 @@
     <ClInclude Include="Runtime\Renderer\Components\Context\RFrameBuffer.h" />
     <ClInclude Include="Runtime\Renderer\Components\Context\RFrameBufferAttachment.h" />
     <ClInclude Include="Runtime\Renderer\Components\Context\RRenderPass.h" />
+    <ClInclude Include="Runtime\Renderer\Components\REntity.h" />
     <ClInclude Include="Runtime\Renderer\Components\RMeshObject.h" />
     <ClInclude Include="Runtime\Renderer\Components\RPipelineObject.h" />
     <ClInclude Include="Runtime\Renderer\Components\RRenderTarget.h" />
@@ -987,7 +990,7 @@
     <ClCompile Include="Runtime\Core\Object\Resource\ShaderModule.cpp" />
     <ClCompile Include="Runtime\Core\Object\Resource\Texture.cpp" />
     <ClCompile Include="Runtime\Core\Object\Resource\Textures\Texture2D.cpp" />
-    <ClCompile Include="Runtime\Core\Object\Resource\Textures\TextureFactory.cpp" />
+    <ClCompile Include="Runtime\Core\Object\Resource\TextureFactory.cpp" />
     <ClCompile Include="Runtime\Core\PCH\dmkafx.cpp" />
     <ClCompile Include="Runtime\Core\Utilities\Clock.cpp" />
     <ClCompile Include="Runtime\Dynamik.cpp" />
@@ -999,6 +1002,7 @@
     <ClCompile Include="Runtime\GameLibrary\GameEntity.cpp" />
     <ClCompile Include="Runtime\GameLibrary\LevelComponent.cpp" />
     <ClCompile Include="Runtime\GameLibrary\Mechanics\PlayerController.cpp" />
+    <ClCompile Include="Runtime\GameLibrary\Utilities\MeshFactory.cpp" />
     <ClCompile Include="Runtime\Importer\Asset\MeshImporter.cpp" />
     <ClCompile Include="Runtime\Importer\Dynamik\DAI\DAIObject.cpp" />
     <ClCompile Include="Runtime\Importer\Dynamik\DMKAsset\DMKAsset.cpp" />

@@ -49,7 +49,7 @@ namespace Dynamik
 			/*
 			 Get the shader resource map from the current shader.
 			*/
-			DMKShaderResourceMap getResourceMap();
+			DMKShaderResourceLayout getResourceMap();
 
 			/*
 			 Set the shader module
@@ -71,7 +71,7 @@ namespace Dynamik
 
 		private:
 			DMKShaderModule shaderModule;
-			DMKShaderResourceMap resourceMap;
+			DMKShaderResourceLayout resourceLayout;
 			ARRAY<VkDescriptorSetLayoutBinding> layoutBindings;
 			ARRAY<VkDescriptorPoolSize> poolSizes;
 			ARRAY<VkVertexInputAttributeDescription> vertexAttributes;

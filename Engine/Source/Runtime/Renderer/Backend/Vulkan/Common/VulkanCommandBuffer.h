@@ -30,7 +30,10 @@ namespace Dynamik
 			~VulkanCommandBuffer() {}
 
 			virtual void begin() override final;
-			virtual void bindPipeline(RPipelineObject* pPipelineObject) override final;
+			virtual void bindVertexBuffer(RBuffer* pBuffer, UI64 firstBinding) override final;
+			virtual void bindIndexBuffer(RBuffer* pBuffer) override final;
+			virtual void bindGraphicsPipeline(RPipelineObject* pPipelineObject) override final;
+			virtual void drawIndexed(UI64 indexOffset, UI64 vertexOffset, UI64 indexCount, UI64 instanceCount) override final;
 			virtual void end() override final;
 
 			operator VkCommandBuffer() const;

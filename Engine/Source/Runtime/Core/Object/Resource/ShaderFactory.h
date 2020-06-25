@@ -45,7 +45,7 @@ namespace Dynamik
 		 @param path: Shader path.
 		 @param location: Shader location.
 		*/
-		static DMKShaderResourceMap createResourceMap(const STRING& path, const DMKShaderLocation& location);
+		static DMKShaderResourceLayout createResourceMap(const STRING& path, const DMKShaderLocation& location);
 
 	public:
 		/*
@@ -53,10 +53,10 @@ namespace Dynamik
 
 		 @param filePath: File path of the shader code.
 		 @param location: Shader location (Vertex, Tessellation, Geometry, Fragment).
-		 @param resourceMap: Shader resource map.
+		 @param resourceLayout: Shader resource map.
 		 @param codeType: Type of the code (language: GLSL, HLSL, SPIRV).
 		*/
-		static DMKShaderModule createModule(const STRING& filePath, const DMKShaderLocation& location, const DMKShaderResourceMap& resourceMap, const DMKShaderCodeType& codeType);
+		static DMKShaderModule createModule(const STRING& filePath, const DMKShaderLocation& location, const DMKShaderResourceLayout& resourceLayout, const DMKShaderCodeType& codeType);
 
 	private:
 		STRING myWorkingDir = DMK_TEXT("");

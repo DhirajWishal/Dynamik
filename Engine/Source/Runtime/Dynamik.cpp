@@ -20,6 +20,9 @@
 #include "Importer/Dynamik/DAI/DAIObject.h"
 #include "Importer/Asset/MeshImporter.h"
 
+#include "GameLibrary/Utilities/MeshFactory.h"
+#include "Core/Object/Resource/ShaderFactory.h"
+
 namespace Dynamik
 {
 	/* Default constructor */
@@ -34,6 +37,9 @@ namespace Dynamik
 		DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
 		auto _localPath = DMKFileSystem::getExecutablePath();
 		auto _workingDirectory = DMKFileSystem::getWorkingDirectory();
+
+		DMKMeshFactory::setWorkingDirectory(_workingDirectory);
+		DMKShaderFactory::setWorkingDirectory(_workingDirectory);
 
 		UI32 windowID = _windowManager.createWindow(_instanceDescription.windowDescription.width, _instanceDescription.windowDescription.height, _instanceDescription.windowDescription.title);
 		_threadManager.issueWindowHandleCommandRT(_windowManager.getWindowHandle(windowID));

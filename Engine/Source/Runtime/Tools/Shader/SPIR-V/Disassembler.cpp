@@ -69,12 +69,12 @@ namespace Dynamik
 			return pushConstantRanges;
 		}
 
-		DMKShaderResourceMap SPIRVDisassembler::getResourceMap()
+		DMKShaderResourceLayout SPIRVDisassembler::getResourceMap()
 		{
 			if (!isParsed)
 				_parseModule();
 
-			return resourceMap;
+			return resourceLayout;
 		}
 
 		void SPIRVDisassembler::setShaderModule(const DMKShaderModule& sModule)
@@ -161,7 +161,7 @@ namespace Dynamik
 				}
 
 				shaderResourceDescriptor.uniformBufferObjects.pushBack(resourceDescription);
-				resourceMap.uniforms.pushBack(resourceDescription);
+				resourceLayout.uniforms.pushBack(resourceDescription);
 				resourceDescription.attributes.clear();
 			}
 
@@ -211,7 +211,7 @@ namespace Dynamik
 					resourceDescription.attributes.pushBack(resourceAttribute);
 				}
 
-				resourceMap.uniforms.pushBack(resourceDescription);
+				resourceLayout.uniforms.pushBack(resourceDescription);
 			}
 
 			/* Shader inputs */

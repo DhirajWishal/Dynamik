@@ -23,6 +23,17 @@ namespace Dynamik
     namespace Backend 
     {
         /*
+         Vulkan Resource Layout
+         This contains resource information of a given shader module based on its resource layout.
+        */
+        struct DMK_API VulkanResourceLayout {
+            ARRAY<VkVertexInputAttributeDescription> vertexInputAttributes;
+            VkVertexInputBindingDescription vertexInputBinding;
+            ARRAY<VkDescriptorSetLayoutBinding> descriptorBindings;
+            ARRAY<VkDescriptorPoolSize> descriptorPoolSizes;
+        };
+
+        /*
          Vulkan Utilities for the Dynamik RBL
         */
         class DMK_API VulkanUtilities {
@@ -42,6 +53,7 @@ namespace Dynamik
             static VkFormat findDepthFormat(const VkPhysicalDevice& physicalDevice);
             static VkComponentMapping getComponentMapping(DMKTexture::TextureSwizzles swizzles);
 
+            static VulkanResourceLayout getResourceLayout(const DMKShaderResourceLayout& resourceLayout, const DMKShaderLocation& location);
             static VkDescriptorType getDescriptorType(DMKUniformType type);
             static VkShaderStageFlagBits getShaderStage(DMKShaderLocation location);
             static ARRAY<VkDescriptorSetLayoutBinding> getDescriptorSetLayoutBindings(DMKUniformBufferDescriptor descriptor);
@@ -52,7 +64,11 @@ namespace Dynamik
             static VkFormat VulkanUtilities::vertexAttributeTypeToVkFormat(DMKDataType type);
 
         public:     /* Pipeline */
-            static VkPolygonMode getPolygonMode(const RPolygonMode ePolygonMode);
+            static VkShaderModule createShaderModule(const RCoreObject* pCoreObject, const DMKShaderModule& shaderModule);
+            static VkPolygonMode getPolygonMode(const RPolygonMode& ePolygonMode);
+            static VkStencilOpState getStencilOpState(const RStencilOpState& opState);
+            static ARRAY<VkPipelineColorBlendAttachmentState> getBlendStates(const ARRAY<RColorBlendState>& blendStates);
+            static ARRAY<VkDynamicState> getDynamicStates(const ARRAY<RDynamicState>& states);
         };
     }
 }

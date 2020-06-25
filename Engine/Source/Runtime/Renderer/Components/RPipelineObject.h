@@ -18,6 +18,7 @@
 namespace Dynamik
 {
 	class DMK_API RCoreObject;
+	class DMK_API RSwapChain;
 
 	/* Renderer Pipeline Usage */
 	enum class DMK_API RPipelineUsage {
@@ -29,50 +30,33 @@ namespace Dynamik
 	 Renderer Pipeline Create Info
 	*/
 	struct DMK_API RPipelineCreateInfo {
-		RRenderTarget* pRenderTarget;
 		ARRAY<DMKShaderModule> shaders;
-		// Descriptors
+		RRenderTarget* pRenderTarget = nullptr;
+		RSwapChain* pSwapChain = nullptr;
 
 		/* Primitive Assembly */
-		RPrimitiveTopology primitiveTopology = RPrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-		B1 enablePrimitiveRestart = false;
+		RPipelinePrimitiveAssemblyInfo primitiveAssemblyInfo;
+
+		/* Tessellation Control */
+		RPipelineTessellationStateControlInfo tessellationStateControlInfo;
 
 		/* Scissor */
-		UI32 scissorCount = 1;
-		ARRAY<Vector2F> offsets = { {0.0f, 0.0f} };
+		ARRAY<RPipelineScissorInfo> scissorInfos;
 
 		/* Rasterizer */
-		B1 depthClampEnable = false;
-		B1 discardEnable = false;
-		RPolygonMode polygonMode = RPolygonMode::POLYGON_MODE_FILL;
-		F32 lineWidth = 1.0f;
-		RCullMode cullMode = RCullMode::CULL_MODE_BACK_BIT;
-		RFrontFace frontFace = RFrontFace::FRONT_FACE_COUNTER_CLOCKWISE;
-		B1 depthBiasEnable = false;
+		RPipelineRasterizerInfo rasterizerInfo;
 
-		/* Multisampling */
-		DMKSampleCount sampleCount = DMK_SAMPLE_COUNT_32_BIT;
-		B1 enableSampleShading = false;
-		F32 minSampleShading = 0.2f;
+		/* Multi Sampling */
+		RPipelineMultiSamplingInfo multiSamplingInfo;
 
 		/* Depth Stencil */
-		B1 enableDepthStencil = true;
-		B1 enableDepthWrite = true;
-		RStencilCompareOp compareOp = RStencilCompareOp::STENCIL_COMPARE_OP_LESS;
-		B1 enableBoundsTest = false;
-		B1 enableDepthStencilTests = false;
+		RPipelineDepthStencilInfo depthStencilInfo;
 
 		/* Color Blend */
-		ARRAY<RColorBlendState> blendStates;
-		ARRAY<RColorComponent> colorComponents;
-		B1 enableColorBlendLogicOp = false;
-		RLogicOp blendLogicOp = RLogicOp::LOGIC_OP_COPY;
-		ARRAY<F32> blendConstants = {
-			0.0f, 0.0f, 0.0f, 0.0f /* R, G, B, A */
-		};
+		RPipelineColorBlendInfo colorBlendInfo;
 
 		/* Dynamic State */
-		B1 enableDynamicState = false;
+		ARRAY<RDynamicState> dynamicStates;
 	};
 
 	/*

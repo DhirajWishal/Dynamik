@@ -34,7 +34,13 @@ namespace Dynamik
 			virtual void initialize(RCoreObject* pCoreObject, RPipelineCreateInfo createInfo, RPipelineUsage usage) override final;
 			virtual void terminate(RCoreObject* pCoreObject) override final;
 
+			operator VkPipelineLayout() const;
+			operator VkPipeline() const;
+
 			ARRAY<VDescriptor> descriptors;
+
+			VkPipelineLayout layout = VK_NULL_HANDLE;
+			VkPipeline pipeline = VK_NULL_HANDLE;
 		};
 	}
 }

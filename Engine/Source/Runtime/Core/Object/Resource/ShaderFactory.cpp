@@ -12,7 +12,7 @@ namespace Dynamik
 		instance.myWorkingDir = path;
 	}
 
-	DMKShaderResourceMap DMKShaderFactory::createResourceMap(const STRING& path, const DMKShaderLocation& location)
+	DMKShaderResourceLayout DMKShaderFactory::createResourceMap(const STRING& path, const DMKShaderLocation& location)
 	{
 		if (path.find(".spv") == STRING::npos)
 			DMK_FATAL(STRING(__FUNCSIG__) + "Function only supports SPIR-V!");
@@ -23,14 +23,14 @@ namespace Dynamik
 
 		Tools::SPIRVDisassembler dissassembler(_module);
 
-		return DMKShaderResourceMap();
+		return DMKShaderResourceLayout();
 	}
 	
-	DMKShaderModule DMKShaderFactory::createModule(const STRING& filePath, const DMKShaderLocation& location, const DMKShaderResourceMap& resourceMap, const DMKShaderCodeType& codeType)
+	DMKShaderModule DMKShaderFactory::createModule(const STRING& filePath, const DMKShaderLocation& location, const DMKShaderResourceLayout& resourceLayout, const DMKShaderCodeType& codeType)
 	{
 		DMKShaderModule _module(location, codeType);
 		_module.loadCode(filePath);
-		_module.setResourceMap(resourceMap);
+		_module.setResourceLayout(resourceLayout);
 
 		return _module;
 	}

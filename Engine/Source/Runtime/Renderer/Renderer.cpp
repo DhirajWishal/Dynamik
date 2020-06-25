@@ -17,6 +17,7 @@
 #include "Backend/Vulkan/Context/VulkanRenderPass.h"
 #include "Backend/Vulkan/Context/VulkanFrameBuffer.h"
 #include "Backend/Vulkan/Graphics/VulkanRenderAsset.h"
+#include "Backend/Vulkan/Pipelines/VulkanGraphicsPipeline.h"
 
 namespace Dynamik
 {
@@ -137,10 +138,8 @@ namespace Dynamik
 		{
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			auto myPtr = StaticAllocator<VulkanCoreObject>::allocate();
-			myPtr->initialize(myWindowHandle, mySampleCount, bEnableValidation);
-
-			return myPtr;
+			myCoreObject = static_cast<RCoreObject*>(StaticAllocator<VulkanCoreObject>::allocate());
+			myCoreObject->initialize(myWindowHandle, mySampleCount, bEnableValidation);
 		}
 		break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
@@ -163,7 +162,7 @@ namespace Dynamik
 		{
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			mySwapChain = (RSwapChain*)StaticAllocator<VulkanSwapChain>::allocate();
+			mySwapChain = static_cast<RSwapChain*>(StaticAllocator<VulkanSwapChain>::allocate());
 			mySwapChain->initialize(myCoreObject, viewport, presentMode);
 		}
 		break;
@@ -185,7 +184,7 @@ namespace Dynamik
 		{
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			myRenderTarget->pRenderPass = (RRenderPass*)StaticAllocator<VulkanRenderPass>::allocate();
+			myRenderTarget->pRenderPass = static_cast<RRenderPass*>(StaticAllocator<VulkanRenderPass>::allocate());
 			/* Attachments: SwapChain, Depth, Color */
 			myRenderTarget->pRenderPass->initialize(myCoreObject, subPasses, mySwapChain);
 		}
@@ -208,7 +207,7 @@ namespace Dynamik
 		{
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			myRenderTarget->pFrameBuffer = (RFrameBuffer*)StaticAllocator<VulkanFrameBuffer>::allocate();
+			myRenderTarget->pFrameBuffer = static_cast<RFrameBuffer*>(StaticAllocator<VulkanFrameBuffer>::allocate());
 			myRenderTarget->pFrameBuffer->initialize(myCoreObject, myRenderTarget->pRenderPass, mySwapChain);
 		}
 		break;
@@ -262,21 +261,115 @@ namespace Dynamik
 		createFrameBuffer();
 	}
 
+	RBuffer* DMKRenderer::createBuffer(const RBufferType& type, UI64 size)
+	{
+		switch (myAPI)
+		{
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
+		{
+			VulkanBuffer* pBuffer = StaticAllocator<VulkanBuffer>::allocate();
+			pBuffer->initialize(myCoreObject, type, size);
+
+			return static_cast<RBuffer*>(pBuffer);
+		}
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
+			break;
+		default:
+			break;
+		}
+		return nullptr;
+	}
+
+	RPipelineObject* DMKRenderer::allocatePipeline()
+	{
+		switch (myAPI)
+		{
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
+			return static_cast<RPipelineObject*>(StaticAllocator<VulkanGraphicsPipeline>::allocate());
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
+			break;
+		default:
+			break;
+		}
+		return nullptr;
+	}
+
 	void DMKRenderer::createEntityResources(DMKGameEntity* pGameEntity)
 	{
+		REntity entity;
+		RMeshObject* meshComponent = nullptr;
+		for (UI64 index = 0; index < pGameEntity->componentManager.getComponentArray<DMKMeshComponent>()->myComponents.size(); index++)
+		{
+			auto mesh = pGameEntity->componentManager.getComponent<DMKMeshComponent>(index);
+			meshComponent = StaticAllocator<RMeshObject>::allocate();
+			meshComponent->pMeshComponent = mesh;
+
+			/* Initialize Vertex Data */
+			meshComponent->vertexBufferOffset = myVertexBufferByteSize;
+			myVertexBufferByteSize += mesh->getVertexBufferObjectByteSize();
+
+			/* Initialize Index Data */
+			meshComponent->indexBufferOffset = myIndexBufferByteSize;
+			myIndexBufferByteSize += mesh->getIndexBufferObjectByteSize();
+
+			/* Initialize Pipeline */
+			meshComponent->pPipeline = allocatePipeline();
+
+			RPipelineCreateInfo pipelineCreateInfo = {};
+			pipelineCreateInfo.pRenderTarget = myRenderTarget;
+			pipelineCreateInfo.pSwapChain = mySwapChain;
+			pipelineCreateInfo.shaders = mesh->shaderModules;
+			pipelineCreateInfo.scissorInfos.resize(1);
+			pipelineCreateInfo.colorBlendInfo.blendStates = createBasicBlendStates();
+			pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
+			meshComponent->pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS);
+
+			entity.pMeshObjects.pushBack(meshComponent);
+		}
+
+		myEntities.pushBack(entity);
+	}
+
+	void DMKRenderer::initializeBuffers()
+	{
+		/* Initialize Vertex Buffer */
+		myVertexBuffer = createBuffer(RBufferType::BUFFER_TYPE_VERTEX, myVertexBufferByteSize);
+		for (auto entity : myEntities)
+		{
+			POINTER<BYTE> vertexBufferPointer = myVertexBuffer->getData(myCoreObject, myVertexBufferByteSize, 0);
+			for (auto mesh : entity.pMeshObjects)
+			{
+				DMKMemoryFunctions::moveData(vertexBufferPointer.get(), mesh->pMeshComponent->vertexBuffer, mesh->pMeshComponent->getVertexBufferObjectByteSize());
+				vertexBufferPointer += mesh->pMeshComponent->getVertexBufferObjectByteSize();
+
+				mesh->pMeshComponent->clearVertexBuffer();
+			}
+			myVertexBuffer->unmapMemory(myCoreObject);
+		}
+
+		/* Initialize Index Buffer */
+		myIndexBuffer = createBuffer(RBufferType::BUFFER_TYPE_INDEX, myIndexBufferByteSize);
+		for (auto entity : myEntities)
+		{
+			POINTER<BYTE> indexBufferPointer = myIndexBuffer->getData(myCoreObject, myIndexBufferByteSize, 0);
+			for (auto mesh : entity.pMeshObjects)
+			{
+				DMKMemoryFunctions::moveData(indexBufferPointer.get(), mesh->pMeshComponent->indexBuffer.data(), mesh->pMeshComponent->getIndexBufferObjectByteSize());
+				indexBufferPointer += mesh->pMeshComponent->getIndexBufferObjectByteSize();
+
+				mesh->pMeshComponent->clearIndexBuffer();
+			}
+			myIndexBuffer->unmapMemory(myCoreObject);
+		}
 	}
 
 	void DMKRenderer::initializeFinals()
 	{
-		/*
-		 Initialize vertex buffers.
-		 Copy vertex data from mesh to the vertex buffers.
-		 Clear vertex data from the mesh.
-
-		 Initialize index buffers.
-		 Copy index data from mesh to the index buffers.
-		 Clear index data from the mesh.
-		*/
+		initializeBuffers();
 
 		myCommandBufferManager = (RCommandBufferManager*)StaticAllocator<VulkanCommandBufferManager>::allocate();
 		myCommandBufferManager->initialize(myCoreObject);
@@ -288,6 +381,19 @@ namespace Dynamik
 			buffer->begin();
 
 			myCommandBufferManager->bindRenderTarget(buffer, myRenderTarget, mySwapChain, itr);
+
+			buffer->bindVertexBuffer(myVertexBuffer, 0);
+			buffer->bindIndexBuffer(myIndexBuffer);
+
+			for (auto entity : myEntities)
+			{
+				for (auto mesh : entity.pMeshObjects)
+				{
+					buffer->bindGraphicsPipeline(mesh->pPipeline);
+					buffer->drawIndexed(mesh->indexBufferOffset, mesh->vertexBufferOffset, mesh->pMeshComponent->indexCount, 1);
+				}
+			}
+
 			myCommandBufferManager->unbindRenderTarget(buffer);
 
 			buffer->end();
@@ -307,5 +413,33 @@ namespace Dynamik
 		myRenderTarget->pFrameBuffer->terminate(myCoreObject);
 
 		myCoreObject->terminate();
+	}
+
+	void DMKRenderer::terminateEntities()
+	{
+		for (auto entity : myEntities)
+		{
+			for (auto mesh : entity.pMeshObjects)
+			{
+				StaticAllocator<RPipelineObject>::deallocate(mesh->pPipeline, 0);
+
+				StaticAllocator<RMeshObject>::deallocate(mesh);
+			}
+		}
+	}
+	
+	ARRAY<RColorBlendState> DMKRenderer::createBasicBlendStates()
+	{
+		ARRAY<RColorBlendState> blendStates;
+		RColorBlendState state;
+		for (UI32 index = 0; index < 1; index++)
+		{
+			state.colorWriteMask = (RColorComponent)0;
+			state.enable = false;
+
+			blendStates.pushBack(state);
+		}
+
+		return blendStates;
 	}
 }

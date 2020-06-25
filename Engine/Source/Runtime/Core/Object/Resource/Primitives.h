@@ -69,22 +69,6 @@ namespace Dynamik
 		F32 boneWeights[BoneCount] = { 0.0f };
 	};
 
-	/*
-	 This Structure contains all the possible vertex data in a mesh. Later when submitting the data, each
-	 vertex gets packed into a pre allocated space using the vertex attributes.
-	*/
-	struct DMK_API DMKVertexObject {
-		/* Bone information container */
-		VertexBoneInformation<8U> boneInformation;
-
-		VEC3F position;
-		VEC3F color;
-		VEC3F textureCoord;
-		VEC3F uvCoord;
-		VEC3F normal;
-		F32 integrity = 0.0f;   /* For the Dynamik Destruction Engine */
-	};
-
 	/* Shader input attribute types */
 	enum class DMK_API DMKVertexAttributeType {
 		DMK_VERTEX_ATTRIBUTE_TYPE_POSITION,                 /* Position coordinates */

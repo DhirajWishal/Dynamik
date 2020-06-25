@@ -11,6 +11,7 @@
 */
 #include "Context/RFrameBuffer.h"
 #include "RPipelineObject.h"
+#include "Primitives/RBuffer.h"
 
 namespace Dynamik
 {
@@ -25,10 +26,15 @@ namespace Dynamik
 		virtual ~RCommandBuffer() {}
 
 		virtual void begin() = 0;
+
+		virtual void bindVertexBuffer(RBuffer* pBuffer, UI64 firstBinding) = 0;
+		virtual void bindIndexBuffer(RBuffer* pBuffer) = 0;
+
 		/*
 		 Bind pipeline and resources
 		*/
-		virtual void bindPipeline(RPipelineObject* pPipelineObject) = 0;
+		virtual void bindGraphicsPipeline(RPipelineObject* pPipelineObject) = 0;
+		virtual void drawIndexed(UI64 indexOffset, UI64 vertexOffset, UI64 indexCount, UI64 instanceCount) = 0;
 		virtual void end() = 0;
 	};
 }

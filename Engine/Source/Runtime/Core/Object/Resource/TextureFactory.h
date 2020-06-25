@@ -10,7 +10,7 @@
  Date:		08/06/2020
 */
 #include "Types/Array.h"
-#include "Texture2D.h"
+#include "Textures/Texture2D.h"
 
 namespace Dynamik
 {
