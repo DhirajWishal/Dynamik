@@ -16,8 +16,14 @@
 
 #ifdef DMK_PLATFORM_WINDOWS
 #include "Error/ErrorManager.h"
+
 #include "Memory/MemoryFunctions.h"
+
 #include "Types/Utilities.h"
+#include "Types/DataTypes.h"
+
+#include "Macros/Assert.h"
+#include "Macros/Global.h"
 
 #endif // DMK_PLATFORM_WINDOWS
 

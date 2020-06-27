@@ -4,6 +4,7 @@
 ---------- Dynamik Engine project description ----------
 
 project "Dynamik"
+	location "../Programs"
 	filter "*Engine"
 		kind "StaticLib"
 		targetname "Dynamik"

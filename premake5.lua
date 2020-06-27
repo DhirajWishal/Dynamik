@@ -21,12 +21,6 @@ workspace "Dynamik"
 	filter "platforms:Mac"
 		system "macosx"
 
-	filter "configurations:*Engine"
-		startproject "Application"
-
-	filter "configurations:*Studio"
-		startproject "Dynamik"
-
 	filter ""
 
 outputDir = "$(Configuration)-$(Platform)"
@@ -75,6 +69,17 @@ IncludeLib["glslang"] = "$(SolutionDir)Dependencies/Libraries/External/glslang/l
 group "Engine"	-- Add the Engine to a virtual folder
 include "Engine/Source/Dynamik.lua"
 include "Engine/Application/Application.lua"
+
+group "Engine/Modules"
+include "Engine/Source/Runtime/ComponentSystem/ComponentSystem.lua"
+include "Engine/Source/Runtime/Core/Core.lua"
+include "Engine/Source/Runtime/Events/Events.lua"
+include "Engine/Source/Runtime/GameLibrary/GameLibrary.lua"
+include "Engine/Source/Runtime/Importer/Importer.lua"
+include "Engine/Source/Runtime/Managers/Managers.lua"
+include "Engine/Source/Runtime/Renderer/Renderer.lua"
+include "Engine/Source/Runtime/Tools/Tools.lua"
+include "Engine/Source/Runtime/Window/Window.lua"
 
 group "Third Party"
 include "Engine/ThirdParty/imgui/imgui.lua"

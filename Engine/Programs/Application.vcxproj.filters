@@ -12,31 +12,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ApplicationPackage.h" />
-    <ClInclude Include="Assets\KeyBinding.h">
+    <ClInclude Include="..\Application\ApplicationPackage.h" />
+    <ClInclude Include="..\Application\Assets\KeyBinding.h">
       <Filter>Assets</Filter>
     </ClInclude>
-    <ClInclude Include="Assets\Level1\Entities\PlayerMoon.h">
+    <ClInclude Include="..\Application\Assets\Level1\Entities\PlayerMoon.h">
       <Filter>Assets\Level1\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Assets\Level1\Level1.h">
+    <ClInclude Include="..\Application\Assets\Level1\Level1.h">
       <Filter>Assets\Level1</Filter>
     </ClInclude>
-    <ClInclude Include="Assets\Level1\Player.h">
+    <ClInclude Include="..\Application\Assets\Level1\Player.h">
       <Filter>Assets\Level1</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ApplicationPackage.cpp" />
-    <ClCompile Include="Assets\Level1\Entities\PlayerMoon.cpp">
+    <ClCompile Include="..\Application\ApplicationPackage.cpp" />
+    <ClCompile Include="..\Application\Assets\Level1\Entities\PlayerMoon.cpp">
       <Filter>Assets\Level1\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Assets\Level1\Level1.cpp">
+    <ClCompile Include="..\Application\Assets\Level1\Level1.cpp">
       <Filter>Assets\Level1</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="..\Application\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Application.lua" />
+    <None Include="..\Application\Application.lua" />
   </ItemGroup>
 </Project>

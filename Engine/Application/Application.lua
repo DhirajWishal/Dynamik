@@ -4,6 +4,7 @@
 ---------- Application project description ----------
 
 project "Application"
+    location "../Programs"
 	kind "ConsoleApp"
 	cppdialect "C++17"
 	language "C++"
