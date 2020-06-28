@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Event">
+      <UniqueIdentifier>{E70B220D-5320-4ABE-1CA2-ED1D887546EF}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Event\EventListener.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\KeyCodes.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\KeyEventListener.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\MouseButtonEventListener.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event\MouseScrollEventListener.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHandler.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Event\KeyEventListener.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\MouseButtonEventListener.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Event\MouseScrollEventListener.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="EventHandler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Events.lua" />
+  </ItemGroup>
+</Project>
