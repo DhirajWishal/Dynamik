@@ -4,8 +4,6 @@
 #include "dmkafx.h"
 #include "Matrix3F.h"
 
-#include "../SIMD/SIMD512.h"
-
 namespace Dynamik
 {
 	Matrix3F::Matrix3F()

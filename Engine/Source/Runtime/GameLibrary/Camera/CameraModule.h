@@ -35,11 +35,11 @@ namespace Dynamik
 
 		DMKCameraMatrix matrix;
 
-		VEC3F position = { 0.0f, 0.0f, 0.0f };
-		VEC3F front = { 0.0f, 0.0f, 1.0f };
-		VEC3F right = { 1.0f, 0.0f, 0.0f };
-		VEC3F cameraUp = { 0.0f, 1.0f, 0.0f };
-		VEC3F worldUp = { 0.0f, 1.0f, 0.0f };
+		VEC3 position = { 0.0f, 0.0f, 0.0f };
+		VEC3 front = { 0.0f, 0.0f, 1.0f };
+		VEC3 right = { 1.0f, 0.0f, 0.0f };
+		VEC3 cameraUp = { 0.0f, 1.0f, 0.0f };
+		VEC3 worldUp = { 0.0f, 1.0f, 0.0f };
 
 	private:
 		DMKUniformDescription myDescription;

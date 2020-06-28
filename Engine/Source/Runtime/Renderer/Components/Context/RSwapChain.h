@@ -41,7 +41,7 @@ namespace Dynamik
 
 		ARRAY<RImage*> images;
 		ARRAY<RImageView*> imageViews;
-		VEC2F extent = VEC2F(0.0f);
+		VEC2 extent = VEC2(0.0f);
 		UI32 bufferCount = 0;
 		DMKFormat format = DMKFormat::DMK_FORMAT_UNDEFINED;
 		DMKViewport viewPort;

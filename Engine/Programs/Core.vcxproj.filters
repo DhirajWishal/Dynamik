@@ -19,9 +19,6 @@
     <Filter Include="Math\Matrix">
       <UniqueIdentifier>{73311A30-DFE6-9225-68DB-8CFCD48F8929}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Math\SIMD">
-      <UniqueIdentifier>{EB7DF957-57E8-ADCE-A026-5F740CD08B23}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Math\Vector">
       <UniqueIdentifier>{F1B75745-5D6D-D03A-E661-CA115216C73E}</UniqueIdentifier>
     </Filter>
@@ -51,7 +48,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Source\Runtime\Core\Core.Include.Library.h" />
+    <ClInclude Include="..\Source\Runtime\Core\Core.Include.h" />
     <ClInclude Include="..\Source\Runtime\Core\Error\ErrorDefines.h">
       <Filter>Error</Filter>
     </ClInclude>
@@ -79,6 +76,9 @@
     <ClInclude Include="..\Source\Runtime\Core\Macros\MemoryMacro.h">
       <Filter>Macros</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Runtime\Core\Math\IncludeSIMD.h">
+      <Filter>Math</Filter>
+    </ClInclude>
     <ClInclude Include="..\Source\Runtime\Core\Math\MathFunctions.h">
       <Filter>Math</Filter>
     </ClInclude>
@@ -97,37 +97,13 @@
     <ClInclude Include="..\Source\Runtime\Core\Math\Matrix\Matrix4F.h">
       <Filter>Math\Matrix</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Runtime\Core\Math\SIMD\Base.h">
-      <Filter>Math\SIMD</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Runtime\Core\Math\SIMD\SIMD128.h">
-      <Filter>Math\SIMD</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Runtime\Core\Math\SIMD\SIMD256.h">
-      <Filter>Math\SIMD</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Runtime\Core\Math\SIMD\SIMD512.h">
-      <Filter>Math\SIMD</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Runtime\Core\Math\SIMD\SIMDFunctions.h">
-      <Filter>Math\SIMD</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Runtime\Core\Math\Vector\Vector.h">
-      <Filter>Math\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Runtime\Core\Math\Vector\Vector2D.h">
       <Filter>Math\Vector</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Runtime\Core\Math\Vector\Vector2F.h">
       <Filter>Math\Vector</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Runtime\Core\Math\Vector\Vector3D.h">
-      <Filter>Math\Vector</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Runtime\Core\Math\Vector\Vector3F.h">
-      <Filter>Math\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Runtime\Core\Math\Vector\Vector4D.h">
       <Filter>Math\Vector</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Runtime\Core\Math\Vector\Vector4F.h">
@@ -237,31 +213,10 @@
     <ClCompile Include="..\Source\Runtime\Core\Math\Matrix\Matrix4F.cpp">
       <Filter>Math\Matrix</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Runtime\Core\Math\SIMD\SIMD128.cpp">
-      <Filter>Math\SIMD</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Runtime\Core\Math\SIMD\SIMD256.cpp">
-      <Filter>Math\SIMD</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Runtime\Core\Math\SIMD\SIMD512.cpp">
-      <Filter>Math\SIMD</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Runtime\Core\Math\SIMD\SIMDFunctions.cpp">
-      <Filter>Math\SIMD</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Runtime\Core\Math\Vector\Vector2D.cpp">
-      <Filter>Math\Vector</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Runtime\Core\Math\Vector\Vector2F.cpp">
       <Filter>Math\Vector</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Runtime\Core\Math\Vector\Vector3D.cpp">
-      <Filter>Math\Vector</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Runtime\Core\Math\Vector\Vector3F.cpp">
-      <Filter>Math\Vector</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Runtime\Core\Math\Vector\Vector4D.cpp">
       <Filter>Math\Vector</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Runtime\Core\Math\Vector\Vector4F.cpp">

@@ -28,10 +28,23 @@ namespace Dynamik
 		DMKMeshFactory& operator=(const DMKMeshFactory&) = delete;
 		DMKMeshFactory& operator=(DMKMeshFactory&&) = delete;
 
+		/*
+		 Internally used by the engine.
+		*/
 		static void setWorkingDirectory(const STRING& path);
 
 	public:
+		/*
+		 Create a basic triangle object.
+		*/
 		static DMKMeshComponent createBasicTriangle();
+
+		/*
+		 Create a default mesh component from a provided file.
+
+		 @param path: Path to the file which contains the mesh data.
+		*/
+		static DMKMeshComponent createDefault(const STRING& path);
 
 	private:
 		STRING workingDirectory = DMK_TEXT("");

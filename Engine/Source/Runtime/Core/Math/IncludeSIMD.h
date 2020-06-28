@@ -2,16 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_SIMD_BASE_H
-#define _DYNAMIK_SIMD_BASE_H
+#ifndef _DYNAMIK_INCLUDE_SIMD_H
+#define _DYNAMIK_INCLUDE_SIMD_H
 
 /*
- Author:    Dhiraj Wishal
- Date:      16/05/2020
-*/
+ Author:	Dhiraj Wishal
+ Date:		28/06/2020
 
-#include "Macros/Global.h"
-#include "Types/DataTypes.h"
+ This file includes all the necessary SIMD instruction set libraries.
+*/
 
 #if (defined(_M_AMD64) || defined(_M_X64) || defined(__amd64)) && ! defined(__x86_64__)
 #define __x86_64__ 1
@@ -84,41 +83,4 @@
 #endif
 #endif
 
-namespace Dynamik
-{
-	class DMK_API BaseSIMD {
-	public:
-		BaseSIMD() {}
-		virtual ~BaseSIMD() {}
-
-		/* Load un aligned bytes of data */
-		virtual void load(const	F32* address) {}
-		virtual void load(const	D64* address) {}
-		virtual void load(const	I32* address) {}
-
-		/*
-		 Load aligned bytes of data.
-		 SSE - 16 bits
-		 AVX - 32 bits
-		*/
-		virtual void loadAlign(const F32* address) {}
-		virtual void loadAlign(const D64* address) {}
-		virtual void loadAlign(const I32* address) {}
-
-		/* Store unaligned bytes of data */
-		virtual void store(F32* address) {}
-		virtual void store(D64* address) {}
-		virtual void store(I32* address) {}
-
-		/*
-		 Store aligned bytes of data.
-		 SSE - 16 bits
-		 AVX - 32 bits
-		*/
-		virtual void storeAlign(F32* address) {}
-		virtual void storeAlign(D64* address) {}
-		virtual void storeAlign(I32* address) {}
-	};
-}
-
-#endif // !_DYNAMIK_SIMD_BASE_H
+#endif // !_DYNAMIK_INCLUDE_SIMD_H

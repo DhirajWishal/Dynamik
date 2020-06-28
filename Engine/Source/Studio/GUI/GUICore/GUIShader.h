@@ -45,15 +45,15 @@ namespace Dynamik
         void setFloat(const STRING& name, float value) const;
 
         // ------------------------------------------------------------------------
-        void setVec2(const STRING& name, const VEC2F& value) const;
+        void setVec2(const STRING& name, const VEC2& value) const;
         void setVec2(const STRING& name, float x, float y) const;
 
         // ------------------------------------------------------------------------
-        void setVec3(const STRING& name, const VEC3F& value) const;
+        void setVec3(const STRING& name, const VEC3& value) const;
         void setVec3(const STRING& name, float x, float y, float z) const;
 
         // ------------------------------------------------------------------------
-        void setVec4(const STRING& name, const VEC4F& value) const;
+        void setVec4(const STRING& name, const VEC4& value) const;
         void setVec4(const STRING& name, float x, float y, float z, float w) const;
 
         // ------------------------------------------------------------------------

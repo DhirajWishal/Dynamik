@@ -31,13 +31,13 @@
  Alignment macros for Vector and Matrix classes.
  Name Convention: DMK_ALIGN_<Data type><Primitive type (float = F, double = D)>
 */
-#define DMK_ALIGN_VEC2F      __declspec(align(1))
+#define DMK_ALIGN_VEC2      __declspec(align(1))
 #define DMK_ALIGN_VEC2D      __declspec(align(2))
 
-#define DMK_ALIGN_VEC3F      __declspec(align(2))
+#define DMK_ALIGN_VEC3      __declspec(align(2))
 #define DMK_ALIGN_VEC3D      __declspec(align(4))
 
-#define DMK_ALIGN_VEC4F      __declspec(align(2))
+#define DMK_ALIGN_VEC4      __declspec(align(2))
 #define DMK_ALIGN_VEC4D      __declspec(align(4))
 
 #define DMK_ALIGN_MAT2F      __declspec(align(2))

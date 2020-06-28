@@ -4,8 +4,6 @@
 #include "dmkafx.h"
 #include "Matrix2F.h"
 
-#include "../SIMD/SIMD128.h"
-
 namespace Dynamik
 {
 	Matrix2F::Matrix2F()

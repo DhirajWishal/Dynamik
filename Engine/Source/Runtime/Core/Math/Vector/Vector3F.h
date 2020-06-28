@@ -31,16 +31,17 @@ namespace Dynamik
     class DMK_API Vector3F : public Vector<Vector3F> {
     public:
         Vector3F() : x(0.0f), y(0.0f), z(0.0f), w(0.0f) {}
-        Vector3F(F32 value) : x(value), y(value), z(value), a(value) {}
-        Vector3F(F32 value1, F32 value2, F32 value3) : x(value1), y(value2), z(value3), a(0.0f) {}
-        Vector3F(const Vector3F& other) : x(other.x), y(other.y), z(other.z), a(other.a) {}
+        Vector3F(F32 value) : x(value), y(value), z(value), w(value) {}
+        Vector3F(F32 value1, F32 value2, F32 value3) : x(value1), y(value2), z(value3), w(0.0f) {}
+        Vector3F(const Vector3F& other) : x(other.x), y(other.y), z(other.z), w(other.w) {}
         Vector3F(std::initializer_list<F32> list);
+        Vector3F(const F32* ptr);
         ~Vector3F() {}
 
         Vector3F operator=(const std::initializer_list<F32>& other);
         F32& operator[](UI32 index) const;
 
-        void load(F32* address);
+        operator F32* () const;
 
         union
         {

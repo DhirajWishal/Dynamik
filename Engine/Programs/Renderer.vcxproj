@@ -835,6 +835,7 @@
     <ClInclude Include="..\Source\Runtime\Renderer\Components\RContext.h" />
     <ClInclude Include="..\Source\Runtime\Renderer\Components\RCoreObject.h" />
     <ClInclude Include="..\Source\Runtime\Renderer\Components\REntity.h" />
+    <ClInclude Include="..\Source\Runtime\Renderer\Components\REnvironmentMap.h" />
     <ClInclude Include="..\Source\Runtime\Renderer\Components\RMeshObject.h" />
     <ClInclude Include="..\Source\Runtime\Renderer\Components\RPipelineObject.h" />
     <ClInclude Include="..\Source\Runtime\Renderer\Components\RRenderTarget.h" />

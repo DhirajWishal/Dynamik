@@ -358,7 +358,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Engine Windows|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;DMK_DEBUG;DMK_BUILD_ENGINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -711,7 +711,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\Source\Runtime\Core\Core.Include.Library.h" />
+    <ClInclude Include="..\Source\Runtime\Core\Core.Include.h" />
     <ClInclude Include="..\Source\Runtime\Core\Error\ErrorDefines.h" />
     <ClInclude Include="..\Source\Runtime\Core\Error\ErrorManager.h" />
     <ClInclude Include="..\Source\Runtime\Core\Error\MessageBox.h" />
@@ -721,23 +721,16 @@
     <ClInclude Include="..\Source\Runtime\Core\Macros\Assert.h" />
     <ClInclude Include="..\Source\Runtime\Core\Macros\Global.h" />
     <ClInclude Include="..\Source\Runtime\Core\Macros\MemoryMacro.h" />
+    <ClInclude Include="..\Source\Runtime\Core\Math\IncludeSIMD.h" />
     <ClInclude Include="..\Source\Runtime\Core\Math\MathFunctions.h" />
     <ClInclude Include="..\Source\Runtime\Core\Math\MathTypes.h" />
     <ClInclude Include="..\Source\Runtime\Core\Math\Matrix\Matrix.h" />
     <ClInclude Include="..\Source\Runtime\Core\Math\Matrix\Matrix2F.h" />
     <ClInclude Include="..\Source\Runtime\Core\Math\Matrix\Matrix3F.h" />
     <ClInclude Include="..\Source\Runtime\Core\Math\Matrix\Matrix4F.h" />
-    <ClInclude Include="..\Source\Runtime\Core\Math\SIMD\Base.h" />
-    <ClInclude Include="..\Source\Runtime\Core\Math\SIMD\SIMD128.h" />
-    <ClInclude Include="..\Source\Runtime\Core\Math\SIMD\SIMD256.h" />
-    <ClInclude Include="..\Source\Runtime\Core\Math\SIMD\SIMD512.h" />
-    <ClInclude Include="..\Source\Runtime\Core\Math\SIMD\SIMDFunctions.h" />
     <ClInclude Include="..\Source\Runtime\Core\Math\Vector\Vector.h" />
-    <ClInclude Include="..\Source\Runtime\Core\Math\Vector\Vector2D.h" />
     <ClInclude Include="..\Source\Runtime\Core\Math\Vector\Vector2F.h" />
-    <ClInclude Include="..\Source\Runtime\Core\Math\Vector\Vector3D.h" />
     <ClInclude Include="..\Source\Runtime\Core\Math\Vector\Vector3F.h" />
-    <ClInclude Include="..\Source\Runtime\Core\Math\Vector\Vector4D.h" />
     <ClInclude Include="..\Source\Runtime\Core\Math\Vector\Vector4F.h" />
     <ClInclude Include="..\Source\Runtime\Core\Memory\AutomatedMemoryManager.h" />
     <ClInclude Include="..\Source\Runtime\Core\Memory\LocalHeap.h" />
@@ -775,15 +768,8 @@
     <ClCompile Include="..\Source\Runtime\Core\Math\Matrix\Matrix2F.cpp" />
     <ClCompile Include="..\Source\Runtime\Core\Math\Matrix\Matrix3F.cpp" />
     <ClCompile Include="..\Source\Runtime\Core\Math\Matrix\Matrix4F.cpp" />
-    <ClCompile Include="..\Source\Runtime\Core\Math\SIMD\SIMD128.cpp" />
-    <ClCompile Include="..\Source\Runtime\Core\Math\SIMD\SIMD256.cpp" />
-    <ClCompile Include="..\Source\Runtime\Core\Math\SIMD\SIMD512.cpp" />
-    <ClCompile Include="..\Source\Runtime\Core\Math\SIMD\SIMDFunctions.cpp" />
-    <ClCompile Include="..\Source\Runtime\Core\Math\Vector\Vector2D.cpp" />
     <ClCompile Include="..\Source\Runtime\Core\Math\Vector\Vector2F.cpp" />
-    <ClCompile Include="..\Source\Runtime\Core\Math\Vector\Vector3D.cpp" />
     <ClCompile Include="..\Source\Runtime\Core\Math\Vector\Vector3F.cpp" />
-    <ClCompile Include="..\Source\Runtime\Core\Math\Vector\Vector4D.cpp" />
     <ClCompile Include="..\Source\Runtime\Core\Math\Vector\Vector4F.cpp" />
     <ClCompile Include="..\Source\Runtime\Core\Memory\AutomatedMemoryManager.cpp" />
     <ClCompile Include="..\Source\Runtime\Core\Memory\LocalHeap.cpp" />

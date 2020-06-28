@@ -198,6 +198,9 @@
     <ClInclude Include="..\Source\Runtime\Renderer\Components\REntity.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Runtime\Renderer\Components\REnvironmentMap.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="..\Source\Runtime\Renderer\Components\RMeshObject.h">
       <Filter>Components</Filter>
     </ClInclude>

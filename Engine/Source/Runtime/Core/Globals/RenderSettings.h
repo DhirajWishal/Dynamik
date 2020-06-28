@@ -17,6 +17,7 @@ namespace Dynamik
 {
 	/* Rendering API */
 	enum class DMK_API DMKRenderingAPI {
+		DMK_RENDERING_API_NONE,
 		DMK_RENDERING_API_VULKAN,
 		DMK_RENDERING_API_DIRECTX,
 		DMK_RENDERING_API_OPENGL,

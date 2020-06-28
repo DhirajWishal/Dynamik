@@ -74,6 +74,7 @@ namespace Dynamik
 
     private:    /* Resource */
         RBuffer* createBuffer(const RBufferType& type, UI64 size);
+        RTexture* createTexture(const DMKTexture* pTexture);
         RPipelineObject* allocatePipeline();
 
         void createEntityResources(DMKGameEntity* pGameEntity);

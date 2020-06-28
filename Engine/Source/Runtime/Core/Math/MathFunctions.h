@@ -13,9 +13,7 @@
 */
 
 #include "Vector/Vector3F.h"
-#include "Vector/Vector3D.h"
 #include "Vector/Vector4F.h"
-#include "Vector/Vector4D.h"
 
 #include "Matrix/Matrix4F.h"
 
@@ -29,7 +27,12 @@ namespace Dynamik
 		/*
 		 Absolute value of a integer
 		*/
-		I32 abs(I32 value);
+		static I32 abs(I32 value);
+
+		/*
+		 Add all values together.
+		*/
+		static DMK_FORCEINLINE F32 addAll(Vector4F const vector);
 
 	public:
 		/*
@@ -54,7 +57,7 @@ namespace Dynamik
 
 	public:
 		/*
-		 Cross peoduct of two vectors (3D)
+		 Cross product of two vectors (3D)
 		*/
 		static Vector3F cross(Vector3F lhs, Vector3F rhs);
 
@@ -62,6 +65,12 @@ namespace Dynamik
 		 Normalize a vector (3D)
 		*/
 		static Vector3F normalize(Vector3F rhs);
+
+	public:
+		/*
+		 Multiply two Matrix4Fs
+		*/
+		static Matrix4F multiply(Matrix4F const lhs, Matrix4F const rhs);
 
 	public:
 		/*
@@ -84,6 +93,18 @@ namespace Dynamik
 		*/
 		static Matrix4F rotate(Matrix4F const mat, F32 const angel, Vector3F const vec);
 	};
+
+	/* ---------- GLOBAL OPERATORS ---------- */
+	/*
+	 Multiply two 4x4 matrices.
+
+	 @param lhs: Left matrix.
+	 @param rhs: Right matrix.
+	*/
+	DMK_FORCEINLINE Matrix4F operator*(const Matrix4F& lhs, const Matrix4F& rhs)
+	{
+		return DMKMathFunctions::multiply(lhs, rhs);
+	}
 }
 
 #endif // !_DYNAMIK_MATH_FUNCTIONS_H

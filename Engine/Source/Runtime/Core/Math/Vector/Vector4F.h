@@ -15,6 +15,7 @@
 
 namespace Dynamik
 {
+    class DMK_API Vector3F;
     class DMK_API Vector4F;
 
     /* Vector 4D type traits */
@@ -35,10 +36,13 @@ namespace Dynamik
         Vector4F(F32 value1, F32 value2, F32 value3, F32 value4) : r(value1), g(value2), b(value3), a(value4) {}
         Vector4F(const Vector4F& other) : r(other.r), g(other.g), b(other.b), a(other.a) {}
         Vector4F(std::initializer_list<F32> list);
+        Vector4F(const F32* ptr);
         ~Vector4F() {}
 
         Vector4F operator=(const std::initializer_list<F32>& list);
         F32& operator[](UI32 index) const;
+
+        operator F32* () const;
 
         union
         {

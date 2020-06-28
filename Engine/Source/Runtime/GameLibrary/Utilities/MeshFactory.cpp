@@ -67,4 +67,9 @@ namespace Dynamik
 
 		return component;
 	}
+	
+	DMKMeshComponent DMKMeshFactory::createDefault(const STRING& path)
+	{
+		return DMKMeshComponent();
+	}
 }

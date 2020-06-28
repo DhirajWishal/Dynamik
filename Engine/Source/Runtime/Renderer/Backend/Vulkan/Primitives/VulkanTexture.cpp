@@ -45,14 +45,8 @@ namespace Dynamik
 
 		void VulkanTexture::createSampler(RCoreObject* pCoreObject, RImageSamplerCreateInfo createInfo)
 		{
-			RImageSamplerCreateInfo initInfo;
-			initInfo.addressModeU = RImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
-			initInfo.addressModeV = RImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
-			initInfo.addressModeW = RImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_REPEAT;
-			initInfo.borderColor = RImageSamplerBorderColor::IMAGE_SAMPLER_BORDER_COLOR_I32_OPAQUE_BLACK;
-
 			pSampler = (RImageSampler*)StaticAllocator<VulkanImageSampler>::allocate();
-			pSampler->initialize(pCoreObject, initInfo);
+			pSampler->initialize(pCoreObject, createInfo);
 		}
 
 		void VulkanTexture::makeRenderable(RCoreObject* pCoreObject)

@@ -23,7 +23,7 @@ namespace Dynamik
 	 Renderer Image Create Info
 	*/
 	struct DMK_API RImageCreateInfo {
-		VEC3F vDimentions = VEC3F(0.0f, 0.0f, 1.0f);
+		VEC3 vDimentions = VEC3(0.0f, 0.0f, 1.0f);
 		DMKTextureType imageType = DMKTextureType::DMK_TEXTURE_TYPE_2D;
 		RImageUsage imageUsage = RImageUsage::IMAGE_USAGE_RENDER;
 		UI32 layers = 1;
@@ -55,7 +55,7 @@ namespace Dynamik
 		virtual VPTR getData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset) { return nullptr; }
 		virtual void unmapMemory(RCoreObject* pCoreObject) = 0;
 
-		VEC3F extent = VEC3F(0.0f);
+		VEC3 extent = VEC3(0.0f);
 		RImageView* pImageView;
 		DMKTextureType type = DMKTextureType::DMK_TEXTURE_TYPE_2D;
 		RImageUsage usage = RImageUsage::IMAGE_USAGE_RENDER;

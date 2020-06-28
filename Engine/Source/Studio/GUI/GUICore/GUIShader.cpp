@@ -109,7 +109,7 @@ namespace Dynamik
         glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
     }
 
-    void GUIShader::setVec2(const STRING& name, const VEC2F& value) const
+    void GUIShader::setVec2(const STRING& name, const VEC2& value) const
     {
         glUniform2fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
     }
@@ -119,7 +119,7 @@ namespace Dynamik
         glUniform2f(glGetUniformLocation(ID, name.c_str()), x, y);
     }
 
-    void GUIShader::setVec3(const STRING& name, const VEC3F& value) const
+    void GUIShader::setVec3(const STRING& name, const VEC3& value) const
     {
         glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
     }
@@ -129,7 +129,7 @@ namespace Dynamik
         glUniform3f(glGetUniformLocation(ID, name.c_str()), x, y, z);
     }
 
-    void GUIShader::setVec4(const STRING& name, const VEC4F& value) const
+    void GUIShader::setVec4(const STRING& name, const VEC4& value) const
     {
         glUniform4fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
     }

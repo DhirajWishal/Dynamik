@@ -136,6 +136,8 @@ namespace Dynamik
 	{
 		switch (myAPI)
 		{
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_NONE:
+			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
 			myCoreObject = static_cast<RCoreObject*>(StaticAllocator<VulkanCoreObject>::allocate());
@@ -160,6 +162,8 @@ namespace Dynamik
 	{
 		switch (myAPI)
 		{
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_NONE:
+			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
 			mySwapChain = static_cast<RSwapChain*>(StaticAllocator<VulkanSwapChain>::allocate());
@@ -182,6 +186,8 @@ namespace Dynamik
 	{
 		switch (myAPI)
 		{
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_NONE:
+			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
 			myRenderTarget->pRenderPass = static_cast<RRenderPass*>(StaticAllocator<VulkanRenderPass>::allocate());
@@ -205,6 +211,8 @@ namespace Dynamik
 	{
 		switch (myAPI)
 		{
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_NONE:
+			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
 			myRenderTarget->pFrameBuffer = static_cast<RFrameBuffer*>(StaticAllocator<VulkanFrameBuffer>::allocate());
@@ -265,12 +273,41 @@ namespace Dynamik
 	{
 		switch (myAPI)
 		{
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_NONE:
+			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
 			VulkanBuffer* pBuffer = StaticAllocator<VulkanBuffer>::allocate();
 			pBuffer->initialize(myCoreObject, type, size);
 
 			return static_cast<RBuffer*>(pBuffer);
+		}
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
+			break;
+		default:
+			break;
+		}
+		return nullptr;
+	}
+
+	RTexture* DMKRenderer::createTexture(const DMKTexture* pTexture)
+	{
+		switch (myAPI)
+		{
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_NONE:
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
+		{
+			RTexture* texture = StaticAllocator<VulkanTexture>::allocate();
+			texture->initialize(myCoreObject, (DMKTexture*)pTexture);
+			texture->createView(myCoreObject);
+
+			RImageSamplerCreateInfo samplerCreateInfo;
+			texture->createSampler(myCoreObject, samplerCreateInfo);
+
+			return texture;
 		}
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
 			break;
@@ -315,6 +352,12 @@ namespace Dynamik
 			/* Initialize Index Data */
 			meshComponent->indexBufferOffset = myIndexBufferByteSize;
 			myIndexBufferByteSize += mesh->getIndexBufferObjectByteSize();
+
+			/* Initialize Texture Data */
+			for (auto pTexture : mesh->textureModules)
+				meshComponent->pTextures.pushBack(createTexture(pTexture));
+
+			/* Initialize Uniform Buffers */
 
 			/* Initialize Pipeline */
 			meshComponent->pPipeline = allocatePipeline();
@@ -427,7 +470,7 @@ namespace Dynamik
 			}
 		}
 	}
-	
+
 	ARRAY<RColorBlendState> DMKRenderer::createBasicBlendStates()
 	{
 		ARRAY<RColorBlendState> blendStates;
