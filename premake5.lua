@@ -4,12 +4,9 @@ workspace "Dynamik"
 	platforms { "Windows", "Unix", "Mac" }
 
 	configurations {
-		"Debug Engine",
-		"Debug Studio",
-		"Release Engine",
-		"Release Studio",
-		"Distribution Engine",
-		"Distribution Studio"
+		"Debug",
+		"Release",
+		"Distribution",
 	}
 
 	filter "platforms:Windows"
@@ -67,22 +64,25 @@ IncludeLib["glslang"] = "$(SolutionDir)Dependencies/Libraries/External/glslang/l
 
 
 group "Engine"	-- Add the Engine to a virtual folder
-include "Engine/Source/Dynamik.lua"
-include "Engine/Application/Application.lua"
+include "Source/Engine/DynamikEngine.lua"
+include "Application/Application.lua"
 
-group "Engine/Modules"
-include "Engine/Source/Runtime/ComponentSystem/ComponentSystem.lua"
-include "Engine/Source/Runtime/Core/Core.lua"
-include "Engine/Source/Runtime/Events/Events.lua"
-include "Engine/Source/Runtime/GameLibrary/GameLibrary.lua"
-include "Engine/Source/Runtime/Importer/Importer.lua"
-include "Engine/Source/Runtime/Managers/Managers.lua"
-include "Engine/Source/Runtime/Renderer/Renderer.lua"
-include "Engine/Source/Runtime/Tools/Tools.lua"
-include "Engine/Source/Runtime/Window/Window.lua"
+group "Studio"
+include "Source/Studio/DynamikStudio.lua"
+
+group "Runtime"
+include "Source/Runtime/ComponentSystem/ComponentSystem.lua"
+include "Source/Runtime/Core/Core.lua"
+include "Source/Runtime/Events/Events.lua"
+include "Source/Runtime/GameLibrary/GameLibrary.lua"
+include "Source/Runtime/Importer/Importer.lua"
+include "Source/Runtime/Managers/Managers.lua"
+include "Source/Runtime/Renderer/Renderer.lua"
+include "Source/Runtime/Tools/Tools.lua"
+include "Source/Runtime/Window/Window.lua"
 
 group "Third Party"
-include "Engine/ThirdParty/imgui/imgui.lua"
-include "Engine/ThirdParty/SPIRV-Cross/SPIRV-Cross.lua"
+include "ThirdParty/imgui/imgui.lua"
+include "ThirdParty/SPIRV-Cross/SPIRV-Cross.lua"
 
 group ""

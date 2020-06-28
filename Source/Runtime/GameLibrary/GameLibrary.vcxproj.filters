@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{CE7141AB-BA13-6C81-A3CE-7FD58F0FF3D1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mechanics">
+      <UniqueIdentifier>{30EBFAEF-9C55-AF66-E593-600C513D8DBB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Menus">
+      <UniqueIdentifier>{ADA4A90D-19B9-D1BE-E23A-751E4E0ECEEF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{010A8043-6D74-34BA-B6B2-E55F225C120F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Camera\CameraModule.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="EnvironmentMap.h" />
+    <ClInclude Include="GameEntity.h" />
+    <ClInclude Include="GameMechanics.h" />
+    <ClInclude Include="GamePackage.h" />
+    <ClInclude Include="LevelComponent.h" />
+    <ClInclude Include="Mechanics\GameAssetMechanics.h">
+      <Filter>Mechanics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mechanics\PlayerController.h">
+      <Filter>Mechanics</Filter>
+    </ClInclude>
+    <ClInclude Include="Menus\Layer.h">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerObject.h" />
+    <ClInclude Include="Utilities\EntityFactory.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\MeshFactory.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Camera\CameraModule.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEntity.cpp" />
+    <ClCompile Include="LevelComponent.cpp" />
+    <ClCompile Include="Mechanics\PlayerController.cpp">
+      <Filter>Mechanics</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\MeshFactory.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GameLibrary.lua" />
+  </ItemGroup>
+</Project>
