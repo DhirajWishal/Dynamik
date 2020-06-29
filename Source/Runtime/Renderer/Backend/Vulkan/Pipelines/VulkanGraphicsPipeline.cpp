@@ -42,7 +42,6 @@ namespace Dynamik
 
 			ARRAY<VkDescriptorSetLayout> descriptorLayouts;
 			ARRAY<VulkanResourceLayout> resourceLayouts;
-			VulkanResourceLayout* resourceLayoutPointer = nullptr;
 
 			/* Initialize Vertex Input Info */
 			VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
@@ -58,24 +57,25 @@ namespace Dynamik
 			shaderStage.flags = VK_NULL_HANDLE;
 			shaderStage.pNext = VK_NULL_HANDLE;
 			shaderStage.pSpecializationInfo = VK_NULL_HANDLE;
-			for (auto shaderModule : createInfo.shaders)
+
+			resourceLayouts.resize(createInfo.shaders.size());
+			for (UI32 index = 0; index < createInfo.shaders.size(); index++)
 			{
 				shaderStage.pName = "main";
-				shaderStage.module = VulkanUtilities::createShaderModule(pCoreObject, shaderModule);
-				shaderStage.stage = VulkanUtilities::getShaderStage(shaderModule.location);
+				shaderStage.module = VulkanUtilities::createShaderModule(pCoreObject, createInfo.shaders[index]);
+				shaderStage.stage = VulkanUtilities::getShaderStage(createInfo.shaders[index].location);
 				shaderStages.pushBack(shaderStage);
 
-				resourceLayouts.pushBack(VulkanUtilities::getResourceLayout(shaderModule.resourceLayout, shaderModule.location));
-				resourceLayoutPointer = &resourceLayouts.back();
+				resourceLayouts[index] = VulkanUtilities::getResourceLayout(createInfo.shaders[index].resourceLayout, createInfo.shaders[index].location);
 
-				if (shaderModule.location == DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
+				if (createInfo.shaders[index].location == DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
 				{
-					vertexInputInfo.pVertexBindingDescriptions = &resourceLayoutPointer->vertexInputBinding;
-					vertexInputInfo.vertexAttributeDescriptionCount = resourceLayoutPointer->vertexInputAttributes.size();
-					vertexInputInfo.pVertexAttributeDescriptions = resourceLayoutPointer->vertexInputAttributes.data();
+					vertexInputInfo.pVertexBindingDescriptions = &resourceLayouts[index].vertexInputBinding;
+					vertexInputInfo.vertexAttributeDescriptionCount = resourceLayouts[index].vertexInputAttributes.size();
+					vertexInputInfo.pVertexAttributeDescriptions = resourceLayouts[index].vertexInputAttributes.data();
 				}
 
-				if ((resourceLayoutPointer->descriptorBindings.size() < 1) && (resourceLayoutPointer->descriptorPoolSizes.size() < 1))
+				if ((resourceLayouts[index].descriptorBindings.size() < 1) && (resourceLayouts[index].descriptorPoolSizes.size() < 1))
 					continue;
 
 				VDescriptor descriptor;
@@ -84,8 +84,8 @@ namespace Dynamik
 				descriptorSetLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
 				descriptorSetLayoutCreateInfo.flags = VK_NULL_HANDLE;
 				descriptorSetLayoutCreateInfo.pNext = VK_NULL_HANDLE;
-				descriptorSetLayoutCreateInfo.bindingCount = resourceLayoutPointer->descriptorBindings.size();
-				descriptorSetLayoutCreateInfo.pBindings = resourceLayoutPointer->descriptorBindings.data();
+				descriptorSetLayoutCreateInfo.bindingCount = resourceLayouts[index].descriptorBindings.size();
+				descriptorSetLayoutCreateInfo.pBindings = resourceLayouts[index].descriptorBindings.data();
 
 				DMK_VULKAN_ASSERT(vkCreateDescriptorSetLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorSetLayoutCreateInfo, nullptr, &descriptor.layout), "Failed to create descriptor set layout!");
 
@@ -95,8 +95,8 @@ namespace Dynamik
 				descriptorPoolCreateInfo.flags = VK_NULL_HANDLE;
 				descriptorPoolCreateInfo.pNext = VK_NULL_HANDLE;
 				descriptorPoolCreateInfo.maxSets = 1;
-				descriptorPoolCreateInfo.poolSizeCount = resourceLayoutPointer->descriptorPoolSizes.size();
-				descriptorPoolCreateInfo.pPoolSizes = resourceLayoutPointer->descriptorPoolSizes.data();
+				descriptorPoolCreateInfo.poolSizeCount = resourceLayouts[index].descriptorPoolSizes.size();
+				descriptorPoolCreateInfo.pPoolSizes = resourceLayouts[index].descriptorPoolSizes.data();
 
 				DMK_VULKAN_ASSERT(vkCreateDescriptorPool(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorPoolCreateInfo, VK_NULL_HANDLE, &descriptor.pool), "Failed to create descriptor pool!");
 
@@ -205,6 +205,7 @@ namespace Dynamik
 			depthStencil.pNext = VK_NULL_HANDLE;
 			depthStencil.depthTestEnable = createInfo.depthStencilInfo.enableStencil;
 			depthStencil.stencilTestEnable = createInfo.depthStencilInfo.enableStencilTests;
+			depthStencil.depthWriteEnable = createInfo.depthStencilInfo.enableWrite;
 			depthStencil.depthBoundsTestEnable = createInfo.depthStencilInfo.enableBoundsTest;
 			depthStencil.depthCompareOp = (VkCompareOp)createInfo.depthStencilInfo.compareOp;
 			depthStencil.front = VulkanUtilities::getStencilOpState(createInfo.depthStencilInfo.frontOpState);
@@ -273,7 +274,7 @@ namespace Dynamik
 		{
 			return this->layout;
 		}
-		
+
 		VulkanGraphicsPipeline::operator VkPipeline() const
 		{
 			return this->pipeline;

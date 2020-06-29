@@ -34,7 +34,8 @@ namespace Dynamik
 		 Bind pipeline and resources
 		*/
 		virtual void bindGraphicsPipeline(RPipelineObject* pPipelineObject) = 0;
-		virtual void drawIndexed(UI64 indexOffset, UI64 vertexOffset, UI64 indexCount, UI64 instanceCount) = 0;
+		virtual void drawIndexed(UI64 firstIndex, UI64 vertexOffset, UI64 indexCount, UI64 instanceCount) = 0;
+		virtual void drawVertexes(UI64 vertexIndex, UI64 vertexCount, UI64 instanceCount) = 0;
 		virtual void end() = 0;
 	};
 }

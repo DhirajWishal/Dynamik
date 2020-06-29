@@ -47,7 +47,7 @@ namespace Dynamik
         /*
          Process commands and call individual functions of the backend.
         */
-        void processCommand(DMKThreadCommand* command) override;
+        void processCommand(DMKThreadCommand* pCommand) override;
 
         /*
          Execute the three steps of draw call.

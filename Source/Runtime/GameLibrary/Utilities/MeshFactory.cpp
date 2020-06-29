@@ -27,9 +27,9 @@ namespace Dynamik
 		};
 
 		ARRAY<TempVertex> vertexes = {
-			TempVertex({ 0.0f,	0.5f,	1.0f }, { 1.f, 0.0f, 0.0f }),
-			TempVertex({ 0.5f,  -0.5f,	1.0f }, { 1.f, 1.0f, 0.0f }),
-			TempVertex({ -0.5f, -0.5f,	1.0f }, { 1.f, 1.0f, 1.0f }),
+			TempVertex({ 0.0f,	0.5f,  -1.0f }, { 1.f, 0.0f, 0.0f }),
+			TempVertex({ 0.5f,  -0.5f, -1.0f }, { 1.f, 1.0f, 0.0f }),
+			TempVertex({ -0.5f, -0.5f, -1.0f }, { 1.f, 1.0f, 1.0f }),
 		};
 
 		ARRAY<UI32> indexes = {
@@ -62,12 +62,12 @@ namespace Dynamik
 		shaderLayout.inputAttributes.pushBack(attribute);
 		shaderLayout.inputAttributes.pushBack(attribute);
 
-		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/triangle-vert.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, shaderLayout, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
-		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/triangle-frag.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderResourceLayout(), DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/triangle-vert-3D.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, shaderLayout, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/triangle-frag-3D.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderResourceLayout(), DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 
 		return component;
 	}
-	
+
 	DMKMeshComponent DMKMeshFactory::createDefault(const STRING& path)
 	{
 		return DMKMeshComponent();

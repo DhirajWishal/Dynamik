@@ -18,7 +18,21 @@ workspace "Dynamik"
 	filter "platforms:Mac"
 		system "macosx"
 
-	filter ""
+	filter {}
+
+	filter "configurations:Debug"
+		defines { "DMK_DEBUG" }
+		symbols "On"
+		
+	filter "configurations:Release"
+		defines { "DMK_RELEASE" }
+		optimize "On"
+
+	filter "configurations:Distribution"
+		defines { "DMK_DISTRIBUTION" }
+		optimize "On"
+
+	filter {}
 
 outputDir = "$(Configuration)-$(Platform)"
 solutionDir = "$(SolutionDir)"
@@ -78,6 +92,7 @@ include "Source/Runtime/GameLibrary/GameLibrary.lua"
 include "Source/Runtime/Importer/Importer.lua"
 include "Source/Runtime/Managers/Managers.lua"
 include "Source/Runtime/Renderer/Renderer.lua"
+include "Source/Runtime/Services/Services.lua"
 include "Source/Runtime/Tools/Tools.lua"
 include "Source/Runtime/Window/Window.lua"
 

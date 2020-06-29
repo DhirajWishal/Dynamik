@@ -28,10 +28,10 @@ namespace Dynamik
 {
 	/* Default constructor */
 	DMKEngine::DMKEngine(const DMKEngineInstanceDescriptor& instanceDescriptor, const DMKGamePackage* gamePackage)
-		: _instanceDescription(instanceDescriptor), _gamePackage((DMKGamePackage*)gamePackage)
+		: _instanceDescription(instanceDescriptor), pGamePackage(Cast<DMKGamePackage*>(gamePackage))
 	{
 		_clock.start();
-		_gamePackage->onLoad();
+		pGamePackage->onLoad();
 
 		_initializeRuntimeSystems();
 
@@ -48,7 +48,7 @@ namespace Dynamik
 		_threadManager.issueInitializeCommandRT();
 		_threadManager.issueCreateContextCommandRT(DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT, _windowManager.createViewport(windowID, 512, 512, 0, 0));
 
-		_gamePackage->onInit();
+		pGamePackage->onInit();
 
 		_loadLevel();
 	}
@@ -56,39 +56,39 @@ namespace Dynamik
 	/* Execute the game code */
 	void DMKEngine::execute()
 	{
-		_gamePackage->onExecute();
-		_threadManager.issueInitializeEntityCommandRT(_currentLevel->myEntities[0]);
+		pGamePackage->onExecute();
+		_threadManager.issueInitializeEntityCommandRT(pCurrentLevel->myEntities[0]);
 		_threadManager.issueInitializeFinalsCommandRT();
 
 		UI64 _itrIndex = 0;
-		DMKGameEntity* _entity;
+		DMKGameEntity* _entity = nullptr;
 
 		printf("Allocation count: %u", DMKAutomatedMemoryManager::getAllocationCount());
 
 		while (true)
 		{
-			_gamePackage->onBeginFrame();
+			pGamePackage->onBeginFrame();
 
 			_threadManager.clearCommands();
 
 			_windowManager.pollEvents();
 
-			for (_itrIndex = 0; _itrIndex < _currentLevel->myEntities.size(); _itrIndex++)
+			for (_itrIndex = 0; _itrIndex < pCurrentLevel->myEntities.size(); _itrIndex++)
 			{
-				_currentLevel->myEntities[_itrIndex];
+				pCurrentLevel->myEntities[_itrIndex];
 				/* send entity to the physics engine */
 			}
 
 			_windowManager.clean();
 
-			_gamePackage->onEndFrame();
+			pGamePackage->onEndFrame();
 		}
 	}
 
 	/* Default destructor */
 	DMKEngine::~DMKEngine()
 	{
-		_gamePackage->onExit();
+		pGamePackage->onExit();
 
 		_windowManager.terminateAll();
 		_clock.end();
@@ -101,15 +101,15 @@ namespace Dynamik
 
 	void DMKEngine::_loadLevel()
 	{
-		_gamePackage->onLevelLoad(_nextLevelIndex);
-		_currentLevel = _gamePackage->levels[_nextLevelIndex++];
+		pGamePackage->onLevelLoad(_nextLevelIndex);
+		pCurrentLevel = pGamePackage->levels[_nextLevelIndex++];
 
-		_currentLevel->onLoad();
-		_currentLevel->initializeComponents();
+		pCurrentLevel->onLoad();
+		pCurrentLevel->initializeComponents();
 
-		for (auto _entity : _currentLevel->myEntities)
+		for (auto _entity : pCurrentLevel->myEntities)
 			_entity->initialize();
 
-		_currentLevel->initializeCameraModule();
+		pCurrentLevel->initializeCameraModule();
 	}
 }

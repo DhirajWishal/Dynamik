@@ -36,7 +36,7 @@ namespace Dynamik
 	template<class DERIVED, class BASE>
 	DMK_FORCEINLINE DERIVED InheritCast(BASE* pBase)
 	{
-		return *((DERIVED*)pBase);
+		return *(DERIVED*)pBase;
 	}
 
 	/*
@@ -49,7 +49,7 @@ namespace Dynamik
 	template<class DERIVED, class BASE>
 	DMK_FORCEINLINE DERIVED* Inherit(BASE* pBase)
 	{
-		return ((DERIVED*)pBase);
+		return dynamic_cast<DERIVED*>(pBase);
 	}
 
 	/*

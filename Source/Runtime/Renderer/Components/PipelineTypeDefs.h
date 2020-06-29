@@ -189,7 +189,7 @@ namespace Dynamik
 		RColorBlendFactor srcAlphaBlendFactor = {};
 		RColorBlendFactor dstAlphaBlendFactor = {};
 		RColorBlendOp alphaBlendOp = {};
-		RColorComponent colorWriteMask = {};
+		RColorComponent colorWriteMask = (RColorComponent)15;
 		B1 enable = false;
 	};
 
@@ -226,8 +226,8 @@ namespace Dynamik
 		RCullMode cullMode = RCullMode::CULL_MODE_BACK_BIT;
 		RFrontFace frontFace = RFrontFace::FRONT_FACE_COUNTER_CLOCKWISE;
 		F32 lineWidth = 1.0f;
-		F32 constantFactor = 1.0f;
-		F32 slopeFactor = 1.0f;
+		F32 constantFactor = 0.0f;
+		F32 slopeFactor = 0.0f;
 		B1 depthClampEnable = false;
 		B1 discardEnable = false;
 		B1 depthBiasEnable = false;

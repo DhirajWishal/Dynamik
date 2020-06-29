@@ -71,14 +71,14 @@ namespace Dynamik
 
 			vkCmdBeginRenderPass(Inherit<VulkanCommandBuffer>(pCommandBuffer)->buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-			VkViewport viewPort;
-			viewPort.width = (F32)pSwapChain->extent.width;
-			viewPort.height = (F32)pSwapChain->extent.height;
-			viewPort.minDepth = 0.0f;
-			viewPort.maxDepth = 1.0f;
-			viewPort.x = pSwapChain->viewPort.xOffset;
-			viewPort.y = pSwapChain->viewPort.yOffset;
-			vkCmdSetViewport(Inherit<VulkanCommandBuffer>(pCommandBuffer)->buffer, 0, 1, &viewPort);
+			//VkViewport viewPort;
+			//viewPort.width = (F32)pSwapChain->extent.width;
+			//viewPort.height = (F32)pSwapChain->extent.height;
+			//viewPort.minDepth = 0.0f;
+			//viewPort.maxDepth = 1.0f;
+			//viewPort.x = pSwapChain->viewPort.xOffset;
+			//viewPort.y = pSwapChain->viewPort.yOffset;
+			//vkCmdSetViewport(Inherit<VulkanCommandBuffer>(pCommandBuffer)->buffer, 0, 1, &viewPort);
 		}
 
 		void VulkanCommandBufferManager::unbindRenderTarget(RCommandBuffer* pCommandBuffer)

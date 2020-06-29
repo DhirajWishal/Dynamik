@@ -45,9 +45,14 @@ namespace Dynamik
 				vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline, 0, pipeline.descriptors.size(), descriptorSets.data(), 0, VK_NULL_HANDLE);
 		}
 
-		void VulkanCommandBuffer::drawIndexed(UI64 indexOffset, UI64 vertexOffset, UI64 indexCount, UI64 instanceCount)
+		void VulkanCommandBuffer::drawIndexed(UI64 firstIndex, UI64 vertexOffset, UI64 indexCount, UI64 instanceCount)
 		{
-			vkCmdDrawIndexed(buffer, indexCount, instanceCount, indexOffset, vertexOffset, 0);
+			vkCmdDrawIndexed(buffer, indexCount, instanceCount, firstIndex, vertexOffset, 0);
+		}
+
+		void VulkanCommandBuffer::drawVertexes(UI64 vertexIndex, UI64 vertexCount, UI64 instanceCount)
+		{
+			vkCmdDraw(buffer, vertexCount, instanceCount, vertexIndex, 0);
 		}
 
 		void VulkanCommandBuffer::end()

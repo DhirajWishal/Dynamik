@@ -1,9 +1,9 @@
 -- Copyright 2020 Dhiraj Wishal
 -- SPDX-License-Identifier: Apache-2.0
 
----------- ComponentSystem project description ----------
+---------- Services project description ----------
 
-project "ComponentSystem"
+project "Services"
 	kind "StaticLib"
 	language "C++"
 	systemversion "latest"
@@ -29,17 +29,6 @@ project "ComponentSystem"
 		"$(SolutionDir)Dependencies/Libraries/Local",
 		"$(SolutionDir)Source/Runtime/",
 		"$(SolutionDir)Source/Runtime/Core/PCH/",
-		"$(SolutionDir)ThirdParty/imgui",
-		"$(SolutionDir)ThirdParty/SPIRV-Cross",
-		"%{IncludeDir.Vulkan}",
-		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.GLEW}",
-		"%{IncludeDir.assimp}",
-		"%{IncludeDir.stb}",
-		"%{IncludeDir.gli}",
-		"%{IncludeDir.glm}",
-		"%{IncludeDir.zlib}",
-		"%{IncludeDir.SPIRVTools}",
 	}
 
 	libdirs {

@@ -32,6 +32,10 @@ namespace Dynamik
             const VkFramebuffer operator[](UI32 index) const;
 
             ARRAY<VkFramebuffer> buffers;
+
+        private:
+            ARRAY<VulkanImage> attachmentImages;
+            ARRAY<VulkanImageView> attachmentViews;
         };
     }
 }

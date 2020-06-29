@@ -40,7 +40,7 @@ namespace Dynamik
         virtual ~DMKThread() {}
 
         virtual void initialize() {}
-        virtual void processCommand(DMKThreadCommand* command) {}
+        virtual void processCommand(DMKThreadCommand* pCommand) {}
 
         virtual void onLoop() {}
 

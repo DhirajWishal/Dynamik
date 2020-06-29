@@ -58,7 +58,7 @@ namespace Dynamik
 	 of the Dynamik Engine.
 
 	 Basic steps:
-	 * Instanciate the engine by providing the instance descriptor and the game package.
+	 * Instantiate the engine by providing the instance descriptor and the game package.
 	 * Call the initialize method.
 	 * Call the execute method.
 	 * Call the terminate method.
@@ -87,9 +87,9 @@ namespace Dynamik
 		void _loadLevel();
 
 	private:	/* Client game data store */
-		DMKGamePackage* _gamePackage;
-		DMKLevelComponent* _currentLevel;
-		DMKLevelComponent* _nextLevel;
+		DMKGamePackage* pGamePackage = nullptr;
+		DMKLevelComponent* pCurrentLevel = nullptr;
+		DMKLevelComponent* pNextLevel = nullptr;
 		UI64 _nextLevelIndex = 0;
 
 	private:	/* Private runtime data store */
