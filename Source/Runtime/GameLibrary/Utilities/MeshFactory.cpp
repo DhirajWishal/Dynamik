@@ -57,15 +57,8 @@ namespace Dynamik
 
 		component.vertexLayout = vertexLayout;
 
-		DMKShaderResourceLayout shaderLayout;
-		DMKShaderInputAttribute attribute;
-		attribute.dataCount = 1;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
-		shaderLayout.inputAttributes.pushBack(attribute);
-		shaderLayout.inputAttributes.pushBack(attribute);
-
-		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/triangle-vert-3D.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, shaderLayout, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
-		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/triangle-frag-3D.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderResourceLayout(), DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/triangle-vert-3D.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/triangle-frag-3D.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 
 		return component;
 	}
@@ -74,8 +67,8 @@ namespace Dynamik
 	{
 		DMKMeshComponent component = DMKMeshImporter::loadMeshes(path, DMKVertexLayout::createBasic())[0];
 
-		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/3D/vert.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderResourceLayout::createDefault(DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX), DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
-		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/3D/frag.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderResourceLayout::createDefault(DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT), DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/3D/vert.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/3D/frag.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 
 		return component;
 	}

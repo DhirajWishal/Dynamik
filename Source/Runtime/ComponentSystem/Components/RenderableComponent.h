@@ -50,6 +50,9 @@ namespace Dynamik
 		virtual void addTextureModule(DMKTexture* pTexture);
 		virtual void setBaseRenderingPipeline(const DMKBaseRenderingPipeline& pipeline);
 
+		virtual void translate(const MAT4& mat, const VEC3& vec) {}
+		virtual void rotate(const VEC3& direction, const F32& radians) {}
+
 		/*
 		 Add a renderable component which this component uses.
 		*/

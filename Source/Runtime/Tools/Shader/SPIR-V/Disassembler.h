@@ -52,11 +52,6 @@ namespace Dynamik
 			ARRAY<VkPushConstantRange> getPushConstantRanges();
 
 			/*
-			 Get the shader resource map from the current shader.
-			*/
-			DMKShaderResourceLayout getResourceMap();
-
-			/*
 			 Get the binding description of the current shader.
 			 @warn: Only works with vertex shaders.
 			*/
@@ -82,7 +77,6 @@ namespace Dynamik
 
 		private:
 			DMKShaderModule shaderModule;
-			DMKShaderResourceLayout resourceLayout;
 			ARRAY<VkDescriptorSetLayoutBinding> layoutBindings;
 			ARRAY<VkDescriptorPoolSize> poolSizes;
 			ARRAY<VkVertexInputAttributeDescription> vertexAttributes;

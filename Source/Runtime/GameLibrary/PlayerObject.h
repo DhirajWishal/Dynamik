@@ -43,6 +43,8 @@ namespace Dynamik
 	public:		/* Camera Module */
 		DMKCameraModule* cameraModule;
 
+		void setCameraPosition(const VEC3& position);
+
 		/*
 		 Get the camera module
 		*/

@@ -7,6 +7,7 @@
 #include "Core/Memory/MemoryFunctions.h"
 #include "Importer/Asset/MeshImporter.h"
 #include "Core/Object/Resource/TextureFactory.h"
+#include "Core/Math/MathFunctions.h"
 
 namespace Dynamik
 {
@@ -27,24 +28,34 @@ namespace Dynamik
 	{
 	}
 
-	void DMKMeshComponent::setMatrix(const MAT4F& matrix)
+	void DMKMeshComponent::setMatrix(const MAT4& matrix)
 	{
 		modelMatrix = matrix;
 	}
 
-	void DMKMeshComponent::update(const MAT4F& matrix)
+	void DMKMeshComponent::update(const MAT4& matrix)
 	{
 		modelMatrix = matrix;
 	}
 
-	MAT4F DMKMeshComponent::getMatrix()
+	MAT4 DMKMeshComponent::getMatrix()
 	{
 		return modelMatrix;
 	}
 
 	UI64 DMKMeshComponent::getUniformByteSize()
 	{
-		return sizeof(MAT4F);
+		return sizeof(MAT4);
+	}
+
+	void DMKMeshComponent::translate(const MAT4& mat, const VEC3& vec)
+	{
+		modelMatrix = DMKMathFunctions::translate(mat, vec);
+	}
+
+	void DMKMeshComponent::rotate(const VEC3& direction, const F32& radians)
+	{
+		modelMatrix = DMKMathFunctions::rotate(modelMatrix, radians, direction);
 	}
 
 	void DMKMeshComponent::addTexture(const STRING& path, const DMKTextureType& type)
@@ -62,7 +73,7 @@ namespace Dynamik
 		indexBuffer.clear();
 	}
 
-	DMKMeshComponent::operator MAT4F() const
+	DMKMeshComponent::operator MAT4() const
 	{
 		return this->modelMatrix;
 	}

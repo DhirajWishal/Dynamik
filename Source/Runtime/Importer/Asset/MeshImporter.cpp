@@ -45,30 +45,47 @@ namespace Dynamik
 					{
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION:
 						if (_mesh->HasPositions())
-							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mVertices[_index].x, attributeSize);
+							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mVertices[_index], attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
 						break;
+
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR:
 						if (_mesh->HasVertexColors(0))
 							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mColors[0][_index].r, attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
 						break;
+
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES:
 						if (_mesh->HasTextureCoords(0))
 							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mTextureCoords[0][_index].x, attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
 						break;
+
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES:
 						break;
+
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL:
 						if (_mesh->HasNormals())
 							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mNormals[_index].x, attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
 						break;
+
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_INTEGRITY:
 						break;
+
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID:
 						break;
+
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT:
 						break;
+
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_CUSTOM:
 						break;
+
 					default:
 						DMK_ERROR_BOX("Invalid vertex attribute!");
 						break;

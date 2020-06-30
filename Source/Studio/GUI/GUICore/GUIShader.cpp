@@ -139,17 +139,17 @@ namespace Dynamik
         glUniform4f(glGetUniformLocation(ID, name.c_str()), x, y, z, w);
     }
 
-    void GUIShader::setMat2(const STRING& name, const MAT2F& mat) const
+    void GUIShader::setMat2(const STRING& name, const MAT2& mat) const
     {
         glUniformMatrix2fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
     }
 
-    void GUIShader::setMat3(const STRING& name, const MAT3F& mat) const
+    void GUIShader::setMat3(const STRING& name, const MAT3& mat) const
     {
         glUniformMatrix3fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
     }
 
-    void GUIShader::setMat4(const STRING& name, const MAT4F& mat) const
+    void GUIShader::setMat4(const STRING& name, const MAT4& mat) const
     {
         glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
     }

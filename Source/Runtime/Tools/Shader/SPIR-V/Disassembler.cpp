@@ -30,7 +30,7 @@ namespace Dynamik
 			else if (count == 2)
 				return VK_FORMAT_R32G32_SFLOAT;
 			else if (count == 3)
-				return VK_FORMAT_R32G32B32_SFLOAT;
+				return VK_FORMAT_R32G32B32A32_SFLOAT;
 			else if (count == 4)
 				return VK_FORMAT_R32G32B32A32_SFLOAT;
 
@@ -85,14 +85,6 @@ namespace Dynamik
 				_parseModule();
 
 			return pushConstantRanges;
-		}
-
-		DMKShaderResourceLayout SPIRVDisassembler::getResourceMap()
-		{
-			if (!isParsed)
-				_parseModule();
-
-			return resourceLayout;
 		}
 
 		VkVertexInputBindingDescription SPIRVDisassembler::getVertexBindingDescription()
@@ -191,7 +183,6 @@ namespace Dynamik
 				}
 
 				shaderResourceDescriptor.uniformBufferObjects.pushBack(resourceDescription);
-				resourceLayout.uniforms.pushBack(resourceDescription);
 				resourceDescription.attributes.clear();
 			}
 
@@ -240,8 +231,6 @@ namespace Dynamik
 
 					resourceDescription.attributes.pushBack(resourceAttribute);
 				}
-
-				resourceLayout.uniforms.pushBack(resourceDescription);
 			}
 
 			/* Shader inputs */
@@ -263,7 +252,7 @@ namespace Dynamik
 				_attributeDescription.format = getFormat(_type.vecsize);
 				vertexAttributes.pushBack(_attributeDescription);
 
-				_attributeDescription.offset = (_type.width / sizeof(F32)) * _type.vecsize;
+				_attributeDescription.offset += (_type.width / sizeof(D64)) * ((_type.vecsize == 3) ? 4 : _type.vecsize);
 			}
 			bindingDescription.binding = 0;
 			bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;

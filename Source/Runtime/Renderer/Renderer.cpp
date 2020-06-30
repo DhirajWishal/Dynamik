@@ -372,7 +372,7 @@ namespace Dynamik
 
 		DMKCameraMatrix _matrix;
 		_matrix.projection = DMKMathFunctions::perspective(DMKMathFunctions::radians(45.0f), mySwapChain->extent.width / mySwapChain->extent.height, 0.001f, 256.0f);
-		_matrix.view = DMKMathFunctions::lookAt({ 0.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+		_matrix.view = DMKMathFunctions::lookAt(pCameraModule->position, pCameraModule->position + pCameraModule->front, pCameraModule->cameraUp);
 		myCameraComponent->pUniformBuffer->setData(myCoreObject, sizeof(_matrix), 0, &_matrix);
 	}
 
@@ -403,6 +403,8 @@ namespace Dynamik
 				/* Initialize Default Uniform */
 				RBuffer* defaultUniform = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, mesh->getUniformByteSize());
 				meshComponent->pUniformBuffer = defaultUniform;
+
+				meshComponent->pUniformBuffer->setData(myCoreObject, sizeof(mesh->modelMatrix), 0, &mesh->modelMatrix);
 			}
 
 			/* Initialize Pipeline */

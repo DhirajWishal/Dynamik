@@ -23,17 +23,6 @@ namespace Dynamik
 	};
 
 	/*
-	 Shader resource map
-	 This describes all the resources and inputs the shader code needs.
-	*/
-	struct DMK_API DMKShaderResourceLayout {
-		ARRAY<DMKUniformDescription> uniforms;
-		ARRAY<DMKShaderInputAttribute> inputAttributes;
-
-		static DMKShaderResourceLayout createDefault(const DMKShaderLocation& location);
-	};
-
-	/*
 	 Shader module for the Dynamik Engine
 	*/
     class DMK_API DMKShaderModule {
@@ -53,31 +42,8 @@ namespace Dynamik
 		 @param location: Shader location.
 		*/
 		void setLocation(const DMKShaderLocation& location);
-			 
-		/*
-		 Set shader resource map.
-
-		 @param resourceLayout: Shader resource map.
-		*/
-		void setResourceLayout(const DMKShaderResourceLayout& resourceLayout);
-
-		/*
-		 Add input attribute resource to the map.
-		*/
-		void addResource(const DMKShaderInputAttribute& inputAttribute);
-
-		/*
-		 Add uniform description resource to the map.
-		*/
-		void addResource(const DMKUniformDescription& uniformDescription);
-
-		/*
-		 Get the stored resource map.
-		*/
-		const DMKShaderResourceLayout getResourceLayout() const;
 
 	public:
-		DMKShaderResourceLayout resourceLayout;
         ARRAY<UI32> shaderCode;
 		DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_ALL;
 		DMKShaderCodeType codeType = DMKShaderCodeType::DMK_SHADER_CODE_TYPE_GLSL;

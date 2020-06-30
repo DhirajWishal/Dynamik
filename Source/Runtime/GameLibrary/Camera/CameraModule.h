@@ -18,8 +18,8 @@ namespace Dynamik
 {
 	/* Camera matrix */
 	struct DMK_API DMKCameraMatrix {
-		MAT4F view = MAT4F(1.0f);
-		MAT4F projection = MAT4F(1.0f);
+		MAT4 view = MAT4(1.0f);
+		MAT4 projection = MAT4(1.0f);
 	};
 
 	/*
@@ -38,7 +38,7 @@ namespace Dynamik
 		DMKCameraMatrix matrix;
 
 		VEC3 position = { 0.0f, 0.0f, 0.0f };
-		VEC3 front = { 0.0f, 0.0f, 1.0f };
+		VEC3 front = { 0.0f, 0.0f, -1.0f };
 		VEC3 right = { 1.0f, 0.0f, 0.0f };
 		VEC3 cameraUp = { 0.0f, 1.0f, 0.0f };
 		VEC3 worldUp = { 0.0f, 1.0f, 0.0f };

@@ -40,13 +40,13 @@
 #define DMK_ALIGN_VEC4      __declspec(align(2))
 #define DMK_ALIGN_VEC4D      __declspec(align(4))
 
-#define DMK_ALIGN_MAT2F      __declspec(align(2))
+#define DMK_ALIGN_MAT2      __declspec(align(2))
 #define DMK_ALIGN_MAT2D      __declspec(align(4))
 
-#define DMK_ALIGN_MAT3F      __declspec(align(36))
+#define DMK_ALIGN_MAT3      __declspec(align(36))
 #define DMK_ALIGN_MAT3D      __declspec(align(62))
 
-#define DMK_ALIGN_MAT4F      __declspec(align(8))
+#define DMK_ALIGN_MAT4      __declspec(align(8))
 #define DMK_ALIGN_MAT4D      __declspec(align(16))
 
 #endif // !_DYNAMIK_MEMORY_MACRO_H
