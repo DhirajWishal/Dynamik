@@ -134,6 +134,7 @@ namespace Dynamik
 
 			VkDescriptorSetLayoutBinding layoutBinding;
 			layoutBinding.descriptorCount = 1;
+			//layoutBinding.stageFlags = VK_SHADER_STAGE_ALL_GRAPHICS;
 			layoutBinding.stageFlags = getShaderStage(location);
 			layoutBinding.pImmutableSamplers = VK_NULL_HANDLE;
 

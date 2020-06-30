@@ -4,6 +4,7 @@
 #include "dmkafx.h"
 #include "VulkanGraphicsPipeline.h"
 
+#include "../Primitives/VulkanImageSampler.h"
 #include "../VulkanUtilities.h"
 #include "../VulkanCoreObject.h"
 #include "Tools/Shader/SPIR-V/Disassembler.h"
@@ -12,26 +13,6 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		UI32 getAttributeSize(VkFormat format)
-		{
-			switch (format)
-			{
-			case VK_FORMAT_R32_SFLOAT:
-				return sizeof(F32) * 1;
-			case VK_FORMAT_R32G32_SFLOAT:
-				return sizeof(F32) * 2;
-			case VK_FORMAT_R32G32B32_SFLOAT:
-				return sizeof(F32) * 3;
-			case VK_FORMAT_R32G32B32A32_SFLOAT:
-				return sizeof(F32) * 4;
-			default:
-				DMK_ERROR_BOX("Unsupported attribute size!");
-				break;
-			}
-
-			return 0;
-		}
-
 		void VulkanGraphicsPipeline::initialize(RCoreObject* pCoreObject, RPipelineSpecification createInfo, RPipelineUsage usage, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain)
 		{
 			if (usage != RPipelineUsage::PIPELINE_USAGE_GRAPHICS)
@@ -40,8 +21,8 @@ namespace Dynamik
 				return;
 			}
 
-			ARRAY<VkDescriptorSetLayout> descriptorLayouts;
 			ARRAY<VulkanResourceLayout> resourceLayouts;
+			ARRAY<VkDescriptorPoolSize> descriptorPoolSizes;
 
 			/* Initialize Vertex Input Info */
 			VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
@@ -66,26 +47,41 @@ namespace Dynamik
 				shaderStage.stage = VulkanUtilities::getShaderStage(createInfo.shaders[index].location);
 				shaderStages.pushBack(shaderStage);
 
-				resourceLayouts[index] = VulkanUtilities::getResourceLayout(createInfo.shaders[index].resourceLayout, createInfo.shaders[index].location);
+				Tools::SPIRVDisassembler dissassembler(createInfo.shaders[index]);
+
+				resourceBindings.insert(dissassembler.getOrderedDescriptorSetLayoutBindings());
+				descriptorPoolSizes.insert(dissassembler.getDescriptorPoolSizes());
 
 				if (createInfo.shaders[index].location == DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
 				{
+					resourceLayouts[index].vertexInputBinding = dissassembler.getVertexBindingDescription();
+					resourceLayouts[index].vertexInputAttributes = dissassembler.getVertexAttributeDescriptions();
+
 					vertexInputInfo.pVertexBindingDescriptions = &resourceLayouts[index].vertexInputBinding;
 					vertexInputInfo.vertexAttributeDescriptionCount = resourceLayouts[index].vertexInputAttributes.size();
 					vertexInputInfo.pVertexAttributeDescriptions = resourceLayouts[index].vertexInputAttributes.data();
 				}
+			}
 
-				if ((resourceLayouts[index].descriptorBindings.size() < 1) && (resourceLayouts[index].descriptorPoolSizes.size() < 1))
-					continue;
+			/* Initialize Pipeline Layout */
+			VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo = {};
+			pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+			pipelineLayoutCreateInfo.flags = VK_NULL_HANDLE;
+			pipelineLayoutCreateInfo.pNext = VK_NULL_HANDLE;
+			pipelineLayoutCreateInfo.pushConstantRangeCount = 0;			/* TODO */
+			pipelineLayoutCreateInfo.pPushConstantRanges = VK_NULL_HANDLE;	/* TODO */
+			pipelineLayoutCreateInfo.setLayoutCount = 0;
+			pipelineLayoutCreateInfo.pSetLayouts = nullptr;
 
-				VDescriptor descriptor;
+			if ((resourceBindings.size() >= 1) && (descriptorPoolSizes.size() >= 1))
+			{
 				/* Create descriptor set layout */
 				VkDescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = {};
 				descriptorSetLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
 				descriptorSetLayoutCreateInfo.flags = VK_NULL_HANDLE;
 				descriptorSetLayoutCreateInfo.pNext = VK_NULL_HANDLE;
-				descriptorSetLayoutCreateInfo.bindingCount = resourceLayouts[index].descriptorBindings.size();
-				descriptorSetLayoutCreateInfo.pBindings = resourceLayouts[index].descriptorBindings.data();
+				descriptorSetLayoutCreateInfo.bindingCount = resourceBindings.size();
+				descriptorSetLayoutCreateInfo.pBindings = resourceBindings.data();
 
 				DMK_VULKAN_ASSERT(vkCreateDescriptorSetLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorSetLayoutCreateInfo, nullptr, &descriptor.layout), "Failed to create descriptor set layout!");
 
@@ -95,8 +91,8 @@ namespace Dynamik
 				descriptorPoolCreateInfo.flags = VK_NULL_HANDLE;
 				descriptorPoolCreateInfo.pNext = VK_NULL_HANDLE;
 				descriptorPoolCreateInfo.maxSets = 1;
-				descriptorPoolCreateInfo.poolSizeCount = resourceLayouts[index].descriptorPoolSizes.size();
-				descriptorPoolCreateInfo.pPoolSizes = resourceLayouts[index].descriptorPoolSizes.data();
+				descriptorPoolCreateInfo.poolSizeCount = descriptorPoolSizes.size();
+				descriptorPoolCreateInfo.pPoolSizes = descriptorPoolSizes.data();
 
 				DMK_VULKAN_ASSERT(vkCreateDescriptorPool(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorPoolCreateInfo, VK_NULL_HANDLE, &descriptor.pool), "Failed to create descriptor pool!");
 
@@ -110,19 +106,10 @@ namespace Dynamik
 
 				DMK_VULKAN_ASSERT(vkAllocateDescriptorSets(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorSetAllocateInfo, &descriptor.set), "Failed to allocate descriptor sets!");
 
-				descriptors.pushBack(descriptor);
-				descriptorLayouts.pushBack(descriptor.layout);
+				pipelineLayoutCreateInfo.setLayoutCount = 1;
+				pipelineLayoutCreateInfo.pSetLayouts = &descriptor.layout;
+				isResourceAvailable = true;
 			}
-
-			/* Initialize Pipeline Layout */
-			VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo = {};
-			pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-			pipelineLayoutCreateInfo.flags = VK_NULL_HANDLE;
-			pipelineLayoutCreateInfo.pNext = VK_NULL_HANDLE;
-			pipelineLayoutCreateInfo.pushConstantRangeCount = 0;			/* TODO */
-			pipelineLayoutCreateInfo.pPushConstantRanges = VK_NULL_HANDLE;	/* TODO */
-			pipelineLayoutCreateInfo.setLayoutCount = descriptorLayouts.size();
-			pipelineLayoutCreateInfo.pSetLayouts = descriptorLayouts.data();
 
 			DMK_VULKAN_ASSERT(vkCreatePipelineLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, &pipelineLayoutCreateInfo, VK_NULL_HANDLE, &layout), "Failed to create pipeline layout!");
 
@@ -268,6 +255,128 @@ namespace Dynamik
 		{
 			vkDestroyPipeline(InheritCast<VulkanCoreObject>(pCoreObject).device, pipeline, nullptr);
 			vkDestroyPipelineLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, layout, nullptr);
+		}
+
+		void VulkanGraphicsPipeline::initializeResources(RCoreObject* pCoreObject, ARRAY<RBuffer*> pBuffers, ARRAY<RTexture*> pTextures)
+		{
+			ARRAY<VkWriteDescriptorSet> descriptorWrites;
+
+			VkWriteDescriptorSet descriptorWrite = {};
+			descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			descriptorWrite.pNext = VK_NULL_HANDLE;
+			descriptorWrite.descriptorCount = 1;
+			descriptorWrite.dstSet = descriptor.set;
+			descriptorWrite.dstArrayElement = 0;
+			descriptorWrite.pBufferInfo = VK_NULL_HANDLE;
+			descriptorWrite.pImageInfo = VK_NULL_HANDLE;
+			descriptorWrite.pTexelBufferView = VK_NULL_HANDLE;
+
+			UI64 bufferIndex = 0;
+			ARRAY<VkDescriptorBufferInfo> bufferInfos(pBuffers.size());
+
+			UI64 textureIndex = 0;
+			ARRAY<VkDescriptorImageInfo> imageInfos(pTextures.size());
+
+			for (UI64 index = 0; index < resourceBindings.size(); index++)
+			{
+				descriptorWrite.dstBinding = index;
+				descriptorWrite.descriptorType = resourceBindings[index].descriptorType;
+
+				switch (descriptorWrite.descriptorType)
+				{
+				case VK_DESCRIPTOR_TYPE_SAMPLER:
+					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->currentLayout);
+					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
+					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
+					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
+					textureIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER:
+					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->currentLayout);
+					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
+					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
+					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
+					textureIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE:
+					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->currentLayout);
+					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
+					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
+					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
+					textureIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_STORAGE_IMAGE:
+					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->currentLayout);
+					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
+					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
+					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
+					textureIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER:
+					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER)");
+					break;
+
+				case VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER:
+					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER)");
+					break;
+
+				case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER:
+					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
+					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
+					bufferInfos[bufferIndex].offset = 0;	/* TODO */
+					descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
+					bufferIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER:
+					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
+					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
+					bufferInfos[bufferIndex].offset = 0;	/* TODO */
+					descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
+					bufferIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC:
+					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
+					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
+					bufferInfos[bufferIndex].offset = 0;	/* TODO */
+					descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
+					bufferIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC:
+					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
+					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
+					bufferInfos[bufferIndex].offset = 0;	/* TODO */
+					descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
+					bufferIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT:
+					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT)");
+					break;
+
+				case VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK_EXT:
+					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK_EXT)");
+					break;
+
+				case VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_NV:
+					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_NV)");
+					break;
+
+				default:
+					DMK_ERROR_BOX("Invalid Vulkan Descriptor Type!");
+					break;
+				}
+
+				descriptorWrites.pushBack(descriptorWrite);
+			}
+
+			vkUpdateDescriptorSets(InheritCast<VulkanCoreObject>(pCoreObject).device, descriptorWrites.size(), descriptorWrites.data(), 0, VK_NULL_HANDLE);
 		}
 
 		VulkanGraphicsPipeline::operator VkPipelineLayout() const

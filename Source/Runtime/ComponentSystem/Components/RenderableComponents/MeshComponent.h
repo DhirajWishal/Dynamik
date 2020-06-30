@@ -83,12 +83,17 @@ namespace Dynamik
 		void clearIndexBuffer();
 
 	public:		/* Matrix */
+		/*
+		 Model matrix of the mesh component.
+		 By default this is passed to the vertex shader with the binding 0.
+		*/
 		MAT4F modelMatrix;
 
 		operator MAT4F() const;
 
+		UI64 getUniformByteSize();
+
 	public:		/* Public Data Store */
-		ARRAY<DMKTexture*> pTextures;
 		ARRAY<UI32> indexBuffer;
 		VPTR vertexBuffer = nullptr;
 		UI64 vertexCount = 0;

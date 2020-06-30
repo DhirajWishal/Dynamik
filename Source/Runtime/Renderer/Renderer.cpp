@@ -4,6 +4,8 @@
 #include "dmkafx.h"
 #include "Renderer.h"
 
+#include "Core/Math/MathFunctions.h"
+
 /* Vulkan headers */
 #include "Backend/Vulkan/VulkanCoreObject.h"
 #include "Backend/Vulkan/Common/VulkanInstance.h"
@@ -56,6 +58,11 @@ namespace Dynamik
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_CREATE_CONTEXT:
 			createContext(Inherit<RendererCreateContextCommand>(myCommand)->contextType, Inherit<RendererCreateContextCommand>(myCommand)->viewport);
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_CAMERA:
+			initializeCamera(Inherit<RendererInitializeCamera>(myCommand)->pCameraModule);
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENVIRONMENT_MAP:
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_FINALS:
 			initializeFinals();
@@ -326,6 +333,8 @@ namespace Dynamik
 			RImageSamplerCreateInfo samplerCreateInfo;
 			texture->createSampler(myCoreObject, samplerCreateInfo);
 
+			texture->makeRenderable(myCoreObject);
+
 			return texture;
 		}
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
@@ -356,6 +365,17 @@ namespace Dynamik
 		return nullptr;
 	}
 
+	void DMKRenderer::initializeCamera(DMKCameraModule* pCameraModule)
+	{
+		myCameraComponent = StaticAllocator<RCameraComponent>::allocate();
+		myCameraComponent->pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, sizeof(DMKCameraMatrix));
+
+		DMKCameraMatrix _matrix;
+		_matrix.projection = DMKMathFunctions::perspective(DMKMathFunctions::radians(45.0f), mySwapChain->extent.width / mySwapChain->extent.height, 0.001f, 256.0f);
+		_matrix.view = DMKMathFunctions::lookAt({ 0.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+		myCameraComponent->pUniformBuffer->setData(myCoreObject, sizeof(_matrix), 0, &_matrix);
+	}
+
 	void DMKRenderer::createEntityResources(DMKGameEntity* pGameEntity)
 	{
 		REntity entity;
@@ -375,10 +395,15 @@ namespace Dynamik
 			myIndexBufferByteSize += mesh->getIndexBufferObjectByteSize();
 
 			/* Initialize Texture Data */
-			for (auto pTexture : mesh->textureModules)
+			for (auto pTexture : mesh->pTextures)
 				meshComponent->pTextures.pushBack(createTexture(pTexture));
 
 			/* Initialize Uniform Buffers */
+			{
+				/* Initialize Default Uniform */
+				RBuffer* defaultUniform = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, mesh->getUniformByteSize());
+				meshComponent->pUniformBuffer = defaultUniform;
+			}
 
 			/* Initialize Pipeline */
 			meshComponent->pPipeline = allocatePipeline();
@@ -389,6 +414,18 @@ namespace Dynamik
 			pipelineCreateInfo.colorBlendInfo.blendStates = createBasicBlendStates();
 			pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
 			meshComponent->pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, myRenderTarget, mySwapChain);
+
+			/* Initialize Pipeline Resources */
+			/* Initialize Uniform Buffer Resources */
+			ARRAY<RBuffer*> uniformBuffers = { meshComponent->pUniformBuffer };
+			if (pGameEntity->isCameraAvailable)
+				uniformBuffers.pushBack(myCameraComponent->pUniformBuffer);
+
+			/* Initialize Texture Resources */
+			ARRAY<RTexture*> textures;
+			textures.insert(meshComponent->pTextures);
+
+			meshComponent->pPipeline->initializeResources(myCoreObject, uniformBuffers, textures);
 
 			entity.pMeshObjects.pushBack(meshComponent);
 		}

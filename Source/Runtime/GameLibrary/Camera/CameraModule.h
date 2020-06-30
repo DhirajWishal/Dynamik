@@ -24,6 +24,8 @@ namespace Dynamik
 
 	/*
 	 Camera module for the Dynamik Engine.
+
+	 By default this object is bound to binding 1 in the vertex shader.
 	*/
 	class DMK_API DMKCameraModule {
 	public:

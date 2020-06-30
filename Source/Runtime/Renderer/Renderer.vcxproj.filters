@@ -183,6 +183,9 @@
     <ClInclude Include="Components\Primitives\RTexture.h">
       <Filter>Components\Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="Components\RCameraComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="Components\RCommandBuffer.h">
       <Filter>Components</Filter>
     </ClInclude>

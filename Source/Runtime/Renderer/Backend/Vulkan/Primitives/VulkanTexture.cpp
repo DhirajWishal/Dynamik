@@ -54,6 +54,7 @@ namespace Dynamik
 		void VulkanTexture::makeRenderable(RCoreObject* pCoreObject)
 		{
 			pImage->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY);
+			currentLayout = RImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY;
 		}
 
 		void VulkanTexture::terminate(RCoreObject* pCoreObject)

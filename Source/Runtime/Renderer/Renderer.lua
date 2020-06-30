@@ -49,6 +49,7 @@ project "Renderer"
 	}
 
 	links { 
+		"GameLibrary",
 		"glew32s",
 		"opengl32",
 		"glfw3dll",

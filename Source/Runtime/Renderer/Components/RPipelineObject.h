@@ -12,6 +12,8 @@
 #include "RCoreObject.h"
 #include "PipelineTypeDefs.h"
 #include "RRenderTarget.h"
+#include "Primitives/RTexture.h"
+#include "Primitives/RBuffer.h"
 
 #include "Core/Object/Resource/ShaderModule.h"
 
@@ -19,6 +21,7 @@ namespace Dynamik
 {
 	class DMK_API RCoreObject;
 	class DMK_API RSwapChain;
+	class DMK_API RTexture;
 
 	/* Renderer Pipeline Usage */
 	enum class DMK_API RPipelineUsage {
@@ -69,6 +72,10 @@ namespace Dynamik
 
 		virtual void initialize(RCoreObject* pCoreObject, RPipelineSpecification createInfo, RPipelineUsage usage, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain) = 0;
 		virtual void terminate(RCoreObject* pCoreObject) = 0;
+
+		virtual void initializeResources(RCoreObject* pCoreObject, ARRAY<RBuffer*> pBuffers, ARRAY<RTexture*> pTextures) = 0;
+	
+		B1 isResourceAvailable = false;
 	};
 }
 

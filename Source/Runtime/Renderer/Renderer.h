@@ -18,6 +18,7 @@
 #include "Components/RCommandBufferManager.h"
 #include "Components/Factories/BufferFactory.h"
 #include "Components/REntity.h"
+#include "Components/RCameraComponent.h"
 
 namespace Dynamik
 {
@@ -82,6 +83,7 @@ namespace Dynamik
         RTexture* createTexture(const DMKTexture* pTexture);
         RPipelineObject* allocatePipeline();
 
+        void initializeCamera(DMKCameraModule* pCameraModule);
         void createEntityResources(DMKGameEntity* pGameEntity);
         void createLevelResources(DMKLevelComponent* pLevelComponent);
 
@@ -99,25 +101,27 @@ namespace Dynamik
     private:    /* Internal */
         DMKRendererCompatibility myCompatibility;
 
-        DMKRendererCommand* myCommand;
+        DMKRendererCommand* myCommand = nullptr;
 
         DMKRenderingAPI myAPI;
         DMKSampleCount mySampleCount;
-        DMKWindowHandle* myWindowHandle;
+        DMKWindowHandle* myWindowHandle = nullptr;
 
-        RCoreObject* myCoreObject;
+        RCoreObject* myCoreObject = nullptr;
 
-        RSwapChain* mySwapChain;
-        RRenderTarget* myRenderTarget;
+        RSwapChain* mySwapChain = nullptr;
+        RRenderTarget* myRenderTarget = nullptr;
 
-        RCommandBufferManager* myCommandBufferManager;
+        RCommandBufferManager* myCommandBufferManager = nullptr;
         ARRAY<RCommandBuffer*> myCommandBuffers;
         B1 isInitialized = false;
 
+        RCameraComponent* myCameraComponent = nullptr;
+
         ARRAY<REntity> myEntities;
-        RBuffer* myVertexBuffer;
+        RBuffer* myVertexBuffer = nullptr;
         UI64 myVertexBufferByteSize = 0;
-        RBuffer* myIndexBuffer;
+        RBuffer* myIndexBuffer = nullptr;
         UI64 myIndexBufferByteSize = 0;
 
     private:    /* Factories */

@@ -32,6 +32,11 @@ namespace Dynamik
 			ARRAY<VkDescriptorSetLayoutBinding> getDescriptorSetLayoutBindings();
 
 			/*
+			 Get ordered set layout bindings of the current shader.
+			*/
+			ARRAY<VkDescriptorSetLayoutBinding> getOrderedDescriptorSetLayoutBindings();
+
+			/*
 			 Get the descriptor pool sizes of the current shader.
 			*/
 			ARRAY<VkDescriptorPoolSize> getDescriptorPoolSizes();
@@ -50,6 +55,12 @@ namespace Dynamik
 			 Get the shader resource map from the current shader.
 			*/
 			DMKShaderResourceLayout getResourceMap();
+
+			/*
+			 Get the binding description of the current shader.
+			 @warn: Only works with vertex shaders.
+			*/
+			VkVertexInputBindingDescription getVertexBindingDescription();
 
 			/*
 			 Set the shader module
@@ -76,6 +87,7 @@ namespace Dynamik
 			ARRAY<VkDescriptorPoolSize> poolSizes;
 			ARRAY<VkVertexInputAttributeDescription> vertexAttributes;
 			ARRAY<VkPushConstantRange> pushConstantRanges;
+			VkVertexInputBindingDescription bindingDescription;
 			B1 isParsed = false;
 		};
 	}

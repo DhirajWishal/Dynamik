@@ -42,6 +42,11 @@ namespace Dynamik
 		return modelMatrix;
 	}
 
+	UI64 DMKMeshComponent::getUniformByteSize()
+	{
+		return sizeof(MAT4F);
+	}
+
 	void DMKMeshComponent::addTexture(const STRING& path, const DMKTextureType& type)
 	{
 		pTextures.pushBack(DMKTextureFactory::create(type, path));

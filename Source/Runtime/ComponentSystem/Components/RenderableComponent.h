@@ -54,17 +54,15 @@ namespace Dynamik
 		 Add a renderable component which this component uses.
 		*/
 		virtual void addRenderableComponent(DMKRenderableComponent* component);
-		virtual void setCameraModule(DMKCameraModule* cModule);
 
 	public:		/* Constant methods */
 		void setBindingIndex(const UI32& index);
 
 	public:		/* Data Store */
 		ARRAY<DMKShaderModule> shaderModules;
-		ARRAY<DMKTexture*> textureModules;
+		ARRAY<DMKTexture*> pTextures;
 		ARRAY<DMKRenderableComponent*> renderComponents;
 		DMKUniformDescription uniformDescription;
-		DMKCameraModule* cameraModule;
 		DMKBaseRenderingPipeline basePipeline = DMKBaseRenderingPipeline::DMK_BASE_RENDERING_PIPELINE_CUSTOM;
 	};
 }

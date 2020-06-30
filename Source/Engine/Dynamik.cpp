@@ -57,6 +57,7 @@ namespace Dynamik
 	void DMKEngine::execute()
 	{
 		pGamePackage->onExecute();
+		_threadManager.issueInitializeCameraCommandRT(pCurrentLevel->playerObject->getCameraModule());
 		_threadManager.issueInitializeLevelCommandRT(pCurrentLevel);
 		_threadManager.issueInitializeFinalsCommandRT();
 

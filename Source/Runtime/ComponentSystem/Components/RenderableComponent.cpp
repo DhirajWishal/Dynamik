@@ -13,7 +13,7 @@ namespace Dynamik
 
 	void DMKRenderableComponent::addTextureModule(DMKTexture* pTexture)
 	{
-		textureModules.pushBack(pTexture);
+		pTextures.pushBack(pTexture);
 	}
 
 	void DMKRenderableComponent::setBaseRenderingPipeline(const DMKBaseRenderingPipeline& pipeline)
@@ -24,11 +24,6 @@ namespace Dynamik
 	void DMKRenderableComponent::addRenderableComponent(DMKRenderableComponent* component)
 	{
 		renderComponents.pushBack(component);
-	}
-
-	void Dynamik::DMKRenderableComponent::setCameraModule(DMKCameraModule* cModule)
-	{
-		cameraModule = cModule;
 	}
 	
 	void DMKRenderableComponent::setBindingIndex(const UI32& index)

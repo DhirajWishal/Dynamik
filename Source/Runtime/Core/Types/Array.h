@@ -610,10 +610,15 @@ namespace Dynamik
 		 */
 		void insert(ARRAY<TYPE> arr)
 		{
+			if (arr.size() < 1)
+				return;
+
 			if (arr.size() > capacity())
 				_reAllocateAssign(_getAllocatableSize(arr.size()));
 
-			DMKMemoryFunctions::moveData(myBeginPtr, arr.begin().get(), typeSize() * arr.size());
+			DMKMemoryFunctions::moveData(myNextPtr, arr.begin().get(), typeSize() * arr.size());
+			myDataCount += arr.size();
+			myNextPtr += arr.size();
 		}
 
 		/* FUNCTION
@@ -1208,6 +1213,16 @@ namespace Dynamik
 			}
 
 			_basicInitializationBack(_newArr, capacity() + _calculateCapacityInSize(size), _getSizeOfThis());
+		}
+
+		/* PRIVATE FUNCTION
+		 * Extend the size of the array.
+		 *
+		 * @param byteSize: The size to be added to the current allocation.
+		 */
+		inline void _extend(UI64 byteSize)
+		{
+			_reAllocateAssign(byteSize);
 		}
 
 		/* PRIVATE FUNCTION

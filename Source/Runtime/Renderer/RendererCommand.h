@@ -22,6 +22,8 @@ namespace Dynamik
 	enum class DMK_API RendererInstruction {
 		RENDERER_INSTRUCTION_INITIALIZE,
 		RENDERER_INSTRUCTION_CREATE_CONTEXT,
+		RENDERER_INSTRUCTION_INITIALIZE_CAMERA,
+		RENDERER_INSTRUCTION_INITIALIZE_ENVIRONMENT_MAP,
 		RENDERER_INSTRUCTION_INITIALIZE_LEVEL,
 		RENDERER_INSTRUCTION_INITIALIZE_ENTITY,
 		RENDERER_INSTRUCTION_INITIALIZE_FINALS,
@@ -79,6 +81,24 @@ namespace Dynamik
 
 		DMKViewport viewport;
 		DMKRenderContextType contextType;
+	};
+
+	/* Initialize Camera */
+	class DMK_API RendererInitializeCamera : public DMKRendererCommand {
+	public:
+		RendererInitializeCamera() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_CAMERA) {}
+		~RendererInitializeCamera() {}
+
+		DMKCameraModule* pCameraModule = nullptr;
+	};
+
+	/* Initialize Environment Map */
+	class DMK_API RendererInitializeEnvironmentMap : public DMKRendererCommand {
+	public: 
+		RendererInitializeEnvironmentMap() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENVIRONMENT_MAP) {}
+		~RendererInitializeEnvironmentMap() {}
+
+		DMKEnvironmentMap* pEnvironmentMap = nullptr;
 	};
 
 	/* Add Entity */

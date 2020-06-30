@@ -144,6 +144,16 @@ namespace Dynamik
 		myRendererThread.commandBuffer.commands.pushBack(new RendererCreateContextCommand(_command));
 	}
 
+	void DMKThreadManager::issueInitializeCameraCommandRT(DMKCameraModule* pModule)
+	{
+		RendererInitializeCamera _command;
+		_command.pCameraModule = pModule;
+
+		/* Push to command buffer */
+		myRendererThread.commandBuffer.hasExcuted = false;
+		myRendererThread.commandBuffer.commands.pushBack(new RendererInitializeCamera(_command));
+	}
+
 	void DMKThreadManager::issueInitializeEntityCommandRT(DMKGameEntity* meshComponents)
 	{
 		RendererAddEntity _command;

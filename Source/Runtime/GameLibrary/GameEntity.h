@@ -63,11 +63,18 @@ namespace Dynamik
 		template<class COMPONENT>
 		DMK_FORCEINLINE COMPONENT* getComponent(UI64 index = 0)
 		{
-			return &componentManager.getComponent<COMPONENT>(index);
+			return componentManager.getComponent<COMPONENT>(index);
 		}
 
 		/* Component Manager */
 		DMKComponentManager componentManager;
+
+		B1 isCameraAvailable = false;
+
+	protected:	/* Protected Data */
+		DMKCameraModule* pCameraModule = nullptr;
+
+	private:	/* Internal Data */
 	};
 }
 

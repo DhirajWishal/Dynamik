@@ -10,10 +10,12 @@ void Level1::onLoad()
 
 	myMoon.setupCamera(playerObject->getCameraModule());
 
-	entities.pushBack(&myMoon);
+	//entities.pushBack(&myMoon);
 
-	//auto entity = createHollowEntity();
-	//
-	//entity->addComponent<DMKMeshComponent>(DMKMeshFactory::createDefault(DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Moon 2K.fbx")));
-	//entity->setupCamera(playerObject->getCameraModule());
+	auto entity = createHollowEntity();
+	
+	entity->addComponent<DMKMeshComponent>(DMKMeshFactory::createDefault(DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Moon 2K.fbx")));
+	entity->setupCamera(playerObject->getCameraModule());
+
+	entity->getComponent<DMKMeshComponent>(0)->addTexture(DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Diffuse_2K.png"), DMKTextureType::DMK_TEXTURE_TYPE_2D);
 }

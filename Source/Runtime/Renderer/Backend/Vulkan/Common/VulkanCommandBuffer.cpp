@@ -37,12 +37,8 @@ namespace Dynamik
 			VulkanGraphicsPipeline pipeline = InheritCast<VulkanGraphicsPipeline>(pPipelineObject);
 			vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
 
-			ARRAY<VkDescriptorSet> descriptorSets;
-			for (auto descriptor : pipeline.descriptors)
-				descriptorSets.pushBack(descriptor.set);
-
-			if (pipeline.descriptors.size())
-				vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline, 0, pipeline.descriptors.size(), descriptorSets.data(), 0, VK_NULL_HANDLE);
+			if (pipeline.isResourceAvailable)
+				vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline, 0, 1, &pipeline.descriptor.set, 0, VK_NULL_HANDLE);
 		}
 
 		void VulkanCommandBuffer::drawIndexed(UI64 firstIndex, UI64 vertexOffset, UI64 indexCount, UI64 instanceCount)

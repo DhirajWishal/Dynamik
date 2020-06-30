@@ -45,6 +45,24 @@ namespace Dynamik
 			return layoutBindings;
 		}
 
+		ARRAY<VkDescriptorSetLayoutBinding> SPIRVDisassembler::getOrderedDescriptorSetLayoutBindings()
+		{
+			if (!isParsed)
+				_parseModule();
+
+			ARRAY<VkDescriptorSetLayoutBinding> bindings(layoutBindings.size());
+
+			UI32 minimumBinding = layoutBindings[0].binding;
+			for (auto binding : layoutBindings)
+				if (minimumBinding > binding.binding)
+					minimumBinding = binding.binding;
+
+			for (auto binding : layoutBindings)
+				bindings[binding.binding - minimumBinding] = binding;
+
+			return bindings;
+		}
+
 		ARRAY<VkDescriptorPoolSize> SPIRVDisassembler::getDescriptorPoolSizes()
 		{
 			if (!isParsed)
@@ -77,6 +95,14 @@ namespace Dynamik
 			return resourceLayout;
 		}
 
+		VkVertexInputBindingDescription SPIRVDisassembler::getVertexBindingDescription()
+		{
+			if (!isParsed)
+				_parseModule();
+
+			return bindingDescription;
+		}
+
 		void SPIRVDisassembler::setShaderModule(const DMKShaderModule& sModule)
 		{
 			shaderModule = sModule;
@@ -103,9 +129,12 @@ namespace Dynamik
 			spirv_cross::SPIRType _type;
 
 			VkDescriptorPoolSize _poolSize;
+			_poolSize.descriptorCount = 1;
+
 			VkDescriptorSetLayoutBinding _binding;
 			_binding.pImmutableSamplers = VK_NULL_HANDLE;
 			_binding.stageFlags = Backend::VulkanUtilities::getShaderStage(shaderModule.location);
+			_binding.descriptorCount = 1;
 
 			DMKUniformBufferDescriptor shaderResourceDescriptor;
 			DMKUniformDescription resourceDescription;
@@ -123,13 +152,14 @@ namespace Dynamik
 
 				for (UI32 index = 0; index < _glslCompiler.get_type(resource.base_type_id).member_types.size(); index++)
 					printf("\t Members: %s\n", _glslCompiler.get_member_name(resource.base_type_id, index).c_str());
+
+				printf("\n");
 #endif // DMK_DEBUG
 
 				resourceDescription.type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
 				resourceDescription.destinationBinding = binding;
 
 				_binding.binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
-				_binding.descriptorCount = 1;
 				_binding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 				layoutBindings.pushBack(_binding);
 
@@ -175,14 +205,14 @@ namespace Dynamik
 
 				for (UI32 index = 0; index < _glslCompiler.get_type(resource.base_type_id).member_types.size(); index++)
 					printf("\t Members: %s\n", _glslCompiler.get_member_name(resource.base_type_id, index).c_str());
+
+				printf("\n");
 #endif // DMK_DEBUG
 
 				_binding.binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
-				_binding.descriptorCount = 1;
 				_binding.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
 				layoutBindings.pushBack(_binding);
 
-				_poolSize.descriptorCount = 1;
 				_poolSize.type = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
 				poolSizes.pushBack(_poolSize);
 
@@ -235,6 +265,15 @@ namespace Dynamik
 
 				_attributeDescription.offset = (_type.width / sizeof(F32)) * _type.vecsize;
 			}
+			bindingDescription.binding = 0;
+			bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+			bindingDescription.stride = _attributeDescription.offset;
+
+#ifdef DMK_DEBUG
+			printf("\n");
+
+#endif // DMK_DEBUG
+
 
 			/* Shader outputs */
 			for (auto& resource : resources.stage_outputs)
@@ -243,6 +282,8 @@ namespace Dynamik
 				unsigned location = _glslCompiler.get_decoration(resource.id, spv::DecorationLocation);
 				unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
 				printf("Location: %u\t Binding: %u\t Type: %s\n", location, binding, resource.name.c_str());
+
+				printf("\n");
 #endif // DMK_DEBUG
 			}
 
@@ -253,6 +294,8 @@ namespace Dynamik
 				unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
 				unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
 				printf("Set: %u\t Binding: %u\t Type: %s\n", set, binding, resource.name.c_str());
+
+				printf("\n");
 #endif // DMK_DEBUG
 
 				_binding.binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
@@ -272,6 +315,8 @@ namespace Dynamik
 				unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
 				unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
 				printf("Set: %u\t Binding: %u\t Type: %s\n", set, binding, resource.name.c_str());
+
+				printf("\n");
 #endif // DMK_DEBUG
 
 				_binding.binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
@@ -291,14 +336,14 @@ namespace Dynamik
 				unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
 				unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
 				printf("Set: %u\t Binding: %u\t Type: %s\n", set, binding, resource.name.c_str());
+
+				printf("\n");
 #endif // DMK_DEBUG
 
 				_binding.binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
-				_binding.descriptorCount = 1;
 				_binding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 				layoutBindings.pushBack(_binding);
 
-				_poolSize.descriptorCount = 1;
 				_poolSize.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
 				poolSizes.pushBack(_poolSize);
 			}
@@ -310,6 +355,8 @@ namespace Dynamik
 				unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
 				unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
 				printf("Set: %u\t Binding: %u\t Type: %s\n", set, binding, resource.name.c_str());
+
+				printf("\n");
 #endif // DMK_DEBUG
 			}
 
@@ -320,6 +367,8 @@ namespace Dynamik
 				unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
 				unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
 				printf("Set: %u\t Binding: %u\t Type: %s\n", set, binding, resource.name.c_str());
+
+				printf("\n");
 #endif // DMK_DEBUG
 
 				_binding.binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
@@ -343,6 +392,8 @@ namespace Dynamik
 				unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
 				unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
 				printf("Set: %u\t Binding: %u\t Type: %s\n", set, binding, resource.name.c_str());
+
+				printf("\n");
 #endif // DMK_DEBUG
 
 				for (auto ID : _glslCompiler.get_type(resource.base_type_id).member_types)
@@ -362,14 +413,14 @@ namespace Dynamik
 				unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
 				unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
 				printf("Set: %u\t Binding: %u\t Type: %s\n", set, binding, resource.name.c_str());
+
+				printf("\n");
 #endif // DMK_DEBUG
 
 				_binding.binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
-				_binding.descriptorCount = 1;
 				_binding.descriptorType = VK_DESCRIPTOR_TYPE_SAMPLER;
 				layoutBindings.pushBack(_binding);
 
-				_poolSize.descriptorCount = 1;
 				_poolSize.type = VK_DESCRIPTOR_TYPE_SAMPLER;
 				poolSizes.pushBack(_poolSize);
 			}
@@ -381,6 +432,8 @@ namespace Dynamik
 				unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
 				unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
 				printf("Set: %u\t Binding: %u\t Type: %s\n", set, binding, resource.name.c_str());
+
+				printf("\n");
 #endif // DMK_DEBUG
 			}
 

@@ -73,6 +73,7 @@ namespace Dynamik
         void issueWindowHandleCommandRT(const DMKWindowHandle* handle);
         void issueInitializeCommandRT();
         void issueCreateContextCommandRT(DMKRenderContextType context, DMKViewport viewport);
+        void issueInitializeCameraCommandRT(DMKCameraModule* pModule);
         void issueInitializeEntityCommandRT(DMKGameEntity* meshComponents); /* Support for submitting objects */
         void issueInitializeLevelCommandRT(DMKLevelComponent* pLevelComponent);
         void issueInitializeFinalsCommandRT();
