@@ -15,8 +15,10 @@
 #include "GameMechanics.h"
 #include "PlayerObject.h"
 #include "EnvironmentMap.h"
+#include "Utilities/MeshFactory.h"
 
 #include "Core/Macros/Global.h"
+#include "Core/Types/Utilities.h"
 #include "Core/Types/Array.h"
 
 namespace Dynamik
@@ -38,10 +40,10 @@ namespace Dynamik
 		virtual void onUnoad() {}
 
 		/* Game Assets */
-		ARRAY<DMKGameEntity*> myEntities;
+		ARRAY<DMKGameEntity*> entities;
 
 		/* Game Mechanics */
-		ARRAY<DMKGameMechanics*> myMechanics;
+		ARRAY<DMKGameMechanics*> gameMechanics;
 
 		/* Player Object */
 		DMKPlayerObject* playerObject;
@@ -76,6 +78,43 @@ namespace Dynamik
 		 By default, this adds the entity to the entity array.
 		*/
 		DMKGameEntity* createStaticEntity(const STRING& assetPath, const DMKVertexLayout& vertexLayout);
+
+		/* TEMPLATED
+		 Create user defined entity.
+		 This creates a user defined entity, adds it to the entity list and returns its address.
+
+		 @tparam ENTITY: The user defined entity
+		*/
+		template<class ENTITY>
+		DMK_FORCEINLINE DMKGameEntity* createUserEntity()
+		{
+			DMKGameEntity* entity = Cast<DMKGameEntity*>(StaticAllocator<ENTITY>::allocate().get());
+
+			entities.pushBack(entity);
+			return entity;
+		}
+
+		/*
+		 Add an entity to the entity array.
+
+		 @param pEntity: Pointer to the entity.
+		*/
+		void addEntity(DMKGameEntity* pEntity);
+
+		/*
+		 Create an empty player object.
+		*/
+		DMKPlayerObject* createHollowPlayerObject();
+
+		/*
+		 Create a user defined player object.
+		*/
+		template<class PLAYER>
+		DMK_FORCEINLINE DMKPlayerObject* createUserPlayer()
+		{
+			playerObject = Cast<DMKPlayerObject*>(StaticAllocator<PLAYER>::allocate().get());
+			return playerObject;
+		}
 	};
 }
 

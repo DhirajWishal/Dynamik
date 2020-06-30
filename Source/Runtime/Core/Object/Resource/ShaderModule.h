@@ -29,6 +29,8 @@ namespace Dynamik
 	struct DMK_API DMKShaderResourceLayout {
 		ARRAY<DMKUniformDescription> uniforms;
 		ARRAY<DMKShaderInputAttribute> inputAttributes;
+
+		static DMKShaderResourceLayout createDefault(const DMKShaderLocation& location);
 	};
 
 	/*

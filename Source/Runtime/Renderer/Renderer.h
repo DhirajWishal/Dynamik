@@ -73,11 +73,17 @@ namespace Dynamik
         void createContext(DMKRenderContextType type, DMKViewport viewport);
 
     private:    /* Resource */
-        RBuffer* createBuffer(const RBufferType& type, UI64 size);
+        RBuffer* createBuffer(const RBufferType& type, UI64 size, RResourceMemoryType memoryType = (RResourceMemoryType)
+            (RESOURCE_MEMORY_TYPE_HOST_VISIBLE | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
+        RBuffer* createVertexBuffer(UI64 size);
+        RBuffer* createIndexBuffer(UI64 size);
+        void copyBuffer(RBuffer* pSrcBuffer, RBuffer* pDstBuffer, UI64 size);
+
         RTexture* createTexture(const DMKTexture* pTexture);
         RPipelineObject* allocatePipeline();
 
         void createEntityResources(DMKGameEntity* pGameEntity);
+        void createLevelResources(DMKLevelComponent* pLevelComponent);
 
     private:    /* Finals */
         void initializeBuffers();

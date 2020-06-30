@@ -29,10 +29,8 @@ namespace Dynamik
 	/*
 	 Renderer Pipeline Create Info
 	*/
-	struct DMK_API RPipelineCreateInfo {
+	struct DMK_API RPipelineSpecification {
 		ARRAY<DMKShaderModule> shaders;
-		RRenderTarget* pRenderTarget = nullptr;
-		RSwapChain* pSwapChain = nullptr;
 
 		/* Primitive Assembly */
 		RPipelinePrimitiveAssemblyInfo primitiveAssemblyInfo;
@@ -69,7 +67,7 @@ namespace Dynamik
 		RPipelineObject() {}
 		virtual ~RPipelineObject() {}
 
-		virtual void initialize(RCoreObject* pCoreObject, RPipelineCreateInfo createInfo, RPipelineUsage usage) = 0;
+		virtual void initialize(RCoreObject* pCoreObject, RPipelineSpecification createInfo, RPipelineUsage usage, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain) = 0;
 		virtual void terminate(RCoreObject* pCoreObject) = 0;
 	};
 }

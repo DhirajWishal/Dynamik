@@ -5,6 +5,7 @@
 #include "VulkanBuffer.h"
 
 #include "../VulkanUtilities.h"
+#include "../Common/VulkanOneTimeCommandBuffer.h"
 
 namespace Dynamik
 {
@@ -13,30 +14,31 @@ namespace Dynamik
 		void VulkanBuffer::initialize(RCoreObject* pCoreObject, RBufferType eType, UI64 uSize, RResourceMemoryType memoryType)
 		{
 			size = uSize;
+			type = eType;
+
 			VkBufferCreateInfo bufferInfo = {};
 			bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 			bufferInfo.size = uSize;
 
-			type = eType;
 			switch (eType)
 			{
 			case Dynamik::RBufferType::BUFFER_TYPE_STAGGING:
 				bufferInfo.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 				break;
 			case Dynamik::RBufferType::BUFFER_TYPE_VERTEX:
-				bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+				bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 				break;
 			case Dynamik::RBufferType::BUFFER_TYPE_INDEX:
-				bufferInfo.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT;
+				bufferInfo.usage = VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 				break;
 			case Dynamik::RBufferType::BUFFER_TYPE_UNIFORM:
-				bufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
+				bufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 				break;
 			case Dynamik::RBufferType::BUFFER_TYPE_INDIRECT:
-				bufferInfo.usage = VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT;
+				bufferInfo.usage = VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 				break;
 			case Dynamik::RBufferType::BUFFER_TYPE_RAY_TRACING:
-				bufferInfo.usage = VK_BUFFER_USAGE_RAY_TRACING_BIT_NV;
+				bufferInfo.usage = VK_BUFFER_USAGE_RAY_TRACING_BIT_NV | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 				break;
 			default:
 				DMK_ERROR_BOX("Invalid buffer type!");
@@ -65,6 +67,18 @@ namespace Dynamik
 		{
 			vkDestroyBuffer(Inherit<VulkanCoreObject>(pCoreObject)->device, buffer, nullptr);
 			vkFreeMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, bufferMemory, nullptr);
+		}
+
+		void VulkanBuffer::copy(RCoreObject* pCoreObject, RBuffer* pSrcBuffer, UI64 size, UI64 srcOffset, UI64 dstOffset)
+		{
+			VulkanOneTimeCommandBuffer commandBuffer(pCoreObject);
+
+			VkBufferCopy copyRegion = {};
+			copyRegion.size = size;
+			copyRegion.srcOffset = srcOffset;
+			copyRegion.dstOffset = dstOffset;
+
+			vkCmdCopyBuffer(commandBuffer, InheritCast<VulkanBuffer>(pSrcBuffer), buffer, 1, &copyRegion);
 		}
 
 		void VulkanBuffer::setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, VPTR data)

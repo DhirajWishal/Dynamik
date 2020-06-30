@@ -6,9 +6,14 @@
 
 void Level1::onLoad()
 {
-	playerObject = (POINTER<DMKPlayerObject>)StaticAllocator<Player>::allocate();
+	playerObject = createUserPlayer<Player>();
 
 	myMoon.setupCamera(playerObject->getCameraModule());
 
-	myEntities.pushBack(&myMoon);
+	entities.pushBack(&myMoon);
+
+	//auto entity = createHollowEntity();
+	//
+	//entity->addComponent<DMKMeshComponent>(DMKMeshFactory::createDefault(DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Moon 2K.fbx")));
+	//entity->setupCamera(playerObject->getCameraModule());
 }

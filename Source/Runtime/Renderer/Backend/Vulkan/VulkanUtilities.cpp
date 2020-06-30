@@ -73,12 +73,11 @@ namespace Dynamik
 
 		UI32 VulkanUtilities::findMemoryType(UI32 typeFilter, VkMemoryPropertyFlags properties, VkPhysicalDevice physicalDevice)
 		{
-			VkPhysicalDeviceMemoryProperties memProperties;
+			VkPhysicalDeviceMemoryProperties memProperties = {};
 			vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memProperties);
 
 			for (UI32 i = 0; i < memProperties.memoryTypeCount; i++)
-				if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags
-					& properties) == properties)
+				if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties)
 					return i;
 
 			DMK_ERROR_BOX("Failed to find suitable memory type!");

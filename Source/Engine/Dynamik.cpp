@@ -57,7 +57,7 @@ namespace Dynamik
 	void DMKEngine::execute()
 	{
 		pGamePackage->onExecute();
-		_threadManager.issueInitializeEntityCommandRT(pCurrentLevel->myEntities[0]);
+		_threadManager.issueInitializeLevelCommandRT(pCurrentLevel);
 		_threadManager.issueInitializeFinalsCommandRT();
 
 		UI64 _itrIndex = 0;
@@ -73,9 +73,9 @@ namespace Dynamik
 
 			_windowManager.pollEvents();
 
-			for (_itrIndex = 0; _itrIndex < pCurrentLevel->myEntities.size(); _itrIndex++)
+			for (_itrIndex = 0; _itrIndex < pCurrentLevel->entities.size(); _itrIndex++)
 			{
-				pCurrentLevel->myEntities[_itrIndex];
+				pCurrentLevel->entities[_itrIndex];
 				/* send entity to the physics engine */
 			}
 
@@ -107,7 +107,7 @@ namespace Dynamik
 		pCurrentLevel->onLoad();
 		pCurrentLevel->initializeComponents();
 
-		for (auto _entity : pCurrentLevel->myEntities)
+		for (auto _entity : pCurrentLevel->entities)
 			_entity->initialize();
 
 		pCurrentLevel->initializeCameraModule();

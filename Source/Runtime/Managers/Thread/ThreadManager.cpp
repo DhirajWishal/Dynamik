@@ -154,6 +154,16 @@ namespace Dynamik
 		myRendererThread.commandBuffer.commands.pushBack(new RendererAddEntity(_command));
 	}
 
+	void DMKThreadManager::issueInitializeLevelCommandRT(DMKLevelComponent* pLevelComponent)
+	{
+		RendererSubmitLevel _command;
+		_command.level = pLevelComponent;
+
+		/* Push to command buffer */
+		myRendererThread.commandBuffer.hasExcuted = false;
+		myRendererThread.commandBuffer.commands.pushBack(new RendererSubmitLevel(_command));
+	}
+
 	void DMKThreadManager::issueInitializeFinalsCommandRT()
 	{
 		DMKRendererCommand _command(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_FINALS);

@@ -31,7 +31,7 @@ namespace Dynamik
 			VulkanGraphicsPipeline() {}
 			~VulkanGraphicsPipeline() {}
 
-			virtual void initialize(RCoreObject* pCoreObject, RPipelineCreateInfo createInfo, RPipelineUsage usage) override final;
+			virtual void initialize(RCoreObject* pCoreObject, RPipelineSpecification createInfo, RPipelineUsage usage, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain) override final;
 			virtual void terminate(RCoreObject* pCoreObject) override final;
 
 			operator VkPipelineLayout() const;

@@ -130,6 +130,7 @@ namespace Dynamik
 			DMK_VULKAN_ASSERT(vkCreateFence(device, &fenceInfo, nullptr, &inFlightFences.at(i)), "Failed to create fence object!");
 		}
 
+		/* Submit And Present Structures */
 		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
 		submitInfo.waitSemaphoreCount = 1;
 		submitInfo.commandBufferCount = 1;

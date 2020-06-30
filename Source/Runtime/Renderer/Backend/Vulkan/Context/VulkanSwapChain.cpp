@@ -26,12 +26,11 @@ namespace Dynamik
 
 			for (const auto& availablePresentMode : availablePresentModes)
 			{
-				if (availablePresentMode == VulkanUtilities::getPresentMode(presentMode))
-					return availablePresentMode;
-
 				if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
 					return availablePresentMode;
 				else if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR)
+					bestMode = availablePresentMode;
+				else if (availablePresentMode == VulkanUtilities::getPresentMode(presentMode))
 					bestMode = availablePresentMode;
 			}
 

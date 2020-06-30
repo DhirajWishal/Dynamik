@@ -31,9 +31,11 @@ namespace Dynamik
 		myAPI = DMKRenderingAPI::DMK_RENDERING_API_VULKAN;
 		myRenderTarget = new RRenderTarget;
 
-		//myRenderer.setMsaaSamples(DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT);
-		//myRenderer.initialize();
+#ifdef DMK_DEBUG
 		DMK_INFO("Entered the renderer thread!");
+
+#endif // DMK_DEBUG
+
 	}
 
 	void DMKRenderer::processCommand(DMKThreadCommand* pCommand)
@@ -62,7 +64,7 @@ namespace Dynamik
 			createEntityResources(Inherit<RendererAddEntity>(myCommand)->entity);
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_LEVEL:
-			//myBackend.initializeLevel(DMKLevelComponent*());
+			createLevelResources(Inherit<RendererSubmitLevel>(myCommand)->level);
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SUBMIT_OBJECTS:
 			break;
@@ -191,7 +193,7 @@ namespace Dynamik
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
 			myRenderTarget->pRenderPass = Inherit<RRenderPass>(StaticAllocator<VulkanRenderPass>::allocate().get());
-			
+
 			/* Attachments: Color, Depth, Swap Chain */
 			myRenderTarget->pRenderPass->initialize(myCoreObject, subPasses, mySwapChain);
 		}
@@ -270,7 +272,7 @@ namespace Dynamik
 		createFrameBuffer();
 	}
 
-	RBuffer* DMKRenderer::createBuffer(const RBufferType& type, UI64 size)
+	RBuffer* DMKRenderer::createBuffer(const RBufferType& type, UI64 size, RResourceMemoryType memoryType)
 	{
 		switch (myAPI)
 		{
@@ -278,8 +280,8 @@ namespace Dynamik
 			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			VulkanBuffer* pBuffer = StaticAllocator<VulkanBuffer>::allocate();
-			pBuffer->initialize(myCoreObject, type, size);
+			RBuffer* pBuffer = StaticAllocator<VulkanBuffer>::allocate();
+			pBuffer->initialize(myCoreObject, type, size, memoryType);
 
 			return Cast<RBuffer*>(pBuffer);
 		}
@@ -292,6 +294,21 @@ namespace Dynamik
 		}
 
 		return nullptr;
+	}
+
+	RBuffer* DMKRenderer::createVertexBuffer(UI64 size)
+	{
+		return createBuffer(RBufferType::BUFFER_TYPE_VERTEX, size, RResourceMemoryType(RESOURCE_MEMORY_TYPE_DEVICE_LOCAL | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
+	}
+
+	RBuffer* DMKRenderer::createIndexBuffer(UI64 size)
+	{
+		return createBuffer(RBufferType::BUFFER_TYPE_INDEX, size, RResourceMemoryType(RESOURCE_MEMORY_TYPE_DEVICE_LOCAL | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
+	}
+
+	void DMKRenderer::copyBuffer(RBuffer* pSrcBuffer, RBuffer* pDstBuffer, UI64 size)
+	{
+		pDstBuffer->copy(myCoreObject, pSrcBuffer, size, 0, 0);
 	}
 
 	RTexture* DMKRenderer::createTexture(const DMKTexture* pTexture)
@@ -366,14 +383,12 @@ namespace Dynamik
 			/* Initialize Pipeline */
 			meshComponent->pPipeline = allocatePipeline();
 
-			RPipelineCreateInfo pipelineCreateInfo = {};
-			pipelineCreateInfo.pRenderTarget = myRenderTarget;
-			pipelineCreateInfo.pSwapChain = mySwapChain;
+			RPipelineSpecification pipelineCreateInfo = {};
 			pipelineCreateInfo.shaders = mesh->shaderModules;
 			pipelineCreateInfo.scissorInfos.resize(1);
 			pipelineCreateInfo.colorBlendInfo.blendStates = createBasicBlendStates();
 			pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
-			meshComponent->pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS);
+			meshComponent->pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, myRenderTarget, mySwapChain);
 
 			entity.pMeshObjects.pushBack(meshComponent);
 		}
@@ -381,62 +396,55 @@ namespace Dynamik
 		myEntities.pushBack(entity);
 	}
 
+	void DMKRenderer::createLevelResources(DMKLevelComponent* pLevelComponent)
+	{
+		for (auto entity : pLevelComponent->entities)
+			createEntityResources(entity);
+	}
+
 	void DMKRenderer::initializeBuffers()
 	{
 		POINTER<BYTE> bufferDataPointer;
 
 		/* Initialize Vertex Buffer */
-		myVertexBuffer = createBuffer(RBufferType::BUFFER_TYPE_VERTEX, myVertexBufferByteSize);
+		RBuffer* staggingVertexBuffer = createBuffer(RBufferType::BUFFER_TYPE_STAGGING, myVertexBufferByteSize);
+		myVertexBuffer = createVertexBuffer(myVertexBufferByteSize);
+
+		bufferDataPointer = staggingVertexBuffer->getData(myCoreObject, myVertexBufferByteSize, 0);
 		for (auto entity : myEntities)
 		{
-			bufferDataPointer = myVertexBuffer->getData(myCoreObject, myVertexBufferByteSize, 0);
 			for (auto mesh : entity.pMeshObjects)
 			{
-				/* ---------- DEBUG ---------- */
-				struct TempVertex {
-					TempVertex() {}
-					TempVertex(const Vector3F& position, const Vector3F& color) : position(position), color(color) {}
-					~TempVertex() {}
-
-					Vector3F position;
-					Vector3F color;
-				};
-
-				ARRAY<TempVertex> vertexes = {
-					TempVertex({ 0.0f,	0.5f,  -1.0f }, { 1.f, 0.0f, 0.0f }),
-					TempVertex({ 0.5f,  -0.5f, -1.0f }, { 1.f, 1.0f, 0.0f }),
-					TempVertex({ -0.5f, -0.5f, -1.0f }, { 1.f, 1.0f, 1.0f }),
-				};
-
-				DMKMemoryFunctions::moveData(bufferDataPointer.get(), vertexes.data(), mesh->pMeshComponent->getVertexBufferObjectByteSize());
-				//DMKMemoryFunctions::moveData(bufferDataPointer.get(), mesh->pMeshComponent->vertexBuffer, mesh->pMeshComponent->getVertexBufferObjectByteSize());
+				DMKMemoryFunctions::moveData(bufferDataPointer.get(), mesh->pMeshComponent->vertexBuffer, mesh->pMeshComponent->getVertexBufferObjectByteSize());
 				bufferDataPointer += mesh->pMeshComponent->getVertexBufferObjectByteSize();
 
 				mesh->pMeshComponent->clearVertexBuffer();
 			}
-			myVertexBuffer->unmapMemory(myCoreObject);
 		}
+		staggingVertexBuffer->unmapMemory(myCoreObject);
+
+		copyBuffer(staggingVertexBuffer, myVertexBuffer, myVertexBufferByteSize);
+		staggingVertexBuffer->terminate(myCoreObject);
 
 		/* Initialize Index Buffer */
-		myIndexBuffer = createBuffer(RBufferType::BUFFER_TYPE_INDEX, myIndexBufferByteSize);
+		RBuffer* staggingIndexBuffer = createBuffer(RBufferType::BUFFER_TYPE_STAGGING, myIndexBufferByteSize);
+		myIndexBuffer = createIndexBuffer(myIndexBufferByteSize);
+
+		bufferDataPointer = staggingIndexBuffer->getData(myCoreObject, myIndexBufferByteSize, 0);
 		for (auto entity : myEntities)
 		{
-			bufferDataPointer = myIndexBuffer->getData(myCoreObject, myIndexBufferByteSize, 0);
 			for (auto mesh : entity.pMeshObjects)
 			{
-				/* ---------- DEBUG ---------- */
-				ARRAY<UI32> indexes = {
-					0, 1, 2
-				};
-
-				DMKMemoryFunctions::moveData(bufferDataPointer.get(), indexes.data(), mesh->pMeshComponent->getIndexBufferObjectByteSize());
-				//DMKMemoryFunctions::moveData(bufferDataPointer.get(), mesh->pMeshComponent->indexBuffer.data(), mesh->pMeshComponent->getIndexBufferObjectByteSize());
+				DMKMemoryFunctions::moveData(bufferDataPointer.get(), mesh->pMeshComponent->indexBuffer.data(), mesh->pMeshComponent->getIndexBufferObjectByteSize());
 				bufferDataPointer += mesh->pMeshComponent->getIndexBufferObjectByteSize();
 
 				mesh->pMeshComponent->clearIndexBuffer();
 			}
-			myIndexBuffer->unmapMemory(myCoreObject);
 		}
+		staggingIndexBuffer->unmapMemory(myCoreObject);
+
+		copyBuffer(staggingIndexBuffer, myIndexBuffer, myIndexBufferByteSize);
+		staggingIndexBuffer->terminate(myCoreObject);
 	}
 
 	void DMKRenderer::initializeFinals()
@@ -446,9 +454,6 @@ namespace Dynamik
 		myCommandBufferManager = Inherit<RCommandBufferManager>(StaticAllocator<VulkanCommandBufferManager>::allocate().get());
 		myCommandBufferManager->initialize(myCoreObject);
 		myCommandBuffers = myCommandBufferManager->allocateCommandBuffers(myCoreObject, mySwapChain->bufferCount);
-
-		UI64 firstIndex = 0;
-		UI64 firstVertex = 0;
 
 		for (UI32 itr = 0; itr < myCommandBuffers.size(); itr++)
 		{
@@ -460,8 +465,8 @@ namespace Dynamik
 			buffer->bindVertexBuffer(myVertexBuffer, 0);
 			buffer->bindIndexBuffer(myIndexBuffer);
 
-			firstIndex = 0;
-			firstVertex = 0;
+			UI64 firstIndex = 0;
+			UI64 firstVertex = 0;
 
 			for (auto entity : myEntities)
 			{

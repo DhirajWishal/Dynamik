@@ -86,6 +86,7 @@ namespace Dynamik
 					_meshComponent.indexBuffer.pushBack(face.mIndices[itr]);
 			}
 
+			_meshComponent.indexCount = _meshComponent.indexBuffer.size();
 			_myMeshes.pushBack(_meshComponent);
 		}
 

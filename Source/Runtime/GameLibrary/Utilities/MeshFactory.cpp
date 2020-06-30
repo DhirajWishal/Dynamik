@@ -4,6 +4,8 @@
 #include "dmkafx.h"
 #include "MeshFactory.h"
 
+#include "Importer/Asset/MeshImporter.h"
+
 namespace Dynamik
 {
 	DMKMeshFactory DMKMeshFactory::instance;
@@ -27,9 +29,9 @@ namespace Dynamik
 		};
 
 		ARRAY<TempVertex> vertexes = {
-			TempVertex({ 0.0f,	0.5f,  -1.0f }, { 1.f, 0.0f, 0.0f }),
-			TempVertex({ 0.5f,  -0.5f, -1.0f }, { 1.f, 1.0f, 0.0f }),
-			TempVertex({ -0.5f, -0.5f, -1.0f }, { 1.f, 1.0f, 1.0f }),
+			TempVertex({ 0.0f,  0.5f, 0.0f }, { 1.0f, 0.0f, 0.0f }),
+			TempVertex({ 0.5f,  -0.5f, 0.0f }, { 0.0f, 1.0f, 0.0f }),
+			TempVertex({ -0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f, 1.0f }),
 		};
 
 		ARRAY<UI32> indexes = {
@@ -70,6 +72,11 @@ namespace Dynamik
 
 	DMKMeshComponent DMKMeshFactory::createDefault(const STRING& path)
 	{
-		return DMKMeshComponent();
+		DMKMeshComponent component = DMKMeshImporter::loadMeshes(path, DMKVertexLayout::createBasic())[0];
+
+		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/3D/vert.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderResourceLayout::createDefault(DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX), DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/3D/frag.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderResourceLayout::createDefault(DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT), DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+
+		return component;
 	}
 }

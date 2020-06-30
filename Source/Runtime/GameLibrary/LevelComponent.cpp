@@ -10,7 +10,7 @@ namespace Dynamik
 {
 	void DMKLevelComponent::initializeCameraModule()
 	{
-		for (auto _entity : myEntities)
+		for (auto _entity : entities)
 			_entity->setupCamera(playerObject->getCameraModule());
 	}
 
@@ -18,7 +18,7 @@ namespace Dynamik
 	{
 		auto entity = StaticAllocator<DMKGameEntity>::allocate();
 
-		myEntities.pushBack(entity);
+		entities.pushBack(entity);
 		return entity;
 	}
 
@@ -35,7 +35,18 @@ namespace Dynamik
 		for (auto mesh : meshes)
 			entity->addComponent<DMKMeshComponent>(mesh);
 
-		myEntities.pushBack(entity);
+		entities.pushBack(entity);
 		return entity;
+	}
+	
+	void DMKLevelComponent::addEntity(DMKGameEntity* pEntity)
+	{
+		entities.pushBack(pEntity);
+	}
+	
+	DMKPlayerObject* DMKLevelComponent::createHollowPlayerObject()
+	{
+		playerObject = StaticAllocator<DMKPlayerObject>::allocate().get();
+		return playerObject;
 	}
 }

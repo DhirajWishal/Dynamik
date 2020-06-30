@@ -36,6 +36,8 @@ namespace Dynamik
 			pImage->copyBuffer(pCoreObject, &staggingBuffer);
 
 			pImage->generateMipMaps(pCoreObject);
+
+			staggingBuffer.terminate(pCoreObject);
 		}
 
 		void VulkanTexture::createView(RCoreObject* pCoreObject)

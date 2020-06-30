@@ -23,8 +23,8 @@ namespace Dynamik
 
 		void setDefaults(DMKRenderingAPI api, RCoreObject* pCoreObject);
 
-		RPipelineObject* createGraphicsPipeline(RPipelineCreateInfo createInfo);
-		RPipelineObject* createComputePipeline(RPipelineCreateInfo createInfo);
+		RPipelineObject* createGraphicsPipeline(RPipelineSpecification createInfo);
+		RPipelineObject* createComputePipeline(RPipelineSpecification createInfo);
 
 	private:
 		DMKRenderingAPI myRenderingAPI = DMKRenderingAPI::DMK_RENDERING_API_VULKAN;

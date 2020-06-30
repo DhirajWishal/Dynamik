@@ -32,7 +32,7 @@ namespace Dynamik
 			return 0;
 		}
 
-		void VulkanGraphicsPipeline::initialize(RCoreObject* pCoreObject, RPipelineCreateInfo createInfo, RPipelineUsage usage)
+		void VulkanGraphicsPipeline::initialize(RCoreObject* pCoreObject, RPipelineSpecification createInfo, RPipelineUsage usage, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain)
 		{
 			if (usage != RPipelineUsage::PIPELINE_USAGE_GRAPHICS)
 			{
@@ -143,10 +143,10 @@ namespace Dynamik
 
 			/* Initialize View Port */
 			VkViewport viewport = {};
-			viewport.x = (F32)createInfo.pSwapChain->viewPort.xOffset;
-			viewport.y = (F32)createInfo.pSwapChain->viewPort.yOffset;
-			viewport.width = (F32)createInfo.pSwapChain->extent.width;
-			viewport.height = (F32)createInfo.pSwapChain->extent.height;
+			viewport.x = (F32)pSwapChain->viewPort.xOffset;
+			viewport.y = (F32)pSwapChain->viewPort.yOffset;
+			viewport.width = (F32)pSwapChain->extent.width;
+			viewport.height = (F32)pSwapChain->extent.height;
 			viewport.minDepth = 0.0f;
 			viewport.maxDepth = 1.0f;
 
@@ -156,8 +156,8 @@ namespace Dynamik
 				VkRect2D vScissor = {};
 				vScissor.offset.x = scissor.offset.x;
 				vScissor.offset.y = scissor.offset.y;
-				vScissor.extent.width = createInfo.pSwapChain->extent.width;
-				vScissor.extent.height = createInfo.pSwapChain->extent.height;
+				vScissor.extent.width = pSwapChain->extent.width;
+				vScissor.extent.height = pSwapChain->extent.height;
 
 				scissors.pushBack(vScissor);
 			}
@@ -259,7 +259,7 @@ namespace Dynamik
 			pipelineInfo.basePipelineIndex = 0;
 			pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;	/* TODO */
 			pipelineInfo.layout = layout;
-			pipelineInfo.renderPass = InheritCast<VulkanRenderPass>(createInfo.pRenderTarget->pRenderPass).renderPass;
+			pipelineInfo.renderPass = InheritCast<VulkanRenderPass>(pRenderTarget->pRenderPass).renderPass;
 
 			DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(InheritCast<VulkanCoreObject>(pCoreObject).device, VK_NULL_HANDLE /* TODO */, 1, &pipelineInfo, VK_NULL_HANDLE, &pipeline), "Failed to create graphics pipeline!");
 		}

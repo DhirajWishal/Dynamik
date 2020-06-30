@@ -17,6 +17,7 @@ The engine is intended to support Windows, Linux and MacOS.
     - Local: Locally stored copies of libraries.
   - Programs: Local programs which are not specific to the engine, but are developed by the author.
 - Developer: This contains debug information generated from different applications.
+- Documentation: All the engine documentation is stored here.
 - Source: The source code of the engine is in this folder.
   - Engine: Contains all the engine source and header files.
   - Runtime: Contains all the runtime source and header files.
