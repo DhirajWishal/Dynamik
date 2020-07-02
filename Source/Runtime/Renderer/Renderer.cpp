@@ -486,9 +486,21 @@ namespace Dynamik
 		staggingIndexBuffer->terminate(myCoreObject);
 	}
 
+	void DMKRenderer::updateResources()
+	{
+		for (UI64 entityIndex = 0; entityIndex < myEntities.size(); entityIndex++)
+		{
+			for (UI64 meshIndex = 0; meshIndex < myEntities[entityIndex].pMeshObjects.size(); meshIndex++)
+			{
+
+			}
+		}
+	}
+
 	void DMKRenderer::initializeFinals()
 	{
 		initializeBuffers();
+		updateResources();
 
 		myCommandBufferManager = Inherit<RCommandBufferManager>(StaticAllocator<VulkanCommandBufferManager>::allocate().get());
 		myCommandBufferManager->initialize(myCoreObject);

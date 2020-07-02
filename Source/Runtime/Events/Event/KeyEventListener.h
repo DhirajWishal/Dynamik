@@ -19,7 +19,6 @@ namespace Dynamik
         DMKKeyEventComponent() : DMKEventComponent(DMKEventComponentCategory::DMK_EVENT_COMPONENT_CATEGORY_KEY) {}
         ~DMKKeyEventComponent() {}
 
-        I32 keyCode = 0;
         I32 action = 0;
         I32 mods = 0;
         I32 scanCode = 0;

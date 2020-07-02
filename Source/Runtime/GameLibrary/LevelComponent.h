@@ -21,6 +21,8 @@
 #include "Core/Types/Utilities.h"
 #include "Core/Types/Array.h"
 
+#include "Events/EventMap.h"
+
 namespace Dynamik
 {
 	/*
@@ -36,7 +38,9 @@ namespace Dynamik
 		virtual ~DMKLevelComponent() {}
 
 		virtual void onLoad() {}
+		virtual void setupEventMap(DMKEventMap* pEventMap) {}
 		virtual void initializeComponents() {}
+		virtual void onUpdate(const DMKEventBuffer& eventBuffer) {}
 		virtual void onUnoad() {}
 
 		/* Game Assets */
@@ -46,10 +50,10 @@ namespace Dynamik
 		ARRAY<DMKGameMechanics*> gameMechanics;
 
 		/* Player Object */
-		DMKPlayerObject* playerObject;
+		DMKPlayerObject* playerObject = nullptr;
 
 		/* Environment Map */
-		DMKEnvironmentMap* environmentMap;
+		DMKEnvironmentMap* environmentMap = nullptr;
 
 		/* Additional Components */
 		DMKComponentManager sceneComponentManager;

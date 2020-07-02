@@ -8,6 +8,6 @@ namespace Dynamik
 {
 	void DMKKeyEventListener::onEvent(I32 keyCode, I32 action, I32 mods, I32 scanCode)
 	{
-		DMK_INFO("Key Event: " + std::to_string(keyCode) + ((action == DMK_PRESS) ? " Button Press" : " Button Release"));
+		DMK_INFO("Key Event: " + std::to_string(keyCode) + ((action == (I32)DMKEvent::DMK_EVENT_BUTTON_PRESS) ? " Button Press" : " Button Release"));
 	}
 }

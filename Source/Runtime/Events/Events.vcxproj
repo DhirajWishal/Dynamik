@@ -363,18 +363,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EventMap.h" />
     <ClInclude Include="Event\EventListener.h" />
     <ClInclude Include="Event\KeyCodes.h" />
     <ClInclude Include="Event\KeyEventListener.h" />
     <ClInclude Include="Event\MouseButtonEventListener.h" />
     <ClInclude Include="Event\MouseScrollEventListener.h" />
     <ClInclude Include="EventHandler.h" />
+    <ClInclude Include="PlayerEventController.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EventMap.cpp" />
     <ClCompile Include="Event\KeyEventListener.cpp" />
     <ClCompile Include="Event\MouseButtonEventListener.cpp" />
     <ClCompile Include="Event\MouseScrollEventListener.cpp" />
     <ClCompile Include="EventHandler.cpp" />
+    <ClCompile Include="PlayerEventController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Events.lua" />

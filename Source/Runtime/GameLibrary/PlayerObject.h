@@ -28,6 +28,23 @@ namespace Dynamik
 		*/
 		virtual void onInitialize() {}
 
+	public:		/* Event Handlers */
+		virtual void onMoveForward() {}
+		virtual void onMoveBackward() {}
+		virtual void onMoveLeft() {}
+		virtual void onMoveRight() {}
+
+		virtual void onJump() {}
+		virtual void onCrouch() {}
+		virtual void onSprint() {}
+		virtual void onSlide() {}
+
+		virtual void onTrigger() {}
+		virtual void onReload() {}
+		virtual void onAim() {}
+		virtual void onView() {}
+		virtual void onLook() {}
+
 	public:		/* Component manager */
 		DMKComponentManager componentManager;
 
@@ -41,7 +58,7 @@ namespace Dynamik
 		}
 
 	public:		/* Camera Module */
-		DMKCameraModule* cameraModule;
+		DMKCameraModule* cameraModule = nullptr;
 
 		void setCameraPosition(const VEC3& position);
 

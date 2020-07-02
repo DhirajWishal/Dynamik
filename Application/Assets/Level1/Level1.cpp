@@ -11,7 +11,7 @@ void Level1::onLoad()
 	playerObject = createUserPlayer<Player>();
 
 	playerObject->cameraModule = StaticAllocator<DMKCameraModule>::allocate();
-	playerObject->setCameraPosition({0.0f, 1.0f, 0.0f});
+	playerObject->setCameraPosition({0.0f, 1.0f, 0.5f});
 
 	myMoon.setupCamera(playerObject->getCameraModule());
 
@@ -26,4 +26,12 @@ void Level1::onLoad()
 
 	entity->getComponent<DMKMeshComponent>(0)->translate(MAT4(1.0f), { 0.0f, -3.0f, -3.0f });
 	entity->getComponent<DMKMeshComponent>(0)->rotate({ 0.0f, 0.0f, 1.0f }, DMKMathFunctions::radians(90.0f));
+}
+
+void Level1::setupEventMap(DMKEventMap* pEventMap)
+{
+	pEventMap->addInstruction(DMKEvent::DMK_EVENT_KEY_W, DMKControlInstruction::DMK_CONTROL_INSTRUCTION_MOVE_FORWARD);
+	pEventMap->addInstruction(DMKEvent::DMK_EVENT_KEY_S, DMKControlInstruction::DMK_CONTROL_INSTRUCTION_MOVE_BACKWARD);
+	pEventMap->addInstruction(DMKEvent::DMK_EVENT_KEY_A, DMKControlInstruction::DMK_CONTROL_INSTRUCTION_MOVE_LEFT);
+	pEventMap->addInstruction(DMKEvent::DMK_EVENT_KEY_D, DMKControlInstruction::DMK_CONTROL_INSTRUCTION_MOVE_RIGHT);
 }

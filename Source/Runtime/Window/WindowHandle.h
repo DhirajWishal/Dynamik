@@ -38,7 +38,7 @@ namespace Dynamik
 
 	/*
 	 Dynamik Window Handle
-	 Each and every window used in the Dynamik Engine is derived from this class. Evary window contains its own
+	 Each and every window used in the Dynamik Engine is derived from this class. Every window contains its own
 	 Event Handler to handle events. A window could have multiple viewports and one viewport is bound to one
 	 rendering context. Rendering contexts can have multiple viewports from one or from different window
 	 handles.

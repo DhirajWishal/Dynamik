@@ -63,6 +63,7 @@ namespace Dynamik
 
         DMKEventComponentCategory eventCategory = DMKEventComponentCategory::DMK_EVENT_COMPONENT_CATEGORY_KEY;
         DMKEventType eventType = DMKEventType::DMK_EVENT_TYPE_PRESS;
+        DMKEvent event = DMKEvent::DMK_EVENT_KEY_UNKNOWN;
     };
 }
 

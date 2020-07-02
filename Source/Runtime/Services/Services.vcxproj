@@ -363,9 +363,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="RuntimeSystems\ConfigurationService.h" />
     <ClInclude Include="RuntimeSystems\ListenerServices.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="RuntimeSystems\ConfigurationService.cpp" />
     <ClCompile Include="RuntimeSystems\ListenerServices.cpp" />
   </ItemGroup>
   <ItemGroup>

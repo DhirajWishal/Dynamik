@@ -22,6 +22,8 @@
       <Filter>Event</Filter>
     </ClInclude>
     <ClInclude Include="EventHandler.h" />
+    <ClInclude Include="EventMap.h" />
+    <ClInclude Include="PlayerEventController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Event\KeyEventListener.cpp">
@@ -34,6 +36,8 @@
       <Filter>Event</Filter>
     </ClCompile>
     <ClCompile Include="EventHandler.cpp" />
+    <ClCompile Include="EventMap.cpp" />
+    <ClCompile Include="PlayerEventController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Events.lua" />

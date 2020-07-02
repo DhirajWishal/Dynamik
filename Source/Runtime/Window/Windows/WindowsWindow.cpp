@@ -164,7 +164,7 @@ namespace Dynamik
 			_listener->onEvent(key, action, mods, scancode);
 
 		DMKKeyEventComponent _component;
-		_component.keyCode = key;
+		_component.event = (DMKEvent)key;
 		_component.action = action;
 		_component.mods = mods;
 		_component.scanCode = scancode;
@@ -186,7 +186,7 @@ namespace Dynamik
 			_listener->onEvent(button, action, mods);
 
 		DMKMouseButtonEventComponent _component;
-		_component.button = button;
+		_component.event = (DMKEvent)button;
 		_component.action = action;
 		_component.mods = mods;
 

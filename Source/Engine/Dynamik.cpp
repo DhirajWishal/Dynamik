@@ -38,6 +38,7 @@ namespace Dynamik
 		DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
 		auto _localPath = DMKFileSystem::getExecutablePath();
 		auto _workingDirectory = DMKFileSystem::getWorkingDirectory();
+	 	DMKConfigurationService::openConfigFile(_workingDirectory + "/EngineConfig.ini");
 
 		DMKMeshFactory::setWorkingDirectory(_workingDirectory);
 		DMKShaderFactory::setWorkingDirectory(_workingDirectory);
@@ -91,7 +92,10 @@ namespace Dynamik
 	{
 		pGamePackage->onExit();
 
+		DMKConfigurationService::writeWindowSize(_windowManager.getWindowHandle(0)->windowWidth, _windowManager.getWindowHandle(0)->windowHeight);
 		_windowManager.terminateAll();
+
+		DMKConfigurationService::closeConfigFile();
 		_clock.end();
 	}
 
@@ -107,6 +111,7 @@ namespace Dynamik
 
 		pCurrentLevel->onLoad();
 		pCurrentLevel->initializeComponents();
+		pCurrentLevel->setupEventMap(&_eventMap);
 
 		for (auto _entity : pCurrentLevel->entities)
 			_entity->initialize();

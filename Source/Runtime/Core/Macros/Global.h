@@ -35,5 +35,7 @@
 
 #define DMK_FORCEINLINE		__forceinline
 
+#define DMK_ENGINE_VERSION	"00001-00000-00000"
+
 
 #endif // !_DYNAMIK_GLOBAL_MACROS_H

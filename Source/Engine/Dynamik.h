@@ -24,6 +24,8 @@
 
 #include "GameLibrary/GamePackage.h"
 
+#include "Services/RuntimeSystems/ConfigurationService.h"
+
 namespace Dynamik
 {
 	/*
@@ -90,6 +92,7 @@ namespace Dynamik
 		DMKGamePackage* pGamePackage = nullptr;
 		DMKLevelComponent* pCurrentLevel = nullptr;
 		DMKLevelComponent* pNextLevel = nullptr;
+		DMKEventMap _eventMap;
 		UI64 _nextLevelIndex = 0;
 
 	private:	/* Private runtime data store */
@@ -101,6 +104,8 @@ namespace Dynamik
 		DMKEngineInstanceDescriptor _instanceDescription;
 
 		UI32 _levelIndex = 0;
+
+	private:	/* Engine Runtime Utilities */
 	};
 }
 

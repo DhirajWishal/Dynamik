@@ -18,7 +18,6 @@ namespace Dynamik
         DMKMouseButtonEventComponent() : DMKEventComponent(DMKEventComponentCategory::DMK_EVENT_COMPONENT_CATEGORY_MOUSE_BUTTON){}
         ~DMKMouseButtonEventComponent() {}
 
-        I32 button = 0;
         I32 action = 0;
         I32 mods = 0;
     };

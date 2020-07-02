@@ -89,6 +89,7 @@ namespace Dynamik
 
     private:    /* Finals */
         void initializeBuffers();
+        void updateResources();
         void initializeFinals();
 
     private:    /* Internal Methods */

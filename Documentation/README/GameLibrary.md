@@ -9,8 +9,8 @@
     it can perform tasks like an NPC.
       - Audio Component
       - Physics Component
-      - Renderable Component
-    - Skybox
+      - Renderer Component
+    - Environment Map
     - Game Mechanics
       - Key Bindings
       - Win Condition
@@ -35,13 +35,13 @@ game mechanics and a player object.
 ##### Entity
 An entity is an object consisting of one or more components. Collectively this may recreate a complete asset, 
 or another character, or any other complex object. By default these objects do not have any functionality.
-In multiplayer games, other players are considered as entities.
+In multi-player games, other players are considered as entities.
 
 ###### Components
 Components are the containers which contain all the raw data (eg: Audio, Video, Mesh, ...). These components
-are devided into 3 main types,
+are divided into 3 main types,
 - Audio Component
-- Renderable Component
+- Renderer Component
 - Compute Component (Used to perform calculations)
 
 ##### Game Mechanics

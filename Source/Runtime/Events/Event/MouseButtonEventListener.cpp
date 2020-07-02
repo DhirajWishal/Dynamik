@@ -8,6 +8,6 @@ namespace Dynamik
 {
 	void DMKMouseButtonEventListener::onEvent(I32 button, I32 action, I32 mods)
 	{
-		DMK_INFO("On Button Event: " + std::to_string(button) + ((action == DMK_PRESS) ? " Button Press" : " Button Release"));
+		DMK_INFO("On Button Event: " + std::to_string(button) + ((action == (I32)DMKEvent::DMK_EVENT_BUTTON_PRESS) ? " Button Press" : " Button Release"));
 	}
 }
