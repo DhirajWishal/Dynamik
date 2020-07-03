@@ -51,7 +51,7 @@ namespace Dynamik
 		virtual ~DMKTexture() {}
 
 		virtual void clear();
-		virtual UI32 size();
+		virtual UI64 size();
 
 		UCPTR image = nullptr;
 		UI32 width = 0;

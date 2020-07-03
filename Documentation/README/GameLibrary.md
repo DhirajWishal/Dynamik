@@ -18,7 +18,7 @@
     - Player Object
       - Player Controller
       - Character Components
-      - Camera Module
+    - Camera Module
         - Attachments
   - Game Menus
     - Layers
@@ -60,7 +60,7 @@ This component defines the player controls (waling, jumping, swimming, ...)
 ###### Character Components
 This defines the components possessed by the player (Audio (Voice), Mesh (Skinned, Bone), Physics (Capsule), ...).
 
-###### Camera Module
+##### Camera Module
 This is the main camera of the level. Even though cinematic cameras can be setup by game mechanics, this camera
 is the active camera when the player is on a mission. HUDs can be added to the camera using attachments.
 

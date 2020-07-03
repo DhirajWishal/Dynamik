@@ -215,6 +215,7 @@
     </ClInclude>
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RendererCommand.h" />
+    <ClInclude Include="Components\RDrawCallManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Backend\Vulkan\Common\VulkanCommandBuffer.cpp">
@@ -299,6 +300,8 @@
       <Filter>Components\Factories</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Components\Primitives\RImageSampler.cpp" />
+    <ClCompile Include="Components\RDrawCallManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Backend\Vulkan\README.md">

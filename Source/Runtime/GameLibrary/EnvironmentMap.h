@@ -9,7 +9,7 @@
  Author:	Dhiraj Wishal
  Date:		24/06/2020
 */
-#include "ComponentSystem/Components/RenderableComponents/MeshComponent.h"
+#include "GameEntity.h"
 
 namespace Dynamik
 {
@@ -25,6 +25,10 @@ namespace Dynamik
 	public:
 		DMKEnvironmentMap() = default;
 		virtual ~DMKEnvironmentMap() = default;
+
+		void setSkyBox(const DMKMeshComponent& component);
+
+		DMKMeshComponent skyBox;
 	};
 }
 

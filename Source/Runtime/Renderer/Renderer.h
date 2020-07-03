@@ -19,6 +19,7 @@
 #include "Components/Factories/BufferFactory.h"
 #include "Components/REntity.h"
 #include "Components/RCameraComponent.h"
+#include "Components/REnvironmentMap.h"
 
 namespace Dynamik
 {
@@ -84,13 +85,20 @@ namespace Dynamik
         RPipelineObject* allocatePipeline();
 
         void initializeCamera(DMKCameraModule* pCameraModule);
+        void initializeEnvironmentMap(DMKEnvironmentMap* pEnvironmentMap);
         void createEntityResources(DMKGameEntity* pGameEntity);
         void createLevelResources(DMKLevelComponent* pLevelComponent);
 
     private:    /* Finals */
         void initializeBuffers();
         void updateResources();
+        void bindEnvironment(RCommandBuffer* pCommandBuffer, UI64* pFirstVertex, UI64* pFirstIndex);
         void initializeFinals();
+
+    private:    /* Instructions */
+        void beginFrameInstruction();
+        void updateInstruction();
+        void endFrameInstruction();
 
     private:    /* Internal Methods */
         void terminateComponents();
@@ -118,12 +126,15 @@ namespace Dynamik
         B1 isInitialized = false;
 
         RCameraComponent* myCameraComponent = nullptr;
+        REnvironmentMap myCurrentEnvironment;
 
         ARRAY<REntity> myEntities;
         RBuffer* myVertexBuffer = nullptr;
         UI64 myVertexBufferByteSize = 0;
         RBuffer* myIndexBuffer = nullptr;
         UI64 myIndexBufferByteSize = 0;
+
+        UI32 currentImageIndex = 0;
 
     private:    /* Factories */
         DMKBufferFactory myBufferFactory;

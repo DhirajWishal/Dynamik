@@ -16,7 +16,7 @@ namespace Dynamik
 			pTexture = pTextureObject;
 
 			VulkanBuffer staggingBuffer;
-			staggingBuffer.initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, pTextureObject->size());
+			staggingBuffer.initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, pTextureObject->size() * pTextureObject->layerCount);
 			staggingBuffer.setData(pCoreObject, pTextureObject->size(), 0, pTextureObject->image);
 
 			RImageCreateInfo initInfo;

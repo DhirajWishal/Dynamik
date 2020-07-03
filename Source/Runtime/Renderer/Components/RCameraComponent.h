@@ -10,6 +10,7 @@
  Date:		29/06/2020
 */
 #include "Primitives/RBuffer.h"
+#include "GameLibrary/Camera/CameraModule.h"
 
 namespace Dynamik
 {
@@ -22,6 +23,7 @@ namespace Dynamik
 		virtual ~RCameraComponent() = default;
 
 		RBuffer* pUniformBuffer = nullptr;
+		DMKCameraModule* pCameraModule = nullptr;
 	};
 }
 

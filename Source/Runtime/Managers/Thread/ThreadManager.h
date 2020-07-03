@@ -69,14 +69,17 @@ namespace Dynamik
         /* Dedicated thread commands */
     public:
         /* Renderer thread (RT = RendererThread) */
+        void pushRendererCommand(DMKRendererCommand* pCommand);
         void issueSamplesCommandRT(DMKSampleCount const& samples);
         void issueWindowHandleCommandRT(const DMKWindowHandle* handle);
         void issueInitializeCommandRT();
         void issueCreateContextCommandRT(DMKRenderContextType context, DMKViewport viewport);
         void issueInitializeCameraCommandRT(DMKCameraModule* pModule);
+        void issueInitializeEnvironmentMapCommandRT(DMKEnvironmentMap* pEnvironmentMap);
         void issueInitializeEntityCommandRT(DMKGameEntity* meshComponents); /* Support for submitting objects */
         void issueInitializeLevelCommandRT(DMKLevelComponent* pLevelComponent);
         void issueInitializeFinalsCommandRT();
+        void issueRawCommandRT(RendererInstruction instruction);
 
     private:
         static void _threadFunction(DMKThread* mySystem, ThreadCommandBuffer* commandPoolPtr);

@@ -451,6 +451,7 @@
     <ClInclude Include="Components\RCommandBufferManager.h" />
     <ClInclude Include="Components\RContext.h" />
     <ClInclude Include="Components\RCoreObject.h" />
+    <ClInclude Include="Components\RDrawCallManager.h" />
     <ClInclude Include="Components\REntity.h" />
     <ClInclude Include="Components\REnvironmentMap.h" />
     <ClInclude Include="Components\RMeshObject.h" />
@@ -487,6 +488,8 @@
     <ClCompile Include="Backend\Vulkan\VulkanUtilities.cpp" />
     <ClCompile Include="Components\Factories\BufferFactory.cpp" />
     <ClCompile Include="Components\Factories\PipelineFactory.cpp" />
+    <ClCompile Include="Components\Primitives\RImageSampler.cpp" />
+    <ClCompile Include="Components\RDrawCallManager.cpp" />
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -112,7 +112,7 @@ namespace Dynamik
 		newMatrix[3][2] = -(far * near) / (far - near);
 
 		if (flipYAxis)
-			newMatrix[3][3] *= -1.0f;
+			newMatrix[1][1] *= -1.0f;
 
 		return newMatrix;
 	}

@@ -24,9 +24,11 @@ namespace Dynamik
 	public:
 		DMKTextureFactory(const DMKTextureFactory&) = delete;
 		DMKTextureFactory(DMKTextureFactory&&) = delete;
+		DMKTextureFactory& operator=(const DMKTextureFactory&) = delete;
+		DMKTextureFactory& operator=(DMKTextureFactory&&) = delete;
 
 		static DMKTexture* create(const DMKTextureType& type, const STRING& path);
-		static DMKTexture* create(const DMKTextureType& type, const ARRAY<STRING>& paths);
+		static DMKTexture* createCubeMap(const ARRAY<STRING>& paths);
 
 		static void destroy(DMKTexture* texture);
 	};

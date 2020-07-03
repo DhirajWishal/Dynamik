@@ -14,7 +14,7 @@ namespace Dynamik
 		StaticAllocator<UCHR>::deallocate(image, 0);
 	}
 	
-	UI32 DMKTexture::size()
+	UI64 DMKTexture::size()
 	{
 		return depth * width * height * channels;
 	}

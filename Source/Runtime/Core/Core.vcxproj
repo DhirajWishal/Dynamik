@@ -398,6 +398,7 @@
     <ClInclude Include="Object\Resource\Texture.h" />
     <ClInclude Include="Object\Resource\TextureFactory.h" />
     <ClInclude Include="Object\Resource\Textures\Texture2D.h" />
+    <ClInclude Include="Object\Resource\Textures\TextureCube.h" />
     <ClInclude Include="Object\Resource\VertexBuffer.h" />
     <ClInclude Include="Object\Resource\VertexObject.h" />
     <ClInclude Include="Object\System.h" />
@@ -433,6 +434,7 @@
     <ClCompile Include="Object\Resource\Texture.cpp" />
     <ClCompile Include="Object\Resource\TextureFactory.cpp" />
     <ClCompile Include="Object\Resource\Textures\Texture2D.cpp" />
+    <ClCompile Include="Object\Resource\Textures\TextureCube.cpp" />
     <ClCompile Include="PCH\dmkafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

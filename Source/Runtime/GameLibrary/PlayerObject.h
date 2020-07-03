@@ -28,22 +28,26 @@ namespace Dynamik
 		*/
 		virtual void onInitialize() {}
 
-	public:		/* Event Handlers */
-		virtual void onMoveForward() {}
-		virtual void onMoveBackward() {}
-		virtual void onMoveLeft() {}
-		virtual void onMoveRight() {}
+		/*
+		 Update the camera.
+		 By default, on every call, the player position is added to the camera position.
+		*/
+		virtual void updateCamera();
 
-		virtual void onJump() {}
-		virtual void onCrouch() {}
-		virtual void onSprint() {}
-		virtual void onSlide() {}
+	public:		/* Player Data Store */
+		Vector3F position = Vector3F(0.0f);
 
-		virtual void onTrigger() {}
-		virtual void onReload() {}
-		virtual void onAim() {}
-		virtual void onView() {}
-		virtual void onLook() {}
+		/*
+		 Set the player position in world space.
+		*/
+		void setPosition(const Vector3F& position);
+
+		void addForwardVector(const F32& rate = 1.0f);
+		void addBackwardVector(const F32& rate = 1.0f);
+		void addLeftVector(const F32& rate = 1.0f);
+		void addRightVector(const F32& rate = 1.0f);
+		void addUpVector(const F32& rate = 1.0f);
+		void addDownVector(const F32& rate = 1.0f);
 
 	public:		/* Component manager */
 		DMKComponentManager componentManager;
@@ -58,14 +62,24 @@ namespace Dynamik
 		}
 
 	public:		/* Camera Module */
-		DMKCameraModule* cameraModule = nullptr;
+		DMKCameraModule cameraModule;
+		B1 isCameraRelative = false;
 
+		/*
+		 Set the camera position.
+		*/
 		void setCameraPosition(const VEC3& position);
+
+		void setCameraParams(F32 FOV, F32 aspect, F32 fNear, F32 fFar);
+		void setAspectRatio(F32 fAspect);
+
+		void makeCameraRelative();
+		void makeCameraStationary();
 
 		/*
 		 Get the camera module
 		*/
-		virtual DMKCameraModule* getCameraModule() { return cameraModule; }
+		DMKCameraModule *getCameraModule();
 	};
 }
 

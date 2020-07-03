@@ -23,4 +23,10 @@ namespace Dynamik
 	{
 		return myDescription;
 	}
+	
+	void DMKCameraModule::updateMatrix()
+	{
+		matrix.view = DMKMathFunctions::lookAt(position, position + front, cameraUp);
+		matrix.projection = DMKMathFunctions::perspective(DMKMathFunctions::radians(fieldOfView), aspectRatio, nearRender, farRender);
+	}
 }

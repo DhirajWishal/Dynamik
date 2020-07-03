@@ -5,6 +5,7 @@
 #include "MeshFactory.h"
 
 #include "Importer/Asset/MeshImporter.h"
+#include "Core/Object/Resource/TextureFactory.h"
 
 namespace Dynamik
 {
@@ -69,6 +70,32 @@ namespace Dynamik
 
 		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/3D/vert.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/3D/frag.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+
+		return component;
+	}
+	
+	DMKMeshComponent DMKMeshFactory::createCube()
+	{
+		DMKMeshComponent component = DMKMeshImporter::loadMeshes(instance.workingDirectory + "/Runtime/Assets/Models/Cube/Cube.obj", DMKVertexLayout::createBasic())[0];
+
+		return component;
+	}
+	
+	DMKMeshComponent DMKMeshFactory::createSkyBox(ARRAY<STRING> textureFiles)
+	{
+		DMKVertexLayout layout;
+		DMKVertexAttribute attribute;
+		attribute.dataCount = 1;
+		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
+		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
+		layout.attributes.pushBack(attribute);
+
+		DMKMeshComponent component = DMKMeshImporter::loadMeshes(instance.workingDirectory + "/Runtime/Assets/Models/SkyBox/SkySphere.obj", layout)[0];
+
+		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/SkyBox/vert.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/SkyBox/frag.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+		
+		component.addTextureModule(DMKTextureFactory::createCubeMap(textureFiles));
 
 		return component;
 	}

@@ -20,6 +20,7 @@
 #include "Core/Macros/Global.h"
 #include "Core/Types/Utilities.h"
 #include "Core/Types/Array.h"
+#include "Core/FileSystem/FileSystem.h"
 
 #include "Events/EventMap.h"
 
@@ -27,8 +28,7 @@ namespace Dynamik
 {
 	/*
 	 Dynamik Level Component act as a level for the Dynamik Engine.
-	 All the scenes are loaded and presented as a level to the engine. Multiple levels can be loaded to the
-	 memory at a given 
+	 Level component directly translates to a level in the game. A level can also be interpreted as a player.
 
 	 By default, this class can be used as an internal level component.
 	*/
@@ -42,6 +42,27 @@ namespace Dynamik
 		virtual void initializeComponents() {}
 		virtual void onUpdate(const DMKEventBuffer& eventBuffer) {}
 		virtual void onUnoad() {}
+
+	public:		/* Player Methods */
+		virtual void onPlayerMoveForward() {}
+		virtual void onPlayerMoveBackward() {}
+		virtual void onPlayerMoveLeft() {}
+		virtual void onPlayerMoveRight() {}
+
+		virtual void onPlayerJump() {}
+		virtual void onPlayerCrouch() {}
+		virtual void onPlayerSprint() {}
+		virtual void onPlayerSlide() {}
+
+		virtual void onPlayerTrigger() {}
+		virtual void onPlayerReload() {}
+		virtual void onPlayerAim() {}
+		virtual void onPlayerView() {}	/* eg: Looking at a gun. */
+		virtual void onPlayerLook() {}	/* eg: Looking at a scene. */
+
+		VEC3 getPlayerPosition();
+
+	public:		/* Level Data Store */
 
 		/* Game Assets */
 		ARRAY<DMKGameEntity*> entities;
@@ -119,6 +140,11 @@ namespace Dynamik
 			playerObject = Cast<DMKPlayerObject*>(StaticAllocator<PLAYER>::allocate().get());
 			return playerObject;
 		}
+
+		/*
+		 Create an empty environment.
+		*/
+		DMKEnvironmentMap* createHollowEnvironment();
 	};
 }
 

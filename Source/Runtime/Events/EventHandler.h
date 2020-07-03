@@ -21,9 +21,9 @@ namespace Dynamik
 {
 	/*
 	 Dynamik Event Buffer
-	 This buffer contains all the events that occurred in one iteraton of the main loop.
+	 This buffer contains all the events that occurred in one iteration of the main loop.
 	*/
-	struct DMKEventBuffer {
+	struct DMK_API DMKEventBuffer {
 		ARRAY<DMKKeyEventComponent> keyEventComponents;
 		ARRAY<DMKMouseScrollEventComponent> mouseScrollEventComponents;
 		ARRAY<DMKMouseButtonEventComponent> mouseButtonEventComponents;

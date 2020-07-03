@@ -14,6 +14,9 @@
 
 namespace Dynamik
 {
+	struct DMK_API RImageSamplerCreateInfo;
+	class DMK_API RImageSampler;
+
 	/*
 	 Renderer Texture object
 	*/

@@ -200,11 +200,7 @@ namespace Dynamik
 		ARRAY(const ARRAY<TYPE>& arr)
 		{
 			if (arr.size())
-			{
-				_reAllocateBack(_getAllocatableSize(arr.capacity()));
-
-				set(arr.begin(), arr.end());
-			}
+				_copyArrayOverride(arr.begin(), arr.size());
 			else
 				_reAllocateBack(_getNextSize());
 		}
@@ -294,14 +290,14 @@ namespace Dynamik
 		 */
 		void set(ITERATOR first, ITERATOR last)
 		{
-			UI64 _byteSize = last.getPointerAsInteger() - first.getPointerAsInteger();
+			UI64 _byteSize = last - first;
 			if (_byteSize)
 			{
 				myDataCount = (_byteSize) / typeSize();
 				if (_byteSize > _getAllocationSize())
 					_reAllocateAssign(_getAllocatableSize(_byteSize));
 
-				DMKMemoryFunctions::moveData(myBeginPtr, first, last - first);
+				DMKMemoryFunctions::moveData(myBeginPtr, first, _byteSize);
 				myNextPtr += myDataCount;
 			}
 			else
@@ -1011,7 +1007,7 @@ namespace Dynamik
 		 */
 		ARRAY<TYPE>& operator=(const ARRAY<TYPE>& arr)
 		{
-			this->set(arr.begin(), arr.end());
+			this->_copyArrayOverride(arr.begin(), arr.size());
 			return *this;
 		}
 
@@ -1345,6 +1341,34 @@ namespace Dynamik
 			}
 
 			_basicInitializationBack(_newArr, _getAllocationSize(), _getSizeOfThis());
+		}
+
+		/* PRIVATE FUNCTION
+		 * Copy another array's data to this.
+		 * Overrides previous allocation.
+		 *
+		 * @param beginAddr: Begin address of the other array.
+		 * @param dataCount: Data count (size()) of the other array.
+		 */
+		inline void _copyArrayOverride(const PTR& beginAddr, const UI64& dataCount)
+		{
+			/* Check if the other array is empty. If true, don't do anything */
+			if (!dataCount)
+				return;
+
+			/* Deallocate current array if already allocated */
+			if ((myBeginPtr != myNextPtr) || myDataCount)
+				_terminate();
+
+			/* Allocate new buffer and move data from the old array */
+			myBeginPtr = _allocateBuffer(dataCount * typeSize());
+			DMKMemoryFunctions::moveData(myBeginPtr.get(), beginAddr.get(), dataCount * typeSize());
+
+			/* Initialize pointers and data count */
+			myDataCount = dataCount;
+			myNextPtr = myBeginPtr;
+			myNextPtr += myDataCount;
+			myEndPtr += myDataCount;
 		}
 
 		/* POINTER MANIPULATION FUNCTIONS */

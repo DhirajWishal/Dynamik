@@ -33,6 +33,10 @@ namespace Dynamik
 		F32 minLOD = 0.0f;
 		F32 maxLOD = 1.0f;
 		F32 mipLODBias = 0.0f;
+
+	public:		/* Utility Methods */
+		static RImageSamplerCreateInfo createDefaultSampler();
+		static RImageSamplerCreateInfo createCubeMapSampler();
 	};
 
 	/*

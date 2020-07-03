@@ -105,6 +105,12 @@ namespace Dynamik
 		}
 	}
 
+	void DMKThreadManager::pushRendererCommand(DMKRendererCommand* pCommand)
+	{
+		myRendererThread.commandBuffer.hasExcuted = false;
+		myRendererThread.commandBuffer.commands.pushBack(pCommand);
+	}
+
 	/* ////////// Renderer Thread Commands \\\\\\\\\\ */
 	void DMKThreadManager::issueSamplesCommandRT(DMKSampleCount const& samples)
 	{
@@ -112,8 +118,7 @@ namespace Dynamik
 		_command.samples = samples;
 
 		/* Push to command buffer */
-		myRendererThread.commandBuffer.hasExcuted = false;
-		myRendererThread.commandBuffer.commands.pushBack(new RendererSetSamplesCommand(_command));
+		pushRendererCommand(new RendererSetSamplesCommand(_command));
 	}
 
 	void DMKThreadManager::issueWindowHandleCommandRT(const DMKWindowHandle* handle)
@@ -122,8 +127,7 @@ namespace Dynamik
 		_command.windowHandle = (DMKWindowHandle*)handle;
 
 		/* Push to command buffer */
-		myRendererThread.commandBuffer.hasExcuted = false;
-		myRendererThread.commandBuffer.commands.pushBack(new RendererSetWindowHandleCommand(_command));
+		pushRendererCommand(new RendererSetWindowHandleCommand(_command));
 	}
 
 	void DMKThreadManager::issueInitializeCommandRT()
@@ -140,8 +144,7 @@ namespace Dynamik
 		_command.viewport = viewport;
 
 		/* Push to command buffer */
-		myRendererThread.commandBuffer.hasExcuted = false;
-		myRendererThread.commandBuffer.commands.pushBack(new RendererCreateContextCommand(_command));
+		pushRendererCommand(new RendererCreateContextCommand(_command));
 	}
 
 	void DMKThreadManager::issueInitializeCameraCommandRT(DMKCameraModule* pModule)
@@ -150,8 +153,16 @@ namespace Dynamik
 		_command.pCameraModule = pModule;
 
 		/* Push to command buffer */
-		myRendererThread.commandBuffer.hasExcuted = false;
-		myRendererThread.commandBuffer.commands.pushBack(new RendererInitializeCamera(_command));
+		pushRendererCommand(new RendererInitializeCamera(_command));
+	}
+
+	void DMKThreadManager::issueInitializeEnvironmentMapCommandRT(DMKEnvironmentMap* pEnvironmentMap)
+	{
+		RendererInitializeEnvironmentMap _command;
+		_command.pEnvironmentMap = pEnvironmentMap;
+
+		/* Push to command buffer */
+		pushRendererCommand(new RendererInitializeEnvironmentMap(_command));
 	}
 
 	void DMKThreadManager::issueInitializeEntityCommandRT(DMKGameEntity* meshComponents)
@@ -160,8 +171,7 @@ namespace Dynamik
 		_command.entity = meshComponents;
 
 		/* Push to command buffer */
-		myRendererThread.commandBuffer.hasExcuted = false;
-		myRendererThread.commandBuffer.commands.pushBack(new RendererAddEntity(_command));
+		pushRendererCommand(new RendererAddEntity(_command));
 	}
 
 	void DMKThreadManager::issueInitializeLevelCommandRT(DMKLevelComponent* pLevelComponent)
@@ -170,13 +180,19 @@ namespace Dynamik
 		_command.level = pLevelComponent;
 
 		/* Push to command buffer */
-		myRendererThread.commandBuffer.hasExcuted = false;
-		myRendererThread.commandBuffer.commands.pushBack(new RendererSubmitLevel(_command));
+		pushRendererCommand(new RendererSubmitLevel(_command));
 	}
 
 	void DMKThreadManager::issueInitializeFinalsCommandRT()
 	{
 		DMKRendererCommand _command(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_FINALS);
+
+		_pushToThread(_command);
+	}
+
+	void DMKThreadManager::issueRawCommandRT(RendererInstruction instruction)
+	{
+		DMKRendererCommand _command(instruction);
 
 		_pushToThread(_command);
 	}

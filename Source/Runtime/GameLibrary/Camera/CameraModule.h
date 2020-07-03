@@ -35,6 +35,8 @@ namespace Dynamik
 		virtual void update(const DMKEventBuffer& eventBuffer);
 		DMKUniformDescription getDescription() const;
 
+		virtual void updateMatrix();
+
 		DMKCameraMatrix matrix;
 
 		VEC3 position = { 0.0f, 0.0f, 0.0f };
@@ -42,6 +44,11 @@ namespace Dynamik
 		VEC3 right = { 1.0f, 0.0f, 0.0f };
 		VEC3 cameraUp = { 0.0f, 1.0f, 0.0f };
 		VEC3 worldUp = { 0.0f, 1.0f, 0.0f };
+
+		F32 fieldOfView = 45.0f;
+		F32 farRender = 256.0f;
+		F32 nearRender = 0.001f;
+		F32 aspectRatio = 0.5f;
 
 	private:
 		DMKUniformDescription myDescription;

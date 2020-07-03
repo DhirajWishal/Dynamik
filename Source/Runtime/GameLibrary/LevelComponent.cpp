@@ -49,4 +49,9 @@ namespace Dynamik
 		playerObject = StaticAllocator<DMKPlayerObject>::allocate().get();
 		return playerObject;
 	}
+	
+	DMKEnvironmentMap* DMKLevelComponent::createHollowEnvironment()
+	{
+		return StaticAllocator<DMKEnvironmentMap>::allocate();
+	}
 }

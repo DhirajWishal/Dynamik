@@ -15,6 +15,7 @@
 #include "Core/Utilities/Clock.h"
 #include "Core/FileSystem/FileSystem.h"
 #include "Core/Memory/AutomatedMemoryManager.h"
+#include "Core/Object/Resource/ShaderFactory.h"
 
 #include "Managers/Window/WindowManager.h"
 
@@ -22,13 +23,12 @@
 #include "Importer/Asset/MeshImporter.h"
 
 #include "GameLibrary/Utilities/MeshFactory.h"
-#include "Core/Object/Resource/ShaderFactory.h"
 
 namespace Dynamik
 {
 	/* Default constructor */
-	DMKEngine::DMKEngine(const DMKEngineInstanceDescriptor& instanceDescriptor, const DMKGamePackage* gamePackage)
-		: _instanceDescription(instanceDescriptor), pGamePackage(Cast<DMKGamePackage*>(gamePackage))
+	DMKEngine::DMKEngine(const DMKGamePackage* gamePackage)
+		: pGamePackage(Cast<DMKGamePackage*>(gamePackage))
 	{
 		_clock.start();
 		pGamePackage->onLoad();
@@ -43,7 +43,7 @@ namespace Dynamik
 		DMKMeshFactory::setWorkingDirectory(_workingDirectory);
 		DMKShaderFactory::setWorkingDirectory(_workingDirectory);
 
-		UI32 windowID = _windowManager.createWindow(_instanceDescription.windowDescription.width, _instanceDescription.windowDescription.height, _instanceDescription.windowDescription.title);
+		UI32 windowID = _windowManager.createWindow(1280, 720, "Dynamik Engine");	/* TODO */
 		_threadManager.issueWindowHandleCommandRT(_windowManager.getWindowHandle(windowID));
 
 		_threadManager.issueInitializeCommandRT();
@@ -59,13 +59,17 @@ namespace Dynamik
 	{
 		pGamePackage->onExecute();
 		_threadManager.issueInitializeCameraCommandRT(pCurrentLevel->playerObject->getCameraModule());
+		_threadManager.issueInitializeEnvironmentMapCommandRT(pCurrentLevel->environmentMap);
 		_threadManager.issueInitializeLevelCommandRT(pCurrentLevel);
 		_threadManager.issueInitializeFinalsCommandRT();
 
 		UI64 _itrIndex = 0;
 		DMKGameEntity* _entity = nullptr;
 
-		printf("Allocation count: %u", DMKAutomatedMemoryManager::getAllocationCount());
+#ifdef DMK_DEBUG
+		printf("Allocation count: %u\n", DMKAutomatedMemoryManager::getAllocationCount());
+
+#endif // DMK_DEBUG
 
 		while (true)
 		{
@@ -74,6 +78,9 @@ namespace Dynamik
 			_threadManager.clearCommands();
 
 			_windowManager.pollEvents();
+
+			pCurrentLevel->onUpdate(DMKEventBuffer());
+			_threadManager.issueRawCommandRT(RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE);
 
 			for (_itrIndex = 0; _itrIndex < pCurrentLevel->entities.size(); _itrIndex++)
 			{

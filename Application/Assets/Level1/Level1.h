@@ -20,6 +20,7 @@ public:
 
 	void onLoad() override;
 	virtual void setupEventMap(DMKEventMap* pEventMap) override final;
+	virtual void onUpdate(const DMKEventBuffer& eventBuffer) override final;
 
 private:
 	PlayerMoon myMoon;

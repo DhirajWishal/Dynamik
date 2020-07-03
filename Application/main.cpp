@@ -11,27 +11,5 @@
 */
 #include "Dynamik.h"
 #include "ApplicationPackage.h"
-#include "Core/Math/MathFunctions.h"
-using namespace Dynamik;
 
-int main()
-{
-	DMKEngineInstanceDescriptor _instanceDescriptor;
-	ApplicationPackage myPackage;
-
-	try
-	{
-		/* Instantiate the engine */
-		DMKEngine _engine(_instanceDescriptor, &myPackage);
-
-		/* Execute the engine */
-		_engine.execute();
-	}
-	catch (const std::exception& e)
-	{
-		DMKErrorManager::logFatal(e.what(), __FILE__, __LINE__);
-		return -1;
-	}
-
-	return 0;
-}
+DMK_ENTRY_POINT(ApplicationPackage)

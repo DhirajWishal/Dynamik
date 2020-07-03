@@ -63,6 +63,7 @@ namespace Dynamik
 			initializeCamera(Inherit<RendererInitializeCamera>(myCommand)->pCameraModule);
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENVIRONMENT_MAP:
+			initializeEnvironmentMap(Inherit<RendererInitializeEnvironmentMap>(myCommand)->pEnvironmentMap);
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_FINALS:
 			initializeFinals();
@@ -78,9 +79,7 @@ namespace Dynamik
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_INITIALIZE:
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE:
-			//myBackend.initializeDrawCall();
-			//myBackend.updateRenderables();
-			//myBackend.submitRenderables();
+			updateInstruction();
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_SUBMIT:
 			break;
@@ -108,7 +107,8 @@ namespace Dynamik
 		if (!isInitialized)
 			return;
 
-		myCoreObject->submitCommand(myCommandBuffers[myCoreObject->prepareFrame(mySwapChain)], mySwapChain);
+		beginFrameInstruction();
+		endFrameInstruction();
 	}
 
 	void DMKRenderer::onTermination()
@@ -330,8 +330,10 @@ namespace Dynamik
 			texture->initialize(myCoreObject, (DMKTexture*)pTexture);
 			texture->createView(myCoreObject);
 
-			RImageSamplerCreateInfo samplerCreateInfo;
-			texture->createSampler(myCoreObject, samplerCreateInfo);
+			if ((pTexture->type == DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP) || (pTexture->type == DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP_ARRAY)) /* TODO */
+				texture->createSampler(myCoreObject, RImageSamplerCreateInfo::createCubeMapSampler());
+			else
+				texture->createSampler(myCoreObject, RImageSamplerCreateInfo::createDefaultSampler());
 
 			texture->makeRenderable(myCoreObject);
 
@@ -367,13 +369,66 @@ namespace Dynamik
 
 	void DMKRenderer::initializeCamera(DMKCameraModule* pCameraModule)
 	{
-		myCameraComponent = StaticAllocator<RCameraComponent>::allocate();
+		if (!pCameraModule)
+			return;
+
+		if (!myCameraComponent)
+			myCameraComponent = StaticAllocator<RCameraComponent>::allocate();
+
+		myCameraComponent->pCameraModule = pCameraModule;
 		myCameraComponent->pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, sizeof(DMKCameraMatrix));
 
 		DMKCameraMatrix _matrix;
 		_matrix.projection = DMKMathFunctions::perspective(DMKMathFunctions::radians(45.0f), mySwapChain->extent.width / mySwapChain->extent.height, 0.001f, 256.0f);
 		_matrix.view = DMKMathFunctions::lookAt(pCameraModule->position, pCameraModule->position + pCameraModule->front, pCameraModule->cameraUp);
 		myCameraComponent->pUniformBuffer->setData(myCoreObject, sizeof(_matrix), 0, &_matrix);
+	}
+
+	void DMKRenderer::initializeEnvironmentMap(DMKEnvironmentMap* pEnvironmentMap)
+	{
+		if (!pEnvironmentMap)
+			return;
+
+		/* Initialize Sky Box */
+		myCurrentEnvironment.pMeshComponent = &pEnvironmentMap->skyBox;
+
+		/* Initialize Vertex Data */
+		myCurrentEnvironment.vertexBufferOffset = myVertexBufferByteSize;
+		myVertexBufferByteSize += pEnvironmentMap->skyBox.getVertexBufferObjectByteSize();
+
+		/* Initialize Index Data */
+		myCurrentEnvironment.indexBufferOffset = myIndexBufferByteSize;
+		myIndexBufferByteSize += pEnvironmentMap->skyBox.getIndexBufferObjectByteSize();
+
+		/* Initialize Texture */
+		myCurrentEnvironment.pTexture = createTexture(pEnvironmentMap->skyBox.pTextures[0]);	/* TODO */
+
+		/* Initialize Uniforms */
+		myCurrentEnvironment.pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, sizeof(MAT4));
+		myCurrentEnvironment.pUniformBuffer->setData(myCoreObject, sizeof(MAT4), 0, &pEnvironmentMap->skyBox.modelMatrix);
+
+		/* Initialize Pipeline */
+		myCurrentEnvironment.pPipeline = allocatePipeline();
+
+		RPipelineSpecification pipelineCreateInfo = {};
+		pipelineCreateInfo.shaders = pEnvironmentMap->skyBox.shaderModules;
+		pipelineCreateInfo.scissorInfos.resize(1);
+		pipelineCreateInfo.colorBlendInfo.blendStates = createBasicBlendStates();
+		pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
+		pipelineCreateInfo.rasterizerInfo.frontFace = RFrontFace::FRONT_FACE_CLOCKWISE;
+		myCurrentEnvironment.pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, myRenderTarget, mySwapChain);
+
+		/* Initialize Pipeline Resources */
+		/* Initialize Uniform Buffer Resources */
+		ARRAY<RBuffer*> uniformBuffers = { myCurrentEnvironment.pUniformBuffer };
+
+		if (myCameraComponent->pUniformBuffer)
+			uniformBuffers.pushBack(myCameraComponent->pUniformBuffer);
+
+		/* Initialize Texture Resources */
+		ARRAY<RTexture*> textures = { myCurrentEnvironment.pTexture };
+
+		myCurrentEnvironment.pPipeline->initializeResources(myCoreObject, uniformBuffers, textures);
 	}
 
 	void DMKRenderer::createEntityResources(DMKGameEntity* pGameEntity)
@@ -420,7 +475,7 @@ namespace Dynamik
 			/* Initialize Pipeline Resources */
 			/* Initialize Uniform Buffer Resources */
 			ARRAY<RBuffer*> uniformBuffers = { meshComponent->pUniformBuffer };
-			if (pGameEntity->isCameraAvailable)
+			if (pGameEntity->isCameraAvailable && myCameraComponent->pUniformBuffer)
 				uniformBuffers.pushBack(myCameraComponent->pUniformBuffer);
 
 			/* Initialize Texture Resources */
@@ -450,6 +505,13 @@ namespace Dynamik
 		myVertexBuffer = createVertexBuffer(myVertexBufferByteSize);
 
 		bufferDataPointer = staggingVertexBuffer->getData(myCoreObject, myVertexBufferByteSize, 0);
+
+		/* Add Sky Box Vertexes */
+		//DMKMemoryFunctions::moveData(bufferDataPointer.get(), myCurrentEnvironment.pMeshComponent->vertexBuffer, myCurrentEnvironment.pMeshComponent->getVertexBufferObjectByteSize());
+		//bufferDataPointer += myCurrentEnvironment.pMeshComponent->getVertexBufferObjectByteSize();
+		//myCurrentEnvironment.pMeshComponent->clearVertexBuffer();
+
+		/* Add Entity Vertexes */
 		for (auto entity : myEntities)
 		{
 			for (auto mesh : entity.pMeshObjects)
@@ -470,6 +532,13 @@ namespace Dynamik
 		myIndexBuffer = createIndexBuffer(myIndexBufferByteSize);
 
 		bufferDataPointer = staggingIndexBuffer->getData(myCoreObject, myIndexBufferByteSize, 0);
+
+		/* Add Sky Box Indexes */
+		//DMKMemoryFunctions::moveData(bufferDataPointer.get(), myCurrentEnvironment.pMeshComponent->indexBuffer.data(), myCurrentEnvironment.pMeshComponent->getIndexBufferObjectByteSize());
+		//bufferDataPointer += myCurrentEnvironment.pMeshComponent->getIndexBufferObjectByteSize();
+		//myCurrentEnvironment.pMeshComponent->clearIndexBuffer();
+
+		/* Add Entity Indexes */
 		for (auto entity : myEntities)
 		{
 			for (auto mesh : entity.pMeshObjects)
@@ -497,10 +566,19 @@ namespace Dynamik
 		}
 	}
 
+	void DMKRenderer::bindEnvironment(RCommandBuffer* pCommandBuffer, UI64* pFirstVertex, UI64* pFirstIndex)
+	{
+		pCommandBuffer->bindGraphicsPipeline(myCurrentEnvironment.pPipeline);
+		pCommandBuffer->drawIndexed(*pFirstVertex, myCurrentEnvironment.indexBufferOffset, myCurrentEnvironment.pMeshComponent->indexCount, 1);
+
+		*pFirstIndex += myCurrentEnvironment.pMeshComponent->indexCount;
+		*pFirstVertex += myCurrentEnvironment.pMeshComponent->vertexCount;
+	}
+
 	void DMKRenderer::initializeFinals()
 	{
 		initializeBuffers();
-		updateResources();
+		//updateResources();
 
 		myCommandBufferManager = Inherit<RCommandBufferManager>(StaticAllocator<VulkanCommandBufferManager>::allocate().get());
 		myCommandBufferManager->initialize(myCoreObject);
@@ -513,19 +591,23 @@ namespace Dynamik
 
 			myCommandBufferManager->bindRenderTarget(buffer, myRenderTarget, mySwapChain, itr);
 
-			buffer->bindVertexBuffer(myVertexBuffer, 0);
-			buffer->bindIndexBuffer(myIndexBuffer);
-
 			UI64 firstIndex = 0;
 			UI64 firstVertex = 0;
 
+			/* Bind Sky Box */
+			//bindEnvironment(buffer, &firstVertex, &firstIndex);
+
+			/* Bind Entities */
 			for (auto entity : myEntities)
 			{
 				for (auto mesh : entity.pMeshObjects)
 				{
 					buffer->bindGraphicsPipeline(mesh->pPipeline);
-					buffer->drawIndexed(firstIndex, mesh->vertexBufferOffset, mesh->pMeshComponent->indexCount, 1);
-					//buffer->drawVertexes(firstVertex, mesh->pMeshComponent->vertexCount, 1);
+
+					buffer->bindVertexBuffer(myVertexBuffer, 0);
+					buffer->bindIndexBuffer(myIndexBuffer);
+
+					buffer->drawIndexed(firstIndex, firstVertex, mesh->pMeshComponent->indexCount, 1);
 
 					firstIndex += mesh->pMeshComponent->indexCount;
 					firstVertex += mesh->pMeshComponent->vertexCount;
@@ -538,6 +620,30 @@ namespace Dynamik
 		}
 
 		isInitialized = true;
+	}
+
+	void DMKRenderer::beginFrameInstruction()
+	{
+		currentImageIndex = myCoreObject->prepareFrame(mySwapChain);
+	}
+
+	void DMKRenderer::updateInstruction()
+	{
+		/* Update the camera component */
+		myCameraComponent->pUniformBuffer->setData(myCoreObject, sizeof(DMKCameraMatrix), 0, &myCameraComponent->pCameraModule->matrix);
+
+		//for (UI64 entityIndex = 0; entityIndex < myEntities.size(); entityIndex++)
+		//{
+		//	for (UI64 meshIndex = 0; meshIndex < myEntities[entityIndex].pMeshObjects.size(); meshIndex++)
+		//	{
+		//		myEntities[entityIndex].pMeshObjects[meshIndex]->pUniformBuffer->setData(myCoreObject, sizeof(MAT4), 0, &myEntities[entityIndex].pMeshObjects[meshIndex]->pMeshComponent->modelMatrix);
+		//	}
+		//}
+	}
+
+	void DMKRenderer::endFrameInstruction()
+	{
+		myCoreObject->submitCommand(myCommandBuffers[currentImageIndex], mySwapChain);
 	}
 
 	void DMKRenderer::terminateComponents()

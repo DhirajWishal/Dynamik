@@ -378,6 +378,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp" />
+    <ClCompile Include="EnvironmentMap.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="LevelComponent.cpp" />
     <ClCompile Include="Mechanics\PlayerController.cpp" />

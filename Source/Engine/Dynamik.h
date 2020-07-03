@@ -29,33 +29,6 @@
 namespace Dynamik
 {
 	/*
-	 Primary window information
-	*/
-	struct DMK_API DMKPrimaryWindowDescription {
-		STRING title = DMK_TEXT("Dynamik Engine");
-		UI32 width = 1280;
-		UI32 height = 720;
-	};
-
-	/*
-	 Dynamik Engine Instance Descriptor
-	 This object is used to create and initialize the Dynamik Engine.
-	*/
-	class DMK_API DMKEngineInstanceDescriptor {
-	public:
-		DMKEngineInstanceDescriptor() {}
-		~DMKEngineInstanceDescriptor() {}
-
-		STRING applicationName = DMK_TEXT("Dynamik Engine v1");
-		/* Versioning: (Major-Minor-Patch)*/
-		STRING applicationVersion = DMK_TEXT("00001-00001-00000");
-		STRING iconPath = DMK_TEXT("");
-
-		DMKPrimaryWindowDescription windowDescription;
-		DMKRenderingAPI renderingAPI = DMKRenderingAPI::DMK_RENDERING_API_VULKAN;
-	};
-
-	/*
 	 This class provides all the necessary interfaces for the user to control the core components
 	 of the Dynamik Engine.
 
@@ -71,7 +44,7 @@ namespace Dynamik
 		 Default Constructor
 		 This initializes all the components of the engine.
 		*/
-		DMKEngine(const DMKEngineInstanceDescriptor& instanceDescriptor, const DMKGamePackage* gamePackage);
+		DMKEngine(const DMKGamePackage* gamePackage);
 
 		/*
 		 Main run loop.
@@ -101,12 +74,35 @@ namespace Dynamik
 		DMKWindowManager _windowManager;
 		DMKThreadManager _threadManager;
 		DMKClock _clock;
-		DMKEngineInstanceDescriptor _instanceDescription;
 
 		UI32 _levelIndex = 0;
 
 	private:	/* Engine Runtime Utilities */
 	};
 }
+
+/* Main entry point for the game. */
+#define DMK_ENTRY_POINT(GamePackage)											\
+	int main()																	\
+	{																			\
+		try																		\
+		{																		\
+			GamePackage _package;												\
+																				\
+			/* Instantiate the engine */										\
+			Dynamik::DMKEngine _engine(&_package);								\
+																				\
+			/* Execute the engine */											\
+			_engine.execute();													\
+																				\
+		}																		\
+		catch (const std::exception& e)											\
+		{																		\
+			Dynamik::DMKErrorManager::logFatal(e.what(), __FILE__, __LINE__);	\
+			return -1;															\
+		}																		\
+																				\
+		return 0;																\
+	}									
 
 #endif // !_DYNAMIK_H

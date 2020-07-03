@@ -53,6 +53,7 @@
       <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="PlayerObject.cpp" />
+    <ClCompile Include="EnvironmentMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameLibrary.lua" />
