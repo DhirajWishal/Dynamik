@@ -24,8 +24,6 @@ namespace Dynamik
 
 		virtual void initialize(RCoreObject* pCoreObject) = 0;
 		virtual ARRAY<RCommandBuffer*> allocateCommandBuffers(RCoreObject* pCoreObject, UI32 bufferCount) { return ARRAY<RCommandBuffer*>(); }
-		virtual void bindRenderTarget(RCommandBuffer* pCommandBuffer, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, UI32 bufferIndex) = 0;
-		virtual void unbindRenderTarget(RCommandBuffer* pCommandBuffer) = 0;
 		virtual void resetBuffers(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) = 0;
 		virtual void terminate(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) = 0;
 	};

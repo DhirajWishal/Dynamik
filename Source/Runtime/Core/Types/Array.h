@@ -533,6 +533,51 @@ namespace Dynamik
 		 */
 		void resize(UI64 size)
 		{
+			/* Check if the size is valid */
+			if ((size > maxSize()) && size) return; /* TODO: Error Flagging */
+
+			/* Check if the array is in use. If true, terminate the old storage */
+			if ((myBeginPtr != myNextPtr) || myDataCount)
+				_terminate();
+
+			/* Allocate new buffer and set data to null */
+			myBeginPtr = _allocateBuffer(size * typeSize());
+			DMKMemoryFunctions::setData(myBeginPtr.get(), 0, size * typeSize());
+
+			/* Initialize pointers */
+			myNextPtr = myBeginPtr;
+			myEndPtr = myBeginPtr;
+			myEndPtr += size;
+			myDataCount = size;
+		}
+
+		/* FUNCTION
+		 * Resize the Array.
+		 *
+		 * @param size: Size to which the Array should be resized.
+		 * @param value: The value to initialize the Array with.
+		 */
+		void resize(UI64 size, const TYPE& value)
+		{
+			if ((size > maxSize()) && size) return; /* TODO: Error Flagging */
+
+			if (myBeginPtr.getPointerAsInteger() != myEndPtr.getPointerAsInteger())
+				Allocator::deallocate(myBeginPtr.get(), _getAllocationSize());
+
+			_reAllocateAssign(_getAllocatableSize(size));
+			_fillWithData(capacity(), (TYPE&&)value);
+
+			_setValue(value, capacity());
+		}
+
+		/* FUNCTION
+		 * Reserve elements in the array.
+		 * Adding new elements will occur passed the reserved size.
+		 *
+		 * @param size: Size/ number of elements to reserve.
+		 */
+		void reserve(UI64 size)
+		{
 			if (size)
 			{
 				if (size > maxSize()) return; /* TODO: Error Flagging */
@@ -545,25 +590,6 @@ namespace Dynamik
 
 				myDataCount = size;
 			}
-		}
-
-		/* FUNCTION
-		 * Resize the Array.
-		 *
-		 * @param size: Size to which the Array should be resized.
-		 * @param value: The value to initialize the Array with.
-		 */
-		void resize(UI64 size, const TYPE& value)
-		{
-			if (size > maxSize()) return; /* TODO: Error Flagging */
-
-			if (myBeginPtr.getPointerAsInteger() != myEndPtr.getPointerAsInteger())
-				Allocator::deallocate(myBeginPtr.get(), _getAllocationSize());
-
-			_reAllocateAssign(_getAllocatableSize(size));
-			_fillWithData(capacity(), (TYPE&&)value);
-
-			_setValue(value, capacity());
 		}
 
 		/* FUNCTION

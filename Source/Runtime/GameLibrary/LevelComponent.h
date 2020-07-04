@@ -21,8 +21,7 @@
 #include "Core/Types/Utilities.h"
 #include "Core/Types/Array.h"
 #include "Core/FileSystem/FileSystem.h"
-
-#include "Events/EventMap.h"
+#include "Events/EventBoard.h"
 
 namespace Dynamik
 {
@@ -38,9 +37,8 @@ namespace Dynamik
 		virtual ~DMKLevelComponent() {}
 
 		virtual void onLoad() {}
-		virtual void setupEventMap(DMKEventMap* pEventMap) {}
 		virtual void initializeComponents() {}
-		virtual void onUpdate(const DMKEventBuffer& eventBuffer) {}
+		virtual void onUpdate(const DMKEventBoard* pEventBoard) {}
 		virtual void onUnoad() {}
 
 	public:		/* Player Methods */

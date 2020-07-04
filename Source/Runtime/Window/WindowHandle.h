@@ -9,9 +9,10 @@
  Author:    Dhiraj Wishal
  Date:      19/05/2020
 */
-#include "Events/EventHandler.h"
+#include "Events/EventBoard.h"
 #include "Core/Types/DataTypes.h"
 #include "Core/Types/Array.h"
+#include "Core/Types/ComplexTypes.h"
 
 namespace Dynamik
 {
@@ -51,6 +52,8 @@ namespace Dynamik
 		virtual ~DMKWindowHandle() {}
 
 		virtual void initialize() {}
+		virtual void setEventBoard(DMKEventBoard* pEventBoard) { this->pEventBoard = pEventBoard; }
+		virtual void initializeKeyBindings() {}
 		virtual void setEventCallbacks() {}
 		virtual void setWindowIcon(STRING path) {}
 		virtual void pollEvents() {}
@@ -58,27 +61,23 @@ namespace Dynamik
 		virtual void clean() {}
 		virtual void terminate() {}
 
-		virtual void addKeyEventListner(const DMKKeyEventListener* listener) {}
-		virtual void addMouseButtonEventListener(const DMKMouseButtonEventListener* listener) {}
-		virtual void addMouseScrollEventListener(const DMKMouseScrollEventListener* listener) {}
-		virtual void removeKeyEventListener(I32 listenerIndex) {}
-		virtual void removeMouseButtonEventListener(I32 listenerIndex) {}
-		virtual void removeMouseScrollEventListener(I32 listenerIndex) {}
-
 		virtual B1 isVulkanCompatible() { return false; }
 
 		virtual DMKViewport createViewport(I32 width, I32 height, I32 xOffset, I32 yOffset) { return DMKViewport(); }
 
-		virtual ARRAY<DMKKeyEventComponent> getKeyEvents() { return ARRAY<DMKKeyEventComponent>(); }
-		virtual ARRAY<DMKMouseButtonEventComponent> getMouseButtonEvents() { return ARRAY<DMKMouseButtonEventComponent>(); }
-		virtual ARRAY<DMKMouseScrollEventComponent> getMouseScrollEvents() { return ARRAY<DMKMouseScrollEventComponent>(); }
+		virtual B1 isWindowCloseEvent() { return shouldWindowClose; }
 
 		STRING windowTitle = DMK_TEXT("Dynamik Engine v1");
 		I32 windowWidth = 0;
 		I32 windowHeight = 0;
 
+	public:		/* Event Utilities */
+		virtual DMKExtent2D getCursorPosition() { return DMKExtent2D(); }
+		
 	protected:
 		ARRAY<DMKViewport> inUseViewports;
+		DMKEventBoard* pEventBoard = nullptr;
+		B1 shouldWindowClose = false;
 	};
 }
 

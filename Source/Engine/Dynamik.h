@@ -60,18 +60,20 @@ namespace Dynamik
 	private:	/* Private runtime functions */
 		void _initializeRuntimeSystems();
 		void _loadLevel();
+		DMKWindowHandle* _createWindow(I32 width, I32 height, STRING title);
 
 	private:	/* Client game data store */
 		DMKGamePackage* pGamePackage = nullptr;
 		DMKLevelComponent* pCurrentLevel = nullptr;
 		DMKLevelComponent* pNextLevel = nullptr;
-		DMKEventMap _eventMap;
+		DMKEventBoard myEventBoard;
 		UI64 _nextLevelIndex = 0;
 
 	private:	/* Private runtime data store */
 		STRING myBasePath = DMK_TEXT("");
 
-		DMKWindowManager _windowManager;
+		DMKWindowHandle* pActiveWindow = nullptr;
+
 		DMKThreadManager _threadManager;
 		DMKClock _clock;
 

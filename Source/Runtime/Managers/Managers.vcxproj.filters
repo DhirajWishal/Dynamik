@@ -21,6 +21,7 @@
     <ClInclude Include="Window\WindowManager.h">
       <Filter>Window</Filter>
     </ClInclude>
+    <ClInclude Include="Event\EventManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Thread\ThreadManager.cpp">

@@ -399,6 +399,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Event\EventManager.h" />
     <ClInclude Include="Thread\Thread.h" />
     <ClInclude Include="Thread\ThreadCommand.h" />
     <ClInclude Include="Thread\ThreadManager.h" />

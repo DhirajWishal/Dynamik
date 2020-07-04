@@ -6,38 +6,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Event\EventListener.h">
-      <Filter>Event</Filter>
-    </ClInclude>
-    <ClInclude Include="Event\KeyCodes.h">
-      <Filter>Event</Filter>
-    </ClInclude>
-    <ClInclude Include="Event\KeyEventListener.h">
-      <Filter>Event</Filter>
-    </ClInclude>
-    <ClInclude Include="Event\MouseButtonEventListener.h">
-      <Filter>Event</Filter>
-    </ClInclude>
-    <ClInclude Include="Event\MouseScrollEventListener.h">
-      <Filter>Event</Filter>
-    </ClInclude>
-    <ClInclude Include="EventHandler.h" />
-    <ClInclude Include="EventMap.h" />
-    <ClInclude Include="PlayerEventController.h" />
+    <ClInclude Include="EventBoard.h" />
+    <ClInclude Include="EventComponent.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Event\KeyEventListener.cpp">
-      <Filter>Event</Filter>
-    </ClCompile>
-    <ClCompile Include="Event\MouseButtonEventListener.cpp">
-      <Filter>Event</Filter>
-    </ClCompile>
-    <ClCompile Include="Event\MouseScrollEventListener.cpp">
-      <Filter>Event</Filter>
-    </ClCompile>
-    <ClCompile Include="EventHandler.cpp" />
-    <ClCompile Include="EventMap.cpp" />
-    <ClCompile Include="PlayerEventController.cpp" />
+    <ClCompile Include="EventBoard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Events.lua" />

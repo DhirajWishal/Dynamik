@@ -20,6 +20,7 @@
 #include "Components/REntity.h"
 #include "Components/RCameraComponent.h"
 #include "Components/REnvironmentMap.h"
+#include "Components/RDrawCallManager.h"
 
 namespace Dynamik
 {
@@ -90,7 +91,6 @@ namespace Dynamik
         void createLevelResources(DMKLevelComponent* pLevelComponent);
 
     private:    /* Finals */
-        void initializeBuffers();
         void updateResources();
         void bindEnvironment(RCommandBuffer* pCommandBuffer, UI64* pFirstVertex, UI64* pFirstIndex);
         void initializeFinals();
@@ -117,6 +117,7 @@ namespace Dynamik
         DMKWindowHandle* myWindowHandle = nullptr;
 
         RCoreObject* myCoreObject = nullptr;
+        RDrawCallManager myDrawCallManager;
 
         RSwapChain* mySwapChain = nullptr;
         RRenderTarget* myRenderTarget = nullptr;
@@ -129,10 +130,6 @@ namespace Dynamik
         REnvironmentMap myCurrentEnvironment;
 
         ARRAY<REntity> myEntities;
-        RBuffer* myVertexBuffer = nullptr;
-        UI64 myVertexBufferByteSize = 0;
-        RBuffer* myIndexBuffer = nullptr;
-        UI64 myIndexBufferByteSize = 0;
 
         UI32 currentImageIndex = 0;
 

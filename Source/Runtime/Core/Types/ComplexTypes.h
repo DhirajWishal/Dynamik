@@ -19,11 +19,11 @@ namespace Dynamik
 	/* Dynamik Color Component */
 	typedef Vector4F DMKColorComponent;
 
-	/* Dynamik Rectangle 2D */
-	typedef Vector2F DMKRect2D;
+	/* Dynamik Extent 2D */
+	typedef Vector2F DMKExtent2D;
 
-	/* Dynamik Rectangle 3D */
-	typedef Vector3F DMKRect3D;
+	/* Dynamik Extent 3D */
+	typedef Vector3F DMKExtent3D;
 }
 
 #endif // !_DYNAMIK_COMPLEX_TYPES_H

@@ -73,7 +73,7 @@ namespace Dynamik
 
 			if (formatCount != 0)
 			{
-				details.formats.resize(formatCount);
+				details.formats.reserve(formatCount);
 				vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &formatCount, details.formats.data());
 			}
 
@@ -82,7 +82,7 @@ namespace Dynamik
 
 			if (presentModeCount != 0)
 			{
-				details.presentModes.resize(presentModeCount);
+				details.presentModes.reserve(presentModeCount);
 				vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &presentModeCount, details.presentModes.data());
 			}
 

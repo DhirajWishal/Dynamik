@@ -55,12 +55,40 @@ namespace Dynamik
 		glfwSetWindowUserPointer(windowHandle, this);
 	}
 
+	void WindowsWindow::initializeKeyBindings()
+	{
+#define BIND_KEY(component, KEY)  pEventBoard->bindKey(pEventBoard->component.name, glfwGetKeyScancode(KEY))
+
+		BIND_KEY(KeyA, GLFW_KEY_A);
+		BIND_KEY(KeyB, GLFW_KEY_B);
+		BIND_KEY(KeyC, GLFW_KEY_C);
+		BIND_KEY(KeyD, GLFW_KEY_D);
+		BIND_KEY(KeyE, GLFW_KEY_E);
+		BIND_KEY(KeyF, GLFW_KEY_F);
+		BIND_KEY(KeyG, GLFW_KEY_G);
+		BIND_KEY(KeyH, GLFW_KEY_H);
+		BIND_KEY(KeyI, GLFW_KEY_I);
+		BIND_KEY(KeyJ, GLFW_KEY_J);
+		BIND_KEY(KeyK, GLFW_KEY_K);
+		BIND_KEY(KeyL, GLFW_KEY_L);
+		BIND_KEY(KeyM, GLFW_KEY_M);
+		BIND_KEY(KeyN, GLFW_KEY_N);
+		BIND_KEY(KeyO, GLFW_KEY_O);
+		BIND_KEY(KeyP, GLFW_KEY_P);
+		BIND_KEY(KeyQ, GLFW_KEY_Q);
+		BIND_KEY(KeyR, GLFW_KEY_R);
+		BIND_KEY(KeyS, GLFW_KEY_S);
+		BIND_KEY(KeyT, GLFW_KEY_T);
+		BIND_KEY(KeyU, GLFW_KEY_U);
+		BIND_KEY(KeyV, GLFW_KEY_V);
+		BIND_KEY(KeyW, GLFW_KEY_W);
+		BIND_KEY(KeyX, GLFW_KEY_X);
+		BIND_KEY(KeyY, GLFW_KEY_Y);
+		BIND_KEY(KeyZ, GLFW_KEY_Z);
+	}
+
 	void WindowsWindow::setEventCallbacks()
 	{
-		eventHandler.addKeyEventListener(&_defaultKeyEventListener);
-		eventHandler.addMouseButtonEventListener(&_defaultMouseButtonEventListener);
-		eventHandler.addMouseScrollEventListener(&_defaultMouseScrollEventListener);
-
 		glfwSetKeyCallback(windowHandle, InternalEventHandler::_keyCallback);
 
 		glfwSetCharCallback(windowHandle, InternalEventHandler::_textCallback);
@@ -89,7 +117,6 @@ namespace Dynamik
 
 	void WindowsWindow::clean()
 	{
-		eventHandler.cleanComponents();
 	}
 
 	void WindowsWindow::terminate()
@@ -103,54 +130,22 @@ namespace Dynamik
 		return glfwVulkanSupported();
 	}
 
-	void WindowsWindow::addKeyEventListner(const DMKKeyEventListener* listener)
+	B1 WindowsWindow::isWindowCloseEvent()
 	{
-		eventHandler.addKeyEventListener(listener);
-	}
-
-	void WindowsWindow::addMouseButtonEventListener(const DMKMouseButtonEventListener* listener)
-	{
-		eventHandler.addMouseButtonEventListener(listener);
-	}
-
-	void WindowsWindow::addMouseScrollEventListener(const DMKMouseScrollEventListener* listener)
-	{
-		eventHandler.addMouseScrollEventListener(listener);
-	}
-
-	void WindowsWindow::removeKeyEventListener(I32 listenerIndex)
-	{
-		eventHandler.removeKeyEventListener(listenerIndex);
-	}
-
-	void WindowsWindow::removeMouseButtonEventListener(I32 listenerIndex)
-	{
-		eventHandler.removeMouseButtonEventListener(listenerIndex);
-	}
-
-	void WindowsWindow::removeMouseScrollEventListener(I32 listenerIndex)
-	{
-		eventHandler.removeMouseScrollEventListener(listenerIndex);
-	}
-
-	ARRAY<DMKKeyEventComponent> WindowsWindow::getKeyEvents()
-	{
-		return eventHandler.getKeyEvents();
-	}
-
-	ARRAY<DMKMouseButtonEventComponent> WindowsWindow::getMouseButtonEvents()
-	{
-		return eventHandler.getMouseButtonEvents();
-	}
-
-	ARRAY<DMKMouseScrollEventComponent> WindowsWindow::getMouseScrollEvents()
-	{
-		return eventHandler.getMouseScrollEvents();
+		return shouldWindowClose;
 	}
 
 	GLFWwindow* WindowsWindow::getHandle()
 	{
 		return windowHandle;
+	}
+
+	DMKExtent2D WindowsWindow::getCursorPosition()
+	{
+		DMKExtent2D position;
+		glfwGetCursorPos(windowHandle, (D64*)&position.x, (D64*)&position.y);
+
+		return position;
 	}
 
 	WindowsWindow WindowsWindow::instance;
@@ -160,16 +155,7 @@ namespace Dynamik
 
 	void WindowsWindow::InternalEventHandler::_keyCallback(GLFWwindow* window, I32 key, I32 scancode, I32 action, I32 mods)
 	{
-		for (auto _listener : myKeyEventListeners)
-			_listener->onEvent(key, action, mods, scancode);
-
-		DMKKeyEventComponent _component;
-		_component.event = (DMKEvent)key;
-		_component.action = action;
-		_component.mods = mods;
-		_component.scanCode = scancode;
-
-		eventHandler.addKeyEventComponent(_component);
+		instance.pEventBoard->activateKey((DMKEventType)(action + 1), scancode);
 	}
 
 	void WindowsWindow::InternalEventHandler::_textCallback(GLFWwindow* window, UI32 codepoint)
@@ -182,27 +168,11 @@ namespace Dynamik
 
 	void WindowsWindow::InternalEventHandler::_mouseButtonCallback(GLFWwindow* window, I32 button, I32 action, I32 mods)
 	{
-		for (auto _listener : myMouseButtonEventListeners)
-			_listener->onEvent(button, action, mods);
-
-		DMKMouseButtonEventComponent _component;
-		_component.event = (DMKEvent)button;
-		_component.action = action;
-		_component.mods = mods;
-
-		eventHandler.addMouseButtonEventComponent(_component);
+		instance.pEventBoard->activateButton((DMKEventType)(action + 1), button);
 	}
 
 	void WindowsWindow::InternalEventHandler::_mouseScrollCallback(GLFWwindow* window, D64 xOffset, D64 yOffset)
 	{
-		for (auto _listener : myMouseScrollEventListeners)
-			_listener->onEvent(xOffset, yOffset);
-
-		DMKMouseScrollEventComponent _component;
-		_component.xOffset = xOffset;
-		_component.yOffset = yOffset;
-
-		eventHandler.addMouseScrollEventComponent(_component);
 	}
 
 	void WindowsWindow::InternalEventHandler::_mouseCursorEnterCallback(GLFWwindow* window, I32 entered)
@@ -219,6 +189,7 @@ namespace Dynamik
 
 	void WindowsWindow::InternalEventHandler::_windowCloseCallback(GLFWwindow* window)
 	{
+		instance.shouldWindowClose = true;
 	}
 	
 	void WindowsWindow::InternalEventHandler::_errorCallback(I32 error, CCPTR description)

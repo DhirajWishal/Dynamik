@@ -19,8 +19,7 @@ public:
 	~Level1() {}
 
 	void onLoad() override;
-	virtual void setupEventMap(DMKEventMap* pEventMap) override final;
-	virtual void onUpdate(const DMKEventBuffer& eventBuffer) override final;
+	virtual void onUpdate(const DMKEventBoard* pEventBoard) override final;
 
 private:
 	PlayerMoon myMoon;

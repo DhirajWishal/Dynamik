@@ -10,7 +10,6 @@
  Date:		29/06/2020
 */
 #include "Core/Macros/Global.h"
-#include "Events/Event/EventListener.h"
 
 namespace Dynamik
 {
@@ -25,8 +24,6 @@ namespace Dynamik
 	public:
 		DMKListenerServices() {}
 		~DMKListenerServices() {}
-
-		void addEventListener(DMKEventListener* pListener);
 	};
 }
 

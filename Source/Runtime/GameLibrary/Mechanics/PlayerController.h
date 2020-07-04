@@ -10,7 +10,6 @@
  Date:      23/05/2020
 */
 #include "../GameMechanics.h"
-#include "Events/EventHandler.h"
 
 namespace Dynamik
 {
@@ -22,8 +21,6 @@ namespace Dynamik
     public:
         DMKPlayerController() {}
         virtual ~DMKPlayerController() {}
-
-        virtual void onUpdate(const DMKEventBuffer& events, const UI32& tick);
     };
 }
 

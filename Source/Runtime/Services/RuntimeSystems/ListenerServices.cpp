@@ -6,7 +6,4 @@
 
 namespace Dynamik
 {
-	void DMKListenerServices::addEventListener(DMKEventListener* pListener)
-	{
-	}
 }

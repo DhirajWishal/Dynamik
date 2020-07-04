@@ -11,7 +11,6 @@
 */
 #include "Core/Macros/Global.h"
 #include "Core/Math/MathTypes.h"
-#include "Events/EventHandler.h"
 #include "Core/Object/Resource/Primitives.h"
 
 namespace Dynamik
@@ -32,7 +31,7 @@ namespace Dynamik
 		DMKCameraModule();
 		virtual ~DMKCameraModule() {}
 
-		virtual void update(const DMKEventBuffer& eventBuffer);
+		virtual void update();
 		DMKUniformDescription getDescription() const;
 
 		virtual void updateMatrix();

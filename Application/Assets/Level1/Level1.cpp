@@ -29,8 +29,6 @@ void Level1::onLoad()
 	entity->getComponent<DMKMeshComponent>(0)->translate(MAT4(1.0f), { 0.0f, 0.0f, -5.0f });
 
 	/* Initialize Sky Box */
-	//environmentMap = StaticAllocator<DMKEnvironmentMap>::allocate();
-
 	ARRAY<STRING> texturePaths;
 	texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/right.jpg");
 	texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/left.jpg");
@@ -39,20 +37,16 @@ void Level1::onLoad()
 	texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/front.jpg");
 	texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/back.jpg");
 
-	//environmentMap->setSkyBox(DMKMeshFactory::createSkyBox(texturePaths));
+	environmentMap = StaticAllocator<DMKEnvironmentMap>::allocate();
+	environmentMap->setSkyBox(DMKMeshFactory::createSkyBox(texturePaths));
 }
 
-void Level1::setupEventMap(DMKEventMap* pEventMap)
-{
-	pEventMap->addInstruction(DMKEvent::DMK_EVENT_KEY_W, DMKControlInstruction::DMK_CONTROL_INSTRUCTION_MOVE_FORWARD);
-	pEventMap->addInstruction(DMKEvent::DMK_EVENT_KEY_S, DMKControlInstruction::DMK_CONTROL_INSTRUCTION_MOVE_BACKWARD);
-	pEventMap->addInstruction(DMKEvent::DMK_EVENT_KEY_A, DMKControlInstruction::DMK_CONTROL_INSTRUCTION_MOVE_LEFT);
-	pEventMap->addInstruction(DMKEvent::DMK_EVENT_KEY_D, DMKControlInstruction::DMK_CONTROL_INSTRUCTION_MOVE_RIGHT);
-}
-
-void Level1::onUpdate(const DMKEventBuffer& eventBuffer)
+void Level1::onUpdate(const DMKEventBoard* pEventBoard)
 {
 	//playerObject->addBackwardVector(0.0001f);
 	//playerObject->addUpVector(0.0001f);
 	playerObject->updateCamera();
+
+	if (pEventBoard->KeyA.isOnRepeat())
+		DMK_INFO("Key A is on repeat!");
 }

@@ -392,14 +392,6 @@ namespace Dynamik
 		/* Initialize Sky Box */
 		myCurrentEnvironment.pMeshComponent = &pEnvironmentMap->skyBox;
 
-		/* Initialize Vertex Data */
-		myCurrentEnvironment.vertexBufferOffset = myVertexBufferByteSize;
-		myVertexBufferByteSize += pEnvironmentMap->skyBox.getVertexBufferObjectByteSize();
-
-		/* Initialize Index Data */
-		myCurrentEnvironment.indexBufferOffset = myIndexBufferByteSize;
-		myIndexBufferByteSize += pEnvironmentMap->skyBox.getIndexBufferObjectByteSize();
-
 		/* Initialize Texture */
 		myCurrentEnvironment.pTexture = createTexture(pEnvironmentMap->skyBox.pTextures[0]);	/* TODO */
 
@@ -417,6 +409,12 @@ namespace Dynamik
 		pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
 		pipelineCreateInfo.rasterizerInfo.frontFace = RFrontFace::FRONT_FACE_CLOCKWISE;
 		myCurrentEnvironment.pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, myRenderTarget, mySwapChain);
+
+		/* Initialize Vertex and Index Buffers */
+		myDrawCallManager.addDrawEntry(
+			pEnvironmentMap->skyBox.vertexCount, pEnvironmentMap->skyBox.vertexBuffer,
+			pEnvironmentMap->skyBox.indexCount, pEnvironmentMap->skyBox.indexBuffer.data(),
+			myCurrentEnvironment.pPipeline, pEnvironmentMap->skyBox.vertexLayout);
 
 		/* Initialize Pipeline Resources */
 		/* Initialize Uniform Buffer Resources */
@@ -440,14 +438,6 @@ namespace Dynamik
 			auto mesh = pGameEntity->componentManager.getComponent<DMKMeshComponent>(index);
 			meshComponent = StaticAllocator<RMeshObject>::allocate();
 			meshComponent->pMeshComponent = mesh;
-
-			/* Initialize Vertex Data */
-			meshComponent->vertexBufferOffset = myVertexBufferByteSize;
-			myVertexBufferByteSize += mesh->getVertexBufferObjectByteSize();
-
-			/* Initialize Index Data */
-			meshComponent->indexBufferOffset = myIndexBufferByteSize;
-			myIndexBufferByteSize += mesh->getIndexBufferObjectByteSize();
 
 			/* Initialize Texture Data */
 			for (auto pTexture : mesh->pTextures)
@@ -484,6 +474,12 @@ namespace Dynamik
 
 			meshComponent->pPipeline->initializeResources(myCoreObject, uniformBuffers, textures);
 
+			/* Initialize Vertex and Index Buffers */
+			myDrawCallManager.addDrawEntry(
+				mesh->vertexCount, mesh->vertexBuffer,
+				mesh->indexCount, mesh->indexBuffer.data(),
+				meshComponent->pPipeline, mesh->vertexLayout);
+
 			entity.pMeshObjects.pushBack(meshComponent);
 		}
 
@@ -494,65 +490,6 @@ namespace Dynamik
 	{
 		for (auto entity : pLevelComponent->entities)
 			createEntityResources(entity);
-	}
-
-	void DMKRenderer::initializeBuffers()
-	{
-		POINTER<BYTE> bufferDataPointer;
-
-		/* Initialize Vertex Buffer */
-		RBuffer* staggingVertexBuffer = createBuffer(RBufferType::BUFFER_TYPE_STAGGING, myVertexBufferByteSize);
-		myVertexBuffer = createVertexBuffer(myVertexBufferByteSize);
-
-		bufferDataPointer = staggingVertexBuffer->getData(myCoreObject, myVertexBufferByteSize, 0);
-
-		/* Add Sky Box Vertexes */
-		//DMKMemoryFunctions::moveData(bufferDataPointer.get(), myCurrentEnvironment.pMeshComponent->vertexBuffer, myCurrentEnvironment.pMeshComponent->getVertexBufferObjectByteSize());
-		//bufferDataPointer += myCurrentEnvironment.pMeshComponent->getVertexBufferObjectByteSize();
-		//myCurrentEnvironment.pMeshComponent->clearVertexBuffer();
-
-		/* Add Entity Vertexes */
-		for (auto entity : myEntities)
-		{
-			for (auto mesh : entity.pMeshObjects)
-			{
-				DMKMemoryFunctions::moveData(bufferDataPointer.get(), mesh->pMeshComponent->vertexBuffer, mesh->pMeshComponent->getVertexBufferObjectByteSize());
-				bufferDataPointer += mesh->pMeshComponent->getVertexBufferObjectByteSize();
-
-				mesh->pMeshComponent->clearVertexBuffer();
-			}
-		}
-		staggingVertexBuffer->unmapMemory(myCoreObject);
-
-		copyBuffer(staggingVertexBuffer, myVertexBuffer, myVertexBufferByteSize);
-		staggingVertexBuffer->terminate(myCoreObject);
-
-		/* Initialize Index Buffer */
-		RBuffer* staggingIndexBuffer = createBuffer(RBufferType::BUFFER_TYPE_STAGGING, myIndexBufferByteSize);
-		myIndexBuffer = createIndexBuffer(myIndexBufferByteSize);
-
-		bufferDataPointer = staggingIndexBuffer->getData(myCoreObject, myIndexBufferByteSize, 0);
-
-		/* Add Sky Box Indexes */
-		//DMKMemoryFunctions::moveData(bufferDataPointer.get(), myCurrentEnvironment.pMeshComponent->indexBuffer.data(), myCurrentEnvironment.pMeshComponent->getIndexBufferObjectByteSize());
-		//bufferDataPointer += myCurrentEnvironment.pMeshComponent->getIndexBufferObjectByteSize();
-		//myCurrentEnvironment.pMeshComponent->clearIndexBuffer();
-
-		/* Add Entity Indexes */
-		for (auto entity : myEntities)
-		{
-			for (auto mesh : entity.pMeshObjects)
-			{
-				DMKMemoryFunctions::moveData(bufferDataPointer.get(), mesh->pMeshComponent->indexBuffer.data(), mesh->pMeshComponent->getIndexBufferObjectByteSize());
-				bufferDataPointer += mesh->pMeshComponent->getIndexBufferObjectByteSize();
-
-				mesh->pMeshComponent->clearIndexBuffer();
-			}
-		}
-		staggingIndexBuffer->unmapMemory(myCoreObject);
-
-		copyBuffer(staggingIndexBuffer, myIndexBuffer, myIndexBufferByteSize);
-		staggingIndexBuffer->terminate(myCoreObject);
 	}
 
 	void DMKRenderer::updateResources()
@@ -577,8 +514,7 @@ namespace Dynamik
 
 	void DMKRenderer::initializeFinals()
 	{
-		initializeBuffers();
-		//updateResources();
+		myDrawCallManager.initializeBuffers(myCoreObject);
 
 		myCommandBufferManager = Inherit<RCommandBufferManager>(StaticAllocator<VulkanCommandBufferManager>::allocate().get());
 		myCommandBufferManager->initialize(myCoreObject);
@@ -586,37 +522,14 @@ namespace Dynamik
 
 		for (UI32 itr = 0; itr < myCommandBuffers.size(); itr++)
 		{
-			auto buffer = myCommandBuffers[itr];
-			buffer->begin();
+			myDrawCallManager.setCommandBuffer(myCommandBuffers[itr]);
+			myDrawCallManager.beginCommand();
+			myDrawCallManager.bindRenderTarget(myRenderTarget, mySwapChain, itr);
 
-			myCommandBufferManager->bindRenderTarget(buffer, myRenderTarget, mySwapChain, itr);
+			myDrawCallManager.bindDrawCalls(RDrawCallType::DRAW_CALL_TYPE_INDEX);
 
-			UI64 firstIndex = 0;
-			UI64 firstVertex = 0;
-
-			/* Bind Sky Box */
-			//bindEnvironment(buffer, &firstVertex, &firstIndex);
-
-			/* Bind Entities */
-			for (auto entity : myEntities)
-			{
-				for (auto mesh : entity.pMeshObjects)
-				{
-					buffer->bindGraphicsPipeline(mesh->pPipeline);
-
-					buffer->bindVertexBuffer(myVertexBuffer, 0);
-					buffer->bindIndexBuffer(myIndexBuffer);
-
-					buffer->drawIndexed(firstIndex, firstVertex, mesh->pMeshComponent->indexCount, 1);
-
-					firstIndex += mesh->pMeshComponent->indexCount;
-					firstVertex += mesh->pMeshComponent->vertexCount;
-				}
-			}
-
-			myCommandBufferManager->unbindRenderTarget(buffer);
-
-			buffer->end();
+			myDrawCallManager.unbindRenderTarget();
+			myDrawCallManager.endCommand();
 		}
 
 		isInitialized = true;
@@ -649,6 +562,9 @@ namespace Dynamik
 	void DMKRenderer::terminateComponents()
 	{
 		myCoreObject->idleCall();
+
+		/* Terminate Vertex and Index Buffers */
+		myDrawCallManager.terminate(myCoreObject);
 
 		/* Terminate Command Buffers */
 		myCommandBufferManager->terminate(myCoreObject, myCommandBuffers);

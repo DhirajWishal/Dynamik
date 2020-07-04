@@ -44,36 +44,6 @@ namespace Dynamik
 	{
 		return myWindowHandles[windowIndex]->createViewport(width, height, xOffset, yOffset);
 	}
-
-	void DMKWindowManager::addKeyEventListener(I32 windowIndex, DMKKeyEventListener* listener)
-	{
-		myWindowHandles[windowIndex]->addKeyEventListner(listener);
-	}
-
-	void DMKWindowManager::addMouseButtonEventListener(I32 windowIndex, DMKMouseButtonEventListener* listener)
-	{
-		myWindowHandles[windowIndex]->addMouseButtonEventListener(listener);
-	}
-
-	void DMKWindowManager::addMouseScrollEventListener(I32 windowIndex, DMKMouseScrollEventListener* listener)
-	{
-		myWindowHandles[windowIndex]->addMouseScrollEventListener(listener);
-	}
-
-	void DMKWindowManager::removeKeyEventListener(I32 windowIndex, I32 listenerIndex)
-	{
-		myWindowHandles[windowIndex]->removeKeyEventListener(listenerIndex);
-	}
-
-	void DMKWindowManager::removeMouseButtonEventListener(I32 windowIndex, I32 listenerIndex)
-	{
-		myWindowHandles[windowIndex]->removeMouseButtonEventListener(listenerIndex);
-	}
-	
-	void DMKWindowManager::removeMouseScrollEventListener(I32 windowIndex, I32 listenerIndex)
-	{
-		myWindowHandles[windowIndex]->removeMouseScrollEventListener(listenerIndex);
-	}
 	
 	void DMKWindowManager::pollEvents()
 	{
@@ -85,20 +55,5 @@ namespace Dynamik
 	{
 		for (auto _handle : myWindowHandles)
 			_handle->clean();
-	}
-
-	ARRAY<DMKKeyEventComponent> DMKWindowManager::getKeyEventComponents(I32 windowIndex)
-	{
-		return myWindowHandles[windowIndex]->getKeyEvents();
-	}
-
-	ARRAY<DMKMouseButtonEventComponent> DMKWindowManager::getMouseButtonEventComponents(I32 windowIndex)
-	{
-		return myWindowHandles[windowIndex]->getMouseButtonEvents();
-	}
-
-	ARRAY<DMKMouseScrollEventComponent> DMKWindowManager::getMouseScrollEventComponents(I32 windowIndex)
-	{
-		return myWindowHandles[windowIndex]->getMouseScrollEvents();
 	}
 }

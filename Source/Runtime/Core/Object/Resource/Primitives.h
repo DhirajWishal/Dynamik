@@ -120,6 +120,9 @@ namespace Dynamik
 		 - Texture Coordinates	[Vector2F * 1]
 		*/
 		static DMKVertexLayout createBasic();
+
+	public:		/* Operators */
+		B1 operator==(const DMKVertexLayout& other) const;
 	};
 
 	/* Constant Block */
