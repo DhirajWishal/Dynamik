@@ -38,6 +38,21 @@ namespace Dynamik
 
 	void VulkanCoreObject::terminate()
 	{
+		/* Terminate sync objects */
+		{
+			/* Image Available */
+			for (auto semaphore : imageAvailables)
+				vkDestroySemaphore(device, semaphore, nullptr);
+
+			/* Render Finished */
+			for (auto semaphore : renderFinished)
+				vkDestroySemaphore(device, semaphore, nullptr);
+
+			/* In Flight */
+			for (auto fence : inFlightFences)
+				vkDestroyFence(device, fence, nullptr);
+		}
+
 		/* Terminate surface */
 		surface.terminate(instance);
 

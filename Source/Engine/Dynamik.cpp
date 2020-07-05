@@ -86,6 +86,7 @@ namespace Dynamik
 			/* Check If The Frame Buffer Was Resized */
 			if (myEventPool.FrameBufferResizeEvent)
 			{
+				pCurrentLevel->playerObject->setAspectRatio(pActiveWindow->getWindowExtent().width / pActiveWindow->getWindowExtent().height);
 				_threadManager.issueFrameBufferResizeCommandRT(pActiveWindow->getWindowExtent());
 				myEventPool.FrameBufferResizeEvent = false;
 			}
@@ -112,7 +113,7 @@ namespace Dynamik
 	{
 		pGamePackage->onExit();
 
-		_threadManager.terminateAll();
+		_threadManager.issueTerminateCommand();
 
 		DMKConfigurationService::writeWindowSize(pActiveWindow->windowWidth, pActiveWindow->windowHeight);
 		pActiveWindow->terminate();

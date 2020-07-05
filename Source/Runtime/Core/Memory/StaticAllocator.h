@@ -96,7 +96,7 @@ namespace Dynamik
 			if (byteSize)
 				operator delete (location.get(), byteSize, std::align_val_t{ alignment });
 			else
-				delete location.get();
+				operator delete (location.get(), std::align_val_t{ alignment });
 		}
 
 		/*

@@ -24,7 +24,6 @@ namespace Dynamik
 #endif // DMK_DEBUG
 			StaticAllocator<BYTE>::rawDeallocate(_address.second, 0);
 		}
-
 	}
 
 	UI64 DMKAutomatedMemoryManager::getAllocationCount()
@@ -32,10 +31,16 @@ namespace Dynamik
 		return instance.memoryMap.size();
 	}
 
+	UI32 allocCount = 0;
+
 	VPTR DMKAutomatedMemoryManager::allocateNew(UI64 size, UI64 offset, UI64 alignment)
 	{
 		VPTR _pointer = StaticAllocator<BYTE>::rawAllocate(size, alignment, offset);
 		instance.memoryMap[(UI64)_pointer] = _pointer;
+
+		//allocCount++;
+		//if (allocCount == 7)
+		//	__debugbreak();
 
 		return _pointer;
 	}

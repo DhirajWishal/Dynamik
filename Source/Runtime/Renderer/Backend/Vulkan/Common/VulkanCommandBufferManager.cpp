@@ -31,13 +31,16 @@ namespace Dynamik
 			allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 			allocInfo.commandBufferCount = static_cast<UI32>(bufferCount);
 
+			ARRAY<VkCommandBuffer> _bufferArray(bufferCount);
+			DMK_VULKAN_ASSERT(vkAllocateCommandBuffers(Inherit<VulkanCoreObject>(pCoreObject)->device, &allocInfo, _bufferArray.data()), "Failed to allocate command buffers!");
+
 			ARRAY<RCommandBuffer*> _buffers;
-			VulkanCommandBuffer* _buffer;
+			VulkanCommandBuffer* _buffer = nullptr;
+
 			for (UI32 itr = 0; itr < bufferCount; itr++)
 			{
-				_buffer = StaticAllocator<VulkanCommandBuffer>::allocate();
-				DMK_VULKAN_ASSERT(vkAllocateCommandBuffers(Inherit<VulkanCoreObject>(pCoreObject)->device, &allocInfo, &_buffer->buffer), "Failed to allocate command buffers!");
-
+				_buffer = StaticAllocator<VulkanCommandBuffer>::rawAllocate();
+				_buffer->buffer = _bufferArray[itr];
 				_buffers.pushBack(_buffer);
 			}
 
@@ -55,7 +58,7 @@ namespace Dynamik
 			for (auto _buffer : commandBuffers)
 			{
 				vkFreeCommandBuffers(Inherit<VulkanCoreObject>(pCoreObject)->device, pool, 1, &Inherit<VulkanCommandBuffer>(_buffer)->buffer);
-				StaticAllocator<VulkanCommandBuffer>::deallocate(_buffer);
+				StaticAllocator<VulkanCommandBuffer>::rawDeallocate(_buffer);
 			}
 		}
 

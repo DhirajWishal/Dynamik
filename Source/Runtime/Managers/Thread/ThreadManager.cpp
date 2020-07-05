@@ -73,7 +73,6 @@ namespace Dynamik
 
 	DMKThreadManager::~DMKThreadManager()
 	{
-
 	}
 
 	/*
@@ -125,7 +124,7 @@ namespace Dynamik
 		_command.samples = samples;
 
 		/* Push to command queue */
-		pushRendererCommand(new RendererSetSamplesCommand(_command));
+		pushRendererCommand(StaticAllocator<RendererSetSamplesCommand>::allocateInit(_command));
 	}
 
 	void DMKThreadManager::issueWindowHandleCommandRT(const DMKWindowHandle* handle)
@@ -134,7 +133,7 @@ namespace Dynamik
 		_command.windowHandle = (DMKWindowHandle*)handle;
 
 		/* Push to command queue */
-		pushRendererCommand(new RendererSetWindowHandleCommand(_command));
+		pushRendererCommand(StaticAllocator<RendererSetWindowHandleCommand>::allocateInit(_command));
 	}
 
 	void DMKThreadManager::issueInitializeCommandRT()
@@ -151,7 +150,7 @@ namespace Dynamik
 		_command.viewport = viewport;
 
 		/* Push to command queue */
-		pushRendererCommand(new RendererCreateContextCommand(_command));
+		pushRendererCommand(StaticAllocator<RendererCreateContextCommand>::allocateInit(_command));
 	}
 
 	void DMKThreadManager::issueInitializeCameraCommandRT(DMKCameraModule* pModule)
@@ -160,7 +159,7 @@ namespace Dynamik
 		_command.pCameraModule = pModule;
 
 		/* Push to command queue */
-		pushRendererCommand(new RendererInitializeCamera(_command));
+		pushRendererCommand(StaticAllocator<RendererInitializeCamera>::allocateInit(_command));
 	}
 
 	void DMKThreadManager::issueInitializeEnvironmentMapCommandRT(DMKEnvironmentMap* pEnvironmentMap)
@@ -169,7 +168,7 @@ namespace Dynamik
 		_command.pEnvironmentMap = pEnvironmentMap;
 
 		/* Push to command queue */
-		pushRendererCommand(new RendererInitializeEnvironmentMap(_command));
+		pushRendererCommand(StaticAllocator<RendererInitializeEnvironmentMap>::allocateInit(_command));
 	}
 
 	void DMKThreadManager::issueInitializeEntityCommandRT(DMKGameEntity* meshComponents)
@@ -178,7 +177,7 @@ namespace Dynamik
 		_command.entity = meshComponents;
 
 		/* Push to command queue */
-		pushRendererCommand(new RendererAddEntity(_command));
+		pushRendererCommand(StaticAllocator<RendererAddEntity>::allocateInit(_command));
 	}
 
 	void DMKThreadManager::issueInitializeLevelCommandRT(DMKLevelComponent* pLevelComponent)
@@ -187,7 +186,7 @@ namespace Dynamik
 		_command.level = pLevelComponent;
 
 		/* Push to command queue */
-		pushRendererCommand(new RendererSubmitLevel(_command));
+		pushRendererCommand(StaticAllocator<RendererSubmitLevel>::allocateInit(_command));
 	}
 
 	void DMKThreadManager::issueInitializeFinalsCommandRT()
@@ -195,7 +194,7 @@ namespace Dynamik
 		DMKRendererCommand _command(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_FINALS);
 
 		/* Push to command queue */
-		pushRendererCommand(new DMKRendererCommand(_command));
+		pushRendererCommand(StaticAllocator<DMKRendererCommand>::allocateInit(_command));
 	}
 
 	void DMKThreadManager::issueRawCommandRT(RendererInstruction instruction)
@@ -203,7 +202,7 @@ namespace Dynamik
 		DMKRendererCommand _command(instruction);
 
 		/* Push to command queue */
-		pushRendererCommand(new DMKRendererCommand(_command));
+		pushRendererCommand(StaticAllocator<DMKRendererCommand>::allocateInit(_command));
 	}
 
 	void DMKThreadManager::issueFrameBufferResizeCommandRT(DMKExtent2D extent)
@@ -212,15 +211,35 @@ namespace Dynamik
 		_command.windowExtent = extent;
 
 		/* Push to command queue */
-		pushRendererCommand(new RendererResizeFrameBuffer(_command));
+		pushRendererCommand(StaticAllocator<RendererResizeFrameBuffer>::allocateInit(_command));
 	}
 
 	void DMKThreadManager::issueTerminateCommand()
 	{
-		DMKRendererCommand _command(RendererInstruction::RENDERER_INSTRUCTION_TERMINATE);
+		/* Terminate Renderer */
+		{
+			DMKRendererCommand _command1(RendererInstruction::RENDERER_INSTRUCTION_TERMINATE_FRAME);
 
-		/* Push to command queue */
-		pushRendererCommand(new DMKRendererCommand(_command));
+			/* Push to command queue */
+			pushRendererCommand(StaticAllocator<DMKRendererCommand>::allocateInit(_command1));
+
+			DMKRendererCommand _command2(RendererInstruction::RENDERER_INSTRUCTION_TERMINATE_OBJECTS);
+
+			/* Push to command queue */
+			pushRendererCommand(StaticAllocator<DMKRendererCommand>::allocateInit(_command2));
+
+			DMKRendererCommand _command3(RendererInstruction::RENDERER_INSTRUCTION_TERMINATE);
+
+			/* Push to command queue */
+			pushRendererCommand(StaticAllocator<DMKRendererCommand>::allocateInit(_command3));
+
+			/* Issue complete termination */
+			DMKThreadCommand _commandT(DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_TERMINATE);
+			myRendererThread.commandBuffer.commands.push(StaticAllocator<DMKThreadCommand>::allocateInit(_commandT));
+
+			/* Wait till the renderer thread is complete */
+			myRendererThread.thread.join();
+		}
 	}
 
 	/*
@@ -277,6 +296,6 @@ namespace Dynamik
 
 	void DMKThreadManager::_pushToThread(DMKRendererCommand command)
 	{
-		myRendererThread.commandBuffer.commands.push(new DMKRendererCommand(command));
+		myRendererThread.commandBuffer.commands.push(StaticAllocator<DMKRendererCommand>::allocateInit(command));
 	}
 }

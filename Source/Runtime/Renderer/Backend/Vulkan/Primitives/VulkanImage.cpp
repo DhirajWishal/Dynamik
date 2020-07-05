@@ -273,7 +273,7 @@ namespace Dynamik
 
 		void VulkanImage::createImageView(RCoreObject* pCoreObject, DMKTexture::TextureSwizzles swizzles)
 		{
-			pImageView = (RImageView*)StaticAllocator<VulkanImageView>::allocate();
+			pImageView = (RImageView*)StaticAllocator<VulkanImageView>::rawAllocate();
 			pImageView->initialize(pCoreObject, this, swizzles);
 		}
 
@@ -281,6 +281,12 @@ namespace Dynamik
 		{
 			vkDestroyImage(Inherit<VulkanCoreObject>(pCoreObject)->device, image, nullptr);
 			vkFreeMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, imageMemory, nullptr);
+
+			if (pImageView)
+			{
+				pImageView->terminate(pCoreObject);
+				StaticAllocator<VulkanImageView>::rawDeallocate(pImageView);
+			}
 		}
 
 		void VulkanImage::setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, VPTR data)

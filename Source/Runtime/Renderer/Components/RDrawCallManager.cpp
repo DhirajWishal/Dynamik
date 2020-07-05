@@ -52,7 +52,7 @@ namespace Dynamik
 			vertexBuffers.pushBack(_container);
 
 			staggingBuffer->terminate(pCoreObject);
-			//StaticAllocator<RBuffer>::rawDeallocate(staggingBuffer, 0);
+			StaticAllocator<RBuffer>::rawDeallocate(staggingBuffer, 0);
 		}
 
 		entryMap.clear();
@@ -77,7 +77,7 @@ namespace Dynamik
 		indexBuffer->copy(pCoreObject, staggingBuffer, bufferSize, 0, 0);
 
 		staggingBuffer->terminate(pCoreObject);
-		//StaticAllocator<RBuffer>::rawDeallocate(staggingBuffer, 0);
+		StaticAllocator<RBuffer>::rawDeallocate(staggingBuffer, 0);
 
 		indexBufferEntries.clear();
 

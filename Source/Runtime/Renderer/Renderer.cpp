@@ -18,7 +18,6 @@
 #include "Backend/Vulkan/Context/VulkanSwapChain.h"
 #include "Backend/Vulkan/Context/VulkanRenderPass.h"
 #include "Backend/Vulkan/Context/VulkanFrameBuffer.h"
-#include "Backend/Vulkan/Graphics/VulkanRenderAsset.h"
 #include "Backend/Vulkan/Pipelines/VulkanGraphicsPipeline.h"
 
 namespace Dynamik
@@ -84,10 +83,15 @@ namespace Dynamik
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_SUBMIT:
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_TERMINATE_FRAME:
+			myCoreObject->idleCall();
+			isInitialized = false;
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_TERMINATE_OBJECTS:
+			terminateEntities();
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_TERMINATE:
+			terminateContext();
+			terminateComponents();
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_UPDATE_OBJECTS:
 			break;
@@ -116,20 +120,6 @@ namespace Dynamik
 
 	void DMKRenderer::onTermination()
 	{
-		terminateComponents();
-
-		StaticAllocator<VulkanCoreObject>::deallocate(myCoreObject, 0);
-
-		StaticAllocator<RSwapChain>::deallocate(mySwapChain, 0);
-		StaticAllocator<RRenderPass>::deallocate(myRenderTarget->pRenderPass, 0);
-		StaticAllocator<RFrameBuffer>::deallocate(myRenderTarget->pFrameBuffer, 0);
-		StaticAllocator<RRenderTarget>::deallocate(myRenderTarget, 0);
-
-		StaticAllocator<RCommandBufferManager>::deallocate(myCommandBufferManager, 0);
-
-		for (auto buffer : myCommandBuffers)
-			StaticAllocator<RCommandBuffer>::deallocate(buffer, 0);
-
 		DMK_INFO("Terminated the renderer thread!");
 	}
 
@@ -152,7 +142,7 @@ namespace Dynamik
 			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			myCoreObject = Inherit<RCoreObject>(StaticAllocator<VulkanCoreObject>::allocate().get());
+			myCoreObject = Inherit<RCoreObject>(StaticAllocator<VulkanCoreObject>::rawAllocate().get());
 			myCoreObject->initialize(myWindowHandle, mySampleCount, bEnableValidation);
 		}
 		break;
@@ -178,7 +168,7 @@ namespace Dynamik
 			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			mySwapChain = Inherit<RSwapChain>(StaticAllocator<VulkanSwapChain>::allocate().get());
+			mySwapChain = Inherit<RSwapChain>(StaticAllocator<VulkanSwapChain>::rawAllocate().get());
 			mySwapChain->initialize(myCoreObject, viewport, presentMode);
 		}
 		break;
@@ -202,7 +192,7 @@ namespace Dynamik
 			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			myRenderTarget->pRenderPass = Inherit<RRenderPass>(StaticAllocator<VulkanRenderPass>::allocate().get());
+			myRenderTarget->pRenderPass = Inherit<RRenderPass>(StaticAllocator<VulkanRenderPass>::rawAllocate().get());
 
 			/* Attachments: Color, Depth, Swap Chain */
 			myRenderTarget->pRenderPass->initialize(myCoreObject, subPasses, mySwapChain);
@@ -228,7 +218,7 @@ namespace Dynamik
 			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			myRenderTarget->pFrameBuffer = Inherit<RFrameBuffer>(StaticAllocator<VulkanFrameBuffer>::allocate().get());
+			myRenderTarget->pFrameBuffer = Inherit<RFrameBuffer>(StaticAllocator<VulkanFrameBuffer>::rawAllocate().get());
 			myRenderTarget->pFrameBuffer->initialize(myCoreObject, myRenderTarget->pRenderPass, mySwapChain);
 		}
 		break;
@@ -292,7 +282,7 @@ namespace Dynamik
 			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			RBuffer* pBuffer = StaticAllocator<VulkanBuffer>::allocate();
+			RBuffer* pBuffer = StaticAllocator<VulkanBuffer>::rawAllocate();
 			pBuffer->initialize(myCoreObject, type, size, memoryType);
 
 			return Cast<RBuffer*>(pBuffer);
@@ -331,7 +321,7 @@ namespace Dynamik
 			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
-			RTexture* texture = Inherit<RTexture>(StaticAllocator<VulkanTexture>::allocate().get());
+			RTexture* texture = Inherit<RTexture>(StaticAllocator<VulkanTexture>::rawAllocate().get());
 			texture->initialize(myCoreObject, (DMKTexture*)pTexture);
 			texture->createView(myCoreObject);
 
@@ -360,7 +350,7 @@ namespace Dynamik
 		switch (myAPI)
 		{
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
-			return Inherit<RPipelineObject>(StaticAllocator<VulkanGraphicsPipeline>::allocate().get());
+			return Inherit<RPipelineObject>(StaticAllocator<VulkanGraphicsPipeline>::rawAllocate().get());
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
 			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
@@ -378,7 +368,7 @@ namespace Dynamik
 			return;
 
 		if (!myCameraComponent)
-			myCameraComponent = StaticAllocator<RCameraComponent>::allocate();
+			myCameraComponent = StaticAllocator<RCameraComponent>::rawAllocate();
 
 		myCameraComponent->pCameraModule = pCameraModule;
 		myCameraComponent->pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, sizeof(DMKCameraMatrix));
@@ -441,7 +431,7 @@ namespace Dynamik
 		for (UI64 index = 0; index < pGameEntity->componentManager.getComponentArray<DMKMeshComponent>()->myComponents.size(); index++)
 		{
 			auto mesh = pGameEntity->componentManager.getComponent<DMKMeshComponent>(index);
-			meshComponent = StaticAllocator<RMeshObject>::allocate();
+			meshComponent = StaticAllocator<RMeshObject>::rawAllocate();
 			meshComponent->pMeshComponent = mesh;
 
 			/* Initialize Texture Data */
@@ -540,7 +530,7 @@ namespace Dynamik
 	{
 		myDrawCallManager.initializeBuffers(myCoreObject);
 
-		myCommandBufferManager = Inherit<RCommandBufferManager>(StaticAllocator<VulkanCommandBufferManager>::allocate().get());
+		myCommandBufferManager = Inherit<RCommandBufferManager>(StaticAllocator<VulkanCommandBufferManager>::rawAllocate().get());
 		myCommandBufferManager->initialize(myCoreObject);
 
 		initializeCommandBuffers();
@@ -611,51 +601,82 @@ namespace Dynamik
 	{
 		/* Terminate Frame Buffer */
 		myRenderTarget->pFrameBuffer->terminate(myCoreObject);
+		StaticAllocator<RFrameBuffer>::rawDeallocate(myRenderTarget->pFrameBuffer, 0);
 
 		/* Terminate Render Pass */
 		myRenderTarget->pRenderPass->terminate(myCoreObject);
+		StaticAllocator<RRenderPass>::rawDeallocate(myRenderTarget->pRenderPass, 0);
+
+		/* Deallocate Render Target */
+		delete myRenderTarget;
 
 		/* Terminate Swap Chain */
 		mySwapChain->terminate(myCoreObject);
+		StaticAllocator<RSwapChain>::rawDeallocate(mySwapChain, 0);
 	}
 
 	void DMKRenderer::terminateComponents()
 	{
-		myCoreObject->idleCall();
-
 		/* Terminate Vertex and Index Buffers */
 		myDrawCallManager.terminate(myCoreObject);
 
 		/* Terminate Command Buffers */
 		myCommandBufferManager->terminate(myCoreObject, myCommandBuffers);
-		StaticAllocator<RCommandBufferManager>::deallocate(myCommandBufferManager, 0);
-
-		/* Terminate Swap Chain */
-		mySwapChain->terminate(myCoreObject);
-		StaticAllocator<RSwapChain>::deallocate(mySwapChain, 0);
-
-		/* Terminate Render Pass */
-		myRenderTarget->pRenderPass->terminate(myCoreObject);
-		StaticAllocator<RRenderPass>::deallocate(myRenderTarget->pRenderPass, 0);
-
-		/* Terminate Frame Buffer */
-		myRenderTarget->pFrameBuffer->terminate(myCoreObject);
-		StaticAllocator<RFrameBuffer>::deallocate(myRenderTarget->pFrameBuffer, 0);
+		StaticAllocator<RCommandBufferManager>::rawDeallocate(myCommandBufferManager, 0);
 
 		/* Terminate Core Object */
 		myCoreObject->terminate();
-		StaticAllocator<RCoreObject>::deallocate(myCoreObject, 0);
+		StaticAllocator<RCoreObject>::rawDeallocate(myCoreObject, 0);
 	}
 
 	void DMKRenderer::terminateEntities()
 	{
+		/* Terminate Camera */
+		if (myCameraComponent)
+		{
+			myCameraComponent->pUniformBuffer->terminate(myCoreObject);
+			StaticAllocator<RBuffer>::rawDeallocate(myCameraComponent->pUniformBuffer, 0);
+		}
+
+		/* Terminate Environment Map */
+		{
+			if (myCurrentEnvironment.pPipeline)
+			{
+				myCurrentEnvironment.pPipeline->terminate(myCoreObject);
+				StaticAllocator<RPipelineObject>::rawDeallocate(myCurrentEnvironment.pPipeline, 0);
+			}
+
+			if (myCurrentEnvironment.pTexture)
+			{
+				myCurrentEnvironment.pTexture->terminate(myCoreObject);
+				StaticAllocator<RTexture>::rawDeallocate(myCurrentEnvironment.pTexture, 0);
+			}
+
+			if (myCurrentEnvironment.pUniformBuffer)
+			{
+				myCurrentEnvironment.pUniformBuffer->terminate(myCoreObject);
+				StaticAllocator<RBuffer>::rawDeallocate(myCurrentEnvironment.pUniformBuffer, 0);
+			}
+		}
+
+		/* Terminate Entities */
 		for (auto entity : myEntities)
 		{
 			for (auto mesh : entity.pMeshObjects)
 			{
-				StaticAllocator<RPipelineObject>::deallocate(mesh->pPipeline, 0);
+				for (auto texture : mesh->pTextures)
+				{
+					texture->terminate(myCoreObject);
+					StaticAllocator<RTexture>::rawDeallocate(texture, 0);
+				}
 
-				StaticAllocator<RMeshObject>::deallocate(mesh);
+				mesh->pUniformBuffer->terminate(myCoreObject);
+				StaticAllocator<RBuffer>::rawDeallocate(mesh->pUniformBuffer, 0);
+
+				mesh->pPipeline->terminate(myCoreObject);
+				StaticAllocator<RPipelineObject>::rawDeallocate(mesh->pPipeline, 0);
+
+				StaticAllocator<RMeshObject>::rawDeallocate(mesh);
 			}
 
 			entity.pMeshObjects.clear();

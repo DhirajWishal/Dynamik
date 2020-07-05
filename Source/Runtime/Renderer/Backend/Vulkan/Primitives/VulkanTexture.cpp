@@ -30,7 +30,7 @@ namespace Dynamik
 			initInfo.sampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
 			initInfo.imageFormat = pTextureObject->format;
 
-			pImage = (RImage*)StaticAllocator<VulkanImage>::allocate();
+			pImage = (RImage*)StaticAllocator<VulkanImage>::rawAllocate();
 			pImage->initialize(pCoreObject, initInfo);
 
 			pImage->copyBuffer(pCoreObject, &staggingBuffer);
@@ -47,7 +47,7 @@ namespace Dynamik
 
 		void VulkanTexture::createSampler(RCoreObject* pCoreObject, RImageSamplerCreateInfo createInfo)
 		{
-			pSampler = (RImageSampler*)StaticAllocator<VulkanImageSampler>::allocate();
+			pSampler = (RImageSampler*)StaticAllocator<VulkanImageSampler>::rawAllocate();
 			pSampler->initialize(pCoreObject, createInfo);
 		}
 
@@ -60,7 +60,10 @@ namespace Dynamik
 		void VulkanTexture::terminate(RCoreObject* pCoreObject)
 		{
 			pImage->terminate(pCoreObject);
+			StaticAllocator<VulkanImage>::rawDeallocate(pImage);
+
 			pSampler->terminate(pCoreObject);
+			StaticAllocator<VulkanImageSampler>::rawDeallocate(pSampler);
 		}
 
 		VulkanTexture::operator VulkanImage() const

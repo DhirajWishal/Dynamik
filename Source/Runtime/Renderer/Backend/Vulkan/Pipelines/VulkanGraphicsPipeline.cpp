@@ -251,6 +251,10 @@ namespace Dynamik
 			pipelineInfo.renderPass = InheritCast<VulkanRenderPass>(pRenderTarget->pRenderPass).renderPass;
 
 			DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(InheritCast<VulkanCoreObject>(pCoreObject).device, VK_NULL_HANDLE /* TODO */, 1, &pipelineInfo, VK_NULL_HANDLE, &pipeline), "Failed to create graphics pipeline!");
+
+			/* Terminate Shader Modules */
+			for (auto stage : shaderStages)
+				vkDestroyShaderModule(InheritCast<VulkanCoreObject>(pCoreObject).device, stage.module, nullptr);
 		}
 
 		void VulkanGraphicsPipeline::reCreate(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain)
@@ -439,10 +443,19 @@ namespace Dynamik
 			vkDestroyPipeline(InheritCast<VulkanCoreObject>(pCoreObject).device, pipeline, nullptr);
 
 			pipeline = _newPipeline;
+
+			/* Terminate Shader Modules */
+			for (auto stage : shaderStages)
+				vkDestroyShaderModule(InheritCast<VulkanCoreObject>(pCoreObject).device, stage.module, nullptr);
 		}
 
 		void VulkanGraphicsPipeline::terminate(RCoreObject* pCoreObject)
 		{
+			/* Terminate Descriptor */
+			vkDestroyDescriptorPool(InheritCast<VulkanCoreObject>(pCoreObject).device, descriptor.pool, nullptr);
+			vkDestroyDescriptorSetLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, descriptor.layout, nullptr);
+
+			/* Terminate Pipeline */
 			vkDestroyPipeline(InheritCast<VulkanCoreObject>(pCoreObject).device, pipeline, nullptr);
 			vkDestroyPipelineLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, layout, nullptr);
 		}

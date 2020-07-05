@@ -20,10 +20,8 @@ namespace Dynamik
 			imgCreateInfo.vDimentions.height = initInfo.imageHeight;
 			imgCreateInfo.sampleCount = initInfo.msaaSamples;
 
-			image = StaticAllocator<VulkanImage>::allocate();
 			image.initialize(pCoreObject, imgCreateInfo);
 
-			imageView = StaticAllocator<VulkanImageView>::allocate();
 			imageView.initialize(pCoreObject, &image, DMKTexture::TextureSwizzles());
 
 			image.setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_DEPTH_STECIL_ATTACHMENT);

@@ -52,7 +52,7 @@ namespace Dynamik
 		virtual void unmapMemory(RCoreObject* pCoreObject) = 0;
 
 		VEC3 extent = VEC3(0.0f);
-		RImageView* pImageView;
+		RImageView* pImageView = nullptr;
 		DMKTextureType type = DMKTextureType::DMK_TEXTURE_TYPE_2D;
 		RImageUsage usage = RImageUsage::IMAGE_USAGE_RENDER;
 		UI32 size = 0;

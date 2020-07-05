@@ -19,7 +19,7 @@ namespace Dynamik
         {
         case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
         {
-            auto _ptr = StaticAllocator<VulkanBuffer>::allocate();
+            auto _ptr = StaticAllocator<VulkanBuffer>::rawAllocate();
             _ptr->initialize(myCoreObject, RBufferType::BUFFER_TYPE_VERTEX, uSize, memoryType);
             return _ptr;
         }
@@ -40,7 +40,7 @@ namespace Dynamik
         {
         case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
         {
-            auto _ptr = StaticAllocator<VulkanBuffer>::allocate();
+            auto _ptr = StaticAllocator<VulkanBuffer>::rawAllocate();
             _ptr->initialize(myCoreObject, RBufferType::BUFFER_TYPE_INDEX, uSize, memoryType);
             return _ptr;
         }
@@ -61,7 +61,7 @@ namespace Dynamik
         {
         case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
         {
-            auto _ptr = StaticAllocator<VulkanBuffer>::allocate();
+            auto _ptr = StaticAllocator<VulkanBuffer>::rawAllocate();
             _ptr->initialize(myCoreObject, RBufferType::BUFFER_TYPE_UNIFORM, uSize, memoryType);
             return _ptr;
         }
@@ -82,7 +82,7 @@ namespace Dynamik
         {
         case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
         {
-            auto _ptr = StaticAllocator<VulkanBuffer>::allocate();
+            auto _ptr = StaticAllocator<VulkanBuffer>::rawAllocate();
             _ptr->initialize(myCoreObject, RBufferType::BUFFER_TYPE_STAGGING, uSize, memoryType);
             return _ptr;
         }
