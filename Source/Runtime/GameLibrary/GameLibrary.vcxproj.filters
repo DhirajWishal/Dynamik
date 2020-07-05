@@ -39,6 +39,7 @@
     <ClInclude Include="Utilities\MeshFactory.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="GameWorld.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp">
@@ -52,6 +53,8 @@
     <ClCompile Include="Utilities\MeshFactory.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerObject.cpp" />
+    <ClCompile Include="EnvironmentMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameLibrary.lua" />

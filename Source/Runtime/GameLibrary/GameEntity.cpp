@@ -8,7 +8,13 @@ namespace Dynamik
 {
 	void DMKGameEntity::setupCamera(const DMKCameraModule* pCameraModule)
 	{
-		for (UI64 index = 0; index < componentManager.getComponentArray<DMKMeshComponent>()->myComponents.size(); index++)
-			componentManager.getComponent<DMKMeshComponent>(index)->setCameraModule((DMKCameraModule*)pCameraModule);
+		if (isCameraAvailable)
+		{
+			DMK_ERROR("Camera Module is already attached!");
+			return;
+		}
+
+		this->pCameraModule = Cast<DMKCameraModule*>(pCameraModule);
+		isCameraAvailable = true;
 	}
 }

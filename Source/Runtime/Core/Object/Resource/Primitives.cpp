@@ -44,7 +44,6 @@ namespace Dynamik
 		layout.attributes.pushBack(attribute);
 
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
 		layout.attributes.pushBack(attribute);
 
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES;
@@ -52,6 +51,21 @@ namespace Dynamik
 		layout.attributes.pushBack(attribute);
 
 		return layout;
+	}
+
+	B1 DMKVertexLayout::operator==(const DMKVertexLayout& other) const
+	{
+		if (this->attributes.size() != other.attributes.size())
+			return false;
+
+		for (UI32 index = 0; index < this->attributes.size(); index++)
+			if (
+				(this->attributes[index].attributeType != other.attributes[index].attributeType) ||
+				(this->attributes[index].dataCount != other.attributes[index].dataCount) ||
+				(this->attributes[index].dataType != other.attributes[index].dataType))
+				return false;
+
+		return true;
 	}
 
 	I64 DMKUniformBufferDescriptor::operator()()

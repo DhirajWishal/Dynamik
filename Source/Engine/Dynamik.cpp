@@ -15,40 +15,45 @@
 #include "Core/Utilities/Clock.h"
 #include "Core/FileSystem/FileSystem.h"
 #include "Core/Memory/AutomatedMemoryManager.h"
+#include "Core/Object/Resource/ShaderFactory.h"
 
 #include "Managers/Window/WindowManager.h"
+#include "Window/Windows/WindowsWindow.h"
 
 #include "Importer/Dynamik/DAI/DAIObject.h"
 #include "Importer/Asset/MeshImporter.h"
 
 #include "GameLibrary/Utilities/MeshFactory.h"
-#include "Core/Object/Resource/ShaderFactory.h"
 
 namespace Dynamik
 {
 	/* Default constructor */
-	DMKEngine::DMKEngine(const DMKEngineInstanceDescriptor& instanceDescriptor, const DMKGamePackage* gamePackage)
-		: _instanceDescription(instanceDescriptor), _gamePackage((DMKGamePackage*)gamePackage)
+	DMKEngine::DMKEngine(const DMKGamePackage* gamePackage)
+		: pGamePackage(Cast<DMKGamePackage*>(gamePackage))
 	{
 		_clock.start();
-		_gamePackage->onLoad();
+		pGamePackage->onLoad();
+
+		myEventPool.initialize();
+		myPlayerController.setEventPool(&myEventPool);
 
 		_initializeRuntimeSystems();
 
 		DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
 		auto _localPath = DMKFileSystem::getExecutablePath();
 		auto _workingDirectory = DMKFileSystem::getWorkingDirectory();
+		DMKConfigurationService::openConfigFile(_workingDirectory + "/EngineConfig.ini");
 
 		DMKMeshFactory::setWorkingDirectory(_workingDirectory);
 		DMKShaderFactory::setWorkingDirectory(_workingDirectory);
 
-		UI32 windowID = _windowManager.createWindow(_instanceDescription.windowDescription.width, _instanceDescription.windowDescription.height, _instanceDescription.windowDescription.title);
-		_threadManager.issueWindowHandleCommandRT(_windowManager.getWindowHandle(windowID));
+		pActiveWindow = _createWindow(1280, 720, "Dynamik Engine");
+		_threadManager.issueWindowHandleCommandRT(pActiveWindow);
 
 		_threadManager.issueInitializeCommandRT();
-		_threadManager.issueCreateContextCommandRT(DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT, _windowManager.createViewport(windowID, 512, 512, 0, 0));
+		_threadManager.issueCreateContextCommandRT(DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT, pActiveWindow->createViewport(512, 512, 0, 0));
 
-		_gamePackage->onInit();
+		pGamePackage->onInit();
 
 		_loadLevel();
 	}
@@ -56,41 +61,63 @@ namespace Dynamik
 	/* Execute the game code */
 	void DMKEngine::execute()
 	{
-		_gamePackage->onExecute();
-		_threadManager.issueInitializeEntityCommandRT(_currentLevel->myEntities[0]);
+		pGamePackage->onExecute();
+		_threadManager.issueInitializeCameraCommandRT(pCurrentLevel->playerObject->getCameraModule());
+		_threadManager.issueInitializeEnvironmentMapCommandRT(pCurrentLevel->environmentMap);
+		_threadManager.issueInitializeLevelCommandRT(pCurrentLevel);
 		_threadManager.issueInitializeFinalsCommandRT();
 
 		UI64 _itrIndex = 0;
-		DMKGameEntity* _entity;
+		DMKGameEntity* _entity = nullptr;
 
-		printf("Allocation count: %u", DMKAutomatedMemoryManager::getAllocationCount());
+#ifdef DMK_DEBUG
+		printf("Allocation count: %u\n", DMKAutomatedMemoryManager::getAllocationCount());
 
-		while (true)
+#endif // DMK_DEBUG
+
+		while (!myEventPool.WindowCloseEvent)
 		{
-			_gamePackage->onBeginFrame();
+			pGamePackage->onBeginFrame();
 
 			_threadManager.clearCommands();
 
-			_windowManager.pollEvents();
+			pActiveWindow->pollEvents();
 
-			for (_itrIndex = 0; _itrIndex < _currentLevel->myEntities.size(); _itrIndex++)
+			/* Check If The Frame Buffer Was Resized */
+			if (myEventPool.FrameBufferResizeEvent)
 			{
-				_currentLevel->myEntities[_itrIndex];
+				_threadManager.issueFrameBufferResizeCommandRT(pActiveWindow->getWindowExtent());
+				myEventPool.FrameBufferResizeEvent = false;
+			}
+
+			myPlayerController.executeAll();
+			pCurrentLevel->onUpdate(&myEventPool);
+
+			_threadManager.issueRawCommandRT(RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE);
+
+			for (_itrIndex = 0; _itrIndex < pCurrentLevel->entities.size(); _itrIndex++)
+			{
+				pCurrentLevel->entities[_itrIndex];
 				/* send entity to the physics engine */
 			}
 
-			_windowManager.clean();
+			pActiveWindow->clean();
 
-			_gamePackage->onEndFrame();
+			pGamePackage->onEndFrame();
 		}
 	}
 
 	/* Default destructor */
 	DMKEngine::~DMKEngine()
 	{
-		_gamePackage->onExit();
+		pGamePackage->onExit();
 
-		_windowManager.terminateAll();
+		_threadManager.terminateAll();
+
+		DMKConfigurationService::writeWindowSize(pActiveWindow->windowWidth, pActiveWindow->windowHeight);
+		pActiveWindow->terminate();
+
+		DMKConfigurationService::closeConfigFile();
 		_clock.end();
 	}
 
@@ -101,15 +128,33 @@ namespace Dynamik
 
 	void DMKEngine::_loadLevel()
 	{
-		_gamePackage->onLevelLoad(_nextLevelIndex);
-		_currentLevel = _gamePackage->levels[_nextLevelIndex++];
+		pGamePackage->onLevelLoad(_nextLevelIndex);
+		pCurrentLevel = pGamePackage->levels[_nextLevelIndex++];
 
-		_currentLevel->onLoad();
-		_currentLevel->initializeComponents();
+		pCurrentLevel->onLoad();
+		pCurrentLevel->initializeComponents();
 
-		for (auto _entity : _currentLevel->myEntities)
+		pCurrentLevel->setupPlayerControls(&myPlayerController);
+
+		for (auto _entity : pCurrentLevel->entities)
 			_entity->initialize();
 
-		_currentLevel->initializeCameraModule();
+		pCurrentLevel->initializeCameraModule();
+	}
+
+	DMKWindowHandle* DMKEngine::_createWindow(I32 width, I32 height, STRING title)
+	{
+#ifdef DMK_PLATFORM_WINDOWS
+		DMKWindowHandle* pHandle = StaticAllocator<WindowsWindow>::allocateInit(WindowsWindow(title, width, height));
+		pHandle->initialize();
+		pHandle->setEventBoard(&myEventPool);
+		pHandle->initializeKeyBindings();
+		pHandle->setEventCallbacks();
+
+		return pHandle;
+
+#endif // DMK_PLATFORM_WINDOWS
+
+		return nullptr;
 	}
 }

@@ -18,6 +18,11 @@ namespace Dynamik
 			width = pSwapChain->extent.width;
 			height = pSwapChain->extent.height;
 
+			VulkanColorAttachment colorAttachment;
+			B1 isColorAttachmentInitialized = false;
+			VulkanDepthAttachment depthAttachment;
+			B1 isDepthAttachmentInitialized = false;
+
 			for (size_t i = 0; i < pSwapChain->bufferCount; i++)
 			{
 				ARRAY<VkImageView> _attachments;
@@ -31,30 +36,44 @@ namespace Dynamik
 						break;
 					case Dynamik::RSubPasses::SUBPASSES_DEPTH:
 					{
-						VulkanFrameBufferAttachmentInitInfo attachmentInfo;
-						attachmentInfo.format = (DMKFormat)VulkanUtilities::findDepthFormat(Inherit<VulkanCoreObject>(pCoreObject)->device);
-						attachmentInfo.imageWidth = width;
-						attachmentInfo.imageHeight = height;
-						attachmentInfo.msaaSamples = pCoreObject->sampleCount;
+						if (!isDepthAttachmentInitialized)
+						{
+							VulkanFrameBufferAttachmentInitInfo attachmentInfo;
+							attachmentInfo.format = (DMKFormat)VulkanUtilities::findDepthFormat(Inherit<VulkanCoreObject>(pCoreObject)->device);
+							attachmentInfo.imageWidth = width;
+							attachmentInfo.imageHeight = height;
+							attachmentInfo.msaaSamples = pCoreObject->sampleCount;
 
-						VulkanDepthAttachment depthAttachment;
-						depthAttachment.initialize(pCoreObject, attachmentInfo);
+							depthAttachment.initialize(pCoreObject, attachmentInfo);
+							isDepthAttachmentInitialized = true;
+
+							attachmentImages.pushBack(depthAttachment.image);
+							attachmentViews.pushBack(depthAttachment.imageView);
+						}
+
 						_attachments.pushBack(depthAttachment.imageView);
 					}
-						break;
+					break;
 					case Dynamik::RSubPasses::SUBPASSES_COLOR:
 					{
-						VulkanFrameBufferAttachmentInitInfo attachmentInfo;
-						attachmentInfo.format = (DMKFormat)InheritCast<VulkanSwapChain>(pSwapChain).format;
-						attachmentInfo.imageWidth = width;
-						attachmentInfo.imageHeight = height;
-						attachmentInfo.msaaSamples = pCoreObject->sampleCount;
+						if (!isColorAttachmentInitialized)
+						{
+							VulkanFrameBufferAttachmentInitInfo attachmentInfo;
+							attachmentInfo.format = (DMKFormat)InheritCast<VulkanSwapChain>(pSwapChain).format;
+							attachmentInfo.imageWidth = width;
+							attachmentInfo.imageHeight = height;
+							attachmentInfo.msaaSamples = pCoreObject->sampleCount;
 
-						VulkanColorAttachment colorAttachment;
-						colorAttachment.initialize(pCoreObject, attachmentInfo);
+							colorAttachment.initialize(pCoreObject, attachmentInfo);
+							isColorAttachmentInitialized = true;
+
+							attachmentImages.pushBack(colorAttachment.image);
+							attachmentViews.pushBack(colorAttachment.imageView);
+						}
+
 						_attachments.pushBack(colorAttachment.imageView);
 					}
-						break;
+					break;
 					case Dynamik::RSubPasses::SUBPASSES_OVERLAY:
 						break;
 					default:
@@ -80,10 +99,19 @@ namespace Dynamik
 
 		void VulkanFrameBuffer::terminate(RCoreObject* pCoreObject)
 		{
+			/* Terminate attachment images */
+			for (auto image : attachmentImages)
+				image.terminate(pCoreObject);
+
+			/* Terminate attachment image views */
+			for (auto imageView : attachmentViews)
+				imageView.terminate(pCoreObject);
+
+			/* Terminate frame buffers */
 			for (auto buffer : buffers)
 				vkDestroyFramebuffer(Inherit<VulkanCoreObject>(pCoreObject)->device, buffer, nullptr);
 		}
-		
+
 		const VkFramebuffer VulkanFrameBuffer::operator[](UI32 index) const
 		{
 			return this->buffers[index];

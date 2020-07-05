@@ -41,8 +41,8 @@ namespace Dynamik
 
 	Vector3F DMKMathFunctions::cross(Vector3F lhs, Vector3F rhs)
 	{
-		return (Vector4F(lhs.y, lhs.z, lhs.x, 1.0f) * Vector4F(rhs.z, rhs.x, rhs.y, 1.0f)) -
-			(Vector4F(rhs.y, rhs.z, rhs.x, 1.0f) * Vector4F(lhs.z, lhs.x, lhs.y, 1.0f));
+		return (Vector3F(lhs.y, lhs.z, lhs.x) * Vector3F(rhs.z, rhs.x, rhs.y)) -
+			(Vector3F(rhs.y, rhs.z, rhs.x) * Vector3F(lhs.z, lhs.x, lhs.y));
 	}
 
 	Vector3F DMKMathFunctions::normalize(Vector3F rhs)
@@ -78,8 +78,8 @@ namespace Dynamik
 	Matrix4F DMKMathFunctions::lookAt(Vector3F const eye, Vector3F const center, Vector3F const up)
 	{
 		auto const f = normalize(center - eye);
-		auto const s = normalize(cross(up, f));
-		auto const u = cross(f, s);
+		auto const s = normalize(cross(f, up));
+		auto const u = cross(s, f);
 
 		Matrix4F newMatrix(1.0f);
 		newMatrix[0][0] = s.x;
@@ -92,10 +92,10 @@ namespace Dynamik
 		newMatrix[2][1] = u.z;
 		newMatrix[3][1] = -dot(u, eye);
 
-		newMatrix[0][2] = f.x;
-		newMatrix[1][2] = f.y;
-		newMatrix[2][2] = f.z;
-		newMatrix[3][2] = -dot(f, eye);
+		newMatrix[0][2] = -f.x;
+		newMatrix[1][2] = -f.y;
+		newMatrix[2][2] = -f.z;
+		newMatrix[3][2] = dot(f, eye);
 
 		return newMatrix;
 	}
@@ -112,7 +112,7 @@ namespace Dynamik
 		newMatrix[3][2] = -(far * near) / (far - near);
 
 		if (flipYAxis)
-			newMatrix[3][3] *= -1.0f;
+			newMatrix[1][1] *= -1.0f;
 
 		return newMatrix;
 	}

@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_IMAGE_SAMPLER_H
 #define _DYNAMIK_VULKAN_IMAGE_SAMPLER_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      25/05/2020
-*/
 #include "VulkanImage.h"
 #include "Renderer/Components/Primitives/RImageSampler.h"
 

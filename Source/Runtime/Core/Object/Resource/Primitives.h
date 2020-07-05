@@ -7,9 +7,6 @@
 
 /*
  This file contains all the primitive resources in their virtual form (Vertex, Shader, Uniform).
-
- Author:    Dhiraj Wishal
- Date:      15/05/2020
 */
 #include "Core/Math/MathTypes.h"
 #include "Core/Types/Array.h"
@@ -120,6 +117,9 @@ namespace Dynamik
 		 - Texture Coordinates	[Vector2F * 1]
 		*/
 		static DMKVertexLayout createBasic();
+
+	public:		/* Operators */
+		B1 operator==(const DMKVertexLayout& other) const;
 	};
 
 	/* Constant Block */

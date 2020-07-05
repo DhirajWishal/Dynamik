@@ -73,12 +73,11 @@ namespace Dynamik
 
 		UI32 VulkanUtilities::findMemoryType(UI32 typeFilter, VkMemoryPropertyFlags properties, VkPhysicalDevice physicalDevice)
 		{
-			VkPhysicalDeviceMemoryProperties memProperties;
+			VkPhysicalDeviceMemoryProperties memProperties = {};
 			vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memProperties);
 
 			for (UI32 i = 0; i < memProperties.memoryTypeCount; i++)
-				if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags
-					& properties) == properties)
+				if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties)
 					return i;
 
 			DMK_ERROR_BOX("Failed to find suitable memory type!");
@@ -127,51 +126,6 @@ namespace Dynamik
 			_mapping.a = (VkComponentSwizzle)swizzles.componentFour;
 
 			return _mapping;
-		}
-
-		VulkanResourceLayout VulkanUtilities::getResourceLayout(const DMKShaderResourceLayout& resourceLayout, const DMKShaderLocation& location)
-		{
-			VulkanResourceLayout layout;
-
-			VkDescriptorSetLayoutBinding layoutBinding;
-			layoutBinding.descriptorCount = 1;
-			layoutBinding.stageFlags = getShaderStage(location);
-			layoutBinding.pImmutableSamplers = VK_NULL_HANDLE;
-
-			VkDescriptorPoolSize poolSize;
-			poolSize.descriptorCount = 1;
-
-			for (auto uniform : resourceLayout.uniforms)
-			{
-				layoutBinding.binding = uniform.destinationBinding;
-				layoutBinding.descriptorType = getDescriptorType(uniform.type);
-				layout.descriptorBindings.pushBack(layoutBinding);
-
-				poolSize.type = layoutBinding.descriptorType;
-				layout.descriptorPoolSizes.pushBack(poolSize);
-			}
-
-			VkVertexInputAttributeDescription inputAttribute;
-			inputAttribute.binding = 0;
-			inputAttribute.location = 0;
-			inputAttribute.offset = 0;
-
-			for (auto attribute : resourceLayout.inputAttributes)
-			{
-				inputAttribute.format = vertexAttributeTypeToVkFormat((DMKDataType)((UI64)attribute.dataType * attribute.dataCount));
-				layout.vertexInputAttributes.pushBack(inputAttribute);
-
-				inputAttribute.location++;
-				inputAttribute.offset += (UI64)attribute.dataType * attribute.dataCount;
-			}
-
-			VkVertexInputBindingDescription bindingDescription;
-			bindingDescription.binding = 0;
-			bindingDescription.inputRate = VkVertexInputRate::VK_VERTEX_INPUT_RATE_VERTEX;
-			bindingDescription.stride = inputAttribute.offset;
-			layout.vertexInputBinding = bindingDescription;
-
-			return layout;
 		}
 
 		VkDescriptorType VulkanUtilities::getDescriptorType(DMKUniformType type)
@@ -241,30 +195,6 @@ namespace Dynamik
 				_binding.pImmutableSamplers = VK_NULL_HANDLE;
 				_binding.stageFlags = getShaderStage(_object.shaderLocation);
 				_bindings.pushBack(_binding);
-			}
-
-			return _bindings;
-		}
-
-		ARRAY<VkDescriptorSetLayoutBinding> VulkanUtilities::getDescriptorSetLayoutBindings(ARRAY<DMKShaderModule> modules)
-		{
-			ARRAY<VkDescriptorSetLayoutBinding> _bindings;
-
-			for (auto _shader : modules)
-			{
-				for (auto _resource : _shader.resourceLayout.uniforms)
-				{
-					if (_resource.type == DMKUniformType::DMK_UNIFORM_TYPE_CONSTANT)
-						continue;
-
-					VkDescriptorSetLayoutBinding _binding;
-					//_binding.binding = _resource.binding;
-					_binding.descriptorCount = 1;
-					_binding.descriptorType = getDescriptorType(_resource.type);
-					_binding.pImmutableSamplers = VK_NULL_HANDLE;
-					_binding.stageFlags = getShaderStage(_shader.location);
-					_bindings.pushBack(_binding);
-				}
 			}
 
 			return _bindings;
@@ -378,7 +308,8 @@ namespace Dynamik
 				attachmentState.alphaBlendOp = (VkBlendOp)state.alphaBlendOp;
 				attachmentState.blendEnable = state.enable;
 				attachmentState.colorBlendOp = (VkBlendOp)state.colorBlendOp;
-				attachmentState.colorWriteMask = (VkColorComponentFlags)state.colorWriteMask;
+				attachmentState.colorWriteMask = VkColorComponentFlagBits::VK_COLOR_COMPONENT_R_BIT | VkColorComponentFlagBits::VK_COLOR_COMPONENT_G_BIT | VkColorComponentFlagBits::VK_COLOR_COMPONENT_B_BIT | VkColorComponentFlagBits::VK_COLOR_COMPONENT_A_BIT;
+				//attachmentState.colorWriteMask = (VkColorComponentFlags)state.colorWriteMask;
 				attachmentState.srcAlphaBlendFactor = (VkBlendFactor)state.srcAlphaBlendFactor;
 				attachmentState.dstAlphaBlendFactor = (VkBlendFactor)state.dstAlphaBlendFactor;
 				attachmentState.srcColorBlendFactor = (VkBlendFactor)state.srcAlphaBlendFactor;

@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_MATH_VECTOR_2F_H
 #define _DYNAMIK_MATH_VECTOR_2F_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      23/05/2020
-*/
 #include "Vector.h"
 
 namespace Dynamik

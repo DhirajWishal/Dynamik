@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_IMAGE_H
 #define _DYNAMIK_RENDERER_IMAGE_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		14/06/2020
-*/
 #include "Core/Object/Resource/Texture.h"
 #include "RImageView.h"
 #include "../PrimitiveTypeDefs.h"
@@ -29,7 +25,7 @@ namespace Dynamik
 		UI32 layers = 1;
 		UI32 mipLevels = 1;
 		DMKFormat imageFormat = DMKFormat::DMK_FORMAT_UNDEFINED;
-		RResourceMemoryType memoryType = RResourceMemoryType::RESOURCE_MEMORY_TYPE_HOST_ACCESSABLE;
+		RResourceMemoryType memoryType = RResourceMemoryType::RESOURCE_MEMORY_TYPE_DEVICE_LOCAL;
 		DMKSampleCount sampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
 	};
 

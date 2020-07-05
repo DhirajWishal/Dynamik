@@ -8,6 +8,9 @@
 
 #include <mutex>
 
+/* Maximum commands that can be in a command queue at runtime */
+#define MAX_COMMANDS_IN_FLIGHT		10
+
 namespace Dynamik
 {
 	std::mutex _globalMutex;
@@ -24,6 +27,7 @@ namespace Dynamik
 	{
 		THREAD mySystem;
 		UI64 index = 0;
+		DMKThreadCommand* pCommand = nullptr;
 
 	BEGIN:
 		mySystem.initialize();
@@ -31,36 +35,33 @@ namespace Dynamik
 		do
 		{
 			/* Process commands */
-			if (commandPoolPtr->commands.size() && !commandPoolPtr->hasExcuted)
+			for (index = 0; index < commandPoolPtr->commands.size(); index++)
 			{
-				for (index = 0; index < commandPoolPtr->commands.size(); index++)
+				pCommand = commandPoolPtr->commands.front();
+				commandPoolPtr->commands.pop();
+
+				/* To ensure that the main loop always gets updated */
+				mySystem.onLoop();
+
+				if (pCommand->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_SYSTEM)
 				{
-					/* To ensure that the main loop always gets updated */
-					mySystem.onLoop();
+					mySystem.processCommand(pCommand);
+				}
+				else if (pCommand->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_SYNC)
+				{
 
-					if (commandPoolPtr->commands.at(index)->isHandled)
-						continue;
-					commandPoolPtr->commands.at(index)->isHandled = true;
-
-					if (commandPoolPtr->commands.at(index)->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_SYSTEM)
-					{
-						mySystem.processCommand(commandPoolPtr->commands.at(index));
-					}
-					else if (commandPoolPtr->commands.at(index)->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_SYNC)
-					{
-
-					}
-					else if (commandPoolPtr->commands.at(index)->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_RESET)
-					{
-						goto BEGIN;
-					}
-					else if (commandPoolPtr->commands.at(index)->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_TERMINATE)
-					{
-						goto TERMINATE;
-					}
+				}
+				else if (pCommand->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_RESET)
+				{
+					goto BEGIN;
+				}
+				else if (pCommand->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_TERMINATE)
+				{
+					goto TERMINATE;
 				}
 
-				commandPoolPtr->hasExcuted = true;
+				/* Deallocate handled command */
+				StaticAllocator<DMKThreadCommand>::rawDeallocate(pCommand, 0);
 			}
 
 			mySystem.onLoop();
@@ -70,8 +71,13 @@ namespace Dynamik
 		mySystem.onTermination();
 	}
 
+	DMKThreadManager::~DMKThreadManager()
+	{
+
+	}
+
 	/*
-	 Get the usabe total thread count
+	 Get the usable total thread count
 	*/
 	UI32 DMKThreadManager::getUseableThreadCount()
 	{
@@ -96,13 +102,20 @@ namespace Dynamik
 		/* Clear runtime thread commands */
 
 		/* Rendering thread */
-		if (myRendererThread.commandBuffer.hasExcuted)
-		{
-			for (auto _command : myRendererThread.commandBuffer.commands)
-				StaticAllocator<DMKThreadCommand>::deallocate(_command, 0);
+	}
 
-			myRendererThread.commandBuffer.commands.clear();
-		}
+	void DMKThreadManager::terminateAll()
+	{
+		/* Terminate Rendering Thread */
+		myRendererThread.thread.join();
+	}
+
+	void DMKThreadManager::pushRendererCommand(DMKRendererCommand* pCommand)
+	{
+		/* Wait till all the submitted commands are executed. */
+		while (myRendererThread.commandBuffer.commands.size() >= MAX_COMMANDS_IN_FLIGHT);
+
+		myRendererThread.commandBuffer.commands.push(pCommand);
 	}
 
 	/* ////////// Renderer Thread Commands \\\\\\\\\\ */
@@ -111,9 +124,8 @@ namespace Dynamik
 		RendererSetSamplesCommand _command;
 		_command.samples = samples;
 
-		/* Push to command buffer */
-		myRendererThread.commandBuffer.hasExcuted = false;
-		myRendererThread.commandBuffer.commands.pushBack(new RendererSetSamplesCommand(_command));
+		/* Push to command queue */
+		pushRendererCommand(new RendererSetSamplesCommand(_command));
 	}
 
 	void DMKThreadManager::issueWindowHandleCommandRT(const DMKWindowHandle* handle)
@@ -121,9 +133,8 @@ namespace Dynamik
 		RendererSetWindowHandleCommand _command;
 		_command.windowHandle = (DMKWindowHandle*)handle;
 
-		/* Push to command buffer */
-		myRendererThread.commandBuffer.hasExcuted = false;
-		myRendererThread.commandBuffer.commands.pushBack(new RendererSetWindowHandleCommand(_command));
+		/* Push to command queue */
+		pushRendererCommand(new RendererSetWindowHandleCommand(_command));
 	}
 
 	void DMKThreadManager::issueInitializeCommandRT()
@@ -139,9 +150,26 @@ namespace Dynamik
 		_command.contextType = context;
 		_command.viewport = viewport;
 
-		/* Push to command buffer */
-		myRendererThread.commandBuffer.hasExcuted = false;
-		myRendererThread.commandBuffer.commands.pushBack(new RendererCreateContextCommand(_command));
+		/* Push to command queue */
+		pushRendererCommand(new RendererCreateContextCommand(_command));
+	}
+
+	void DMKThreadManager::issueInitializeCameraCommandRT(DMKCameraModule* pModule)
+	{
+		RendererInitializeCamera _command;
+		_command.pCameraModule = pModule;
+
+		/* Push to command queue */
+		pushRendererCommand(new RendererInitializeCamera(_command));
+	}
+
+	void DMKThreadManager::issueInitializeEnvironmentMapCommandRT(DMKEnvironmentMap* pEnvironmentMap)
+	{
+		RendererInitializeEnvironmentMap _command;
+		_command.pEnvironmentMap = pEnvironmentMap;
+
+		/* Push to command queue */
+		pushRendererCommand(new RendererInitializeEnvironmentMap(_command));
 	}
 
 	void DMKThreadManager::issueInitializeEntityCommandRT(DMKGameEntity* meshComponents)
@@ -149,16 +177,50 @@ namespace Dynamik
 		RendererAddEntity _command;
 		_command.entity = meshComponents;
 
-		/* Push to command buffer */
-		myRendererThread.commandBuffer.hasExcuted = false;
-		myRendererThread.commandBuffer.commands.pushBack(new RendererAddEntity(_command));
+		/* Push to command queue */
+		pushRendererCommand(new RendererAddEntity(_command));
+	}
+
+	void DMKThreadManager::issueInitializeLevelCommandRT(DMKLevelComponent* pLevelComponent)
+	{
+		RendererSubmitLevel _command;
+		_command.level = pLevelComponent;
+
+		/* Push to command queue */
+		pushRendererCommand(new RendererSubmitLevel(_command));
 	}
 
 	void DMKThreadManager::issueInitializeFinalsCommandRT()
 	{
 		DMKRendererCommand _command(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_FINALS);
 
-		_pushToThread(_command);
+		/* Push to command queue */
+		pushRendererCommand(new DMKRendererCommand(_command));
+	}
+
+	void DMKThreadManager::issueRawCommandRT(RendererInstruction instruction)
+	{
+		DMKRendererCommand _command(instruction);
+
+		/* Push to command queue */
+		pushRendererCommand(new DMKRendererCommand(_command));
+	}
+
+	void DMKThreadManager::issueFrameBufferResizeCommandRT(DMKExtent2D extent)
+	{
+		RendererResizeFrameBuffer _command;
+		_command.windowExtent = extent;
+
+		/* Push to command queue */
+		pushRendererCommand(new RendererResizeFrameBuffer(_command));
+	}
+
+	void DMKThreadManager::issueTerminateCommand()
+	{
+		DMKRendererCommand _command(RendererInstruction::RENDERER_INSTRUCTION_TERMINATE);
+
+		/* Push to command queue */
+		pushRendererCommand(new DMKRendererCommand(_command));
 	}
 
 	/*
@@ -167,6 +229,7 @@ namespace Dynamik
 	void DMKThreadManager::_threadFunction(DMKThread* mySystem, ThreadCommandBuffer* commandPoolPtr)
 	{
 		UI64 index = 0;
+		DMKThreadCommand* pCommand = nullptr;
 
 	BEGIN:
 		mySystem->initialize();
@@ -174,33 +237,29 @@ namespace Dynamik
 		do
 		{
 			/* Process commands */
-			if (commandPoolPtr->commands.size() && !commandPoolPtr->hasExcuted)
+			for (index = 0; index < commandPoolPtr->commands.size(); index++)
 			{
-				for (index = 0; index < commandPoolPtr->commands.size(); index++)
+				pCommand = commandPoolPtr->commands.front();
+				commandPoolPtr->commands.pop();
+
+				if (pCommand->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_SYSTEM)
 				{
-					if (commandPoolPtr->commands.at(index)->isHandled)
-						continue;
-					commandPoolPtr->commands.at(index)->isHandled = true;
+					mySystem->processCommand(pCommand);
+				}
+				else if (pCommand->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_SYNC)
+				{
 
-					if (commandPoolPtr->commands.at(index)->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_SYSTEM)
-					{
-						mySystem->processCommand(commandPoolPtr->commands.at(index));
-					}
-					else if (commandPoolPtr->commands.at(index)->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_SYNC)
-					{
-
-					}
-					else if (commandPoolPtr->commands.at(index)->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_RESET)
-					{
-						goto BEGIN;
-					}
-					else if (commandPoolPtr->commands.at(index)->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_TERMINATE)
-					{
-						goto TERMINATE;
-					}
+				}
+				else if (pCommand->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_RESET)
+				{
+					goto BEGIN;
+				}
+				else if (pCommand->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_TERMINATE)
+				{
+					goto TERMINATE;
 				}
 
-				commandPoolPtr->hasExcuted = true;
+				StaticAllocator<DMKThreadCommand>::rawDeallocate(pCommand, 0);
 			}
 
 			mySystem->onLoop();
@@ -213,12 +272,11 @@ namespace Dynamik
 		 Deallocate the system since its allocated from heap.
 		 Remove this if its allocated from the stack.
 		*/
-		StaticAllocator<DMKThread>::deallocate(mySystem, 0);
+		StaticAllocator<DMKThread>::rawDeallocate(mySystem, 0);
 	}
 
 	void DMKThreadManager::_pushToThread(DMKRendererCommand command)
 	{
-		myRendererThread.commandBuffer.hasExcuted = false;
-		myRendererThread.commandBuffer.commands.pushBack(new DMKRendererCommand(command));
+		myRendererThread.commandBuffer.commands.push(new DMKRendererCommand(command));
 	}
 }

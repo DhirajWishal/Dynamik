@@ -5,13 +5,11 @@
 #ifndef _DYNAMIK_RENDERER_PIPELINE_OBJECT_H
 #define _DYNAMIK_RENDERER_PIPELINE_OBJECT_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		17/06/2020
-*/
 #include "RCoreObject.h"
 #include "PipelineTypeDefs.h"
 #include "RRenderTarget.h"
+#include "Primitives/RTexture.h"
+#include "Primitives/RBuffer.h"
 
 #include "Core/Object/Resource/ShaderModule.h"
 
@@ -19,6 +17,7 @@ namespace Dynamik
 {
 	class DMK_API RCoreObject;
 	class DMK_API RSwapChain;
+	class DMK_API RTexture;
 
 	/* Renderer Pipeline Usage */
 	enum class DMK_API RPipelineUsage {
@@ -29,10 +28,8 @@ namespace Dynamik
 	/*
 	 Renderer Pipeline Create Info
 	*/
-	struct DMK_API RPipelineCreateInfo {
+	struct DMK_API RPipelineSpecification {
 		ARRAY<DMKShaderModule> shaders;
-		RRenderTarget* pRenderTarget = nullptr;
-		RSwapChain* pSwapChain = nullptr;
 
 		/* Primitive Assembly */
 		RPipelinePrimitiveAssemblyInfo primitiveAssemblyInfo;
@@ -69,8 +66,15 @@ namespace Dynamik
 		RPipelineObject() {}
 		virtual ~RPipelineObject() {}
 
-		virtual void initialize(RCoreObject* pCoreObject, RPipelineCreateInfo createInfo, RPipelineUsage usage) = 0;
+		virtual void initialize(RCoreObject* pCoreObject, RPipelineSpecification createInfo, RPipelineUsage usage, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain) = 0;
+		virtual void reCreate(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain) = 0;
 		virtual void terminate(RCoreObject* pCoreObject) = 0;
+
+		virtual void initializeResources(RCoreObject* pCoreObject, ARRAY<RBuffer*> pBuffers, ARRAY<RTexture*> pTextures) = 0;
+	
+		RPipelineSpecification mySpecification = {};
+		RPipelineUsage myUsage = RPipelineUsage::PIPELINE_USAGE_GRAPHICS;
+		B1 isResourceAvailable = false;
 	};
 }
 

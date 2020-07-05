@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_MATH_MATRIX_2F_H
 #define _DYNAMIK_MATH_MATRIX_2F_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      24/05/2020
-*/
 #include "Matrix.h"
 #include "../Vector/Vector2F.h"
 

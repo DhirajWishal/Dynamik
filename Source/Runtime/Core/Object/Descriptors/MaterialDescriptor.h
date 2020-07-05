@@ -7,9 +7,6 @@
 
 /*
  Material Descriptor for the Dynamik Engine.
-
- Author:    Dhiraj Wishal
- Date:      17/05/2020
 */
 #include "Core/Macros/Global.h"
 

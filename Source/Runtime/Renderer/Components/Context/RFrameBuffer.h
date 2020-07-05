@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_FRAME_BUFFER_H
 #define _DYNAMIK_RENDERER_FRAME_BUFFER_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		14/06/2020
-*/
 #include "RRenderPass.h"
 
 namespace Dynamik

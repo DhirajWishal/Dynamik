@@ -9,8 +9,8 @@
     it can perform tasks like an NPC.
       - Audio Component
       - Physics Component
-      - Renderable Component
-    - Skybox
+      - Renderer Component
+    - Environment Map
     - Game Mechanics
       - Key Bindings
       - Win Condition
@@ -18,7 +18,7 @@
     - Player Object
       - Player Controller
       - Character Components
-      - Camera Module
+    - Camera Module
         - Attachments
   - Game Menus
     - Layers
@@ -35,13 +35,13 @@ game mechanics and a player object.
 ##### Entity
 An entity is an object consisting of one or more components. Collectively this may recreate a complete asset, 
 or another character, or any other complex object. By default these objects do not have any functionality.
-In multiplayer games, other players are considered as entities.
+In multi-player games, other players are considered as entities.
 
 ###### Components
 Components are the containers which contain all the raw data (eg: Audio, Video, Mesh, ...). These components
-are devided into 3 main types,
+are divided into 3 main types,
 - Audio Component
-- Renderable Component
+- Renderer Component
 - Compute Component (Used to perform calculations)
 
 ##### Game Mechanics
@@ -60,7 +60,7 @@ This component defines the player controls (waling, jumping, swimming, ...)
 ###### Character Components
 This defines the components possessed by the player (Audio (Voice), Mesh (Skinned, Bone), Physics (Capsule), ...).
 
-###### Camera Module
+##### Camera Module
 This is the main camera of the level. Even though cinematic cameras can be setup by game mechanics, this camera
 is the active camera when the player is on a mission. HUDs can be added to the camera using attachments.
 

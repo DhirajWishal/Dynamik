@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_GRAPHICS_PIPELINE_H
 #define _DYNAMIK_VULKAN_GRAPHICS_PIPELINE_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		17/06/2020
-*/
 #include "Renderer/Components/RPipelineObject.h"
 #include "Core/Types/Array.h"
 #include <vulkan/vulkan.h>
@@ -31,16 +27,22 @@ namespace Dynamik
 			VulkanGraphicsPipeline() {}
 			~VulkanGraphicsPipeline() {}
 
-			virtual void initialize(RCoreObject* pCoreObject, RPipelineCreateInfo createInfo, RPipelineUsage usage) override final;
+			virtual void initialize(RCoreObject* pCoreObject, RPipelineSpecification createInfo, RPipelineUsage usage, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain) override final;
+			virtual void reCreate(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain) override final;
 			virtual void terminate(RCoreObject* pCoreObject) override final;
+
+			virtual void initializeResources(RCoreObject* pCoreObject, ARRAY<RBuffer*> pBuffers, ARRAY<RTexture*> pTextures) override final;
 
 			operator VkPipelineLayout() const;
 			operator VkPipeline() const;
 
-			ARRAY<VDescriptor> descriptors;
+			VDescriptor descriptor;
 
 			VkPipelineLayout layout = VK_NULL_HANDLE;
 			VkPipeline pipeline = VK_NULL_HANDLE;
+
+		private:
+			ARRAY<VkDescriptorSetLayoutBinding> resourceBindings;
 		};
 	}
 }

@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_THREAD_H
 #define _DYNAMIK_THREAD_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      20/05/2020
-*/
 #include "Core/Macros/Global.h"
 #include "ThreadCommand.h"
 
@@ -40,7 +36,7 @@ namespace Dynamik
         virtual ~DMKThread() {}
 
         virtual void initialize() {}
-        virtual void processCommand(DMKThreadCommand* command) {}
+        virtual void processCommand(DMKThreadCommand* pCommand) {}
 
         virtual void onLoop() {}
 

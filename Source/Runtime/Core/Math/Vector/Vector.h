@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VECTOR_BASE_H
 #define _DYNAMIK_VECTOR_BASE_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      16/05/2020
-*/
 #include "Core/Macros/Global.h"
 #include "Core/Types/Array.h"
 

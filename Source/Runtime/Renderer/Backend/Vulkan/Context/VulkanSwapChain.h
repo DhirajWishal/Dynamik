@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_SWAP_CHAIN_H
 #define _DYNAMIK_VULKAN_SWAP_CHAIN_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      25/05/2020
-*/
 #include "Renderer/Components/Context/RSwapChain.h"
 
 #include "../VulkanCoreObject.h"

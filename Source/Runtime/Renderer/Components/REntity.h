@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_ENTITY_H
 #define _DYNAMIK_RENDERER_ENTITY_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		25/06/2020
-*/
 #include "RMeshObject.h"
 
 namespace Dynamik

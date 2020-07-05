@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_GAME_ASSET_MECHANICS_H
 #define _DYNAMIK_GAME_ASSET_MECHANICS_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		04/06/2020
-*/
 #include "../GameMechanics.h"
 
 namespace Dynamik

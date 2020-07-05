@@ -4,6 +4,8 @@
 #include "dmkafx.h"
 #include "TextureFactory.h"
 
+#include "Textures/TextureCube.h"
+
 namespace Dynamik
 {
 	DMKTexture* DMKTextureFactory::create(const DMKTextureType& type, const STRING& path)
@@ -31,24 +33,12 @@ namespace Dynamik
 		return nullptr;
 	}
 
-	DMKTexture* DMKTextureFactory::create(const DMKTextureType& type, const ARRAY<STRING>& paths)
+	DMKTexture* DMKTextureFactory::createCubeMap(const ARRAY<STRING>& paths)
 	{
-		switch (type)
-		{
-		case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_2D_ARRAY:
-			break;
-		case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_3D_ARRAY:
-			break;
-		case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_SPRITE_ARRAY:
-			break;
-		case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP_ARRAY:
-			break;
-		default:
-			DMK_ERROR_BOX("Requested texture cannot be created! Use create(DMKTextureType, STRING) method instead.");
-			break;
-		}
+		DMKTextureCube* _cube = StaticAllocator<DMKTextureCube>::allocate();
+		_cube->load(paths);
 
-		return nullptr;
+		return _cube;
 	}
 	
 	void DMKTextureFactory::destroy(DMKTexture* texture)

@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_BUFFER_H
 #define _DYNAMIK_VULKAN_BUFFER_H
 
-/*
- Author:     Dhiraj Wishal
- Date:       24/05/2020
-*/
 #include "Renderer/Components/Primitives/RBuffer.h"
 #include "../Common/VulkanDevice.h"
 #include "Renderer/Components/PrimitiveTypeDefs.h"
@@ -29,6 +25,8 @@ namespace Dynamik
                 RResourceMemoryType memoryType = (RResourceMemoryType)
                 (RESOURCE_MEMORY_TYPE_HOST_VISIBLE | RESOURCE_MEMORY_TYPE_HOST_COHERENT)) override final;
             virtual void terminate(RCoreObject* pCoreObject) override final;
+
+            virtual void copy(RCoreObject* pCoreObject, RBuffer* pSrcBuffer, UI64 size, UI64 srcOffset = 0, UI64 dstOffset = 0) override final;
 
             virtual void setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, VPTR data) override final;
             virtual VPTR getData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset) override final;

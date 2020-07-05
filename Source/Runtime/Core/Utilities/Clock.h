@@ -7,9 +7,6 @@
 
 /*
  Clock class for the Dynamik Engine.
-
- Author:    Dhiraj Wishal
- Date:      15/05/2020
 */
 #include "Core/Macros/Global.h"
 #include "Core/Types/DataTypes.h"

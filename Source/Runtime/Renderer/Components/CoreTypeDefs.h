@@ -6,9 +6,6 @@
 #define _DYNAMIK_RENDER_CORE_TYPE_DEFINES_H
 
 /*
- Author:    Dhiraj Wishal
- Date:      26/05/2020
-
  This file contains all the necessary type defines to create a rendering core. Since the engine supports Vulkan
  by default, these types are directly Vulkan compatible.
 */

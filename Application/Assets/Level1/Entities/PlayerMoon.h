@@ -5,10 +5,6 @@
 #ifndef _APPLICATION_PLAYER_MOON_H
 #define _APPLICATION_PLAYER_MOON_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		06/06/2020
-*/
 #include "GameLibrary/GameEntity.h"
 using namespace Dynamik;
 

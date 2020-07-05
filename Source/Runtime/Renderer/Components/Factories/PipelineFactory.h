@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_PIPELINE_FACTORY_H
 #define _DYNAMIK_PIPELINE_FACTORY_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		17/06/2020
-*/
 #include "../RPipelineObject.h"
 
 namespace Dynamik
@@ -23,8 +19,8 @@ namespace Dynamik
 
 		void setDefaults(DMKRenderingAPI api, RCoreObject* pCoreObject);
 
-		RPipelineObject* createGraphicsPipeline(RPipelineCreateInfo createInfo);
-		RPipelineObject* createComputePipeline(RPipelineCreateInfo createInfo);
+		RPipelineObject* createGraphicsPipeline(RPipelineSpecification createInfo);
+		RPipelineObject* createComputePipeline(RPipelineSpecification createInfo);
 
 	private:
 		DMKRenderingAPI myRenderingAPI = DMKRenderingAPI::DMK_RENDERING_API_VULKAN;

@@ -27,24 +27,4 @@ namespace Dynamik
 	{
 		this->location = location;
 	}
-
-	void DMKShaderModule::setResourceLayout(const DMKShaderResourceLayout& resourceLayout)
-	{
-		this->resourceLayout = resourceLayout;
-	}
-
-	void DMKShaderModule::addResource(const DMKShaderInputAttribute& inputAttribute)
-	{
-		resourceLayout.inputAttributes.pushBack(inputAttribute);
-	}
-
-	void DMKShaderModule::addResource(const DMKUniformDescription& uniformDescription)
-	{
-		resourceLayout.uniforms.pushBack(uniformDescription);
-	}
-
-	const DMKShaderResourceLayout DMKShaderModule::getResourceLayout() const
-	{
-		return this->resourceLayout;
-	}
 }

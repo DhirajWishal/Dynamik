@@ -5,11 +5,6 @@
 #ifndef _DYNAMIK_ASSET_FILE_H
 #define _DYNAMIK_ASSET_FILE_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      20/05/2020
-*/
-
 namespace Dynamik
 {
     /*

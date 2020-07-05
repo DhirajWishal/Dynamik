@@ -7,9 +7,6 @@
 
 /*
  This header contains all the global macros for the engine.
-
- Author:	Dhiraj Wishal
- Date:		13/05/2020
 */
 
 #ifdef DMK_PLATFORM_WINDOWS
@@ -34,6 +31,8 @@
 #define BIT_SHIFT(count)	(1 << count)
 
 #define DMK_FORCEINLINE		__forceinline
+
+#define DMK_ENGINE_VERSION	"00001-00000-00000"
 
 
 #endif // !_DYNAMIK_GLOBAL_MACROS_H

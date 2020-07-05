@@ -8,9 +8,6 @@
 /*
  Game Component Descriptors for the Dynamik Engine.
  This file contains all the descriptors that are required by game components.
-
- Author:    Dhiraj Wishal
- Date:      15/05/2020
 */
 #include "Descriptor.h"
 #include "Core/Object/Resource/Primitives.h"

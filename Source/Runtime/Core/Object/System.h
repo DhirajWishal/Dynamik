@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_SYSTEM_H
 #define _DYNAMIK_SYSTEM_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      23/05/2020
-*/
 #include "Core/Macros/Global.h"
 
 namespace Dynamik

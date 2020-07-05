@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_FRAME_BUFFER_ATTACHMENT_H
 #define _DYNAMIK_VULKAN_FRAME_BUFFER_ATTACHMENT_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      28/05/2020
-*/
 #include "../Primitives/VulkanImageView.h"
 
 namespace Dynamik

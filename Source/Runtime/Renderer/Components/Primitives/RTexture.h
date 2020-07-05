@@ -5,15 +5,14 @@
 #ifndef _DYNAMIK_RENDERER_TEXTURE_H
 #define _DYNAMIK_RENDERER_TEXTURE_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		16/06/2020
-*/
 #include "RImage.h"
 #include "RImageSampler.h"
 
 namespace Dynamik
 {
+	struct DMK_API RImageSamplerCreateInfo;
+	class DMK_API RImageSampler;
+
 	/*
 	 Renderer Texture object
 	*/
@@ -32,6 +31,7 @@ namespace Dynamik
 		DMKTexture* pTexture;
 		RImage* pImage;
 		RImageSampler* pSampler;
+		RImageLayout currentLayout = RImageLayout::IMAGE_LAYOUT_GENERAL;
 	};
 }
 

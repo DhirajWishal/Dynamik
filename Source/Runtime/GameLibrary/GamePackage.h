@@ -5,11 +5,8 @@
 #ifndef _DYNAMIK_GAME_PACKAGE_H
 #define _DYNAMIK_GAME_PACKAGE_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		04/06/2020
-*/
 #include "LevelComponent.h"
+#include "Core/Globals/RenderSettings.h"
 
 namespace Dynamik
 {
@@ -67,6 +64,14 @@ namespace Dynamik
 		 All the levels in a game.
 		*/
 		ARRAY<DMKLevelComponent*> levels;
+
+	public:		/* Engine Description */
+		STRING applicationName = DMK_TEXT("Dynamik Engine v1");
+		/* Versioning: (Major-Minor-Patch)*/
+		STRING applicationVersion = DMK_TEXT("00001-00001-00000");
+		STRING iconPath = DMK_TEXT("");
+
+		DMKRenderingAPI renderingAPI = DMKRenderingAPI::DMK_RENDERING_API_VULKAN;
 
 		/*
 		 Basic game data

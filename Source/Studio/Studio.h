@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_STUDIO_H
 #define _DYNAMIK_STUDIO_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		05/06/2020
-*/
 #include "GUI/GUIManager/GUIManager.h"
 
 namespace Dynamik

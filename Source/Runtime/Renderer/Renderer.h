@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_H
 #define _DYNAMIK_RENDERER_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      29/05/2020
-*/
 #include "RendererCommand.h"
 #include "Managers/Thread/Thread.h"
 #include "Managers/Thread/ThreadCommand.h"
@@ -18,6 +14,9 @@
 #include "Components/RCommandBufferManager.h"
 #include "Components/Factories/BufferFactory.h"
 #include "Components/REntity.h"
+#include "Components/RCameraComponent.h"
+#include "Components/REnvironmentMap.h"
+#include "Components/RDrawCallManager.h"
 
 namespace Dynamik
 {
@@ -47,7 +46,7 @@ namespace Dynamik
         /*
          Process commands and call individual functions of the backend.
         */
-        void processCommand(DMKThreadCommand* command) override;
+        void processCommand(DMKThreadCommand* pCommand) override;
 
         /*
          Execute the three steps of draw call.
@@ -73,17 +72,34 @@ namespace Dynamik
         void createContext(DMKRenderContextType type, DMKViewport viewport);
 
     private:    /* Resource */
-        RBuffer* createBuffer(const RBufferType& type, UI64 size);
+        RBuffer* createBuffer(const RBufferType& type, UI64 size, RResourceMemoryType memoryType = (RResourceMemoryType)
+            (RESOURCE_MEMORY_TYPE_HOST_VISIBLE | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
+        RBuffer* createVertexBuffer(UI64 size);
+        RBuffer* createIndexBuffer(UI64 size);
+        void copyBuffer(RBuffer* pSrcBuffer, RBuffer* pDstBuffer, UI64 size);
+
         RTexture* createTexture(const DMKTexture* pTexture);
         RPipelineObject* allocatePipeline();
 
+        void initializeCamera(DMKCameraModule* pCameraModule);
+        void initializeEnvironmentMap(DMKEnvironmentMap* pEnvironmentMap);
         void createEntityResources(DMKGameEntity* pGameEntity);
+        void createLevelResources(DMKLevelComponent* pLevelComponent);
 
     private:    /* Finals */
-        void initializeBuffers();
+        void updateResources();
+        void bindEnvironment(RCommandBuffer* pCommandBuffer, UI64* pFirstVertex, UI64* pFirstIndex);
+        void initializeCommandBuffers();
         void initializeFinals();
 
+    private:    /* Instructions */
+        void resizeFrameBuffer(DMKExtent2D windowExtent);
+        void beginFrameInstruction();
+        void updateInstruction();
+        void endFrameInstruction();
+
     private:    /* Internal Methods */
+        void terminateContext();
         void terminateComponents();
         void terminateEntities();
 
@@ -93,26 +109,29 @@ namespace Dynamik
     private:    /* Internal */
         DMKRendererCompatibility myCompatibility;
 
-        DMKRendererCommand* myCommand;
+        DMKRendererCommand* myCommand = nullptr;
 
         DMKRenderingAPI myAPI;
         DMKSampleCount mySampleCount;
-        DMKWindowHandle* myWindowHandle;
+        DMKWindowHandle* myWindowHandle = nullptr;
 
-        RCoreObject* myCoreObject;
+        RCoreObject* myCoreObject = nullptr;
+        RDrawCallManager myDrawCallManager;
 
-        RSwapChain* mySwapChain;
-        RRenderTarget* myRenderTarget;
+        RSwapChain* mySwapChain = nullptr;
+        RRenderTarget* myRenderTarget = nullptr;
+        DMKRenderContextType myCurrentContextType = DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT;
 
-        RCommandBufferManager* myCommandBufferManager;
+        RCommandBufferManager* myCommandBufferManager = nullptr;
         ARRAY<RCommandBuffer*> myCommandBuffers;
         B1 isInitialized = false;
 
+        RCameraComponent* myCameraComponent = nullptr;
+        REnvironmentMap myCurrentEnvironment;
+
         ARRAY<REntity> myEntities;
-        RBuffer* myVertexBuffer;
-        UI64 myVertexBufferByteSize = 0;
-        RBuffer* myIndexBuffer;
-        UI64 myIndexBufferByteSize = 0;
+
+        UI32 currentImageIndex = 0;
 
     private:    /* Factories */
         DMKBufferFactory myBufferFactory;

@@ -190,7 +190,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;DMK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_DEBUG;DMK_PLATFORM_WINDOWS;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -202,16 +202,16 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unix|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_LINUX;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;DMK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_DEBUG;DMK_PLATFORM_LINUX;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -223,16 +223,16 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Mac|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_MAC;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;DMK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_DEBUG;DMK_PLATFORM_MAC;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -244,16 +244,16 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>-lglew32s;-lopengl32;-lglfw3dll;-lvulkan-1;-lSPIRV-Tools;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>-lglew32s;-lopengl32;-lglfw3dll;-lvulkan-1;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Windows|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;DMK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_RELEASE;DMK_PLATFORM_WINDOWS;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -269,16 +269,16 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unix|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_LINUX;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;DMK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_RELEASE;DMK_PLATFORM_LINUX;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -294,16 +294,16 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Mac|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_MAC;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;DMK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_RELEASE;DMK_PLATFORM_MAC;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -319,16 +319,16 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>-lglew32s;-lopengl32;-lglfw3dll;-lvulkan-1;-lSPIRV-Tools;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>-lglew32s;-lopengl32;-lglfw3dll;-lvulkan-1;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Windows|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;DMK_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_PLATFORM_WINDOWS;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -344,16 +344,16 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Unix|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_LINUX;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;DMK_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_PLATFORM_LINUX;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -369,16 +369,16 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Mac|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_MAC;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;DMK_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_PLATFORM_MAC;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -394,8 +394,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>-lglew32s;-lopengl32;-lglfw3dll;-lvulkan-1;-lSPIRV-Tools;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>-lglew32s;-lopengl32;-lglfw3dll;-lvulkan-1;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\Libraries\Binaries\Vulkan;$(SolutionDir)Dependencies\Libraries\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\Libraries\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -419,8 +419,6 @@
     <ClInclude Include="Backend\Vulkan\Context\VulkanFrameBufferAttachment.h" />
     <ClInclude Include="Backend\Vulkan\Context\VulkanRenderPass.h" />
     <ClInclude Include="Backend\Vulkan\Context\VulkanSwapChain.h" />
-    <ClInclude Include="Backend\Vulkan\Graphics\VulkanPipeline.h" />
-    <ClInclude Include="Backend\Vulkan\Graphics\VulkanRenderAsset.h" />
     <ClInclude Include="Backend\Vulkan\Pipelines\VulkanGraphicsPipeline.h" />
     <ClInclude Include="Backend\Vulkan\Primitives\VulkanBuffer.h" />
     <ClInclude Include="Backend\Vulkan\Primitives\VulkanImage.h" />
@@ -446,10 +444,12 @@
     <ClInclude Include="Components\Primitives\RImageSampler.h" />
     <ClInclude Include="Components\Primitives\RImageView.h" />
     <ClInclude Include="Components\Primitives\RTexture.h" />
+    <ClInclude Include="Components\RCameraComponent.h" />
     <ClInclude Include="Components\RCommandBuffer.h" />
     <ClInclude Include="Components\RCommandBufferManager.h" />
     <ClInclude Include="Components\RContext.h" />
     <ClInclude Include="Components\RCoreObject.h" />
+    <ClInclude Include="Components\RDrawCallManager.h" />
     <ClInclude Include="Components\REntity.h" />
     <ClInclude Include="Components\REnvironmentMap.h" />
     <ClInclude Include="Components\RMeshObject.h" />
@@ -474,7 +474,6 @@
     <ClCompile Include="Backend\Vulkan\Context\VulkanFrameBufferAttachment.cpp" />
     <ClCompile Include="Backend\Vulkan\Context\VulkanRenderPass.cpp" />
     <ClCompile Include="Backend\Vulkan\Context\VulkanSwapChain.cpp" />
-    <ClCompile Include="Backend\Vulkan\Graphics\VulkanPipeline.cpp" />
     <ClCompile Include="Backend\Vulkan\Pipelines\VulkanGraphicsPipeline.cpp" />
     <ClCompile Include="Backend\Vulkan\Primitives\VulkanBuffer.cpp" />
     <ClCompile Include="Backend\Vulkan\Primitives\VulkanImage.cpp" />
@@ -486,6 +485,8 @@
     <ClCompile Include="Backend\Vulkan\VulkanUtilities.cpp" />
     <ClCompile Include="Components\Factories\BufferFactory.cpp" />
     <ClCompile Include="Components\Factories\PipelineFactory.cpp" />
+    <ClCompile Include="Components\Primitives\RImageSampler.cpp" />
+    <ClCompile Include="Components\RDrawCallManager.cpp" />
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -494,8 +495,8 @@
     <None Include="Renderer.lua" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ThirdParty\SPIRV-Cross\SPIRV-Cross.vcxproj">
-      <Project>{30B15D9A-9C66-D68F-255B-D066910FCD93}</Project>
+    <ProjectReference Include="..\GameLibrary\GameLibrary.vcxproj">
+      <Project>{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

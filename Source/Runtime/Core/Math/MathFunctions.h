@@ -7,9 +7,6 @@
 
 /*
  SIMD Math functions for the Dynamik Engine.
-
- Author:    Dhiraj Wishal
- Date:      14/05/2020
 */
 
 #include "Vector/Vector3F.h"

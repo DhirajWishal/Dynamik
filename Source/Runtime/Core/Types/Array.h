@@ -7,11 +7,6 @@
 
 /*
  Dynamic Array for the Dynamik Engine.
-
- Author:	Dhiraj Wishal
- Project:	Dynamik Engine
- Date:		22/03/2020
- IDE:		MS Visual Studio 2019
 */
 
 #include "Core/Memory/StaticAllocator.h"
@@ -200,11 +195,7 @@ namespace Dynamik
 		ARRAY(const ARRAY<TYPE>& arr)
 		{
 			if (arr.size())
-			{
-				_reAllocateBack(_getAllocatableSize(arr.capacity()));
-
-				set(arr.begin(), arr.end());
-			}
+				_copyArrayOverride(arr.begin(), arr.size());
 			else
 				_reAllocateBack(_getNextSize());
 		}
@@ -294,14 +285,14 @@ namespace Dynamik
 		 */
 		void set(ITERATOR first, ITERATOR last)
 		{
-			UI64 _byteSize = last.getPointerAsInteger() - first.getPointerAsInteger();
+			UI64 _byteSize = last - first;
 			if (_byteSize)
 			{
 				myDataCount = (_byteSize) / typeSize();
 				if (_byteSize > _getAllocationSize())
 					_reAllocateAssign(_getAllocatableSize(_byteSize));
 
-				DMKMemoryFunctions::moveData(myBeginPtr, first, last - first);
+				DMKMemoryFunctions::moveData(myBeginPtr, first, _byteSize);
 				myNextPtr += myDataCount;
 			}
 			else
@@ -537,6 +528,51 @@ namespace Dynamik
 		 */
 		void resize(UI64 size)
 		{
+			/* Check if the size is valid */
+			if ((size > maxSize()) && size) return; /* TODO: Error Flagging */
+
+			/* Check if the array is in use. If true, terminate the old storage */
+			if ((myBeginPtr != myNextPtr) || myDataCount)
+				_terminate();
+
+			/* Allocate new buffer and set data to null */
+			myBeginPtr = _allocateBuffer(size * typeSize());
+			DMKMemoryFunctions::setData(myBeginPtr.get(), 0, size * typeSize());
+
+			/* Initialize pointers */
+			myNextPtr = myBeginPtr;
+			myEndPtr = myBeginPtr;
+			myEndPtr += size;
+			myDataCount = size;
+		}
+
+		/* FUNCTION
+		 * Resize the Array.
+		 *
+		 * @param size: Size to which the Array should be resized.
+		 * @param value: The value to initialize the Array with.
+		 */
+		void resize(UI64 size, const TYPE& value)
+		{
+			if ((size > maxSize()) && size) return; /* TODO: Error Flagging */
+
+			if (myBeginPtr.getPointerAsInteger() != myEndPtr.getPointerAsInteger())
+				Allocator::deallocate(myBeginPtr.get(), _getAllocationSize());
+
+			_reAllocateAssign(_getAllocatableSize(size));
+			_fillWithData(capacity(), (TYPE&&)value);
+
+			_setValue(value, capacity());
+		}
+
+		/* FUNCTION
+		 * Reserve elements in the array.
+		 * Adding new elements will occur passed the reserved size.
+		 *
+		 * @param size: Size/ number of elements to reserve.
+		 */
+		void reserve(UI64 size)
+		{
 			if (size)
 			{
 				if (size > maxSize()) return; /* TODO: Error Flagging */
@@ -549,25 +585,6 @@ namespace Dynamik
 
 				myDataCount = size;
 			}
-		}
-
-		/* FUNCTION
-		 * Resize the Array.
-		 *
-		 * @param size: Size to which the Array should be resized.
-		 * @param value: The value to initialize the Array with.
-		 */
-		void resize(UI64 size, const TYPE& value)
-		{
-			if (size > maxSize()) return; /* TODO: Error Flagging */
-
-			if (myBeginPtr.getPointerAsInteger() != myEndPtr.getPointerAsInteger())
-				Allocator::deallocate(myBeginPtr.get(), _getAllocationSize());
-
-			_reAllocateAssign(_getAllocatableSize(size));
-			_fillWithData(capacity(), (TYPE&&)value);
-
-			_setValue(value, capacity());
 		}
 
 		/* FUNCTION
@@ -610,10 +627,15 @@ namespace Dynamik
 		 */
 		void insert(ARRAY<TYPE> arr)
 		{
+			if (arr.size() < 1)
+				return;
+
 			if (arr.size() > capacity())
 				_reAllocateAssign(_getAllocatableSize(arr.size()));
 
-			DMKMemoryFunctions::moveData(myBeginPtr, arr.begin().get(), typeSize() * arr.size());
+			DMKMemoryFunctions::moveData(myNextPtr, arr.begin().get(), typeSize() * arr.size());
+			myDataCount += arr.size();
+			myNextPtr += arr.size();
 		}
 
 		/* FUNCTION
@@ -1006,7 +1028,7 @@ namespace Dynamik
 		 */
 		ARRAY<TYPE>& operator=(const ARRAY<TYPE>& arr)
 		{
-			this->set(arr.begin(), arr.end());
+			this->_copyArrayOverride(arr.begin(), arr.size());
 			return *this;
 		}
 
@@ -1211,6 +1233,16 @@ namespace Dynamik
 		}
 
 		/* PRIVATE FUNCTION
+		 * Extend the size of the array.
+		 *
+		 * @param byteSize: The size to be added to the current allocation.
+		 */
+		inline void _extend(UI64 byteSize)
+		{
+			_reAllocateAssign(byteSize);
+		}
+
+		/* PRIVATE FUNCTION
 		 * Create a new array and return it.
 		 *
 		 * @param newSize: New size added to the pre-allocated size to be re-allocated.
@@ -1330,6 +1362,34 @@ namespace Dynamik
 			}
 
 			_basicInitializationBack(_newArr, _getAllocationSize(), _getSizeOfThis());
+		}
+
+		/* PRIVATE FUNCTION
+		 * Copy another array's data to this.
+		 * Overrides previous allocation.
+		 *
+		 * @param beginAddr: Begin address of the other array.
+		 * @param dataCount: Data count (size()) of the other array.
+		 */
+		inline void _copyArrayOverride(const PTR& beginAddr, const UI64& dataCount)
+		{
+			/* Check if the other array is empty. If true, don't do anything */
+			if (!dataCount)
+				return;
+
+			/* Deallocate current array if already allocated */
+			if ((myBeginPtr != myNextPtr) || myDataCount)
+				_terminate();
+
+			/* Allocate new buffer and move data from the old array */
+			myBeginPtr = _allocateBuffer(dataCount * typeSize());
+			DMKMemoryFunctions::moveData(myBeginPtr.get(), beginAddr.get(), dataCount * typeSize());
+
+			/* Initialize pointers and data count */
+			myDataCount = dataCount;
+			myNextPtr = myBeginPtr;
+			myNextPtr += myDataCount;
+			myEndPtr += myDataCount;
 		}
 
 		/* POINTER MANIPULATION FUNCTIONS */

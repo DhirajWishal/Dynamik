@@ -10,9 +10,6 @@
  This component contains all the necessary variables to store all the available mesh data of an imported
  mesh.
  This also contains all the functionalities to manipulate a mesh object.
-
- Author:    Dhiraj Wishal
- Date:      15/05/2020
 */
 #include "../RenderableComponent.h"
 #include "Core/Object/Resource/ShaderFactory.h"
@@ -60,9 +57,9 @@ namespace Dynamik
 		*/
 		void packData(VPTR location);
 
-		void setMatrix(const MAT4F& matrix);
-		void update(const MAT4F& matrix);
-		MAT4F getMatrix();
+		void setMatrix(const MAT4& matrix);
+		void update(const MAT4& matrix);
+		MAT4 getMatrix();
 
 		/*
 		 Add a texture to the mesh.
@@ -83,12 +80,17 @@ namespace Dynamik
 		void clearIndexBuffer();
 
 	public:		/* Matrix */
-		MAT4F modelMatrix;
+		/*
+		 Model matrix of the mesh component.
+		 By default this is passed to the vertex shader with the binding 0.
+		*/
+		MAT4 modelMatrix = MAT4(1.0f);
 
-		operator MAT4F() const;
+		operator MAT4() const;
+
+		UI64 getUniformByteSize();
 
 	public:		/* Public Data Store */
-		ARRAY<DMKTexture*> pTextures;
 		ARRAY<UI32> indexBuffer;
 		VPTR vertexBuffer = nullptr;
 		UI64 vertexCount = 0;
@@ -98,6 +100,11 @@ namespace Dynamik
 		DMKVertexLayout vertexLayout;
 		DMKDataType indexBufferType = DMKDataType::DMK_DATA_TYPE_UI32;
 		DMKMeshComponentUsage usage = DMKMeshComponentUsage::DMK_MESH_COMPONENT_USAGE_STATIC;
+
+	public:		/* Matrix Manipulation */
+		void translate(const MAT4& mat, const VEC3& vec) override final;
+
+		void rotate(const VEC3& direction, const F32& radians) override final;
 	};
 }
 
