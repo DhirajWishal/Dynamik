@@ -172,7 +172,7 @@ namespace Dynamik
 			for (UI32 itr = 0; itr < images.size(); itr++)
 			{
 				VulkanImageView* _vView = StaticAllocator<VulkanImageView>::allocate();
-				DMKTexture::TextureSwizzles _swizzles = { 
+				DMKTexture::TextureSwizzles _swizzles = {
 					DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_IDENTITY,
 					DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_IDENTITY,
 					DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_IDENTITY,
@@ -185,13 +185,13 @@ namespace Dynamik
 		void VulkanSwapChain::terminate(RCoreObject* pCoreObject)
 		{
 			for (auto image : imageViews)
+			{
 				vkDestroyImageView(InheritCast<VulkanCoreObject>(pCoreObject).device, InheritCast<VulkanImageView>(image), nullptr);
+				StaticAllocator<VulkanImageView>::deallocate(image);
+			}
 
 			for (auto image : images)
-			{
-				vkDestroyImage(InheritCast<VulkanCoreObject>(pCoreObject).device, InheritCast<VulkanImage>(image), nullptr);
-				vkFreeMemory(InheritCast<VulkanCoreObject>(pCoreObject).device, InheritCast<VulkanImage>(image), nullptr);
-			}
+				StaticAllocator<VulkanImage>::deallocate(image);
 
 			vkDestroySwapchainKHR(InheritCast<VulkanCoreObject>(pCoreObject).device, swapChain, nullptr);
 		}

@@ -102,12 +102,6 @@
     <ClInclude Include="Backend\Vulkan\Context\VulkanSwapChain.h">
       <Filter>Backend\Vulkan\Context</Filter>
     </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Graphics\VulkanPipeline.h">
-      <Filter>Backend\Vulkan\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Graphics\VulkanRenderAsset.h">
-      <Filter>Backend\Vulkan\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Backend\Vulkan\Pipelines\VulkanGraphicsPipeline.h">
       <Filter>Backend\Vulkan\Pipelines</Filter>
     </ClInclude>
@@ -262,9 +256,6 @@
     </ClCompile>
     <ClCompile Include="Backend\Vulkan\Context\VulkanSwapChain.cpp">
       <Filter>Backend\Vulkan\Context</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Graphics\VulkanPipeline.cpp">
-      <Filter>Backend\Vulkan\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Backend\Vulkan\Pipelines\VulkanGraphicsPipeline.cpp">
       <Filter>Backend\Vulkan\Pipelines</Filter>

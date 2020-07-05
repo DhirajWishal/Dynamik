@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_TYPES_HASH_MAP_H
 #define _DYNAMIK_TYPES_HASH_MAP_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		07/06/2020
-*/
 #include "Array.h"
 
 namespace Dynamik

@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_RENDER_PASS_H
 #define _DYNAMIK_VULKAN_RENDER_PASS_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      26/05/2020
-*/
 #include "Renderer/Components/Context/RRenderPass.h"
 
 #include "../Common/VulkanDevice.h"

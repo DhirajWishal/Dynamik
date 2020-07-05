@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_PIPELINE_OBJECT_H
 #define _DYNAMIK_RENDERER_PIPELINE_OBJECT_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		17/06/2020
-*/
 #include "RCoreObject.h"
 #include "PipelineTypeDefs.h"
 #include "RRenderTarget.h"
@@ -71,10 +67,13 @@ namespace Dynamik
 		virtual ~RPipelineObject() {}
 
 		virtual void initialize(RCoreObject* pCoreObject, RPipelineSpecification createInfo, RPipelineUsage usage, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain) = 0;
+		virtual void reCreate(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain) = 0;
 		virtual void terminate(RCoreObject* pCoreObject) = 0;
 
 		virtual void initializeResources(RCoreObject* pCoreObject, ARRAY<RBuffer*> pBuffers, ARRAY<RTexture*> pTextures) = 0;
 	
+		RPipelineSpecification mySpecification = {};
+		RPipelineUsage myUsage = RPipelineUsage::PIPELINE_USAGE_GRAPHICS;
 		B1 isResourceAvailable = false;
 	};
 }

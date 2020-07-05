@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VERTEX_BUFFER_H
 #define _DYNAMIK_VERTEX_BUFFER_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		24/06/2020
-*/
 #include "VertexObject.h"
 #include "Core/Types/Array.h"
 

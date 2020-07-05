@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_PIPELINE_TYPE_DEFINES_H
 #define _DYNAMIK_PIPELINE_TYPE_DEFINES_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		17/06/2020
-*/
 #include "PrimitiveTypeDefs.h"
 #include "Core/Math/Vector/Vector2F.h"
 

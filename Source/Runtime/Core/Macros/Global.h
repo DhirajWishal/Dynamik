@@ -7,9 +7,6 @@
 
 /*
  This header contains all the global macros for the engine.
-
- Author:	Dhiraj Wishal
- Date:		13/05/2020
 */
 
 #ifdef DMK_PLATFORM_WINDOWS

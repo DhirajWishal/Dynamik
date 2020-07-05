@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_UTILITIES_H
 #define _DYNAMIK_UTILITIES_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		15/06/2020
-*/
 #include "Pointer.h"
 
 namespace Dynamik

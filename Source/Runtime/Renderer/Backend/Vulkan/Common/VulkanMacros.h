@@ -6,9 +6,6 @@
 #define _DYNAMIK_VULKAN_MACROS_H
 
 /*
- Author:    Dhiraj Wishal
- Date:      26/05/2020
-
  This file contains all the necessry macros for the Vulkan RBL.
 */
 #include <vulkan/vulkan.h>

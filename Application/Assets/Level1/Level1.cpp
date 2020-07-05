@@ -12,20 +12,17 @@ void Level1::onLoad()
 
 	playerObject->cameraModule = StaticAllocator<DMKCameraModule>::allocate();
 	playerObject->setPosition({ 0.0f, 0.0f, 0.0f });
-	playerObject->setCameraPosition({0.0f, 0.0f, 0.0f});
+	playerObject->setCameraPosition({ 0.0f, 0.0f, 0.0f });
 	playerObject->setAspectRatio(1280.0f / 720.0f);
-
-	myMoon.setupCamera(playerObject->getCameraModule());
-
-	//entities.pushBack(&myMoon);
+	playerObject->setCameraAndWorldUp(VEC3(0.0f, -1.0f, 0.0f), VEC3(0.0f, -1.0f, 0.0f));
 
 	auto entity = createHollowEntity();
-	
+
 	entity->addComponent<DMKMeshComponent>(DMKMeshFactory::createDefault(DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Moon 2K.fbx")));
 	entity->setupCamera(playerObject->getCameraModule());
-	
+
 	entity->getComponent<DMKMeshComponent>(0)->addTexture(DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Diffuse_2K.png"), DMKTextureType::DMK_TEXTURE_TYPE_2D);
-	
+
 	entity->getComponent<DMKMeshComponent>(0)->translate(MAT4(1.0f), { 0.0f, 0.0f, -5.0f });
 
 	/* Initialize Sky Box */
@@ -41,12 +38,45 @@ void Level1::onLoad()
 	environmentMap->setSkyBox(DMKMeshFactory::createSkyBox(texturePaths));
 }
 
-void Level1::onUpdate(const DMKEventBoard* pEventBoard)
+void Level1::onUpdate(const DMKEventPool* pEventPool)
 {
-	//playerObject->addBackwardVector(0.0001f);
-	//playerObject->addUpVector(0.0001f);
-	playerObject->updateCamera();
+	static B1 refresh = false;
 
-	if (pEventBoard->KeyA.isOnRepeat())
-		DMK_INFO("Key A is on repeat!");
+	if (DMKEventPool::MouseButtonLeft.isPressed())
+	{
+		playerObject->processMouseInput(DMKEventPool::getMousePosition(), 0.1f, refresh, true);
+		refresh = false;
+	}
+	if (DMKEventPool::MouseButtonLeft.isReleased())
+		refresh = true;
+
+	playerObject->updateCamera();
+}
+
+void Level1::setupPlayerControls(DMKPlayerController* pController)
+{
+	pController->bindMovementControl(DMKMovementControlInstruction::DMK_MOVEMENT_CONTROL_INSTRUCTION_MOVE_FORWARD, DMK_TEXT("KeyW"), this, (DMKEventType)(DMK_EVENT_TYPE_REPEAT | DMK_EVENT_TYPE_PRESS));
+	pController->bindMovementControl(DMKMovementControlInstruction::DMK_MOVEMENT_CONTROL_INSTRUCTION_MOVE_BACKWARD, DMK_TEXT("KeyS"), this, (DMKEventType)(DMK_EVENT_TYPE_REPEAT | DMK_EVENT_TYPE_PRESS));
+	pController->bindMovementControl(DMKMovementControlInstruction::DMK_MOVEMENT_CONTROL_INSTRUCTION_MOVE_LEFT, DMK_TEXT("KeyA"), this, (DMKEventType)(DMK_EVENT_TYPE_REPEAT | DMK_EVENT_TYPE_PRESS));
+	pController->bindMovementControl(DMKMovementControlInstruction::DMK_MOVEMENT_CONTROL_INSTRUCTION_MOVE_RIGHT, DMK_TEXT("KeyD"), this, (DMKEventType)(DMK_EVENT_TYPE_REPEAT | DMK_EVENT_TYPE_PRESS));
+}
+
+void Level1::onPlayerMoveForward()
+{
+	playerObject->addForwardVector(movementBias);
+}
+
+void Level1::onPlayerMoveBackward()
+{
+	playerObject->addBackwardVector(movementBias);
+}
+
+void Level1::onPlayerMoveLeft()
+{
+	playerObject->addRightVector(movementBias);
+}
+
+void Level1::onPlayerMoveRight()
+{
+	playerObject->addLeftVector(movementBias);
 }

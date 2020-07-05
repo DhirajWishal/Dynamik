@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_CAMERA_MODULE_H
 #define _DYNAMIK_CAMERA_MODULE_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		03/06/2020
-*/
 #include "Core/Macros/Global.h"
 #include "Core/Math/MathTypes.h"
 #include "Core/Object/Resource/Primitives.h"
@@ -34,6 +30,7 @@ namespace Dynamik
 		virtual void update();
 		DMKUniformDescription getDescription() const;
 
+		void updateVectors();
 		virtual void updateMatrix();
 
 		DMKCameraMatrix matrix;
@@ -48,6 +45,10 @@ namespace Dynamik
 		F32 farRender = 256.0f;
 		F32 nearRender = 0.001f;
 		F32 aspectRatio = 0.5f;
+
+		F32 pitch = 0.0f;
+		F32 roll = 0.0f;
+		F32 yaw = 0.0f;
 
 	private:
 		DMKUniformDescription myDescription;

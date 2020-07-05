@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_PIPELINE_MANAGER_H
 #define _DYNAMIK_VULKAN_PIPELINE_MANAGER_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		02/06/2020
-*/
 #include "VulkanDevice.h"
 #include "VulkanViewport.h"
 #include "VulkanDescriptorSetManager.h"

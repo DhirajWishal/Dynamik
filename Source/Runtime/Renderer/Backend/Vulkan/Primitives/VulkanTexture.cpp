@@ -17,7 +17,7 @@ namespace Dynamik
 
 			VulkanBuffer staggingBuffer;
 			staggingBuffer.initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, pTextureObject->size() * pTextureObject->layerCount);
-			staggingBuffer.setData(pCoreObject, pTextureObject->size(), 0, pTextureObject->image);
+			staggingBuffer.setData(pCoreObject, pTextureObject->size() * pTextureObject->layerCount, 0, pTextureObject->image);
 
 			RImageCreateInfo initInfo;
 			initInfo.vDimentions.width = pTextureObject->width;

@@ -11,11 +11,11 @@
 namespace Dynamik
 {
 	/* Dynamik Event Type */
-	enum class DMK_API DMKEventType {
-		DMK_EVENT_TYPE_FREE,
-		DMK_EVENT_TYPE_PRESS,
-		DMK_EVENT_TYPE_RELEASE,
-		DMK_EVENT_TYPE_REPEAT,
+	enum DMK_API DMKEventType {
+		DMK_EVENT_TYPE_FREE = BIT_SHIFT(0),
+		DMK_EVENT_TYPE_PRESS = BIT_SHIFT(1),
+		DMK_EVENT_TYPE_RELEASE = BIT_SHIFT(2),
+		DMK_EVENT_TYPE_REPEAT = BIT_SHIFT(3),
 	};
 
 	/* Dynamik Event Category */
@@ -42,7 +42,7 @@ namespace Dynamik
 		DMK_FORCEINLINE void reset() { type = DMKEventType::DMK_EVENT_TYPE_FREE; }
 		DMK_FORCEINLINE void setName(const STRING& sName) { name = sName; }
 
-		DMK_FORCEINLINE B1 isFree() const { return type == DMKEventType::DMK_EVENT_TYPE_FREE; }
+		DMK_FORCEINLINE B1 isFree() const { return type == DMKEventType::DMK_EVENT_TYPE_FREE || type == DMKEventType::DMK_EVENT_TYPE_RELEASE; }
 		DMK_FORCEINLINE B1 isPressed() const { return type == DMKEventType::DMK_EVENT_TYPE_PRESS; }
 		DMK_FORCEINLINE B1 isReleased() const { return type == DMKEventType::DMK_EVENT_TYPE_RELEASE; }
 		DMK_FORCEINLINE B1 isOnRepeat() const { return type == DMKEventType::DMK_EVENT_TYPE_REPEAT; }
@@ -54,6 +54,9 @@ namespace Dynamik
 		DMK_FORCEINLINE B1 isCategoryAxis() const { return category == DMKEventCategory::DMK_EVENT_CATEGORY_AXIS; }
 		DMK_FORCEINLINE B1 isCategoryFloat() const { return category == DMKEventCategory::DMK_EVENT_CATEGORY_FLOAT; }
 		DMK_FORCEINLINE B1 isCategoryButton() const { return category == DMKEventCategory::DMK_EVENT_CATEGORY_BUTTON; }
+
+		DMK_FORCEINLINE operator F32() const { return value; }
+		DMK_FORCEINLINE operator STRING() const { return name; }
 
 		STRING name = DMK_TEXT("");
 		DMKEventCategory category = DMKEventCategory::DMK_EVENT_CATEGORY_KEY;

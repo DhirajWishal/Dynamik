@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_DAI_OBJECT_H
 #define _DYNAMIK_DAI_OBJECT_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      20/05/2020
-*/
 #include "ComponentSystem/Components/RenderableComponents/MeshComponent.h"
 #include <fstream>
 

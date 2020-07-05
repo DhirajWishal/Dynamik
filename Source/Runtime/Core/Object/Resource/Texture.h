@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_TEXTURE_H
 #define _DYNAMIK_TEXTURE_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		07/06/2020
-*/
 #include "Core/Macros/Global.h"
 #include "Core/Types/DataTypes.h"
 

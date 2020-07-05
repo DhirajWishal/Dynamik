@@ -8,10 +8,6 @@
 /*
  Memory Padding object for the Dynamik Engine
  The engine aligns all of its objects and structures to fit a pre defined alignment.
-
- Author:    Dhiraj Wishal
- Date:      13/05/2020
- IDE:       MS Visual Studio Community 2019
 */
 
 #include "../Types/DataTypes.h"

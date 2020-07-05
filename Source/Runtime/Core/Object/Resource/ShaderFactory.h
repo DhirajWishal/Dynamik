@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_SHADER_FACTORY_H
 #define _DYNAMIK_SHADER_FACTORY_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		22/06/2020
-*/
 #include "ShaderModule.h"
 
 namespace Dynamik

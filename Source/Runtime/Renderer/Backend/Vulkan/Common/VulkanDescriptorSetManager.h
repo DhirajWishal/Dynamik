@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_DESCRIPTOR_SET_MANAGER_H
 #define _DYNAMIK_VULKAN_DESCRIPTOR_SET_MANAGER_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      30/05/2020
-*/
 #include "VulkanDevice.h"
 #include "../Primitives/VulkanBuffer.h"
 #include "../Primitives/VulkanTexture.h"

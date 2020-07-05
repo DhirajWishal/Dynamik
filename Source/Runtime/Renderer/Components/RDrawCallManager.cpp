@@ -8,19 +8,18 @@
 
 namespace Dynamik
 {
-	void RDrawCallManager::addDrawEntry(UI64 vertexCount, VPTR vertexBuffer, UI64 indexCount, VPTR indexBuffer, RPipelineObject* pPipelineObject, DMKVertexLayout vertexLayout)
+	void RDrawCallManager::addDrawEntry(UI64 vertexCount, VPTR vertexBuffer, ARRAY<UI32>* indexBuffer, RPipelineObject* pPipelineObject, DMKVertexLayout vertexLayout)
 	{
 		entryMap[vertexLayout].drawEntries.pushBack(
-			DrawEntry(entryMap[vertexLayout].vertexCount, vertexCount, vertexBuffer, totalIndexCount, indexCount, pPipelineObject));
+			DrawEntry(entryMap[vertexLayout].vertexCount, vertexCount, vertexBuffer, totalIndexCount, indexBuffer->size(), pPipelineObject));
 		entryMap[vertexLayout].vertexCount += vertexCount;
 
 		IndexBufferEntry _entry;
 		_entry.firstIndex = totalIndexCount;
-		_entry.indexCount = indexCount;
 		_entry.pIndexBuffer = indexBuffer;
 		indexBufferEntries.pushBack(_entry);
 
-		totalIndexCount += indexCount;
+		totalIndexCount += indexBuffer->size();
 	}
 
 	void RDrawCallManager::initializeBuffers(RCoreObject* pCoreObject)
@@ -41,6 +40,8 @@ namespace Dynamik
 			{
 				DMKMemoryFunctions::moveData(vertexPointer.get(), drawEntry.pVertexBuffer, drawEntry.vertexCount * entry.first.getVertexSize());
 				vertexPointer += drawEntry.vertexCount * entry.first.getVertexSize();
+
+				StaticAllocator<BYTE>::rawDeallocate(drawEntry.pVertexBuffer, drawEntry.vertexCount * entry.first.getVertexSize());
 			}
 			staggingBuffer->unmapMemory(pCoreObject);
 
@@ -65,8 +66,9 @@ namespace Dynamik
 
 		for (auto entry : indexBufferEntries)
 		{
-			DMKMemoryFunctions::moveData(indexPointer.get(), entry.pIndexBuffer, entry.indexCount * sizeof(UI32));
-			indexPointer += entry.indexCount * sizeof(UI32);
+			DMKMemoryFunctions::moveData(indexPointer.get(), entry.pIndexBuffer->data(), entry.pIndexBuffer->size() * entry.pIndexBuffer->typeSize());
+			indexPointer += entry.pIndexBuffer->size() * entry.pIndexBuffer->typeSize();
+			entry.pIndexBuffer->clear();
 		}
 		staggingBuffer->unmapMemory(pCoreObject);
 

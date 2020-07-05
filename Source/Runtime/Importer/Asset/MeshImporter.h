@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_MESH_IMPORTER_H
 #define _DYNAMIK_MESH_IMPORTER_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      20/05/2020
-*/
 #include "ComponentSystem/Components/RenderableComponents/MeshComponent.h"
 
 namespace Dynamik 

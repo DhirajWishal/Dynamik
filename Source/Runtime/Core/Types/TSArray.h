@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_THREAD_SAFE_ARRAY_H
 #define _DYNAMIK_THREAD_SAFE_ARRAY_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      31/05/2020
-*/
 #include "Array.h"
 #include <initializer_list>
 #include <shared_mutex>

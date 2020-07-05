@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERABLE_COMPONENT_H
 #define _DYNAMIK_RENDERABLE_COMPONENT_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		11/06/2020
-*/
 #include "../Component.h"
 #include "Core/Object/Resource/ShaderModule.h"
 #include "Core/Object/Resource/Texture.h"

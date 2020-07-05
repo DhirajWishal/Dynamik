@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_CAMERA_COMPONENT_H
 #define _DYNAMIK_RENDERER_CAMERA_COMPONENT_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		29/06/2020
-*/
 #include "Primitives/RBuffer.h"
 #include "GameLibrary/Camera/CameraModule.h"
 

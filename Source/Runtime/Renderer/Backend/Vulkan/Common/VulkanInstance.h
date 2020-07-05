@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_INSTANCE_H
 #define _DYNAMIK_VULKAN_INSTANCE_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      24/05/2020
-*/
 #include "Core/Macros/Global.h"
 #include "Core/Types/DataTypes.h"
 #include "VulkanMacros.h"

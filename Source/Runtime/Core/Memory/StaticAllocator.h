@@ -7,9 +7,6 @@
 
 /*
  Static Memory Allocator for the Dynamik Engine
-
- Author:    Dhiraj Wishal
- Date:      13/05/2020
 */
 
 #include "Core/Types/Pointer.h"

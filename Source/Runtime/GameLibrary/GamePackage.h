@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_GAME_PACKAGE_H
 #define _DYNAMIK_GAME_PACKAGE_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		04/06/2020
-*/
 #include "LevelComponent.h"
 #include "Core/Globals/RenderSettings.h"
 

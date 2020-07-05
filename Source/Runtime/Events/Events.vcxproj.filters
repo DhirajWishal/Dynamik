@@ -6,13 +6,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EventBoard.h" />
     <ClInclude Include="EventComponent.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="EventBoard.cpp" />
+    <ClInclude Include="EventPool.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Events.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="EventPool.cpp" />
   </ItemGroup>
 </Project>

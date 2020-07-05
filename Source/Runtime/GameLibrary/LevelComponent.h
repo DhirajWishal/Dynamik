@@ -7,9 +7,6 @@
 
 /*
  Dynamik Level Component.
-
- Author:	Dhiraj Wishal
- Date:		15/05/2020
 */
 #include "GameEntity.h"
 #include "GameMechanics.h"
@@ -21,10 +18,12 @@
 #include "Core/Types/Utilities.h"
 #include "Core/Types/Array.h"
 #include "Core/FileSystem/FileSystem.h"
-#include "Events/EventBoard.h"
+#include "Events/EventPool.h"
+#include "Mechanics/PlayerController.h"
 
 namespace Dynamik
 {
+
 	/*
 	 Dynamik Level Component act as a level for the Dynamik Engine.
 	 Level component directly translates to a level in the game. A level can also be interpreted as a player.
@@ -38,7 +37,9 @@ namespace Dynamik
 
 		virtual void onLoad() {}
 		virtual void initializeComponents() {}
-		virtual void onUpdate(const DMKEventBoard* pEventBoard) {}
+		virtual void setupPlayerControls(DMKPlayerController* pController) {}
+		virtual void setupCameraControls() {}
+		virtual void onUpdate(const DMKEventPool* pEventPool) {}
 		virtual void onUnoad() {}
 
 	public:		/* Player Methods */
@@ -52,11 +53,11 @@ namespace Dynamik
 		virtual void onPlayerSprint() {}
 		virtual void onPlayerSlide() {}
 
+		virtual void onPlayerAim() {}
 		virtual void onPlayerTrigger() {}
 		virtual void onPlayerReload() {}
-		virtual void onPlayerAim() {}
+		virtual void onPlayerLookAt() {}	/* eg: Looking at a scene. */
 		virtual void onPlayerView() {}	/* eg: Looking at a gun. */
-		virtual void onPlayerLook() {}	/* eg: Looking at a scene. */
 
 		VEC3 getPlayerPosition();
 

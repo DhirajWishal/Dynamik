@@ -5,11 +5,6 @@
 #ifndef _DYNAMIK_GUI_SHADER_H
 #define _DYNAMIK_GUI_SHADER_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      24/05/2020
-*/
-
 #include "Core/Types/DataTypes.h"
 #include "Core/Math/MathTypes.h"
 

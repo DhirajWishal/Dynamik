@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_WINDOW_MANAGER_H
 #define _DYNAMIK_WINDOW_MANAGER_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      19/05/2020
-*/
 #include "Window/WindowHandle.h"
 #include "Core/Macros/Global.h"
 #include "Core/Types/DataTypes.h"

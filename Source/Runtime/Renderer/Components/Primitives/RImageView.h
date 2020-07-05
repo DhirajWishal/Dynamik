@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_IMAGE_VIEW_H
 #define _DYNAMIK_RENDERER_IMAGE_VIEW_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		14/06/2020
-*/
 #include "../RCoreObject.h"
 
 namespace Dynamik

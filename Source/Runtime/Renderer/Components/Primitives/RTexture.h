@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_TEXTURE_H
 #define _DYNAMIK_RENDERER_TEXTURE_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		16/06/2020
-*/
 #include "RImage.h"
 #include "RImageSampler.h"
 

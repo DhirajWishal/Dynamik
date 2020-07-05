@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_COMMAND_BUFFER_MANAGER_H
 #define _DYNAMIK_VULKAN_COMMAND_BUFFER_MANAGER_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		16/06/2020
-*/
 #include <vulkan/vulkan.h>
 #include "Renderer/Components/RCommandBufferManager.h"
 
@@ -27,6 +23,7 @@ namespace Dynamik
 			virtual void initialize(RCoreObject* pCoreObject) override final;
 			virtual ARRAY<RCommandBuffer*> allocateCommandBuffers(RCoreObject* pCoreObject, UI32 bufferCount) override final;
 			virtual void resetBuffers(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) override final;
+			virtual void terminateBuffers(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) override final;
 			virtual void terminate(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) override final;
 
 		private:

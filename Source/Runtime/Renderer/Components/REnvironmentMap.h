@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_ENVIRONMENT_MAP_H
 #define _DYNAMIK_RENDERER_ENVIRONMENT_MAP_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		28/06/2020
-*/
 #include "RCoreObject.h"
 #include "REntity.h"
 
@@ -23,6 +19,11 @@ namespace Dynamik
 	public:
 		REnvironmentMap() = default;
 		virtual ~REnvironmentMap() = default;
+
+		/* TODO */
+		//virtual void createBRDF(RCoreObject* pCoreObject, UI32 dimensions, DMKFormat format) = 0;
+		//virtual void createIrradianceCube(RCoreObject* pCoreObject, UI32 dimensions, DMKFormat format) = 0;
+		//virtual void createPrefilteredCube(RCoreObject* pCoreObject, UI32 dimensions, DMKFormat format) = 0;
 
 	public:		/* Vertex and Index Data */
 		UI64 vertexBufferOffset = 0;

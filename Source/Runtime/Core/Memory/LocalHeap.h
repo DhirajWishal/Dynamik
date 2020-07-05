@@ -7,9 +7,6 @@
 
 /*
  Local Heap object for the Dynamik Engine.
-
- Author:    Dhiraj Wishal
- Date:      13/05/2020
 */
 #include "Core/Types/Pointer.h"
 #include "Core/Macros/MemoryMacro.h"

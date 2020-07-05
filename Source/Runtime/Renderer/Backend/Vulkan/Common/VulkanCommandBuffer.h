@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_COMMAND_BUFFER_H
 #define _DYNAMIK_VULKAN_COMMAND_BUFFER_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      24/05/2020
-*/
 #include "Renderer/Components/RCommandBuffer.h"
 #include "VulkanDevice.h"
 #include "VulkanQueue.h"

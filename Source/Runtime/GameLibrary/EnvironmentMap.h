@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_ENVIRONMENT_MAP_H
 #define _DYNAMIK_ENVIRONMENT_MAP_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		24/06/2020
-*/
 #include "GameEntity.h"
 
 namespace Dynamik

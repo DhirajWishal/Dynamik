@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_BUFFER_H
 #define _DYNAMIK_RENDERER_BUFFER_H
 
-/*
- Author:	Dhiraj WIshal
- Date:		14/06/2020
-*/
 #include "../RCoreObject.h"
 #include "../PrimitiveTypeDefs.h"
 

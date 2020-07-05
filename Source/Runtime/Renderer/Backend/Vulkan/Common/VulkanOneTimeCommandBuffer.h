@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_ONE_TIME_COMMAND_BUFFER_H
 #define _DYNAMIK_VULKAN_ONE_TIME_COMMAND_BUFFER_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      26/05/2020
-*/
 #include "VulkanDevice.h"
 #include "VulkanQueue.h"
 

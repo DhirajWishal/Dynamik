@@ -8,9 +8,6 @@
 /*
  Memory Macros for the Dynamik Engine.
  By default Dynamik engine aligns all of its objects and structures for a 32 bit alignment.
-
- Author:    Dhiraj Wishal
- Date:      13/05/2020
 */
 
 /* Default alignment */

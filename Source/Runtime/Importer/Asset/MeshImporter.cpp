@@ -31,7 +31,7 @@ namespace Dynamik
 
 			DMKMeshComponent _meshComponent;
 			_meshComponent.vertexLayout = vertexLayout;
-			_meshComponent.vertexBuffer = StaticAllocator<BYTE>::allocate(vertexLayout.getVertexSize() * _mesh->mNumVertices);
+			_meshComponent.vertexBuffer = StaticAllocator<BYTE>::rawAllocate(vertexLayout.getVertexSize() * _mesh->mNumVertices);
 			_meshComponent.vertexCount = _mesh->mNumVertices;
 			POINTER<BYTE> vertexPointer = _meshComponent.vertexBuffer;
 			UI64 attributeSize = 0;

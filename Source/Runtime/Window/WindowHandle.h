@@ -5,11 +5,7 @@
 #ifndef _DYNAMIK_WINDOW_HANDLE_H
 #define _DYNAMIK_WINDOW_HANDLE_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      19/05/2020
-*/
-#include "Events/EventBoard.h"
+#include "Events/EventPool.h"
 #include "Core/Types/DataTypes.h"
 #include "Core/Types/Array.h"
 #include "Core/Types/ComplexTypes.h"
@@ -52,7 +48,7 @@ namespace Dynamik
 		virtual ~DMKWindowHandle() {}
 
 		virtual void initialize() {}
-		virtual void setEventBoard(DMKEventBoard* pEventBoard) { this->pEventBoard = pEventBoard; }
+		virtual void setEventBoard(DMKEventPool* pEventPool) { this->pEventPool = pEventPool; }
 		virtual void initializeKeyBindings() {}
 		virtual void setEventCallbacks() {}
 		virtual void setWindowIcon(STRING path) {}
@@ -61,11 +57,11 @@ namespace Dynamik
 		virtual void clean() {}
 		virtual void terminate() {}
 
+		DMKExtent2D getWindowExtent() { return { (F32)windowWidth, (F32)windowHeight };}
+
 		virtual B1 isVulkanCompatible() { return false; }
 
 		virtual DMKViewport createViewport(I32 width, I32 height, I32 xOffset, I32 yOffset) { return DMKViewport(); }
-
-		virtual B1 isWindowCloseEvent() { return shouldWindowClose; }
 
 		STRING windowTitle = DMK_TEXT("Dynamik Engine v1");
 		I32 windowWidth = 0;
@@ -76,8 +72,7 @@ namespace Dynamik
 		
 	protected:
 		ARRAY<DMKViewport> inUseViewports;
-		DMKEventBoard* pEventBoard = nullptr;
-		B1 shouldWindowClose = false;
+		DMKEventPool* pEventPool = nullptr;
 	};
 }
 

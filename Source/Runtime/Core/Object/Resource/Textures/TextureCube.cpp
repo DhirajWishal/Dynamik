@@ -32,7 +32,7 @@ namespace Dynamik
 
 		for (UI8 index = 0; index < 6; index++)
 		{
-			textures[index] = (UCHR*)stbi_load(paths[index].c_str(), (I32*)&width, (I32*)&height, (I32*)&channels, STBI_rgb_alpha);
+			textures[index] = (UCPTR)stbi_load(paths[index].c_str(), (I32*)&width, (I32*)&height, (I32*)&channels, STBI_rgb_alpha);
 
 			if (!textures[index])
 				DMK_FATAL("Unable to load texture!");

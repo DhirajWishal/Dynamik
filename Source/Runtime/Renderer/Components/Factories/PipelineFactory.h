@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_PIPELINE_FACTORY_H
 #define _DYNAMIK_PIPELINE_FACTORY_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		17/06/2020
-*/
 #include "../RPipelineObject.h"
 
 namespace Dynamik

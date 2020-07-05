@@ -8,9 +8,6 @@
 /*
  Main Dynamik Engine Interface.
  This file contains all the necessary engine interfaces provided by the Dynamik Engine.
-
- Author:    Dhiraj Wishal
- Date:      15/05/2020
 */
 
 #include "Core/Macros/Global.h"
@@ -66,7 +63,8 @@ namespace Dynamik
 		DMKGamePackage* pGamePackage = nullptr;
 		DMKLevelComponent* pCurrentLevel = nullptr;
 		DMKLevelComponent* pNextLevel = nullptr;
-		DMKEventBoard myEventBoard;
+		DMKEventPool myEventPool;
+		DMKPlayerController myPlayerController;
 		UI64 _nextLevelIndex = 0;
 
 	private:	/* Private runtime data store */

@@ -7,11 +7,6 @@
 
 /*
  Dynamic Array for the Dynamik Engine.
-
- Author:	Dhiraj Wishal
- Project:	Dynamik Engine
- Date:		22/03/2020
- IDE:		MS Visual Studio 2019
 */
 
 #include "Core/Memory/StaticAllocator.h"

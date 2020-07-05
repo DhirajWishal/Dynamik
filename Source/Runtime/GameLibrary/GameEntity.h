@@ -7,9 +7,6 @@
 
 /*
  Game Entiry for the Dynamik Engine.
-
- Author:    Dhiraj Wishal
- Date:      17/05/2020
 */
 #include "ComponentSystem/ComponentManager.h"
 

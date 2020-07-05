@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_IMAGE_H
 #define _DYNAMIK_VULKAN_IMAGE_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      25/05/2020
-*/
 #include "Renderer/Components/Primitives/RImage.h"
 #include "Core/Object/Resource/Texture.h"
 #include "../Common/VulkanDevice.h"

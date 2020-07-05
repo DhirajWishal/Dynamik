@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_UTILITIES_H
 #define _DYNAMIK_VULKAN_UTILITIES_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      25/05/2020
-*/
 #include "VulkanCoreObject.h"
 #include "Context/VulkanSwapChain.h"
 #include "Common/VulkanViewPort.h"

@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_BACKEND_LAYER_H
 #define _DYNAMIK_RENDERER_BACKEND_LAYER_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      23/05/2020
-*/
 #include "Core/Macros/Global.h"
 #include "GameLibrary/LevelComponent.h"
 #include "Window/WindowHandle.h"

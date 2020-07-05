@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_CONFIGURATION_SERVICE_H
 #define _DYNAMIK_CONFIGURATION_SERVICE_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		02/07/2020
-*/
 #include "Core/Macros/Global.h"
 #include "Core/Types/DataTypes.h"
 

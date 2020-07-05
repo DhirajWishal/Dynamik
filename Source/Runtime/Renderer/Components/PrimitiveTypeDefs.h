@@ -6,9 +6,6 @@
 #define _DYNAMIK_RENDERER_PRIMITIVE_TYPE_DEFINES_H
 
 /*
- Author:    Dhiraj Wishal
- Date:      25/05/2020
-
  This file contains all the definitions and enums for different RBL APIs. Since the Dynamik Engine's default
  RBL API is Vulkan, all these defines are directly Vulkan Compatible.
 */

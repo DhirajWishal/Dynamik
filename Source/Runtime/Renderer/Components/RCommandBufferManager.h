@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_COMMAND_BUFFER_MANAGER_H
 #define _DYNAMIK_RENDERER_COMMAND_BUFFER_MANAGER_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		16/06/2020
-*/
 #include "RCommandBuffer.h"
 #include "RRenderTarget.h"
 
@@ -25,6 +21,7 @@ namespace Dynamik
 		virtual void initialize(RCoreObject* pCoreObject) = 0;
 		virtual ARRAY<RCommandBuffer*> allocateCommandBuffers(RCoreObject* pCoreObject, UI32 bufferCount) { return ARRAY<RCommandBuffer*>(); }
 		virtual void resetBuffers(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) = 0;
+		virtual void terminateBuffers(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) = 0;
 		virtual void terminate(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) = 0;
 	};
 }

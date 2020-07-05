@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_SHADER_MODULE_H
 #define _DYNAMIK_SHADER_MODULE_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      29/05/2020
-*/
 #include "Core/Macros/Global.h"
 #include "Core/Types/Array.h"
 #include "Primitives.h"

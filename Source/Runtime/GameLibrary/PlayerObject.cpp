@@ -9,6 +9,7 @@ namespace Dynamik
 {
 	void DMKPlayerObject::updateCamera()
 	{
+		cameraModule.updateVectors();
 		cameraModule.updateMatrix();
 	}
 	
@@ -46,10 +47,59 @@ namespace Dynamik
 	{
 		cameraModule.position += (cameraModule.cameraUp * -1.0f) * rate;
 	}
+
+	void DMKPlayerObject::addRotationX(F32 pitch)
+	{
+		cameraModule.pitch = pitch;
+	}
+
+	void DMKPlayerObject::addRotationY(F32 yaw)
+	{
+		cameraModule.yaw = yaw;
+	}
+
+	void DMKPlayerObject::addRotationZ(F32 roll)
+	{
+		cameraModule.roll = roll;
+	}
+
+	void DMKPlayerObject::processMouseInput(DMKExtent2D position, F32 sensitivity, B1 refresh, B1 flipAxises)
+	{
+		if (flipAxises)
+		{
+			position.x *= -1.0f;
+			position.y *= -1.0f;
+		}
+
+		if (refresh || firstInput)
+		{
+			lastPosition = position;
+			firstInput = false;
+		}
+
+		F32 xOffset = (position.x - lastPosition.x) * sensitivity;
+		F32 yOffset = (lastPosition.y - position.y) * sensitivity;
+
+		lastPosition = position;
+
+		cameraModule.yaw += xOffset;
+		cameraModule.pitch += yOffset;
+
+		if (cameraModule.pitch > 89.0f)
+			cameraModule.pitch = 89.0f;
+		if (cameraModule.pitch < -89.0f)
+			cameraModule.pitch = -89.0f;
+	}
 	
 	void DMKPlayerObject::setCameraPosition(const VEC3& position)
 	{
 		cameraModule.position = position;
+	}
+
+	void DMKPlayerObject::setCameraAndWorldUp(const VEC3& cameraUp, const VEC3& worldUp)
+	{
+		cameraModule.cameraUp = cameraUp;
+		cameraModule.worldUp = worldUp;
 	}
 
 	void DMKPlayerObject::setCameraParams(F32 FOV, F32 aspect, F32 fNear, F32 fFar)

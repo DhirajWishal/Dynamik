@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENEDERER_DRAW_CALL_MANAGER_H
 #define _DYNAMIK_RENEDERER_DRAW_CALL_MANAGER_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		03/07/2020
-*/
 #include "RCommandBuffer.h"
 
 namespace std 
@@ -65,8 +61,7 @@ namespace Dynamik
 
 		struct DMK_API IndexBufferEntry {
 			UI64 firstIndex = 0;
-			UI64 indexCount = 0;
-			VPTR pIndexBuffer = nullptr;
+			ARRAY<UI32>* pIndexBuffer = nullptr;
 		};
 
 		struct DMK_API VertexBufferEntry {
@@ -85,7 +80,7 @@ namespace Dynamik
 
 		void addDrawEntry(
 			UI64 vertexCount, VPTR vertexBuffer, 
-			UI64 indexCount, VPTR indexBuffer,
+			ARRAY<UI32>* indexBuffer,
 			RPipelineObject* pPipelineObject, DMKVertexLayout vertexLayout);
 
 		void initializeBuffers(RCoreObject* pCoreObject);

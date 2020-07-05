@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_MATH_MATRIX_3_F
 #define _DYNAMIK_MATH_MATRIX_3_F
 
-/*
- Author:    Dhiraj Wishal
- Date:      24/05/2020
-*/
 #include "Matrix.h"
 #include "../Vector/Vector3F.h"
 

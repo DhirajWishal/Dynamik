@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_H
 #define _DYNAMIK_RENDERER_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      29/05/2020
-*/
 #include "RendererCommand.h"
 #include "Managers/Thread/Thread.h"
 #include "Managers/Thread/ThreadCommand.h"
@@ -93,14 +89,17 @@ namespace Dynamik
     private:    /* Finals */
         void updateResources();
         void bindEnvironment(RCommandBuffer* pCommandBuffer, UI64* pFirstVertex, UI64* pFirstIndex);
+        void initializeCommandBuffers();
         void initializeFinals();
 
     private:    /* Instructions */
+        void resizeFrameBuffer(DMKExtent2D windowExtent);
         void beginFrameInstruction();
         void updateInstruction();
         void endFrameInstruction();
 
     private:    /* Internal Methods */
+        void terminateContext();
         void terminateComponents();
         void terminateEntities();
 
@@ -121,6 +120,7 @@ namespace Dynamik
 
         RSwapChain* mySwapChain = nullptr;
         RRenderTarget* myRenderTarget = nullptr;
+        DMKRenderContextType myCurrentContextType = DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT;
 
         RCommandBufferManager* myCommandBufferManager = nullptr;
         ARRAY<RCommandBuffer*> myCommandBuffers;

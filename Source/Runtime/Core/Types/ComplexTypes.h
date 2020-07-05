@@ -6,9 +6,6 @@
 #define _DYNAMIK_COMPLEX_TYPES_H
 
 /*
- Author:	Dhiraj Wishal
- Date:		28/06/2020
-
  This file contains all the complex types used by the engine.
 */
 #include "../Math/Vector/Vector2F.h"

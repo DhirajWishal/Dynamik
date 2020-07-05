@@ -7,9 +7,6 @@
 
 /*
  4D Matrix for the Dynamik Engine.
-
- Author:    Dhiraj Wishal
- Date:      17/05/2020
 */
 #include "Matrix.h"
 #include "../Vector/Vector4F.h"

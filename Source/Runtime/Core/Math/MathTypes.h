@@ -7,9 +7,6 @@
 
 /*
  This file contains all the math types of the Dynamik Engine.
-
- Author:    Dhiraj Wishal
- Date:      15/05/2020
 */
 
 #include "Vector/Vector2F.h"

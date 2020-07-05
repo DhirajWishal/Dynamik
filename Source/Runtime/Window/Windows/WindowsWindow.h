@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_WINDOWS_WINDOW_H
 #define _DYNAMIK_WINDOWS_WINDOW_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      19/05/2020
-*/
 #include "../WindowHandle.h"
 #include <GLFW/glfw3.h>
 #include <mutex>
@@ -38,8 +34,6 @@ namespace Dynamik
 		void terminate() override;
 
 		B1 isVulkanCompatible();
-
-		B1 isWindowCloseEvent() override;
 
 		GLFWwindow* getHandle();
 

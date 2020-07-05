@@ -53,7 +53,7 @@ namespace Dynamik
 		vkDeviceWaitIdle(device);
 	}
 
-	UI32 VulkanCoreObject::prepareFrame(RSwapChain* pSwapChain)
+	I32 VulkanCoreObject::prepareFrame(RSwapChain* pSwapChain)
 	{
 		vkWaitForFences(device, 1, &inFlightFences[currentFrameIndex], VK_TRUE, std::numeric_limits<uint64_t>::max());
 
@@ -62,10 +62,7 @@ namespace Dynamik
 
 		/* Check if any errors were encountered */
 		if (frameResult == VK_ERROR_OUT_OF_DATE_KHR)
-		{
-			//recreateSwapChain();
-			return 0;
-		}
+			return -1;
 		else if (frameResult != VK_SUCCESS && frameResult != VK_SUBOPTIMAL_KHR)
 			DMK_ERROR_BOX("Failed to acquire Swap Chain image!");
 
@@ -109,7 +106,7 @@ namespace Dynamik
 	{
 		return queues;
 	}
-	
+
 	void VulkanCoreObject::initializeSyncComponents()
 	{
 		imageAvailables.resize(MAX_FRAMES_IN_FLIGHT);

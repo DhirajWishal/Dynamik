@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_IMAGE_VIEW_H
 #define _DYNAMIK_VULKAN_IMAGE_VIEW_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      26/05/2020
-*/
 #include "VulkanImage.h"
 
 namespace Dynamik

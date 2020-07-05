@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_COMMANDS_H
 #define _DYNAMIK_RENDERER_COMMANDS_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		01/06/2020
-*/
 #include "Managers/Thread/ThreadCommand.h"
 #include "Core/Types/DataTypes.h"
 #include "Window/WindowHandle.h"
@@ -41,6 +37,8 @@ namespace Dynamik
 
 		RENDERER_INSTRUCTION_SET_SAMPLES,
 		RENDERER_INSTRUCTION_SET_WINDOW_HANDLE,
+
+		RENDERER_RESIZE_FRAME_BUFFER
 	};
 
 	/*
@@ -70,7 +68,7 @@ namespace Dynamik
 		RendererSetWindowHandleCommand() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_SET_WINDOW_HANDLE) {}
 		~RendererSetWindowHandleCommand() {}
 
-		DMKWindowHandle* windowHandle;
+		DMKWindowHandle* windowHandle = nullptr;
 	};
 
 	/* Render context command */
@@ -107,7 +105,7 @@ namespace Dynamik
 		RendererAddEntity() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITY) {}
 		~RendererAddEntity() {}
 
-		DMKGameEntity* entity;
+		DMKGameEntity* entity = nullptr;
 	};
 
 	/* Add Entities */
@@ -116,7 +114,16 @@ namespace Dynamik
 		RendererSubmitLevel() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_LEVEL) {}
 		~RendererSubmitLevel() {}
 
-		DMKLevelComponent* level;
+		DMKLevelComponent* level = nullptr;
+	};
+
+	/* Resize Frame Buffer */
+	class DMK_API RendererResizeFrameBuffer : public DMKRendererCommand {
+	public:
+		RendererResizeFrameBuffer() : DMKRendererCommand(RendererInstruction::RENDERER_RESIZE_FRAME_BUFFER) {}
+		~RendererResizeFrameBuffer() {}
+
+		DMKExtent2D windowExtent;
 	};
 }
 

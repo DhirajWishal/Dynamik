@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_TOOLS_SPIRV_DISASSEMBLER_H
 #define _DYNAMIK_TOOLS_SPIRV_DISASSEMBLER_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		10/06/2020
-*/
 #include "Core/Object/Resource/ShaderModule.h"
 #include <vulkan/vulkan.h>
 

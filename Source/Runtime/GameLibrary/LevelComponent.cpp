@@ -7,7 +7,7 @@
 #include "Importer/Asset/MeshImporter.h"
 
 namespace Dynamik
-{
+{	
 	void DMKLevelComponent::initializeCameraModule()
 	{
 		for (auto _entity : entities)

@@ -34,6 +34,9 @@ namespace Dynamik
 		_clock.start();
 		pGamePackage->onLoad();
 
+		myEventPool.initialize();
+		myPlayerController.setEventPool(&myEventPool);
+
 		_initializeRuntimeSystems();
 
 		DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
@@ -53,8 +56,6 @@ namespace Dynamik
 		pGamePackage->onInit();
 
 		_loadLevel();
-
-		myEventBoard.initialize();
 	}
 
 	/* Execute the game code */
@@ -74,7 +75,7 @@ namespace Dynamik
 
 #endif // DMK_DEBUG
 
-		while (!pActiveWindow->isWindowCloseEvent())
+		while (!myEventPool.WindowCloseEvent)
 		{
 			pGamePackage->onBeginFrame();
 
@@ -82,7 +83,16 @@ namespace Dynamik
 
 			pActiveWindow->pollEvents();
 
-			pCurrentLevel->onUpdate(&myEventBoard);
+			/* Check If The Frame Buffer Was Resized */
+			if (myEventPool.FrameBufferResizeEvent)
+			{
+				_threadManager.issueFrameBufferResizeCommandRT(pActiveWindow->getWindowExtent());
+				myEventPool.FrameBufferResizeEvent = false;
+			}
+
+			myPlayerController.executeAll();
+			pCurrentLevel->onUpdate(&myEventPool);
+
 			_threadManager.issueRawCommandRT(RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE);
 
 			for (_itrIndex = 0; _itrIndex < pCurrentLevel->entities.size(); _itrIndex++)
@@ -92,7 +102,6 @@ namespace Dynamik
 			}
 
 			pActiveWindow->clean();
-			myEventBoard.reasetAll();
 
 			pGamePackage->onEndFrame();
 		}
@@ -102,6 +111,8 @@ namespace Dynamik
 	DMKEngine::~DMKEngine()
 	{
 		pGamePackage->onExit();
+
+		_threadManager.terminateAll();
 
 		DMKConfigurationService::writeWindowSize(pActiveWindow->windowWidth, pActiveWindow->windowHeight);
 		pActiveWindow->terminate();
@@ -123,6 +134,8 @@ namespace Dynamik
 		pCurrentLevel->onLoad();
 		pCurrentLevel->initializeComponents();
 
+		pCurrentLevel->setupPlayerControls(&myPlayerController);
+
 		for (auto _entity : pCurrentLevel->entities)
 			_entity->initialize();
 
@@ -134,7 +147,7 @@ namespace Dynamik
 #ifdef DMK_PLATFORM_WINDOWS
 		DMKWindowHandle* pHandle = StaticAllocator<WindowsWindow>::allocateInit(WindowsWindow(title, width, height));
 		pHandle->initialize();
-		pHandle->setEventBoard(&myEventBoard);
+		pHandle->setEventBoard(&myEventPool);
 		pHandle->initializeKeyBindings();
 		pHandle->setEventCallbacks();
 

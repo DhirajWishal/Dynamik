@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_TEXTURE_H
 #define _DYNAMIK_VULKAN_TEXTURE_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      26/05/2020
-*/
 #include "../Common/VulkanDevice.h"
 #include "../Common/VulkanQueue.h"
 

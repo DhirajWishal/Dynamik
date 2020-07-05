@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_BUFFER_H
 #define _DYNAMIK_VULKAN_BUFFER_H
 
-/*
- Author:     Dhiraj Wishal
- Date:       24/05/2020
-*/
 #include "Renderer/Components/Primitives/RBuffer.h"
 #include "../Common/VulkanDevice.h"
 #include "Renderer/Components/PrimitiveTypeDefs.h"

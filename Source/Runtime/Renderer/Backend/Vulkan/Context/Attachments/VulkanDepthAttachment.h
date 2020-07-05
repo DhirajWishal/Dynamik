@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_DEPTH_ATTACHMENT_H
 #define _DYNAMIK_VULKAN_DEPTH_ATTACHMENT_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      29/05/2020
-*/
 #include "../VulkanFrameBufferAttachment.h"
 
 namespace Dynamik

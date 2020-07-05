@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_COMPONENT_ARRAY_H
 #define _DYNAMIK_COMPONENT_ARRAY_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		06/06/2020
-*/
 #include "Component.h"
 #include "Core/Types/TSArray.h"
 

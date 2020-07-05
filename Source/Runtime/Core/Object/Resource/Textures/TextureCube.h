@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_TEXTURE_CUBE_H
 #define _DYNAMIK_TEXTURE_CUBE_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		03/07/2020
-*/
 #include "../Texture.h"
 #include "Core/Types/Array.h"
 

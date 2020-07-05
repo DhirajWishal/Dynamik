@@ -363,11 +363,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="EventBoard.h" />
+    <ClInclude Include="EventPool.h" />
     <ClInclude Include="EventComponent.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EventBoard.cpp" />
+    <ClCompile Include="EventPool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Events.lua" />

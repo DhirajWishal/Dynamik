@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_TEXTURE_FACTORY_H
 #define _DYNAMIK_TEXTURE_FACTORY_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		08/06/2020
-*/
 #include "Core/Types/Array.h"
 #include "Textures/Texture2D.h"
 

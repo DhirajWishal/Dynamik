@@ -18,7 +18,7 @@ namespace Dynamik
 			VkCommandPoolCreateInfo poolInfo = {};
 			poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
 			poolInfo.queueFamilyIndex = Inherit<VulkanCoreObject>(pCoreObject)->queues.processFamily.value();
-			poolInfo.flags = 0;
+			poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 
 			DMK_VULKAN_ASSERT(vkCreateCommandPool(Inherit<VulkanCoreObject>(pCoreObject)->device, &poolInfo, nullptr, &pool), "Failed to create command pool!");
 		}
@@ -50,10 +50,18 @@ namespace Dynamik
 				DMK_VULKAN_ASSERT(vkResetCommandBuffer(Inherit<VulkanCommandBuffer>(_buffer)->buffer, VK_NULL_HANDLE), "Failed to reset command buffer!");
 		}
 
-		void VulkanCommandBufferManager::terminate(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers)
+		void VulkanCommandBufferManager::terminateBuffers(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers)
 		{
 			for (auto _buffer : commandBuffers)
+			{
 				vkFreeCommandBuffers(Inherit<VulkanCoreObject>(pCoreObject)->device, pool, 1, &Inherit<VulkanCommandBuffer>(_buffer)->buffer);
+				StaticAllocator<VulkanCommandBuffer>::deallocate(_buffer);
+			}
+		}
+
+		void VulkanCommandBufferManager::terminate(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers)
+		{
+			terminateBuffers(pCoreObject, commandBuffers);
 
 			vkDestroyCommandPool(Inherit<VulkanCoreObject>(pCoreObject)->device, pool, nullptr);
 		}

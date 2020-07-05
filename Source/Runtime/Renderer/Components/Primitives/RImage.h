@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_IMAGE_H
 #define _DYNAMIK_RENDERER_IMAGE_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		14/06/2020
-*/
 #include "Core/Object/Resource/Texture.h"
 #include "RImageView.h"
 #include "../PrimitiveTypeDefs.h"

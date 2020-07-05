@@ -97,6 +97,9 @@ namespace Dynamik
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SET_WINDOW_HANDLE:
 			setWindowHandle(Inherit<RendererSetWindowHandleCommand>(myCommand)->windowHandle);
 			break;
+		case Dynamik::RendererInstruction::RENDERER_RESIZE_FRAME_BUFFER:
+			resizeFrameBuffer(Inherit<RendererResizeFrameBuffer>(myCommand)->windowExtent);
+			break;
 		default:
 			break;
 		}
@@ -243,6 +246,8 @@ namespace Dynamik
 
 	void DMKRenderer::createContext(DMKRenderContextType type, DMKViewport viewport)
 	{
+		myCurrentContextType = type;
+
 		/* Initialize Swap chain */
 		createSwapChain(viewport, RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_FIFO);
 
@@ -413,7 +418,7 @@ namespace Dynamik
 		/* Initialize Vertex and Index Buffers */
 		myDrawCallManager.addDrawEntry(
 			pEnvironmentMap->skyBox.vertexCount, pEnvironmentMap->skyBox.vertexBuffer,
-			pEnvironmentMap->skyBox.indexCount, pEnvironmentMap->skyBox.indexBuffer.data(),
+			&pEnvironmentMap->skyBox.indexBuffer,
 			myCurrentEnvironment.pPipeline, pEnvironmentMap->skyBox.vertexLayout);
 
 		/* Initialize Pipeline Resources */
@@ -477,7 +482,7 @@ namespace Dynamik
 			/* Initialize Vertex and Index Buffers */
 			myDrawCallManager.addDrawEntry(
 				mesh->vertexCount, mesh->vertexBuffer,
-				mesh->indexCount, mesh->indexBuffer.data(),
+				&mesh->indexBuffer,
 				meshComponent->pPipeline, mesh->vertexLayout);
 
 			entity.pMeshObjects.pushBack(meshComponent);
@@ -512,12 +517,8 @@ namespace Dynamik
 		*pFirstVertex += myCurrentEnvironment.pMeshComponent->vertexCount;
 	}
 
-	void DMKRenderer::initializeFinals()
+	void DMKRenderer::initializeCommandBuffers()
 	{
-		myDrawCallManager.initializeBuffers(myCoreObject);
-
-		myCommandBufferManager = Inherit<RCommandBufferManager>(StaticAllocator<VulkanCommandBufferManager>::allocate().get());
-		myCommandBufferManager->initialize(myCoreObject);
 		myCommandBuffers = myCommandBufferManager->allocateCommandBuffers(myCoreObject, mySwapChain->bufferCount);
 
 		for (UI32 itr = 0; itr < myCommandBuffers.size(); itr++)
@@ -535,15 +536,62 @@ namespace Dynamik
 		isInitialized = true;
 	}
 
+	void DMKRenderer::initializeFinals()
+	{
+		myDrawCallManager.initializeBuffers(myCoreObject);
+
+		myCommandBufferManager = Inherit<RCommandBufferManager>(StaticAllocator<VulkanCommandBufferManager>::allocate().get());
+		myCommandBufferManager->initialize(myCoreObject);
+
+		initializeCommandBuffers();
+	}
+
+	void DMKRenderer::resizeFrameBuffer(DMKExtent2D windowExtent)
+	{
+		isInitialized = false;
+
+		/* Reset Command Buffers */
+		myCoreObject->idleCall();
+		myCommandBufferManager->resetBuffers(myCoreObject, myCommandBuffers);
+
+		/* Terminate The Current Context */
+		terminateContext();
+
+		/* Create New Context */
+		DMKViewport newViewPort;
+		newViewPort.windowHandle = myWindowHandle;
+		newViewPort.width = windowExtent.width;
+		newViewPort.height = windowExtent.height;
+		createContext(myCurrentContextType, newViewPort);
+
+		/* Initialize Pipelines */
+		{
+			/* Initialize Environment Map Pipeline */
+			myCurrentEnvironment.pPipeline->reCreate(myCoreObject, myRenderTarget, mySwapChain);
+
+			/* Initialize Entity Pipelines */
+			for (auto entity : myEntities)
+				for (auto mesh : entity.pMeshObjects)
+					mesh->pPipeline->reCreate(myCoreObject, myRenderTarget, mySwapChain);
+		}
+
+		/* Initialize Buffers */
+		initializeCommandBuffers();
+	}
+
 	void DMKRenderer::beginFrameInstruction()
 	{
 		currentImageIndex = myCoreObject->prepareFrame(mySwapChain);
+
+		if (currentImageIndex == -1)
+			resizeFrameBuffer({ (F32)mySwapChain->viewPort.width, (F32)mySwapChain->viewPort.height });
 	}
 
 	void DMKRenderer::updateInstruction()
 	{
 		/* Update the camera component */
-		myCameraComponent->pUniformBuffer->setData(myCoreObject, sizeof(DMKCameraMatrix), 0, &myCameraComponent->pCameraModule->matrix);
+		if (myCameraComponent)
+			myCameraComponent->pUniformBuffer->setData(myCoreObject, sizeof(DMKCameraMatrix), 0, &myCameraComponent->pCameraModule->matrix);
 
 		//for (UI64 entityIndex = 0; entityIndex < myEntities.size(); entityIndex++)
 		//{
@@ -557,6 +605,18 @@ namespace Dynamik
 	void DMKRenderer::endFrameInstruction()
 	{
 		myCoreObject->submitCommand(myCommandBuffers[currentImageIndex], mySwapChain);
+	}
+
+	void DMKRenderer::terminateContext()
+	{
+		/* Terminate Frame Buffer */
+		myRenderTarget->pFrameBuffer->terminate(myCoreObject);
+
+		/* Terminate Render Pass */
+		myRenderTarget->pRenderPass->terminate(myCoreObject);
+
+		/* Terminate Swap Chain */
+		mySwapChain->terminate(myCoreObject);
 	}
 
 	void DMKRenderer::terminateComponents()

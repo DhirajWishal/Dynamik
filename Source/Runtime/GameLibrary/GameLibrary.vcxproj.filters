@@ -39,6 +39,7 @@
     <ClInclude Include="Utilities\MeshFactory.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="GameWorld.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp">

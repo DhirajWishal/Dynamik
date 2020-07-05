@@ -10,9 +10,6 @@
  This component contains all the necessary variables to store all the available mesh data of an imported
  mesh.
  This also contains all the functionalities to manipulate a mesh object.
-
- Author:    Dhiraj Wishal
- Date:      15/05/2020
 */
 #include "../RenderableComponent.h"
 #include "Core/Object/Resource/ShaderFactory.h"

@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_LISTENER_SERVICES_H
 #define _DYNAMIK_LISTENER_SERVICES_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		29/06/2020
-*/
 #include "Core/Macros/Global.h"
 
 namespace Dynamik

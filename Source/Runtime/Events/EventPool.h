@@ -2,11 +2,12 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_EVENT_BOARD_H
-#define _DYNAMIK_EVENT_BOARD_H
+#ifndef _DYNAMIK_EVENT_POOL_H
+#define _DYNAMIK_EVENT_POOL_H
 
 #include "Core/Macros/Global.h"
 #include "Core/Types/DataTypes.h"
+#include "Core/Types/ComplexTypes.h"
 #include "EventComponent.h"
 
 #include <unordered_map>
@@ -14,23 +15,27 @@
 namespace Dynamik
 {
 	/*
-	 Dynamik Event Board
+	 Dynamik Event Pool
 	 This object contains all the events that occurred in one iteration.
 
 	 Usage:
-		if (DMKEventBoard::KeyF.isPressed() && DMKEventBoard::KeyU.isPressed())
+		if (DMKEventPool::KeyF.isPressed() && DMKEventPool::KeyU.isPressed())
 			printAll("*");
 	*/
-	class DMK_API DMKEventBoard {
+	class DMK_API DMKEventPool {
 	public:
-		DMKEventBoard() {}
-		~DMKEventBoard() {}
+		DMKEventPool() {}
+		~DMKEventPool() {}
 
 		void initialize();
 		void bindKey(const STRING& keyName, UI32 scanCode);
+		DMKEventComponent* getComponent(const STRING& eventName);
 		void activateKey(DMKEventType type, UI32 scanCode);
 		void activateButton(DMKEventType type, UI32 ID);
+		void frameBufferResized();
 		void reasetAll();
+
+		static DMKExtent2D getMousePosition();
 
 		/* Mouse Events */
 		static DMKEventComponent MouseX;
@@ -168,6 +173,11 @@ namespace Dynamik
 		static DMKKeyEventComponent KeyDecimal;
 		static DMKKeyEventComponent KeyDivide;
 
+		/* Application Events */
+		static B1 WindowCloseEvent;
+		static B1 FrameBufferResizeEvent;
+
+	private:
 		std::unordered_map<STRING, DMKEventComponent*> componentMap;
 		std::unordered_map<UI32, DMKKeyEventComponent*> keyMappings;
 	};

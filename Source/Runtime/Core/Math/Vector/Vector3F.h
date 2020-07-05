@@ -7,9 +7,6 @@
 
 /*
  3D Vector for the Dynamik Engine.
-
- Author:    Dhiraj Wishal
- Date:      17/05/2020
 */
 #include "Vector.h"
 
