@@ -7,9 +7,6 @@
 
 /*
  Error manager for the Dynamik Engine.
-
- Author:	Dhiraj Wishal
- Date:		15/05/2020
 */
 
 #include "../Types/DataTypes.h"
