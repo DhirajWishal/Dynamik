@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_SURFACE_H
 #define _DYNAMIK_VULKAN_SURFACE_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      24/05/2020
-*/
 #include "VulkanInstance.h"
 #include "Core/Types/Pointer.h"
 

@@ -31,7 +31,7 @@ namespace Dynamik
 
 			DMKMeshComponent _meshComponent;
 			_meshComponent.vertexLayout = vertexLayout;
-			_meshComponent.vertexBuffer = StaticAllocator<BYTE>::allocate(vertexLayout.getVertexSize() * _mesh->mNumVertices);
+			_meshComponent.vertexBuffer = StaticAllocator<BYTE>::rawAllocate(vertexLayout.getVertexSize() * _mesh->mNumVertices);
 			_meshComponent.vertexCount = _mesh->mNumVertices;
 			POINTER<BYTE> vertexPointer = _meshComponent.vertexBuffer;
 			UI64 attributeSize = 0;
@@ -45,30 +45,47 @@ namespace Dynamik
 					{
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION:
 						if (_mesh->HasPositions())
-							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mVertices[_index].x, attributeSize);
+							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mVertices[_index], attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
 						break;
+
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR:
 						if (_mesh->HasVertexColors(0))
 							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mColors[0][_index].r, attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
 						break;
+
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES:
 						if (_mesh->HasTextureCoords(0))
 							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mTextureCoords[0][_index].x, attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
 						break;
+
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES:
 						break;
+
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL:
 						if (_mesh->HasNormals())
 							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mNormals[_index].x, attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
 						break;
+
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_INTEGRITY:
 						break;
+
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID:
 						break;
+
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT:
 						break;
+
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_CUSTOM:
 						break;
+
 					default:
 						DMK_ERROR_BOX("Invalid vertex attribute!");
 						break;
@@ -86,6 +103,7 @@ namespace Dynamik
 					_meshComponent.indexBuffer.pushBack(face.mIndices[itr]);
 			}
 
+			_meshComponent.indexCount = _meshComponent.indexBuffer.size();
 			_myMeshes.pushBack(_meshComponent);
 		}
 

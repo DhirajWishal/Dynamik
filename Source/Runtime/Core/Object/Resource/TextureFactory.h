@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_TEXTURE_FACTORY_H
 #define _DYNAMIK_TEXTURE_FACTORY_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		08/06/2020
-*/
 #include "Core/Types/Array.h"
 #include "Textures/Texture2D.h"
 
@@ -24,9 +20,11 @@ namespace Dynamik
 	public:
 		DMKTextureFactory(const DMKTextureFactory&) = delete;
 		DMKTextureFactory(DMKTextureFactory&&) = delete;
+		DMKTextureFactory& operator=(const DMKTextureFactory&) = delete;
+		DMKTextureFactory& operator=(DMKTextureFactory&&) = delete;
 
 		static DMKTexture* create(const DMKTextureType& type, const STRING& path);
-		static DMKTexture* create(const DMKTextureType& type, const ARRAY<STRING>& paths);
+		static DMKTexture* createCubeMap(const ARRAY<STRING>& paths);
 
 		static void destroy(DMKTexture* texture);
 	};

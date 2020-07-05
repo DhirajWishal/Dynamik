@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_ENTITY_FACTORY_H
 #define _DYNAMIK_ENTITY_FACTORY_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		24/06/2020
-*/
 #include "../GameEntity.h"
 
 namespace Dynamik

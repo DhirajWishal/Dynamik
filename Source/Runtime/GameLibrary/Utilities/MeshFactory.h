@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_MESH_FACTORY_H
 #define _DYNAMIK_MESH_FACTORY_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		07/06/2020
-*/
 #include "ComponentSystem/Components/RenderableComponents/MeshComponent.h"
 
 namespace Dynamik
@@ -45,6 +41,20 @@ namespace Dynamik
 		 @param path: Path to the file which contains the mesh data.
 		*/
 		static DMKMeshComponent createDefault(const STRING& path);
+
+		/*
+		 Create a basic cube mesh.
+		*/
+		static DMKMeshComponent createCube();
+
+		/*
+		 Create a basic sky box using texture files.
+
+		 @param textureFiles: Texture files which are loaded to the sky box. These must be given as,
+				+X, -X, +Y, -Y, +Z, -Z configuration.
+				(eg: { "right.jpg", "left.jpg", "top.jpg", "bottom.jpg", "front.jpg", "back.jpg" })
+		*/
+		static DMKMeshComponent createSkyBox(ARRAY<STRING> textureFiles);
 
 	private:
 		STRING workingDirectory = DMK_TEXT("");

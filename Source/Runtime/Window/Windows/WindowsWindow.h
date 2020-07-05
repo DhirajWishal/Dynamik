@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_WINDOWS_WINDOW_H
 #define _DYNAMIK_WINDOWS_WINDOW_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      19/05/2020
-*/
 #include "../WindowHandle.h"
 #include <GLFW/glfw3.h>
 #include <mutex>
@@ -30,6 +26,7 @@ namespace Dynamik
 		DMKViewport createViewport(I32 width, I32 height, I32 xOffset, I32 yOffset);
 
 		void initialize() override;
+		void initializeKeyBindings() override;
 		void setEventCallbacks() override;
 		void setWindowIcon(STRING path) override;
 		void pollEvents() override;
@@ -38,23 +35,14 @@ namespace Dynamik
 
 		B1 isVulkanCompatible();
 
-		void addKeyEventListner(const DMKKeyEventListener* listener) override;
-		void addMouseButtonEventListener(const DMKMouseButtonEventListener* listener) override;
-		void addMouseScrollEventListener(const DMKMouseScrollEventListener* listener) override;
-		void removeKeyEventListener(I32 listenerIndex) override;
-		void removeMouseButtonEventListener(I32 listenerIndex) override;
-		void removeMouseScrollEventListener(I32 listenerIndex) override;
-
-		ARRAY<DMKKeyEventComponent> getKeyEvents() override;
-		ARRAY<DMKMouseButtonEventComponent> getMouseButtonEvents() override;
-		ARRAY<DMKMouseScrollEventComponent> getMouseScrollEvents() override;
-
 		GLFWwindow* getHandle();
 
-	private:
-		GLFWwindow* windowHandle;
+		DMKExtent2D getCursorPosition() override;
 
-		class InternalEventHandler : public DMKEventHandler {
+	private:
+		GLFWwindow* windowHandle = nullptr;
+
+		class InternalEventHandler {
 		public:
 			InternalEventHandler() {}
 			~InternalEventHandler() {}
@@ -77,10 +65,6 @@ namespace Dynamik
 
 		static WindowsWindow instance;
 		static std::mutex _mutex;
-
-		DMKKeyEventListener _defaultKeyEventListener;
-		DMKMouseButtonEventListener _defaultMouseButtonEventListener;
-		DMKMouseScrollEventListener _defaultMouseScrollEventListener;
 	};
 }
 

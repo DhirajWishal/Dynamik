@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_COMMAND_BUFFER_H
 #define _DYNAMIK_RENDERER_COMMAND_BUFFER_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		14/06/2020
-*/
 #include "Context/RFrameBuffer.h"
 #include "RPipelineObject.h"
 #include "Primitives/RBuffer.h"
@@ -16,6 +12,7 @@
 namespace Dynamik
 {
 	class DMK_API RPipelineObject;
+	class DMK_API RRenderTarget;
 
 	/*
 	 Renderer Command Buffer
@@ -27,6 +24,8 @@ namespace Dynamik
 
 		virtual void begin() = 0;
 
+		virtual void bindRenderTarget(RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, UI32 bufferIndex) = 0;
+
 		virtual void bindVertexBuffer(RBuffer* pBuffer, UI64 firstBinding) = 0;
 		virtual void bindIndexBuffer(RBuffer* pBuffer) = 0;
 
@@ -34,7 +33,10 @@ namespace Dynamik
 		 Bind pipeline and resources
 		*/
 		virtual void bindGraphicsPipeline(RPipelineObject* pPipelineObject) = 0;
-		virtual void drawIndexed(UI64 indexOffset, UI64 vertexOffset, UI64 indexCount, UI64 instanceCount) = 0;
+		virtual void drawIndexed(UI64 firstIndex, UI64 vertexOffset, UI64 indexCount, UI64 instanceCount) = 0;
+		virtual void drawVertexes(UI64 vertexIndex, UI64 vertexCount, UI64 instanceCount) = 0;
+
+		virtual void unbindRenderTarget() = 0;
 		virtual void end() = 0;
 	};
 }

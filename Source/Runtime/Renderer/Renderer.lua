@@ -46,20 +46,17 @@ project "Renderer"
 		"%{IncludeLib.Vulkan}",
 		"%{IncludeLib.GLFW}",
 		"%{IncludeLib.GLEW}",
-		"%{IncludeLib.SPIRVTools}",
 	}
 
 	links { 
+		"GameLibrary",
 		"glew32s",
 		"opengl32",
 		"glfw3dll",
 		"vulkan-1",
-		"SPIRV-Tools",
-		"SPIRV-Cross",
 	}
 
 	filter "system:windows"
-
 		defines {
 			"DMK_PLATFORM_WINDOWS",
 			"GLFW_INCLUDE_VULKAN",
@@ -68,7 +65,6 @@ project "Renderer"
 		}
 
 	filter "system:linux"
-
 		defines {
 			"DMK_PLATFORM_LINUX",
 			"GLFW_INCLUDE_VULKAN",
@@ -77,22 +73,9 @@ project "Renderer"
 		}
 
 	filter "system:macosx"
-
 		defines {
 			"DMK_PLATFORM_MAC",
 			"GLFW_INCLUDE_VULKAN",
 			"GLEW_STATIC",
 			"GRAPHICS_API",
 		}
-
-	filter "configurations:Debug"
-		defines { "DMK_DEBUG"}
-		symbols "On"
-		
-	filter "configurations:Release"
-		defines { "DMK_RELEASE"}
-		optimize "On"
-
-	filter "configurations:Distribution"
-		defines { "DMK_DISTRIBUTION" }
-		optimize "On"

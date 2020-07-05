@@ -5,11 +5,6 @@
 #ifndef _DYNAMIK_GUI_SHADER_H
 #define _DYNAMIK_GUI_SHADER_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      24/05/2020
-*/
-
 #include "Core/Types/DataTypes.h"
 #include "Core/Math/MathTypes.h"
 
@@ -57,13 +52,13 @@ namespace Dynamik
         void setVec4(const STRING& name, float x, float y, float z, float w) const;
 
         // ------------------------------------------------------------------------
-        void setMat2(const STRING& name, const MAT2F& mat) const;
+        void setMat2(const STRING& name, const MAT2& mat) const;
 
         // ------------------------------------------------------------------------
-        void setMat3(const STRING& name, const MAT3F& mat) const;
+        void setMat3(const STRING& name, const MAT3& mat) const;
 
         // ------------------------------------------------------------------------
-        void setMat4(const STRING& name, const MAT4F& mat) const;
+        void setMat4(const STRING& name, const MAT4& mat) const;
 
     private:
         // utility function for checking shader compilation/linking errors.

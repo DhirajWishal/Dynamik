@@ -27,9 +27,6 @@ project "Application"
 		"$(SolutionDir)Source/Runtime/Core/",
 		"$(SolutionDir)Source/Runtime/Core/PCH/",
 		"$(SolutionDir)Source/Runtime/GameLibraries",
-		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.GLEW}",
-		"%{IncludeDir.assimp}",
 	}
 
 	links {
@@ -43,18 +40,3 @@ project "Application"
 		defines {
 			"DMK_PLATFORM_WINDOWS"
 		}
-
-	filter "configurations:Debug"
-		defines "DMK_DEBUG"
-		--buildoptions "/MTd"
-		symbols "On"
-		
-	filter "configurations:Release"
-		defines "DMK_RELEASE"
-		--buildoptions "/MT"
-		optimize "On"
-
-	filter "configurations:Distribution"
-		defines "DMK_DISTRIBUTION"
-		--buildoptions "/MT"
-		optimize "On"

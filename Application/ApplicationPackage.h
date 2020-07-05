@@ -5,10 +5,6 @@
 #ifndef _APPLICATION_PACKAGE_H
 #define _APPLICATION_PACKAGE_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		06/06/2020
-*/
 #include "GameLibrary/GamePackage.h"
 #include "Assets/Level1/Level1.h"
 using namespace Dynamik;

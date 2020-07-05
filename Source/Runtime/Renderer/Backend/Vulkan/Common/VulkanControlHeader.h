@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_CONTROL_HEADER_H
 #define _DYNAMIK_VULKAN_CONTROL_HEADER_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      24/05/2020
-*/
 #include "Core/Types/DataTypes.h"
 
 #define MAX_FRAMES_IN_FLIGHT 2

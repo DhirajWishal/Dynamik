@@ -7,9 +7,6 @@
 
 /*
  This file contains all the error definitions and enums.
-
- Author:    Dhiraj Wishal
- Date:      15/02/2020
 */
 #include "Core/Macros/Global.h"
 

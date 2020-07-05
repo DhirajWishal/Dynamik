@@ -12,9 +12,6 @@
 /*
  Dynamik Data Types.
  This file contains all the necessary data types and enums used in the Dynamik Engine.
-
- Author:    Dhiraj Wishal
- Date:      13/05/2020
 */
 
 namespace Dynamik

@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_IMAGE_SAMPLER_H
 #define _DYNAMIK_RENDERER_IMAGE_SAMPLER_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		14/06/2020
-*/
 #include "../RCoreObject.h"
 #include "../PrimitiveTypeDefs.h"
 
@@ -33,6 +29,10 @@ namespace Dynamik
 		F32 minLOD = 0.0f;
 		F32 maxLOD = 1.0f;
 		F32 mipLODBias = 0.0f;
+
+	public:		/* Utility Methods */
+		static RImageSamplerCreateInfo createDefaultSampler();
+		static RImageSamplerCreateInfo createCubeMapSampler();
 	};
 
 	/*

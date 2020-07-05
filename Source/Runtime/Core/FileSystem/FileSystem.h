@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_FILE_SYSTEM_H
 #define _DYNAMIK_FILE_SYSTEM_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      20/05/2020
-*/
 #include "Core/Types/DataTypes.h"
 
 namespace Dynamik

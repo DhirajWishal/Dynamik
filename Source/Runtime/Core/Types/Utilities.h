@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_UTILITIES_H
 #define _DYNAMIK_UTILITIES_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		15/06/2020
-*/
 #include "Pointer.h"
 
 namespace Dynamik
@@ -36,7 +32,7 @@ namespace Dynamik
 	template<class DERIVED, class BASE>
 	DMK_FORCEINLINE DERIVED InheritCast(BASE* pBase)
 	{
-		return *((DERIVED*)pBase);
+		return *(DERIVED*)pBase;
 	}
 
 	/*
@@ -49,7 +45,7 @@ namespace Dynamik
 	template<class DERIVED, class BASE>
 	DMK_FORCEINLINE DERIVED* Inherit(BASE* pBase)
 	{
-		return ((DERIVED*)pBase);
+		return dynamic_cast<DERIVED*>(pBase);
 	}
 
 	/*

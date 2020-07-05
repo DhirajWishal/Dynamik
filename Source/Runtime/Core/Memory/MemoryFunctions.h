@@ -8,9 +8,6 @@
 /*
  Memory Functions for the Dynamik Engine.
  This contains a set of functions which can be used to manipulate data.
-
- Author:    Dhiraj Wishal
- Date:      13/05/2020
 */
 
 namespace Dynamik

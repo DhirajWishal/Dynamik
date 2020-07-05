@@ -8,9 +8,6 @@
 /*
  Dynamik Engine Precompiled Header File.
 
- Author:    Dhiraj Wishal
- Date:      13/05/2020
-
  @warn: Include files that are required by all the source files.
 */
 

@@ -7,9 +7,6 @@
 
 /*
  Assertion macros for the Dynamik Engine.
-
- Author:    Dhiraj Wishal
- Date:      13/05/2020
 */
 
 #define DMK_ASSERT(condition, msg)	if(condition) 

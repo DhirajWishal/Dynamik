@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_COMPONENT_H
 #define _DYNAMIK_COMPONENT_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		06/06/2020
-*/
 #include "Core/Macros/Global.h"
 #include "Core/Types/TSArray.h"
 #include "ComponentAttachments/ComponentAttachment.h"

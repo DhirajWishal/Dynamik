@@ -7,9 +7,6 @@
 
 /*
  Type Traits for the Dynamik Engine.
-
- Author:    Dhiraj Wishal
- Date:      14/05/2020
 */
 #include "Core/Macros/Global.h"
 #include "DataTypes.h"

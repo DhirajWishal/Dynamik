@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_TOOLS_SPIRV_DISASSEMBLER_H
 #define _DYNAMIK_TOOLS_SPIRV_DISASSEMBLER_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		10/06/2020
-*/
 #include "Core/Object/Resource/ShaderModule.h"
 #include <vulkan/vulkan.h>
 
@@ -32,6 +28,11 @@ namespace Dynamik
 			ARRAY<VkDescriptorSetLayoutBinding> getDescriptorSetLayoutBindings();
 
 			/*
+			 Get ordered set layout bindings of the current shader.
+			*/
+			ARRAY<VkDescriptorSetLayoutBinding> getOrderedDescriptorSetLayoutBindings();
+
+			/*
 			 Get the descriptor pool sizes of the current shader.
 			*/
 			ARRAY<VkDescriptorPoolSize> getDescriptorPoolSizes();
@@ -47,9 +48,10 @@ namespace Dynamik
 			ARRAY<VkPushConstantRange> getPushConstantRanges();
 
 			/*
-			 Get the shader resource map from the current shader.
+			 Get the binding description of the current shader.
+			 @warn: Only works with vertex shaders.
 			*/
-			DMKShaderResourceLayout getResourceMap();
+			VkVertexInputBindingDescription getVertexBindingDescription();
 
 			/*
 			 Set the shader module
@@ -71,11 +73,11 @@ namespace Dynamik
 
 		private:
 			DMKShaderModule shaderModule;
-			DMKShaderResourceLayout resourceLayout;
 			ARRAY<VkDescriptorSetLayoutBinding> layoutBindings;
 			ARRAY<VkDescriptorPoolSize> poolSizes;
 			ARRAY<VkVertexInputAttributeDescription> vertexAttributes;
 			ARRAY<VkPushConstantRange> pushConstantRanges;
+			VkVertexInputBindingDescription bindingDescription;
 			B1 isParsed = false;
 		};
 	}

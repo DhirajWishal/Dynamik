@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_GUI_CORE_H
 #define _DYNAMIK_GUI_CORE_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      23/05/2020
-*/
 #include "Core/Macros/Global.h"
 
 namespace Dynamik

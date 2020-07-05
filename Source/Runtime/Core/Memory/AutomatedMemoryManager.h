@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_AUTOMATED_MEMORY_MANAGER_H
 #define _DYNAMIK_AUTOMATED_MEMORY_MANAGER_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		17/06/2020
-*/
 #include "../Macros/Global.h"
 #include <unordered_map>
 

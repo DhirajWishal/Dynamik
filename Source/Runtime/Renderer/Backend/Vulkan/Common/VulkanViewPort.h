@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_VIEWPORT_H
 #define _DYNAMIK_VULKAN_VIEWPORT_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      24/05/2020
-*/
 #include "VulkanSurface.h"
 #include "Window/WindowHandle.h"
 

@@ -26,12 +26,11 @@ namespace Dynamik
 
 			for (const auto& availablePresentMode : availablePresentModes)
 			{
-				if (availablePresentMode == VulkanUtilities::getPresentMode(presentMode))
-					return availablePresentMode;
-
 				if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
 					return availablePresentMode;
 				else if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR)
+					bestMode = availablePresentMode;
+				else if (availablePresentMode == VulkanUtilities::getPresentMode(presentMode))
 					bestMode = availablePresentMode;
 			}
 
@@ -74,7 +73,7 @@ namespace Dynamik
 
 			if (formatCount != 0)
 			{
-				details.formats.resize(formatCount);
+				details.formats.reserve(formatCount);
 				vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &formatCount, details.formats.data());
 			}
 
@@ -83,7 +82,7 @@ namespace Dynamik
 
 			if (presentModeCount != 0)
 			{
-				details.presentModes.resize(presentModeCount);
+				details.presentModes.reserve(presentModeCount);
 				vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &presentModeCount, details.presentModes.data());
 			}
 
@@ -173,7 +172,7 @@ namespace Dynamik
 			for (UI32 itr = 0; itr < images.size(); itr++)
 			{
 				VulkanImageView* _vView = StaticAllocator<VulkanImageView>::allocate();
-				DMKTexture::TextureSwizzles _swizzles = { 
+				DMKTexture::TextureSwizzles _swizzles = {
 					DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_IDENTITY,
 					DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_IDENTITY,
 					DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_IDENTITY,
@@ -186,13 +185,13 @@ namespace Dynamik
 		void VulkanSwapChain::terminate(RCoreObject* pCoreObject)
 		{
 			for (auto image : imageViews)
+			{
 				vkDestroyImageView(InheritCast<VulkanCoreObject>(pCoreObject).device, InheritCast<VulkanImageView>(image), nullptr);
+				StaticAllocator<VulkanImageView>::deallocate(image);
+			}
 
 			for (auto image : images)
-			{
-				vkDestroyImage(InheritCast<VulkanCoreObject>(pCoreObject).device, InheritCast<VulkanImage>(image), nullptr);
-				vkFreeMemory(InheritCast<VulkanCoreObject>(pCoreObject).device, InheritCast<VulkanImage>(image), nullptr);
-			}
+				StaticAllocator<VulkanImage>::deallocate(image);
 
 			vkDestroySwapchainKHR(InheritCast<VulkanCoreObject>(pCoreObject).device, swapChain, nullptr);
 		}

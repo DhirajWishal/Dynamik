@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_UTILITIES_H
 #define _DYNAMIK_VULKAN_UTILITIES_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      25/05/2020
-*/
 #include "VulkanCoreObject.h"
 #include "Context/VulkanSwapChain.h"
 #include "Common/VulkanViewPort.h"
@@ -53,7 +49,6 @@ namespace Dynamik
             static VkFormat findDepthFormat(const VkPhysicalDevice& physicalDevice);
             static VkComponentMapping getComponentMapping(DMKTexture::TextureSwizzles swizzles);
 
-            static VulkanResourceLayout getResourceLayout(const DMKShaderResourceLayout& resourceLayout, const DMKShaderLocation& location);
             static VkDescriptorType getDescriptorType(DMKUniformType type);
             static VkShaderStageFlagBits getShaderStage(DMKShaderLocation location);
             static ARRAY<VkDescriptorSetLayoutBinding> getDescriptorSetLayoutBindings(DMKUniformBufferDescriptor descriptor);

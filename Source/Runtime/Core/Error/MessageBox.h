@@ -8,9 +8,6 @@
 /*
  Error message box for the Dynamik Engine.
  This object is platform specific.
-
- Author:    Dhiraj Wishal
- Date:      15/5/2020
 */
 
 #include "../Types/Array.h"

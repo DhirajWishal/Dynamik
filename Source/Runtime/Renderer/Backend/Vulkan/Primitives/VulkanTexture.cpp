@@ -16,8 +16,8 @@ namespace Dynamik
 			pTexture = pTextureObject;
 
 			VulkanBuffer staggingBuffer;
-			staggingBuffer.initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, pTextureObject->size());
-			staggingBuffer.setData(pCoreObject, pTextureObject->size(), 0, pTextureObject->image);
+			staggingBuffer.initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, pTextureObject->size() * pTextureObject->layerCount);
+			staggingBuffer.setData(pCoreObject, pTextureObject->size() * pTextureObject->layerCount, 0, pTextureObject->image);
 
 			RImageCreateInfo initInfo;
 			initInfo.vDimentions.width = pTextureObject->width;
@@ -36,6 +36,8 @@ namespace Dynamik
 			pImage->copyBuffer(pCoreObject, &staggingBuffer);
 
 			pImage->generateMipMaps(pCoreObject);
+
+			staggingBuffer.terminate(pCoreObject);
 		}
 
 		void VulkanTexture::createView(RCoreObject* pCoreObject)
@@ -52,6 +54,7 @@ namespace Dynamik
 		void VulkanTexture::makeRenderable(RCoreObject* pCoreObject)
 		{
 			pImage->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY);
+			currentLayout = RImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY;
 		}
 
 		void VulkanTexture::terminate(RCoreObject* pCoreObject)

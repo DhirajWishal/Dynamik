@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERABLE_COMPONENT_H
 #define _DYNAMIK_RENDERABLE_COMPONENT_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		11/06/2020
-*/
 #include "../Component.h"
 #include "Core/Object/Resource/ShaderModule.h"
 #include "Core/Object/Resource/Texture.h"
@@ -50,21 +46,22 @@ namespace Dynamik
 		virtual void addTextureModule(DMKTexture* pTexture);
 		virtual void setBaseRenderingPipeline(const DMKBaseRenderingPipeline& pipeline);
 
+		virtual void translate(const MAT4& mat, const VEC3& vec) {}
+		virtual void rotate(const VEC3& direction, const F32& radians) {}
+
 		/*
 		 Add a renderable component which this component uses.
 		*/
 		virtual void addRenderableComponent(DMKRenderableComponent* component);
-		virtual void setCameraModule(DMKCameraModule* cModule);
 
 	public:		/* Constant methods */
 		void setBindingIndex(const UI32& index);
 
 	public:		/* Data Store */
 		ARRAY<DMKShaderModule> shaderModules;
-		ARRAY<DMKTexture*> textureModules;
+		ARRAY<DMKTexture*> pTextures;
 		ARRAY<DMKRenderableComponent*> renderComponents;
 		DMKUniformDescription uniformDescription;
-		DMKCameraModule* cameraModule;
 		DMKBaseRenderingPipeline basePipeline = DMKBaseRenderingPipeline::DMK_BASE_RENDERING_PIPELINE_CUSTOM;
 	};
 }

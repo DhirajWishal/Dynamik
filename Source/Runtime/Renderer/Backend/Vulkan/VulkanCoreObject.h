@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_CORE_OBJECT_H
 #define _DYNAMIK_VULKAN_CORE_OBJECT_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		14/06/2020
-*/
 #include "../../Components/RCoreObject.h"
 
 #include "Common/VulkanDevice.h"
@@ -37,7 +33,7 @@ namespace Dynamik
 
 		virtual void idleCall() override final;
 
-		virtual UI32 prepareFrame(RSwapChain* pSwapChain) override final;
+		virtual I32 prepareFrame(RSwapChain* pSwapChain) override final;
 		virtual void submitCommand(RCommandBuffer* pCommandBuffer, RSwapChain* pSwapChain) override final;
 
 		operator Backend::VulkanInstance() const;

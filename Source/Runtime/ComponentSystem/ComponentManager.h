@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_COMPONENT_MANAGER_H
 #define _DYNAMIK_COMPONENT_MANAGER_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		06/06/2020
-*/
 #include "Core/Macros/Global.h"
 #include "Core/Error/ErrorManager.h"
 #include "Components/RenderableComponents/MeshComponent.h"

@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VERTEX_OBJECT_H
 #define _DYNAMIK_VERTEX_OBJECT_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		24/06/2020
-*/
 #include "Core/Macros/Global.h"
 
 namespace Dynamik

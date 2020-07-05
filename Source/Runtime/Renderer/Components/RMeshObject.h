@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_MESH_COMPONENT_H
 #define _DYNAMIK_RENDERER_MESH_COMPONENT_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		17/06/2020
-*/
 #include "RCoreObject.h"
 #include "ComponentSystem/Components/RenderableComponents/MeshComponent.h"
 #include "Primitives/RTexture.h"

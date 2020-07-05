@@ -6,9 +6,6 @@
 #define _DYNAMIK_RENDER_SETTINGS_H
 
 /*
- Author:	Dhiraj Wishal
- Date:		14/06/2020
-
  This header contains global renderer settings.
 */
 #include "Core/Macros/Global.h"

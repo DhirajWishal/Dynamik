@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_CONTEXT_H
 #define _DYNAMIK_RENDERER_CONTEXT_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		15/06/2020
-*/
 #include "Context/RFrameBuffer.h"
 #include "ContextTypeDefs.h"
 

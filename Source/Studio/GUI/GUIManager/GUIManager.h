@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_STUDIO_GUI_MANAGER_H
 #define _DYNAMIK_STUDIO_GUI_MANAGER_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		04/06/2020
-*/
 #include "Window/WindowHandle.h"
 
 namespace Dynamik

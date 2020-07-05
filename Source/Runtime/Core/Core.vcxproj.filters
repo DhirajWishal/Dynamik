@@ -48,7 +48,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core.Include.h" />
     <ClInclude Include="Error\ErrorDefines.h">
       <Filter>Error</Filter>
     </ClInclude>
@@ -193,6 +192,7 @@
     <ClInclude Include="Utilities\Clock.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Object\Resource\Textures\TextureCube.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Error\ErrorManager.cpp">
@@ -261,6 +261,7 @@
     <ClCompile Include="Utilities\Clock.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Object\Resource\Textures\TextureCube.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core.lua" />

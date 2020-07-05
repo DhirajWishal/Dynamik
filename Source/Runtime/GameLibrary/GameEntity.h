@@ -7,9 +7,6 @@
 
 /*
  Game Entiry for the Dynamik Engine.
-
- Author:    Dhiraj Wishal
- Date:      17/05/2020
 */
 #include "ComponentSystem/ComponentManager.h"
 
@@ -44,15 +41,37 @@ namespace Dynamik
 
 		/*
 		 Add a component to the component manager.
+
+		 @param component: The component to be added.
+		 @tparam COMPONENT: The component type.
 		*/
 		template<class COMPONENT>
-		void addComponent(const COMPONENT& component)
+		DMK_FORCEINLINE void addComponent(const COMPONENT& component)
 		{
 			componentManager.addComponent<COMPONENT>(component);
 		}
 
+		/*
+		 Get a component from the component manager.
+
+		 @param index: Component index.
+		 @tparam COMPONENT: Component type.
+		*/
+		template<class COMPONENT>
+		DMK_FORCEINLINE COMPONENT* getComponent(UI64 index = 0)
+		{
+			return componentManager.getComponent<COMPONENT>(index);
+		}
+
 		/* Component Manager */
 		DMKComponentManager componentManager;
+
+		B1 isCameraAvailable = false;
+
+	protected:	/* Protected Data */
+		DMKCameraModule* pCameraModule = nullptr;
+
+	private:	/* Internal Data */
 	};
 }
 

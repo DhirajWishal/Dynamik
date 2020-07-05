@@ -4,6 +4,7 @@
 #include "dmkafx.h"
 #include "VulkanGraphicsPipeline.h"
 
+#include "../Primitives/VulkanImageSampler.h"
 #include "../VulkanUtilities.h"
 #include "../VulkanCoreObject.h"
 #include "Tools/Shader/SPIR-V/Disassembler.h"
@@ -12,27 +13,7 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		UI32 getAttributeSize(VkFormat format)
-		{
-			switch (format)
-			{
-			case VK_FORMAT_R32_SFLOAT:
-				return sizeof(F32) * 1;
-			case VK_FORMAT_R32G32_SFLOAT:
-				return sizeof(F32) * 2;
-			case VK_FORMAT_R32G32B32_SFLOAT:
-				return sizeof(F32) * 3;
-			case VK_FORMAT_R32G32B32A32_SFLOAT:
-				return sizeof(F32) * 4;
-			default:
-				DMK_ERROR_BOX("Unsupported attribute size!");
-				break;
-			}
-
-			return 0;
-		}
-
-		void VulkanGraphicsPipeline::initialize(RCoreObject* pCoreObject, RPipelineCreateInfo createInfo, RPipelineUsage usage)
+		void VulkanGraphicsPipeline::initialize(RCoreObject* pCoreObject, RPipelineSpecification createInfo, RPipelineUsage usage, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain)
 		{
 			if (usage != RPipelineUsage::PIPELINE_USAGE_GRAPHICS)
 			{
@@ -40,9 +21,10 @@ namespace Dynamik
 				return;
 			}
 
-			ARRAY<VkDescriptorSetLayout> descriptorLayouts;
+			mySpecification = createInfo;
+
 			ARRAY<VulkanResourceLayout> resourceLayouts;
-			VulkanResourceLayout* resourceLayoutPointer = nullptr;
+			ARRAY<VkDescriptorPoolSize> descriptorPoolSizes;
 
 			/* Initialize Vertex Input Info */
 			VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
@@ -58,34 +40,50 @@ namespace Dynamik
 			shaderStage.flags = VK_NULL_HANDLE;
 			shaderStage.pNext = VK_NULL_HANDLE;
 			shaderStage.pSpecializationInfo = VK_NULL_HANDLE;
-			for (auto shaderModule : createInfo.shaders)
+
+			resourceLayouts.resize(createInfo.shaders.size());
+			for (UI32 index = 0; index < createInfo.shaders.size(); index++)
 			{
 				shaderStage.pName = "main";
-				shaderStage.module = VulkanUtilities::createShaderModule(pCoreObject, shaderModule);
-				shaderStage.stage = VulkanUtilities::getShaderStage(shaderModule.location);
+				shaderStage.module = VulkanUtilities::createShaderModule(pCoreObject, createInfo.shaders[index]);
+				shaderStage.stage = VulkanUtilities::getShaderStage(createInfo.shaders[index].location);
 				shaderStages.pushBack(shaderStage);
 
-				resourceLayouts.pushBack(VulkanUtilities::getResourceLayout(shaderModule.resourceLayout, shaderModule.location));
-				resourceLayoutPointer = &resourceLayouts.back();
+				Tools::SPIRVDisassembler dissassembler(createInfo.shaders[index]);
 
-				if (shaderModule.location == DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
+				resourceBindings.insert(dissassembler.getOrderedDescriptorSetLayoutBindings());
+				descriptorPoolSizes.insert(dissassembler.getDescriptorPoolSizes());
+
+				if (createInfo.shaders[index].location == DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
 				{
-					vertexInputInfo.pVertexBindingDescriptions = &resourceLayoutPointer->vertexInputBinding;
-					vertexInputInfo.vertexAttributeDescriptionCount = resourceLayoutPointer->vertexInputAttributes.size();
-					vertexInputInfo.pVertexAttributeDescriptions = resourceLayoutPointer->vertexInputAttributes.data();
+					resourceLayouts[index].vertexInputBinding = dissassembler.getVertexBindingDescription();
+					resourceLayouts[index].vertexInputAttributes = dissassembler.getVertexAttributeDescriptions();
+
+					vertexInputInfo.pVertexBindingDescriptions = &resourceLayouts[index].vertexInputBinding;
+					vertexInputInfo.vertexAttributeDescriptionCount = resourceLayouts[index].vertexInputAttributes.size();
+					vertexInputInfo.pVertexAttributeDescriptions = resourceLayouts[index].vertexInputAttributes.data();
 				}
+			}
 
-				if ((resourceLayoutPointer->descriptorBindings.size() < 1) && (resourceLayoutPointer->descriptorPoolSizes.size() < 1))
-					continue;
+			/* Initialize Pipeline Layout */
+			VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo = {};
+			pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+			pipelineLayoutCreateInfo.flags = VK_NULL_HANDLE;
+			pipelineLayoutCreateInfo.pNext = VK_NULL_HANDLE;
+			pipelineLayoutCreateInfo.pushConstantRangeCount = 0;			/* TODO */
+			pipelineLayoutCreateInfo.pPushConstantRanges = VK_NULL_HANDLE;	/* TODO */
+			pipelineLayoutCreateInfo.setLayoutCount = 0;
+			pipelineLayoutCreateInfo.pSetLayouts = nullptr;
 
-				VDescriptor descriptor;
+			if ((resourceBindings.size() >= 1) && (descriptorPoolSizes.size() >= 1) && (descriptor.set == VK_NULL_HANDLE))
+			{
 				/* Create descriptor set layout */
 				VkDescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = {};
 				descriptorSetLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
 				descriptorSetLayoutCreateInfo.flags = VK_NULL_HANDLE;
 				descriptorSetLayoutCreateInfo.pNext = VK_NULL_HANDLE;
-				descriptorSetLayoutCreateInfo.bindingCount = resourceLayoutPointer->descriptorBindings.size();
-				descriptorSetLayoutCreateInfo.pBindings = resourceLayoutPointer->descriptorBindings.data();
+				descriptorSetLayoutCreateInfo.bindingCount = resourceBindings.size();
+				descriptorSetLayoutCreateInfo.pBindings = resourceBindings.data();
 
 				DMK_VULKAN_ASSERT(vkCreateDescriptorSetLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorSetLayoutCreateInfo, nullptr, &descriptor.layout), "Failed to create descriptor set layout!");
 
@@ -95,8 +93,8 @@ namespace Dynamik
 				descriptorPoolCreateInfo.flags = VK_NULL_HANDLE;
 				descriptorPoolCreateInfo.pNext = VK_NULL_HANDLE;
 				descriptorPoolCreateInfo.maxSets = 1;
-				descriptorPoolCreateInfo.poolSizeCount = resourceLayoutPointer->descriptorPoolSizes.size();
-				descriptorPoolCreateInfo.pPoolSizes = resourceLayoutPointer->descriptorPoolSizes.data();
+				descriptorPoolCreateInfo.poolSizeCount = descriptorPoolSizes.size();
+				descriptorPoolCreateInfo.pPoolSizes = descriptorPoolSizes.data();
 
 				DMK_VULKAN_ASSERT(vkCreateDescriptorPool(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorPoolCreateInfo, VK_NULL_HANDLE, &descriptor.pool), "Failed to create descriptor pool!");
 
@@ -110,19 +108,10 @@ namespace Dynamik
 
 				DMK_VULKAN_ASSERT(vkAllocateDescriptorSets(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorSetAllocateInfo, &descriptor.set), "Failed to allocate descriptor sets!");
 
-				descriptors.pushBack(descriptor);
-				descriptorLayouts.pushBack(descriptor.layout);
+				pipelineLayoutCreateInfo.setLayoutCount = 1;
+				pipelineLayoutCreateInfo.pSetLayouts = &descriptor.layout;
+				isResourceAvailable = true;
 			}
-
-			/* Initialize Pipeline Layout */
-			VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo = {};
-			pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-			pipelineLayoutCreateInfo.flags = VK_NULL_HANDLE;
-			pipelineLayoutCreateInfo.pNext = VK_NULL_HANDLE;
-			pipelineLayoutCreateInfo.pushConstantRangeCount = 0;			/* TODO */
-			pipelineLayoutCreateInfo.pPushConstantRanges = VK_NULL_HANDLE;	/* TODO */
-			pipelineLayoutCreateInfo.setLayoutCount = descriptorLayouts.size();
-			pipelineLayoutCreateInfo.pSetLayouts = descriptorLayouts.data();
 
 			DMK_VULKAN_ASSERT(vkCreatePipelineLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, &pipelineLayoutCreateInfo, VK_NULL_HANDLE, &layout), "Failed to create pipeline layout!");
 
@@ -143,10 +132,10 @@ namespace Dynamik
 
 			/* Initialize View Port */
 			VkViewport viewport = {};
-			viewport.x = (F32)createInfo.pSwapChain->viewPort.xOffset;
-			viewport.y = (F32)createInfo.pSwapChain->viewPort.yOffset;
-			viewport.width = (F32)createInfo.pSwapChain->extent.width;
-			viewport.height = (F32)createInfo.pSwapChain->extent.height;
+			viewport.x = (F32)pSwapChain->viewPort.xOffset;
+			viewport.y = (F32)pSwapChain->viewPort.yOffset;
+			viewport.width = (F32)pSwapChain->extent.width;
+			viewport.height = (F32)pSwapChain->extent.height;
 			viewport.minDepth = 0.0f;
 			viewport.maxDepth = 1.0f;
 
@@ -156,8 +145,8 @@ namespace Dynamik
 				VkRect2D vScissor = {};
 				vScissor.offset.x = scissor.offset.x;
 				vScissor.offset.y = scissor.offset.y;
-				vScissor.extent.width = createInfo.pSwapChain->extent.width;
-				vScissor.extent.height = createInfo.pSwapChain->extent.height;
+				vScissor.extent.width = pSwapChain->extent.width;
+				vScissor.extent.height = pSwapChain->extent.height;
 
 				scissors.pushBack(vScissor);
 			}
@@ -205,6 +194,7 @@ namespace Dynamik
 			depthStencil.pNext = VK_NULL_HANDLE;
 			depthStencil.depthTestEnable = createInfo.depthStencilInfo.enableStencil;
 			depthStencil.stencilTestEnable = createInfo.depthStencilInfo.enableStencilTests;
+			depthStencil.depthWriteEnable = createInfo.depthStencilInfo.enableWrite;
 			depthStencil.depthBoundsTestEnable = createInfo.depthStencilInfo.enableBoundsTest;
 			depthStencil.depthCompareOp = (VkCompareOp)createInfo.depthStencilInfo.compareOp;
 			depthStencil.front = VulkanUtilities::getStencilOpState(createInfo.depthStencilInfo.frontOpState);
@@ -258,9 +248,197 @@ namespace Dynamik
 			pipelineInfo.basePipelineIndex = 0;
 			pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;	/* TODO */
 			pipelineInfo.layout = layout;
-			pipelineInfo.renderPass = InheritCast<VulkanRenderPass>(createInfo.pRenderTarget->pRenderPass).renderPass;
+			pipelineInfo.renderPass = InheritCast<VulkanRenderPass>(pRenderTarget->pRenderPass).renderPass;
 
 			DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(InheritCast<VulkanCoreObject>(pCoreObject).device, VK_NULL_HANDLE /* TODO */, 1, &pipelineInfo, VK_NULL_HANDLE, &pipeline), "Failed to create graphics pipeline!");
+		}
+
+		void VulkanGraphicsPipeline::reCreate(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain)
+		{
+			ARRAY<VulkanResourceLayout> resourceLayouts;
+			ARRAY<VkDescriptorPoolSize> descriptorPoolSizes;
+
+			/* Initialize Vertex Input Info */
+			VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
+			vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+			vertexInputInfo.flags = VK_NULL_HANDLE;
+			vertexInputInfo.pNext = VK_NULL_HANDLE;
+			vertexInputInfo.vertexBindingDescriptionCount = 1;
+
+			/* Resolve Shaders */
+			ARRAY<VkPipelineShaderStageCreateInfo> shaderStages;
+			VkPipelineShaderStageCreateInfo shaderStage = {};
+			shaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+			shaderStage.flags = VK_NULL_HANDLE;
+			shaderStage.pNext = VK_NULL_HANDLE;
+			shaderStage.pSpecializationInfo = VK_NULL_HANDLE;
+
+			resourceLayouts.resize(mySpecification.shaders.size());
+			for (UI32 index = 0; index < mySpecification.shaders.size(); index++)
+			{
+				shaderStage.pName = "main";
+				shaderStage.module = VulkanUtilities::createShaderModule(pCoreObject, mySpecification.shaders[index]);
+				shaderStage.stage = VulkanUtilities::getShaderStage(mySpecification.shaders[index].location);
+				shaderStages.pushBack(shaderStage);
+
+				Tools::SPIRVDisassembler dissassembler(mySpecification.shaders[index]);
+
+				resourceBindings.insert(dissassembler.getOrderedDescriptorSetLayoutBindings());
+				descriptorPoolSizes.insert(dissassembler.getDescriptorPoolSizes());
+
+				if (mySpecification.shaders[index].location == DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
+				{
+					resourceLayouts[index].vertexInputBinding = dissassembler.getVertexBindingDescription();
+					resourceLayouts[index].vertexInputAttributes = dissassembler.getVertexAttributeDescriptions();
+
+					vertexInputInfo.pVertexBindingDescriptions = &resourceLayouts[index].vertexInputBinding;
+					vertexInputInfo.vertexAttributeDescriptionCount = resourceLayouts[index].vertexInputAttributes.size();
+					vertexInputInfo.pVertexAttributeDescriptions = resourceLayouts[index].vertexInputAttributes.data();
+				}
+			}
+
+			/* Initialize Primitive Assembly Info */
+			VkPipelineInputAssemblyStateCreateInfo inputAssembly = {};
+			inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+			inputAssembly.flags = VK_NULL_HANDLE;
+			inputAssembly.pNext = VK_NULL_HANDLE;
+			inputAssembly.topology = (VkPrimitiveTopology)mySpecification.primitiveAssemblyInfo.primitiveTopology;
+			inputAssembly.primitiveRestartEnable = mySpecification.primitiveAssemblyInfo.enablePrimitiveRestart;
+
+			/* Initialize Tessellation Control State */
+			VkPipelineTessellationStateCreateInfo tessellationState = {};
+			tessellationState.sType = VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO;
+			tessellationState.flags = VK_NULL_HANDLE;
+			tessellationState.pNext = VK_NULL_HANDLE;
+			tessellationState.patchControlPoints = mySpecification.tessellationStateControlInfo.patchControlPoints;
+
+			/* Initialize View Port */
+			VkViewport viewport = {};
+			viewport.x = (F32)pSwapChain->viewPort.xOffset;
+			viewport.y = (F32)pSwapChain->viewPort.yOffset;
+			viewport.width = (F32)pSwapChain->extent.width;
+			viewport.height = (F32)pSwapChain->extent.height;
+			viewport.minDepth = 0.0f;
+			viewport.maxDepth = 1.0f;
+
+			/* Initialize Scissors */
+			ARRAY<VkRect2D> scissors = {};
+			for (auto scissor : mySpecification.scissorInfos) {
+				VkRect2D vScissor = {};
+				vScissor.offset.x = scissor.offset.x;
+				vScissor.offset.y = scissor.offset.y;
+				vScissor.extent.width = pSwapChain->extent.width;
+				vScissor.extent.height = pSwapChain->extent.height;
+
+				scissors.pushBack(vScissor);
+			}
+
+			/* Initialize View Port State */
+			VkPipelineViewportStateCreateInfo viewportState = {};
+			viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+			viewportState.flags = VK_NULL_HANDLE;
+			viewportState.pNext = VK_NULL_HANDLE;
+			viewportState.scissorCount = scissors.size();
+			viewportState.pScissors = scissors.data();
+			viewportState.viewportCount = 1;
+			viewportState.pViewports = &viewport;
+
+			/* Initialize Rasterizer */
+			VkPipelineRasterizationStateCreateInfo rasterizer = {};
+			rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
+			rasterizer.flags = VK_NULL_HANDLE;
+			rasterizer.pNext = VK_NULL_HANDLE;
+			rasterizer.cullMode = (VkCullModeFlags)mySpecification.rasterizerInfo.cullMode;
+			rasterizer.depthClampEnable = mySpecification.rasterizerInfo.depthClampEnable;
+			rasterizer.depthBiasEnable = mySpecification.rasterizerInfo.depthBiasEnable;
+			rasterizer.frontFace = (VkFrontFace)mySpecification.rasterizerInfo.frontFace;
+			rasterizer.lineWidth = mySpecification.rasterizerInfo.lineWidth;
+			rasterizer.polygonMode = (VkPolygonMode)mySpecification.rasterizerInfo.polygonMode;
+			rasterizer.rasterizerDiscardEnable = mySpecification.rasterizerInfo.discardEnable;
+			rasterizer.depthBiasConstantFactor = mySpecification.rasterizerInfo.constantFactor;
+			rasterizer.depthBiasSlopeFactor = mySpecification.rasterizerInfo.slopeFactor;
+
+			/* Initialize Multi Sampling */
+			VkPipelineMultisampleStateCreateInfo multisampling = {};
+			multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
+			multisampling.flags = VK_NULL_HANDLE;
+			multisampling.pNext = VK_NULL_HANDLE;
+			multisampling.rasterizationSamples = (VkSampleCountFlagBits)mySpecification.multiSamplingInfo.sampleCount;
+			multisampling.sampleShadingEnable = mySpecification.multiSamplingInfo.enableSampleShading;
+			multisampling.minSampleShading = mySpecification.multiSamplingInfo.minSampleShading;
+			multisampling.alphaToCoverageEnable = mySpecification.multiSamplingInfo.enableAlphaToCoverage;
+			multisampling.alphaToOneEnable = mySpecification.multiSamplingInfo.enableAlphaToOne;
+
+			/* Initialize Depth Stencil */
+			VkPipelineDepthStencilStateCreateInfo depthStencil = {};
+			depthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
+			depthStencil.flags = VK_NULL_HANDLE;
+			depthStencil.pNext = VK_NULL_HANDLE;
+			depthStencil.depthTestEnable = mySpecification.depthStencilInfo.enableStencil;
+			depthStencil.stencilTestEnable = mySpecification.depthStencilInfo.enableStencilTests;
+			depthStencil.depthWriteEnable = mySpecification.depthStencilInfo.enableWrite;
+			depthStencil.depthBoundsTestEnable = mySpecification.depthStencilInfo.enableBoundsTest;
+			depthStencil.depthCompareOp = (VkCompareOp)mySpecification.depthStencilInfo.compareOp;
+			depthStencil.front = VulkanUtilities::getStencilOpState(mySpecification.depthStencilInfo.frontOpState);
+			depthStencil.back = VulkanUtilities::getStencilOpState(mySpecification.depthStencilInfo.backOpState);
+			depthStencil.maxDepthBounds = mySpecification.depthStencilInfo.maxBounds;
+			depthStencil.minDepthBounds = mySpecification.depthStencilInfo.minBounds;
+
+			/* Initialize Color Blend */
+			VkPipelineColorBlendStateCreateInfo colorBlending = {};
+			colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+			colorBlending.flags = VK_NULL_HANDLE;
+			colorBlending.pNext = VK_NULL_HANDLE;
+			colorBlending.logicOpEnable = mySpecification.colorBlendInfo.enableColorBlendLogicOp;
+			colorBlending.logicOp = (VkLogicOp)mySpecification.colorBlendInfo.blendLogicOp;
+			colorBlending.blendConstants[0] = mySpecification.colorBlendInfo.blendConstants[0];
+			colorBlending.blendConstants[1] = mySpecification.colorBlendInfo.blendConstants[1];
+			colorBlending.blendConstants[2] = mySpecification.colorBlendInfo.blendConstants[2];
+			colorBlending.blendConstants[3] = mySpecification.colorBlendInfo.blendConstants[3];
+
+			auto blendAttachments = VulkanUtilities::getBlendStates(mySpecification.colorBlendInfo.blendStates);
+			colorBlending.attachmentCount = blendAttachments.size();
+			colorBlending.pAttachments = blendAttachments.data();
+
+			/* Initialize Dynamic States */
+			VkPipelineDynamicStateCreateInfo dynamicState = {};
+			dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+			dynamicState.flags = VK_NULL_HANDLE;
+			dynamicState.pNext = VK_NULL_HANDLE;
+
+			auto dynamicStates = VulkanUtilities::getDynamicStates(mySpecification.dynamicStates);
+			dynamicState.dynamicStateCount = dynamicStates.size();
+			dynamicState.pDynamicStates = dynamicStates.data();
+
+			/* Initialize Pipeline */
+			VkGraphicsPipelineCreateInfo pipelineInfo = {};
+			pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+			pipelineInfo.flags = VK_PIPELINE_CREATE_ALLOW_DERIVATIVES_BIT | VK_PIPELINE_CREATE_DERIVATIVE_BIT;
+			pipelineInfo.pNext = VK_NULL_HANDLE;
+			pipelineInfo.stageCount = shaderStages.size();
+			pipelineInfo.pStages = shaderStages.data();
+			pipelineInfo.pInputAssemblyState = &inputAssembly;
+			pipelineInfo.pVertexInputState = &vertexInputInfo;
+			pipelineInfo.pTessellationState = &tessellationState;
+			pipelineInfo.pViewportState = &viewportState;
+			pipelineInfo.pRasterizationState = &rasterizer;
+			pipelineInfo.pMultisampleState = &multisampling;
+			pipelineInfo.pDepthStencilState = &depthStencil;
+			pipelineInfo.pColorBlendState = &colorBlending;
+			pipelineInfo.pDynamicState = &dynamicState;
+			pipelineInfo.subpass = 0;
+			pipelineInfo.basePipelineIndex = -1;
+			pipelineInfo.basePipelineHandle = pipeline;
+			pipelineInfo.layout = layout;
+			pipelineInfo.renderPass = InheritCast<VulkanRenderPass>(pRenderTarget->pRenderPass).renderPass;
+
+			VkPipeline _newPipeline = VK_NULL_HANDLE;
+			DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(InheritCast<VulkanCoreObject>(pCoreObject).device, VK_NULL_HANDLE /* TODO */, 1, &pipelineInfo, VK_NULL_HANDLE, &_newPipeline), "Failed to create graphics pipeline!");
+
+			/* Destroy the old pipeline */
+			vkDestroyPipeline(InheritCast<VulkanCoreObject>(pCoreObject).device, pipeline, nullptr);
+
+			pipeline = _newPipeline;
 		}
 
 		void VulkanGraphicsPipeline::terminate(RCoreObject* pCoreObject)
@@ -269,11 +447,133 @@ namespace Dynamik
 			vkDestroyPipelineLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, layout, nullptr);
 		}
 
+		void VulkanGraphicsPipeline::initializeResources(RCoreObject* pCoreObject, ARRAY<RBuffer*> pBuffers, ARRAY<RTexture*> pTextures)
+		{
+			ARRAY<VkWriteDescriptorSet> descriptorWrites;
+
+			VkWriteDescriptorSet descriptorWrite = {};
+			descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			descriptorWrite.pNext = VK_NULL_HANDLE;
+			descriptorWrite.descriptorCount = 1;
+			descriptorWrite.dstSet = descriptor.set;
+			descriptorWrite.dstArrayElement = 0;
+			descriptorWrite.pBufferInfo = VK_NULL_HANDLE;
+			descriptorWrite.pImageInfo = VK_NULL_HANDLE;
+			descriptorWrite.pTexelBufferView = VK_NULL_HANDLE;
+
+			UI64 bufferIndex = 0;
+			ARRAY<VkDescriptorBufferInfo> bufferInfos(pBuffers.size());
+
+			UI64 textureIndex = 0;
+			ARRAY<VkDescriptorImageInfo> imageInfos(pTextures.size());
+
+			for (UI64 index = 0; index < resourceBindings.size(); index++)
+			{
+				descriptorWrite.dstBinding = index;
+				descriptorWrite.descriptorType = resourceBindings[index].descriptorType;
+
+				switch (descriptorWrite.descriptorType)
+				{
+				case VK_DESCRIPTOR_TYPE_SAMPLER:
+					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->currentLayout);
+					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
+					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
+					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
+					textureIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER:
+					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->currentLayout);
+					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
+					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
+					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
+					textureIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE:
+					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->currentLayout);
+					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
+					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
+					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
+					textureIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_STORAGE_IMAGE:
+					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->currentLayout);
+					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
+					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
+					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
+					textureIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER:
+					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER)");
+					break;
+
+				case VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER:
+					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER)");
+					break;
+
+				case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER:
+					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
+					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
+					bufferInfos[bufferIndex].offset = 0;	/* TODO */
+					descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
+					bufferIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER:
+					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
+					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
+					bufferInfos[bufferIndex].offset = 0;	/* TODO */
+					descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
+					bufferIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC:
+					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
+					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
+					bufferInfos[bufferIndex].offset = 0;	/* TODO */
+					descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
+					bufferIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC:
+					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
+					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
+					bufferInfos[bufferIndex].offset = 0;	/* TODO */
+					descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
+					bufferIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT:
+					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT)");
+					break;
+
+				case VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK_EXT:
+					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK_EXT)");
+					break;
+
+				case VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_NV:
+					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_NV)");
+					break;
+
+				default:
+					DMK_ERROR_BOX("Invalid Vulkan Descriptor Type!");
+					break;
+				}
+
+				descriptorWrites.pushBack(descriptorWrite);
+			}
+
+			vkUpdateDescriptorSets(InheritCast<VulkanCoreObject>(pCoreObject).device, descriptorWrites.size(), descriptorWrites.data(), 0, VK_NULL_HANDLE);
+		}
+
 		VulkanGraphicsPipeline::operator VkPipelineLayout() const
 		{
 			return this->layout;
 		}
-		
+
 		VulkanGraphicsPipeline::operator VkPipeline() const
 		{
 			return this->pipeline;

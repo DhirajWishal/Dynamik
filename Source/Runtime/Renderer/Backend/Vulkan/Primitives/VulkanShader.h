@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_VULKAN_SHADER_H
 #define _DYNAMIK_VULKAN_SHADER_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      29/05/2020
-*/
 #include "../Common/VulkanDevice.h"
 
 #include "Core/Object/Resource/ShaderModule.h"

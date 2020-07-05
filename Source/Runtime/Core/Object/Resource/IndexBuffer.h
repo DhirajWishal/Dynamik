@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_INDEX_BUFFER_H
 #define _DYNAMIK_INDEX_BUFFER_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		24/06/2020
-*/
 #include "Core/Types/Array.h"
 
 namespace Dynamik

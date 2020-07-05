@@ -9,7 +9,7 @@ namespace Dynamik
 		myCoreObject = pCoreObject;
 	}
 
-	RPipelineObject* DMKPipelineFactory::createGraphicsPipeline(RPipelineCreateInfo createInfo)
+	RPipelineObject* DMKPipelineFactory::createGraphicsPipeline(RPipelineSpecification createInfo)
 	{
 		switch (myRenderingAPI)
 		{
@@ -26,7 +26,7 @@ namespace Dynamik
 		return nullptr;
 	}
 
-	RPipelineObject* DMKPipelineFactory::createComputePipeline(RPipelineCreateInfo createInfo)
+	RPipelineObject* DMKPipelineFactory::createComputePipeline(RPipelineSpecification createInfo)
 	{
 		switch (myRenderingAPI)
 		{

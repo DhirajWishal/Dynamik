@@ -102,12 +102,6 @@
     <ClInclude Include="Backend\Vulkan\Context\VulkanSwapChain.h">
       <Filter>Backend\Vulkan\Context</Filter>
     </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Graphics\VulkanPipeline.h">
-      <Filter>Backend\Vulkan\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Graphics\VulkanRenderAsset.h">
-      <Filter>Backend\Vulkan\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Backend\Vulkan\Pipelines\VulkanGraphicsPipeline.h">
       <Filter>Backend\Vulkan\Pipelines</Filter>
     </ClInclude>
@@ -183,6 +177,9 @@
     <ClInclude Include="Components\Primitives\RTexture.h">
       <Filter>Components\Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="Components\RCameraComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="Components\RCommandBuffer.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -212,6 +209,7 @@
     </ClInclude>
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RendererCommand.h" />
+    <ClInclude Include="Components\RDrawCallManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Backend\Vulkan\Common\VulkanCommandBuffer.cpp">
@@ -259,9 +257,6 @@
     <ClCompile Include="Backend\Vulkan\Context\VulkanSwapChain.cpp">
       <Filter>Backend\Vulkan\Context</Filter>
     </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Graphics\VulkanPipeline.cpp">
-      <Filter>Backend\Vulkan\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Backend\Vulkan\Pipelines\VulkanGraphicsPipeline.cpp">
       <Filter>Backend\Vulkan\Pipelines</Filter>
     </ClCompile>
@@ -296,6 +291,8 @@
       <Filter>Components\Factories</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Components\Primitives\RImageSampler.cpp" />
+    <ClCompile Include="Components\RDrawCallManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Backend\Vulkan\README.md">

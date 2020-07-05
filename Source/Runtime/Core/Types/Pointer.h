@@ -7,9 +7,6 @@
 
 /*
  Pointer class or the Dynamik Engine.
-
- Author:	Dhiraj Wishal
- Date:		13/05/2020
 */
 #include "Core/Macros/Global.h"
 #include "TypeTraits.h"

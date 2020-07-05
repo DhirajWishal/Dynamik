@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_MATRIX_H
 #define _DYNAMIK_MATRIX_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      17/05/2020
-*/
 #include "Core/Macros/Global.h"
 #include "Core/Types/DataTypes.h"
 

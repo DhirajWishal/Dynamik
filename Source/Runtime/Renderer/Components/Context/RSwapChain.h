@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_SWAP_CHAIN_H
 #define _DYNAMIK_RENDERER_SWAP_CHAIN_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		14/06/2020
-*/
 #include "../RCoreObject.h"
 #include "Core/Math/MathTypes.h"
 #include "../Primitives/RImage.h"

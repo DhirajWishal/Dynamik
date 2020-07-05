@@ -6,9 +6,6 @@
 #define _DYNAMIK_RENDERER_PRIMITIVE_TYPE_DEFINES_H
 
 /*
- Author:    Dhiraj Wishal
- Date:      25/05/2020
-
  This file contains all the definitions and enums for different RBL APIs. Since the Dynamik Engine's default
  RBL API is Vulkan, all these defines are directly Vulkan Compatible.
 */
@@ -30,7 +27,7 @@ namespace Dynamik
 
 	/* Resource Memory Type */
 	enum DMK_API RResourceMemoryType {
-		RESOURCE_MEMORY_TYPE_HOST_ACCESSABLE = BIT_SHIFT(0),
+		RESOURCE_MEMORY_TYPE_DEVICE_LOCAL = BIT_SHIFT(0),
 		RESOURCE_MEMORY_TYPE_HOST_VISIBLE = BIT_SHIFT(1),
 		RESOURCE_MEMORY_TYPE_HOST_COHERENT = BIT_SHIFT(2),
 		RESOURCE_MEMORY_TYPE_HOST_CACHED = BIT_SHIFT(3),

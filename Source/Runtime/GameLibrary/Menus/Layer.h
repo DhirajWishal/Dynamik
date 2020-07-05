@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_LAYER_H
 #define _DYNAMIK_LAYER_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		13/06/2020
-*/
 #include "Core/Macros/Global.h"
 
 namespace Dynamik

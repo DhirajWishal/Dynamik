@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_RENDER_TARGET_H
 #define _DYNAMIK_RENDERER_RENDER_TARGET_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		14/06/2020
-*/
 #include "Context/RFrameBuffer.h"
 #include "RCommandBuffer.h"
 

@@ -5,10 +5,6 @@
 #ifndef _DYNAMIK_WINDOW_MANAGER_H
 #define _DYNAMIK_WINDOW_MANAGER_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      19/05/2020
-*/
 #include "Window/WindowHandle.h"
 #include "Core/Macros/Global.h"
 #include "Core/Types/DataTypes.h"
@@ -32,19 +28,8 @@ namespace Dynamik
 
 		DMKViewport createViewport(I32 windowIndex, I32 width, I32 height, I32 xOffset, I32 yOffset);
 
-		void addKeyEventListener(I32 windowIndex, DMKKeyEventListener* listener);
-		void addMouseButtonEventListener(I32 windowIndex, DMKMouseButtonEventListener* listener);
-		void addMouseScrollEventListener(I32 windowIndex, DMKMouseScrollEventListener* listener);
-		void removeKeyEventListener(I32 windowIndex, I32 listenerIndex);
-		void removeMouseButtonEventListener(I32 windowIndex, I32 listenerIndex);
-		void removeMouseScrollEventListener(I32 windowIndex, I32 listenerIndex);
-
 		void pollEvents();
 		void clean();
-
-		ARRAY<DMKKeyEventComponent> getKeyEventComponents(I32 windowIndex);
-		ARRAY<DMKMouseButtonEventComponent> getMouseButtonEventComponents(I32 windowIndex);
-		ARRAY<DMKMouseScrollEventComponent> getMouseScrollEventComponents(I32 windowIndex);
 
 	private:
 		ARRAY<DMKWindowHandle*> myWindowHandles;

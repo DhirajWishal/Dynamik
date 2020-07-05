@@ -5,14 +5,10 @@
 #ifndef _DYNAMIK_THREAD_MANAGER_H
 #define _DYNAMIK_THREAD_MANAGER_H
 
-/*
- Author:    Dhiraj Wishal
- Date:      15/05/2020
-*/
 #include "Thread.h"
 #include "Core/Types/TSArray.h"
 #include <thread>
-#include <list>
+#include <queue>
 
 #include "Renderer/Components/CoreTypeDefs.h"
 #include "Window/WindowHandle.h"
@@ -41,8 +37,7 @@ namespace Dynamik
     class DMK_API DMKThreadManager {
     public:
         struct DMK_API ThreadCommandBuffer {
-            TSArray<DMKThreadCommand*> commands;
-            B1 hasExcuted = false;
+            std::queue<DMKThreadCommand*> commands;
         };
 
     private:
@@ -54,7 +49,7 @@ namespace Dynamik
 
     public:
         DMKThreadManager() {}
-        ~DMKThreadManager() {}
+        ~DMKThreadManager();
 
         UI32 getUseableThreadCount();
 
@@ -66,15 +61,24 @@ namespace Dynamik
 
         void clearCommands();
 
+        void terminateAll();
+
         /* Dedicated thread commands */
     public:
         /* Renderer thread (RT = RendererThread) */
+        void pushRendererCommand(DMKRendererCommand* pCommand);
         void issueSamplesCommandRT(DMKSampleCount const& samples);
         void issueWindowHandleCommandRT(const DMKWindowHandle* handle);
         void issueInitializeCommandRT();
         void issueCreateContextCommandRT(DMKRenderContextType context, DMKViewport viewport);
+        void issueInitializeCameraCommandRT(DMKCameraModule* pModule);
+        void issueInitializeEnvironmentMapCommandRT(DMKEnvironmentMap* pEnvironmentMap);
         void issueInitializeEntityCommandRT(DMKGameEntity* meshComponents); /* Support for submitting objects */
+        void issueInitializeLevelCommandRT(DMKLevelComponent* pLevelComponent);
         void issueInitializeFinalsCommandRT();
+        void issueRawCommandRT(RendererInstruction instruction);
+        void issueFrameBufferResizeCommandRT(DMKExtent2D extent);
+        void issueTerminateCommand();
 
     private:
         static void _threadFunction(DMKThread* mySystem, ThreadCommandBuffer* commandPoolPtr);
