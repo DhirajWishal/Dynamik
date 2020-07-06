@@ -407,6 +407,7 @@
     <ClInclude Include="Types\ComplexTypes.h" />
     <ClInclude Include="Types\DataTypes.h" />
     <ClInclude Include="Types\HashMap.h" />
+    <ClInclude Include="Types\ObjectArray.h" />
     <ClInclude Include="Types\Pointer.h" />
     <ClInclude Include="Types\TSArray.h" />
     <ClInclude Include="Types\TypeTraits.h" />

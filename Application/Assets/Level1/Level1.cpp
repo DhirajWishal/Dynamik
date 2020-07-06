@@ -3,6 +3,7 @@
 
 #include "Level1.h"
 #include "Player.h"
+#include "DefaultWorld.h"
 #include "Core/Math/MathFunctions.h"
 using namespace Dynamik;
 
@@ -16,26 +17,11 @@ void Level1::onLoad()
 	playerObject->setAspectRatio(1280.0f / 720.0f);
 	playerObject->setCameraAndWorldUp(VEC3(0.0f, -1.0f, 0.0f), VEC3(0.0f, -1.0f, 0.0f));
 
-	auto entity = createHollowEntity();
+	/* Create Basic World */
+	createUserGameWorld<DefaultWorld>();
+	pCurrentGameWorld->setCamera(playerObject->getCameraModule());
 
-	entity->addComponent<DMKMeshComponent>(DMKMeshFactory::createDefault(DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Moon 2K.fbx")));
-	entity->setupCamera(playerObject->getCameraModule());
-
-	entity->getComponent<DMKMeshComponent>(0)->addTexture(DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Diffuse_2K.png"), DMKTextureType::DMK_TEXTURE_TYPE_2D);
-
-	entity->getComponent<DMKMeshComponent>(0)->translate(MAT4(1.0f), { 0.0f, 0.0f, -5.0f });
-
-	/* Initialize Sky Box */
-	ARRAY<STRING> texturePaths;
-	texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/right.jpg");
-	texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/left.jpg");
-	texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/top.jpg");
-	texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/bottom.jpg");
-	texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/front.jpg");
-	texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/back.jpg");
-
-	environmentMap = StaticAllocator<DMKEnvironmentMap>::allocate();
-	environmentMap->setSkyBox(DMKMeshFactory::createSkyBox(texturePaths));
+	movementBias = 0.1f;
 }
 
 void Level1::onUpdate(const DMKEventPool* pEventPool)

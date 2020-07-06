@@ -63,8 +63,7 @@ namespace Dynamik
 	{
 		pGamePackage->onExecute();
 		_threadManager.issueInitializeCameraCommandRT(pCurrentLevel->playerObject->getCameraModule());
-		_threadManager.issueInitializeEnvironmentMapCommandRT(pCurrentLevel->environmentMap);
-		_threadManager.issueInitializeLevelCommandRT(pCurrentLevel);
+		_threadManager.issueInitializeGameWorldCommandRT(pCurrentLevel->pCurrentGameWorld);
 		_threadManager.issueInitializeFinalsCommandRT();
 
 		UI64 _itrIndex = 0;
@@ -95,12 +94,6 @@ namespace Dynamik
 			pCurrentLevel->onUpdate(&myEventPool);
 
 			_threadManager.issueRawCommandRT(RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE);
-
-			for (_itrIndex = 0; _itrIndex < pCurrentLevel->entities.size(); _itrIndex++)
-			{
-				pCurrentLevel->entities[_itrIndex];
-				/* send entity to the physics engine */
-			}
 
 			pActiveWindow->clean();
 
@@ -133,14 +126,17 @@ namespace Dynamik
 		pCurrentLevel = pGamePackage->levels[_nextLevelIndex++];
 
 		pCurrentLevel->onLoad();
+
+		_initializeGameWorld();
+
 		pCurrentLevel->initializeComponents();
 
 		pCurrentLevel->setupPlayerControls(&myPlayerController);
+	}
 
-		for (auto _entity : pCurrentLevel->entities)
-			_entity->initialize();
-
-		pCurrentLevel->initializeCameraModule();
+	void DMKEngine::_initializeGameWorld()
+	{
+		pCurrentLevel->pCurrentGameWorld->initializeEntities();
 	}
 
 	DMKWindowHandle* DMKEngine::_createWindow(I32 width, I32 height, STRING title)

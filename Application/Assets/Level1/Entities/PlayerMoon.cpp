@@ -7,5 +7,4 @@
 
 void PlayerMoon::initialize()
 {
-	componentManager.addComponent<DMKMeshComponent>(DMKMeshFactory::createBasicTriangle());
 }

@@ -19,8 +19,8 @@ namespace Dynamik
 		RENDERER_INSTRUCTION_INITIALIZE,
 		RENDERER_INSTRUCTION_CREATE_CONTEXT,
 		RENDERER_INSTRUCTION_INITIALIZE_CAMERA,
+		RENDERER_INSTRUCTION_INITIALIZE_GAME_WORLD,
 		RENDERER_INSTRUCTION_INITIALIZE_ENVIRONMENT_MAP,
-		RENDERER_INSTRUCTION_INITIALIZE_LEVEL,
 		RENDERER_INSTRUCTION_INITIALIZE_ENTITY,
 		RENDERER_INSTRUCTION_INITIALIZE_FINALS,
 		RENDERER_INSTRUCTION_SUBMIT_OBJECTS,
@@ -90,6 +90,15 @@ namespace Dynamik
 		DMKCameraModule* pCameraModule = nullptr;
 	};
 
+	/* Initialize Game World */
+	class DMK_API RendererInitializeGameWorld : public DMKRendererCommand {
+	public:
+		RendererInitializeGameWorld() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_GAME_WORLD) {}
+		~RendererInitializeGameWorld() {}
+
+		DMKGameWorld* pGameWorld = nullptr;
+	};
+
 	/* Initialize Environment Map */
 	class DMK_API RendererInitializeEnvironmentMap : public DMKRendererCommand {
 	public: 
@@ -106,15 +115,6 @@ namespace Dynamik
 		~RendererAddEntity() {}
 
 		DMKGameEntity* entity = nullptr;
-	};
-
-	/* Add Entities */
-	class DMK_API RendererSubmitLevel : public DMKRendererCommand {
-	public:
-		RendererSubmitLevel() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_LEVEL) {}
-		~RendererSubmitLevel() {}
-
-		DMKLevelComponent* level = nullptr;
 	};
 
 	/* Resize Frame Buffer */

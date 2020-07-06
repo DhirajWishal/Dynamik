@@ -11,7 +11,7 @@
 #include "GameEntity.h"
 #include "GameMechanics.h"
 #include "PlayerObject.h"
-#include "EnvironmentMap.h"
+#include "GameWorld.h"
 #include "Utilities/MeshFactory.h"
 
 #include "Core/Macros/Global.h"
@@ -62,9 +62,20 @@ namespace Dynamik
 		VEC3 getPlayerPosition();
 
 	public:		/* Level Data Store */
+		/*
+		 Pointer to the current (active) game world.
+		 A level can cycle through multiple game worlds at times.
+		*/
+		DMKGameWorld* pCurrentGameWorld = nullptr;
 
-		/* Game Assets */
-		ARRAY<DMKGameEntity*> entities;
+		/*
+		 Allocates a user defined Game World and initializes it.
+		*/
+		template<class WORLD>
+		DMK_FORCEINLINE void createUserGameWorld()
+		{
+			pCurrentGameWorld = StaticAllocator<WORLD>::allocate();
+		}
 
 		/* Game Mechanics */
 		ARRAY<DMKGameMechanics*> gameMechanics;
@@ -78,53 +89,7 @@ namespace Dynamik
 		/* Additional Components */
 		DMKComponentManager sceneComponentManager;
 
-	public:		/* Constant methods */
-		void initializeCameraModule();
-
 	protected:	/* Helper methods */
-		/*
-		 Create a basic hollow entity.
-		 These entities does not have any functionalities and are basically empty.
-		 By default, this adds the entity to the entity array.
-		*/
-		DMKGameEntity* createHollowEntity();
-
-		/*
-		 Create static entity.
-		 This entity contains a static mesh without any other functionality attached to it by default.
-		 By default, this adds the entity to the entity array.
-		*/
-		DMKGameEntity* createStaticEntity(const STRING& assetPath);
-
-		/*
-		 Create static entity.
-		 This entity contains a static mesh without any other functionality attached to it by default.
-		 By default, this adds the entity to the entity array.
-		*/
-		DMKGameEntity* createStaticEntity(const STRING& assetPath, const DMKVertexLayout& vertexLayout);
-
-		/* TEMPLATED
-		 Create user defined entity.
-		 This creates a user defined entity, adds it to the entity list and returns its address.
-
-		 @tparam ENTITY: The user defined entity
-		*/
-		template<class ENTITY>
-		DMK_FORCEINLINE DMKGameEntity* createUserEntity()
-		{
-			DMKGameEntity* entity = Cast<DMKGameEntity*>(StaticAllocator<ENTITY>::allocate().get());
-
-			entities.pushBack(entity);
-			return entity;
-		}
-
-		/*
-		 Add an entity to the entity array.
-
-		 @param pEntity: Pointer to the entity.
-		*/
-		void addEntity(DMKGameEntity* pEntity);
-
 		/*
 		 Create an empty player object.
 		*/
@@ -139,11 +104,6 @@ namespace Dynamik
 			playerObject = Cast<DMKPlayerObject*>(StaticAllocator<PLAYER>::allocate().get());
 			return playerObject;
 		}
-
-		/*
-		 Create an empty environment.
-		*/
-		DMKEnvironmentMap* createHollowEnvironment();
 	};
 }
 

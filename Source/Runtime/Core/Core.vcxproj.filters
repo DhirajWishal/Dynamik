@@ -193,6 +193,7 @@
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Object\Resource\Textures\TextureCube.h" />
+    <ClInclude Include="Types\ObjectArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Error\ErrorManager.cpp">

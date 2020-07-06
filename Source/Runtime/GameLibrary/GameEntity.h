@@ -9,6 +9,7 @@
  Game Entiry for the Dynamik Engine.
 */
 #include "ComponentSystem/ComponentManager.h"
+#include "Core/Types/ObjectArray.h"
 
 namespace Dynamik
 {
@@ -48,7 +49,7 @@ namespace Dynamik
 		template<class COMPONENT>
 		DMK_FORCEINLINE void addComponent(const COMPONENT& component)
 		{
-			componentManager.addComponent<COMPONENT>(component);
+			componentManager.addObject<COMPONENT>(component);
 		}
 
 		/*
@@ -60,11 +61,11 @@ namespace Dynamik
 		template<class COMPONENT>
 		DMK_FORCEINLINE COMPONENT* getComponent(UI64 index = 0)
 		{
-			return componentManager.getComponent<COMPONENT>(index);
+			return componentManager.getObject<COMPONENT>(index);
 		}
 
 		/* Component Manager */
-		DMKComponentManager componentManager;
+		ObjectArray componentManager;
 
 		B1 isCameraAvailable = false;
 

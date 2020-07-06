@@ -57,6 +57,7 @@ namespace Dynamik
 	private:	/* Private runtime functions */
 		void _initializeRuntimeSystems();
 		void _loadLevel();
+		void _initializeGameWorld();
 		DMKWindowHandle* _createWindow(I32 width, I32 height, STRING title);
 
 	private:	/* Client game data store */

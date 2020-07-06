@@ -55,6 +55,7 @@
     </ClCompile>
     <ClCompile Include="PlayerObject.cpp" />
     <ClCompile Include="EnvironmentMap.cpp" />
+    <ClCompile Include="GameWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameLibrary.lua" />

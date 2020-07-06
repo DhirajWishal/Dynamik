@@ -84,7 +84,7 @@ namespace Dynamik
         void initializeCamera(DMKCameraModule* pCameraModule);
         void initializeEnvironmentMap(DMKEnvironmentMap* pEnvironmentMap);
         void createEntityResources(DMKGameEntity* pGameEntity);
-        void createLevelResources(DMKLevelComponent* pLevelComponent);
+        void initializeGameWorld(DMKGameWorld* pGameWorld);
 
     private:    /* Finals */
         void updateResources();

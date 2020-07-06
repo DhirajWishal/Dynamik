@@ -61,6 +61,9 @@ namespace Dynamik
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_CAMERA:
 			initializeCamera(Inherit<RendererInitializeCamera>(myCommand)->pCameraModule);
 			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_GAME_WORLD:
+			initializeGameWorld(Inherit<RendererInitializeGameWorld>(myCommand)->pGameWorld);
+			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENVIRONMENT_MAP:
 			initializeEnvironmentMap(Inherit<RendererInitializeEnvironmentMap>(myCommand)->pEnvironmentMap);
 			break;
@@ -69,9 +72,6 @@ namespace Dynamik
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITY:
 			createEntityResources(Inherit<RendererAddEntity>(myCommand)->entity);
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_LEVEL:
-			createLevelResources(Inherit<RendererSubmitLevel>(myCommand)->level);
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SUBMIT_OBJECTS:
 			break;
@@ -428,9 +428,9 @@ namespace Dynamik
 	{
 		REntity entity;
 		RMeshObject* meshComponent = nullptr;
-		for (UI64 index = 0; index < pGameEntity->componentManager.getComponentArray<DMKMeshComponent>()->myComponents.size(); index++)
+		for (UI64 index = 0; index < pGameEntity->componentManager.getObjectArray<DMKMeshComponent>()->size(); index++)
 		{
-			auto mesh = pGameEntity->componentManager.getComponent<DMKMeshComponent>(index);
+			auto mesh = pGameEntity->componentManager.getObject<DMKMeshComponent>(index);
 			meshComponent = StaticAllocator<RMeshObject>::rawAllocate();
 			meshComponent->pMeshComponent = mesh;
 
@@ -481,9 +481,16 @@ namespace Dynamik
 		myEntities.pushBack(entity);
 	}
 
-	void DMKRenderer::createLevelResources(DMKLevelComponent* pLevelComponent)
+	void DMKRenderer::initializeGameWorld(DMKGameWorld* pGameWorld)
 	{
-		for (auto entity : pLevelComponent->entities)
+		if (!pGameWorld)
+			return;
+
+		/* Initialize Environment Map */
+		initializeEnvironmentMap(pGameWorld->pEnvironmentMap);
+
+		/* Initialize Entities */
+		for (auto entity : pGameWorld->entities)
 			createEntityResources(entity);
 	}
 

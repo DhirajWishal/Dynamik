@@ -74,7 +74,7 @@ namespace Dynamik
         void issueInitializeCameraCommandRT(DMKCameraModule* pModule);
         void issueInitializeEnvironmentMapCommandRT(DMKEnvironmentMap* pEnvironmentMap);
         void issueInitializeEntityCommandRT(DMKGameEntity* meshComponents); /* Support for submitting objects */
-        void issueInitializeLevelCommandRT(DMKLevelComponent* pLevelComponent);
+        void issueInitializeGameWorldCommandRT(DMKGameWorld* pGameWorld);
         void issueInitializeFinalsCommandRT();
         void issueRawCommandRT(RendererInstruction instruction);
         void issueFrameBufferResizeCommandRT(DMKExtent2D extent);

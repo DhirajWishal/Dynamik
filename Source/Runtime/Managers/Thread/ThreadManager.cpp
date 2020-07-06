@@ -180,13 +180,13 @@ namespace Dynamik
 		pushRendererCommand(StaticAllocator<RendererAddEntity>::allocateInit(_command));
 	}
 
-	void DMKThreadManager::issueInitializeLevelCommandRT(DMKLevelComponent* pLevelComponent)
+	void DMKThreadManager::issueInitializeGameWorldCommandRT(DMKGameWorld* pGameWorld)
 	{
-		RendererSubmitLevel _command;
-		_command.level = pLevelComponent;
+		RendererInitializeGameWorld _command;
+		_command.pGameWorld = pGameWorld;
 
 		/* Push to command queue */
-		pushRendererCommand(StaticAllocator<RendererSubmitLevel>::allocateInit(_command));
+		pushRendererCommand(StaticAllocator<RendererInitializeGameWorld>::allocateInit(_command));
 	}
 
 	void DMKThreadManager::issueInitializeFinalsCommandRT()

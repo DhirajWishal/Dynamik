@@ -381,6 +381,7 @@
     <ClCompile Include="Camera\CameraModule.cpp" />
     <ClCompile Include="EnvironmentMap.cpp" />
     <ClCompile Include="GameEntity.cpp" />
+    <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="LevelComponent.cpp" />
     <ClCompile Include="Mechanics\PlayerController.cpp" />
     <ClCompile Include="PlayerObject.cpp" />

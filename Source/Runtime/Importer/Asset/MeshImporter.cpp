@@ -13,6 +13,19 @@
 
 namespace Dynamik
 {
+	/*
+	 Utility function to copy data from source to destination using a byte count.
+	 This also checks for runtime errors (if the size of the source is less than or equal to the byte count).
+	*/
+	template<class TYPE>
+	void DMK_FORCEINLINE copyData(VPTR dst, TYPE&& src, UI64 byteCount)
+	{
+		if (byteCount < sizeof(TYPE))
+			DMKMemoryFunctions::moveData(dst, &src, byteCount);
+		else
+			DMKMemoryFunctions::moveData(dst, &src, sizeof(TYPE));
+	}
+
 	ARRAY<DMKMeshComponent> DMKMeshImporter::loadMeshes(const STRING& path, const DMKVertexLayout& vertexLayout)
 	{
 		static Assimp::Importer _importer;
@@ -40,26 +53,27 @@ namespace Dynamik
 			{
 				for (auto attribute : vertexLayout.attributes)
 				{
-					attributeSize = (UI32)attribute.dataType * attribute.dataCount;
+					attributeSize = (UI64)attribute.dataType * attribute.dataCount;
+
 					switch (attribute.attributeType)
 					{
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION:
 						if (_mesh->HasPositions())
-							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mVertices[_index], attributeSize);
+							copyData(vertexPointer.get(), std::move(_mesh->mVertices[_index]), attributeSize);
 						else
 							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
 						break;
 
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR:
 						if (_mesh->HasVertexColors(0))
-							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mColors[0][_index].r, attributeSize);
+							copyData(vertexPointer.get(), std::move(_mesh->mColors[0][_index]), attributeSize);
 						else
 							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
 						break;
 
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES:
 						if (_mesh->HasTextureCoords(0))
-							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mTextureCoords[0][_index].x, attributeSize);
+							copyData(vertexPointer.get(), std::move(_mesh->mTextureCoords[0][_index]), attributeSize);
 						else
 							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
 						break;
@@ -69,7 +83,7 @@ namespace Dynamik
 
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL:
 						if (_mesh->HasNormals())
-							DMKMemoryFunctions::moveData(vertexPointer.get(), &_mesh->mNormals[_index].x, attributeSize);
+							copyData(vertexPointer.get(), std::move(_mesh->mNormals[_index]), attributeSize);
 						else
 							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
 						break;
