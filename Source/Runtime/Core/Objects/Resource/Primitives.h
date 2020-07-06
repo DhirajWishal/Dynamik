@@ -68,15 +68,27 @@ namespace Dynamik
 
 	/* Shader input attribute types */
 	enum class DMK_API DMKVertexAttributeType {
-		DMK_VERTEX_ATTRIBUTE_TYPE_POSITION,                 /* Position coordinates */
-		DMK_VERTEX_ATTRIBUTE_TYPE_COLOR,                    /* Color coordinates */
-		DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES,      /* Texture coordinates */
-		DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES,           /* UV coordinates */
-		DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL,                   /* Normal vectors */
-		DMK_VERTEX_ATTRIBUTE_TYPE_INTEGRITY,				/* Integrity value */
-		DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID,                  /* Bone IDs */
-		DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT,              /* Bone Weights */
-		DMK_VERTEX_ATTRIBUTE_TYPE_CUSTOM                    /* Custom */
+		DMK_VERTEX_ATTRIBUTE_TYPE_POSITION,						/* Position coordinates */
+		DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL,						/* Normal vectors */
+		DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_0,						/* Color coordinates 0 */
+		DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_1,						/* Color coordinates 1 */
+		DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_2,						/* Color coordinates 2 */
+		DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_3,						/* Color coordinates 3 */
+		DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_0,		/* Texture coordinates 0 */
+		DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_1,		/* Texture coordinates 1 */
+		DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_2,		/* Texture coordinates 2 */
+		DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_3,		/* Texture coordinates 3 */
+		DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_4,		/* Texture coordinates 4 */
+		DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_5,		/* Texture coordinates 5 */
+		DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_6,		/* Texture coordinates 6 */
+		DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_7,		/* Texture coordinates 7 */
+		DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES,				/* UV coordinates */
+		DMK_VERTEX_ATTRIBUTE_TYPE_TANGENT,						/* Tangents */
+		DMK_VERTEX_ATTRIBUTE_TYPE_BITANGENT,					/* Bi tangents */
+		DMK_VERTEX_ATTRIBUTE_TYPE_INTEGRITY,					/* Integrity value */
+		DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID,						/* Bone IDs */
+		DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT,					/* Bone Weights */
+		DMK_VERTEX_ATTRIBUTE_TYPE_CUSTOM						/* Custom */
 	};
 
 	/* Dynamik Shader Input Attribute */

@@ -43,10 +43,10 @@ namespace Dynamik
 		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
 		layout.attributes.pushBack(attribute);
 
-		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR;
+		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_0;
 		layout.attributes.pushBack(attribute);
 
-		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES;
+		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_0;
 		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC2;
 		layout.attributes.pushBack(attribute);
 

@@ -7,7 +7,7 @@
 
 #include "../Common/VulkanDevice.h"
 
-#include "Core/Object/Resource/ShaderModule.h"
+#include "Core/Objects/Resource/ShaderModule.h"
 
 namespace Dynamik
 {

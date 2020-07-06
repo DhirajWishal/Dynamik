@@ -552,7 +552,7 @@ namespace Dynamik
 		myCommandBufferManager->resetBuffers(myCoreObject, myCommandBuffers);
 
 		/* Terminate The Current Context */
-		terminateContext();
+		terminateContext(false);
 
 		/* Create New Context */
 		DMKViewport newViewPort;
@@ -604,7 +604,7 @@ namespace Dynamik
 		myCoreObject->submitCommand(myCommandBuffers[currentImageIndex], mySwapChain);
 	}
 
-	void DMKRenderer::terminateContext()
+	void DMKRenderer::terminateContext(B1 terminateRenderTarget)
 	{
 		/* Terminate Frame Buffer */
 		myRenderTarget->pFrameBuffer->terminate(myCoreObject);
@@ -615,7 +615,8 @@ namespace Dynamik
 		StaticAllocator<RRenderPass>::rawDeallocate(myRenderTarget->pRenderPass, 0);
 
 		/* Deallocate Render Target */
-		delete myRenderTarget;
+		if (terminateRenderTarget)
+			delete myRenderTarget;
 
 		/* Terminate Swap Chain */
 		mySwapChain->terminate(myCoreObject);

@@ -5,7 +5,7 @@
 #include "MeshFactory.h"
 
 #include "Importer/Asset/MeshImporter.h"
-#include "Core/Object/Resource/TextureFactory.h"
+#include "Core/Objects/Resource/TextureFactory.h"
 
 namespace Dynamik
 {
@@ -53,7 +53,7 @@ namespace Dynamik
 		vertexAttribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
 		vertexLayout.attributes.pushBack(vertexAttribute);
 
-		vertexAttribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR;
+		vertexAttribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_0;
 		vertexLayout.attributes.pushBack(vertexAttribute);
 
 		component.vertexLayout = vertexLayout;

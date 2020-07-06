@@ -85,6 +85,7 @@ group "Studio"
 include "Source/Studio/DynamikStudio.lua"
 
 group "Runtime"
+include "Source/Runtime/Animation/Animation.lua"
 include "Source/Runtime/ComponentSystem/ComponentSystem.lua"
 include "Source/Runtime/Core/Core.lua"
 include "Source/Runtime/Events/Events.lua"

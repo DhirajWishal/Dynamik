@@ -15,7 +15,7 @@
 #include "Core/Utilities/Clock.h"
 #include "Core/FileSystem/FileSystem.h"
 #include "Core/Memory/AutomatedMemoryManager.h"
-#include "Core/Object/Resource/ShaderFactory.h"
+#include "Core/Objects/Resource/ShaderFactory.h"
 
 #include "Managers/Window/WindowManager.h"
 #include "Window/Windows/WindowsWindow.h"

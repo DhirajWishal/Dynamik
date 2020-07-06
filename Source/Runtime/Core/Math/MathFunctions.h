@@ -91,6 +91,9 @@ namespace Dynamik
 		static Matrix4F rotate(Matrix4F const mat, F32 const angel, Vector3F const vec);
 	};
 
+	/* Short form type for the math class */
+	typedef DMKMathFunctions DMF;
+
 	/* ---------- GLOBAL OPERATORS ---------- */
 	/*
 	 Multiply two 4x4 matrices.

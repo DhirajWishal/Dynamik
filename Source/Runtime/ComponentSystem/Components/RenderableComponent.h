@@ -6,8 +6,8 @@
 #define _DYNAMIK_RENDERABLE_COMPONENT_H
 
 #include "../Component.h"
-#include "Core/Object/Resource/ShaderModule.h"
-#include "Core/Object/Resource/Texture.h"
+#include "Core/Objects/Resource/ShaderModule.h"
+#include "Core/Objects/Resource/Texture.h"
 #include "GameLibrary/Camera/CameraModule.h"
 
 namespace Dynamik

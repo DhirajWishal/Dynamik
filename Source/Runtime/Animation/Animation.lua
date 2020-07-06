@@ -1,9 +1,9 @@
 -- Copyright 2020 Dhiraj Wishal
 -- SPDX-License-Identifier: Apache-2.0
 
----------- Dynamik Engine project description ----------
+---------- Animation project description ----------
 
-project "DynamikEngine"
+project "Animation"
 	kind "StaticLib"
 	language "C++"
 	systemversion "latest"
@@ -29,7 +29,6 @@ project "DynamikEngine"
 		"$(SolutionDir)Dependencies/Libraries/Local",
 		"$(SolutionDir)Source/Runtime/",
 		"$(SolutionDir)Source/Runtime/Core/PCH/",
-		"$(SolutionDir)Source/Runtime",
 		"$(SolutionDir)ThirdParty/imgui",
 		"$(SolutionDir)ThirdParty/SPIRV-Cross",
 		"%{IncludeDir.Vulkan}",
@@ -43,18 +42,12 @@ project "DynamikEngine"
 		"%{IncludeDir.SPIRVTools}",
 	}
 
+	libdirs {
+		"%{IncludeLib.Assimp}",
+	}
+
 	links { 
-		"Animation",
-		"ComponentSystem",
-		"Core",
-		"Events",
-		"GameLibrary",
-		"Importer",
-		"Managers",
-		"Renderer",
-		"Services",
-		"Tools",
-		"Window",
+		"assimp",
 	}
 
 	filter "system:windows"

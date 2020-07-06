@@ -26,14 +26,17 @@ namespace Dynamik
 	 Dynamik Game World
 	 This object represents a game world and may or may not contain behavior defined entities.  
 
-	 The Game World is initialized on creation (by the constructor). Users are required to include
-	 all the initialization and other functions in the constructor of your derived class.
+	 Since the game world acts much like a container object, user defined initializations are only allowed
+	 to be placed in the constructor as there are no virtual initialize functions defined.
 	*/
 	class DMK_API DMKGameWorld {
 	public:
-		DMKGameWorld() {}
-		virtual ~DMKGameWorld() {}
+		DMKGameWorld() = default;
+		virtual ~DMKGameWorld() = default;
 
+		/*
+		 Initialize stored entities.
+		*/
 		void initializeEntities();
 
 		/*

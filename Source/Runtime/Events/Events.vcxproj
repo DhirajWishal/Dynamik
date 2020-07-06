@@ -363,8 +363,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="EventPool.h" />
     <ClInclude Include="EventComponent.h" />
+    <ClInclude Include="EventPool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EventPool.cpp" />

@@ -11,8 +11,8 @@
 #include "Context/VulkanRenderPass.h"
 #include "Pipelines/VulkanGraphicsPipeline.h"
 
-#include "Core/Object/Resource/ShaderModule.h"
-#include "Core/Object/Resource/Primitives.h"
+#include "Core/Objects/Resource/ShaderModule.h"
+#include "Core/Objects/Resource/Primitives.h"
 
 namespace Dynamik
 {

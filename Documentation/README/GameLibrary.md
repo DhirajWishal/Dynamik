@@ -4,21 +4,23 @@
 ### Structure
 - Game Package
   - Level Components
-    - Entities - Contains components which performs a task/ tasks. By default entities do not have any 
-    functionality. Entities are almost like wrappers to scene components but when given functionalities, 
-    it can perform tasks like an NPC.
-      - Audio Component
-      - Physics Component
-      - Renderer Component
-    - Environment Map
+    - Game World
+      - Entities - Contains components which performs a task/ tasks. By default entities do not have any 
+        functionality. Entities are almost like wrappers to scene components but when given functionalities, 
+        it can perform tasks like an NPC.
+        - Audio Component
+        - Physics Component
+      - Environment Map
+      - Light Components
     - Game Mechanics
       - Key Bindings
       - Win Condition
       - Game Mode
     - Player Object
       - Player Controller
+      - Animation Controller
       - Character Components
-    - Camera Module
+      - Camera Module
         - Attachments
   - Game Menus
     - Layers

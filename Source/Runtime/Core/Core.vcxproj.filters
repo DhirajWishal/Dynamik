@@ -126,42 +126,6 @@
     <ClInclude Include="Memory\StaticAllocator.h">
       <Filter>Memory</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Descriptors\GameComponentDesriptors.h">
-      <Filter>Object\Descriptors</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Descriptors\MaterialDescriptor.h">
-      <Filter>Object\Descriptors</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Resource\IndexBuffer.h">
-      <Filter>Object\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Resource\Primitives.h">
-      <Filter>Object\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Resource\ShaderFactory.h">
-      <Filter>Object\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Resource\ShaderModule.h">
-      <Filter>Object\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Resource\Texture.h">
-      <Filter>Object\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Resource\TextureFactory.h">
-      <Filter>Object\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Resource\Textures\Texture2D.h">
-      <Filter>Object\Resource\Textures</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Resource\VertexBuffer.h">
-      <Filter>Object\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Resource\VertexObject.h">
-      <Filter>Object\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\System.h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="PCH\dmkafx.h">
       <Filter>PCH</Filter>
     </ClInclude>
@@ -175,6 +139,9 @@
       <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="Types\HashMap.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Types\ObjectArray.h">
       <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="Types\Pointer.h">
@@ -192,8 +159,46 @@
     <ClInclude Include="Utilities\Clock.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Resource\Textures\TextureCube.h" />
-    <ClInclude Include="Types\ObjectArray.h" />
+    <ClInclude Include="Objects\Descriptors\GameComponentDesriptors.h">
+      <Filter>Object\Descriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Descriptors\MaterialDescriptor.h">
+      <Filter>Object\Descriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resource\Textures\Texture2D.h">
+      <Filter>Object\Resource\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resource\Textures\TextureCube.h">
+      <Filter>Object\Resource\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resource\IndexBuffer.h">
+      <Filter>Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resource\Primitives.h">
+      <Filter>Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resource\ShaderFactory.h">
+      <Filter>Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resource\ShaderModule.h">
+      <Filter>Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resource\Texture.h">
+      <Filter>Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resource\TextureFactory.h">
+      <Filter>Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resource\VertexBuffer.h">
+      <Filter>Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resource\VertexObject.h">
+      <Filter>Object\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\System.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Quaternion.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Error\ErrorManager.cpp">
@@ -238,31 +243,34 @@
     <ClCompile Include="Memory\MemoryManager.cpp">
       <Filter>Memory</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Resource\Primitives.cpp">
-      <Filter>Object\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Resource\ShaderFactory.cpp">
-      <Filter>Object\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Resource\ShaderModule.cpp">
-      <Filter>Object\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Resource\Texture.cpp">
-      <Filter>Object\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Resource\TextureFactory.cpp">
-      <Filter>Object\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Resource\Textures\Texture2D.cpp">
-      <Filter>Object\Resource\Textures</Filter>
-    </ClCompile>
     <ClCompile Include="PCH\dmkafx.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
     <ClCompile Include="Utilities\Clock.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Resource\Textures\TextureCube.cpp" />
+    <ClCompile Include="Objects\Resource\Textures\Texture2D.cpp">
+      <Filter>Object\Resource\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Resource\Textures\TextureCube.cpp">
+      <Filter>Object\Resource\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Resource\Primitives.cpp">
+      <Filter>Object\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Resource\ShaderFactory.cpp">
+      <Filter>Object\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Resource\ShaderModule.cpp">
+      <Filter>Object\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Resource\Texture.cpp">
+      <Filter>Object\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Resource\TextureFactory.cpp">
+      <Filter>Object\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Quaternion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core.lua" />

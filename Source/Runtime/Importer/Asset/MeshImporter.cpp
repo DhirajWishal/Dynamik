@@ -5,7 +5,7 @@
 #include "MeshImporter.h"
 
 #include "ComponentSystem/Components/RenderableComponents/MeshComponent.h"
-#include "Core/Object/Resource/Primitives.h"
+#include "Core/Objects/Resource/Primitives.h"
 
 #include <assimp/assimp/Importer.hpp>
 #include <assimp/assimp/scene.h>
@@ -64,28 +64,104 @@ namespace Dynamik
 							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
 						break;
 
-					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR:
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL:
+						if (_mesh->HasNormals())
+							copyData(vertexPointer.get(), std::move(_mesh->mNormals[_index]), attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
+						break;
+
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_0:
 						if (_mesh->HasVertexColors(0))
 							copyData(vertexPointer.get(), std::move(_mesh->mColors[0][_index]), attributeSize);
 						else
 							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
 						break;
 
-					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES:
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_1:
+						if (_mesh->HasVertexColors(1))
+							copyData(vertexPointer.get(), std::move(_mesh->mColors[1][_index]), attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
+						break;
+
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_2:
+						if (_mesh->HasVertexColors(2))
+							copyData(vertexPointer.get(), std::move(_mesh->mColors[2][_index]), attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
+						break;
+
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_3:
+						if (_mesh->HasVertexColors(3))
+							copyData(vertexPointer.get(), std::move(_mesh->mColors[3][_index]), attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
+						break;
+
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_0:
 						if (_mesh->HasTextureCoords(0))
 							copyData(vertexPointer.get(), std::move(_mesh->mTextureCoords[0][_index]), attributeSize);
 						else
 							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
 						break;
 
-					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES:
-						break;
-
-					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL:
-						if (_mesh->HasNormals())
-							copyData(vertexPointer.get(), std::move(_mesh->mNormals[_index]), attributeSize);
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_1:
+						if (_mesh->HasTextureCoords(1))
+							copyData(vertexPointer.get(), std::move(_mesh->mTextureCoords[1][_index]), attributeSize);
 						else
 							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
+						break;
+
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_2:
+						if (_mesh->HasTextureCoords(2))
+							copyData(vertexPointer.get(), std::move(_mesh->mTextureCoords[2][_index]), attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
+						break;
+
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_3:
+						if (_mesh->HasTextureCoords(3))
+							copyData(vertexPointer.get(), std::move(_mesh->mTextureCoords[3][_index]), attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
+						break;
+
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_4:
+						if (_mesh->HasTextureCoords(4))
+							copyData(vertexPointer.get(), std::move(_mesh->mTextureCoords[4][_index]), attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
+						break;
+
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_5:
+						if (_mesh->HasTextureCoords(5))
+							copyData(vertexPointer.get(), std::move(_mesh->mTextureCoords[5][_index]), attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
+						break;
+
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_6:
+						if (_mesh->HasTextureCoords(6))
+							copyData(vertexPointer.get(), std::move(_mesh->mTextureCoords[6][_index]), attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
+						break;
+
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_7:
+						if (_mesh->HasTextureCoords(7))
+							copyData(vertexPointer.get(), std::move(_mesh->mTextureCoords[7][_index]), attributeSize);
+						else
+							DMKMemoryFunctions::setData(vertexPointer.get(), 0, attributeSize);
+						break;
+
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TANGENT:
+						break;
+
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BITANGENT:
+						break;
+
+					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES:
 						break;
 
 					case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_INTEGRITY:

@@ -16,6 +16,9 @@
     <ClInclude Include="Assets\KeyBinding.h">
       <Filter>Assets</Filter>
     </ClInclude>
+    <ClInclude Include="Assets\Level1\DefaultWorld.h">
+      <Filter>Assets\Level1</Filter>
+    </ClInclude>
     <ClInclude Include="Assets\Level1\Entities\PlayerMoon.h">
       <Filter>Assets\Level1\Entities</Filter>
     </ClInclude>
@@ -25,10 +28,12 @@
     <ClInclude Include="Assets\Level1\Player.h">
       <Filter>Assets\Level1</Filter>
     </ClInclude>
-    <ClInclude Include="Assets\Level1\DefaultWorld.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ApplicationPackage.cpp" />
+    <ClCompile Include="Assets\Level1\DefaultWorld.cpp">
+      <Filter>Assets\Level1</Filter>
+    </ClCompile>
     <ClCompile Include="Assets\Level1\Entities\PlayerMoon.cpp">
       <Filter>Assets\Level1\Entities</Filter>
     </ClCompile>
@@ -36,7 +41,6 @@
       <Filter>Assets\Level1</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Assets\Level1\DefaultWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Application.lua" />

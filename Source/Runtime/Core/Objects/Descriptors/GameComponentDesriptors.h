@@ -10,7 +10,7 @@
  This file contains all the descriptors that are required by game components.
 */
 #include "Descriptor.h"
-#include "Core/Object/Resource/Primitives.h"
+#include "Core/Objects/Resource/Primitives.h"
 
 namespace Dynamik
 {

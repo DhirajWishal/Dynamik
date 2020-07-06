@@ -372,6 +372,9 @@
     <None Include="DynamikEngine.lua" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Runtime\Animation\Animation.vcxproj">
+      <Project>{859E00A2-F108-B518-3A47-66BEA6F0926D}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Runtime\ComponentSystem\ComponentSystem.vcxproj">
       <Project>{9D238DF0-09AF-FAB4-12C0-7DA97ECA56B5}</Project>
     </ProjectReference>

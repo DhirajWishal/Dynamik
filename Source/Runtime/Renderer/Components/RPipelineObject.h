@@ -11,7 +11,7 @@
 #include "Primitives/RTexture.h"
 #include "Primitives/RBuffer.h"
 
-#include "Core/Object/Resource/ShaderModule.h"
+#include "Core/Objects/Resource/ShaderModule.h"
 
 namespace Dynamik
 {

@@ -7,7 +7,7 @@
 
 #include "Core/Macros/Global.h"
 #include "Core/Math/MathTypes.h"
-#include "Core/Object/Resource/Primitives.h"
+#include "Core/Objects/Resource/Primitives.h"
 
 namespace Dynamik
 {
