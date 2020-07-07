@@ -23,7 +23,6 @@
 
 namespace Dynamik
 {
-
 	/*
 	 Dynamik Level Component act as a level for the Dynamik Engine.
 	 Level component directly translates to a level in the game. A level can also be interpreted as a player.
@@ -32,7 +31,7 @@ namespace Dynamik
 	*/
 	class DMK_API DMKLevelComponent {
 	public:
-		DMKLevelComponent()  {}
+		DMKLevelComponent();
 		virtual ~DMKLevelComponent() {}
 
 		virtual void onLoad() {}
@@ -82,12 +81,6 @@ namespace Dynamik
 
 		/* Player Object */
 		DMKPlayerObject* playerObject = nullptr;
-
-		/* Environment Map */
-		DMKEnvironmentMap* environmentMap = nullptr;
-
-		/* Additional Components */
-		DMKComponentManager sceneComponentManager;
 
 	protected:	/* Helper methods */
 		/*

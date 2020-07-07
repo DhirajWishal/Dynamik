@@ -27,9 +27,9 @@ namespace Dynamik
 	void DMKCameraModule::updateVectors()
 	{
 		VEC3 _front = VEC3(0.0f);
-		_front.x = std::cos(DMKMathFunctions::radians(yaw)) * std::cos(DMKMathFunctions::radians(pitch));
-		_front.y = std::sin(DMKMathFunctions::radians(pitch));
-		_front.z = std::sin(DMKMathFunctions::radians(yaw)) * std::cos(DMKMathFunctions::radians(pitch));
+		_front.x = DMathLib::cos(DMKMathFunctions::radians(yaw)) * DMathLib::cos(DMKMathFunctions::radians(pitch));
+		_front.y = DMathLib::sin(DMKMathFunctions::radians(pitch));
+		_front.z = DMathLib::sin(DMKMathFunctions::radians(yaw)) * DMathLib::cos(DMKMathFunctions::radians(pitch));
 
 		front = DMKMathFunctions::normalize(_front);
 		right = DMKMathFunctions::normalize(DMKMathFunctions::cross(front, worldUp));

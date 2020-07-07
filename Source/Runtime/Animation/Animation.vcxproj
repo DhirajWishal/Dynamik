@@ -402,11 +402,18 @@
     <None Include="Animation.lua" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Objects\AnimationController.h" />
+    <ClInclude Include="AnimationController.h" />
+    <ClInclude Include="Objects\AnimationComponent.h" />
+    <ClInclude Include="Objects\AnimKeyFrame.h" />
     <ClInclude Include="Objects\AnimNode.h" />
+    <ClInclude Include="Objects\AnimNodeTransform.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Objects\AnimationController.cpp" />
+    <ClCompile Include="AnimationController.cpp" />
+    <ClCompile Include="Objects\AnimationComponent.cpp" />
+    <ClCompile Include="Objects\AnimKeyFrame.cpp" />
+    <ClCompile Include="Objects\AnimNode.cpp" />
+    <ClCompile Include="Objects\AnimNodeTransform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

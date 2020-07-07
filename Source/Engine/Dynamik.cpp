@@ -16,6 +16,7 @@
 #include "Core/FileSystem/FileSystem.h"
 #include "Core/Memory/AutomatedMemoryManager.h"
 #include "Core/Objects/Resource/ShaderFactory.h"
+#include "Core/Math/MathFunctions.h"
 
 #include "Managers/Window/WindowManager.h"
 #include "Window/Windows/WindowsWindow.h"
@@ -136,6 +137,12 @@ namespace Dynamik
 
 	void DMKEngine::_initializeGameWorld()
 	{
+		if (!pCurrentLevel->pCurrentGameWorld)
+		{
+			DMK_WARN("A game world has not been set!");
+			return;
+		}
+
 		pCurrentLevel->pCurrentGameWorld->initializeEntities();
 	}
 

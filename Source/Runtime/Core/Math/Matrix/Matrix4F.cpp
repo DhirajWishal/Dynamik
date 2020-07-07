@@ -61,4 +61,9 @@ namespace Dynamik
 	{
 		return ((Vector4F*)this)[index];
 	}
+	
+	Matrix4F operator*(const Matrix4F& lhs, const F32& rhs)
+	{
+		return Matrix4F(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs, lhs.w * rhs);
+	}
 }

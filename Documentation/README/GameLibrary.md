@@ -10,6 +10,9 @@
         it can perform tasks like an NPC.
         - Audio Component
         - Physics Component
+        - Renderable Component
+          - Static Mesh
+          - Animated Mesh
       - Environment Map
       - Light Components
     - Game Mechanics

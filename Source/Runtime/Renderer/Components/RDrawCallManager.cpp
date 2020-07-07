@@ -60,6 +60,10 @@ namespace Dynamik
 		/* Initialize Index Buffer */
 		UI64 bufferSize = totalIndexCount * sizeof(UI32);
 
+		/* Check if we have data to allocate an index buffer */
+		if (bufferSize == 0)
+			return;
+
 		RBuffer* staggingBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
 		staggingBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, bufferSize);
 		POINTER<BYTE> indexPointer = staggingBuffer->getData(pCoreObject, bufferSize, 0);
@@ -73,7 +77,7 @@ namespace Dynamik
 		staggingBuffer->unmapMemory(pCoreObject);
 
 		indexBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-		indexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_INDEX, totalIndexCount * sizeof(UI32));
+		indexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_INDEX, bufferSize);
 		indexBuffer->copy(pCoreObject, staggingBuffer, bufferSize, 0, 0);
 
 		staggingBuffer->terminate(pCoreObject);

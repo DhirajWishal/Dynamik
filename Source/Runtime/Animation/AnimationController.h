@@ -14,8 +14,9 @@ namespace Dynamik
 {
 	/* Dynamik Animation Control Instruction */
 	enum class DMK_API DMKAnimationControlInstruction {
-		DMK_ANIMATION_CONTROL_INSTRUCTION_PAUSE,
 		DMK_ANIMATION_CONTROL_INSTRUCTION_PLAY,
+		DMK_ANIMATION_CONTROL_INSTRUCTION_PAUSE,
+		DMK_ANIMATION_CONTROL_INSTRUCTION_REPEAT,
 		DMK_ANIMATION_CONTROL_INSTRUCTION_RESTART,
 	};
 
@@ -43,6 +44,7 @@ namespace Dynamik
 
 	private:
 		std::unordered_map<STRING, AnimationControlInstruction> instructionMap;
+		ARRAY<STRING> eventList;
 	};
 }
 

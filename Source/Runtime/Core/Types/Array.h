@@ -230,7 +230,7 @@ namespace Dynamik
 		 * Default Destructor.
 		 * This object can also be inherited.
 		 */
-		virtual ~ARRAY()
+		~ARRAY()
 		{
 			_terminate();
 		}

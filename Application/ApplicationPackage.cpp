@@ -8,6 +8,8 @@ ApplicationPackage::ApplicationPackage()
 	gameName = DMK_TEXT("Application example");
 	gameVersion = 0x0001;
 	gameAssetBasePath = DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets");
+
+	myFirstLevel = Level1();
 }
 
 void ApplicationPackage::onLoad()

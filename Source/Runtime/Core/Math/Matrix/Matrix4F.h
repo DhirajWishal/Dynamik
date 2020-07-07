@@ -50,6 +50,8 @@ namespace Dynamik
 			struct { Vector4F x, y, z, w; };
 		};
 	};
+
+	Matrix4F operator*(const Matrix4F& lhs, const F32& rhs);
 }
 
 #endif // !_DYNAMIK_MATH_MATRIX_4F_H

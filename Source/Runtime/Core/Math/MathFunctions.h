@@ -14,6 +14,8 @@
 
 #include "Matrix/Matrix4F.h"
 
+#include "Quaternion.h"
+
 namespace Dynamik
 {
 	/*
@@ -27,9 +29,60 @@ namespace Dynamik
 		static I32 abs(I32 value);
 
 		/*
+		 Check if the given value is not a number.
+		*/
+		static B1 isNaN(F32 value);
+
+		/*
+		 Check if the given value is not a number.
+		*/
+		static B1 isNaN(I32 value);
+
+		/*
+		 Check if the value is in the finite range.
+		*/
+		static B1 isFinite(F32 value);
+
+		/*
+		 Check if the value is in the finite range.
+		*/
+		static B1 isFinite(I32 value);
+
+		/*
+		 Check if the value is infinite.
+		*/
+		static B1 isInfinite(F32 value);
+
+		/*
+		 Check if the value is infinite.
+		*/
+		static B1 isInfinite(I32 value);
+
+		/*
 		 Add all values together.
 		*/
 		static DMK_FORCEINLINE F32 addAll(Vector4F const vector);
+
+		/*
+		 Get the sin value of a given value.
+
+		 @param radians: The value in radians.
+		*/
+		static F32 sin(F32 radians);
+
+		/*
+		 Get the cos value of a given value.
+
+		 @param radians: The value in radians.
+		*/
+		static F32 cos(F32 radians);
+
+		/*
+		 Get the tan value of a given value.
+
+		 @param radians: The value in radians.
+		*/
+		static F32 tan(F32 radians);
 
 	public:
 		/*
@@ -63,6 +116,11 @@ namespace Dynamik
 		*/
 		static Vector3F normalize(Vector3F rhs);
 
+		/*
+		 Normalize a vector (4D)
+		*/
+		static Vector4F normalize(Vector4F rhs);
+
 	public:
 		/*
 		 Multiply two Matrix4Fs
@@ -89,10 +147,31 @@ namespace Dynamik
 		 Rotate matrix
 		*/
 		static Matrix4F rotate(Matrix4F const mat, F32 const angel, Vector3F const vec);
+
+		/*
+		 Inverse matrix
+		*/
+		static Matrix4F inverse(Matrix4F const& mat);
+
+	public:		/* Quaternion Functions */
+		/*
+		 Interpolate quaternion.
+		*/
+		static Quaternion interpolate(Quaternion const& start, Quaternion const& end, const F32& blend);
+
+		/*
+		 Interpolate Vector 3D.
+		*/
+		static Vector3F interpolate(Vector3F const& start, Vector3F const& end, const F32& progression);
+
+		/*
+		 Convert the quaternion to a rotational matrix.
+		*/
+		static Matrix4F toRotationalMatrix(Quaternion const& quat);
 	};
 
 	/* Short form type for the math class */
-	typedef DMKMathFunctions DMF;
+	typedef DMKMathFunctions DMathLib;
 
 	/* ---------- GLOBAL OPERATORS ---------- */
 	/*

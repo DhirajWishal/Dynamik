@@ -65,7 +65,9 @@ namespace Dynamik
 
     Vector4F operator*(const Vector4F& lhs, const F32& value)
     {
-        return (const F32*)&_mm_mul_ps(_mm_load_ps(lhs), _mm_load_ps(Vector4F(value)));
+        Vector4F _tmp;
+        _mm_store_ps((F32*)&_tmp, _mm_mul_ps(_mm_load_ps(lhs), _mm_load_ps(Vector4F(value))));
+        return _tmp;
     }
 
     B1 operator==(const Vector4F& lhs, const Vector4F& rhs)

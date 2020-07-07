@@ -8,6 +8,12 @@
 
 namespace Dynamik
 {		
+	DMKLevelComponent::DMKLevelComponent()
+	{
+		pCurrentGameWorld = nullptr;
+		playerObject = nullptr;
+	}
+
 	DMKPlayerObject* DMKLevelComponent::createHollowPlayerObject()
 	{
 		playerObject = StaticAllocator<DMKPlayerObject>::allocate().get();
