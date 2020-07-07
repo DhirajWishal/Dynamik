@@ -2,23 +2,23 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_ANIMATION_COMPONENT_H
-#define _DYNAMIK_ANIMATION_COMPONENT_H
+#ifndef _DYNAMIK_ANIMATION_H
+#define _DYNAMIK_ANIMATION_H
 
 #include "AnimKeyFrame.h"
 
 namespace Dynamik
 {
 	/*
-	 Dynamik Animation Component
+	 Dynamik Animation
 	 This stores all the relevant information required to store and render animations.
 	*/
-	class DMK_API DMKAnimationComponent {
+	class DMK_API DMKAnimation {
 	public:
-		DMKAnimationComponent() {}
-		DMKAnimationComponent(const F32& duration, const ARRAY<DMKAnimKeyFrame>& frames)
+		DMKAnimation() {}
+		DMKAnimation(const F32& duration, const ARRAY<DMKAnimKeyFrame>& frames)
 			: duration(duration), frames(frames) {}
-		~DMKAnimationComponent() {}
+		~DMKAnimation() {}
 
 		/*
 		 Get animation duration.

@@ -7,7 +7,7 @@
 
 #include "Core/Macros/Global.h"
 #include "Core/Error/ErrorManager.h"
-#include "Components/RenderableComponents/MeshComponent.h"
+#include "Core/Components/RenderableComponents/MeshComponent.h"
 #include "ComponentArray.h"
 
 namespace Dynamik

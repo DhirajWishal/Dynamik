@@ -403,14 +403,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationController.h" />
-    <ClInclude Include="Objects\AnimationComponent.h" />
+    <ClInclude Include="AnimatedMeshComponent.h" />
+    <ClInclude Include="Objects\Animation.h" />
     <ClInclude Include="Objects\AnimKeyFrame.h" />
     <ClInclude Include="Objects\AnimNode.h" />
     <ClInclude Include="Objects\AnimNodeTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationController.cpp" />
-    <ClCompile Include="Objects\AnimationComponent.cpp" />
+    <ClCompile Include="Objects\Animation.cpp" />
     <ClCompile Include="Objects\AnimKeyFrame.cpp" />
     <ClCompile Include="Objects\AnimNode.cpp" />
     <ClCompile Include="Objects\AnimNodeTransform.cpp" />

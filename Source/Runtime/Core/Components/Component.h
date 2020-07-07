@@ -7,7 +7,7 @@
 
 #include "Core/Macros/Global.h"
 #include "Core/Types/TSArray.h"
-#include "ComponentAttachments/ComponentAttachment.h"
+#include "Attachments/ComponentAttachment.h"
 
 namespace Dynamik
 {

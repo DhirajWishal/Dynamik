@@ -363,6 +363,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Components\Attachments\ComponentAttachment.h" />
+    <ClInclude Include="Components\Attachments\PhysicsAttachment.h" />
+    <ClInclude Include="Components\Component.h" />
+    <ClInclude Include="Components\RenderableComponent.h" />
+    <ClInclude Include="Components\RenderableComponents\MeshComponent.h" />
     <ClInclude Include="Error\ErrorDefines.h" />
     <ClInclude Include="Error\ErrorManager.h" />
     <ClInclude Include="Error\MessageBox.h" />
@@ -416,6 +421,8 @@
     <ClInclude Include="Utilities\Clock.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Components\RenderableComponent.cpp" />
+    <ClCompile Include="Components\RenderableComponents\MeshComponent.cpp" />
     <ClCompile Include="Error\ErrorManager.cpp" />
     <ClCompile Include="Error\MessageBox.cpp" />
     <ClCompile Include="FileSystem\FileSystem.cpp" />

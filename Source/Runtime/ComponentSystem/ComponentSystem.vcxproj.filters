@@ -12,30 +12,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentArray.h" />
-    <ClInclude Include="ComponentAttachments\ComponentAttachment.h">
-      <Filter>ComponentAttachments</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentAttachments\PhysicsAttachment.h">
-      <Filter>ComponentAttachments</Filter>
-    </ClInclude>
     <ClInclude Include="ComponentManager.h" />
-    <ClInclude Include="Components\RenderableComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\RenderableComponents\MeshComponent.h">
-      <Filter>Components\RenderableComponents</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ComponentManager.cpp" />
-    <ClCompile Include="Components\RenderableComponent.cpp">
-      <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\RenderableComponents\MeshComponent.cpp">
-      <Filter>Components\RenderableComponents</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ComponentSystem.lua" />

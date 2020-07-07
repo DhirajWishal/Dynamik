@@ -399,11 +399,13 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Asset\AnimationImporter.h" />
     <ClInclude Include="Asset\MeshImporter.h" />
     <ClInclude Include="Dynamik\DAI\DAIObject.h" />
     <ClInclude Include="Dynamik\DMKAsset\DMKAsset.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Asset\AnimationImporter.cpp" />
     <ClCompile Include="Asset\MeshImporter.cpp" />
     <ClCompile Include="Dynamik\DAI\DAIObject.cpp" />
     <ClCompile Include="Dynamik\DMKAsset\DMKAsset.cpp" />

@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_RENDERABLE_COMPONENT_H
 #define _DYNAMIK_RENDERABLE_COMPONENT_H
 
-#include "../Component.h"
+#include "Component.h"
 #include "Core/Objects/Resource/ShaderModule.h"
 #include "Core/Objects/Resource/Texture.h"
 #include "GameLibrary/Camera/CameraModule.h"
@@ -13,7 +13,7 @@
 namespace Dynamik
 {
 	/*
-	 Mesh rendering pipelin
+	 Mesh rendering pipeline
 	 This defines which pipeline to use when rendering the mesh.
 	 Custom pipelines should provide its own shader modules.
 	*/

@@ -363,18 +363,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentArray.h" />
-    <ClInclude Include="ComponentAttachments\ComponentAttachment.h" />
-    <ClInclude Include="ComponentAttachments\PhysicsAttachment.h" />
     <ClInclude Include="ComponentManager.h" />
-    <ClInclude Include="Components\RenderableComponent.h" />
-    <ClInclude Include="Components\RenderableComponents\MeshComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ComponentManager.cpp" />
-    <ClCompile Include="Components\RenderableComponent.cpp" />
-    <ClCompile Include="Components\RenderableComponents\MeshComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ComponentSystem.lua" />

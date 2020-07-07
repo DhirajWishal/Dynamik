@@ -6,7 +6,7 @@
 #define _DYNAMIK_RENDERER_MESH_COMPONENT_H
 
 #include "RCoreObject.h"
-#include "ComponentSystem/Components/RenderableComponents/MeshComponent.h"
+#include "Core/Components/RenderableComponents/MeshComponent.h"
 #include "Primitives/RTexture.h"
 #include "RPipelineObject.h"
 

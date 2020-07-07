@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_MESH_FACTORY_H
 #define _DYNAMIK_MESH_FACTORY_H
 
-#include "ComponentSystem/Components/RenderableComponents/MeshComponent.h"
+#include "Core/Components/RenderableComponents/MeshComponent.h"
 
 namespace Dynamik
 {

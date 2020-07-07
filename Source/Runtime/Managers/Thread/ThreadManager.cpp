@@ -59,6 +59,10 @@ namespace Dynamik
 				{
 					goto TERMINATE;
 				}
+				else if (pCommand->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_FORCE_TERMINATE)
+				{
+					std::terminate();
+				}
 
 				/* Deallocate handled command */
 				StaticAllocator<DMKThreadCommand>::rawDeallocate(pCommand, 0);

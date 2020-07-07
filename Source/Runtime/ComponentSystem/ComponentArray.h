@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_COMPONENT_ARRAY_H
 #define _DYNAMIK_COMPONENT_ARRAY_H
 
-#include "Component.h"
+#include "Core/Components/Component.h"
 #include "Core/Types/TSArray.h"
 
 namespace Dynamik

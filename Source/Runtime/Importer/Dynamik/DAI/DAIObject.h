@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_DAI_OBJECT_H
 #define _DYNAMIK_DAI_OBJECT_H
 
-#include "ComponentSystem/Components/RenderableComponents/MeshComponent.h"
+#include "Core/Components/RenderableComponents/MeshComponent.h"
 #include <fstream>
 
 namespace Dynamik

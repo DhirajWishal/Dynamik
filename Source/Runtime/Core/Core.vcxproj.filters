@@ -199,6 +199,11 @@
       <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="Math\Quaternion.h" />
+    <ClInclude Include="Components\RenderableComponents\MeshComponent.h" />
+    <ClInclude Include="Components\RenderableComponent.h" />
+    <ClInclude Include="Components\Attachments\ComponentAttachment.h" />
+    <ClInclude Include="Components\Attachments\PhysicsAttachment.h" />
+    <ClInclude Include="Components\Component.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Error\ErrorManager.cpp">
@@ -271,6 +276,8 @@
       <Filter>Object\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Math\Quaternion.cpp" />
+    <ClCompile Include="Components\RenderableComponents\MeshComponent.cpp" />
+    <ClCompile Include="Components\RenderableComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core.lua" />
