@@ -18,4 +18,7 @@ DefaultWorld::DefaultWorld()
 	texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/front.jpg");
 	texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/back.jpg");
 	loadEnvironmentMap(texturePaths);
+
+	/* Add new animation entity */
+	auto animEntity = createAnimatedEntity("E:/Projects/Dynamik Engine/Game Repository/assets/assets/Animation/Animations/run.fbx");
 }

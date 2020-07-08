@@ -38,7 +38,7 @@ namespace Dynamik
 		~DMKAnimationController() {}
 
 		void initialize();
-		void update();
+		void update(F32 frameTime);
 
 		void bindInstruction(STRING sEvent, DMKAnimationControlInstruction instruction, DMKLevelComponent* pLevelComponent, DMKEventType eventType);
 

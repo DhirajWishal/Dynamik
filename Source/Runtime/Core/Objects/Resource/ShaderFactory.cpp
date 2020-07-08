@@ -19,4 +19,22 @@ namespace Dynamik
 
 		return _module;
 	}
+	
+	DMKShaderModule DMKShaderFactory::createAnimated(const DMKShaderLocation& location)
+	{
+		switch (location)
+		{
+		case Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX:
+			return createModule(instance.myWorkingDir + "/Runtime/Shaders/SkeletalAnimation/vert.spv", location, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
+		
+		case Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT:
+			return createModule(instance.myWorkingDir + "/Runtime/Shaders/SkeletalAnimation/frag.spv", location, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
+		
+		default:
+			DMK_FATAL("This function only accepts Vertex and Fragment shader location arguments!");
+			break;
+		}
+
+		return DMKShaderModule();
+	}
 }

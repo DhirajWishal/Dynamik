@@ -43,6 +43,13 @@ namespace Dynamik
 		*/
 		static DMKShaderModule createModule(const STRING& filePath, const DMKShaderLocation& location, const DMKShaderCodeType& codeType);
 
+		/*
+		 Create a shader module to render animations.
+
+		 @param location: Shader module location.
+		*/
+		static DMKShaderModule createAnimated(const DMKShaderLocation& location);
+
 	private:
 		STRING myWorkingDir = DMK_TEXT("");
 	};

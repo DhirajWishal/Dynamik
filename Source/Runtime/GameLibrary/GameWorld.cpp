@@ -6,6 +6,7 @@
 
 #include "Utilities/MeshFactory.h"
 #include "Importer/Asset/MeshImporter.h"
+#include "Importer/Asset/AnimationImporter.h"
 
 namespace Dynamik
 {
@@ -41,6 +42,11 @@ namespace Dynamik
 		globalLightComponents.pushBack(component);
 	}
 
+	void DMKGameWorld::addEntity(DMKGameEntity* pEntity)
+	{
+		entities.pushBack(pEntity);
+	}
+
 	DMKGameEntity* DMKGameWorld::createStaticEntity(const STRING& assetPath)
 	{
 		return createStaticEntity(assetPath, DMKVertexLayout::createBasic());
@@ -50,7 +56,7 @@ namespace Dynamik
 	{
 		auto entity = StaticAllocator<DMKGameEntity>::allocate();
 
-		entities.pushBack(entity);
+		addEntity(entity);
 		return entity;
 	}
 
@@ -67,13 +73,26 @@ namespace Dynamik
 			entity->addComponent<DMKMeshComponent>(mesh);
 		}
 
-		entities.pushBack(entity);
+		addEntity(entity);
 		return entity;
 	}
 
-	void DMKGameWorld::addEntity(DMKGameEntity* pEntity)
+	DMKGameEntity* DMKGameWorld::createAnimatedEntity(const STRING& assetPath)
 	{
-		entities.pushBack(pEntity);
+		return createAnimatedEntity(assetPath, DMKVertexLayout::createAnimated());
+	}
+
+	DMKGameEntity* DMKGameWorld::createAnimatedEntity(const STRING& assetPath, const DMKVertexLayout& vertexLayout)
+	{
+		auto animation = DMKAnimationImporter::loadAnimation(assetPath, vertexLayout);
+		DMKGameEntity* pEntity = StaticAllocator<DMKGameEntity>::allocate();
+
+		animation.skinnedMesh.addShaderModule(DMKShaderFactory::createAnimated(DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX));
+		animation.skinnedMesh.addShaderModule(DMKShaderFactory::createAnimated(DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT));
+		pEntity->addComponent<DMKAnimatedMeshComponent>(animation);
+
+		addEntity(pEntity);
+		return pEntity;
 	}
 
 	DMKEnvironmentMap* DMKGameWorld::createHollowEnvironment()

@@ -35,11 +35,11 @@ namespace Dynamik
 		*/
 		std::unordered_map<STRING, DMKAnimNodeTransform> getTransformMap() const;
 
-		/* Current Key Frame Time Stamp */
-		F32 timeStamp = 0.0f;
-
 		/* Current Node Transform */
 		mutable std::unordered_map<STRING, DMKAnimNodeTransform> transform;
+
+		/* Current Key Frame Time Stamp */
+		F32 timeStamp = 0.0f;
 	};
 }
 

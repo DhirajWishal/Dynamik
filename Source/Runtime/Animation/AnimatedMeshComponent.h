@@ -6,6 +6,7 @@
 #define _DYNAMIK_ANIMATED_MESH_COMPONENT_H
 
 #include "Objects/Animation.h"
+#include "Core/Components/RenderableComponents/MeshComponent.h"
 
 namespace Dynamik
 {
@@ -21,6 +22,21 @@ namespace Dynamik
 	public:
 		DMKAnimatedMeshComponent() {}
 		~DMKAnimatedMeshComponent() {}
+
+		/* Skinned Mesh Component */
+		DMKMeshComponent skinnedMesh;
+
+		/* Animations */
+		ARRAY<DMKAnimation> animations;
+
+		/* Animation Node Map */
+		std::unordered_map<STRING, UI32> nodeMap;
+
+		/* Animation Node Information */
+		ARRAY<AAnimNodeInfo> nodeInfos;
+
+		/* Animation Node Data */
+		ARRAY<AAnimNodeData> nodeData;
 	};
 }
 

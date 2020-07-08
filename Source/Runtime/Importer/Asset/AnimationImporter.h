@@ -20,7 +20,7 @@ namespace Dynamik
 		/*
 		 Load animation from an asset file.
 		*/
-		static DMKAnimatedMeshComponent loadAnimation(const STRING& path);
+		static DMKAnimatedMeshComponent loadAnimation(const STRING& path, const DMKVertexLayout& vertexLayout, const UI32& nodesPerVertex = 4);
 	};
 }
 

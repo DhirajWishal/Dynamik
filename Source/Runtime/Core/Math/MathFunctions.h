@@ -144,6 +144,11 @@ namespace Dynamik
 		static Matrix4F translate(Matrix4F mat, Vector3F const vec);
 
 		/*
+		 Scale matrix
+		*/
+		static Matrix4F scale(Matrix4F mat, Vector3F const vec);
+
+		/*
 		 Rotate matrix
 		*/
 		static Matrix4F rotate(Matrix4F const mat, F32 const angel, Vector3F const vec);

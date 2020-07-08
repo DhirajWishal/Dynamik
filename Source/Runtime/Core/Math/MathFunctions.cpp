@@ -181,6 +181,17 @@ namespace Dynamik
 		return mat;
 	}
 
+	Matrix4F DMKMathFunctions::scale(Matrix4F mat, Vector3F const vec)
+	{
+		Matrix4F matrix;
+		matrix[0] = mat[0] * vec[0];
+		matrix[1] = mat[1] * vec[1];
+		matrix[2] = mat[2] * vec[2];
+		matrix[3] = mat[3];
+
+		return matrix;
+	}
+
 	Matrix4F DMKMathFunctions::rotate(Matrix4F const mat, F32 const angel, Vector3F const vec)
 	{
 		F32 const c = cos(angel);
