@@ -7,27 +7,9 @@
 
 #include "Core/Types/Array.h"
 #include "Core/Math/Matrix/Matrix4F.h"
-#include "Core/Math/Quaternion.h"
 
 namespace Dynamik
 {
-	/* Animation Node Info */
-	struct DMK_API AAnimNodeInfo {
-		AAnimNodeInfo() {}
-		~AAnimNodeInfo() {}
-
-		Matrix4F offset;
-		Matrix4F finalTransform;
-	};
-
-	/* Animation Node Data */
-	struct DMK_API AAnimNodeData {
-		ARRAY<UI32> vertexIDs;
-		ARRAY<F32> weights;
-
-		void add(const UI32& vertexID, const F32& weight);
-	};
-
 	/*
 	 Dynamik Animation Node (Anim-Node)
 	 This object stores one node/ bone in an animation.

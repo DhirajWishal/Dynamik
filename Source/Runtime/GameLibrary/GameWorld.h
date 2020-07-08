@@ -24,9 +24,7 @@ namespace Dynamik
 
 	/*
 	 Dynamik Game World
-	 This object represents a game world and may or may not contain behavior defined entities.
-
-	 @warn: Game worlds does not contains the player object's entity.
+	 This object represents a game world and may or may not contain behavior defined entities.  
 
 	 Since the game world acts much like a container object, user defined initializations are only allowed
 	 to be placed in the constructor as there are no virtual initialize functions defined.
@@ -66,13 +64,6 @@ namespace Dynamik
 		ARRAY<DMKGameEntity*> entities;
 
 		/*
-		 Add an entity to the entity array.
-
-		 @param pEntity: Pointer to the entity.
-		*/
-		void addEntity(DMKGameEntity* pEntity);
-
-		/*
 		 Create a basic hollow entity.
 		 These entities does not have any functionalities and are basically empty.
 		 By default, this adds the entity to the entity array.
@@ -93,18 +84,6 @@ namespace Dynamik
 		*/
 		DMKGameEntity* createStaticEntity(const STRING& assetPath, const DMKVertexLayout& vertexLayout);
 
-		/*
-		 Create animated entity.
-		 This entity contains animation data and can be controlled by the level component.
-		*/
-		DMKGameEntity* createAnimatedEntity(const STRING& assetPath);
-
-		/*
-		 Create animated entity.
-		 This entity contains animation data and can be controlled by the level component.
-		*/
-		DMKGameEntity* createAnimatedEntity(const STRING& assetPath, const DMKVertexLayout& vertexLayout);
-
 		/* TEMPLATED
 		 Create user defined entity.
 		 This creates a user defined entity, adds it to the entity list and returns its address.
@@ -119,6 +98,13 @@ namespace Dynamik
 			entities.pushBack(entity);
 			return entity;
 		}
+
+		/*
+		 Add an entity to the entity array.
+
+		 @param pEntity: Pointer to the entity.
+		*/
+		void addEntity(DMKGameEntity* pEntity);
 
 		/*
 		 Create an empty environment.

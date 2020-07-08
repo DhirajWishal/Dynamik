@@ -10,7 +10,7 @@ namespace Dynamik
 	{
 	}
 
-	void DMKAnimationController::update(F32 frameTime)
+	void DMKAnimationController::update()
 	{
 	}
 

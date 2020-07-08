@@ -64,24 +64,9 @@ namespace Dynamik
         return (const F32*)&_mm_div_ps(_mm_load_ps(lhs), _mm_load_ps(rhs));
     }
 
-    Vector3F operator+(const Vector3F& lhs, const F32& value)
-    {
-        return lhs + Vector3F(value);
-    }
-
-    Vector3F operator-(const Vector3F& lhs, const F32& value)
-    {
-        return lhs - Vector3F(value);
-    }
-
     Vector3F operator*(const Vector3F& lhs, const F32& value)
     {
-        return lhs * Vector3F(value);
-    }
-
-    Vector3F operator/(const Vector3F& lhs, const F32& value)
-    {
-        return lhs / Vector3F(value);
+        return (const F32*)&_mm_mul_ps(_mm_load_ps(lhs), _mm_load_ps(Vector3F(value)));
     }
 
     B1 operator==(const Vector3F& lhs, const Vector3F& rhs)

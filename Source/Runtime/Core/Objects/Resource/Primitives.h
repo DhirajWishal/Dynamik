@@ -130,18 +130,6 @@ namespace Dynamik
 		*/
 		static DMKVertexLayout createBasic();
 
-		/*
-		 Create an animated vertex layout.
-		 This contains,
-		 - Position				[Vector3F * 1]
-		 - Normal				[Vector3F * 1]
-		 - UV					[Vector2F * 1]
-		 - Color				[Vector3F * 1]
-		 - boneWeights			[Float * 4]
-		 - boneIDs				[unsigned int * 4]
-		*/
-		static DMKVertexLayout createAnimated();
-
 	public:		/* Operators */
 		B1 operator==(const DMKVertexLayout& other) const;
 	};
@@ -218,7 +206,7 @@ namespace Dynamik
 		UI32 offset = 0;
 
 		/* Get the total byte size of the uniform buffer object. */
-		UI64 getUniformSize() const;
+		UI64 getUniformSize();
 	};
 
 	/* Dynamik Uniform Descriptor */
@@ -260,16 +248,6 @@ namespace Dynamik
 
 		/* Clear all the stored values in the buffer */
 		void clear();
-
-		/*
-		 Get the stored uniform data.
-		*/
-		VPTR getUniformData() const;
-
-		/*
-		 Get the size of the current uniform.
-		*/
-		UI64 getUniformSize() const;
 
 	private:	/* Private Data Store */
 		VPTR uniformBufferStorage = nullptr;

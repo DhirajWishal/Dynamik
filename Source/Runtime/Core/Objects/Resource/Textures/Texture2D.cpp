@@ -5,7 +5,6 @@
 #include "Texture2D.h"
 
 #include <stb_image.h>
-#include <gli.hpp>
 
 namespace Dynamik
 {

@@ -6,7 +6,8 @@
 #define _DYNAMIK_ANIMATION_NODE_TRANSFORM_H
 
 #include "AnimNode.h"
-#include "AnimTypes.h"
+#include "Core/Math/Vector/Vector3F.h"
+#include "Core/Math/Quaternion.h"
 
 namespace Dynamik
 {
@@ -16,23 +17,25 @@ namespace Dynamik
 	class DMK_API DMKAnimNodeTransform {
 	public:
 		DMKAnimNodeTransform() {}
-		DMKAnimNodeTransform(AVectorFrame position, AQuatFrame rotation, AVectorFrame scale) :
-			positionFrame(position), rotationFrame(rotation), scaleFrame(scale) {}
+		DMKAnimNodeTransform(const Vector3F& position, const Quaternion& rotation) :
+			position(position), rotation(rotation) {}
 		~DMKAnimNodeTransform() {}
 
-		/* Transform Rotation Frame */
-		AQuatFrame rotationFrame;
+		/* Transform Position. Relative to the parent bone. */
+		Vector3F position = Vector3F(0.0f);
 
-		/* Transform Position Frame. Relative to the parent bone. */
-		AVectorFrame positionFrame;
+		/* Transform Rotation */
+		Quaternion rotation = Quaternion(0.0f);
 
-		/* Transform Scale Frame */
-		AVectorFrame scaleFrame;
+		/*
+		 Get the local transform of the node.
+		*/
+		Matrix4F getLocalTransform();
 
 		/*
 		 Interpolate node transform.
 		*/
-		static Matrix4F interpolate(const DMKAnimNodeTransform& before, const DMKAnimNodeTransform& after, const F32& frameTime);
+		void interpolate(const DMKAnimNodeTransform& before, const DMKAnimNodeTransform& after, const F32& progression);
 	};
 }
 

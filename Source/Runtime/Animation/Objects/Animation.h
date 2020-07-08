@@ -40,9 +40,6 @@ namespace Dynamik
 
 		/* Animation Key Frames */
 		ARRAY<DMKAnimKeyFrame> frames;
-
-		/* Animation Nodes */
-		ARRAY<DMKAnimNode> nodes;
 	};
 }
 

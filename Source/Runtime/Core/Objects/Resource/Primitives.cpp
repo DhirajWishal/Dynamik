@@ -15,7 +15,7 @@ namespace Dynamik
 		return _size;
 	}
 
-	UI64 DMKUniformDescription::getUniformSize() const
+	UI64 DMKUniformDescription::getUniformSize()
 	{
 		UI64 _size = 0;
 		for (auto _attribute : attributes)
@@ -48,39 +48,6 @@ namespace Dynamik
 
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_0;
 		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC2;
-		layout.attributes.pushBack(attribute);
-
-		return layout;
-	}
-
-	DMKVertexLayout DMKVertexLayout::createAnimated()
-	{
-		DMKVertexLayout layout;
-		DMKVertexAttribute attribute;
-		attribute.dataCount = 1;
-
-		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
-		layout.attributes.pushBack(attribute);
-
-		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL;
-		layout.attributes.pushBack(attribute);
-
-		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC2;
-		layout.attributes.pushBack(attribute);
-
-		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_0;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
-		layout.attributes.pushBack(attribute);
-
-		attribute.dataCount = 4;
-		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_F32;
-		layout.attributes.pushBack(attribute);
-
-		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_UI32;
 		layout.attributes.pushBack(attribute);
 
 		return layout;
@@ -133,7 +100,7 @@ namespace Dynamik
 		if (location < myDescription.attributes.size())
 		{
 			if ((UI32)myDescription.attributes[location].dataType != byteSize)
-				DMK_FATAL("Invalid data size bound! Possibly because your binding the wrong data.");
+				DMK_FATAL("Invalid data size bound! Possibly because your binding the wront data.");
 
 			if (location)
 			{
@@ -145,7 +112,7 @@ namespace Dynamik
 				{
 					DMK_ERROR("Invalid array location in the uniform element at: " +
 						std::to_string(location) +
-						". Neglecting the array location and binding to the data to the given location.");
+						". Niglecting the array location and binding to the data to the given location.");
 
 					nextPointer = (BYTE*)(((UI64)nextPointer) + (UI64)myDescription.attributes[location - 1].dataType);
 				}
@@ -162,16 +129,6 @@ namespace Dynamik
 	{
 		DMKMemoryFunctions::setData(uniformBufferStorage, 0, myDescription.getUniformSize());
 		nextPointer = (BYTE*)uniformBufferStorage;
-	}
-
-	VPTR DMKUniformBufferObject::getUniformData() const
-	{
-		return uniformBufferStorage;
-	}
-
-	UI64 DMKUniformBufferObject::getUniformSize() const
-	{
-		return myDescription.getUniformSize();
 	}
 
 	DMKUniformDescription DMKUniformBufferObject::createUniformCamera(UI32 binding, DMKShaderLocation location)

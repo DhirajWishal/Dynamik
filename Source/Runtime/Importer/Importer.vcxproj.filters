@@ -25,7 +25,6 @@
       <Filter>Dynamik\DMKAsset</Filter>
     </ClInclude>
     <ClInclude Include="Asset\AnimationImporter.h" />
-    <ClInclude Include="Asset\Wrappers\AssimpWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset\MeshImporter.cpp">
@@ -38,7 +37,6 @@
       <Filter>Dynamik\DMKAsset</Filter>
     </ClCompile>
     <ClCompile Include="Asset\AnimationImporter.cpp" />
-    <ClCompile Include="Asset\Wrappers\AssimpWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Importer.lua" />
