@@ -29,8 +29,8 @@ project "Animation"
 		"$(SolutionDir)Dependencies/Libraries/Local",
 		"$(SolutionDir)Source/Runtime/",
 		"$(SolutionDir)Source/Runtime/Core/PCH/",
-		"$(SolutionDir)ThirdParty/imgui",
-		"$(SolutionDir)ThirdParty/SPIRV-Cross",
+		"$(SolutionDir)Source/ThirdParty/imgui",
+		"$(SolutionDir)Source/ThirdParty/SPIRV-Cross",
 		"%{IncludeDir.Vulkan}",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLEW}",
@@ -43,11 +43,9 @@ project "Animation"
 	}
 
 	libdirs {
-		"%{IncludeLib.Assimp}",
 	}
 
 	links { 
-		"assimp",
 	}
 
 	filter "system:windows"

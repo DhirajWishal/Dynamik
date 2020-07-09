@@ -47,14 +47,14 @@ engineOutputIntermediateDir = "Intermediate/"
 
 -- Libraries
 IncludeDir = {}
-IncludeDir["GLFW"] = "$(SolutionDir)ThirdParty/glfw/include"
+IncludeDir["GLFW"] = "$(SolutionDir)Source/ThirdParty/glfw/include"
 IncludeDir["GLEW"] = "$(SolutionDir)Dependencies/GLEW/include"
-IncludeDir["glm"] = "$(SolutionDir)ThirdParty/glm"
-IncludeDir["stb"] = "$(SolutionDir)ThirdParty/stb"
-IncludeDir["gli"] = "$(SolutionDir)ThirdParty/gli/gli"
+IncludeDir["glm"] = "$(SolutionDir)Source/ThirdParty/glm"
+IncludeDir["stb"] = "$(SolutionDir)Source/ThirdParty/stb"
+IncludeDir["gli"] = "$(SolutionDir)Source/ThirdParty/gli/gli"
 IncludeDir["zlib"] = "$(SolutionDir)Dependencies/Libraries/External/zlib/"
-IncludeDir["Vulkan"] = "$(SolutionDir)ThirdParty/Vulkan/include"
-IncludeDir["SPIRVTools"] = "$(SolutionDir)ThirdParty/SPIRV-Tools/include"
+IncludeDir["Vulkan"] = "$(SolutionDir)Source/ThirdParty/Vulkan/include"
+IncludeDir["SPIRVTools"] = "$(SolutionDir)Source/ThirdParty/SPIRV-Tools/include"
 IncludeDir["glslang"] = "$(SolutionDir)Dependencies/Libraries/External/glslang"
 
 IncludeDir["boost"] = "E:/Projects/Dynamik Engine/Libraries/boost_1_70_0"
@@ -97,7 +97,7 @@ include "Source/Runtime/Tools/Tools.lua"
 include "Source/Runtime/Window/Window.lua"
 
 group "Third Party"
-include "ThirdParty/imgui/imgui.lua"
-include "ThirdParty/SPIRV-Cross/SPIRV-Cross.lua"
+include "Source/ThirdParty/imgui/imgui.lua"
+include "Source/ThirdParty/SPIRV-Cross/SPIRV-Cross.lua"
 
 group ""
