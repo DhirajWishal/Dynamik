@@ -47,33 +47,33 @@ engineOutputIntermediateDir = "Intermediate/"
 
 -- Libraries
 IncludeDir = {}
-IncludeDir["GLFW"] = "$(SolutionDir)Source/ThirdParty/glfw/include"
+IncludeDir["GLFW"] = "$(SolutionDir)Dependencies/ThirdParty/glfw/include"
 IncludeDir["GLEW"] = "$(SolutionDir)Dependencies/GLEW/include"
-IncludeDir["glm"] = "$(SolutionDir)Source/ThirdParty/glm"
-IncludeDir["stb"] = "$(SolutionDir)Source/ThirdParty/stb"
-IncludeDir["gli"] = "$(SolutionDir)Source/ThirdParty/gli/gli"
+IncludeDir["glm"] = "$(SolutionDir)Dependencies/ThirdParty/glm"
+IncludeDir["stb"] = "$(SolutionDir)Dependencies/ThirdParty/stb"
+IncludeDir["gli"] = "$(SolutionDir)Dependencies/ThirdParty/gli/gli"
 IncludeDir["zlib"] = "$(SolutionDir)Dependencies/Libraries/External/zlib/"
-IncludeDir["Vulkan"] = "$(SolutionDir)Source/ThirdParty/Vulkan/include"
-IncludeDir["SPIRVTools"] = "$(SolutionDir)Source/ThirdParty/SPIRV-Tools/include"
+IncludeDir["Vulkan"] = "$(SolutionDir)Dependencies/ThirdParty/Vulkan/include"
+IncludeDir["SPIRVTools"] = "$(SolutionDir)Dependencies/ThirdParty/SPIRV-Tools/include"
 IncludeDir["glslang"] = "$(SolutionDir)Dependencies/Libraries/External/glslang"
 
 IncludeDir["boost"] = "E:/Projects/Dynamik Engine/Libraries/boost_1_70_0"
-IncludeDir["jpeg"] = "$(SolutionDir)Dependencies/Libraries/Local/gil/jpeg-6b"
+IncludeDir["jpeg"] = "$(SolutionDir)Dependencies/ThirdParty/gil/jpeg-6b"
 IncludeDir["irrKlang"] = "$(SolutionDir)Dependencies/Libraries/Local/irrKlang/include"
-IncludeDir["assimp"] = "$(SolutionDir)Dependencies/Libraries/Local/assimp"
+IncludeDir["assimp"] = "$(SolutionDir)Dependencies/ThirdParty/Assimp/include"
 
 -- Binaries
 IncludeLib = {}
-IncludeLib["GLFW"] = "$(SolutionDir)Dependencies/Libraries/Binaries/GLFW/lib-vc2019"
-IncludeLib["GLEW"] = "$(SolutionDir)Dependencies/Libraries/Binaries/GLEW/Release/x64"
-IncludeLib["Vulkan"] = "$(SolutionDir)Dependencies/Libraries/Binaries/Vulkan"
-IncludeLib["DirectX"] = "$(SolutionDir)Dependencies/Libraries/Binaries/DirectX12"
-IncludeLib["irrKlang"] = "$(SolutionDir)Dependencies/Libraries/Binaries/irrKlang"
+IncludeLib["GLFW"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/GLFW/lib-vc2019"
+IncludeLib["GLEW"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/GLEW/Release/x64"
+IncludeLib["Vulkan"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/Vulkan"
+IncludeLib["DirectX"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/DirectX12"
+IncludeLib["irrKlang"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/irrKlang"
 IncludeLib["boost"] = "E:/Projects/Dynamik Engine/Libraries/boost_1_70_0/stage/lib"
-IncludeLib["Assimp"] = "$(SolutionDir)Dependencies/Libraries/Binaries/Assimp"
-IncludeLib["SPIRVTools"] = "$(SolutionDir)Dependencies/Libraries/Binaries/SPIRV-Tools/"
-IncludeLib["zlib"] = "$(SolutionDir)Dependencies/Libraries/External/zlib//contrib/vstudio/vc14/x64/ZlibStatRelease"
-IncludeLib["glslang"] = "$(SolutionDir)Dependencies/Libraries/External/glslang/lib"
+IncludeLib["Assimp"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/Assimp"
+IncludeLib["SPIRVTools"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/SPIRV-Tools/"
+IncludeLib["zlib"] = ""	-- TODO
+IncludeLib["glslang"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/glslang/lib"
 
 
 group "Engine"	-- Add the Engine to a virtual folder
@@ -97,7 +97,7 @@ include "Source/Runtime/Tools/Tools.lua"
 include "Source/Runtime/Window/Window.lua"
 
 group "Third Party"
-include "Source/ThirdParty/imgui/imgui.lua"
-include "Source/ThirdParty/SPIRV-Cross/SPIRV-Cross.lua"
+include "Dependencies/ThirdParty/imgui/imgui.lua"
+include "Dependencies/ThirdParty/SPIRV-Cross/SPIRV-Cross.lua"
 
 group ""

@@ -332,4 +332,4 @@ ASALocalRun/
 # Other Files
 Builds/
 
-Dependencies/Libraries/Binaries/SPIRV-Tools
+Dependencies/ThirdParty/Binaries/SPIRV-Tools

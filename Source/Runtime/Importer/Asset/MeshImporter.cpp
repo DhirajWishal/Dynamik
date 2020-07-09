@@ -7,9 +7,9 @@
 #include "Core/Components/RenderableComponents/MeshComponent.h"
 #include "Core/Objects/Resource/Primitives.h"
 
-#include <assimp/assimp/Importer.hpp>
-#include <assimp/assimp/scene.h>
-#include <assimp/assimp/postprocess.h>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 namespace Dynamik
 {

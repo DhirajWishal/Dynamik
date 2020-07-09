@@ -4,10 +4,9 @@
 #include "dmkafx.h"
 #include "AnimationImporter.h"
 
-#include <assimp/assimp/Importer.hpp>
-#include <assimp/assimp/scene.h>
-#include <assimp/assimp/postprocess.h>
-
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 namespace Dynamik
 {
 	DMKAnimatedMeshComponent DMKAnimationImporter::loadAnimation(const STRING& path)
