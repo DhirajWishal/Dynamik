@@ -50,12 +50,11 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "$(SolutionDir)ThirdParty/glfw/include"
 IncludeDir["GLEW"] = "$(SolutionDir)Dependencies/GLEW/include"
 IncludeDir["glm"] = "$(SolutionDir)ThirdParty/glm"
-IncludeDir["stb"] = "$(SolutionDir)Dependencies/Libraries/External/stb"
-IncludeDir["tol"] = "$(SolutionDir)Dependencies/Libraries/External/tinyobjloader"
+IncludeDir["stb"] = "$(SolutionDir)ThirdParty/stb"
 IncludeDir["gli"] = "$(SolutionDir)ThirdParty/gli/gli"
 IncludeDir["zlib"] = "$(SolutionDir)Dependencies/Libraries/External/zlib/"
 IncludeDir["Vulkan"] = "$(SolutionDir)ThirdParty/Vulkan/include"
-IncludeDir["SPIRVTools"] = "$(SolutionDir)Dependencies/Libraries/External/SPIRV-Tools/include"
+IncludeDir["SPIRVTools"] = "$(SolutionDir)ThirdParty/SPIRV-Tools/include"
 IncludeDir["glslang"] = "$(SolutionDir)Dependencies/Libraries/External/glslang"
 
 IncludeDir["boost"] = "E:/Projects/Dynamik Engine/Libraries/boost_1_70_0"
@@ -72,8 +71,8 @@ IncludeLib["DirectX"] = "$(SolutionDir)Dependencies/Libraries/Binaries/DirectX12
 IncludeLib["irrKlang"] = "$(SolutionDir)Dependencies/Libraries/Binaries/irrKlang"
 IncludeLib["boost"] = "E:/Projects/Dynamik Engine/Libraries/boost_1_70_0/stage/lib"
 IncludeLib["Assimp"] = "$(SolutionDir)Dependencies/Libraries/Binaries/Assimp"
+IncludeLib["SPIRVTools"] = "$(SolutionDir)Dependencies/Libraries/Binaries/SPIRV-Tools/"
 IncludeLib["zlib"] = "$(SolutionDir)Dependencies/Libraries/External/zlib//contrib/vstudio/vc14/x64/ZlibStatRelease"
-IncludeLib["SPIRVTools"] = "$(SolutionDir)Dependencies/Libraries/External/SPIRV-Tools/lib"
 IncludeLib["glslang"] = "$(SolutionDir)Dependencies/Libraries/External/glslang/lib"
 
 

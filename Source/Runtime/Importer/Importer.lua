@@ -48,7 +48,7 @@ project "Importer"
 	}
 
 	links { 
-		"assimp",
+		"assimp-vc142-mt",
 	}
 
 	filter "system:windows"

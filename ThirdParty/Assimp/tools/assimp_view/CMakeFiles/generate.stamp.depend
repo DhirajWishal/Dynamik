@@ -1,0 +1,4 @@
+# CMake generation dependency list for this directory.
+E:/Projects/Dynamik Engine/Versions/DynamikEngine/ThirdParty/Assimp/cmake-modules/FindDirectX.cmake
+E:/Projects/Dynamik Engine/Versions/DynamikEngine/ThirdParty/Assimp/cmake-modules/FindPkgMacros.cmake
+E:/Projects/Dynamik Engine/Versions/DynamikEngine/ThirdParty/Assimp/tools/assimp_view/CMakeLists.txt
