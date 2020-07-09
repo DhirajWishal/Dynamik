@@ -47,14 +47,14 @@ engineOutputIntermediateDir = "Intermediate/"
 
 -- Libraries
 IncludeDir = {}
-IncludeDir["GLFW"] = "$(SolutionDir)Dependencies/Libraries/External/glfw/include"
+IncludeDir["GLFW"] = "$(SolutionDir)ThirdParty/glfw/include"
 IncludeDir["GLEW"] = "$(SolutionDir)Dependencies/GLEW/include"
-IncludeDir["glm"] = "$(SolutionDir)Dependencies/Libraries/External/glm"
+IncludeDir["glm"] = "$(SolutionDir)ThirdParty/glm"
 IncludeDir["stb"] = "$(SolutionDir)Dependencies/Libraries/External/stb"
 IncludeDir["tol"] = "$(SolutionDir)Dependencies/Libraries/External/tinyobjloader"
-IncludeDir["gli"] = "$(SolutionDir)Dependencies/Libraries/External/gli/gli"
+IncludeDir["gli"] = "$(SolutionDir)ThirdParty/gli/gli"
 IncludeDir["zlib"] = "$(SolutionDir)Dependencies/Libraries/External/zlib/"
-IncludeDir["Vulkan"] = "$(SolutionDir)Dependencies/Libraries/External/Vulkan/include"
+IncludeDir["Vulkan"] = "$(SolutionDir)ThirdParty/Vulkan/include"
 IncludeDir["SPIRVTools"] = "$(SolutionDir)Dependencies/Libraries/External/SPIRV-Tools/include"
 IncludeDir["glslang"] = "$(SolutionDir)Dependencies/Libraries/External/glslang"
 

@@ -336,3 +336,13 @@ backup/
 libs/*.html
 libs/*.xml
 !ex-libs/
+
+# Third party library solutions and project files
+ThirdParty/glfw/*.lib
+ThirdParty/glfw/*.sln
+ThirdParty/glfw/*.vcxproj
+ThirdParty/glfw/*.vcxproj.filters
+ThirdParty/glfw/*/*.lib
+ThirdParty/glfw/*/*.sln
+ThirdParty/glfw/*/*.vcxproj
+ThirdParty/glfw/*/*.vcxproj.filters
