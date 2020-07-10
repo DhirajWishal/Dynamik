@@ -10,6 +10,23 @@
 
 namespace Dynamik
 {
+	/* Animation Node Info */
+	struct DMK_API AAnimNodeInfo {
+		AAnimNodeInfo() {}
+		~AAnimNodeInfo() {}
+
+		Matrix4F offset;
+		Matrix4F finalTransform;
+	};
+
+	/* Animation Node Data */
+	struct DMK_API AAnimNodeData {
+		ARRAY<UI32> vertexIDs;
+		ARRAY<F32> weights;
+
+		void add(const UI32& vertexID, const F32& weight);
+	};
+
 	/*
 	 Dynamik Animation Node (Anim-Node)
 	 This object stores one node/ bone in an animation.
@@ -20,6 +37,11 @@ namespace Dynamik
 		DMKAnimNode(UI32 index, STRING name, Matrix4F localTransform)
 			: index(index), name(name), localTransform(localTransform) {}
 		~DMKAnimNode() {}
+
+		/*
+		 Set the parent node.
+		*/
+		void setParentNode(DMKAnimNode* pAnimNode);
 
 		/*
 		 Add a child node.
@@ -52,8 +74,8 @@ namespace Dynamik
 		/* Node name */
 		STRING name = DMK_TEXT("");
 
-		/* Root node pointer of this node */
-		DMKAnimNode* pRootNode = nullptr;
+		/* Parent node pointer of this node */
+		DMKAnimNode* pParentNode = nullptr;
 
 		/* Node index */
 		UI32 index = 0;

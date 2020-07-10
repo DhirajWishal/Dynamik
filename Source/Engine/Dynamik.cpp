@@ -86,9 +86,22 @@ namespace Dynamik
 			/* Check If The Frame Buffer Was Resized */
 			if (myEventPool.FrameBufferResizeEvent)
 			{
-				pCurrentLevel->playerObject->setAspectRatio(pActiveWindow->getWindowExtent().width / pActiveWindow->getWindowExtent().height);
-				_threadManager.issueFrameBufferResizeCommandRT(pActiveWindow->getWindowExtent());
+				auto _extent = pActiveWindow->getWindowExtent();
 				myEventPool.FrameBufferResizeEvent = false;
+
+				/* Check if the extent is valid */
+				if ((_extent.width <= 0) || (_extent.height <= 0))
+				{
+					DMK_ERROR("Requested frame buffer extent is Width: " +
+						std::to_string(_extent.width) +
+						", Height: " + std::to_string(_extent.width) +
+						". Since these requested values are invalid the frame buffer will not be resized.");
+				}
+				else
+				{
+					pCurrentLevel->playerObject->setAspectRatio(_extent.width / _extent.height);
+					_threadManager.issueFrameBufferResizeCommandRT(_extent);
+				}
 			}
 
 			myPlayerController.executeAll();

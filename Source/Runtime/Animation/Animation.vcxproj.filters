@@ -20,6 +20,8 @@
     <ClInclude Include="Objects\Animation.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\AnimNodeGraph.h" />
+    <ClInclude Include="Objects\AnimTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationController.cpp" />

@@ -54,7 +54,10 @@ namespace Dynamik
     Vector4F operator*(const Vector4F& lhs, const Vector4F& rhs);
     Vector4F operator/(const Vector4F& lhs, const Vector4F& rhs);
 
+    Vector4F operator+(const Vector4F& lhs, const F32& value);
+    Vector4F operator-(const Vector4F& lhs, const F32& value);
     Vector4F operator*(const Vector4F& lhs, const F32& value);
+    Vector4F operator/(const Vector4F& lhs, const F32& value);
 
     B1 operator==(const Vector4F& lhs, const Vector4F& rhs);
     B1 operator!=(const Vector4F& lhs, const Vector4F& rhs);

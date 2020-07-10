@@ -8,6 +8,11 @@
 
 namespace Dynamik
 {
+	void DMKAnimNode::setParentNode(DMKAnimNode* pAnimNode)
+	{
+		pParentNode = pAnimNode;
+	}
+	
 	void DMKAnimNode::addChildNode(DMKAnimNode* pAnimNode)
 	{
 		pChildNodes.pushBack(pAnimNode);

@@ -47,6 +47,11 @@ namespace Dynamik
     Vector2F operator*(const Vector2F& lhs, const Vector2F& rhs);
     Vector2F operator/(const Vector2F& lhs, const Vector2F& rhs);
 
+    Vector2F operator+(const Vector2F& lhs, const F32& value);
+    Vector2F operator-(const Vector2F& lhs, const F32& value);
+    Vector2F operator*(const Vector2F& lhs, const F32& value);
+    Vector2F operator/(const Vector2F& lhs, const F32& value);
+
     B1 operator==(const Vector2F& lhs, const Vector2F& rhs);
     B1 operator!=(const Vector2F& lhs, const Vector2F& rhs);
     B1 operator<(const Vector2F& lhs, const Vector2F& rhs);

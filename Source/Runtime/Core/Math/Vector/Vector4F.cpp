@@ -12,7 +12,7 @@ namespace Dynamik
         : x(0.0f), y(0.0f), z(0.0f), w(0.0f)
     {
         if ((list.size() > 4) || (list.size() < 4))
-            DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
+            DMK_ERROR_BOX("The size of the provided list does not match the current Vector size! Expected size is 4.");
 
         DMKMemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
     }
@@ -26,7 +26,7 @@ namespace Dynamik
     Vector4F Vector4F::operator=(const std::initializer_list<F32>& list)
     {
         if ((list.size() > 4) || (list.size() < 4))
-            DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
+            DMK_ERROR_BOX("The size of the provided list does not match the current Vector size! Expected size is 4.");
 
         DMKMemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
 
@@ -63,11 +63,24 @@ namespace Dynamik
         return (const F32*)&_mm_div_ps(_mm_load_ps(lhs), _mm_load_ps(rhs));
     }
 
+    Vector4F operator+(const Vector4F& lhs, const F32& value)
+    {
+        return lhs + Vector4F(value);
+    }
+
+    Vector4F operator-(const Vector4F& lhs, const F32& value)
+    {
+        return lhs - Vector4F(value);
+    }
+
     Vector4F operator*(const Vector4F& lhs, const F32& value)
     {
-        Vector4F _tmp;
-        _mm_store_ps((F32*)&_tmp, _mm_mul_ps(_mm_load_ps(lhs), _mm_load_ps(Vector4F(value))));
-        return _tmp;
+        return lhs * Vector4F(value);
+    }
+
+    Vector4F operator/(const Vector4F& lhs, const F32& value)
+    {
+        return lhs /+ Vector4F(value);
     }
 
     B1 operator==(const Vector4F& lhs, const Vector4F& rhs)

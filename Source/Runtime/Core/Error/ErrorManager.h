@@ -96,6 +96,8 @@ namespace Dynamik
 
 #define DMK_CORE_ASSERT(x, ...)
 
+#define DMK_ERROR_BOX(msg)
+
 // ----------
 #endif
 

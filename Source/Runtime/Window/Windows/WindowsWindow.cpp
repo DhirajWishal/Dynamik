@@ -60,7 +60,7 @@ namespace Dynamik
 		windowWidth = mode->width;
 		windowHeight = mode->height;
 
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		glfwSetInputMode(windowHandle, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
 #endif
 

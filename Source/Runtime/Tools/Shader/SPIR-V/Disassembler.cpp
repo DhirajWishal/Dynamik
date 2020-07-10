@@ -137,9 +137,9 @@ namespace Dynamik
 			/* Uniform buffers */
 			for (auto& resource : resources.uniform_buffers)
 			{
-#ifdef DMK_DEBUG
 				unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
 				unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
+#ifdef DMK_DEBUG
 				printf("Set: %u\t Binding: %u\t Type: %s\n", set, binding, resource.name.c_str());
 
 				for (UI32 index = 0; index < _glslCompiler.get_type(resource.base_type_id).member_types.size(); index++)

@@ -9,7 +9,7 @@ namespace Dynamik
 	Vector2F::Vector2F(std::initializer_list<F32> list) 
 	{
 		if ((list.size() > 2) || (list.size() < 2))
-			DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
+			DMK_ERROR_BOX("The size of the provided list does not match the current Vector size! Expected size is 2.");
 
 		DMKMemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
 	}
@@ -17,7 +17,7 @@ namespace Dynamik
 	Vector2F Vector2F::operator=(const std::initializer_list<F32>& list)
 	{
 		if ((list.size() > 2) || (list.size() < 2))
-			DMK_ERROR_BOX("The size of the provided list does not match the current Vector size!");
+			DMK_ERROR_BOX("The size of the provided list does not match the current Vector size! Expected size is 2.");
 
 		DMKMemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
 
@@ -47,6 +47,26 @@ namespace Dynamik
 	Vector2F operator/(const Vector2F& lhs, const Vector2F& rhs)
 	{
 		return Vector2F(lhs.x / rhs.x, lhs.y / rhs.y);
+	}
+
+	Vector2F operator+(const Vector2F& lhs, const F32& value)
+	{
+		return lhs + Vector2F(value);
+	}
+
+	Vector2F operator-(const Vector2F& lhs, const F32& value)
+	{
+		return lhs - Vector2F(value);
+	}
+
+	Vector2F operator*(const Vector2F& lhs, const F32& value)
+	{
+		return lhs * Vector2F(value);
+	}
+
+	Vector2F operator/(const Vector2F& lhs, const F32& value)
+	{
+		return lhs / Vector2F(value);
 	}
 
 	B1 operator==(const Vector2F& lhs, const Vector2F& rhs)

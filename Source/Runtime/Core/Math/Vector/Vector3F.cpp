@@ -6,7 +6,7 @@
 
 #include "../IncludeSIMD.h"
 
-namespace Dynamik 
+namespace Dynamik
 {
     Vector3F::Vector3F(std::initializer_list<F32> list)
         : x(0.0f), y(0.0f), z(0.0f), w(0.0f)
@@ -64,9 +64,24 @@ namespace Dynamik
         return (const F32*)&_mm_div_ps(_mm_load_ps(lhs), _mm_load_ps(rhs));
     }
 
+    Vector3F operator+(const Vector3F& lhs, const F32& value)
+    {
+        return lhs + Vector3F(value);
+    }
+
+    Vector3F operator-(const Vector3F& lhs, const F32& value)
+    {
+        return lhs - Vector3F(value);
+    }
+
     Vector3F operator*(const Vector3F& lhs, const F32& value)
     {
-        return (const F32*)&_mm_mul_ps(_mm_load_ps(lhs), _mm_load_ps(Vector3F(value)));
+        return lhs * Vector3F(value);
+    }
+
+    Vector3F operator/(const Vector3F& lhs, const F32& value)
+    {
+        return lhs / Vector3F(value);
     }
 
     B1 operator==(const Vector3F& lhs, const Vector3F& rhs)

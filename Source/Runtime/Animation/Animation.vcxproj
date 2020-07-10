@@ -367,8 +367,10 @@
     <ClInclude Include="AnimationController.h" />
     <ClInclude Include="Objects\AnimKeyFrame.h" />
     <ClInclude Include="Objects\AnimNode.h" />
+    <ClInclude Include="Objects\AnimNodeGraph.h" />
     <ClInclude Include="Objects\AnimNodeTransform.h" />
     <ClInclude Include="Objects\Animation.h" />
+    <ClInclude Include="Objects\AnimTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationController.cpp" />

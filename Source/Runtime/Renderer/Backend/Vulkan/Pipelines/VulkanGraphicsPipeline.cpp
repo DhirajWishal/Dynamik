@@ -134,8 +134,8 @@ namespace Dynamik
 			VkViewport viewport = {};
 			viewport.x = (F32)pSwapChain->viewPort.xOffset;
 			viewport.y = (F32)pSwapChain->viewPort.yOffset;
-			viewport.width = (F32)pSwapChain->extent.width;
-			viewport.height = (F32)pSwapChain->extent.height;
+			viewport.width = pSwapChain->extent.width;
+			viewport.height = pSwapChain->extent.height;
 			viewport.minDepth = 0.0f;
 			viewport.maxDepth = 1.0f;
 
@@ -320,8 +320,8 @@ namespace Dynamik
 			VkViewport viewport = {};
 			viewport.x = (F32)pSwapChain->viewPort.xOffset;
 			viewport.y = (F32)pSwapChain->viewPort.yOffset;
-			viewport.width = (F32)pSwapChain->extent.width;
-			viewport.height = (F32)pSwapChain->extent.height;
+			viewport.width = pSwapChain->extent.width;
+			viewport.height = pSwapChain->extent.height;
 			viewport.minDepth = 0.0f;
 			viewport.maxDepth = 1.0f;
 

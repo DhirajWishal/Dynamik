@@ -31,7 +31,7 @@ namespace Dynamik
      * Utility threads
        - Resource thread
 
-     Runtime threads are permenent and will not change depending on the available threads. The Resource threads
+     Runtime threads are permanent and will not change depending on the available threads. The Resource threads
      and the Game threads vary depending on the available thread count.
     */
     class DMK_API DMKThreadManager {

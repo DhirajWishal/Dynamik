@@ -99,7 +99,7 @@ namespace Dynamik
         void endFrameInstruction();
 
     private:    /* Internal Methods */
-        void terminateContext(B1 terminateRenderTarget = true);
+        void terminateContext();
         void terminateComponents();
         void terminateEntities();
 

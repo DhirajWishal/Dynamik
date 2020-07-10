@@ -37,8 +37,13 @@ namespace Dynamik
 			/* Process commands */
 			for (index = 0; index < commandPoolPtr->commands.size(); index++)
 			{
-				pCommand = commandPoolPtr->commands.front();
-				commandPoolPtr->commands.pop();
+				/* Securely get the first element of the queue and pop it. */
+				{
+					std::lock_guard<std::mutex> _lock(_globalMutex);
+
+					pCommand = commandPoolPtr->commands.front();
+					commandPoolPtr->commands.pop();
+				}
 
 				/* To ensure that the main loop always gets updated */
 				mySystem.onLoop();
