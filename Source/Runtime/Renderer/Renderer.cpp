@@ -84,7 +84,7 @@ namespace Dynamik
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_TERMINATE_FRAME:
 			myCoreObject->idleCall();
-			isInitialized = false;
+			isReadyToRun = false;
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_TERMINATE_OBJECTS:
 			terminateEntities();
@@ -111,7 +111,7 @@ namespace Dynamik
 
 	void DMKRenderer::onLoop()
 	{
-		if (!isInitialized)
+		if (!isReadyToRun)
 			return;
 
 		beginFrameInstruction();
@@ -242,33 +242,7 @@ namespace Dynamik
 		createSwapChain(viewport, RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_FIFO);
 
 		/* Initialize Render pass */
-		ARRAY<RSubPasses> subpasses;
-		switch (type)
-		{
-		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT:
-			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
-			break;
-		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT_VR:
-			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
-			break;
-		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_2D:
-			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_SWAPCHAIN };
-			break;
-		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_3D:
-			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
-			break;
-		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEBUG:
-			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
-			break;
-		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEBUG_VR:
-			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
-			break;
-		default:
-			DMK_ERROR_BOX("Invalid context type!");
-			break;
-		}
-
-		createRenderPass(subpasses);
+		createRenderPass(getSubPasses(myCurrentContextType));
 
 		/* Initialize Frame buffer */
 		createFrameBuffer();
@@ -285,7 +259,7 @@ namespace Dynamik
 			RBuffer* pBuffer = StaticAllocator<VulkanBuffer>::rawAllocate();
 			pBuffer->initialize(myCoreObject, type, size, memoryType);
 
-			return Cast<RBuffer*>(pBuffer);
+			return pBuffer;
 		}
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
 			break;
@@ -428,9 +402,9 @@ namespace Dynamik
 	{
 		REntity entity;
 		RMeshObject* meshComponent = nullptr;
-		for (UI64 index = 0; index < pGameEntity->componentManager.getObjectArray<DMKMeshComponent>()->size(); index++)
+		for (UI64 index = 0; index < pGameEntity->componentManager.getObjectArray<DMKStaticMeshComponent>()->size(); index++)
 		{
-			auto mesh = pGameEntity->componentManager.getObject<DMKMeshComponent>(index);
+			auto mesh = pGameEntity->componentManager.getObject<DMKStaticMeshComponent>(index);
 			meshComponent = StaticAllocator<RMeshObject>::rawAllocate();
 			meshComponent->pMeshComponent = mesh;
 
@@ -530,7 +504,7 @@ namespace Dynamik
 			myDrawCallManager.endCommand();
 		}
 
-		isInitialized = true;
+		isReadyToRun = true;
 	}
 
 	void DMKRenderer::initializeFinals()
@@ -545,7 +519,7 @@ namespace Dynamik
 
 	void DMKRenderer::resizeFrameBuffer(DMKExtent2D windowExtent)
 	{
-		isInitialized = false;
+		isReadyToRun = false;
 
 		/* Reset Command Buffers */
 		myCoreObject->idleCall();
@@ -564,11 +538,22 @@ namespace Dynamik
 		}
 
 		/* Create New Context */
-		DMKViewport newViewPort;
-		newViewPort.windowHandle = myWindowHandle;
-		newViewPort.width = windowExtent.width;
-		newViewPort.height = windowExtent.height;
-		createContext(myCurrentContextType, newViewPort);
+		{
+			/* Initialize View port */
+			DMKViewport newViewPort;
+			newViewPort.windowHandle = myWindowHandle;
+			newViewPort.width = windowExtent.width;
+			newViewPort.height = windowExtent.height;
+
+			/* Initialize Swap Chain */
+			mySwapChain->initialize(myCoreObject, newViewPort, RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_FIFO);;
+
+			/* Initialize Render Pass */
+			myRenderTarget->pRenderPass->initialize(myCoreObject, getSubPasses(myCurrentContextType), mySwapChain);
+
+			/* Initialize Frame Buffer */
+			myRenderTarget->pFrameBuffer->initialize(myCoreObject, myRenderTarget->pRenderPass, mySwapChain);
+		}
 
 		/* Initialize Pipelines */
 		{
@@ -714,5 +699,36 @@ namespace Dynamik
 		}
 
 		return blendStates;
+	}
+	
+	ARRAY<RSubPasses> DMKRenderer::getSubPasses(DMKRenderContextType contextType)
+	{
+		ARRAY<RSubPasses> subpasses;
+		switch (contextType)
+		{
+		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT:
+			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
+			break;
+		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT_VR:
+			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
+			break;
+		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_2D:
+			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_SWAPCHAIN };
+			break;
+		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_3D:
+			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
+			break;
+		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEBUG:
+			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
+			break;
+		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEBUG_VR:
+			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
+			break;
+		default:
+			DMK_ERROR_BOX("Invalid context type!");
+			break;
+		}
+
+		return subpasses;
 	}
 }

@@ -6,7 +6,7 @@
 #define _DYNAMIK_RENDERER_MESH_COMPONENT_H
 
 #include "RCoreObject.h"
-#include "Core/Components/RenderableComponents/MeshComponent.h"
+#include "Core/Components/RenderableComponents/StaticMeshComponent.h"
 #include "Primitives/RTexture.h"
 #include "RPipelineObject.h"
 
@@ -34,7 +34,7 @@ namespace Dynamik
 		RBuffer* pUniformBuffer = nullptr;
 
 	public:		/* Parent Mesh Component*/
-		DMKMeshComponent* pMeshComponent = nullptr;
+		DMKStaticMeshComponent* pMeshComponent = nullptr;
 	};
 }
 

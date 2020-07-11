@@ -55,7 +55,7 @@ namespace Dynamik
         virtual void terminateCore() {}
 
     protected:      /* Protected methods */
-        virtual void _initializeMeshComponents(const ARRAY<DMKComponentArray<DMKMeshComponent>>& meshComponents) {}
+        virtual void _initializeMeshComponents(const ARRAY<DMKComponentArray<DMKStaticMeshComponent>>& meshComponents) {}
     };
 }
 

@@ -68,6 +68,82 @@ namespace Dynamik
 		return true;
 	}
 
+	void DMKVertexBuffer::initialize()
+	{
+		initialize(dataCount, layout);
+	}
+
+	void DMKVertexBuffer::initialize(UI64 dataCount)
+	{
+		initialize(dataCount, layout);
+	}
+
+	void DMKVertexBuffer::initialize(UI64 dataCount, DMKVertexLayout layout)
+	{
+		/* Check if the vertex buffer is already initialized */
+		if (pDataStore || _allocationSize || this->dataCount)
+		{
+			DMK_WARN("The vertex buffer is already initialized! Clearing the buffer and re-initializing.");
+
+			clear();
+		}
+
+		this->dataCount = dataCount;
+		this->layout = layout;
+
+		_allocationSize = layout.getVertexSize() * dataCount;
+		pDataStore = StaticAllocator<BYTE>::allocate(_allocationSize);
+	}
+
+	void DMKVertexBuffer::setLayout(const DMKVertexLayout& layout)
+	{
+		this->layout = layout;
+	}
+
+	DMKVertexLayout DMKVertexBuffer::getLayout() const
+	{
+		return layout;
+	}
+
+	void DMKVertexBuffer::setDataCount(const UI64& count)
+	{
+		dataCount = count;
+	}
+
+	UI64 DMKVertexBuffer::stride() const
+	{
+		return layout.getVertexSize();
+	}
+
+	UI64 DMKVertexBuffer::byteSize() const
+	{
+		return _allocationSize;
+	}
+
+	void DMKVertexBuffer::clear()
+	{
+		StaticAllocator<BYTE>::deallocate(pDataStore, _allocationSize);
+
+		pDataStore = nullptr;
+		_allocationSize = 0;
+		dataCount = 0;
+	}
+
+	void DMKVertexBuffer::addData(const VPTR source, const UI64& byteCount, const UI64& offset)
+	{
+		DMKMemoryFunctions::moveData(IncrementPointer(pDataStore, offset), source, byteCount);
+	}
+
+	void DMKVertexBuffer::setData(const VPTR source)
+	{
+		DMKMemoryFunctions::moveData(pDataStore, source, _allocationSize);
+	}
+
+	void DMKVertexBuffer::setNull(const UI64& byteSize, const UI64& offset)
+	{
+		DMKMemoryFunctions::setData(IncrementPointer(pDataStore, offset), 0, byteSize);
+	}
+
 	I64 DMKUniformBufferDescriptor::operator()()
 	{
 		auto descriptorCount = this->uniformBufferObjects.size();

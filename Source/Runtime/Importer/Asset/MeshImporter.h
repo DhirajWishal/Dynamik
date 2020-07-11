@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_MESH_IMPORTER_H
 #define _DYNAMIK_MESH_IMPORTER_H
 
-#include "Core/Components/RenderableComponents/MeshComponent.h"
+#include "Core/Components/RenderableComponents/StaticMeshComponent.h"
 
 namespace Dynamik 
 {
@@ -19,10 +19,10 @@ namespace Dynamik
         ~DMKMeshImporter() {}
     public:
         /* Load a mesh component */
-        static ARRAY<DMKMeshComponent> loadMeshes(const STRING& path, const DMKVertexLayout& vertexLayout);
+        static ARRAY<DMKStaticMeshComponent> loadMeshes(const STRING& path, const DMKVertexLayout& vertexLayout);
 
         /* Unload a loaded mesh component */
-        static void unloadMesh(const ARRAY<DMKMeshComponent>& meshes);
+        static void unloadMesh(const ARRAY<DMKStaticMeshComponent>& meshes);
     };
 }
 

@@ -59,14 +59,6 @@ namespace Dynamik
 				geometryShaders.pushBack(myBasePath + GET_SUB_STR);
 			else if (_line[0] == 'F')	/* A fragment shader path has been found */
 				fragmentShaders.pushBack(myBasePath + GET_SUB_STR);
-			else if (_line[0] == '>')	/* A object type specifier was found */
-				meshType = _resolveObjectType(GET_SUB_STR);
 		}
-	}
-
-	/* TODO */
-	inline DMKMeshComponentUsage DAIObject::_resolveObjectType(const STRING& type)
-	{
-		return DMKMeshComponentUsage::DMK_MESH_COMPONENT_USAGE_STATIC;
 	}
 }

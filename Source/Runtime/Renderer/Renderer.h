@@ -105,6 +105,7 @@ namespace Dynamik
 
     private:    /* Utility Methods */
         ARRAY<RColorBlendState> createBasicBlendStates();
+        ARRAY<RSubPasses> getSubPasses(DMKRenderContextType contextType);
 
     private:    /* Internal */
         DMKRendererCompatibility myCompatibility;
@@ -124,7 +125,7 @@ namespace Dynamik
 
         RCommandBufferManager* myCommandBufferManager = nullptr;
         ARRAY<RCommandBuffer*> myCommandBuffers;
-        B1 isInitialized = false;
+        B1 isReadyToRun = false;
 
         RCameraComponent* myCameraComponent = nullptr;
         REnvironmentMap myCurrentEnvironment;

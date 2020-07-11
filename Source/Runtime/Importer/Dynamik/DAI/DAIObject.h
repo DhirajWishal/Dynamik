@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_DAI_OBJECT_H
 #define _DYNAMIK_DAI_OBJECT_H
 
-#include "Core/Components/RenderableComponents/MeshComponent.h"
+#include "Core/Components/RenderableComponents/StaticMeshComponent.h"
 #include <fstream>
 
 namespace Dynamik
@@ -45,11 +45,9 @@ namespace Dynamik
         ARRAY<STRING> tessellationShaders;
         ARRAY<STRING> geometryShaders;
         ARRAY<STRING> fragmentShaders;
-        DMKMeshComponentUsage meshType;
 
     private:
         inline void _loadContent();
-        inline DMKMeshComponentUsage _resolveObjectType(const STRING& type);
 
         STRING myPath = DMK_TEXT("");
         STRING myBasePath = DMK_TEXT("");

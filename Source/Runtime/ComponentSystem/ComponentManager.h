@@ -7,7 +7,7 @@
 
 #include "Core/Macros/Global.h"
 #include "Core/Error/ErrorManager.h"
-#include "Core/Components/RenderableComponents/MeshComponent.h"
+#include "Core/Components/RenderableComponents/StaticMeshComponent.h"
 #include "ComponentArray.h"
 
 namespace Dynamik
@@ -94,6 +94,15 @@ namespace Dynamik
 		COMPONENT* getComponent(UI64 index = 0)
 		{
 			return (COMPONENT*)getComponentArray<COMPONENT>()->myComponents.location(index);
+		}
+
+		/*
+		 Check if a component array is already registered.
+		*/
+		template<class COMPONENT>
+		B1 isRegistered()
+		{
+			return componentTypes.find(typeid(COMPONENT).name()).size();
 		}
 
 	private:

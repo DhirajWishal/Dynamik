@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_MESH_FACTORY_H
 #define _DYNAMIK_MESH_FACTORY_H
 
-#include "Core/Components/RenderableComponents/MeshComponent.h"
+#include "Core/Components/RenderableComponents/StaticMeshComponent.h"
 
 namespace Dynamik
 {
@@ -33,19 +33,19 @@ namespace Dynamik
 		/*
 		 Create a basic triangle object.
 		*/
-		static DMKMeshComponent createBasicTriangle();
+		static DMKStaticMeshComponent createBasicTriangle();
 
 		/*
 		 Create a default mesh component from a provided file.
 
 		 @param path: Path to the file which contains the mesh data.
 		*/
-		static DMKMeshComponent createDefault(const STRING& path);
+		static DMKStaticMeshComponent createDefault(const STRING& path);
 
 		/*
 		 Create a basic cube mesh.
 		*/
-		static DMKMeshComponent createCube();
+		static DMKStaticMeshComponent createCube();
 
 		/*
 		 Create a basic sky box using texture files.
@@ -54,7 +54,7 @@ namespace Dynamik
 				+X, -X, +Y, -Y, +Z, -Z configuration.
 				(eg: { "right.jpg", "left.jpg", "top.jpg", "bottom.jpg", "front.jpg", "back.jpg" })
 		*/
-		static DMKMeshComponent createSkyBox(ARRAY<STRING> textureFiles);
+		static DMKStaticMeshComponent createSkyBox(ARRAY<STRING> textureFiles);
 
 	private:
 		STRING workingDirectory = DMK_TEXT("");

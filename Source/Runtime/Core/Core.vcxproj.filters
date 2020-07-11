@@ -69,9 +69,6 @@
     <ClInclude Include="Components\RenderableComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Components\RenderableComponents\MeshComponent.h">
-      <Filter>Components\RenderableComponents</Filter>
-    </ClInclude>
     <ClInclude Include="Error\ErrorDefines.h">
       <Filter>Error</Filter>
     </ClInclude>
@@ -159,9 +156,6 @@
     <ClInclude Include="Objects\Descriptors\MaterialDescriptor.h">
       <Filter>Objects\Descriptors</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Resource\IndexBuffer.h">
-      <Filter>Objects\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Objects\Resource\Primitives.h">
       <Filter>Objects\Resource</Filter>
     </ClInclude>
@@ -182,12 +176,6 @@
     </ClInclude>
     <ClInclude Include="Objects\Resource\Textures\TextureCube.h">
       <Filter>Objects\Resource\Textures</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Resource\VertexBuffer.h">
-      <Filter>Objects\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Resource\VertexObject.h">
-      <Filter>Objects\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Objects\System.h">
       <Filter>Objects</Filter>
@@ -225,13 +213,13 @@
     <ClInclude Include="Utilities\Clock.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Components\RenderableComponents\StaticMeshComponent.h">
+      <Filter>Components\RenderableComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\RenderableComponent.cpp">
       <Filter>Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\RenderableComponents\MeshComponent.cpp">
-      <Filter>Components\RenderableComponents</Filter>
     </ClCompile>
     <ClCompile Include="Error\ErrorManager.cpp">
       <Filter>Error</Filter>
@@ -304,6 +292,9 @@
     </ClCompile>
     <ClCompile Include="Utilities\Clock.cpp">
       <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\RenderableComponents\StaticMeshComponent.cpp">
+      <Filter>Components\RenderableComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

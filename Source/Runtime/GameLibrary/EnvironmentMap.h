@@ -22,9 +22,9 @@ namespace Dynamik
 		DMKEnvironmentMap() = default;
 		virtual ~DMKEnvironmentMap() = default;
 
-		void setSkyBox(const DMKMeshComponent& component);
+		void setSkyBox(const DMKStaticMeshComponent& component);
 
-		DMKMeshComponent skyBox;
+		DMKStaticMeshComponent skyBox;
 	};
 }
 

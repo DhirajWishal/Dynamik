@@ -7,7 +7,7 @@
 
 #include "Objects/Animation.h"
 #include "Objects/AnimNodeGraph.h"
-#include "Core/Components/RenderableComponents/MeshComponent.h"
+#include "Core/Components/RenderableComponents/StaticMeshComponent.h"
 
 namespace Dynamik
 {
@@ -16,8 +16,13 @@ namespace Dynamik
 
 	 This component stores all the relevant data to store an animation.
 	 This component contains,
-	 - Skinned Mesh (DMKMeshComponent)
+	 - Skinned Mesh (DMKStaticMeshComponent)
 	 - Bone Mesh (DMKAnimation)
+
+	 An animated mesh component is of 3 sub components.
+	 - mesh components (static)
+	 - node graph (skeletons/ bones)
+	 - animations
 	*/
 	class DMK_API DMKAnimatedMeshComponent {
 	public:
@@ -25,7 +30,7 @@ namespace Dynamik
 		~DMKAnimatedMeshComponent() {}
 
 		/* Skinned Mesh Component */
-		DMKMeshComponent skinnedMesh;
+		DMKStaticMeshComponent skinnedMesh;
 
 		/* Animations */
 		ARRAY<DMKAnimation> animations;

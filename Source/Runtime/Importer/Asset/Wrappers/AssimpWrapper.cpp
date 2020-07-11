@@ -64,11 +64,11 @@ namespace Dynamik
 		return AQuatFrame(key.mValue.x, key.mValue.y, key.mValue.z, key.mValue.w);
 	}
 
-	DMKMeshComponent AssimpWrapper::loadMeshComponent(VPTR pAiMeshObject, const DMKVertexLayout& vertexLayout)
+	DMKStaticMeshComponent AssimpWrapper::loadMeshComponent(VPTR pAiMeshObject, const DMKVertexLayout& vertexLayout)
 	{
 		auto _mesh = (aiMesh*)pAiMeshObject;
 
-		DMKMeshComponent _meshComponent;
+		DMKStaticMeshComponent _meshComponent;
 		_meshComponent.vertexLayout = vertexLayout;
 		_meshComponent.vertexBuffer = StaticAllocator<BYTE>::rawAllocate(vertexLayout.getVertexSize() * _mesh->mNumVertices);
 		_meshComponent.vertexCount = _mesh->mNumVertices;
@@ -283,6 +283,10 @@ namespace Dynamik
 		UI32 vertexOffset = 0;
 
 		DMKAnimatedMeshComponent animMeshComponent;
+
+		/* Load all nodes/ bones */
+		readAllNodes(_scene->mRootNode, &animMeshComponent.nodeGraph.nodes, nullptr);
+
 		for (UI32 _itr = 0; _itr < _scene->mNumMeshes; _itr++)
 		{
 			auto _mesh = _scene->mMeshes[_itr];
@@ -309,13 +313,11 @@ namespace Dynamik
 				animMeshComponent.nodeMap[node.name] = node.index;
 				animMeshComponent.nodeInfos[node.index].offset = aiMatrixToMatrix4F(_mesh->mBones[boneIndex]->mOffsetMatrix);
 
-
 				for (UI32 i = 0; i < nodesPerVertex; i++)
 				{
 					UI32 vertexID = vertexOffset + _mesh->mBones[boneIndex]->mWeights[i].mVertexId;
 					animMeshComponent.nodeData[vertexID].add(vertexID, _mesh->mBones[boneIndex]->mWeights[i].mWeight);
 				}
-
 			}
 
 			animMeshComponent.skinnedMesh = loadMeshComponent(_mesh, vertexLayout);
@@ -333,17 +335,17 @@ namespace Dynamik
 		return loadAnimatedMeshComponent((VPTR)localImporter.ReadFile(file, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs), vertexLayout, nodesPerVertex);
 	}
 
-	ARRAY<DMKMeshComponent> AssimpWrapper::loadStaticModel(const STRING& file, const DMKVertexLayout& vertexLayout)
+	ARRAY<DMKStaticMeshComponent> AssimpWrapper::loadStaticModel(const STRING& file, const DMKVertexLayout& vertexLayout)
 	{
 		auto _scene = localImporter.ReadFile(file, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs);
 
 		if (!_scene)
 		{
 			DMKErrorManager::issueErrorBox("Unable to load the mesh file!");
-			return ARRAY<DMKMeshComponent>();
+			return ARRAY<DMKStaticMeshComponent>();
 		}
 
-		ARRAY<DMKMeshComponent> myModel;
+		ARRAY<DMKStaticMeshComponent> myModel;
 		for (UI32 _itr = 0; _itr < _scene->mNumMeshes; _itr++)
 			myModel.pushBack(loadMeshComponent(_scene->mMeshes[_itr], vertexLayout));
 

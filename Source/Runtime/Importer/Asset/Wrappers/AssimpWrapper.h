@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_ASSIMP_WRAPPER_H
 #define _DYNAMIK_ASSIMP_WRAPPER_H
 
-#include "Core/Components/RenderableComponents/MeshComponent.h"
+#include "Core/Components/RenderableComponents/StaticMeshComponent.h"
 #include "Animation/AnimatedMeshComponent.h"
 
 namespace Dynamik
@@ -25,7 +25,7 @@ namespace Dynamik
 		 @param pAiMeshObject: Pointer to the aiMesh object.
 		 @param vertexLayout: Vertex layout of the Dynamik Mesh Component.
 		*/
-		DMKMeshComponent loadMeshComponent(VPTR pAiMeshObject, const DMKVertexLayout& vertexLayout);
+		DMKStaticMeshComponent loadMeshComponent(VPTR pAiMeshObject, const DMKVertexLayout& vertexLayout);
 
 		/*
 		 Load animation using aiAnimation and the root node.
@@ -57,7 +57,7 @@ namespace Dynamik
 		 @param file: Asset file.
 		 @param vertexLayout: Vertex layout of the vertex buffers used to store vertex data.
 		*/
-		ARRAY<DMKMeshComponent> loadStaticModel(const STRING& file, const DMKVertexLayout& vertexLayout);
+		ARRAY<DMKStaticMeshComponent> loadStaticModel(const STRING& file, const DMKVertexLayout& vertexLayout);
 	};
 }
 

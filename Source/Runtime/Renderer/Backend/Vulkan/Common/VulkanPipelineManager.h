@@ -13,7 +13,7 @@
 #include "../Primitives/VulkanShader.h"
 
 #include "Core/Objects/Resource/Primitives.h"
-#include "Core/Components/RenderableComponents/MeshComponent.h"
+#include "Core/Components/RenderableComponents/StaticMeshComponent.h"
 
 namespace Dynamik
 {
@@ -32,7 +32,6 @@ namespace Dynamik
 		 Vulkan Graphics Pipeline create info structure
 		*/
 		struct DMK_API VulkanGraphicsPipelineInitInfo {
-			DMKMeshComponentUsage usage = DMKMeshComponentUsage::DMK_MESH_COMPONENT_USAGE_STATIC;
 			DMKVertexLayout vertexBufferDescriptor;
 			ARRAY<DMKConstantBlockDescription> constantBlockDescriptions;
 

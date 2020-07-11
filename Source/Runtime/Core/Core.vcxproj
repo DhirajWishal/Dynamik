@@ -367,7 +367,7 @@
     <ClInclude Include="Components\Attachments\PhysicsAttachment.h" />
     <ClInclude Include="Components\Component.h" />
     <ClInclude Include="Components\RenderableComponent.h" />
-    <ClInclude Include="Components\RenderableComponents\MeshComponent.h" />
+    <ClInclude Include="Components\RenderableComponents\StaticMeshComponent.h" />
     <ClInclude Include="Error\ErrorDefines.h" />
     <ClInclude Include="Error\ErrorManager.h" />
     <ClInclude Include="Error\MessageBox.h" />
@@ -397,7 +397,6 @@
     <ClInclude Include="Memory\StaticAllocator.h" />
     <ClInclude Include="Objects\Descriptors\GameComponentDesriptors.h" />
     <ClInclude Include="Objects\Descriptors\MaterialDescriptor.h" />
-    <ClInclude Include="Objects\Resource\IndexBuffer.h" />
     <ClInclude Include="Objects\Resource\Primitives.h" />
     <ClInclude Include="Objects\Resource\ShaderFactory.h" />
     <ClInclude Include="Objects\Resource\ShaderModule.h" />
@@ -405,8 +404,6 @@
     <ClInclude Include="Objects\Resource\TextureFactory.h" />
     <ClInclude Include="Objects\Resource\Textures\Texture2D.h" />
     <ClInclude Include="Objects\Resource\Textures\TextureCube.h" />
-    <ClInclude Include="Objects\Resource\VertexBuffer.h" />
-    <ClInclude Include="Objects\Resource\VertexObject.h" />
     <ClInclude Include="Objects\System.h" />
     <ClInclude Include="PCH\dmkafx.h" />
     <ClInclude Include="Types\Array.h" />
@@ -422,7 +419,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\RenderableComponent.cpp" />
-    <ClCompile Include="Components\RenderableComponents\MeshComponent.cpp" />
+    <ClCompile Include="Components\RenderableComponents\StaticMeshComponent.cpp" />
     <ClCompile Include="Error\ErrorManager.cpp" />
     <ClCompile Include="Error\MessageBox.cpp" />
     <ClCompile Include="FileSystem\FileSystem.cpp" />

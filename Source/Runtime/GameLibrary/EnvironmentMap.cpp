@@ -8,7 +8,7 @@
 
 namespace Dynamik
 {
-	void DMKEnvironmentMap::setSkyBox(const DMKMeshComponent& component)
+	void DMKEnvironmentMap::setSkyBox(const DMKStaticMeshComponent& component)
 	{
 		skyBox = component;
 	}

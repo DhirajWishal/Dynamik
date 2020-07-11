@@ -96,10 +96,6 @@ namespace Dynamik
 			rasterizer.polygonMode = info.rasterizerPolygonMode;
 			rasterizer.lineWidth = info.rasterizerLineWidth;
 			rasterizer.cullMode = info.rasterizerCullMode;
-
-			if (info.usage == DMKMeshComponentUsage::DMK_MESH_COMPONENT_USAGE_SKYBOX)
-				rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;
-			else
 				rasterizer.frontFace = info.rasterizerFrontFace;
 
 			rasterizer.depthBiasEnable = info.rasterizerDepthBiasEnable;

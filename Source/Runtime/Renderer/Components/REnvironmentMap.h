@@ -35,7 +35,7 @@ namespace Dynamik
 		RBuffer* pUniformBuffer = nullptr;
 
 	public:		/* Parent Mesh Component*/
-		DMKMeshComponent* pMeshComponent = nullptr;
+		DMKStaticMeshComponent* pMeshComponent = nullptr;
 	};
 }
 

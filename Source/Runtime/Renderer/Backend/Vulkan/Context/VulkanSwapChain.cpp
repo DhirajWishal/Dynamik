@@ -189,9 +189,11 @@ namespace Dynamik
 				vkDestroyImageView(InheritCast<VulkanCoreObject>(pCoreObject).device, InheritCast<VulkanImageView>(image), nullptr);
 				StaticAllocator<VulkanImageView>::rawDeallocate(image);
 			}
+			imageViews.clear();
 
 			for (auto image : images)
 				StaticAllocator<VulkanImage>::rawDeallocate(image);
+			images.clear();
 
 			vkDestroySwapchainKHR(InheritCast<VulkanCoreObject>(pCoreObject).device, swapChain, nullptr);
 		}

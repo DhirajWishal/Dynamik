@@ -14,30 +14,19 @@
 #include "../RenderableComponent.h"
 #include "Core/Objects/Resource/ShaderFactory.h"
 #include "Core/Objects/Resource/TextureFactory.h"
-#include "Core/Objects/Resource/VertexBuffer.h"
-#include "Core/Objects/Resource/IndexBuffer.h"
+
 
 namespace Dynamik
 {
 	/*
-	 Usage of the mesh component
-	*/
-	enum class DMK_API DMKMeshComponentUsage {
-		DMK_MESH_COMPONENT_USAGE_STATIC,
-		DMK_MESH_COMPONENT_USAGE_ANIMATED,
-		DMK_MESH_COMPONENT_USAGE_SKYBOX,
-	};
-
-	/*
 	 Mesh Component for the Dynamik Engine.
 	*/
-	class DMK_API DMKMeshComponent : public DMKRenderableComponent {
+	class DMK_API DMKStaticMeshComponent : public DMKRenderableComponent {
 	public:
-		DMKMeshComponent() = default;
-		DMKMeshComponent(const DMKMeshComponentUsage& usage) : usage(usage) {}
-		DMKMeshComponent(const DMKMeshComponentUsage& usage, const DMKVertexLayout& descriptor, const DMKDataType& type)
-			: usage(usage), vertexLayout(descriptor), indexBufferType(type) {}
-		~DMKMeshComponent() = default;
+		DMKStaticMeshComponent() = default;
+		DMKStaticMeshComponent(const DMKVertexLayout& descriptor, const DMKDataType& type)
+			: vertexLayout(descriptor), indexBufferType(type) {}
+		~DMKStaticMeshComponent() = default;
 
 		/* 
 		 Get the total byte size of the vertex buffer object 
@@ -99,7 +88,6 @@ namespace Dynamik
 	public:		/* Descriptors */
 		DMKVertexLayout vertexLayout;
 		DMKDataType indexBufferType = DMKDataType::DMK_DATA_TYPE_UI32;
-		DMKMeshComponentUsage usage = DMKMeshComponentUsage::DMK_MESH_COMPONENT_USAGE_STATIC;
 
 	public:		/* Matrix Manipulation */
 		void translate(const MAT4& mat, const VEC3& vec) override final;

@@ -4,7 +4,7 @@
 #include "dmkafx.h"
 #include "MeshImporter.h"
 
-#include "Core/Components/RenderableComponents/MeshComponent.h"
+#include "Core/Components/RenderableComponents/StaticMeshComponent.h"
 #include "Core/Objects/Resource/Primitives.h"
 
 #include <assimp/Importer.hpp>
@@ -26,7 +26,7 @@ namespace Dynamik
 			DMKMemoryFunctions::moveData(dst, &src, sizeof(TYPE));
 	}
 
-	ARRAY<DMKMeshComponent> DMKMeshImporter::loadMeshes(const STRING& path, const DMKVertexLayout& vertexLayout)
+	ARRAY<DMKStaticMeshComponent> DMKMeshImporter::loadMeshes(const STRING& path, const DMKVertexLayout& vertexLayout)
 	{
 		static Assimp::Importer _importer;
 		static auto _scene = _importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs);
@@ -34,15 +34,15 @@ namespace Dynamik
 		if (!_scene)
 		{
 			DMKErrorManager::issueErrorBox("Unable to load the mesh file!");
-			return ARRAY<DMKMeshComponent>();
+			return ARRAY<DMKStaticMeshComponent>();
 		}
 
-		ARRAY<DMKMeshComponent> _myMeshes;
+		ARRAY<DMKStaticMeshComponent> _myMeshes;
 		for (UI32 _itr = 0; _itr < _scene->mNumMeshes; _itr++)
 		{
 			auto _mesh = _scene->mMeshes[_itr];
 
-			DMKMeshComponent _meshComponent;
+			DMKStaticMeshComponent _meshComponent;
 			_meshComponent.vertexLayout = vertexLayout;
 			_meshComponent.vertexBuffer = StaticAllocator<BYTE>::rawAllocate(vertexLayout.getVertexSize() * _mesh->mNumVertices);
 			_meshComponent.vertexCount = _mesh->mNumVertices;
@@ -200,7 +200,7 @@ namespace Dynamik
 		return _myMeshes;
 	}
 
-	void DMKMeshImporter::unloadMesh(const ARRAY<DMKMeshComponent>& meshes)
+	void DMKMeshImporter::unloadMesh(const ARRAY<DMKStaticMeshComponent>& meshes)
 	{
 		for (UI32 index = 0; index < meshes.size(); index++)
 		{

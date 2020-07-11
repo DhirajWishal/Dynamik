@@ -259,9 +259,6 @@ namespace Dynamik
 
 		void VulkanGraphicsPipeline::reCreate(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain)
 		{
-			ARRAY<VulkanResourceLayout> resourceLayouts;
-			ARRAY<VkDescriptorPoolSize> descriptorPoolSizes;
-
 			/* Initialize Vertex Input Info */
 			VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
 			vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
@@ -277,7 +274,7 @@ namespace Dynamik
 			shaderStage.pNext = VK_NULL_HANDLE;
 			shaderStage.pSpecializationInfo = VK_NULL_HANDLE;
 
-			resourceLayouts.resize(mySpecification.shaders.size());
+			ARRAY<VulkanResourceLayout> resourceLayouts(mySpecification.shaders.size());
 			for (UI32 index = 0; index < mySpecification.shaders.size(); index++)
 			{
 				shaderStage.pName = "main";
@@ -288,7 +285,6 @@ namespace Dynamik
 				Tools::SPIRVDisassembler dissassembler(mySpecification.shaders[index]);
 
 				resourceBindings.insert(dissassembler.getOrderedDescriptorSetLayoutBindings());
-				descriptorPoolSizes.insert(dissassembler.getDescriptorPoolSizes());
 
 				if (mySpecification.shaders[index].location == DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
 				{

@@ -134,6 +134,126 @@ namespace Dynamik
 		B1 operator==(const DMKVertexLayout& other) const;
 	};
 
+	/*
+	 Dynamik Vertex Buffer
+	 This object is capable of storing all the vertexes of a given mesh.
+
+	 The best way to load data to the vertex buffer is to first allocate the buffer with the required size,
+	 and then move data at once or sequentially.
+	*/
+	class DMK_API DMKVertexBuffer {
+	public:
+		DMKVertexBuffer()
+			: layout({}), dataCount(0), _allocationSize(0), pDataStore(nullptr) {}
+		DMKVertexBuffer(const DMKVertexLayout& layout)
+			: layout(layout), dataCount(0), _allocationSize(0), pDataStore(nullptr) {}
+		DMKVertexBuffer(const DMKVertexLayout& layout, const UI64& dataCount)
+			: layout(layout), dataCount(dataCount), _allocationSize(0), pDataStore(nullptr) {}
+		~DMKVertexBuffer() {}
+
+		/*
+		 Initialize the buffer.
+		*/
+		void initialize();
+
+		/*
+		 Initialize the buffer.
+
+		 @param dataCount: The total number of vertexes the buffer will have.
+		*/
+		void initialize(UI64 dataCount);
+
+		/*
+		 Initialize the buffer.
+
+		 @param dataCount: The total number of vertexes the buffer will have.
+		 @param layout: The vertex layout.
+		*/
+		void initialize(UI64 dataCount, DMKVertexLayout layout);
+
+		/*
+		 Set the vertex layout.
+
+		 @param layout: The vertex layout.
+		*/
+		void setLayout(const DMKVertexLayout& layout);
+
+		/*
+		 Get the vertex layout.
+		*/
+		DMKVertexLayout getLayout() const;
+
+		/*
+		 Set the data count.
+
+		 @param count: The data count.
+		*/
+		void setDataCount(const UI64& count);
+
+		/*
+		 Get the data count (size).
+		*/
+		UI64 size() const;
+
+		/*
+		 Get the size of a single vertex (stride).
+		*/
+		UI64 stride() const;
+
+		/*
+		 Get the total byte size of the buffer.
+		*/
+		UI64 byteSize() const;
+
+		/*
+		 Clear the buffer.
+		*/
+		void clear();
+
+		/*
+		 Get the data pointer.
+		*/
+		VPTR data() const;
+
+		/*
+		 Add data to the buffer.
+
+		 @param source: Source pointer from which to load the data.
+		 @param byteCount: Byte size to copy from the source address.
+		 @param offset: The offset of the buffer to which the data are added.
+		*/
+		void addData(const VPTR source, const UI64& byteCount, const UI64& offset);
+
+		/*
+		 Set data to the whole size of the buffer.
+
+		 @param source: The source address of the data.
+		*/
+		void setData(const VPTR source);
+
+		/*
+		 Set null to a block of data in the buffer. This is used if the layout requested data are not
+		 available in the input file (asset file).
+
+		 @param byteSize: The number of bytes to be zeroed.
+		 @param offset: The offset to which the zero values are set in the buffer.
+		*/
+		void setNull(const UI64& byteSize, const UI64& offset);
+
+	public:		/* Buffer Data */
+		/* Vertex Layout */
+		DMKVertexLayout layout = {};
+
+		/* Data Count */
+		UI64 dataCount = 0;
+
+		/* Data Store */
+		VPTR pDataStore = nullptr;
+
+	private:
+		UI64 _allocationSize = 0;
+	};
+
 	/* Constant Block */
 	/* Dynamik Constant Attribute */
 	struct DMK_API DMKConstantAttribute {
