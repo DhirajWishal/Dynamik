@@ -8,11 +8,11 @@
 
 namespace Dynamik
 {
-	void RDrawCallManager::addDrawEntry(UI64 vertexCount, VPTR vertexBuffer, ARRAY<UI32>* indexBuffer, RPipelineObject* pPipelineObject, DMKVertexLayout vertexLayout)
+	void RDrawCallManager::addDrawEntry(DMKVertexBuffer vertexBuffer, ARRAY<UI32>* indexBuffer, RPipelineObject* pPipelineObject)
 	{
-		entryMap[vertexLayout].drawEntries.pushBack(
-			DrawEntry(entryMap[vertexLayout].vertexCount, vertexCount, vertexBuffer, totalIndexCount, indexBuffer->size(), pPipelineObject));
-		entryMap[vertexLayout].vertexCount += vertexCount;
+		entryMap[vertexBuffer.layout].drawEntries.pushBack(
+			DrawEntry(entryMap[vertexBuffer.layout].vertexCount, vertexBuffer, totalIndexCount, indexBuffer->size(), pPipelineObject));
+		entryMap[vertexBuffer.layout].vertexCount += vertexBuffer.dataCount;
 
 		IndexBufferEntry _entry;
 		_entry.firstIndex = totalIndexCount;
@@ -38,10 +38,10 @@ namespace Dynamik
 
 			for (auto drawEntry : entry.second.drawEntries)
 			{
-				DMKMemoryFunctions::moveData(vertexPointer.get(), drawEntry.pVertexBuffer, drawEntry.vertexCount * entry.first.getVertexSize());
-				vertexPointer += drawEntry.vertexCount * entry.first.getVertexSize();
+				DMKMemoryFunctions::moveData(vertexPointer.get(), drawEntry.vertexBuffer.data(), drawEntry.vertexBuffer.byteSize());
+				vertexPointer += drawEntry.vertexBuffer.byteSize();
 
-				StaticAllocator<BYTE>::rawDeallocate(drawEntry.pVertexBuffer, drawEntry.vertexCount * entry.first.getVertexSize());
+				drawEntry.vertexBuffer.clear();
 			}
 			staggingBuffer->unmapMemory(pCoreObject);
 
@@ -121,7 +121,7 @@ namespace Dynamik
 				if (callType == RDrawCallType::DRAW_CALL_TYPE_INDEX)
 					pCommandBuffer->drawIndexed(entry.firstIndex, entry.firstVertex, entry.indexCount, 1);
 				else if (callType == RDrawCallType::DRAW_CALL_TYPE_VERTEX)
-					pCommandBuffer->drawVertexes(entry.firstVertex, entry.vertexCount, 1);
+					pCommandBuffer->drawVertexes(entry.firstVertex, entry.vertexBuffer.dataCount, 1);
 			}
 		}
 	}

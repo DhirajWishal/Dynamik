@@ -24,17 +24,17 @@ namespace Dynamik
 	class DMK_API DMKStaticMeshComponent : public DMKRenderableComponent {
 	public:
 		DMKStaticMeshComponent() = default;
-		DMKStaticMeshComponent(const DMKVertexLayout& descriptor, const DMKDataType& type)
-			: vertexLayout(descriptor), indexBufferType(type) {}
+		DMKStaticMeshComponent(const DMKDataType& type)
+			: indexBufferType(type) {}
 		~DMKStaticMeshComponent() = default;
 
-		/* 
-		 Get the total byte size of the vertex buffer object 
+		/*
+		 Get the total byte size of the vertex buffer object
 		*/
 		UI64 getVertexBufferObjectByteSize();
 
-		/* 
-		 Get the total byte size of the index buffer object 
+		/*
+		 Get the total byte size of the index buffer object
 		*/
 		UI64 getIndexBufferObjectByteSize();
 
@@ -80,13 +80,11 @@ namespace Dynamik
 		UI64 getUniformByteSize();
 
 	public:		/* Public Data Store */
+		DMKVertexBuffer vertexBuffer;
 		ARRAY<UI32> indexBuffer;
-		VPTR vertexBuffer = nullptr;
-		UI64 vertexCount = 0;
 		UI64 indexCount = 0;
 
 	public:		/* Descriptors */
-		DMKVertexLayout vertexLayout;
 		DMKDataType indexBufferType = DMKDataType::DMK_DATA_TYPE_UI32;
 
 	public:		/* Matrix Manipulation */

@@ -69,6 +69,9 @@
     <ClInclude Include="Components\RenderableComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Components\RenderableComponents\StaticMeshComponent.h">
+      <Filter>Components\RenderableComponents</Filter>
+    </ClInclude>
     <ClInclude Include="Error\ErrorDefines.h">
       <Filter>Error</Filter>
     </ClInclude>
@@ -213,13 +216,13 @@
     <ClInclude Include="Utilities\Clock.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Components\RenderableComponents\StaticMeshComponent.h">
-      <Filter>Components\RenderableComponents</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\RenderableComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\RenderableComponents\StaticMeshComponent.cpp">
+      <Filter>Components\RenderableComponents</Filter>
     </ClCompile>
     <ClCompile Include="Error\ErrorManager.cpp">
       <Filter>Error</Filter>
@@ -292,9 +295,6 @@
     </ClCompile>
     <ClCompile Include="Utilities\Clock.cpp">
       <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\RenderableComponents\StaticMeshComponent.cpp">
-      <Filter>Components\RenderableComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

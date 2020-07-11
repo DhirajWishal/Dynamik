@@ -4,6 +4,9 @@
     <Filter Include="Asset">
       <UniqueIdentifier>{253FD80C-9153-00BE-5AD5-A31DC6A8FCEE}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Asset\Wrappers">
+      <UniqueIdentifier>{08832B0E-F450-1F14-DDE4-8F3AC951FB78}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Dynamik">
       <UniqueIdentifier>{928A7598-FE69-F433-0782-7F0A73E05A95}</UniqueIdentifier>
     </Filter>
@@ -21,13 +24,15 @@
     <ClInclude Include="Asset\MeshImporter.h">
       <Filter>Asset</Filter>
     </ClInclude>
+    <ClInclude Include="Asset\Wrappers\AssimpWrapper.h">
+      <Filter>Asset\Wrappers</Filter>
+    </ClInclude>
     <ClInclude Include="Dynamik\DAI\DAIObject.h">
       <Filter>Dynamik\DAI</Filter>
     </ClInclude>
     <ClInclude Include="Dynamik\DMKAsset\DMKAsset.h">
       <Filter>Dynamik\DMKAsset</Filter>
     </ClInclude>
-    <ClInclude Include="Asset\Wrappers\AssimpWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset\AnimationImporter.cpp">
@@ -36,13 +41,15 @@
     <ClCompile Include="Asset\MeshImporter.cpp">
       <Filter>Asset</Filter>
     </ClCompile>
+    <ClCompile Include="Asset\Wrappers\AssimpWrapper.cpp">
+      <Filter>Asset\Wrappers</Filter>
+    </ClCompile>
     <ClCompile Include="Dynamik\DAI\DAIObject.cpp">
       <Filter>Dynamik\DAI</Filter>
     </ClCompile>
     <ClCompile Include="Dynamik\DMKAsset\DMKAsset.cpp">
       <Filter>Dynamik\DMKAsset</Filter>
     </ClCompile>
-    <ClCompile Include="Asset\Wrappers\AssimpWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Importer.lua" />

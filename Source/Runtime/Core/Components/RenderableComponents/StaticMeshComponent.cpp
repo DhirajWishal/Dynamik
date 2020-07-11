@@ -14,7 +14,7 @@ namespace Dynamik
 	/* Get the vertex buffer object byte size */
 	UI64 DMKStaticMeshComponent::getVertexBufferObjectByteSize()
 	{
-		return vertexCount * vertexLayout.getVertexSize();
+		return vertexBuffer.byteSize();
 	}
 
 	/* Get the index buffer object byte size */
@@ -65,7 +65,7 @@ namespace Dynamik
 
 	void DMKStaticMeshComponent::clearVertexBuffer()
 	{
-		StaticAllocator<BYTE>::deallocate(vertexBuffer, getVertexBufferObjectByteSize());
+		vertexBuffer.clear();
 	}
 
 	void DMKStaticMeshComponent::clearIndexBuffer()

@@ -8,6 +8,12 @@
 
 namespace Dynamik
 {
+	void AAnimNodeData::add(const UI32& vertexID, const F32& weight)
+	{
+		vertexIDs.pushBack(vertexID);
+		weights.pushBack(weight);
+	}
+
 	void DMKAnimNode::setParentNode(DMKAnimNode* pAnimNode)
 	{
 		pParentNode = pAnimNode;

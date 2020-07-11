@@ -380,10 +380,7 @@ namespace Dynamik
 		myCurrentEnvironment.pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, myRenderTarget, mySwapChain);
 
 		/* Initialize Vertex and Index Buffers */
-		myDrawCallManager.addDrawEntry(
-			pEnvironmentMap->skyBox.vertexCount, pEnvironmentMap->skyBox.vertexBuffer,
-			&pEnvironmentMap->skyBox.indexBuffer,
-			myCurrentEnvironment.pPipeline, pEnvironmentMap->skyBox.vertexLayout);
+		myDrawCallManager.addDrawEntry(pEnvironmentMap->skyBox.vertexBuffer, &pEnvironmentMap->skyBox.indexBuffer, myCurrentEnvironment.pPipeline);
 
 		/* Initialize Pipeline Resources */
 		/* Initialize Uniform Buffer Resources */
@@ -444,10 +441,7 @@ namespace Dynamik
 			meshComponent->pPipeline->initializeResources(myCoreObject, uniformBuffers, textures);
 
 			/* Initialize Vertex and Index Buffers */
-			myDrawCallManager.addDrawEntry(
-				mesh->vertexCount, mesh->vertexBuffer,
-				&mesh->indexBuffer,
-				meshComponent->pPipeline, mesh->vertexLayout);
+			myDrawCallManager.addDrawEntry(mesh->vertexBuffer, &mesh->indexBuffer, meshComponent->pPipeline);
 
 			entity.pMeshObjects.pushBack(meshComponent);
 		}
@@ -485,7 +479,7 @@ namespace Dynamik
 		pCommandBuffer->drawIndexed(*pFirstVertex, myCurrentEnvironment.indexBufferOffset, myCurrentEnvironment.pMeshComponent->indexCount, 1);
 
 		*pFirstIndex += myCurrentEnvironment.pMeshComponent->indexCount;
-		*pFirstVertex += myCurrentEnvironment.pMeshComponent->vertexCount;
+		*pFirstVertex += myCurrentEnvironment.pMeshComponent->vertexBuffer.size();
 	}
 
 	void DMKRenderer::initializeCommandBuffers()
@@ -700,7 +694,7 @@ namespace Dynamik
 
 		return blendStates;
 	}
-	
+
 	ARRAY<RSubPasses> DMKRenderer::getSubPasses(DMKRenderContextType contextType)
 	{
 		ARRAY<RSubPasses> subpasses;

@@ -369,8 +369,8 @@
     <ClInclude Include="Objects\AnimNode.h" />
     <ClInclude Include="Objects\AnimNodeGraph.h" />
     <ClInclude Include="Objects\AnimNodeTransform.h" />
-    <ClInclude Include="Objects\Animation.h" />
     <ClInclude Include="Objects\AnimTypes.h" />
+    <ClInclude Include="Objects\Animation.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationController.cpp" />

@@ -42,21 +42,20 @@ namespace Dynamik
 		struct DMK_API DrawEntry {
 			DrawEntry() {}
 			DrawEntry(
-				UI64 fVertex, UI64 vCount, VPTR vBuffer,
+				UI64 fVertex, DMKVertexBuffer vertexBuffer,
 				UI64 firstIndex, UI64 indexCount,
 				RPipelineObject* pPipelineObj) :
-				firstVertex(fVertex), vertexCount(vCount), pVertexBuffer(vBuffer),
+				firstVertex(fVertex), vertexBuffer(vertexBuffer),
 				firstIndex(firstIndex), indexCount(indexCount),
 				pPipelineObject(pPipelineObj) {}
 			~DrawEntry() {}
 
 			UI64 firstVertex = 0;
-			UI64 vertexCount = 0;
 			UI64 firstIndex = 0;
 			UI64 indexCount = 0;
 
 			RPipelineObject* pPipelineObject = nullptr;
-			VPTR pVertexBuffer = nullptr;
+			DMKVertexBuffer vertexBuffer;
 		};
 
 		struct DMK_API IndexBufferEntry {
@@ -79,9 +78,9 @@ namespace Dynamik
 		~RDrawCallManager() {}
 
 		void addDrawEntry(
-			UI64 vertexCount, VPTR vertexBuffer, 
+			DMKVertexBuffer vertexBuffer,
 			ARRAY<UI32>* indexBuffer,
-			RPipelineObject* pPipelineObject, DMKVertexLayout vertexLayout);
+			RPipelineObject* pPipelineObject);
 
 		void initializeBuffers(RCoreObject* pCoreObject);
 

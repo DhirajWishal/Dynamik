@@ -41,9 +41,6 @@ namespace Dynamik
 
 		component.indexBuffer = indexes;
 		component.indexCount = indexes.size();
-		component.vertexBuffer = StaticAllocator<BYTE>::allocate(vertexes.typeSize() * vertexes.size());
-		DMKMemoryFunctions::moveData(component.vertexBuffer, vertexes.data(), vertexes.typeSize() * vertexes.size());
-		component.vertexCount = vertexes.size();
 
 		DMKVertexLayout vertexLayout;
 		DMKVertexAttribute vertexAttribute;
@@ -56,7 +53,8 @@ namespace Dynamik
 		vertexAttribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_0;
 		vertexLayout.attributes.pushBack(vertexAttribute);
 
-		component.vertexLayout = vertexLayout;
+		component.vertexBuffer.initialize(vertexes.size(), vertexLayout);
+		component.vertexBuffer.setData(vertexes.data());
 
 		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/triangle-vert-3D.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/triangle-frag-3D.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
