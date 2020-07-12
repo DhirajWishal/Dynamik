@@ -19,8 +19,8 @@ namespace Dynamik
 			renderPassInfo.framebuffer = InheritCast<VulkanFrameBuffer>(pRenderTarget->pFrameBuffer)[bufferIndex];
 			renderPassInfo.renderArea.offset.x = pSwapChain->viewPort.xOffset;
 			renderPassInfo.renderArea.offset.y = pSwapChain->viewPort.yOffset;
-			renderPassInfo.renderArea.extent.width = pSwapChain->extent.width;
-			renderPassInfo.renderArea.extent.height = pSwapChain->extent.height;
+			renderPassInfo.renderArea.extent.width = (UI32)pSwapChain->extent.width;
+			renderPassInfo.renderArea.extent.height = (UI32)pSwapChain->extent.height;
 
 			std::array<VkClearValue, 2> clearValues = {};
 
@@ -60,7 +60,7 @@ namespace Dynamik
 		void VulkanCommandBuffer::bindVertexBuffer(RBuffer* pBuffer, UI64 firstBinding)
 		{
 			VkDeviceSize offset[1] = { 0 };
-			vkCmdBindVertexBuffers(this->buffer, firstBinding, 1, &Inherit<VulkanBuffer>(pBuffer)->buffer, offset);
+			vkCmdBindVertexBuffers(this->buffer, (UI32)firstBinding, 1, &Inherit<VulkanBuffer>(pBuffer)->buffer, offset);
 		}
 
 		void VulkanCommandBuffer::bindIndexBuffer(RBuffer* pBuffer)
@@ -80,12 +80,12 @@ namespace Dynamik
 
 		void VulkanCommandBuffer::drawIndexed(UI64 firstIndex, UI64 vertexOffset, UI64 indexCount, UI64 instanceCount)
 		{
-			vkCmdDrawIndexed(buffer, indexCount, instanceCount, firstIndex, vertexOffset, 0);
+			vkCmdDrawIndexed(buffer, (UI32)indexCount, (UI32)instanceCount, (UI32)firstIndex, (UI32)vertexOffset, 0);
 		}
 
 		void VulkanCommandBuffer::drawVertexes(UI64 vertexIndex, UI64 vertexCount, UI64 instanceCount)
 		{
-			vkCmdDraw(buffer, vertexCount, instanceCount, vertexIndex, 0);
+			vkCmdDraw(buffer, (UI32)vertexCount, (UI32)instanceCount, (UI32)vertexIndex, 0);
 		}
 
 		void VulkanCommandBuffer::unbindRenderTarget()

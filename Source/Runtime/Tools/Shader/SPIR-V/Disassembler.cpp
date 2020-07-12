@@ -4,7 +4,7 @@
 #include "dmkafx.h"
 #include "Disassembler.h"
 
-#include "Renderer/Backend/Vulkan/VulkanUtilities.h"
+#include "VulkanRBL/VulkanUtilities.h"
 
 #include <spirv_glsl.hpp>
 #include <spirv_hlsl.hpp>

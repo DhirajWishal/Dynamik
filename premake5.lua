@@ -94,6 +94,7 @@ include "Source/Runtime/Managers/Managers.lua"
 include "Source/Runtime/Renderer/Renderer.lua"
 include "Source/Runtime/Services/Services.lua"
 include "Source/Runtime/Tools/Tools.lua"
+include "Source/Runtime/VulkanRBL/VulkanRBL.lua"
 include "Source/Runtime/Window/Window.lua"
 
 group "Third Party"

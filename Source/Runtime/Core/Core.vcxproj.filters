@@ -159,6 +159,9 @@
     <ClInclude Include="Objects\Descriptors\MaterialDescriptor.h">
       <Filter>Objects\Descriptors</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\Resource\MeshInstance.h">
+      <Filter>Objects\Resource</Filter>
+    </ClInclude>
     <ClInclude Include="Objects\Resource\Primitives.h">
       <Filter>Objects\Resource</Filter>
     </ClInclude>

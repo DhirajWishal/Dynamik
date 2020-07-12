@@ -18,7 +18,7 @@ namespace Dynamik
 	*/
 	class DMK_API RTexture {
 	public:
-		RTexture() {}
+		RTexture() : pTexture(nullptr), pImage(nullptr), pSampler(nullptr) {}
 		virtual ~RTexture() {}
 
 		virtual void initialize(RCoreObject* pCoreObject, DMKTexture* pTextureObject) = 0;
@@ -28,9 +28,9 @@ namespace Dynamik
 		virtual void terminate(RCoreObject* pCoreObject) = 0;
 
 	public:		/* Internal Data */
-		DMKTexture* pTexture;
-		RImage* pImage;
-		RImageSampler* pSampler;
+		DMKTexture* pTexture = nullptr;
+		RImage* pImage = nullptr;
+		RImageSampler* pSampler = nullptr;
 		RImageLayout currentLayout = RImageLayout::IMAGE_LAYOUT_GENERAL;
 	};
 }

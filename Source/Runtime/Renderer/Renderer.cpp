@@ -7,18 +7,18 @@
 #include "Core/Math/MathFunctions.h"
 
 /* Vulkan headers */
-#include "Backend/Vulkan/VulkanCoreObject.h"
-#include "Backend/Vulkan/Common/VulkanInstance.h"
-#include "Backend/Vulkan/Common/VulkanSurface.h"
-#include "Backend/Vulkan/Common/VulkanDevice.h"
-#include "Backend/Vulkan/Common/VulkanQueue.h"
-#include "Backend/Vulkan/Common/VulkanCommandBuffer.h"
-#include "Backend/Vulkan/Common/VulkanCommandBufferManager.h"
-#include "Backend/Vulkan/Common/VulkanDescriptorSetManager.h"
-#include "Backend/Vulkan/Context/VulkanSwapChain.h"
-#include "Backend/Vulkan/Context/VulkanRenderPass.h"
-#include "Backend/Vulkan/Context/VulkanFrameBuffer.h"
-#include "Backend/Vulkan/Pipelines/VulkanGraphicsPipeline.h"
+#include "VulkanRBL/VulkanCoreObject.h"
+#include "VulkanRBL/Common/VulkanInstance.h"
+#include "VulkanRBL/Common/VulkanSurface.h"
+#include "VulkanRBL/Common/VulkanDevice.h"
+#include "VulkanRBL/Common/VulkanQueue.h"
+#include "VulkanRBL/Common/VulkanCommandBuffer.h"
+#include "VulkanRBL/Common/VulkanCommandBufferManager.h"
+#include "VulkanRBL/Common/VulkanDescriptorSetManager.h"
+#include "VulkanRBL/Context/VulkanSwapChain.h"
+#include "VulkanRBL/Context/VulkanRenderPass.h"
+#include "VulkanRBL/Context/VulkanFrameBuffer.h"
+#include "VulkanRBL/Pipelines/VulkanGraphicsPipeline.h"
 
 namespace Dynamik
 {

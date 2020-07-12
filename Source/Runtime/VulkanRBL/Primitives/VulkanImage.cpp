@@ -17,7 +17,7 @@ namespace Dynamik
 			usage = info.imageUsage;
 			mipLevel = info.mipLevels;
 			layers = info.layers;
-			size = info.vDimentions.width * info.vDimentions.height * info.vDimentions.depth * 4;
+			size = (UI32)info.vDimentions.width * (UI32)info.vDimentions.height * (UI32)info.vDimentions.depth * 4;
 			availabeMipLevels = info.mipLevels;
 			extent = info.vDimentions;
 			format = info.imageFormat;

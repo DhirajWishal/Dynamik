@@ -4,7 +4,7 @@
 #include "dmkafx.h"
 #include "RDrawCallManager.h"
 
-#include "../Backend/Vulkan/Primitives/VulkanBuffer.h"
+#include "VulkanRBL/Primitives/VulkanBuffer.h"
 
 namespace Dynamik
 {
@@ -12,7 +12,7 @@ namespace Dynamik
 	{
 		entryMap[vertexBuffer.layout].drawEntries.pushBack(
 			DrawEntry(entryMap[vertexBuffer.layout].vertexCount, vertexBuffer, totalIndexCount, indexBuffer->size(), pPipelineObject));
-		entryMap[vertexBuffer.layout].vertexCount += vertexBuffer.dataCount;
+		entryMap[vertexBuffer.layout].vertexCount += vertexBuffer.size();
 
 		IndexBufferEntry _entry;
 		_entry.firstIndex = totalIndexCount;
@@ -121,7 +121,7 @@ namespace Dynamik
 				if (callType == RDrawCallType::DRAW_CALL_TYPE_INDEX)
 					pCommandBuffer->drawIndexed(entry.firstIndex, entry.firstVertex, entry.indexCount, 1);
 				else if (callType == RDrawCallType::DRAW_CALL_TYPE_VERTEX)
-					pCommandBuffer->drawVertexes(entry.firstVertex, entry.vertexBuffer.dataCount, 1);
+					pCommandBuffer->drawVertexes(entry.firstVertex, entry.vertexBuffer.size(), 1);
 			}
 		}
 	}

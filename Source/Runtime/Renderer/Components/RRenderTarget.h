@@ -19,14 +19,14 @@ namespace Dynamik
 	*/
 	class DMK_API RRenderTarget {
 	public:
-		RRenderTarget() {}
+		RRenderTarget() : pFrameBuffer(nullptr), pRenderPass(nullptr) {}
 		virtual ~RRenderTarget() {}
 
 		virtual void setComponents(RFrameBuffer* frameBuffer, RRenderPass* renderPass) { pFrameBuffer = frameBuffer, pRenderPass = renderPass; }
 		virtual void submit(RCommandBuffer* pCommandBuffer) {}
 
-		RFrameBuffer* pFrameBuffer;
-		RRenderPass* pRenderPass;
+		RFrameBuffer* pFrameBuffer = nullptr;
+		RRenderPass* pRenderPass = nullptr;
 	};
 
 	/*

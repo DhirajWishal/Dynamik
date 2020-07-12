@@ -101,11 +101,6 @@ namespace Dynamik
 		return true;
 	}
 
-	void DMKVertexBuffer::initialize()
-	{
-		initialize(dataCount, layout);
-	}
-
 	void DMKVertexBuffer::initialize(UI64 dataCount)
 	{
 		initialize(dataCount, layout);
@@ -114,14 +109,13 @@ namespace Dynamik
 	void DMKVertexBuffer::initialize(UI64 dataCount, DMKVertexLayout layout)
 	{
 		/* Check if the vertex buffer is already initialized */
-		if (pDataStore || _allocationSize || this->dataCount)
+		if (pDataStore || _allocationSize)
 		{
 			DMK_WARN("The vertex buffer is already initialized! Clearing the buffer and re-initializing.");
 
 			clear();
 		}
 
-		this->dataCount = dataCount;
 		this->layout = layout;
 
 		_allocationSize = layout.getVertexSize() * dataCount;
@@ -138,14 +132,9 @@ namespace Dynamik
 		return layout;
 	}
 
-	void DMKVertexBuffer::setDataCount(const UI64& count)
-	{
-		dataCount = count;
-	}
-
 	UI64 DMKVertexBuffer::size() const
 	{
-		return dataCount;
+		return _allocationSize / layout.getVertexSize();
 	}
 
 	UI64 DMKVertexBuffer::stride() const
@@ -164,7 +153,6 @@ namespace Dynamik
 
 		pDataStore = nullptr;
 		_allocationSize = 0;
-		dataCount = 0;
 	}
 
 	VPTR DMKVertexBuffer::data() const

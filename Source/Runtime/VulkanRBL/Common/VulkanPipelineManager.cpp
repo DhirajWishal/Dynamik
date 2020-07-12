@@ -18,15 +18,15 @@ namespace Dynamik
 			/* Initialize the pipeline layout */
 			VkPipelineLayoutCreateInfo pipelineLayoutInfo = {};
 			pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-			pipelineLayoutInfo.setLayoutCount = info.descriptorLayouts.size();
+			pipelineLayoutInfo.setLayoutCount = (UI32)info.descriptorLayouts.size();
 			pipelineLayoutInfo.pSetLayouts = info.descriptorLayouts.data();
 
-			pipelineLayoutInfo.pushConstantRangeCount = info.constantBlockDescriptions.size();
+			pipelineLayoutInfo.pushConstantRangeCount = (UI32)info.constantBlockDescriptions.size();
 			ARRAY<VkPushConstantRange> pushConstantRanges;
 			for (auto _block : info.constantBlockDescriptions)
 			{
 				VkPushConstantRange _range;
-				_range.size = _block.getBlockSize();
+				_range.size = (UI32)_block.getBlockSize();
 				_range.offset = _block.offset;
 				_range.stageFlags = VulkanUtilities::getShaderStage(_block.location);
 
@@ -39,7 +39,7 @@ namespace Dynamik
 			/* Initialize the pipeline */
 			VkVertexInputBindingDescription vertexBindingDescription;
 			vertexBindingDescription.binding = 0;
-			vertexBindingDescription.stride = info.vertexBufferDescriptor.getVertexSize();
+			vertexBindingDescription.stride = (UI32)info.vertexBufferDescriptor.getVertexSize();
 			vertexBindingDescription.inputRate = VkVertexInputRate::VK_VERTEX_INPUT_RATE_VERTEX;
 
 			auto vertexAttributeDescription = VulkanUtilities::getVertexAttributeDescriptions(info.vertexBufferDescriptor);
@@ -47,7 +47,7 @@ namespace Dynamik
 			VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
 			vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 			vertexInputInfo.vertexBindingDescriptionCount = 1;
-			vertexInputInfo.vertexAttributeDescriptionCount = vertexAttributeDescription.size();
+			vertexInputInfo.vertexAttributeDescriptionCount = (UI32)vertexAttributeDescription.size();
 			vertexInputInfo.pVertexBindingDescriptions = &vertexBindingDescription;
 			vertexInputInfo.pVertexAttributeDescriptions = vertexAttributeDescription.data();
 
@@ -73,7 +73,7 @@ namespace Dynamik
 
 			// initialize the scissor(s)
 			ARRAY<VkRect2D> scissors;
-			for (I32 i = 0; i < info.scissorCount; i++) {
+			for (UI32 i = 0; i < info.scissorCount; i++) {
 				VkRect2D scissor = {};
 				scissor.offset = info.offsets[i];
 				scissor.extent = info.swapChainExtent;
@@ -83,7 +83,7 @@ namespace Dynamik
 			// initialize the viewport state
 			VkPipelineViewportStateCreateInfo viewportState = {};
 			viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-			viewportState.viewportCount = info.viewports.size();
+			viewportState.viewportCount = (UI32)info.viewports.size();
 			viewportState.pViewports = viewports.data();
 			viewportState.scissorCount = info.scissorCount;
 			viewportState.pScissors = scissors.data();
@@ -118,7 +118,7 @@ namespace Dynamik
 			ARRAY<VkPipelineColorBlendAttachmentState> colorBlendAttachments;
 
 			// initialize the color blender(s)
-			for (I32 i = 0; i < info.colorBlendingColorBlendCount; i++) {
+			for (UI32 i = 0; i < info.colorBlendingColorBlendCount; i++) {
 				VkPipelineColorBlendAttachmentState colorBlendAttachment = {};
 				colorBlendAttachment.colorWriteMask = info.colorBlenderColorWriteMasks[i];
 				colorBlendAttachment.blendEnable = info.colorBlenderBlendEnables[i];
@@ -134,7 +134,7 @@ namespace Dynamik
 			colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 			colorBlending.logicOpEnable = info.colorBlendingLogicOpEnable;
 			colorBlending.logicOp = info.colorBlendingLogicOp;
-			colorBlending.attachmentCount = colorBlendAttachments.size();
+			colorBlending.attachmentCount = (UI32)colorBlendAttachments.size();
 			colorBlending.pAttachments = colorBlendAttachments.data();
 			colorBlending.blendConstants[0] = info.colorBlendingBlendConstants[0];
 			colorBlending.blendConstants[1] = info.colorBlendingBlendConstants[1];
@@ -149,7 +149,7 @@ namespace Dynamik
 			};
 			if (info.dynamicStateEnable) {
 				dynamicStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
-				dynamicStateInfo.dynamicStateCount = static_cast<UI32>(dynamicState.size());
+				dynamicStateInfo.dynamicStateCount = Cast<UI32>(dynamicState.size());
 				dynamicStateInfo.pDynamicStates = dynamicState.data();
 				dynamicStateInfo.flags = info.dynamicStateFlags;
 			}
@@ -173,7 +173,7 @@ namespace Dynamik
 			VkGraphicsPipelineCreateInfo pipelineInfo = {};
 			pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 			pipelineInfo.pNext = nullptr;
-			pipelineInfo.stageCount = shaderStages.size();
+			pipelineInfo.stageCount = (UI32)shaderStages.size();
 			pipelineInfo.pStages = shaderStages.data();
 			pipelineInfo.pVertexInputState = &vertexInputInfo;
 			pipelineInfo.pInputAssemblyState = &inputAssembly;

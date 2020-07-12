@@ -7,24 +7,6 @@
     <Filter Include="Backend\Components">
       <UniqueIdentifier>{C279BD53-AE5D-7EA9-17BE-78FC03C1682B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Backend\Vulkan">
-      <UniqueIdentifier>{AD533EF4-9921-32FA-82B5-A2206E220E5F}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Backend\Vulkan\Common">
-      <UniqueIdentifier>{45DC50C9-B148-0CC4-7A3C-A421E6672E2C}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Backend\Vulkan\Context">
-      <UniqueIdentifier>{412B82F3-2D25-AB45-1692-4156022B11B2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Backend\Vulkan\Context\Attachments">
-      <UniqueIdentifier>{4C94DE1E-38D0-E188-A1E2-F97F8D3D8AA3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Backend\Vulkan\Pipelines">
-      <UniqueIdentifier>{253DEEB4-1162-3D35-3AAD-22C526313C53}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Backend\Vulkan\Primitives">
-      <UniqueIdentifier>{680BE056-D4CD-13E1-1D7E-A26D897FECBE}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Components">
       <UniqueIdentifier>{6B7DD516-5735-1764-C03C-F0BFAC13B254}</UniqueIdentifier>
     </Filter>
@@ -39,96 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Backend\Components\RenderAsset.h">
-      <Filter>Backend\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\RendererBackendLayer.h">
-      <Filter>Backend</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Common\VulkanCommandBuffer.h">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Common\VulkanCommandBufferManager.h">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Common\VulkanControlHeader.h">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Common\VulkanDescriptorSetManager.h">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Common\VulkanDevice.h">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Common\VulkanInstance.h">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Common\VulkanMacros.h">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Common\VulkanOneTimeCommandBuffer.h">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Common\VulkanPipelineManager.h">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Common\VulkanQueue.h">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Common\VulkanSurface.h">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Common\VulkanViewPort.h">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Context\Attachments\VulkanColorAttachment.h">
-      <Filter>Backend\Vulkan\Context\Attachments</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Context\Attachments\VulkanDepthAttachment.h">
-      <Filter>Backend\Vulkan\Context\Attachments</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Context\VulkanFrameBuffer.h">
-      <Filter>Backend\Vulkan\Context</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Context\VulkanFrameBufferAttachment.h">
-      <Filter>Backend\Vulkan\Context</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Context\VulkanRenderPass.h">
-      <Filter>Backend\Vulkan\Context</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Context\VulkanSwapChain.h">
-      <Filter>Backend\Vulkan\Context</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Pipelines\VulkanGraphicsPipeline.h">
-      <Filter>Backend\Vulkan\Pipelines</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Primitives\VulkanBuffer.h">
-      <Filter>Backend\Vulkan\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Primitives\VulkanImage.h">
-      <Filter>Backend\Vulkan\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Primitives\VulkanImageSampler.h">
-      <Filter>Backend\Vulkan\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Primitives\VulkanImageView.h">
-      <Filter>Backend\Vulkan\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Primitives\VulkanShader.h">
-      <Filter>Backend\Vulkan\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\Primitives\VulkanTexture.h">
-      <Filter>Backend\Vulkan\Primitives</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\VulkanCoreObject.h">
-      <Filter>Backend\Vulkan</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\VulkanRenderTarget.h">
-      <Filter>Backend\Vulkan</Filter>
-    </ClInclude>
-    <ClInclude Include="Backend\Vulkan\VulkanUtilities.h">
-      <Filter>Backend\Vulkan</Filter>
-    </ClInclude>
     <ClInclude Include="Components\Context\RFrameBuffer.h">
       <Filter>Components\Context</Filter>
     </ClInclude>
@@ -211,78 +103,6 @@
     <ClInclude Include="RendererCommand.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Backend\Vulkan\Common\VulkanCommandBuffer.cpp">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Common\VulkanCommandBufferManager.cpp">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Common\VulkanDescriptorSetManager.cpp">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Common\VulkanDevice.cpp">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Common\VulkanInstance.cpp">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Common\VulkanOneTimeCommandBuffer.cpp">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Common\VulkanPipelineManager.cpp">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Common\VulkanQueue.cpp">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Common\VulkanSurface.cpp">
-      <Filter>Backend\Vulkan\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Context\Attachments\VulkanColorAttachment.cpp">
-      <Filter>Backend\Vulkan\Context\Attachments</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Context\Attachments\VulkanDepthAttachment.cpp">
-      <Filter>Backend\Vulkan\Context\Attachments</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Context\VulkanFrameBuffer.cpp">
-      <Filter>Backend\Vulkan\Context</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Context\VulkanFrameBufferAttachment.cpp">
-      <Filter>Backend\Vulkan\Context</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Context\VulkanRenderPass.cpp">
-      <Filter>Backend\Vulkan\Context</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Context\VulkanSwapChain.cpp">
-      <Filter>Backend\Vulkan\Context</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Pipelines\VulkanGraphicsPipeline.cpp">
-      <Filter>Backend\Vulkan\Pipelines</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Primitives\VulkanBuffer.cpp">
-      <Filter>Backend\Vulkan\Primitives</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Primitives\VulkanImage.cpp">
-      <Filter>Backend\Vulkan\Primitives</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Primitives\VulkanImageSampler.cpp">
-      <Filter>Backend\Vulkan\Primitives</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Primitives\VulkanImageView.cpp">
-      <Filter>Backend\Vulkan\Primitives</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Primitives\VulkanShader.cpp">
-      <Filter>Backend\Vulkan\Primitives</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\Primitives\VulkanTexture.cpp">
-      <Filter>Backend\Vulkan\Primitives</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\VulkanCoreObject.cpp">
-      <Filter>Backend\Vulkan</Filter>
-    </ClCompile>
-    <ClCompile Include="Backend\Vulkan\VulkanUtilities.cpp">
-      <Filter>Backend\Vulkan</Filter>
-    </ClCompile>
     <ClCompile Include="Components\Factories\BufferFactory.cpp">
       <Filter>Components\Factories</Filter>
     </ClCompile>
@@ -298,9 +118,6 @@
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Backend\Vulkan\README.md">
-      <Filter>Backend\Vulkan</Filter>
-    </None>
     <None Include="README.md" />
     <None Include="Renderer.lua" />
   </ItemGroup>

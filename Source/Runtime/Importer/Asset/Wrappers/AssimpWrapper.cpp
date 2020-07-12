@@ -179,24 +179,42 @@ namespace Dynamik
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TANGENT:
+					if (_mesh->HasTangentsAndBitangents())
+						_meshComponent.vertexBuffer.addData(&_mesh->mTangents[_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
+					else
+						_meshComponent.vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BITANGENT:
+					if (_mesh->HasTangentsAndBitangents())
+						_meshComponent.vertexBuffer.addData(&_mesh->mBitangents[_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
+					else
+						_meshComponent.vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES:
+					/* TODO */
+					_meshComponent.vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_INTEGRITY:
+					/* TODO */
+					_meshComponent.vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID:
+					/* TODO */
+					_meshComponent.vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT:
+					/* TODO */
+					_meshComponent.vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_CUSTOM:
+					/* TODO */
+					_meshComponent.vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				default:
@@ -260,8 +278,6 @@ namespace Dynamik
 			animation.frames.pushBack(getAnimationFrame(pAnimation->mChannels[index]));
 
 		animation.duration = pAnimation->mDuration;
-		DMKAnimNodeGraph graph;
-		readAllNodes((aiNode*)pAiRootNode, &graph.nodes, nullptr);
 
 		return animation;
 	}

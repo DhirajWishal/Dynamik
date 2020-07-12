@@ -39,10 +39,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</ProjectGuid>
+    <ProjectGuid>{B6684388-22D3-F7FE-6B11-A9A4D7BAD553}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Core</RootNamespace>
+    <RootNamespace>VulkanRBL</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -133,56 +133,56 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Windows|x64'">
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Debug\Core\</IntDir>
-    <TargetName>Core</TargetName>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Debug\VulkanRBL\</IntDir>
+    <TargetName>VulkanRBL</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unix|x64'">
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Debug\Core\</IntDir>
-    <TargetName>libCore</TargetName>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Debug\VulkanRBL\</IntDir>
+    <TargetName>libVulkanRBL</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Mac|x64'">
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Debug\Core\</IntDir>
-    <TargetName>libCore</TargetName>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Debug\VulkanRBL\</IntDir>
+    <TargetName>libVulkanRBL</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Windows|x64'">
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Release\Core\</IntDir>
-    <TargetName>Core</TargetName>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Release\VulkanRBL\</IntDir>
+    <TargetName>VulkanRBL</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unix|x64'">
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Release\Core\</IntDir>
-    <TargetName>libCore</TargetName>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Release\VulkanRBL\</IntDir>
+    <TargetName>libVulkanRBL</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Mac|x64'">
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Release\Core\</IntDir>
-    <TargetName>libCore</TargetName>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Release\VulkanRBL\</IntDir>
+    <TargetName>libVulkanRBL</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Windows|x64'">
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Distribution\Core\</IntDir>
-    <TargetName>Core</TargetName>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Distribution\VulkanRBL\</IntDir>
+    <TargetName>VulkanRBL</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Unix|x64'">
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Distribution\Core\</IntDir>
-    <TargetName>libCore</TargetName>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Distribution\VulkanRBL\</IntDir>
+    <TargetName>libVulkanRBL</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Mac|x64'">
     <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Distribution\Core\</IntDir>
-    <TargetName>libCore</TargetName>
+    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Distribution\VulkanRBL\</IntDir>
+    <TargetName>libVulkanRBL</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Windows|x64'">
@@ -190,7 +190,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_DEBUG;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_DEBUG;DMK_PLATFORM_WINDOWS;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli\gli;$(SolutionDir)Dependencies\ThirdParty\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -201,13 +201,17 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unix|x64'">
     <ClCompile>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_DEBUG;DMK_PLATFORM_LINUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_DEBUG;DMK_PLATFORM_LINUX;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli\gli;$(SolutionDir)Dependencies\ThirdParty\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -218,13 +222,17 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Mac|x64'">
     <ClCompile>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_DEBUG;DMK_PLATFORM_MAC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_DEBUG;DMK_PLATFORM_MAC;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli\gli;$(SolutionDir)Dependencies\ThirdParty\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -235,13 +243,17 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>-lglew32s;-lopengl32;-lglfw3dll;-lvulkan-1;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Windows|x64'">
     <ClCompile>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_RELEASE;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_RELEASE;DMK_PLATFORM_WINDOWS;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli\gli;$(SolutionDir)Dependencies\ThirdParty\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -256,13 +268,17 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unix|x64'">
     <ClCompile>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_RELEASE;DMK_PLATFORM_LINUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_RELEASE;DMK_PLATFORM_LINUX;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli\gli;$(SolutionDir)Dependencies\ThirdParty\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -277,13 +293,17 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Mac|x64'">
     <ClCompile>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_RELEASE;DMK_PLATFORM_MAC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_RELEASE;DMK_PLATFORM_MAC;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli\gli;$(SolutionDir)Dependencies\ThirdParty\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -298,13 +318,17 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>-lglew32s;-lopengl32;-lglfw3dll;-lvulkan-1;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Windows|x64'">
     <ClCompile>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_PLATFORM_WINDOWS;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli\gli;$(SolutionDir)Dependencies\ThirdParty\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -319,13 +343,17 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Unix|x64'">
     <ClCompile>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_PLATFORM_LINUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_PLATFORM_LINUX;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli\gli;$(SolutionDir)Dependencies\ThirdParty\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -340,13 +368,17 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Mac|x64'">
     <ClCompile>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_PLATFORM_MAC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_PLATFORM_MAC;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli\gli;$(SolutionDir)Dependencies\ThirdParty\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -361,95 +393,70 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalDependencies>-lglew32s;-lopengl32;-lglfw3dll;-lvulkan-1;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Components\Attachments\ComponentAttachment.h" />
-    <ClInclude Include="Components\Attachments\PhysicsAttachment.h" />
-    <ClInclude Include="Components\Component.h" />
-    <ClInclude Include="Components\RenderableComponent.h" />
-    <ClInclude Include="Components\RenderableComponents\StaticMeshComponent.h" />
-    <ClInclude Include="Error\ErrorDefines.h" />
-    <ClInclude Include="Error\ErrorManager.h" />
-    <ClInclude Include="Error\MessageBox.h" />
-    <ClInclude Include="FileSystem\FileCompressor.h" />
-    <ClInclude Include="FileSystem\FileSystem.h" />
-    <ClInclude Include="Globals\RenderSettings.h" />
-    <ClInclude Include="Macros\Assert.h" />
-    <ClInclude Include="Macros\Global.h" />
-    <ClInclude Include="Macros\MemoryMacro.h" />
-    <ClInclude Include="Math\IncludeSIMD.h" />
-    <ClInclude Include="Math\MathFunctions.h" />
-    <ClInclude Include="Math\MathTypes.h" />
-    <ClInclude Include="Math\Matrix\Matrix.h" />
-    <ClInclude Include="Math\Matrix\Matrix2F.h" />
-    <ClInclude Include="Math\Matrix\Matrix3F.h" />
-    <ClInclude Include="Math\Matrix\Matrix4F.h" />
-    <ClInclude Include="Math\Quaternion.h" />
-    <ClInclude Include="Math\Vector\Vector.h" />
-    <ClInclude Include="Math\Vector\Vector2F.h" />
-    <ClInclude Include="Math\Vector\Vector3F.h" />
-    <ClInclude Include="Math\Vector\Vector4F.h" />
-    <ClInclude Include="Memory\AutomatedMemoryManager.h" />
-    <ClInclude Include="Memory\LocalHeap.h" />
-    <ClInclude Include="Memory\MemoryFunctions.h" />
-    <ClInclude Include="Memory\MemoryManager.h" />
-    <ClInclude Include="Memory\MemoryPadding.h" />
-    <ClInclude Include="Memory\StaticAllocator.h" />
-    <ClInclude Include="Objects\Descriptors\GameComponentDesriptors.h" />
-    <ClInclude Include="Objects\Descriptors\MaterialDescriptor.h" />
-    <ClInclude Include="Objects\Resource\MeshInstance.h" />
-    <ClInclude Include="Objects\Resource\Primitives.h" />
-    <ClInclude Include="Objects\Resource\ShaderFactory.h" />
-    <ClInclude Include="Objects\Resource\ShaderModule.h" />
-    <ClInclude Include="Objects\Resource\Texture.h" />
-    <ClInclude Include="Objects\Resource\TextureFactory.h" />
-    <ClInclude Include="Objects\Resource\Textures\Texture2D.h" />
-    <ClInclude Include="Objects\Resource\Textures\TextureCube.h" />
-    <ClInclude Include="Objects\System.h" />
-    <ClInclude Include="PCH\dmkafx.h" />
-    <ClInclude Include="Types\Array.h" />
-    <ClInclude Include="Types\ComplexTypes.h" />
-    <ClInclude Include="Types\DataTypes.h" />
-    <ClInclude Include="Types\HashMap.h" />
-    <ClInclude Include="Types\ObjectArray.h" />
-    <ClInclude Include="Types\Pointer.h" />
-    <ClInclude Include="Types\TSArray.h" />
-    <ClInclude Include="Types\TypeTraits.h" />
-    <ClInclude Include="Types\Utilities.h" />
-    <ClInclude Include="Utilities\Clock.h" />
+    <ClInclude Include="Common\VulkanCommandBuffer.h" />
+    <ClInclude Include="Common\VulkanCommandBufferManager.h" />
+    <ClInclude Include="Common\VulkanControlHeader.h" />
+    <ClInclude Include="Common\VulkanDescriptorSetManager.h" />
+    <ClInclude Include="Common\VulkanDevice.h" />
+    <ClInclude Include="Common\VulkanInstance.h" />
+    <ClInclude Include="Common\VulkanMacros.h" />
+    <ClInclude Include="Common\VulkanOneTimeCommandBuffer.h" />
+    <ClInclude Include="Common\VulkanPipelineManager.h" />
+    <ClInclude Include="Common\VulkanQueue.h" />
+    <ClInclude Include="Common\VulkanSurface.h" />
+    <ClInclude Include="Common\VulkanViewPort.h" />
+    <ClInclude Include="Context\Attachments\VulkanColorAttachment.h" />
+    <ClInclude Include="Context\Attachments\VulkanDepthAttachment.h" />
+    <ClInclude Include="Context\VulkanFrameBuffer.h" />
+    <ClInclude Include="Context\VulkanFrameBufferAttachment.h" />
+    <ClInclude Include="Context\VulkanRenderPass.h" />
+    <ClInclude Include="Context\VulkanSwapChain.h" />
+    <ClInclude Include="Pipelines\VulkanGraphicsPipeline.h" />
+    <ClInclude Include="Primitives\VulkanBuffer.h" />
+    <ClInclude Include="Primitives\VulkanImage.h" />
+    <ClInclude Include="Primitives\VulkanImageSampler.h" />
+    <ClInclude Include="Primitives\VulkanImageView.h" />
+    <ClInclude Include="Primitives\VulkanShader.h" />
+    <ClInclude Include="Primitives\VulkanTexture.h" />
+    <ClInclude Include="VulkanCoreObject.h" />
+    <ClInclude Include="VulkanRenderTarget.h" />
+    <ClInclude Include="VulkanUtilities.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Components\RenderableComponent.cpp" />
-    <ClCompile Include="Components\RenderableComponents\StaticMeshComponent.cpp" />
-    <ClCompile Include="Error\ErrorManager.cpp" />
-    <ClCompile Include="Error\MessageBox.cpp" />
-    <ClCompile Include="FileSystem\FileSystem.cpp" />
-    <ClCompile Include="Math\MathFunctions.cpp" />
-    <ClCompile Include="Math\Matrix\Matrix2F.cpp" />
-    <ClCompile Include="Math\Matrix\Matrix3F.cpp" />
-    <ClCompile Include="Math\Matrix\Matrix4F.cpp" />
-    <ClCompile Include="Math\Quaternion.cpp" />
-    <ClCompile Include="Math\Vector\Vector2F.cpp" />
-    <ClCompile Include="Math\Vector\Vector3F.cpp" />
-    <ClCompile Include="Math\Vector\Vector4F.cpp" />
-    <ClCompile Include="Memory\AutomatedMemoryManager.cpp" />
-    <ClCompile Include="Memory\LocalHeap.cpp" />
-    <ClCompile Include="Memory\MemoryFunctions.cpp" />
-    <ClCompile Include="Memory\MemoryManager.cpp" />
-    <ClCompile Include="Objects\Resource\Primitives.cpp" />
-    <ClCompile Include="Objects\Resource\ShaderFactory.cpp" />
-    <ClCompile Include="Objects\Resource\ShaderModule.cpp" />
-    <ClCompile Include="Objects\Resource\Texture.cpp" />
-    <ClCompile Include="Objects\Resource\TextureFactory.cpp" />
-    <ClCompile Include="Objects\Resource\Textures\Texture2D.cpp" />
-    <ClCompile Include="Objects\Resource\Textures\TextureCube.cpp" />
-    <ClCompile Include="PCH\dmkafx.cpp">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Utilities\Clock.cpp" />
+    <ClCompile Include="Common\VulkanCommandBuffer.cpp" />
+    <ClCompile Include="Common\VulkanCommandBufferManager.cpp" />
+    <ClCompile Include="Common\VulkanDescriptorSetManager.cpp" />
+    <ClCompile Include="Common\VulkanDevice.cpp" />
+    <ClCompile Include="Common\VulkanInstance.cpp" />
+    <ClCompile Include="Common\VulkanOneTimeCommandBuffer.cpp" />
+    <ClCompile Include="Common\VulkanPipelineManager.cpp" />
+    <ClCompile Include="Common\VulkanQueue.cpp" />
+    <ClCompile Include="Common\VulkanSurface.cpp" />
+    <ClCompile Include="Context\Attachments\VulkanColorAttachment.cpp" />
+    <ClCompile Include="Context\Attachments\VulkanDepthAttachment.cpp" />
+    <ClCompile Include="Context\VulkanFrameBuffer.cpp" />
+    <ClCompile Include="Context\VulkanFrameBufferAttachment.cpp" />
+    <ClCompile Include="Context\VulkanRenderPass.cpp" />
+    <ClCompile Include="Context\VulkanSwapChain.cpp" />
+    <ClCompile Include="Pipelines\VulkanGraphicsPipeline.cpp" />
+    <ClCompile Include="Primitives\VulkanBuffer.cpp" />
+    <ClCompile Include="Primitives\VulkanImage.cpp" />
+    <ClCompile Include="Primitives\VulkanImageSampler.cpp" />
+    <ClCompile Include="Primitives\VulkanImageView.cpp" />
+    <ClCompile Include="Primitives\VulkanShader.cpp" />
+    <ClCompile Include="Primitives\VulkanTexture.cpp" />
+    <ClCompile Include="VulkanCoreObject.cpp" />
+    <ClCompile Include="VulkanUtilities.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Core.lua" />
+    <None Include="README.md" />
+    <None Include="VulkanRBL.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

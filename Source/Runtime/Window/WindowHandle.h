@@ -25,7 +25,7 @@ namespace Dynamik
 		DMKViewport() {}
 		virtual ~DMKViewport() {}
 
-		DMKWindowHandle* windowHandle;
+		DMKWindowHandle* windowHandle = nullptr;
 
 		I32 width = 0;
 		I32 height = 0;

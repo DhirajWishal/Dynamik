@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_VULKAN_CORE_OBJECT_H
 #define _DYNAMIK_VULKAN_CORE_OBJECT_H
 
-#include "../../Components/RCoreObject.h"
+#include "Renderer/Components/RCoreObject.h"
 
 #include "Common/VulkanDevice.h"
 #include "Common/VulkanQueue.h"

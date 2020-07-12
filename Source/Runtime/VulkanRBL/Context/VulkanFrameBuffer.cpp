@@ -102,14 +102,17 @@ namespace Dynamik
 			/* Terminate attachment images */
 			for (auto image : attachmentImages)
 				image.terminate(pCoreObject);
+			attachmentImages.clear();
 
 			/* Terminate attachment image views */
 			for (auto imageView : attachmentViews)
 				imageView.terminate(pCoreObject);
+			attachmentViews.clear();
 
 			/* Terminate frame buffers */
 			for (auto buffer : buffers)
 				vkDestroyFramebuffer(Inherit<VulkanCoreObject>(pCoreObject)->device, buffer, nullptr);
+			buffers.clear();
 		}
 
 		const VkFramebuffer VulkanFrameBuffer::operator[](UI32 index) const

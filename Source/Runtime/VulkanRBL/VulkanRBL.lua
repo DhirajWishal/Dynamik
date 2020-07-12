@@ -1,9 +1,9 @@
 -- Copyright 2020 Dhiraj Wishal
 -- SPDX-License-Identifier: Apache-2.0
 
----------- Renderer project description ----------
+---------- Vulkan Renderer Backend Layer project description ----------
 
-project "Renderer"
+project "VulkanRBL"
 	kind "StaticLib"
 	language "C++"
 	systemversion "latest"
@@ -43,24 +43,38 @@ project "Renderer"
 	}
 
 	libdirs {
+		"%{IncludeLib.Vulkan}",
+		"%{IncludeLib.GLFW}",
+		"%{IncludeLib.GLEW}",
 	}
 
 	links { 
-		"GameLibrary",
-		"VulkanRBL",
+		"glew32s",
+		"opengl32",
+		"glfw3dll",
+		"vulkan-1",
 	}
 
 	filter "system:windows"
 		defines {
 			"DMK_PLATFORM_WINDOWS",
+			"GLFW_INCLUDE_VULKAN",
+			"GLEW_STATIC",
+			"GRAPHICS_API",
 		}
 
 	filter "system:linux"
 		defines {
 			"DMK_PLATFORM_LINUX",
+			"GLFW_INCLUDE_VULKAN",
+			"GLEW_STATIC",
+			"GRAPHICS_API",
 		}
 
 	filter "system:macosx"
 		defines {
 			"DMK_PLATFORM_MAC",
+			"GLFW_INCLUDE_VULKAN",
+			"GLEW_STATIC",
+			"GRAPHICS_API",
 		}

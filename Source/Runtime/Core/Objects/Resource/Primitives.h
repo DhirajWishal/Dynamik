@@ -156,17 +156,10 @@ namespace Dynamik
 	class DMK_API DMKVertexBuffer {
 	public:
 		DMKVertexBuffer()
-			: layout({}), dataCount(0), _allocationSize(0), pDataStore(nullptr) {}
+			: layout({}), _allocationSize(0), pDataStore(nullptr) {}
 		DMKVertexBuffer(const DMKVertexLayout& layout)
-			: layout(layout), dataCount(0), _allocationSize(0), pDataStore(nullptr) {}
-		DMKVertexBuffer(const DMKVertexLayout& layout, const UI64& dataCount)
-			: layout(layout), dataCount(dataCount), _allocationSize(0), pDataStore(nullptr) {}
+			: layout(layout), _allocationSize(0), pDataStore(nullptr) {}
 		~DMKVertexBuffer() {}
-
-		/*
-		 Initialize the buffer.
-		*/
-		void initialize();
 
 		/*
 		 Initialize the buffer.
@@ -194,13 +187,6 @@ namespace Dynamik
 		 Get the vertex layout.
 		*/
 		DMKVertexLayout getLayout() const;
-
-		/*
-		 Set the data count.
-
-		 @param count: The data count.
-		*/
-		void setDataCount(const UI64& count);
 
 		/*
 		 Get the data count (size).
@@ -256,13 +242,11 @@ namespace Dynamik
 		/* Vertex Layout */
 		DMKVertexLayout layout = {};
 
-		/* Data Count */
-		UI64 dataCount = 0;
-
 		/* Data Store */
 		VPTR pDataStore = nullptr;
 
 	private:
+		/* Total allocation size of the buffer */
 		UI64 _allocationSize = 0;
 	};
 

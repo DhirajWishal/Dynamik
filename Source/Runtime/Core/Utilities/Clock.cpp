@@ -10,6 +10,8 @@
 #include <ctime>   
 #include <iomanip>
 
+#pragma warning(disable : 4996)
+
 #define GET_CURRENT_TIME std::chrono::high_resolution_clock::now()
 #define GET_MICRO_SECONDS(timePoint) std::chrono::time_point_cast<std::chrono::microseconds>(timePoint).time_since_epoch().count()
 
@@ -58,7 +60,7 @@ namespace Dynamik
 	Time DMKClock::get()
 	{
 		Time _time;
-		_time.micros = GET_MICRO_SECONDS(GET_CURRENT_TIME) - startTime;
+		_time.micros = Cast<D64>(GET_MICRO_SECONDS(GET_CURRENT_TIME) - startTime);
 		_time.millis = _time.micros / 1000;
 		_time.seconds = _time.millis / 1000;
 		_time.minutes = _time.seconds / 60;
