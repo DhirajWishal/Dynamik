@@ -56,11 +56,11 @@ namespace Dynamik
 /* CLIENT LOG MACROS */
 #define DMK_FATAL_FORMAT()
 
-#define DMK_INFO(...)	::Dynamik::DMKErrorManager::logInfo(DMK_TEXT(##__VA_ARGS__))
-#define DMK_WARN(...)	::Dynamik::DMKErrorManager::logWarn(DMK_TEXT(##__VA_ARGS__))
-#define DMK_ERROR(...)	::Dynamik::DMKErrorManager::logError(DMK_TEXT(##__VA_ARGS__))
+#define DMK_INFO(...)	::Dynamik::DMKErrorManager::logInfo(TEXT(##__VA_ARGS__))
+#define DMK_WARN(...)	::Dynamik::DMKErrorManager::logWarn(TEXT(##__VA_ARGS__))
+#define DMK_ERROR(...)	::Dynamik::DMKErrorManager::logError(TEXT(##__VA_ARGS__))
 #define DMK_FATAL(...)	{																				\
-							::Dynamik::DMKErrorManager::logFatal(DMK_TEXT(##__VA_ARGS__), __FILE__, __LINE__);	\
+							::Dynamik::DMKErrorManager::logFatal(TEXT(##__VA_ARGS__), __FILE__, __LINE__);	\
 							__debugbreak();																\
 						}
 
@@ -75,7 +75,7 @@ namespace Dynamik
 									}
 
 #define DMK_ERROR_BOX(msg)	{																				\
-								::Dynamik::DMKErrorManager::issueErrorBox(DMK_TEXT(msg));					\
+								::Dynamik::DMKErrorManager::issueErrorBox(TEXT(msg));					\
 								__debugbreak();																\
 							}																				\
 

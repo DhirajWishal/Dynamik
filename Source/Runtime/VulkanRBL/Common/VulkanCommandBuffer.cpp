@@ -5,6 +5,8 @@
 #include "VulkanCommandBuffer.h"
 
 #include "../Pipelines/VulkanGraphicsPipeline.h"
+#include "../VulkanUtilities.h"
+
 #include <array>
 
 namespace Dynamik
@@ -76,6 +78,9 @@ namespace Dynamik
 
 			if (pipeline.isResourceAvailable)
 				vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline, 0, 1, &pipeline.descriptor.set, 0, VK_NULL_HANDLE);
+
+			for (auto block : pipeline.constantBlocks)
+				vkCmdPushConstants(buffer, pipeline, VulkanUtilities::getShaderStage(block.location), (UI32)block.offset, block.byteSize, block.data);
 		}
 
 		void VulkanCommandBuffer::drawIndexed(UI64 firstIndex, UI64 vertexOffset, UI64 indexCount, UI64 instanceCount)

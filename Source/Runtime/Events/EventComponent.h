@@ -58,7 +58,7 @@ namespace Dynamik
 		DMK_FORCEINLINE operator F32() const { return value; }
 		DMK_FORCEINLINE operator STRING() const { return name; }
 
-		STRING name = DMK_TEXT("");
+		STRING name = TEXT("");
 		DMKEventCategory category = DMKEventCategory::DMK_EVENT_CATEGORY_KEY;
 		DMKEventType type = DMKEventType::DMK_EVENT_TYPE_FREE;
 		F32 value = 0.0f;

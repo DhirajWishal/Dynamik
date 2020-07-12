@@ -36,36 +36,6 @@ namespace Dynamik
 	};
 
 	/* Vertex */
-	/* TEMPLATED CONTAINER
-	 Dynamik Engine supports multiple sizes of vertex bone information types. These types are based on the number
-	 of boneIDs, boneWeights the container supports. These count ranges are: 8, 16, 32, 65, 256, 512 and 1024.
-	*/
-	template<const UI32 BoneCount = 8>
-	struct  DMK_API VertexBoneInformation {
-		/*
-		 Add a bone to the container.
-
-		 @param boneID: ID of the bone.
-		 @param boneWeight:	Weight of that bone ID.
-		*/
-		void addBone(UI32 boneID, F32 boneWeight)
-		{
-			for (UI32 _itr = 0; _itr < BoneCount; _itr++)
-			{
-				if (boneWeights[_itr] == 0.0f)
-				{
-					boneIDs[_itr] = boneID;
-					boneWeights[_itr] = boneWeight;
-
-					return;
-				}
-			}
-		}
-
-		UI32 boneIDs[BoneCount] = { 0 };
-		F32 boneWeights[BoneCount] = { 0.0f };
-	};
-
 	/* Shader input attribute types */
 	enum class DMK_API DMKVertexAttributeType {
 		DMK_VERTEX_ATTRIBUTE_TYPE_POSITION,						/* Position coordinates */

@@ -26,7 +26,7 @@ namespace Dynamik
 	{
 		if (byteSize)
 		{
-			DMKErrorManager::issueWarnBox(DMK_TEXT("Reallocating the local heap!"));
+			DMKErrorManager::issueWarnBox(TEXT("Reallocating the local heap!"));
 			_terminateLocalBlock();
 		}
 

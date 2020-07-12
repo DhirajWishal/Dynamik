@@ -73,6 +73,11 @@ namespace Dynamik
 		indexBuffer.clear();
 	}
 
+	void DMKStaticMeshComponent::addMaterial(const DMKMaterial& material)
+	{
+		materials.pushBack(material);
+	}
+
 	DMKStaticMeshComponent::operator MAT4() const
 	{
 		return this->modelMatrix;

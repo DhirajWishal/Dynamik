@@ -12,18 +12,18 @@ namespace Dynamik
 	{
 		switch (type)
 		{
-		case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_2D:
+		case Dynamik::DMKTextureType::TEXTURE_TYPE_2D:
 		{
 			DMKTexture2D* _texture = StaticAllocator<DMKTexture2D>::allocate();
 			_texture->load(path);
 			return _texture;
 		}
 
-		case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_3D:
+		case Dynamik::DMKTextureType::TEXTURE_TYPE_3D:
 			break;
-		case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_SPRITE:
+		case Dynamik::DMKTextureType::TEXTURE_TYPE_SPRITE:
 			break;
-		case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP:
+		case Dynamik::DMKTextureType::TEXTURE_TYPE_CUBEMAP:
 			break;
 		default:
 			DMK_ERROR_BOX("Requested texture cannot be created! Use create(DMKTextureType, ARRAY<STRING>) method instead.");

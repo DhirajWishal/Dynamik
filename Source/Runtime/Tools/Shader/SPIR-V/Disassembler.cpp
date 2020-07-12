@@ -50,6 +50,9 @@ namespace Dynamik
 			if (!isParsed)
 				_parseModule();
 
+			if (!layoutBindings.size())
+				return ARRAY<VkDescriptorSetLayoutBinding>();
+
 			ARRAY<VkDescriptorSetLayoutBinding> bindings(layoutBindings.size());
 
 			UI32 minimumBinding = layoutBindings[0].binding;
@@ -163,7 +166,7 @@ namespace Dynamik
 				{
 					auto Ty = _glslCompiler.get_type(ID);
 					UI32 byteSize = (Ty.width / sizeof(F32)) * Ty.vecsize * Ty.columns;
-					resourceAttribute.dataCount = ((Ty.array.size()) ? Ty.array.size() : 1);
+					resourceAttribute.dataCount = (UI32)((Ty.array.size()) ? Ty.array.size() : 1);
 					offsetCount += byteSize;
 
 					/* Check if the member is a matrix */
@@ -373,7 +376,7 @@ namespace Dynamik
 			/* Shader push constant buffers */
 			VkPushConstantRange _range;
 			_range.stageFlags = Backend::VulkanUtilities::getShaderStage(shaderModule.location);
-			_range.offset = offsetCount;
+			_range.offset = 0;
 			for (auto& resource : resources.push_constant_buffers)
 			{
 			_range.size = 0;
@@ -392,8 +395,9 @@ namespace Dynamik
 				}
 
 				pushConstantRanges.pushBack(_range);
-				offsetCount += _range.size;
+				_range.offset += _range.size;
 			}
+			offsetCount += _range.offset;
 
 			/* Shader separate images */
 			for (auto& resource : resources.separate_images)

@@ -37,7 +37,7 @@ namespace Dynamik
 			imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 			imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
 
-			if (info.imageType == DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP || info.imageType == DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP_ARRAY)
+			if (info.imageType == DMKTextureType::TEXTURE_TYPE_CUBEMAP || info.imageType == DMKTextureType::TEXTURE_TYPE_CUBEMAP_ARRAY)
 				imageInfo.flags = VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT;
 
 			DMK_VULKAN_ASSERT(vkCreateImage(Inherit<VulkanCoreObject>(pCoreObject)->device, &imageInfo, nullptr, &image), "Failed to create image!");

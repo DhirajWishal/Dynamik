@@ -10,25 +10,25 @@ namespace Dynamik
 {
 	UserOption DMKErrorManager::issueInfoBox(STRING message)
 	{
-		DMKMessageBox _newBox(DMK_TEXT("Information"), message, DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_INFO);
+		DMKMessageBox _newBox(TEXT("Information"), message, DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_INFO);
 		return _newBox.issueBox();
 	}
 	
 	UserOption DMKErrorManager::issueWarnBox(STRING message)
 	{
-		DMKMessageBox _newBox(DMK_TEXT("Warning"), message, DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_WARN);
+		DMKMessageBox _newBox(TEXT("Warning"), message, DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_WARN);
 		return _newBox.issueBox();
 	}
 	
 	UserOption DMKErrorManager::issueQuestionBox(STRING message)
 	{
-		DMKMessageBox _newBox(DMK_TEXT("Question"), message, DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_QUESTION);
+		DMKMessageBox _newBox(TEXT("Question"), message, DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_QUESTION);
 		return _newBox.issueBox();
 	}
 	
 	UserOption DMKErrorManager::issueErrorBox(STRING message)
 	{
-		DMKMessageBox _newBox(DMK_TEXT("Error"), message, DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_ERROR);
+		DMKMessageBox _newBox(TEXT("Error"), message, DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_ERROR);
 		return _newBox.issueBox();
 	}
 	
@@ -60,11 +60,11 @@ namespace Dynamik
 	}
 
 	ARRAY<STRING> LOG_INFO = {
-		DMK_TEXT("INFO-> "),
-		DMK_TEXT("WARN-> "),
-		DMK_TEXT("ERROR-> "),
-		DMK_TEXT("FATAL-> "),
-		DMK_TEXT("DEBUG-> "),
+		TEXT("INFO-> "),
+		TEXT("WARN-> "),
+		TEXT("ERROR-> "),
+		TEXT("FATAL-> "),
+		TEXT("DEBUG-> "),
 	};
 
 	void LOG(int severity, STRING msg) {

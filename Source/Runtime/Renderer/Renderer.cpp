@@ -299,7 +299,7 @@ namespace Dynamik
 			texture->initialize(myCoreObject, (DMKTexture*)pTexture);
 			texture->createView(myCoreObject);
 
-			if ((pTexture->type == DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP) || (pTexture->type == DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP_ARRAY)) /* TODO */
+			if ((pTexture->type == DMKTextureType::TEXTURE_TYPE_CUBEMAP) || (pTexture->type == DMKTextureType::TEXTURE_TYPE_CUBEMAP_ARRAY)) /* TODO */
 				texture->createSampler(myCoreObject, RImageSamplerCreateInfo::createCubeMapSampler());
 			else
 				texture->createSampler(myCoreObject, RImageSamplerCreateInfo::createDefaultSampler());
@@ -429,21 +429,30 @@ namespace Dynamik
 			meshComponent->pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, myRenderTarget, mySwapChain);
 
 			/* Initialize Pipeline Resources */
-			/* Initialize Uniform Buffer Resources */
-			ARRAY<RBuffer*> uniformBuffers = { meshComponent->pUniformBuffer };
-			if (pGameEntity->isCameraAvailable && myCameraComponent->pUniformBuffer)
-				uniformBuffers.pushBack(myCameraComponent->pUniformBuffer);
+			{
+				/* Initialize Uniform Buffer Resources */
+				ARRAY<RBuffer*> uniformBuffers = { meshComponent->pUniformBuffer };
+				if (pGameEntity->isCameraAvailable && myCameraComponent->pUniformBuffer)
+					uniformBuffers.pushBack(myCameraComponent->pUniformBuffer);
 
-			/* Initialize Texture Resources */
-			ARRAY<RTexture*> textures;
-			textures.insert(meshComponent->pTextures);
+				/* Initialize Texture Resources */
+				ARRAY<RTexture*> textures;
+				textures.insert(meshComponent->pTextures);
 
-			meshComponent->pPipeline->initializeResources(myCoreObject, uniformBuffers, textures);
+				meshComponent->pPipeline->initializeResources(myCoreObject, uniformBuffers, textures);
 
-			/* Initialize Vertex and Index Buffers */
-			myDrawCallManager.addDrawEntry(mesh->vertexBuffer, &mesh->indexBuffer, meshComponent->pPipeline);
+				/* Initialize Vertex and Index Buffers */
+				myDrawCallManager.addDrawEntry(mesh->vertexBuffer, &mesh->indexBuffer, meshComponent->pPipeline);
 
-			entity.pMeshObjects.pushBack(meshComponent);
+				entity.pMeshObjects.pushBack(meshComponent);
+
+				/* Initialize Constant Blocks */
+				for (auto material : mesh->materials)		/* TODO */
+					meshComponent->pPipeline->addConstantBlock(
+						StaticAllocator<DMKMaterial::MaterialPushBlock>::allocateInit(material.generatePushBlock()),
+						sizeof(DMKMaterial::MaterialPushBlock), 
+						DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, 0);
+			}
 		}
 
 		myEntities.pushBack(entity);
@@ -536,8 +545,8 @@ namespace Dynamik
 			/* Initialize View port */
 			DMKViewport newViewPort;
 			newViewPort.windowHandle = myWindowHandle;
-			newViewPort.width = windowExtent.width;
-			newViewPort.height = windowExtent.height;
+			newViewPort.width = (I32)windowExtent.width;
+			newViewPort.height = (I32)windowExtent.height;
 
 			/* Initialize Swap Chain */
 			mySwapChain->initialize(myCoreObject, newViewPort, RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_FIFO);;
@@ -669,6 +678,10 @@ namespace Dynamik
 				StaticAllocator<RBuffer>::rawDeallocate(mesh->pUniformBuffer, 0);
 
 				mesh->pPipeline->terminate(myCoreObject);
+
+				for (auto block : mesh->pPipeline->constantBlocks)
+					StaticAllocator<BYTE>::rawDeallocate(block.data, block.byteSize);
+
 				StaticAllocator<RPipelineObject>::rawDeallocate(mesh->pPipeline, 0);
 
 				StaticAllocator<RMeshObject>::rawDeallocate(mesh);

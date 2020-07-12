@@ -7,7 +7,8 @@
 
 #include "RCommandBuffer.h"
 
-namespace std 
+/* Hash function for the Dynamik Vertex Layout structure */
+namespace std
 {
 	using namespace Dynamik;
 
@@ -19,7 +20,7 @@ namespace std
 			for (auto attribute : other.attributes)
 				sum += (size_t)attribute.dataType ^ (size_t)attribute.dataCount ^ (size_t)attribute.attributeType;
 
-			return (size_t)BIT_SHIFT((sum % 64ULL));
+			return (size_t)(1ULL << (sum % 64ULL));
 		}
 	};
 }

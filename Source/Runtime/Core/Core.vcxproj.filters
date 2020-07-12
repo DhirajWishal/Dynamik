@@ -153,12 +153,6 @@
     <ClInclude Include="Memory\StaticAllocator.h">
       <Filter>Memory</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Descriptors\GameComponentDesriptors.h">
-      <Filter>Objects\Descriptors</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Descriptors\MaterialDescriptor.h">
-      <Filter>Objects\Descriptors</Filter>
-    </ClInclude>
     <ClInclude Include="Objects\Resource\MeshInstance.h">
       <Filter>Objects\Resource</Filter>
     </ClInclude>
@@ -219,6 +213,7 @@
     <ClInclude Include="Utilities\Clock.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\Resource\Material.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\RenderableComponent.cpp">
@@ -299,6 +294,7 @@
     <ClCompile Include="Utilities\Clock.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Resource\Material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core.lua" />

@@ -57,7 +57,7 @@ namespace Dynamik
 		static DMKStaticMeshComponent createSkyBox(ARRAY<STRING> textureFiles);
 
 	private:
-		STRING workingDirectory = DMK_TEXT("");
+		STRING workingDirectory = TEXT("");
 	};
 }
 

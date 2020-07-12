@@ -49,8 +49,8 @@ namespace Dynamik
     private:
         inline void _loadContent();
 
-        STRING myPath = DMK_TEXT("");
-        STRING myBasePath = DMK_TEXT("");
+        STRING myPath = TEXT("");
+        STRING myBasePath = TEXT("");
         std::fstream myFile;
     };
 }

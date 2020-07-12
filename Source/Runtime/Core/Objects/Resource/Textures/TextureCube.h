@@ -15,7 +15,7 @@ namespace Dynamik
 	*/
 	class DMK_API DMKTextureCube : public DMKTexture {
 	public:
-		DMKTextureCube() : DMKTexture(DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP) {}
+		DMKTextureCube() : DMKTexture(DMKTextureType::TEXTURE_TYPE_CUBEMAP) {}
 		~DMKTextureCube() {}
 
 		void load(ARRAY<STRING> texturePaths);

@@ -44,7 +44,7 @@ namespace Dynamik
 		static DMKShaderModule createModule(const STRING& filePath, const DMKShaderLocation& location, const DMKShaderCodeType& codeType);
 
 	private:
-		STRING myWorkingDir = DMK_TEXT("");
+		STRING myWorkingDir = TEXT("");
 	};
 }
 

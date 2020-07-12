@@ -11,7 +11,7 @@ namespace Dynamik
 {
 	static GLFWwindow* myWindow;
 
-	GUICore::GUICore() : windowWidth(1280), windowHeight(720), windowTitle(DMK_TEXT("Dynamik Studio v1"))
+	GUICore::GUICore() : windowWidth(1280), windowHeight(720), windowTitle(TEXT("Dynamik Studio v1"))
 	{
 	}
 

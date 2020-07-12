@@ -37,12 +37,12 @@ namespace Dynamik
 	typedef long double LD64;			// long double
 
 #ifdef DMK_USE_WIDE_CHAR
-#define DMK_TEXT(text)  Ltext# 
+#define TEXT(text)  Ltext# 
 	typedef std::wstring STRING;
 	typedef wchar_t CHR;				// wide char (UTF-8)
 
 #else
-#define DMK_TEXT(text)  text
+#define TEXT(text)  text
 	typedef std::string STRING;
 	typedef char CHR;					// char (ASCII)
 

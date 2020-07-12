@@ -118,7 +118,6 @@
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="README.md" />
     <None Include="Renderer.lua" />
   </ItemGroup>
 </Project>

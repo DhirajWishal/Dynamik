@@ -20,7 +20,7 @@ namespace Dynamik
 	*/
 	struct DMK_API RImageCreateInfo {
 		VEC3 vDimentions = VEC3(0.0f, 0.0f, 1.0f);
-		DMKTextureType imageType = DMKTextureType::DMK_TEXTURE_TYPE_2D;
+		DMKTextureType imageType = DMKTextureType::TEXTURE_TYPE_2D;
 		RImageUsage imageUsage = RImageUsage::IMAGE_USAGE_RENDER;
 		UI32 layers = 1;
 		UI32 mipLevels = 1;
@@ -53,7 +53,7 @@ namespace Dynamik
 
 		VEC3 extent = VEC3(0.0f);
 		RImageView* pImageView = nullptr;
-		DMKTextureType type = DMKTextureType::DMK_TEXTURE_TYPE_2D;
+		DMKTextureType type = DMKTextureType::TEXTURE_TYPE_2D;
 		RImageUsage usage = RImageUsage::IMAGE_USAGE_RENDER;
 		UI32 size = 0;
 		UI32 availabeMipLevels = 0;

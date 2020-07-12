@@ -173,10 +173,10 @@ namespace Dynamik
 			{
 				VulkanImageView* _vView = StaticAllocator<VulkanImageView>::rawAllocate();
 				DMKTexture::TextureSwizzles _swizzles = {
-					DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_IDENTITY,
-					DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_IDENTITY,
-					DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_IDENTITY,
-					DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_IDENTITY };
+					DMKTextureSwizzle::TEXTURE_SWIZZLE_IDENTITY,
+					DMKTextureSwizzle::TEXTURE_SWIZZLE_IDENTITY,
+					DMKTextureSwizzle::TEXTURE_SWIZZLE_IDENTITY,
+					DMKTextureSwizzle::TEXTURE_SWIZZLE_IDENTITY };
 				_vView->initialize(pCoreObject, images[itr], _swizzles);
 				imageViews.pushBack(_vView);
 			}

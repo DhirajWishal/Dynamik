@@ -4,7 +4,7 @@
 #include "dmkafx.h"
 #include "EventPool.h"
 
-#define ADD_EVENT(component) componentMap[DMK_TEXT(#component)] = &component; component.setName(#component)
+#define ADD_EVENT(component) componentMap[TEXT(#component)] = &component; component.setName(#component)
 
 namespace Dynamik
 {

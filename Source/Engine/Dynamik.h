@@ -69,7 +69,7 @@ namespace Dynamik
 		UI64 _nextLevelIndex = 0;
 
 	private:	/* Private runtime data store */
-		STRING myBasePath = DMK_TEXT("");
+		STRING myBasePath = TEXT("");
 
 		DMKWindowHandle* pActiveWindow = nullptr;
 

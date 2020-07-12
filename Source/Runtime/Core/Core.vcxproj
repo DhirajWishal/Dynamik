@@ -395,8 +395,7 @@
     <ClInclude Include="Memory\MemoryManager.h" />
     <ClInclude Include="Memory\MemoryPadding.h" />
     <ClInclude Include="Memory\StaticAllocator.h" />
-    <ClInclude Include="Objects\Descriptors\GameComponentDesriptors.h" />
-    <ClInclude Include="Objects\Descriptors\MaterialDescriptor.h" />
+    <ClInclude Include="Objects\Resource\Material.h" />
     <ClInclude Include="Objects\Resource\MeshInstance.h" />
     <ClInclude Include="Objects\Resource\Primitives.h" />
     <ClInclude Include="Objects\Resource\ShaderFactory.h" />
@@ -436,6 +435,7 @@
     <ClCompile Include="Memory\LocalHeap.cpp" />
     <ClCompile Include="Memory\MemoryFunctions.cpp" />
     <ClCompile Include="Memory\MemoryManager.cpp" />
+    <ClCompile Include="Objects\Resource\Material.cpp" />
     <ClCompile Include="Objects\Resource\Primitives.cpp" />
     <ClCompile Include="Objects\Resource\ShaderFactory.cpp" />
     <ClCompile Include="Objects\Resource\ShaderModule.cpp" />

@@ -42,7 +42,7 @@ namespace Dynamik
 
 	inline void DAIObject::_loadContent()
 	{
-		STRING _line = DMK_TEXT("");
+		STRING _line = TEXT("");
 		while (std::getline(myFile, _line))
 		{
 			if (_line[0] == '#') continue;

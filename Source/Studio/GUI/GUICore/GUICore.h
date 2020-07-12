@@ -29,7 +29,7 @@ namespace Dynamik
 	protected:
 		I32 windowWidth = 0;
 		I32 windowHeight = 0;
-		STRING windowTitle = DMK_TEXT("");
+		STRING windowTitle = TEXT("");
 
 	private:
 		static void _errorCallback(I32 ID, CCPTR description);

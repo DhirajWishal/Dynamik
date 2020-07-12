@@ -14,27 +14,27 @@ namespace Dynamik
 	 Texture type
 	*/
 	enum class DMK_API DMKTextureType {
-		DMK_TEXTURE_TYPE_2D,
-		DMK_TEXTURE_TYPE_3D,
-		DMK_TEXTURE_TYPE_SPRITE,
-		DMK_TEXTURE_TYPE_CUBEMAP,
-		DMK_TEXTURE_TYPE_2D_ARRAY,
-		DMK_TEXTURE_TYPE_3D_ARRAY,
-		DMK_TEXTURE_TYPE_SPRITE_ARRAY,
-		DMK_TEXTURE_TYPE_CUBEMAP_ARRAY,
+		TEXTURE_TYPE_2D,
+		TEXTURE_TYPE_3D,
+		TEXTURE_TYPE_SPRITE,
+		TEXTURE_TYPE_CUBEMAP,
+		TEXTURE_TYPE_2D_ARRAY,
+		TEXTURE_TYPE_3D_ARRAY,
+		TEXTURE_TYPE_SPRITE_ARRAY,
+		TEXTURE_TYPE_CUBEMAP_ARRAY,
 	};
 
 	/*
 	 Texture swizzles
 	*/
 	enum class DMK_API DMKTextureSwizzle {
-		DMK_TEXTURE_SWIZZLE_IDENTITY,
-		DMK_TEXTURE_SWIZZLE_ZERO,
-		DMK_TEXTURE_SWIZZLE_ONE,
-		DMK_TEXTURE_SWIZZLE_RED,
-		DMK_TEXTURE_SWIZZLE_GREEN,
-		DMK_TEXTURE_SWIZZLE_BLUE,
-		DMK_TEXTURE_SWIZZLE_ALPHA,
+		TEXTURE_SWIZZLE_IDENTITY,
+		TEXTURE_SWIZZLE_ZERO,
+		TEXTURE_SWIZZLE_ONE,
+		TEXTURE_SWIZZLE_RED,
+		TEXTURE_SWIZZLE_GREEN,
+		TEXTURE_SWIZZLE_BLUE,
+		TEXTURE_SWIZZLE_ALPHA,
 	};
 
 	/*
@@ -57,14 +57,14 @@ namespace Dynamik
 		UI32 layerCount = 1;
 		UI32 mipLevels = 1;
 		DMKFormat format = DMKFormat::DMK_FORMAT_UNDEFINED;
-		DMKTextureType type = DMKTextureType::DMK_TEXTURE_TYPE_2D;
+		DMKTextureType type = DMKTextureType::TEXTURE_TYPE_2D;
 
 		/* Swizzles */
 		struct DMK_API TextureSwizzles {
-			DMKTextureSwizzle componentOne = DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_RED;
-			DMKTextureSwizzle componentTwo = DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_GREEN;
-			DMKTextureSwizzle componentThree = DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_BLUE;
-			DMKTextureSwizzle componentFour = DMKTextureSwizzle::DMK_TEXTURE_SWIZZLE_ALPHA;
+			DMKTextureSwizzle componentOne = DMKTextureSwizzle::TEXTURE_SWIZZLE_RED;
+			DMKTextureSwizzle componentTwo = DMKTextureSwizzle::TEXTURE_SWIZZLE_GREEN;
+			DMKTextureSwizzle componentThree = DMKTextureSwizzle::TEXTURE_SWIZZLE_BLUE;
+			DMKTextureSwizzle componentFour = DMKTextureSwizzle::TEXTURE_SWIZZLE_ALPHA;
 		} swizzles;
 	};
 }

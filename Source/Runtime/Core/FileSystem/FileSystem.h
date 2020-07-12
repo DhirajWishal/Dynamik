@@ -32,8 +32,8 @@ namespace Dynamik
 		static STRING getWorkingDirectory();
 
 	private:
-		STRING myExecutablePath = DMK_TEXT("");
-		STRING myWorkingDirectory = DMK_TEXT("");
+		STRING myExecutablePath = TEXT("");
+		STRING myWorkingDirectory = TEXT("");
 	};
 }
 

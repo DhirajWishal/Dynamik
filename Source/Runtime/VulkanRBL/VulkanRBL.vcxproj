@@ -455,7 +455,6 @@
     <ClCompile Include="VulkanUtilities.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="README.md" />
     <None Include="VulkanRBL.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -25,6 +25,7 @@ namespace Dynamik
 
 			ARRAY<VulkanResourceLayout> resourceLayouts;
 			ARRAY<VkDescriptorPoolSize> descriptorPoolSizes;
+			ARRAY<VkPushConstantRange> pushConstants;
 
 			/* Initialize Vertex Input Info */
 			VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
@@ -54,13 +55,15 @@ namespace Dynamik
 				resourceBindings.insert(dissassembler.getOrderedDescriptorSetLayoutBindings());
 				descriptorPoolSizes.insert(dissassembler.getDescriptorPoolSizes());
 
+				pushConstants.insert(dissassembler.getPushConstantRanges());
+
 				if (createInfo.shaders[index].location == DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
 				{
 					resourceLayouts[index].vertexInputBinding = dissassembler.getVertexBindingDescription();
 					resourceLayouts[index].vertexInputAttributes = dissassembler.getVertexAttributeDescriptions();
 
 					vertexInputInfo.pVertexBindingDescriptions = &resourceLayouts[index].vertexInputBinding;
-					vertexInputInfo.vertexAttributeDescriptionCount = resourceLayouts[index].vertexInputAttributes.size();
+					vertexInputInfo.vertexAttributeDescriptionCount = (UI32)resourceLayouts[index].vertexInputAttributes.size();
 					vertexInputInfo.pVertexAttributeDescriptions = resourceLayouts[index].vertexInputAttributes.data();
 				}
 			}
@@ -70,8 +73,8 @@ namespace Dynamik
 			pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 			pipelineLayoutCreateInfo.flags = VK_NULL_HANDLE;
 			pipelineLayoutCreateInfo.pNext = VK_NULL_HANDLE;
-			pipelineLayoutCreateInfo.pushConstantRangeCount = 0;			/* TODO */
-			pipelineLayoutCreateInfo.pPushConstantRanges = VK_NULL_HANDLE;	/* TODO */
+			pipelineLayoutCreateInfo.pushConstantRangeCount = pushConstants.size();	
+			pipelineLayoutCreateInfo.pPushConstantRanges = pushConstants.data();
 			pipelineLayoutCreateInfo.setLayoutCount = 0;
 			pipelineLayoutCreateInfo.pSetLayouts = nullptr;
 
@@ -82,7 +85,7 @@ namespace Dynamik
 				descriptorSetLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
 				descriptorSetLayoutCreateInfo.flags = VK_NULL_HANDLE;
 				descriptorSetLayoutCreateInfo.pNext = VK_NULL_HANDLE;
-				descriptorSetLayoutCreateInfo.bindingCount = resourceBindings.size();
+				descriptorSetLayoutCreateInfo.bindingCount = (UI32)resourceBindings.size();
 				descriptorSetLayoutCreateInfo.pBindings = resourceBindings.data();
 
 				DMK_VULKAN_ASSERT(vkCreateDescriptorSetLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorSetLayoutCreateInfo, nullptr, &descriptor.layout), "Failed to create descriptor set layout!");
@@ -93,7 +96,7 @@ namespace Dynamik
 				descriptorPoolCreateInfo.flags = VK_NULL_HANDLE;
 				descriptorPoolCreateInfo.pNext = VK_NULL_HANDLE;
 				descriptorPoolCreateInfo.maxSets = 1;
-				descriptorPoolCreateInfo.poolSizeCount = descriptorPoolSizes.size();
+				descriptorPoolCreateInfo.poolSizeCount = (UI32)descriptorPoolSizes.size();
 				descriptorPoolCreateInfo.pPoolSizes = descriptorPoolSizes.data();
 
 				DMK_VULKAN_ASSERT(vkCreateDescriptorPool(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorPoolCreateInfo, VK_NULL_HANDLE, &descriptor.pool), "Failed to create descriptor pool!");
@@ -143,10 +146,10 @@ namespace Dynamik
 			ARRAY<VkRect2D> scissors = {};
 			for (auto scissor : createInfo.scissorInfos) {
 				VkRect2D vScissor = {};
-				vScissor.offset.x = scissor.offset.x;
-				vScissor.offset.y = scissor.offset.y;
-				vScissor.extent.width = pSwapChain->extent.width;
-				vScissor.extent.height = pSwapChain->extent.height;
+				vScissor.offset.x = (I32)scissor.offset.x;
+				vScissor.offset.y = (I32)scissor.offset.y;
+				vScissor.extent.width = (UI32)pSwapChain->extent.width;
+				vScissor.extent.height = (UI32)pSwapChain->extent.height;
 
 				scissors.pushBack(vScissor);
 			}
@@ -156,7 +159,7 @@ namespace Dynamik
 			viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
 			viewportState.flags = VK_NULL_HANDLE;
 			viewportState.pNext = VK_NULL_HANDLE;
-			viewportState.scissorCount = scissors.size();
+			viewportState.scissorCount = (UI32)scissors.size();
 			viewportState.pScissors = scissors.data();
 			viewportState.viewportCount = 1;
 			viewportState.pViewports = &viewport;
@@ -215,7 +218,7 @@ namespace Dynamik
 			colorBlending.blendConstants[3] = createInfo.colorBlendInfo.blendConstants[3];
 
 			auto blendAttachments = VulkanUtilities::getBlendStates(createInfo.colorBlendInfo.blendStates);
-			colorBlending.attachmentCount = blendAttachments.size();
+			colorBlending.attachmentCount = (UI32)blendAttachments.size();
 			colorBlending.pAttachments = blendAttachments.data();
 
 			/* Initialize Dynamic States */
@@ -225,7 +228,7 @@ namespace Dynamik
 			dynamicState.pNext = VK_NULL_HANDLE;
 
 			auto dynamicStates = VulkanUtilities::getDynamicStates(createInfo.dynamicStates);
-			dynamicState.dynamicStateCount = dynamicStates.size();
+			dynamicState.dynamicStateCount = (UI32)dynamicStates.size();
 			dynamicState.pDynamicStates = dynamicStates.data();
 
 			/* Initialize Pipeline */
@@ -233,7 +236,7 @@ namespace Dynamik
 			pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 			pipelineInfo.flags = VK_PIPELINE_CREATE_ALLOW_DERIVATIVES_BIT;
 			pipelineInfo.pNext = VK_NULL_HANDLE;
-			pipelineInfo.stageCount = shaderStages.size();
+			pipelineInfo.stageCount = (UI32)shaderStages.size();
 			pipelineInfo.pStages = shaderStages.data();
 			pipelineInfo.pInputAssemblyState = &inputAssembly;
 			pipelineInfo.pVertexInputState = &vertexInputInfo;
@@ -292,7 +295,7 @@ namespace Dynamik
 					resourceLayouts[index].vertexInputAttributes = dissassembler.getVertexAttributeDescriptions();
 
 					vertexInputInfo.pVertexBindingDescriptions = &resourceLayouts[index].vertexInputBinding;
-					vertexInputInfo.vertexAttributeDescriptionCount = resourceLayouts[index].vertexInputAttributes.size();
+					vertexInputInfo.vertexAttributeDescriptionCount = (UI32)resourceLayouts[index].vertexInputAttributes.size();
 					vertexInputInfo.pVertexAttributeDescriptions = resourceLayouts[index].vertexInputAttributes.data();
 				}
 			}
@@ -310,7 +313,7 @@ namespace Dynamik
 			tessellationState.sType = VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_STATE_CREATE_INFO;
 			tessellationState.flags = VK_NULL_HANDLE;
 			tessellationState.pNext = VK_NULL_HANDLE;
-			tessellationState.patchControlPoints = mySpecification.tessellationStateControlInfo.patchControlPoints;
+			tessellationState.patchControlPoints = (UI32)mySpecification.tessellationStateControlInfo.patchControlPoints;
 
 			/* Initialize View Port */
 			VkViewport viewport = {};
@@ -325,10 +328,10 @@ namespace Dynamik
 			ARRAY<VkRect2D> scissors = {};
 			for (auto scissor : mySpecification.scissorInfos) {
 				VkRect2D vScissor = {};
-				vScissor.offset.x = scissor.offset.x;
-				vScissor.offset.y = scissor.offset.y;
-				vScissor.extent.width = pSwapChain->extent.width;
-				vScissor.extent.height = pSwapChain->extent.height;
+				vScissor.offset.x = (I32)scissor.offset.x;
+				vScissor.offset.y = (I32)scissor.offset.y;
+				vScissor.extent.width = (UI32)pSwapChain->extent.width;
+				vScissor.extent.height = (UI32)pSwapChain->extent.height;
 
 				scissors.pushBack(vScissor);
 			}
@@ -338,7 +341,7 @@ namespace Dynamik
 			viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
 			viewportState.flags = VK_NULL_HANDLE;
 			viewportState.pNext = VK_NULL_HANDLE;
-			viewportState.scissorCount = scissors.size();
+			viewportState.scissorCount = (UI32)scissors.size();
 			viewportState.pScissors = scissors.data();
 			viewportState.viewportCount = 1;
 			viewportState.pViewports = &viewport;
@@ -397,7 +400,7 @@ namespace Dynamik
 			colorBlending.blendConstants[3] = mySpecification.colorBlendInfo.blendConstants[3];
 
 			auto blendAttachments = VulkanUtilities::getBlendStates(mySpecification.colorBlendInfo.blendStates);
-			colorBlending.attachmentCount = blendAttachments.size();
+			colorBlending.attachmentCount = (UI32)blendAttachments.size();
 			colorBlending.pAttachments = blendAttachments.data();
 
 			/* Initialize Dynamic States */
@@ -407,7 +410,7 @@ namespace Dynamik
 			dynamicState.pNext = VK_NULL_HANDLE;
 
 			auto dynamicStates = VulkanUtilities::getDynamicStates(mySpecification.dynamicStates);
-			dynamicState.dynamicStateCount = dynamicStates.size();
+			dynamicState.dynamicStateCount = (UI32)dynamicStates.size();
 			dynamicState.pDynamicStates = dynamicStates.data();
 
 			/* Initialize Pipeline */
@@ -415,7 +418,7 @@ namespace Dynamik
 			pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 			pipelineInfo.flags = VK_PIPELINE_CREATE_ALLOW_DERIVATIVES_BIT | VK_PIPELINE_CREATE_DERIVATIVE_BIT;
 			pipelineInfo.pNext = VK_NULL_HANDLE;
-			pipelineInfo.stageCount = shaderStages.size();
+			pipelineInfo.stageCount = (UI32)shaderStages.size();
 			pipelineInfo.pStages = shaderStages.data();
 			pipelineInfo.pInputAssemblyState = &inputAssembly;
 			pipelineInfo.pVertexInputState = &vertexInputInfo;
@@ -478,7 +481,7 @@ namespace Dynamik
 
 			for (UI64 index = 0; index < resourceBindings.size(); index++)
 			{
-				descriptorWrite.dstBinding = index;
+				descriptorWrite.dstBinding = (UI32)index;
 				descriptorWrite.descriptorType = resourceBindings[index].descriptorType;
 
 				switch (descriptorWrite.descriptorType)
@@ -575,7 +578,7 @@ namespace Dynamik
 				descriptorWrites.pushBack(descriptorWrite);
 			}
 
-			vkUpdateDescriptorSets(InheritCast<VulkanCoreObject>(pCoreObject).device, descriptorWrites.size(), descriptorWrites.data(), 0, VK_NULL_HANDLE);
+			vkUpdateDescriptorSets(InheritCast<VulkanCoreObject>(pCoreObject).device, (UI32)descriptorWrites.size(), descriptorWrites.data(), 0, VK_NULL_HANDLE);
 		}
 
 		VulkanGraphicsPipeline::operator VkPipelineLayout() const

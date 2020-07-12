@@ -6,6 +6,7 @@
 #define _DYNAMIK_MESH_INSTANCE_H
 
 #include "Primitives.h"
+#include "Texture.h"
 
 namespace Dynamik
 {

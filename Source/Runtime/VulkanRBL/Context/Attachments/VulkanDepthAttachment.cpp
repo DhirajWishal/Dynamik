@@ -12,7 +12,7 @@ namespace Dynamik
 		{
 			RImageCreateInfo imgCreateInfo;
 			imgCreateInfo.imageFormat = initInfo.format;
-			imgCreateInfo.imageType = DMKTextureType::DMK_TEXTURE_TYPE_2D;
+			imgCreateInfo.imageType = DMKTextureType::TEXTURE_TYPE_2D;
 			imgCreateInfo.imageUsage = IMAGE_USAGE_DEPTH_ATTACHMENT;
 			imgCreateInfo.layers = 1;
 			imgCreateInfo.mipLevels = 1;

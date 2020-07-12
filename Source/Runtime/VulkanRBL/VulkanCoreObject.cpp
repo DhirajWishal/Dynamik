@@ -24,7 +24,7 @@ namespace Dynamik
 		sampleCount = eSamples;
 		if ((UI32)eSamples > (UI32)device.getMaxUsableSampleCount())
 		{
-			DMKErrorManager::logWarn(DMK_TEXT("Pre defined samples are not supported by the GPU. Setting the default to the maximum usable count."));
+			DMKErrorManager::logWarn(TEXT("Pre defined samples are not supported by the GPU. Setting the default to the maximum usable count."));
 			sampleCount = (DMKSampleCount)device.getMaxUsableSampleCount();
 		}
 

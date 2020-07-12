@@ -5,9 +5,9 @@
 
 ApplicationPackage::ApplicationPackage()
 {
-	gameName = DMK_TEXT("Application example");
+	gameName = TEXT("Application example");
 	gameVersion = 0x0001;
-	gameAssetBasePath = DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets");
+	gameAssetBasePath = TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets");
 
 	myFirstLevel = Level1();
 }
@@ -19,10 +19,10 @@ void ApplicationPackage::onLoad()
 
 void ApplicationPackage::onInit()
 {
-	DMKErrorManager::logInfo(DMK_TEXT("Entered onInit function!"));
+	DMKErrorManager::logInfo(TEXT("Entered onInit function!"));
 }
 
 void ApplicationPackage::onLevelLoad(UI64 levelIndex)
 {
-	DMKErrorManager::logInfo(DMK_TEXT("Loading a new level! ") + std::to_string(levelIndex));
+	DMKErrorManager::logInfo(TEXT("Loading a new level! ") + std::to_string(levelIndex));
 }

@@ -5,9 +5,16 @@
 DefaultWorld::DefaultWorld()
 {
 	auto entity = createHollowEntity();
-	entity->addComponent<DMKStaticMeshComponent>(DMKMeshFactory::createDefault(DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Moon 2K.fbx")));
-	entity->getComponent<DMKStaticMeshComponent>(0)->addTexture(DMK_TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Diffuse_2K.png"), DMKTextureType::DMK_TEXTURE_TYPE_2D);
+	entity->addComponent<DMKStaticMeshComponent>(DMKMeshFactory::createDefault(TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Moon 2K.fbx")));
+	entity->getComponent<DMKStaticMeshComponent>(0)->addTexture(TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Diffuse_2K.png"), DMKTextureType::TEXTURE_TYPE_2D);
 	entity->getComponent<DMKStaticMeshComponent>(0)->translate(MAT4(1.0f), { 0.0f, 0.0f, -5.0f });
+
+	entity->addComponent<DMKStaticMeshComponent>(DMKMeshFactory::createDefault(TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Moon 2K.fbx")));
+	entity->getComponent<DMKStaticMeshComponent>(1)->translate(MAT4(1.0f), { 0.0f, 0.0f, 5.0f });
+	entity->getComponent<DMKStaticMeshComponent>(1)->addMaterial(DMKMaterial::createMetalNickel());
+	entity->getComponent<DMKStaticMeshComponent>(1)->shaderModules.clear();
+	entity->getComponent<DMKStaticMeshComponent>(1)->addShaderModule(DMKShaderFactory::createModule(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Shaders/PBR/Tests/vert.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+	entity->getComponent<DMKStaticMeshComponent>(1)->addShaderModule(DMKShaderFactory::createModule(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Shaders/PBR/Tests/frag.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 
 	/* Initialize Sky Box */
 	ARRAY<STRING> texturePaths;

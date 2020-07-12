@@ -66,20 +66,20 @@ namespace Dynamik
 		ARRAY<DMKLevelComponent*> levels;
 
 	public:		/* Engine Description */
-		STRING applicationName = DMK_TEXT("Dynamik Engine v1");
+		STRING applicationName = TEXT("Dynamik Engine v1");
 		/* Versioning: (Major-Minor-Patch)*/
-		STRING applicationVersion = DMK_TEXT("00001-00001-00000");
-		STRING iconPath = DMK_TEXT("");
+		STRING applicationVersion = TEXT("00001-00001-00000");
+		STRING iconPath = TEXT("");
 
 		DMKRenderingAPI renderingAPI = DMKRenderingAPI::DMK_RENDERING_API_VULKAN;
 
 		/*
 		 Basic game data
 		*/
-		STRING gameName = DMK_TEXT("Dynamik Engine");
+		STRING gameName = TEXT("Dynamik Engine");
 		UI64 gameVersion = 1;
-		STRING gameDataPath = DMK_TEXT("");
-		STRING gameAssetBasePath = DMK_TEXT("");
+		STRING gameDataPath = TEXT("");
+		STRING gameAssetBasePath = TEXT("");
 	};
 }
 

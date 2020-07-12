@@ -20,9 +20,9 @@ namespace Dynamik
 			staggingBuffer.setData(pCoreObject, pTextureObject->size() * pTextureObject->layerCount, 0, pTextureObject->image);
 
 			RImageCreateInfo initInfo;
-			initInfo.vDimentions.width = pTextureObject->width;
-			initInfo.vDimentions.height = pTextureObject->height;
-			initInfo.vDimentions.depth = pTextureObject->depth;
+			initInfo.vDimentions.width = (F32)pTextureObject->width;
+			initInfo.vDimentions.height = (F32)pTextureObject->height;
+			initInfo.vDimentions.depth = (F32)pTextureObject->depth;
 			initInfo.imageType = pTextureObject->type;
 			initInfo.imageUsage = (RImageUsage)(RImageUsage::IMAGE_USAGE_RENDER | RImageUsage::IMAGE_USAGE_TRANSFER_SRC | RImageUsage::IMAGE_USAGE_TRANSFER_DST);
 			initInfo.layers = pTextureObject->layerCount;

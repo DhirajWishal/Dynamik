@@ -63,7 +63,7 @@ namespace Dynamik
 
 		virtual DMKViewport createViewport(I32 width, I32 height, I32 xOffset, I32 yOffset) { return DMKViewport(); }
 
-		STRING windowTitle = DMK_TEXT("Dynamik Engine v1");
+		STRING windowTitle = TEXT("Dynamik Engine v1");
 		I32 windowWidth = 0;
 		I32 windowHeight = 0;
 

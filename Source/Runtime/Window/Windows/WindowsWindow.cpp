@@ -306,6 +306,6 @@ namespace Dynamik
 
 	void WindowsWindow::InternalEventHandler::_errorCallback(I32 error, CCPTR description)
 	{
-		DMKErrorManager::issueErrorBox(DMK_TEXT("GLFW Error: ") + STRING(description));
+		DMKErrorManager::issueErrorBox(TEXT("GLFW Error: ") + STRING(description));
 	}
 }

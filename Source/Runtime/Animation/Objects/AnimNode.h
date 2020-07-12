@@ -72,7 +72,7 @@ namespace Dynamik
 		ARRAY<DMKAnimNode*> pChildNodes;
 
 		/* Node name */
-		STRING name = DMK_TEXT("");
+		STRING name = TEXT("");
 
 		/* Parent node pointer of this node */
 		DMKAnimNode* pParentNode = nullptr;

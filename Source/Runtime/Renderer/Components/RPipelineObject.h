@@ -74,6 +74,28 @@ namespace Dynamik
 	
 		RPipelineSpecification mySpecification = {};
 		RPipelineUsage myUsage = RPipelineUsage::PIPELINE_USAGE_GRAPHICS;
+
+	public:		/* Constant Block */
+		struct DMK_API PConstantBlock {
+			PConstantBlock() = default;
+			PConstantBlock(VPTR data, UI64 size, DMKShaderLocation location, UI64 offset)
+				: data(data), byteSize(size), location(location), offset(offset) {}
+			~PConstantBlock() = default;
+
+			VPTR data = nullptr;
+			UI64 byteSize = 0;
+			DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
+			UI64 offset = 0;
+		};
+
+		DMK_FORCEINLINE virtual void addConstantBlock(VPTR data, UI64 byteSize, DMKShaderLocation location, UI64 offset = 0)
+		{
+			constantBlocks.pushBack(PConstantBlock(data, byteSize, location, offset));
+		}
+
+		ARRAY<PConstantBlock> constantBlocks;
+
+	public:		/* Resource Check */
 		B1 isResourceAvailable = false;
 	};
 }

@@ -45,7 +45,7 @@ namespace Dynamik
 	private:
 		STRING _getTokenString(Token token);
 
-		STRING path = DMK_TEXT("");
+		STRING path = TEXT("");
 		std::fstream* pFile = nullptr;
 	};
 }

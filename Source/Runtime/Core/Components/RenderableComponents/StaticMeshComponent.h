@@ -14,7 +14,7 @@
 #include "../RenderableComponent.h"
 #include "Core/Objects/Resource/ShaderFactory.h"
 #include "Core/Objects/Resource/TextureFactory.h"
-
+#include "Core/Objects/Resource/Material.h"
 
 namespace Dynamik
 {
@@ -67,6 +67,11 @@ namespace Dynamik
 		 Clear the index buffer.
 		*/
 		void clearIndexBuffer();
+
+	public:		/* Materials */
+		void addMaterial(const DMKMaterial& material);
+
+		ARRAY<DMKMaterial> materials;
 
 	public:		/* Matrix */
 		/*

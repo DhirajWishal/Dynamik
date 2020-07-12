@@ -14,7 +14,7 @@ namespace Dynamik
 	*/
 	class DMK_API DMKTexture2D : public DMKTexture {
 	public:
-		DMKTexture2D() : DMKTexture(DMKTextureType::DMK_TEXTURE_TYPE_2D) {}
+		DMKTexture2D() : DMKTexture(DMKTextureType::TEXTURE_TYPE_2D) {}
 		~DMKTexture2D() {}
 
 		void load(const STRING& path);

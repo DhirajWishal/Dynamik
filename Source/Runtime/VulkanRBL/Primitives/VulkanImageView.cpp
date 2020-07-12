@@ -21,21 +21,21 @@ namespace Dynamik
 
 			switch (InheritCast<VulkanImage>(pImage).type)
 			{
-			case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_2D:
+			case Dynamik::DMKTextureType::TEXTURE_TYPE_2D:
 				createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
 				createInfo.components = VulkanUtilities::getComponentMapping(swizzles);
 				createInfo.subresourceRange.layerCount = InheritCast<VulkanImage>(pImage).layers;
 				break;
-			case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_2D_ARRAY:
+			case Dynamik::DMKTextureType::TEXTURE_TYPE_2D_ARRAY:
 				createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D_ARRAY;
 				createInfo.components = VulkanUtilities::getComponentMapping(swizzles);
 				createInfo.subresourceRange.layerCount = InheritCast<VulkanImage>(pImage).layers;
 				break;
-			case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP:
+			case Dynamik::DMKTextureType::TEXTURE_TYPE_CUBEMAP:
 				createInfo.viewType = VK_IMAGE_VIEW_TYPE_CUBE;
 				createInfo.subresourceRange.layerCount = InheritCast<VulkanImage>(pImage).layers / 6;
 				break;
-			case Dynamik::DMKTextureType::DMK_TEXTURE_TYPE_CUBEMAP_ARRAY:
+			case Dynamik::DMKTextureType::TEXTURE_TYPE_CUBEMAP_ARRAY:
 				createInfo.viewType = VK_IMAGE_VIEW_TYPE_CUBE_ARRAY;
 				createInfo.subresourceRange.layerCount = InheritCast<VulkanImage>(pImage).layers / 6;
 				break;
