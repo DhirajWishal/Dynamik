@@ -34,19 +34,14 @@ namespace Dynamik
 	class DMK_API DMKAnimNode {
 	public:
 		DMKAnimNode() {}
-		DMKAnimNode(UI32 index, STRING name, Matrix4F localTransform)
-			: index(index), name(name), localTransform(localTransform) {}
+		DMKAnimNode(UI32 parentIndex, STRING name, Matrix4F localTransform)
+			: parentIndex(parentIndex), name(name), localTransform(localTransform) {}
 		~DMKAnimNode() {}
 
 		/*
-		 Set the parent node.
+		 Add a child node index.
 		*/
-		void setParentNode(DMKAnimNode* pAnimNode);
-
-		/*
-		 Add a child node.
-		*/
-		void addChildNode(DMKAnimNode* pAnimNode);
+		void addChildNodeIndex(UI64 iIndex);
 
 		/*
 		 Get the animated transform.
@@ -68,17 +63,21 @@ namespace Dynamik
 		Matrix4F localTransform = Matrix4F(1.0f);
 		Matrix4F inverseBindTransform = Matrix4F(1.0f);
 
-		/* Child node pointers of this node */
-		ARRAY<DMKAnimNode*> pChildNodes;
+		Matrix4F offsetMatrix = Matrix4F(1.0f);
+		Matrix4F nodeMatrix = Matrix4F(1.0f);		/* In relation to the parent */
+		Matrix4F worldTransform = Matrix4F(1.0f);
+
+		/* Child node indexes */
+		ARRAY<UI64> childNodeIndexes;
 
 		/* Node name */
 		STRING name = TEXT("");
 
-		/* Parent node pointer of this node */
-		DMKAnimNode* pParentNode = nullptr;
+		/* Parent node index */
+		UI64 parentIndex = 0;
 
-		/* Node index */
-		UI32 index = 0;
+		/* Index of the current node */
+		UI64 index = 0;
 	};
 }
 

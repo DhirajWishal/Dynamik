@@ -6,6 +6,7 @@
 #define _DYNAMIK_MESH_FACTORY_H
 
 #include "Core/Components/RenderableComponents/StaticMeshComponent.h"
+#include "Animation/AnimatedMeshComponent.h"
 
 namespace Dynamik
 {
@@ -36,6 +37,11 @@ namespace Dynamik
 		static DMKStaticMeshComponent createBasicTriangle();
 
 		/*
+		 Load mesh components from a file.
+		*/
+		static DMKStaticMeshComponent loadFromFile(const STRING& file);
+
+		/*
 		 Create a default mesh component from a provided file.
 
 		 @param path: Path to the file which contains the mesh data.
@@ -55,6 +61,13 @@ namespace Dynamik
 				(eg: { "right.jpg", "left.jpg", "top.jpg", "bottom.jpg", "front.jpg", "back.jpg" })
 		*/
 		static DMKStaticMeshComponent createSkyBox(ARRAY<STRING> textureFiles);
+
+		/*
+		 Load an animated mesh from an asset file.
+
+		 @param file: The asset file.
+		*/
+		static DMKAnimatedMeshComponent loadAnimatedMesh(const STRING& file);
 
 	private:
 		STRING workingDirectory = TEXT("");

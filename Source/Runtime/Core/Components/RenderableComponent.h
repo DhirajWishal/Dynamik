@@ -43,6 +43,8 @@ namespace Dynamik
 		virtual ~DMKRenderableComponent() {}
 
 		virtual void addShaderModule(const DMKShaderModule& sModule);
+		virtual void clearShaderModules();
+
 		virtual void addTextureModule(DMKTexture* pTexture);
 		virtual void setBaseRenderingPipeline(const DMKBaseRenderingPipeline& pipeline);
 

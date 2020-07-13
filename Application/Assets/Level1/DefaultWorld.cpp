@@ -4,17 +4,23 @@
 
 DefaultWorld::DefaultWorld()
 {
+	/* Create a basic hollow entity */
 	auto entity = createHollowEntity();
+
+	/* Load a basic mesh */
 	entity->addComponent<DMKStaticMeshComponent>(DMKMeshFactory::createDefault(TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Moon 2K.fbx")));
 	entity->getComponent<DMKStaticMeshComponent>(0)->addTexture(TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Diffuse_2K.png"), DMKTextureType::TEXTURE_TYPE_2D);
 	entity->getComponent<DMKStaticMeshComponent>(0)->translate(MAT4(1.0f), { 0.0f, 0.0f, -5.0f });
 
-	entity->addComponent<DMKStaticMeshComponent>(DMKMeshFactory::createDefault(TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Moon 2K.fbx")));
+	/* Load another basic mesh */
+	entity->addComponent<DMKStaticMeshComponent>(DMKMeshFactory::loadFromFile(TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Moon 2K.fbx")));
 	entity->getComponent<DMKStaticMeshComponent>(1)->translate(MAT4(1.0f), { 0.0f, 0.0f, 5.0f });
 	entity->getComponent<DMKStaticMeshComponent>(1)->addMaterial(DMKMaterial::createMetalNickel());
-	entity->getComponent<DMKStaticMeshComponent>(1)->shaderModules.clear();
 	entity->getComponent<DMKStaticMeshComponent>(1)->addShaderModule(DMKShaderFactory::createModule(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Shaders/PBR/Tests/vert.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 	entity->getComponent<DMKStaticMeshComponent>(1)->addShaderModule(DMKShaderFactory::createModule(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Shaders/PBR/Tests/frag.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+
+	/* Load an animated mesh */
+	entity->addComponent<DMKAnimatedMeshComponent>(DMKMeshFactory::loadAnimatedMesh(TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/Skeletal Animation/goblin.dae")));
 
 	/* Initialize Sky Box */
 	ARRAY<STRING> texturePaths;

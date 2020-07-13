@@ -376,6 +376,7 @@
     <ClCompile Include="AnimationController.cpp" />
     <ClCompile Include="Objects\AnimKeyFrame.cpp" />
     <ClCompile Include="Objects\AnimNode.cpp" />
+    <ClCompile Include="Objects\AnimNodeGraph.cpp" />
     <ClCompile Include="Objects\AnimNodeTransform.cpp" />
     <ClCompile Include="Objects\Animation.cpp" />
   </ItemGroup>

@@ -5,6 +5,7 @@
 #include "AssimpWrapper.h"
 
 #include "Animation/Objects/AnimNodeGraph.h"
+#include "Core/Math/MathFunctions.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -239,15 +240,22 @@ namespace Dynamik
 		return _meshComponent;
 	}
 
-	DMK_FORCEINLINE void readAllNodes(aiNode* pNode, ARRAY<DMKAnimNode>* pAnimNodes, const DMKAnimNode* pParentNode)
+	DMK_FORCEINLINE void loadAllNodes(aiNode* pNode, DMKAnimNodeGraph* pGraph, UI64* pIndex, std::unordered_map<STRING, UI64>* pNodeMap)
 	{
-		DMKAnimNode node(0, pNode->mName.C_Str(), aiMatrixToMatrix4F(pNode->mTransformation));
-		node.pParentNode = (DMKAnimNode*)pParentNode;
-		pAnimNodes->pushBack(node);
+		UI64 myIndex = (*pIndex)++;
+		(*pNodeMap).insert({ pNode->mName.data, myIndex });
 
-		auto makeRoot = pAnimNodes->location(-1);
+		DMKAnimNode node(myIndex, pNode->mName.C_Str(), aiMatrixToMatrix4F(pNode->mTransformation));
+		pGraph->addNode(node);
+
+#ifdef DMK_DEBUG
+		DMK_INFO(std::to_string(*pIndex));
+
+#endif // DMK_DEBUG
+
 		for (UI32 i = 0; i < pNode->mNumChildren; i++)
-			readAllNodes(pNode->mChildren[i], pAnimNodes, makeRoot);
+			pGraph->nodes[myIndex].addChildNodeIndex(*pIndex), 
+			loadAllNodes(pNode->mChildren[i], pGraph, pIndex, pNodeMap);
 	}
 
 	DMK_FORCEINLINE DMKAnimKeyFrame getAnimationFrame(aiNodeAnim* pNodeAnim)
@@ -266,6 +274,40 @@ namespace Dynamik
 		}
 
 		return frame;
+	}
+
+	DMK_FORCEINLINE void getBoneOffsetData(aiScene* pScene, aiNode* pNode, DMKAnimNodeGraph* pGraph, Matrix4F parentNodeTransform)
+	{
+		Matrix4F currentNodeTransform = DMathLib::multiply(aiMatrixToMatrix4F(pNode->mTransformation) , parentNodeTransform);
+
+		for (UI32 i = 0; i < pNode->mNumMeshes; i++)
+		{
+			aiMesh* pMesh = pScene->mMeshes[pNode->mMeshes[i]];
+
+			for (UI32 index = 0; index < pMesh->mNumBones; index++)
+			{
+				aiBone* pBone = pMesh->mBones[index];
+
+				Matrix4F offsetMat = aiMatrixToMatrix4F(pBone->mOffsetMatrix);
+				pGraph->getNode(pBone->mName.data).inverseBindTransform = DMathLib::multiply(offsetMat, currentNodeTransform);
+			}
+		}
+
+		/* Recurse through all the children */
+		for (UI32 i = 0; i < pNode->mNumChildren; i++)
+			getBoneOffsetData(pScene, pNode->mChildren[i], pGraph, currentNodeTransform);
+	}
+
+	DMK_FORCEINLINE void loadNodeTransform(aiNode* pNode, Matrix4F parentWorldTransform, I32 parentBoneIndex, DMKAnimNodeGraph* pGraph)
+	{
+		Matrix4F currentLocalTransform = aiMatrixToMatrix4F(pNode->mTransformation);
+		Matrix4F currentNodeWorldTransform = DMathLib::multiply(aiMatrixToMatrix4F(pNode->mTransformation), parentWorldTransform);
+	
+		if (parentBoneIndex >= 0)
+		{
+			auto offsetMat = pGraph->getNode(pNode->mName.data).inverseBindTransform;
+			pGraph->getNode(pNode->mName.data);
+		}
 	}
 
 	DMKAnimation AssimpWrapper::loadAnimation(VPTR pAiAnimation, VPTR pAiRootNode)
@@ -298,7 +340,9 @@ namespace Dynamik
 		DMKAnimatedMeshComponent animMeshComponent;
 
 		/* Load all nodes/ bones */
-		readAllNodes(_scene->mRootNode, &animMeshComponent.nodeGraph.nodes, nullptr);
+		UI64 baseIndex = 0;
+		std::unordered_map<STRING, UI64> nodeMap;
+		loadAllNodes(_scene->mRootNode, &animMeshComponent.nodeGraph, &baseIndex, &nodeMap);
 
 		for (UI32 _itr = 0; _itr < _scene->mNumMeshes; _itr++)
 		{

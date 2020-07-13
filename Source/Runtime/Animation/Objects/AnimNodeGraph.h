@@ -20,6 +20,22 @@ namespace Dynamik
 		DMKAnimNodeGraph() {}
 		~DMKAnimNodeGraph() {}
 
+		/*
+		 Add a node to the store.
+		*/
+		void addNode(const DMKAnimNode& node);
+
+		/*
+		 Get a node using its name.
+		*/
+		DMKAnimNode getNode(const STRING& name);
+
+		/*
+		 Get the node index of a given node.
+		*/
+		UI64 getNodeIndex(const STRING& name);
+
+		/* Node store */
 		ARRAY<DMKAnimNode> nodes;
 	};
 }

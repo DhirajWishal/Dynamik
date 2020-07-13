@@ -11,12 +11,12 @@
 namespace Dynamik
 {
 	/*
-	 Mesh instance structure
+	 Dynamik Mesh Instance Structure
 	 This structure holds a single mesh in a given model.
 	*/
-	struct DMK_API SMeshInstance {
-		SMeshInstance() {}
-		~SMeshInstance() {}
+	struct DMK_API DMKMeshInstance {
+		DMKMeshInstance() {}
+		~DMKMeshInstance() {}
 
 		/* Vertex Buffer */
 		DMKVertexBuffer vertexBuffer;

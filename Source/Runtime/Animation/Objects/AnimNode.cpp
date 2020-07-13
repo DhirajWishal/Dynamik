@@ -13,15 +13,10 @@ namespace Dynamik
 		vertexIDs.pushBack(vertexID);
 		weights.pushBack(weight);
 	}
-
-	void DMKAnimNode::setParentNode(DMKAnimNode* pAnimNode)
-	{
-		pParentNode = pAnimNode;
-	}
 	
-	void DMKAnimNode::addChildNode(DMKAnimNode* pAnimNode)
+	void DMKAnimNode::addChildNodeIndex(UI64 iIndex)
 	{
-		pChildNodes.pushBack(pAnimNode);
+		childNodeIndexes.pushBack(iIndex);
 	}
 	
 	Matrix4F DMKAnimNode::getAnimatedTransform() const

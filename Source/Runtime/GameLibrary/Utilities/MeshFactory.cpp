@@ -5,6 +5,7 @@
 #include "MeshFactory.h"
 
 #include "Importer/Asset/MeshImporter.h"
+#include "Importer/Asset/AnimationImporter.h"
 #include "Core/Objects/Resource/TextureFactory.h"
 
 namespace Dynamik
@@ -62,6 +63,11 @@ namespace Dynamik
 		return component;
 	}
 
+	DMKStaticMeshComponent DMKMeshFactory::loadFromFile(const STRING& file)
+	{
+		return DMKMeshImporter::loadMeshes(file, DMKVertexLayout::createBasic())[0];
+	}
+
 	DMKStaticMeshComponent DMKMeshFactory::createDefault(const STRING& path)
 	{
 		DMKStaticMeshComponent component = DMKMeshImporter::loadMeshes(path, DMKVertexLayout::createBasic())[0];
@@ -96,5 +102,10 @@ namespace Dynamik
 		component.addTextureModule(DMKTextureFactory::createCubeMap(textureFiles));
 
 		return component;
+	}
+	
+	DMKAnimatedMeshComponent DMKMeshFactory::loadAnimatedMesh(const STRING& file)
+	{
+		return DMKAnimationImporter::loadAnimation(file);
 	}
 }

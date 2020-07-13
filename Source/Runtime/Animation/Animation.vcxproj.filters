@@ -41,6 +41,7 @@
     <ClCompile Include="Objects\Animation.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\AnimNodeGraph.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Animation.lua" />

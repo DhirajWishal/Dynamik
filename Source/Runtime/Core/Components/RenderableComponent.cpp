@@ -11,6 +11,11 @@ namespace Dynamik
 		shaderModules.pushBack(sModule);
 	}
 
+	void DMKRenderableComponent::clearShaderModules()
+	{
+		shaderModules.clear();
+	}
+
 	void DMKRenderableComponent::addTextureModule(DMKTexture* pTexture)
 	{
 		pTextures.pushBack(pTexture);
