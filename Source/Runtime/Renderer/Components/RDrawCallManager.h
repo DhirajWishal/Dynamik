@@ -6,6 +6,7 @@
 #define _DYNAMIK_RENEDERER_DRAW_CALL_MANAGER_H
 
 #include "RCommandBuffer.h"
+#include "Core/Objects/Resources/VertexBuffer.h"
 
 /* Hash function for the Dynamik Vertex Layout structure */
 namespace std

@@ -24,4 +24,6 @@ namespace Dynamik
 	{
 		return Vector4F(x, y, z, w);
 	}
+
+	Quaternion Quaternion::Default = Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
 }

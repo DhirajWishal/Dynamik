@@ -368,6 +368,7 @@
     <ClInclude Include="Objects\AnimKeyFrame.h" />
     <ClInclude Include="Objects\AnimNode.h" />
     <ClInclude Include="Objects\AnimNodeGraph.h" />
+    <ClInclude Include="Objects\AnimNodePose.h" />
     <ClInclude Include="Objects\AnimNodeTransform.h" />
     <ClInclude Include="Objects\AnimTypes.h" />
     <ClInclude Include="Objects\Animation.h" />
@@ -377,6 +378,7 @@
     <ClCompile Include="Objects\AnimKeyFrame.cpp" />
     <ClCompile Include="Objects\AnimNode.cpp" />
     <ClCompile Include="Objects\AnimNodeGraph.cpp" />
+    <ClCompile Include="Objects\AnimNodePose.cpp" />
     <ClCompile Include="Objects\AnimNodeTransform.cpp" />
     <ClCompile Include="Objects\Animation.cpp" />
   </ItemGroup>

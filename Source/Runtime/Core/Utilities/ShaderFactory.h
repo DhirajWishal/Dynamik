@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_SHADER_FACTORY_H
 #define _DYNAMIK_SHADER_FACTORY_H
 
-#include "ShaderModule.h"
+#include "Core/Objects/Resources/ShaderModule.h"
 
 namespace Dynamik
 {

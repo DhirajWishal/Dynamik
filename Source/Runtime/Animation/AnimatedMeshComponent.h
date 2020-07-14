@@ -23,11 +23,15 @@ namespace Dynamik
 	 - mesh components (static)
 	 - node graph (skeletons/ bones)
 	 - animations
+
+	 The engine uses ticks-per-seconds to pre-calculate all the interpolations and stored them in this
+	 component. This way the engine does not need to do calculations, but just to submit the relevant
+	 transforms to the nodes.
 	*/
 	class DMK_API DMKAnimatedMeshComponent {
 	public:
-		DMKAnimatedMeshComponent() {}
-		~DMKAnimatedMeshComponent() {}
+		DMKAnimatedMeshComponent() = default;
+		~DMKAnimatedMeshComponent() = default;
 
 		/* Skinned Mesh Component */
 		DMKStaticMeshComponent skinnedMesh;
@@ -36,13 +40,7 @@ namespace Dynamik
 		ARRAY<DMKAnimation> animations;
 
 		/* Animation Node Map */
-		std::unordered_map<STRING, UI32> nodeMap;
-
-		/* Animation Node Information */
-		ARRAY<AAnimNodeInfo> nodeInfos;
-
-		/* Animation Node Data */
-		ARRAY<AAnimNodeData> nodeData;
+		std::unordered_map<STRING, UI64> nodeMap;
 
 		/* Animation Node Graph */
 		DMKAnimNodeGraph nodeGraph;

@@ -5,7 +5,6 @@
 #include "MeshImporter.h"
 
 #include "Core/Components/RenderableComponents/StaticMeshComponent.h"
-#include "Core/Objects/Resource/Primitives.h"
 
 #include "Wrappers/AssimpWrapper.h"
 

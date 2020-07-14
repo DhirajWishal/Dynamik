@@ -427,7 +427,7 @@ namespace Dynamik
 		 *
 		 * @param index: The element index to be removed.
 		 */
-		void remove(UI64 index = 0)
+		void remove(I64 index = 0)
 		{
 			if (!isValidIndex(index)) return;
 
@@ -499,10 +499,7 @@ namespace Dynamik
 		const TYPE& at(I64 index = 0) const
 		{
 			if (index >= (I64)_getSizeOfThis() || (index <= (I64)(0 - _getSizeOfThis())))
-			{
 				DMKErrorManager::logError("Invalid array index!");
-				return TYPE();
-			}
 
 			return myBeginPtr[_getProcessedIndex(index)];
 		}
@@ -691,15 +688,15 @@ namespace Dynamik
 		 */
 		B1 isValidIndex(I64 index)
 		{
-			if (index > 0)
+			if (index > (I64)0)
 			{
-				if (index < _getAllocationSize())
+				if (index < (I64)_getAllocationSize())
 					return true;
 			}
 			else
 			{
 				index *= (-1);
-				if (index > (_getAllocationSize() * (-1)))
+				if (index > (I64)(_getAllocationSize() * (-1)))
 					return true;
 			}
 

@@ -6,6 +6,7 @@
 #define _DYNAMIK_ANIMATION_H
 
 #include "AnimKeyFrame.h"
+#include "AnimNodePose.h"
 
 namespace Dynamik
 {

@@ -6,7 +6,7 @@
 
 #include "Importer/Asset/MeshImporter.h"
 #include "Importer/Asset/AnimationImporter.h"
-#include "Core/Objects/Resource/TextureFactory.h"
+#include "Core/Utilities/TextureFactory.h"
 
 namespace Dynamik
 {

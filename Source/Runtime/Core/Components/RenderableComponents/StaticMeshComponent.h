@@ -12,9 +12,10 @@
  This also contains all the functionalities to manipulate a mesh object.
 */
 #include "../RenderableComponent.h"
-#include "Core/Objects/Resource/ShaderFactory.h"
-#include "Core/Objects/Resource/TextureFactory.h"
-#include "Core/Objects/Resource/Material.h"
+#include "Core/Utilities/ShaderFactory.h"
+#include "Core/Utilities/TextureFactory.h"
+#include "Core/Objects/Resources/Material.h"
+#include "Core/Objects/Resources/VertexBuffer.h"
 
 namespace Dynamik
 {

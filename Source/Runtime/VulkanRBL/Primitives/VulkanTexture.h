@@ -8,7 +8,7 @@
 #include "../Common/VulkanDevice.h"
 #include "../Common/VulkanQueue.h"
 
-#include "Core/Objects/Resource/Texture.h"
+#include "Core/Objects/Resources/Texture.h"
 #include "Renderer/Components/Primitives/RTexture.h"
 
 #include "VulkanImage.h"

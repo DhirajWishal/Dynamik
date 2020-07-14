@@ -6,7 +6,7 @@
 #define _DYNAMIK_VULKAN_IMAGE_H
 
 #include "Renderer/Components/Primitives/RImage.h"
-#include "Core/Objects/Resource/Texture.h"
+#include "Core/Objects/Resources/Texture.h"
 #include "../Common/VulkanDevice.h"
 #include "../Common/VulkanQueue.h"
 #include "VulkanBuffer.h"

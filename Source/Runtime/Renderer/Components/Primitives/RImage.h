@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_RENDERER_IMAGE_H
 #define _DYNAMIK_RENDERER_IMAGE_H
 
-#include "Core/Objects/Resource/Texture.h"
+#include "Core/Objects/Resources/Texture.h"
 #include "RImageView.h"
 #include "../PrimitiveTypeDefs.h"
 #include "Core/Math/MathTypes.h"

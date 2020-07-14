@@ -4,7 +4,7 @@
 #include "dmkafx.h"
 #include "TextureFactory.h"
 
-#include "Textures/TextureCube.h"
+#include "Core/Objects/Resources/Textures/TextureCube.h"
 
 namespace Dynamik
 {

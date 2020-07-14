@@ -13,9 +13,9 @@
 
 #include "Core/Error/ErrorManager.h"
 #include "Core/Utilities/Clock.h"
+#include "Core/Utilities/ShaderFactory.h"
 #include "Core/FileSystem/FileSystem.h"
 #include "Core/Memory/AutomatedMemoryManager.h"
-#include "Core/Objects/Resource/ShaderFactory.h"
 #include "Core/Math/MathFunctions.h"
 
 #include "Managers/Window/WindowManager.h"

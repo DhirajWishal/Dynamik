@@ -4,26 +4,15 @@
 #include "dmkafx.h"
 #include "AnimNodeTransform.h"
 
-#include "Core/Math/MathFunctions.h"
-
 namespace Dynamik
 {
-	Matrix4F DMKAnimNodeTransform::interpolate(const DMKAnimNodeTransform& before, const DMKAnimNodeTransform& after, const F32& frameTime)
+	void DMKAnimNodeTransform::addPose(const DMKAnimNodePose& pose)
 	{
-		Matrix4F matrix = Matrix4F(1.0f);
-
-		/* Calculate Rotation Matrix */
-		F32 delta = (frameTime - before.rotationFrame.duration) / (after.rotationFrame.duration - before.rotationFrame.duration);
-		matrix = matrix * DMathLib::toRotationalMatrix(DMathLib::interpolate(before.rotationFrame.quat, after.rotationFrame.quat, delta));
-
-		/* Calculate Translation Matrix */
-		delta = (frameTime - before.positionFrame.duration) / (after.positionFrame.duration - before.positionFrame.duration);
-		matrix = matrix * DMathLib::translate(Matrix4F(1.0f), ((before.positionFrame.vector + delta) * (after.positionFrame.vector - before.positionFrame.vector)));
-
-		/* Calculate Scaling Matrix */
-		delta = (frameTime - before.scaleFrame.duration) / (after.scaleFrame.duration - before.scaleFrame.duration);
-		matrix = matrix * DMathLib::scale(Matrix4F(1.0f), ((before.scaleFrame.vector + delta) * (after.scaleFrame.vector - before.scaleFrame.vector)));
-
-		return matrix;
+		nodePoses.pushBack(pose);
+	}
+	
+	Matrix4F DMKAnimNodeTransform::getInterpolation(UI64 currentPose, UI64 nextPose, F32 frameTime)
+	{
+		return nodePoses[currentPose].interpolate(nodePoses[nextPose], frameTime);
 	}
 }

@@ -6,7 +6,7 @@
 
 #include "Core/Memory/MemoryFunctions.h"
 #include "Importer/Asset/MeshImporter.h"
-#include "Core/Objects/Resource/TextureFactory.h"
+#include "Core/Utilities/TextureFactory.h"
 #include "Core/Math/MathFunctions.h"
 
 namespace Dynamik

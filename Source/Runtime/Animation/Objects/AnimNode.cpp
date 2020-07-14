@@ -8,30 +8,44 @@
 
 namespace Dynamik
 {
-	void AAnimNodeData::add(const UI32& vertexID, const F32& weight)
+	void DMKAnimNode::setOffsetMatrix(const Matrix4F& mat)
+	{
+		offsetMatrix = mat;
+	}
+
+	Matrix4F DMKAnimNode::getOffsetMatrix()
+	{
+		return offsetMatrix;
+	}
+
+	void DMKAnimNode::setNodeMatrix(const Matrix4F& mat)
+	{
+		nodeMatrix = mat;
+	}
+
+	Matrix4F DMKAnimNode::getNodeMatrix()
+	{
+		return nodeMatrix;
+	}
+
+	void DMKAnimNode::setWorldTransform(const Matrix4F& mat)
+	{
+		worldTransform = mat;
+	}
+
+	Matrix4F DMKAnimNode::getWorldTransform()
+	{
+		return worldTransform;
+	}
+	
+	void DMKAnimNode::addChildNodeIndex(const UI64& index)
+	{
+		childNodeIndexes.pushBack(index);
+	}
+
+	void DMKAnimNode::addVertexData(const UI32& vertexID, const F32& weight)
 	{
 		vertexIDs.pushBack(vertexID);
 		weights.pushBack(weight);
-	}
-	
-	void DMKAnimNode::addChildNodeIndex(UI64 iIndex)
-	{
-		childNodeIndexes.pushBack(iIndex);
-	}
-	
-	Matrix4F DMKAnimNode::getAnimatedTransform() const
-	{
-		return animatedTransform;
-	}
-	
-	void DMKAnimNode::setAnimatedTransform(const Matrix4F& transform)
-	{
-		animatedTransform = transform;
-	}
-	
-	void DMKAnimNode::calculateInverseBindTransform(const Matrix4F& parentBindTransform)
-	{
-		auto bindTransform = parentBindTransform * localTransform;
-		inverseBindTransform = DMathLib::inverse(bindTransform);
 	}
 }

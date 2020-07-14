@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_TOOLS_SPIRV_DISASSEMBLER_H
 #define _DYNAMIK_TOOLS_SPIRV_DISASSEMBLER_H
 
-#include "Core/Objects/Resource/ShaderModule.h"
+#include "Core/Objects/Resources/ShaderModule.h"
 #include <vulkan/vulkan.h>
 
 namespace Dynamik

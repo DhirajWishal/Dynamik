@@ -12,7 +12,7 @@
 #include "../Context/VulkanRenderPass.h"
 #include "../Primitives/VulkanShader.h"
 
-#include "Core/Objects/Resource/Primitives.h"
+#include "Core/Objects/Resources/ConstantBlock.h"
 #include "Core/Components/RenderableComponents/StaticMeshComponent.h"
 
 namespace Dynamik

@@ -6,7 +6,7 @@
 #define _DYNAMIK_TEXTURE_FACTORY_H
 
 #include "Core/Types/Array.h"
-#include "Textures/Texture2D.h"
+#include "Core/Objects/Resources/Textures/Texture2D.h"
 
 namespace Dynamik
 {

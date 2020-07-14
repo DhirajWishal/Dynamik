@@ -15,7 +15,7 @@ namespace Dynamik
 	*/
 	class DMK_API Quaternion {
 	public:
-		Quaternion() : x(0.0f), y(0.0f), z(0.0f), w(0.0f) {}
+		Quaternion() : x(0.0f), y(0.0f), z(0.0f), w(1.0f) {}
 		Quaternion(const F32& value) : x(value), y(value), z(value), w(value) {}
 		Quaternion(const F32& x, const F32& y, const F32& z, const F32& w)
 			: x(x), y(y), z(z), w(w) {}
@@ -29,6 +29,9 @@ namespace Dynamik
 		Vector4F toVector4F() const;
 
 		struct { F32 x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f; };
+
+	public:		/* Utilities */
+		static Quaternion Default;
 	};
 }
 

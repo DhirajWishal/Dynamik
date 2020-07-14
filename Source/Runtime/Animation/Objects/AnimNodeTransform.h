@@ -5,34 +5,35 @@
 #ifndef _DYNAMIK_ANIMATION_NODE_TRANSFORM_H
 #define _DYNAMIK_ANIMATION_NODE_TRANSFORM_H
 
-#include "AnimNode.h"
-#include "AnimTypes.h"
+#include "AnimNodePose.h"
 
 namespace Dynamik
 {
 	/*
 	 Dynamik Animation Node Transform
+	 This object contains all the poses a node will have when playing the animation.
 	*/
 	class DMK_API DMKAnimNodeTransform {
 	public:
-		DMKAnimNodeTransform() {}
-		DMKAnimNodeTransform(AVectorFrame position, AQuatFrame rotation, AVectorFrame scale) :
-			positionFrame(position), rotationFrame(rotation), scaleFrame(scale) {}
-		~DMKAnimNodeTransform() {}
-
-		/* Transform Rotation Frame */
-		AQuatFrame rotationFrame;
-
-		/* Transform Position Frame. Relative to the parent bone. */
-		AVectorFrame positionFrame;
-
-		/* Transform Scale Frame */
-		AVectorFrame scaleFrame;
+		DMKAnimNodeTransform() = default;
+		~DMKAnimNodeTransform() = default;
 
 		/*
-		 Interpolate node transform.
+		 Add a pose to the transform.
 		*/
-		static Matrix4F interpolate(const DMKAnimNodeTransform& before, const DMKAnimNodeTransform& after, const F32& frameTime);
+		void addPose(const DMKAnimNodePose& pose);
+
+		/*
+		 Get the interpolation between two node poses.
+		*/
+		Matrix4F getInterpolation(UI64 currentPose, UI64 nextPose, F32 frameTime);
+
+		/*
+		 Poses for a given node.
+		*/
+		ARRAY<DMKAnimNodePose> nodePoses;
+
+		Matrix4F finalTransform = Matrix4F(1.0f);
 	};
 }
 

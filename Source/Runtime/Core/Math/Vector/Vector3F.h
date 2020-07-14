@@ -46,6 +46,9 @@ namespace Dynamik
             struct { F32 r, g, b, a; };
             struct { F32 width, height, depth, zero; };
         };
+
+    public:     /* Utility Methods */
+        static Vector3F ZeroAll;
     };
 
     Vector3F operator+(const Vector3F& lhs, const Vector3F& rhs);

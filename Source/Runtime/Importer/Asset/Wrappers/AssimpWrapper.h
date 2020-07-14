@@ -58,6 +58,12 @@ namespace Dynamik
 		 @param vertexLayout: Vertex layout of the vertex buffers used to store vertex data.
 		*/
 		ARRAY<DMKStaticMeshComponent> loadStaticModel(const STRING& file, const DMKVertexLayout& vertexLayout);
+	
+	private:
+		/*
+		 Load vertex data to the vertex buffer.
+		*/
+		void loadDataToVertex(DMKVertexBuffer* pBuffer, DMKVertexAttribute attribute);
 	};
 }
 

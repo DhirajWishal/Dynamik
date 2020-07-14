@@ -6,6 +6,7 @@
 #define _DYNAMIK_ANIMATION_KEY_FRAME_H
 
 #include "AnimNodeTransform.h"
+#include "AnimNodePose.h"
 #include <unordered_map>
 
 namespace Dynamik
@@ -40,6 +41,9 @@ namespace Dynamik
 
 		/* Current Node Transform */
 		mutable std::unordered_map<STRING, DMKAnimNodeTransform> transform;
+
+		/* Node Poses */
+		ARRAY<DMKAnimNodePose> nodePoses;
 	};
 }
 

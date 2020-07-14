@@ -73,6 +73,12 @@ namespace Dynamik
 			break;
 		case IDTRYAGAIN:
 			return UserOption::USER_OPTION_RETRY;
+#ifdef DMK_DEBUG
+			if (type == DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_ERROR)
+				__debugbreak();
+
+#endif // DMK_DEBUG
+
 			break;
 		case IDCONTINUE:
 			return UserOption::USER_OPTION_CONTINUE;

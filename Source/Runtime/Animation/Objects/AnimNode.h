@@ -10,65 +10,78 @@
 
 namespace Dynamik
 {
-	/* Animation Node Info */
-	struct DMK_API AAnimNodeInfo {
-		AAnimNodeInfo() {}
-		~AAnimNodeInfo() {}
-
-		Matrix4F offset;
-		Matrix4F finalTransform;
-	};
-
-	/* Animation Node Data */
-	struct DMK_API AAnimNodeData {
-		ARRAY<UI32> vertexIDs;
-		ARRAY<F32> weights;
-
-		void add(const UI32& vertexID, const F32& weight);
-	};
-
 	/*
 	 Dynamik Animation Node (Anim-Node)
 	 This object stores one node/ bone in an animation.
+
+	 offsetMatrix: The offset matrix of the current node.
+	 nodeMatrix: The matrix of this node in relation to the parent.
+	 worldTransform: The matrix of this node in relation to the world.
 	*/
 	class DMK_API DMKAnimNode {
 	public:
 		DMKAnimNode() {}
-		DMKAnimNode(UI32 parentIndex, STRING name, Matrix4F localTransform)
-			: parentIndex(parentIndex), name(name), localTransform(localTransform) {}
+		DMKAnimNode(UI32 parentIndex, STRING name, Matrix4F nodeMatrix)
+			: parentIndex(parentIndex), name(name), nodeMatrix(nodeMatrix) {}
 		~DMKAnimNode() {}
 
 		/*
-		 Add a child node index.
+		 Set the offset matrix of this node.
 		*/
-		void addChildNodeIndex(UI64 iIndex);
+		void setOffsetMatrix(const Matrix4F& mat);
 
 		/*
-		 Get the animated transform.
+		 Get the offset matrix of this node.
 		*/
-		Matrix4F getAnimatedTransform() const;
+		Matrix4F getOffsetMatrix();
 
 		/*
-		 Set the animated transform.
+		 Set the node matrix of this node.
 		*/
-		void setAnimatedTransform(const Matrix4F& transform);
+		void setNodeMatrix(const Matrix4F& mat);
 
 		/*
-		 Calculate the inverse bind transform.
+		 Get the node matrix of this node.
 		*/
-		void calculateInverseBindTransform(const Matrix4F& parentBindTransform);
+		Matrix4F getNodeMatrix();
 
-		/* Animated Transform */
-		Matrix4F animatedTransform = Matrix4F(1.0f);
-		Matrix4F localTransform = Matrix4F(1.0f);
-		Matrix4F inverseBindTransform = Matrix4F(1.0f);
+		/*
+		 Set the world transform of this node.
+		*/
+		void setWorldTransform(const Matrix4F& mat);
 
+		/*
+		 Get the world transform of this node.
+		*/
+		Matrix4F getWorldTransform();
+
+		/*
+		 Add child node index.
+		*/
+		void addChildNodeIndex(const UI64& index);
+
+		/*
+		 Add vertex ID and vertex weight of the node.
+		*/
+		void addVertexData(const UI32& vertexID, const F32& weight);
+
+		/* The offset matrix */
 		Matrix4F offsetMatrix = Matrix4F(1.0f);
+
+		/* The node matrix */
 		Matrix4F nodeMatrix = Matrix4F(1.0f);		/* In relation to the parent */
+
+		/* The world transform */
 		Matrix4F worldTransform = Matrix4F(1.0f);
 
 		/* Child node indexes */
 		ARRAY<UI64> childNodeIndexes;
+
+		/* Vertex IDs */
+		ARRAY<UI32> vertexIDs;
+
+		/* Weights */
+		ARRAY<F32> weights;
 
 		/* Node name */
 		STRING name = TEXT("");

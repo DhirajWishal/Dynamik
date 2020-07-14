@@ -26,6 +26,7 @@
     <ClInclude Include="Objects\Animation.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\AnimNodePose.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationController.cpp" />
@@ -42,6 +43,7 @@
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="Objects\AnimNodeGraph.cpp" />
+    <ClCompile Include="Objects\AnimNodePose.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Animation.lua" />
