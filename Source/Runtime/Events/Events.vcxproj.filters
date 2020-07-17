@@ -8,6 +8,7 @@
   <ItemGroup>
     <ClInclude Include="EventComponent.h" />
     <ClInclude Include="EventPool.h" />
+    <ClInclude Include="GameEvents.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Events.lua" />

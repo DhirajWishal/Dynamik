@@ -8,42 +8,35 @@
   <ItemGroup>
     <ClInclude Include="AnimatedMeshComponent.h" />
     <ClInclude Include="AnimationController.h" />
-    <ClInclude Include="Objects\AnimKeyFrame.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
+    <ClInclude Include="AnimationPlayer.h" />
     <ClInclude Include="Objects\AnimNode.h">
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Objects\AnimNodeGraph.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\AnimNodeTransform.h">
-      <Filter>Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\AnimTypes.h">
+    <ClInclude Include="Objects\AnimNodePose.h">
       <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Animation.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\AnimNodePose.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationController.cpp" />
-    <ClCompile Include="Objects\AnimKeyFrame.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
+    <ClCompile Include="AnimationPlayer.cpp" />
     <ClCompile Include="Objects\AnimNode.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\AnimNodeTransform.cpp">
+    <ClCompile Include="Objects\AnimNodeGraph.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\AnimNodePose.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Animation.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\AnimNodeGraph.cpp" />
-    <ClCompile Include="Objects\AnimNodePose.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Animation.lua" />

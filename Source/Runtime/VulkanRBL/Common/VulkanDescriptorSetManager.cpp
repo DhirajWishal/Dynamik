@@ -31,7 +31,7 @@ namespace Dynamik
 			layoutCrateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
 			layoutCrateInfo.flags = VK_NULL_HANDLE;
 			layoutCrateInfo.pNext = VK_NULL_HANDLE;
-			layoutCrateInfo.bindingCount = _finalBindings.size();
+			layoutCrateInfo.bindingCount = Cast<UI32>(_finalBindings.size());
 			layoutCrateInfo.pBindings = _finalBindings.data();
 
 			DMK_VULKAN_ASSERT(vkCreateDescriptorSetLayout(vDevice, &layoutCrateInfo, nullptr, &_descriptor.layout), "Failed to create descriptor set layout!");
@@ -42,7 +42,7 @@ namespace Dynamik
 			poolCreateInfo.flags = VK_NULL_HANDLE;
 			poolCreateInfo.pNext = VK_NULL_HANDLE;
 			poolCreateInfo.maxSets = 1;
-			poolCreateInfo.poolSizeCount = _finalSizes.size();
+			poolCreateInfo.poolSizeCount = Cast<UI32>(_finalSizes.size());
 			poolCreateInfo.pPoolSizes = _finalSizes.data();
 			
 			DMK_VULKAN_ASSERT(vkCreateDescriptorPool(vDevice, &poolCreateInfo, VK_NULL_HANDLE, &_descriptor.pool), "Failed to create descriptor pool!");
@@ -147,7 +147,7 @@ namespace Dynamik
 				}
 			}
 
-			vkUpdateDescriptorSets(vDevice, descriptorWrites.size(), descriptorWrites.data(), VK_NULL_HANDLE, VK_NULL_HANDLE);
+			vkUpdateDescriptorSets(vDevice, Cast<UI32>(descriptorWrites.size()), descriptorWrites.data(), VK_NULL_HANDLE, VK_NULL_HANDLE);
 		}
 	}
 }

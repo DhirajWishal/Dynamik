@@ -31,11 +31,13 @@ namespace Dynamik
 	void DMKStaticMeshComponent::setMatrix(const MAT4& matrix)
 	{
 		modelMatrix = matrix;
+		isMatrixUpdated = true;
 	}
 
 	void DMKStaticMeshComponent::update(const MAT4& matrix)
 	{
 		modelMatrix = matrix;
+		isMatrixUpdated = true;
 	}
 
 	MAT4 DMKStaticMeshComponent::getMatrix()
@@ -46,6 +48,16 @@ namespace Dynamik
 	UI64 DMKStaticMeshComponent::getUniformByteSize()
 	{
 		return sizeof(MAT4);
+	}
+
+	B1 DMKStaticMeshComponent::isUpdated() const
+	{
+		return isMatrixUpdated;
+	}
+
+	void DMKStaticMeshComponent::resetUpdateNotice()
+	{
+		isMatrixUpdated = false;
 	}
 
 	void DMKStaticMeshComponent::translate(const MAT4& mat, const VEC3& vec)

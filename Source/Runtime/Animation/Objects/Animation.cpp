@@ -1,20 +1,36 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "Animation.h"
 
 namespace Dynamik
 {
-	F32 DMKAnimation::getDuration() const
+	void DMKAnimation::bake(DMKAnimNodeGraph nodeGraph, std::unordered_map<STRING, UI64> nodeMap)
 	{
-		return duration;
+		for (auto node : nodeGraph.nodes)
+		{
+			ANodeFrames frames;
+
+			if (nodePoseMap.find(node.name) != nodePoseMap.end())
+			{
+				for (auto pose : nodePoseMap[node.name])
+					frames.transforms.pushBack(pose.getMatrix());
+			}
+			else
+				frames.transforms.resize(Cast<UI32>(std::ceilf(framesPerSecond * duration)), node.worldTransform);
+
+			nodeFrames.pushBack(frames);
+		}
 	}
 
-	DMKAnimKeyFrame DMKAnimation::getFame(I64 index) const
+	ARRAY<Matrix4F> DMKAnimation::getMatrices(F32 timeStep)
 	{
-		return frames[index];
-	}
+		ARRAY<Matrix4F> matrices;
 
-	ARRAY<DMKAnimKeyFrame> DMKAnimation::getFrames() const
-	{
-		return frames;
+		for (auto frame : nodeFrames)
+			matrices.pushBack(frame.transforms[Cast<UI32>(timeStep)]);
+
+		return matrices;
 	}
 }

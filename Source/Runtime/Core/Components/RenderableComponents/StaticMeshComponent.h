@@ -85,10 +85,23 @@ namespace Dynamik
 
 		UI64 getUniformByteSize();
 
+		/*
+		 Checks if the matrix is updated. This way the engine doesn't need to update all the matrices which
+		 may include matrices which weren't updated.
+		*/
+		B1 isUpdated() const;
+
+		/*
+		 Reset the update notice. This function is called automatically by the engine once the mesh matrix has
+		 been updates internally.
+		*/
+		void resetUpdateNotice();
+
 	public:		/* Public Data Store */
 		DMKVertexBuffer vertexBuffer;
 		ARRAY<UI32> indexBuffer;
 		UI64 indexCount = 0;
+		B1 isMatrixUpdated = false;
 
 	public:		/* Descriptors */
 		DMKDataType indexBufferType = DMKDataType::DMK_DATA_TYPE_UI32;

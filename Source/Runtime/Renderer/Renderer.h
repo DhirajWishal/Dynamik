@@ -96,6 +96,9 @@ namespace Dynamik
         void resizeFrameBuffer(DMKExtent2D windowExtent);
         void beginFrameInstruction();
         void updateInstruction();
+        void updateCamera();
+        void updateEnvironment();
+        void updateEntities();
         void endFrameInstruction();
 
     private:    /* Internal Methods */

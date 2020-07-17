@@ -5,42 +5,62 @@
 #ifndef _DYNAMIK_ANIMATION_H
 #define _DYNAMIK_ANIMATION_H
 
-#include "AnimKeyFrame.h"
 #include "AnimNodePose.h"
+#include "AnimNodeGraph.h"
 
 namespace Dynamik
 {
+	/* Animation Node Frames */
+	struct DMK_API ANodeFrames {
+		ARRAY<Matrix4F> transforms;
+	};
+
 	/*
 	 Dynamik Animation
 	 This stores all the relevant information required to store and render animations.
+
+	 Dynamik animations work by pre computing all the final transforms of all the nodes for a given 
+	 frame/ tick, and playing all of them sequentially as required by the client. The client is allowed to
+	 update the duration, ticks per second and other factors and this may result in re-baking the whole
+	 animation transforms for each frame.
+	 Baking the animations help in improving rendering performance as the engine is not required to
+	 compute all the node transforms on each frame.
+
+	 Contents:
+	   - Node Poses (All the poses a node will contain)
+	   - Final Node Transforms (All the final transforms for each node)
+	   - Duration
+	   - Ticks Per Second/ Frames Per Second
 	*/
 	class DMK_API DMKAnimation {
 	public:
 		DMKAnimation() {}
-		DMKAnimation(const F32& duration, const ARRAY<DMKAnimKeyFrame>& frames)
-			: duration(duration), frames(frames) {}
 		~DMKAnimation() {}
 
 		/*
-		 Get animation duration.
+		 Bake the animation.
 		*/
-		F32 getDuration() const;
+		void bake(DMKAnimNodeGraph nodeGraph, std::unordered_map<STRING, UI64> nodeMap);
 
 		/*
-		 Get an animation frame using its index.
+		 Get all matrices in a given time step.
 		*/
-		DMKAnimKeyFrame getFame(I64 index = 0) const;
+		ARRAY<Matrix4F> getMatrices(F32 timeStep);
 
-		/*
-		 Get the whole frame store.
-		*/
-		ARRAY<DMKAnimKeyFrame> getFrames() const;
+		/* All the node poses */
+		std::unordered_map<STRING, ARRAY<DMKAnimNodePose>> nodePoseMap;
 
-		/* Total Animation Duration */
+		/* All the node frames */
+		ARRAY<ANodeFrames> nodeFrames;
+
+		/* Total duration of the animation. */
 		F32 duration = 0.0f;
 
-		/* Animation Key Frames */
-		ARRAY<DMKAnimKeyFrame> frames;
+		/* 
+		 FPS rate which the animation gets played.
+		 Default is 30.
+		*/
+		F32 framesPerSecond = 30.0f;
 	};
 }
 

@@ -49,6 +49,9 @@ namespace Dynamik
 			struct { Vector4F r, g, b, a; };
 			struct { Vector4F x, y, z, w; };
 		};
+
+	public:		/* Utilities */
+		static Matrix4F Identity;
 	};
 
 	Matrix4F operator*(const Matrix4F& lhs, const F32& rhs);

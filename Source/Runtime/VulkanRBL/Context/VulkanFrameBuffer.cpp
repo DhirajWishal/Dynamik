@@ -15,8 +15,8 @@ namespace Dynamik
 	{
 		void VulkanFrameBuffer::initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, RSwapChain* pSwapChain)
 		{
-			width = pSwapChain->extent.width;
-			height = pSwapChain->extent.height;
+			width = Cast<UI32>(pSwapChain->extent.width);
+			height = Cast<UI32>(pSwapChain->extent.height);
 
 			VulkanColorAttachment colorAttachment;
 			B1 isColorAttachmentInitialized = false;

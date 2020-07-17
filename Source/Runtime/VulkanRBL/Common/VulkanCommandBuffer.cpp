@@ -80,7 +80,7 @@ namespace Dynamik
 				vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline, 0, 1, &pipeline.descriptor.set, 0, VK_NULL_HANDLE);
 
 			for (auto block : pipeline.constantBlocks)
-				vkCmdPushConstants(buffer, pipeline, VulkanUtilities::getShaderStage(block.location), (UI32)block.offset, block.byteSize, block.data);
+				vkCmdPushConstants(buffer, pipeline, VulkanUtilities::getShaderStage(block.location), Cast<UI32>(block.offset), Cast<UI32>(block.byteSize), block.data);
 		}
 
 		void VulkanCommandBuffer::drawIndexed(UI64 firstIndex, UI64 vertexOffset, UI64 indexCount, UI64 instanceCount)

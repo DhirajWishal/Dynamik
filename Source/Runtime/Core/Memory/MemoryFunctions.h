@@ -28,6 +28,7 @@ namespace Dynamik
 		DMKMemoryFunctions& operator=(DMKMemoryFunctions&&) = delete;
 
 		static void moveData(VPTR destination, VPTR source, UI64 byteSize);
+		static void copyData(VPTR destination, VPTR source, UI64 byteSize);
 		static void setData(VPTR destination, BYTE byteValue, UI64 byteSize);
 	};
 }

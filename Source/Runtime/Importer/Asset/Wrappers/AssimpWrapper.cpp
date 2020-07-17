@@ -245,7 +245,7 @@ namespace Dynamik
 		UI64 myIndex = (*pIndex)++;
 		(*pNodeMap).insert({ pNode->mName.data, myIndex });
 
-		DMKAnimNode node(myIndex, pNode->mName.C_Str(), aiMatrixToMatrix4F(pNode->mTransformation));
+		DMKAnimNode node((UI32)myIndex, pNode->mName.C_Str(), aiMatrixToMatrix4F(pNode->mTransformation));
 		node.setWorldTransform(DMathLib::multiply(node.getNodeMatrix(), parentWorldTransform));
 		pGraph->addNode(node);
 
@@ -254,18 +254,25 @@ namespace Dynamik
 			loadAllNodes(pNode->mChildren[i], pGraph, pIndex, pNodeMap, node.getWorldTransform());
 	}
 
-	DMK_FORCEINLINE DMKAnimKeyFrame getAnimationFrame(aiNodeAnim* pNodeAnim)
+	DMK_FORCEINLINE ARRAY<DMKAnimNodePose> loadPosees(aiNodeAnim* pNodeAnim, F32 numFramesToGenerate)
 	{
-		DMKAnimKeyFrame frame;
+		ARRAY<DMKAnimNodePose> container;
 
-		for (UI32 transformIndex = 0; transformIndex < pNodeAnim->mNumPositionKeys; transformIndex++)
+		for (UI64 index = 0; index <= Cast<UI64>(numFramesToGenerate); index++)
 		{
-			frame.timeStamp = pNodeAnim->mPositionKeys[transformIndex].mTime;
+			DMKAnimNodePose pose(index,
+				Cast<F32>(pNodeAnim->mPositionKeys[index].mTime),
+				aiVectorKeyToVector3F(pNodeAnim->mPositionKeys[index]),
+				aiVectorKeyToVector3F(pNodeAnim->mScalingKeys[index]),
+				aiQuatKeyToQuaternion(pNodeAnim->mRotationKeys[index]));
+
+			container.pushBack(pose);
 		}
 
-		return frame;
+		return container;
 	}
 
+	/* TODO */
 	DMK_FORCEINLINE void getBoneOffsetData(aiScene* pScene, aiNode* pNode, DMKAnimNodeGraph* pGraph, Matrix4F parentNodeTransform)
 	{
 		Matrix4F currentNodeTransform = DMathLib::multiply(aiMatrixToMatrix4F(pNode->mTransformation), parentNodeTransform);
@@ -289,27 +296,20 @@ namespace Dynamik
 			getBoneOffsetData(pScene, pNode->mChildren[i], pGraph, currentNodeTransform);
 	}
 
-	DMK_FORCEINLINE void loadNodeTransform(aiNode* pNode, Matrix4F parentWorldTransform, I32 parentBoneIndex, DMKAnimNodeGraph* pGraph)
-	{
-		Matrix4F currentLocalTransform = aiMatrixToMatrix4F(pNode->mTransformation);
-		Matrix4F currentNodeWorldTransform = DMathLib::multiply(aiMatrixToMatrix4F(pNode->mTransformation), parentWorldTransform);
-
-		if (parentBoneIndex >= 0)
-		{
-			pGraph->getNode(pNode->mName.data);
-		}
-	}
-
 	DMKAnimation AssimpWrapper::loadAnimation(VPTR pAiAnimation, VPTR pAiRootNode)
 	{
-		auto pAnimation = (aiAnimation*)pAiAnimation;
+		if (!pAiAnimation)
+			return DMKAnimation();
+
+		auto pAnimation = Cast<aiAnimation*>(pAiAnimation);
 
 		DMKAnimation animation;
+		animation.duration = Cast<F32>(pAnimation->mDuration);
+		F32 numFramesToGenerate = std::ceilf(animation.duration * animation.framesPerSecond);
 
+		/* Load pose containers */
 		for (UI32 index = 0; index < pAnimation->mNumChannels; index++)
-			animation.frames.pushBack(getAnimationFrame(pAnimation->mChannels[index]));
-
-		animation.duration = pAnimation->mDuration;
+			animation.nodePoseMap[pAnimation->mChannels[index]->mNodeName.C_Str()] = loadPosees(pAnimation->mChannels[index], numFramesToGenerate);
 
 		return animation;
 	}
@@ -344,22 +344,29 @@ namespace Dynamik
 			for (UI32 boneIndex = 0; boneIndex < _mesh->mNumBones; boneIndex++)
 			{
 				aiBone* pBone = _mesh->mBones[boneIndex];
+				animMeshComponent.nodeGraph.nodes[animMeshComponent.nodeMap[pBone->mName.C_Str()]].setOffsetMatrix(aiMatrixToMatrix4F(pBone->mOffsetMatrix));
 
 				for (UI32 i = 0; i < nodesPerVertex; i++)
 				{
 					animMeshComponent.nodeGraph.nodes[animMeshComponent.nodeMap[pBone->mName.data]].addVertexData(
-						vertexOffset + pBone->mWeights[i].mVertexId, pBone->mWeights[i].mWeight);
+						vertexOffset + Cast<UI64>(pBone->mWeights[i].mVertexId), pBone->mWeights[i].mWeight);
 
-					UI64 vertexID = vertexOffset + pBone->mWeights[i].mVertexId;
-					animMeshComponent.skinnedMesh.vertexBuffer.updateVertexAttribute(vertexID, nullptr, DMKVertexAttributeType());
+					//UI64 vertexID = vertexOffset + pBone->mWeights[i].mVertexId;
+					//animMeshComponent.skinnedMesh.vertexBuffer.updateVertexAttribute(vertexID, nullptr, DMKVertexAttributeType());
 				}
 			}
 
 			vertexOffset += animMeshComponent.skinnedMesh.vertexBuffer.size();
 		}
 
+		/* Load and bake animations */
 		for (UI32 index = 0; index < _scene->mNumAnimations; index++)
-			animMeshComponent.animations.pushBack(loadAnimation(_scene->mAnimations[index], _scene->mRootNode));
+		{
+			auto animation = loadAnimation(_scene->mAnimations[index], _scene->mRootNode);
+			animation.bake(animMeshComponent.nodeGraph, animMeshComponent.nodeMap);
+
+			animMeshComponent.animations.pushBack(animation);
+		}
 
 		return animMeshComponent;
 	}

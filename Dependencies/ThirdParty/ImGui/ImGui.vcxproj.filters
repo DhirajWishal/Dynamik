@@ -27,15 +27,45 @@
     <ClInclude Include="imstb_rectpack.h" />
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
+    <ClInclude Include="misc\cpp\imgui_stdlib.h">
+      <Filter>misc\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\freetype\imgui_freetype.h">
+      <Filter>misc\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="misc\single_file\imgui_single_file.h">
+      <Filter>misc\single_file</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
+    <ClCompile Include="misc\cpp\imgui_stdlib.cpp">
+      <Filter>misc\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\fonts\binary_to_compressed_c.cpp">
+      <Filter>misc\fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="misc\freetype\imgui_freetype.cpp">
+      <Filter>misc\freetype</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE.txt" />
     <None Include="imgui.lua" />
+    <None Include="misc\README.txt">
+      <Filter>misc</Filter>
+    </None>
+    <None Include="misc\cpp\README.txt">
+      <Filter>misc\cpp</Filter>
+    </None>
+    <None Include="misc\freetype\README.md">
+      <Filter>misc\freetype</Filter>
+    </None>
+    <None Include="misc\natvis\README.txt">
+      <Filter>misc\natvis</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -16,8 +16,8 @@ namespace Dynamik
 			imgCreateInfo.imageUsage = (RImageUsage)(IMAGE_USAGE_TRANSIENT_ATTACHMENT | IMAGE_USAGE_COLOR_ATTACHMENT);
 			imgCreateInfo.layers = 1;
 			imgCreateInfo.mipLevels = 1;
-			imgCreateInfo.vDimentions.width = initInfo.imageWidth;
-			imgCreateInfo.vDimentions.height = initInfo.imageHeight;
+			imgCreateInfo.vDimentions.width = Cast<F32>(initInfo.imageWidth);
+			imgCreateInfo.vDimentions.height = Cast<F32>(initInfo.imageHeight);
 			imgCreateInfo.sampleCount = initInfo.msaaSamples;
 
 			image = StaticAllocator<VulkanImage>::rawAllocate();

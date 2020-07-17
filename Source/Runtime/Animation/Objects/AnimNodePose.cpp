@@ -24,4 +24,14 @@ namespace Dynamik
 
 		return matrix;
 	}
+	
+	Matrix4F DMKAnimNodePose::getMatrix()
+	{
+		Matrix4F matrix = Matrix4F::Identity;
+		matrix = matrix * DMathLib::toRotationalMatrix(rotation);
+		matrix = matrix * DMathLib::translate(Matrix4F::Identity, position);
+		matrix = matrix * DMathLib::scale(Matrix4F::Identity, scale);
+
+		return matrix;
+	}
 }

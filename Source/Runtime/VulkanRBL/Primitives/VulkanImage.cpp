@@ -25,9 +25,9 @@ namespace Dynamik
 			VkImageCreateInfo imageInfo = {};
 			imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
 			imageInfo.imageType = VK_IMAGE_TYPE_2D;
-			imageInfo.extent.width = extent.width;
-			imageInfo.extent.height = extent.height;
-			imageInfo.extent.depth = extent.depth;
+			imageInfo.extent.width = Cast<UI32>(extent.width);
+			imageInfo.extent.height = Cast<UI32>(extent.height);
+			imageInfo.extent.depth = Cast<UI32>(extent.depth);
 			imageInfo.mipLevels = info.mipLevels;
 			imageInfo.arrayLayers = info.layers;
 			imageInfo.format = VulkanUtilities::getVulkanFormat(info.imageFormat);

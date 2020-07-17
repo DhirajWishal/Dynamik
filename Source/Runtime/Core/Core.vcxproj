@@ -187,7 +187,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Windows|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_DEBUG;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -204,7 +204,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unix|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_DEBUG;DMK_PLATFORM_LINUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -221,7 +221,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Mac|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_DEBUG;DMK_PLATFORM_MAC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -238,7 +238,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Windows|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_RELEASE;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -259,7 +259,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unix|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_RELEASE;DMK_PLATFORM_LINUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -280,7 +280,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Mac|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_RELEASE;DMK_PLATFORM_MAC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -301,7 +301,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Windows|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -322,7 +322,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Unix|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_PLATFORM_LINUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -343,7 +343,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Mac|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_PLATFORM_MAC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -398,10 +398,8 @@
     <ClInclude Include="Objects\Resources\ConstantBlock.h" />
     <ClInclude Include="Objects\Resources\Material.h" />
     <ClInclude Include="Objects\Resources\MeshInstance.h" />
-    <ClInclude Include="Utilities\ShaderFactory.h" />
     <ClInclude Include="Objects\Resources\ShaderModule.h" />
     <ClInclude Include="Objects\Resources\Texture.h" />
-    <ClInclude Include="Utilities\TextureFactory.h" />
     <ClInclude Include="Objects\Resources\Textures\Texture2D.h" />
     <ClInclude Include="Objects\Resources\Textures\TextureCube.h" />
     <ClInclude Include="Objects\Resources\Uniform.h" />
@@ -414,10 +412,14 @@
     <ClInclude Include="Types\HashMap.h" />
     <ClInclude Include="Types\ObjectArray.h" />
     <ClInclude Include="Types\Pointer.h" />
+    <ClInclude Include="Types\StaticArray.h" />
     <ClInclude Include="Types\TSArray.h" />
     <ClInclude Include="Types\TypeTraits.h" />
     <ClInclude Include="Types\Utilities.h" />
     <ClInclude Include="Utilities\Clock.h" />
+    <ClInclude Include="Utilities\ShaderFactory.h" />
+    <ClInclude Include="Utilities\TextureFactory.h" />
+    <ClInclude Include="Utilities\Ticker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\RenderableComponent.cpp" />
@@ -438,10 +440,8 @@
     <ClCompile Include="Memory\MemoryFunctions.cpp" />
     <ClCompile Include="Memory\MemoryManager.cpp" />
     <ClCompile Include="Objects\Resources\Material.cpp" />
-    <ClCompile Include="Utilities\ShaderFactory.cpp" />
     <ClCompile Include="Objects\Resources\ShaderModule.cpp" />
     <ClCompile Include="Objects\Resources\Texture.cpp" />
-    <ClCompile Include="Utilities\TextureFactory.cpp" />
     <ClCompile Include="Objects\Resources\Textures\Texture2D.cpp" />
     <ClCompile Include="Objects\Resources\Textures\TextureCube.cpp" />
     <ClCompile Include="Objects\Resources\Uniform.cpp" />
@@ -450,6 +450,9 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Utilities\Clock.cpp" />
+    <ClCompile Include="Utilities\ShaderFactory.cpp" />
+    <ClCompile Include="Utilities\TextureFactory.cpp" />
+    <ClCompile Include="Utilities\Ticker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core.lua" />

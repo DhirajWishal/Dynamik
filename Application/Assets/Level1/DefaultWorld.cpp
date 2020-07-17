@@ -1,6 +1,7 @@
 #include "DefaultWorld.h"
 
 #include "GameLibrary/Utilities/MeshFactory.h"
+#include "Services/RuntimeSystems/AssetRegistry.h"
 
 DefaultWorld::DefaultWorld()
 {
@@ -20,7 +21,7 @@ DefaultWorld::DefaultWorld()
 	entity->getComponent<DMKStaticMeshComponent>(1)->addShaderModule(DMKShaderFactory::createModule(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Shaders/PBR/Tests/frag.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 
 	/* Load an animated mesh */
-	entity->addComponent<DMKAnimatedMeshComponent>(DMKMeshFactory::loadAnimatedMesh(TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/Skeletal Animation/goblin.dae")));
+	//entity->addComponent<DMKAnimatedMeshComponent>(DMKMeshFactory::loadAnimatedMesh(TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/Skeletal Animation/goblin.dae")));
 
 	/* Initialize Sky Box */
 	ARRAY<STRING> texturePaths;

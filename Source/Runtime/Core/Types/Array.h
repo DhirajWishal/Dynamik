@@ -206,7 +206,7 @@ namespace Dynamik
 		 *
 		 * @param vector: Other Array.
 		 */
-		ARRAY(ARRAY<TYPE>&& arr)
+		ARRAY(ARRAY<TYPE>&& arr) noexcept
 		{
 			_move(std::move(arr));
 		}
@@ -562,7 +562,7 @@ namespace Dynamik
 		 */
 		void resize(UI64 size, const TYPE& value)
 		{
-			if (_isValidSize(size) && size) return;
+			if (!_isValidSize(size) || !size) return;
 
 			if (myBeginPtr.getPointerAsInteger() != myEndPtr.getPointerAsInteger())
 				Allocator::deallocate(myBeginPtr.get(), _getAllocationSize());

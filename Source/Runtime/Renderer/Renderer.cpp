@@ -80,6 +80,15 @@ namespace Dynamik
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE:
 			updateInstruction();
 			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE_CAMERA:
+			updateCamera();
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE_ENVIRONMENT:
+			updateEnvironment();
+			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE_ENTITIES:
+			updateEntities();
+			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_SUBMIT:
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_TERMINATE_FRAME:
@@ -450,7 +459,7 @@ namespace Dynamik
 				for (auto material : mesh->materials)		/* TODO */
 					meshComponent->pPipeline->addConstantBlock(
 						StaticAllocator<DMKMaterial::MaterialPushBlock>::allocateInit(material.generatePushBlock()),
-						sizeof(DMKMaterial::MaterialPushBlock), 
+						sizeof(DMKMaterial::MaterialPushBlock),
 						DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, 0);
 			}
 		}
@@ -583,17 +592,36 @@ namespace Dynamik
 
 	void DMKRenderer::updateInstruction()
 	{
-		/* Update the camera component */
+		updateCamera();
+		updateEnvironment();
+		updateEntities();
+	}
+
+	void DMKRenderer::updateCamera()
+	{
 		if (myCameraComponent)
 			myCameraComponent->pUniformBuffer->setData(myCoreObject, sizeof(DMKCameraMatrix), 0, &myCameraComponent->pCameraModule->matrix);
+	}
 
-		//for (UI64 entityIndex = 0; entityIndex < myEntities.size(); entityIndex++)
-		//{
-		//	for (UI64 meshIndex = 0; meshIndex < myEntities[entityIndex].pMeshObjects.size(); meshIndex++)
-		//	{
-		//		myEntities[entityIndex].pMeshObjects[meshIndex]->pUniformBuffer->setData(myCoreObject, sizeof(MAT4), 0, &myEntities[entityIndex].pMeshObjects[meshIndex]->pMeshComponent->modelMatrix);
-		//	}
-		//}
+	void DMKRenderer::updateEnvironment()
+	{
+		if (myCurrentEnvironment.pUniformBuffer)
+			myCurrentEnvironment.pUniformBuffer->setData(myCoreObject, sizeof(myCurrentEnvironment.pMeshComponent->getMatrix()), 0, &myCurrentEnvironment.pMeshComponent->modelMatrix);
+	}
+
+	void DMKRenderer::updateEntities()
+	{
+		for (UI64 entityIndex = 0; entityIndex < myEntities.size(); entityIndex++)
+		{
+			for (UI64 meshIndex = 0; meshIndex < myEntities[entityIndex].pMeshObjects.size(); meshIndex++)
+			{
+				if (myEntities[entityIndex].pMeshObjects[meshIndex]->pMeshComponent->isUpdated())
+				{
+					myEntities[entityIndex].pMeshObjects[meshIndex]->pUniformBuffer->setData(myCoreObject, sizeof(MAT4), 0, &myEntities[entityIndex].pMeshObjects[meshIndex]->pMeshComponent->modelMatrix);
+					myEntities[entityIndex].pMeshObjects[meshIndex]->pMeshComponent->resetUpdateNotice();
+				}
+			}
+		}
 	}
 
 	void DMKRenderer::endFrameInstruction()

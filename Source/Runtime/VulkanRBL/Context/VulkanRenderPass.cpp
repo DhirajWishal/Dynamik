@@ -126,7 +126,7 @@ namespace Dynamik
 			createInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
 			createInfo.pNext = VK_NULL_HANDLE;
 			createInfo.flags = VK_NULL_HANDLE;
-			createInfo.attachmentCount = _attachmenDescriptions.size();
+			createInfo.attachmentCount = Cast<UI32>(_attachmenDescriptions.size());
 			createInfo.pAttachments = _attachmenDescriptions.data();
 			createInfo.subpassCount = 1;
 			createInfo.pSubpasses = &subpass;

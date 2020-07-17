@@ -166,8 +166,8 @@ namespace Dynamik
 				images.pushBack(_vImage);
 			}
 
-			extent.width = scExtent.width;
-			extent.height = scExtent.height;
+			extent.width = Cast<F32>(scExtent.width);
+			extent.height = Cast<F32>(scExtent.height);
 
 			for (UI32 itr = 0; itr < images.size(); itr++)
 			{

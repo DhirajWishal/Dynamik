@@ -37,14 +37,11 @@
     <Filter Include="Objects">
       <UniqueIdentifier>{CF2649B1-3B06-C84C-441E-5323B07C2EAE}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects\Descriptors">
-      <UniqueIdentifier>{906B6927-FCCC-4635-853A-8DE7F19A7DF4}</UniqueIdentifier>
+    <Filter Include="Objects\Resources">
+      <UniqueIdentifier>{F95A081D-6571-06B3-AEE8-91D41A3ED73A}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects\Resource">
-      <UniqueIdentifier>{C621848C-B21A-A3DE-DB4C-8863C7A482EA}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Resource\Textures">
-      <UniqueIdentifier>{595272C5-C514-A64F-0EC5-34DC7AC67E2D}</UniqueIdentifier>
+    <Filter Include="Objects\Resources\Textures">
+      <UniqueIdentifier>{EC94E152-D8A4-8D23-415E-F2412D8D7CBC}</UniqueIdentifier>
     </Filter>
     <Filter Include="PCH">
       <UniqueIdentifier>{2010880B-8C19-887C-1595-9E7C819D937C}</UniqueIdentifier>
@@ -153,6 +150,33 @@
     <ClInclude Include="Memory\StaticAllocator.h">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\Resources\ConstantBlock.h">
+      <Filter>Objects\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resources\Material.h">
+      <Filter>Objects\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resources\MeshInstance.h">
+      <Filter>Objects\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resources\ShaderModule.h">
+      <Filter>Objects\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resources\Texture.h">
+      <Filter>Objects\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resources\Textures\Texture2D.h">
+      <Filter>Objects\Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resources\Textures\TextureCube.h">
+      <Filter>Objects\Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resources\Uniform.h">
+      <Filter>Objects\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resources\VertexBuffer.h">
+      <Filter>Objects\Resources</Filter>
+    </ClInclude>
     <ClInclude Include="Objects\System.h">
       <Filter>Objects</Filter>
     </ClInclude>
@@ -177,6 +201,9 @@
     <ClInclude Include="Types\Pointer.h">
       <Filter>Types</Filter>
     </ClInclude>
+    <ClInclude Include="Types\StaticArray.h">
+      <Filter>Types</Filter>
+    </ClInclude>
     <ClInclude Include="Types\TSArray.h">
       <Filter>Types</Filter>
     </ClInclude>
@@ -189,30 +216,14 @@
     <ClInclude Include="Utilities\Clock.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Resources\Textures\Texture2D.h">
-      <Filter>Objects\Resource\Textures</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Resources\Textures\TextureCube.h">
-      <Filter>Objects\Resource\Textures</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Resources\ConstantBlock.h" />
-    <ClInclude Include="Objects\Resources\Material.h" />
-    <ClInclude Include="Objects\Resources\MeshInstance.h">
-      <Filter>Objects\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Resources\ShaderModule.h">
-      <Filter>Objects\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Resources\Texture.h">
-      <Filter>Objects\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\Resources\Uniform.h" />
-    <ClInclude Include="Objects\Resources\VertexBuffer.h" />
     <ClInclude Include="Utilities\ShaderFactory.h">
-      <Filter>Objects\Resource</Filter>
+      <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Utilities\TextureFactory.h">
-      <Filter>Objects\Resource</Filter>
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Ticker.h">
+      <Filter>Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -267,32 +278,41 @@
     <ClCompile Include="Memory\MemoryManager.cpp">
       <Filter>Memory</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Resources\Material.cpp">
+      <Filter>Objects\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Resources\ShaderModule.cpp">
+      <Filter>Objects\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Resources\Texture.cpp">
+      <Filter>Objects\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Resources\Textures\Texture2D.cpp">
+      <Filter>Objects\Resources\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Resources\Textures\TextureCube.cpp">
+      <Filter>Objects\Resources\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Resources\Uniform.cpp">
+      <Filter>Objects\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Resources\VertexBuffer.cpp">
+      <Filter>Objects\Resources</Filter>
+    </ClCompile>
     <ClCompile Include="PCH\dmkafx.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
     <ClCompile Include="Utilities\Clock.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Resources\Textures\Texture2D.cpp">
-      <Filter>Objects\Resource\Textures</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Resources\Textures\TextureCube.cpp">
-      <Filter>Objects\Resource\Textures</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Resources\Material.cpp" />
-    <ClCompile Include="Objects\Resources\ShaderModule.cpp">
-      <Filter>Objects\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Resources\Texture.cpp">
-      <Filter>Objects\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Resources\Uniform.cpp" />
-    <ClCompile Include="Objects\Resources\VertexBuffer.cpp" />
     <ClCompile Include="Utilities\ShaderFactory.cpp">
-      <Filter>Objects\Resource</Filter>
+      <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Utilities\TextureFactory.cpp">
-      <Filter>Objects\Resource</Filter>
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Ticker.cpp">
+      <Filter>Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

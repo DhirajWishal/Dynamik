@@ -7,7 +7,7 @@
 namespace Dynamik
 {
 	/* Local Mutex */
-	std::mutex _myMutex;
+	std::mutex __myMutex;
 
 	DMKEventType getGLFWEventType(I32 action)
 	{
@@ -266,8 +266,8 @@ namespace Dynamik
 
 	void WindowsWindow::InternalEventHandler::_cursorPositionCallback(GLFWwindow* window, D64 xOffset, D64 yOffset)
 	{
-		((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->MouseX.value = xOffset;
-		((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->MouseY.value = yOffset;
+		((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->MouseX.value = Cast<F32>(xOffset);
+		((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->MouseY.value = Cast<F32>(yOffset);
 	}
 
 	void WindowsWindow::InternalEventHandler::_mouseButtonCallback(GLFWwindow* window, I32 button, I32 action, I32 mods)
@@ -278,9 +278,9 @@ namespace Dynamik
 	void WindowsWindow::InternalEventHandler::_mouseScrollCallback(GLFWwindow* window, D64 xOffset, D64 yOffset)
 	{
 		if (yOffset > 0.0f)
-			((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->MouseScrollUp.activate(yOffset, DMKEventType::DMK_EVENT_TYPE_FREE);
+			((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->MouseScrollUp.activate(Cast<F32>(yOffset), DMKEventType::DMK_EVENT_TYPE_FREE);
 		else
-			((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->MouseScrollDown.activate(yOffset, DMKEventType::DMK_EVENT_TYPE_FREE);
+			((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->MouseScrollDown.activate(Cast<F32>(yOffset), DMKEventType::DMK_EVENT_TYPE_FREE);
 	}
 
 	void WindowsWindow::InternalEventHandler::_mouseCursorEnterCallback(GLFWwindow* window, I32 entered)

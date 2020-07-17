@@ -66,4 +66,6 @@ namespace Dynamik
 	{
 		return Matrix4F(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs, lhs.w * rhs);
 	}
+
+	Matrix4F Matrix4F::Identity = Matrix4F(1.0f);
 }

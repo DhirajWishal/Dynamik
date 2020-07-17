@@ -27,6 +27,11 @@ namespace Dynamik
 		*/
 		Matrix4F interpolate(DMKAnimNodePose oldPose, F32 frameTime);
 
+		/*
+		 Get the matrix using the rotation, position and scale.
+		*/
+		Matrix4F getMatrix();
+
 		/* Rotation value */
 		Quaternion rotation = Quaternion::Default;
 

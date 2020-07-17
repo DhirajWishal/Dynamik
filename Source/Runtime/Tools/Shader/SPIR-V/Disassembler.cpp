@@ -214,7 +214,7 @@ namespace Dynamik
 				{
 					auto Ty = _glslCompiler.get_type(ID);
 					UI32 byteSize = (Ty.width / sizeof(F32)) * Ty.vecsize * Ty.columns;
-					resourceAttribute.dataCount = ((Ty.array.size()) ? Ty.array.size() : 1);
+					resourceAttribute.dataCount = ((Ty.array.size()) ? Cast<UI32>(Ty.array.size()) : 1);
 					offsetCount += byteSize;
 
 					/* Check if the member is a matrix */

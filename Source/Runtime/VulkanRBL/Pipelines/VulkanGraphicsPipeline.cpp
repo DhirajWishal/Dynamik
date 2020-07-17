@@ -73,7 +73,7 @@ namespace Dynamik
 			pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 			pipelineLayoutCreateInfo.flags = VK_NULL_HANDLE;
 			pipelineLayoutCreateInfo.pNext = VK_NULL_HANDLE;
-			pipelineLayoutCreateInfo.pushConstantRangeCount = pushConstants.size();	
+			pipelineLayoutCreateInfo.pushConstantRangeCount = Cast<UI32>(pushConstants.size());	
 			pipelineLayoutCreateInfo.pPushConstantRanges = pushConstants.data();
 			pipelineLayoutCreateInfo.setLayoutCount = 0;
 			pipelineLayoutCreateInfo.pSetLayouts = nullptr;
