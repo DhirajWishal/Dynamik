@@ -36,6 +36,12 @@ void Level1::onUpdate(const DMKEventPool* pEventPool)
 	if (DMKEventPool::MouseButtonLeft.isReleased())
 		refresh = true;
 
+	if (DMKEventPool::KeyUp.isPressed() || DMKEventPool::KeyUp.isOnRepeat())
+		playerObject->addUpVector(movementBias);
+
+	if (DMKEventPool::KeyDown.isPressed() || DMKEventPool::KeyDown.isOnRepeat())
+		playerObject->addDownVector(movementBias);
+
 	playerObject->updateCamera();
 }
 

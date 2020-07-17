@@ -17,6 +17,7 @@
 #include "Components/RCameraComponent.h"
 #include "Components/REnvironmentMap.h"
 #include "Components/RDrawCallManager.h"
+#include "Components/Attachments/RBoundingBox.h"
 
 namespace Dynamik
 {
@@ -79,7 +80,6 @@ namespace Dynamik
         void copyBuffer(RBuffer* pSrcBuffer, RBuffer* pDstBuffer, UI64 size);
 
         RTexture* createTexture(const DMKTexture* pTexture);
-        RPipelineObject* allocatePipeline();
 
         void initializeCamera(DMKCameraModule* pCameraModule);
         void initializeEnvironmentMap(DMKEnvironmentMap* pEnvironmentMap);
@@ -107,8 +107,7 @@ namespace Dynamik
         void terminateEntities();
 
     private:    /* Utility Methods */
-        ARRAY<RColorBlendState> createBasicBlendStates();
-        ARRAY<RSubPasses> getSubPasses(DMKRenderContextType contextType);
+        RBoundingBox createBoundingBox(DMKBoundingBoxAttachment* pBoundingBox);
 
     private:    /* Internal */
         DMKRendererCompatibility myCompatibility;
@@ -134,6 +133,7 @@ namespace Dynamik
         REnvironmentMap myCurrentEnvironment;
 
         ARRAY<REntity> myEntities;
+        ARRAY<RBoundingBox> myBoundingBoxes;
 
         UI32 currentImageIndex = 0;
 

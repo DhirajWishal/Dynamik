@@ -60,6 +60,12 @@ namespace Dynamik
 		isMatrixUpdated = false;
 	}
 
+	void DMKStaticMeshComponent::addAttachment(DMKComponentAttachment* pAttachment)
+	{
+		pAttachment->initialize();
+		pAttachments.pushBack(pAttachment);
+	}
+
 	void DMKStaticMeshComponent::translate(const MAT4& mat, const VEC3& vec)
 	{
 		modelMatrix = DMKMathFunctions::translate(mat, vec);

@@ -97,6 +97,13 @@ namespace Dynamik
 		*/
 		void resetUpdateNotice();
 
+		/*
+		 Add an attachment to the static mesh.
+
+		 @param pAttachment: Pointer to the attachment.
+		*/
+		virtual void addAttachment(DMKComponentAttachment* pAttachment) override final;
+
 	public:		/* Public Data Store */
 		DMKVertexBuffer vertexBuffer;
 		ARRAY<UI32> indexBuffer;

@@ -10,6 +10,8 @@
 #include "Core/Objects/Resources/Texture.h"
 #include "GameLibrary/Camera/CameraModule.h"
 
+#include "Attachments/BoundingBox.h"
+
 namespace Dynamik
 {
 	/*
@@ -51,6 +53,8 @@ namespace Dynamik
 		virtual void translate(const MAT4& mat, const VEC3& vec) {}
 		virtual void rotate(const VEC3& direction, const F32& radians) {}
 
+		virtual void addAttachment(DMKComponentAttachment* pAttachment);
+
 		/*
 		 Add a renderable component which this component uses.
 		*/
@@ -63,6 +67,7 @@ namespace Dynamik
 		ARRAY<DMKShaderModule> shaderModules;
 		ARRAY<DMKTexture*> pTextures;
 		ARRAY<DMKRenderableComponent*> renderComponents;
+		ARRAY<DMKComponentAttachment*> pAttachments;
 		DMKUniformDescription uniformDescription;
 		DMKBaseRenderingPipeline basePipeline = DMKBaseRenderingPipeline::DMK_BASE_RENDERING_PIPELINE_CUSTOM;
 	};

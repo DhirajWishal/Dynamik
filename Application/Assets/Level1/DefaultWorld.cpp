@@ -12,6 +12,7 @@ DefaultWorld::DefaultWorld()
 	entity->addComponent<DMKStaticMeshComponent>(DMKMeshFactory::createDefault(TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Moon 2K.fbx")));
 	entity->getComponent<DMKStaticMeshComponent>(0)->addTexture(TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Diffuse_2K.png"), DMKTextureType::TEXTURE_TYPE_2D);
 	entity->getComponent<DMKStaticMeshComponent>(0)->translate(MAT4(1.0f), { 0.0f, 0.0f, -5.0f });
+	entity->getComponent<DMKStaticMeshComponent>(0)->addAttachment(StaticAllocator<DMKBoundingBoxAttachment>::allocate());
 
 	/* Load another basic mesh */
 	entity->addComponent<DMKStaticMeshComponent>(DMKMeshFactory::loadFromFile(TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/Moon 2K.fbx")));

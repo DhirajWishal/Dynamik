@@ -26,6 +26,11 @@ namespace Dynamik
 		basePipeline = pipeline;
 	}
 
+	void DMKRenderableComponent::addAttachment(DMKComponentAttachment* pAttachment)
+	{
+		pAttachments.pushBack(pAttachment);
+	}
+
 	void DMKRenderableComponent::addRenderableComponent(DMKRenderableComponent* component)
 	{
 		renderComponents.pushBack(component);

@@ -4,7 +4,10 @@
 #include "dmkafx.h"
 #include "Renderer.h"
 
+#include "RUtilities.h"
+
 #include "Core/Math/MathFunctions.h"
+#include "Services/RuntimeSystems/AssetRegistry.h"
 
 /* Vulkan headers */
 #include "VulkanRBL/VulkanCoreObject.h"
@@ -251,7 +254,7 @@ namespace Dynamik
 		createSwapChain(viewport, RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_FIFO);
 
 		/* Initialize Render pass */
-		createRenderPass(getSubPasses(myCurrentContextType));
+		createRenderPass(RUtilities::createSubPasses(myCurrentContextType));
 
 		/* Initialize Frame buffer */
 		createFrameBuffer();
@@ -328,23 +331,6 @@ namespace Dynamik
 		return nullptr;
 	}
 
-	RPipelineObject* DMKRenderer::allocatePipeline()
-	{
-		switch (myAPI)
-		{
-		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
-			return Inherit<RPipelineObject>(StaticAllocator<VulkanGraphicsPipeline>::rawAllocate().get());
-		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
-			break;
-		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
-			break;
-		default:
-			break;
-		}
-
-		return nullptr;
-	}
-
 	void DMKRenderer::initializeCamera(DMKCameraModule* pCameraModule)
 	{
 		if (!pCameraModule)
@@ -378,12 +364,12 @@ namespace Dynamik
 		myCurrentEnvironment.pUniformBuffer->setData(myCoreObject, sizeof(MAT4), 0, &pEnvironmentMap->skyBox.modelMatrix);
 
 		/* Initialize Pipeline */
-		myCurrentEnvironment.pPipeline = allocatePipeline();
+		myCurrentEnvironment.pPipeline = RUtilities::allocatePipeline(myAPI);
 
 		RPipelineSpecification pipelineCreateInfo = {};
 		pipelineCreateInfo.shaders = pEnvironmentMap->skyBox.shaderModules;
 		pipelineCreateInfo.scissorInfos.resize(1);
-		pipelineCreateInfo.colorBlendInfo.blendStates = createBasicBlendStates();
+		pipelineCreateInfo.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
 		pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
 		pipelineCreateInfo.rasterizerInfo.frontFace = RFrontFace::FRONT_FACE_CLOCKWISE;
 		myCurrentEnvironment.pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, myRenderTarget, mySwapChain);
@@ -428,12 +414,12 @@ namespace Dynamik
 			}
 
 			/* Initialize Pipeline */
-			meshComponent->pPipeline = allocatePipeline();
+			meshComponent->pPipeline = RUtilities::allocatePipeline(myAPI);
 
 			RPipelineSpecification pipelineCreateInfo = {};
 			pipelineCreateInfo.shaders = mesh->shaderModules;
 			pipelineCreateInfo.scissorInfos.resize(1);
-			pipelineCreateInfo.colorBlendInfo.blendStates = createBasicBlendStates();
+			pipelineCreateInfo.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
 			pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
 			meshComponent->pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, myRenderTarget, mySwapChain);
 
@@ -461,6 +447,13 @@ namespace Dynamik
 						StaticAllocator<DMKMaterial::MaterialPushBlock>::allocateInit(material.generatePushBlock()),
 						sizeof(DMKMaterial::MaterialPushBlock),
 						DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, 0);
+
+				/* Initialize Attachments */
+				for (auto attachment : mesh->pAttachments)
+				{
+					if (attachment->attachmentType == DMKComponentAttachmentType::DMK_COMPONENT_ATTACHMENT_TYPE_BOUNDING_BOX)
+						myBoundingBoxes.pushBack(createBoundingBox(Inherit<DMKBoundingBoxAttachment>(attachment)));
+				}
 			}
 		}
 
@@ -561,7 +554,7 @@ namespace Dynamik
 			mySwapChain->initialize(myCoreObject, newViewPort, RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_FIFO);;
 
 			/* Initialize Render Pass */
-			myRenderTarget->pRenderPass->initialize(myCoreObject, getSubPasses(myCurrentContextType), mySwapChain);
+			myRenderTarget->pRenderPass->initialize(myCoreObject, RUtilities::createSubPasses(myCurrentContextType), mySwapChain);
 
 			/* Initialize Frame Buffer */
 			myRenderTarget->pFrameBuffer->initialize(myCoreObject, myRenderTarget->pRenderPass, mySwapChain);
@@ -719,51 +712,26 @@ namespace Dynamik
 		}
 
 		myEntities.clear();
+
+		/* Terminate Bounding Boxes */
+		for (auto boundingBox : myBoundingBoxes)
+			boundingBox.terminate(myCoreObject);
+
+		myBoundingBoxes.clear();
 	}
 
-	ARRAY<RColorBlendState> DMKRenderer::createBasicBlendStates()
+	RBoundingBox DMKRenderer::createBoundingBox(DMKBoundingBoxAttachment* pBoundingBox)
 	{
-		ARRAY<RColorBlendState> blendStates;
-		RColorBlendState state;
-		for (UI32 index = 0; index < 1; index++)
-		{
-			state.colorWriteMask = (RColorComponent)0;
-			state.enable = false;
+		RBoundingBox boundingBox(myAPI);
+		boundingBox.pBoundingBox = pBoundingBox;
 
-			blendStates.pushBack(state);
-		}
+		if (myCameraComponent->pUniformBuffer)
+			boundingBox.initialize(myCoreObject, myRenderTarget, mySwapChain, myCameraComponent->pUniformBuffer);
+		else
+			boundingBox.initialize(myCoreObject, myRenderTarget, mySwapChain, nullptr);
 
-		return blendStates;
-	}
+		myDrawCallManager.addDrawEntry(pBoundingBox->vertexBuffer, &pBoundingBox->indexBuffer, boundingBox.pPipeline);
 
-	ARRAY<RSubPasses> DMKRenderer::getSubPasses(DMKRenderContextType contextType)
-	{
-		ARRAY<RSubPasses> subpasses;
-		switch (contextType)
-		{
-		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT:
-			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
-			break;
-		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT_VR:
-			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
-			break;
-		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_2D:
-			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_SWAPCHAIN };
-			break;
-		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_3D:
-			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
-			break;
-		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEBUG:
-			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
-			break;
-		case Dynamik::DMKRenderContextType::DMK_RENDER_CONTEXT_DEBUG_VR:
-			subpasses = { RSubPasses::SUBPASSES_COLOR, RSubPasses::SUBPASSES_DEPTH, RSubPasses::SUBPASSES_SWAPCHAIN };
-			break;
-		default:
-			DMK_ERROR_BOX("Invalid context type!");
-			break;
-		}
-
-		return subpasses;
+		return boundingBox;
 	}
 }

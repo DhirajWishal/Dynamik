@@ -95,6 +95,8 @@
     </ClInclude>
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RendererCommand.h" />
+    <ClInclude Include="Components\Attachments\RBoundingBox.h" />
+    <ClInclude Include="RUtilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\Factories\BufferFactory.cpp">
@@ -110,6 +112,8 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Components\Attachments\RBoundingBox.cpp" />
+    <ClCompile Include="RUtilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Renderer.lua" />

@@ -5,21 +5,27 @@
 #ifndef _DYNAMIK_COMPONENT_ATTACHMENT_H
 #define _DYNAMIK_COMPONENT_ATTACHMENT_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		11/06/2020
-*/
-#include "Core/Macros/Global.h"
+#include "Core/Math/Matrix/Matrix4F.h"
 
 namespace Dynamik
 {
+	enum class DMK_API DMKComponentAttachmentType {
+		DMK_COMPONENT_ATTACHMENT_TYPE_BOUNDING_BOX,
+	};
+
 	/*
 	 Dynamik Component Attachment
 	*/
 	class DMK_API DMKComponentAttachment {
 	public:
 		DMKComponentAttachment() {}
+		DMKComponentAttachment(DMKComponentAttachmentType type) : attachmentType(type) {}
 		virtual ~DMKComponentAttachment() {}
+
+		virtual void initialize() {}
+		virtual void initialize(Matrix4F parentTransform) {}
+
+		DMKComponentAttachmentType attachmentType = DMKComponentAttachmentType::DMK_COMPONENT_ATTACHMENT_TYPE_BOUNDING_BOX;
 	};
 }
 

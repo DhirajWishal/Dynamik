@@ -77,6 +77,14 @@ namespace Dynamik
 		*/
 		static DMKVertexLayout createAnimated();
 
+		/*
+		 Create a bounding box vertex layout.
+		 This contains,
+		 - Position				[Vector3F * 1]
+		 - Color				[Vector3F * 1]
+		*/
+		static DMKVertexLayout createBoundingBox();
+
 	public:		/* Operators */
 		B1 operator==(const DMKVertexLayout& other) const;
 	};

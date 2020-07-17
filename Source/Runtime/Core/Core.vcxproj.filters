@@ -225,6 +225,7 @@
     <ClInclude Include="Utilities\Ticker.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Components\Attachments\BoundingBox.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\RenderableComponent.cpp">
@@ -314,6 +315,7 @@
     <ClCompile Include="Utilities\Ticker.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Components\Attachments\BoundingBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core.lua" />
