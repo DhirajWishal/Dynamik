@@ -104,6 +104,13 @@ namespace Dynamik
 		*/
 		virtual void addAttachment(DMKComponentAttachment* pAttachment) override final;
 
+		/*
+		 Set location of the mesh.
+
+		 @param position: Location to be set.
+		*/
+		virtual void setLocation(Vector3F position) override final;
+
 	public:		/* Public Data Store */
 		DMKVertexBuffer vertexBuffer;
 		ARRAY<UI32> indexBuffer;

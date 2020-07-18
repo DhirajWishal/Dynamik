@@ -92,6 +92,9 @@ namespace Dynamik
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE_ENTITIES:
 			updateEntities();
 			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE_BOUNDING_BOXES:
+			updateBoundingBoxes();
+			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_SUBMIT:
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_TERMINATE_FRAME:
@@ -588,6 +591,7 @@ namespace Dynamik
 		updateCamera();
 		updateEnvironment();
 		updateEntities();
+		updateBoundingBoxes();
 	}
 
 	void DMKRenderer::updateCamera()
@@ -615,6 +619,12 @@ namespace Dynamik
 				}
 			}
 		}
+	}
+
+	void DMKRenderer::updateBoundingBoxes()
+	{
+		for (auto boundingBox : myBoundingBoxes)
+			boundingBox.pUniformBuffer->setData(myCoreObject, boundingBox.pBoundingBox->getUniform().byteSize(), 0, boundingBox.pBoundingBox->getUniform().data());
 	}
 
 	void DMKRenderer::endFrameInstruction()

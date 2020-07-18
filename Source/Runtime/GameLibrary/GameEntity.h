@@ -63,6 +63,17 @@ namespace Dynamik
 			return componentManager.getObject<COMPONENT>(index);
 		}
 
+		/*
+		 Get the component array.
+
+		 @tparam COMPONENT: The required component.
+		*/
+		template<class COMPONENT>
+		DMK_FORCEINLINE ObjectArrayType<COMPONENT>* getComponentArray()
+		{
+			return componentManager.getObjectArray<COMPONENT>();
+		}
+
 		/* Component Manager */
 		ObjectArray componentManager;
 

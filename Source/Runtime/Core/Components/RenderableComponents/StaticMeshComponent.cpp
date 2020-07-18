@@ -66,6 +66,12 @@ namespace Dynamik
 		pAttachments.pushBack(pAttachment);
 	}
 
+	void DMKStaticMeshComponent::setLocation(Vector3F position)
+	{
+		this->position = position;
+		translate(Matrix4F::Identity, position);
+	}
+
 	void DMKStaticMeshComponent::translate(const MAT4& mat, const VEC3& vec)
 	{
 		modelMatrix = DMKMathFunctions::translate(mat, vec);

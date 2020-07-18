@@ -135,6 +135,21 @@ namespace Dynamik
 				}
 			}
 
+			/* Update entities */
+			for (auto entity : pCurrentLevel->pCurrentGameWorld->entities)
+			{
+				/* Update attachments */
+				{
+					/* Mesh components */
+					for (UI64 index = 0; index < entity->getComponentArray<DMKStaticMeshComponent>()->size(); index++)
+					{
+						/* Update attachments */
+						for (auto attachment : entity->getComponent<DMKStaticMeshComponent>(index)->pAttachments)
+							attachment->update();
+					}
+				}
+			}
+
 			myPlayerController.executeAll();
 			pCurrentLevel->onUpdate(&myEventPool);
 

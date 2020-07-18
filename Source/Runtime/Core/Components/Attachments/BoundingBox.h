@@ -38,8 +38,8 @@ namespace Dynamik
 	public:
 		DMKBoundingBoxAttachment() :
 			type(DMKBoundingBoxType::DMK_BOUNDING_BOX_TYPE_ORIENTATION_ALIGNED), shouldDisplay(true),
-			rotation(Quaternion::Default), idleColor(1.0f), selectColor(1.0f), minimumBounds(-1.0f),
-			maximumBounds(1.0f), scale(1.0f), myMatrix(1.0f),
+			rotation(Quaternion::Default), idleColor(1.0f), selectColor(1.0f), position(0.0f),
+			minimumBounds(-1.0f), maximumBounds(1.0f), scale(2.0f),
 			DMKComponentAttachment(DMKComponentAttachmentType::DMK_COMPONENT_ATTACHMENT_TYPE_BOUNDING_BOX) {}
 		~DMKBoundingBoxAttachment() {}
 
@@ -103,6 +103,18 @@ namespace Dynamik
 		DMKColorComponent getSelectColor() const;
 
 		/*
+		 Set the position of the BB.
+
+		 @param position: The position of the BB.
+		*/
+		void setPosition(Vector3F position);
+
+		/*
+		 Get the position of the BB.
+		*/
+		Vector3F getPosition() const;
+
+		/*
 		 Set the minimum bounds of the current BB.
 
 		 @param minimumBounds: The required minimum bounds.
@@ -138,20 +150,10 @@ namespace Dynamik
 		*/
 		Vector3F getScale() const;
 
-	public:
-		Matrix4F myMatrix = Matrix4F::Identity;
-
 		/*
-		 Set the BB matrix.
-
-		 @param mat: The matrix.
+		 Update the bounding box.
 		*/
-		void setMatrix(const Matrix4F& mat);
-
-		/*
-		 Get the current BB matrix.
-		*/
-		Matrix4F getMatrix() const;
+		virtual void update() override final;
 
 	public:
 		DMKVertexBuffer vertexBuffer;
@@ -166,6 +168,7 @@ namespace Dynamik
 		Quaternion rotation = Quaternion::Default;		/* Used only by OBB */
 		DMKColorComponent idleColor;					/* When the bounding box is in idle */
 		DMKColorComponent selectColor;					/* When the user has selected the bounding box */
+		Vector3F position;
 		Vector3F minimumBounds = Vector3F::ZeroAll;
 		Vector3F maximumBounds = Vector3F::ZeroAll;
 		Vector3F scale = Vector3F::ZeroAll;
@@ -174,6 +177,18 @@ namespace Dynamik
 
 	private:
 		B1 shouldDisplay = true;
+		B1 isSelected = false;
+
+		struct TUniformObject {
+			TUniformObject() {}
+			TUniformObject(Matrix4F mat) : matrix(mat) {}
+			TUniformObject(DMKColorComponent col) : color(col) {}
+			TUniformObject(Matrix4F mat, DMKColorComponent col) : matrix(mat), color(col) {}
+			~TUniformObject() {}
+
+			Matrix4F matrix;
+			DMKColorComponent color;
+		};
 	};
 }
 

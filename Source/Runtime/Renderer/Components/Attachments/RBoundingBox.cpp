@@ -38,8 +38,8 @@ namespace Dynamik
 
 		/* Initialize Uniforms */
 		pUniformBuffer = RUtilities::allocateBuffer(renderingAPI);
-		pUniformBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_UNIFORM, sizeof(pBoundingBox->getMatrix()));
-		pUniformBuffer->setData(pCoreObject, sizeof(pBoundingBox->getMatrix()), 0, &pBoundingBox->getMatrix());
+		pUniformBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_UNIFORM, pBoundingBox->uniformBufferObject.byteSize());
+		pUniformBuffer->setData(pCoreObject, pBoundingBox->uniformBufferObject.byteSize(), 0, pBoundingBox->uniformBufferObject.data());
 
 		/* Update Resources */
 		ARRAY<RBuffer*> pBuffers;

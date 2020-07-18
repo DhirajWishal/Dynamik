@@ -99,6 +99,7 @@ namespace Dynamik
         void updateCamera();
         void updateEnvironment();
         void updateEntities();
+        void updateBoundingBoxes();
         void endFrameInstruction();
 
     private:    /* Internal Methods */

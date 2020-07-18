@@ -56,9 +56,36 @@ namespace Dynamik
 		virtual void addAttachment(DMKComponentAttachment* pAttachment);
 
 		/*
+		 Get an attachment from the store.
+
+		 @param type: Type of the attachment.
+		*/
+		DMKComponentAttachment* getAttachment(DMKComponentAttachmentType type);
+
+		/*
+		 Get attachment from template type.
+		*/
+		template<class ATTACHMENT>
+		ATTACHMENT* getAttachment()
+		{
+			ATTACHMENT _attachment = {};
+			return Inherit<ATTACHMENT>(getAttachment(_attachment.attachmentType));
+		}
+
+		/*
 		 Add a renderable component which this component uses.
 		*/
 		virtual void addRenderableComponent(DMKRenderableComponent* component);
+
+		/*
+		 Add a location to the component.
+		*/
+		virtual void setLocation(Vector3F position);
+
+		/*
+		 Setup bounding box.
+		*/
+		virtual void setupBoundingBox(DMKBoundingBoxAttachment BBAttachment = DMKBoundingBoxAttachment());
 
 	public:		/* Constant methods */
 		void setBindingIndex(const UI32& index);
@@ -68,6 +95,12 @@ namespace Dynamik
 		ARRAY<DMKTexture*> pTextures;
 		ARRAY<DMKRenderableComponent*> renderComponents;
 		ARRAY<DMKComponentAttachment*> pAttachments;
+
+		/*
+		 Position of one instance.
+		*/
+		Vector3F position;
+
 		DMKUniformDescription uniformDescription;
 		DMKBaseRenderingPipeline basePipeline = DMKBaseRenderingPipeline::DMK_BASE_RENDERING_PIPELINE_CUSTOM;
 	};

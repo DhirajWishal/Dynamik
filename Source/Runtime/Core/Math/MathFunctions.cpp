@@ -111,26 +111,10 @@ namespace Dynamik
 	Matrix4F DMKMathFunctions::multiply(Matrix4F const lhs, Matrix4F const rhs)
 	{
 		return Matrix4F(
-			addAll(lhs[0] * Vector4F(rhs[0][0], rhs[1][0], rhs[2][0], rhs[3][0])),
-			addAll(lhs[1] * Vector4F(rhs[0][0], rhs[1][0], rhs[2][0], rhs[3][0])),
-			addAll(lhs[2] * Vector4F(rhs[0][0], rhs[1][0], rhs[2][0], rhs[3][0])),
-			addAll(lhs[3] * Vector4F(rhs[0][0], rhs[1][0], rhs[2][0], rhs[3][0])),
-
-			addAll(lhs[0] * Vector4F(rhs[0][1], rhs[1][1], rhs[2][1], rhs[3][1])),
-			addAll(lhs[1] * Vector4F(rhs[0][1], rhs[1][1], rhs[2][1], rhs[3][1])),
-			addAll(lhs[2] * Vector4F(rhs[0][1], rhs[1][1], rhs[2][1], rhs[3][1])),
-			addAll(lhs[3] * Vector4F(rhs[0][1], rhs[1][1], rhs[2][1], rhs[3][1])),
-
-			addAll(lhs[0] * Vector4F(rhs[0][2], rhs[1][2], rhs[2][2], rhs[3][2])),
-			addAll(lhs[1] * Vector4F(rhs[0][2], rhs[1][2], rhs[2][2], rhs[3][2])),
-			addAll(lhs[2] * Vector4F(rhs[0][2], rhs[1][2], rhs[2][2], rhs[3][2])),
-			addAll(lhs[3] * Vector4F(rhs[0][2], rhs[1][2], rhs[2][2], rhs[3][2])),
-
-			addAll(lhs[0] * Vector4F(rhs[0][3], rhs[1][3], rhs[2][3], rhs[3][3])),
-			addAll(lhs[1] * Vector4F(rhs[0][3], rhs[1][3], rhs[2][3], rhs[3][3])),
-			addAll(lhs[2] * Vector4F(rhs[0][3], rhs[1][3], rhs[2][3], rhs[3][3])),
-			addAll(lhs[3] * Vector4F(rhs[0][3], rhs[1][3], rhs[2][3], rhs[3][3]))
-		);
+			(lhs[0] * rhs[0][0]) + (lhs[1] * rhs[0][1]) + (lhs[2] * rhs[0][2]) + (lhs[3] * rhs[0][3]),
+			(lhs[0] * rhs[1][0]) + (lhs[1] * rhs[1][1]) + (lhs[2] * rhs[1][2]) + (lhs[3] * rhs[1][3]),
+			(lhs[0] * rhs[2][0]) + (lhs[1] * rhs[2][1]) + (lhs[2] * rhs[2][2]) + (lhs[3] * rhs[2][3]),
+			(lhs[0] * rhs[3][0]) + (lhs[1] * rhs[3][1]) + (lhs[2] * rhs[3][2]) + (lhs[3] * rhs[3][3]));
 	}
 
 	Matrix4F DMKMathFunctions::lookAt(Vector3F const eye, Vector3F const center, Vector3F const up)
@@ -183,7 +167,7 @@ namespace Dynamik
 
 	Matrix4F DMKMathFunctions::scale(Matrix4F mat, Vector3F const vec)
 	{
-		Matrix4F matrix;
+		Matrix4F matrix = Matrix4F::Identity;
 		matrix[0] = mat[0] * vec[0];
 		matrix[1] = mat[1] * vec[1];
 		matrix[2] = mat[2] * vec[2];

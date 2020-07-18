@@ -46,7 +46,6 @@ namespace Dynamik
 	/* Dynamik Uniform Attribute */
 	struct DMK_API DMKUniformAttribute {
 		DMKDataType dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
-		DMKUniformAttributeType attributeType = DMKUniformAttributeType::DMK_UNIFORM_ATTRIBUTE_TYPE_MODEL;
 		UI32 dataCount = 1;     /* Number of data elements that is sent to the shader. Used when sending an array. */
 	};
 
@@ -58,12 +57,11 @@ namespace Dynamik
 		ARRAY<DMKUniformAttribute> attributes;
 		DMKUniformType type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
 		DMKShaderLocation shaderLocation = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
-		DMKUniformBufferUsage usage = DMKUniformBufferUsage::DMK_UNIFORM_BUFFER_USAGE_CUSTOM;
 		UI32 destinationBinding = 0;
 		UI32 offset = 0;
 
 		/* Get the total byte size of the uniform buffer object. */
-		UI64 getUniformSize();
+		UI64 getUniformSize() const;
 	};
 
 	/* Dynamik Uniform Descriptor */
@@ -86,7 +84,14 @@ namespace Dynamik
 	class DMK_API DMKUniformBufferObject {
 	public:
 		DMKUniformBufferObject() {}
-		~DMKUniformBufferObject();
+		~DMKUniformBufferObject() {}
+
+		/*
+		 Set the uniform description.
+
+		 @param description: The uniform description.
+		*/
+		void setDescription(const DMKUniformDescription& description);
 
 		/* Initialize the object */
 		void initialize(const DMKUniformDescription& description);
@@ -103,12 +108,29 @@ namespace Dynamik
 		*/
 		void setData(const VPTR& data, const UI32& byteSize, const UI32& location, const UI32& arrayIndex = 0U);
 
+		/*
+		 Set data which is the size of the whole uniform.
+
+		 @param data: The data to be added.
+		*/
+		void setData(const VPTR& data);
+
 		/* Clear all the stored values in the buffer */
 		void clear();
 
+		/*
+		 Get the uniform data.
+		*/
+		VPTR data() const;
+
+		/*
+		 Get the byte size of the object.
+		*/
+		UI64 byteSize() const;
+
 	private:	/* Private Data Store */
-		VPTR uniformBufferStorage = nullptr;
-		BYTE* nextPointer = (BYTE*)uniformBufferStorage;
+		VPTR pUniformBufferStorage = nullptr;
+		BYTE* nextPointer = (BYTE*)pUniformBufferStorage;
 
 	public:		/* Public Data */
 		DMKUniformDescription myDescription;

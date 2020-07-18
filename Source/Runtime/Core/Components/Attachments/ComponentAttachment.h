@@ -6,6 +6,7 @@
 #define _DYNAMIK_COMPONENT_ATTACHMENT_H
 
 #include "Core/Math/Matrix/Matrix4F.h"
+#include "Core/Objects/Resources/Uniform.h"
 
 namespace Dynamik
 {
@@ -24,8 +25,11 @@ namespace Dynamik
 
 		virtual void initialize() {}
 		virtual void initialize(Matrix4F parentTransform) {}
+		virtual void update() {}
+		virtual DMKUniformBufferObject getUniform() { return uniformBufferObject; }
 
 		DMKComponentAttachmentType attachmentType = DMKComponentAttachmentType::DMK_COMPONENT_ATTACHMENT_TYPE_BOUNDING_BOX;
+		DMKUniformBufferObject uniformBufferObject;
 	};
 }
 

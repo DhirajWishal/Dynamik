@@ -78,9 +78,6 @@ namespace Dynamik
 		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
 		layout.attributes.pushBack(attribute);
 
-		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_0;
-		layout.attributes.pushBack(attribute);
-
 		return layout;
 	}
 
