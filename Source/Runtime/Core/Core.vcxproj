@@ -368,6 +368,7 @@
     <ClInclude Include="Components\Attachments\PhysicsAttachment.h" />
     <ClInclude Include="Components\Component.h" />
     <ClInclude Include="Components\RenderableComponent.h" />
+    <ClInclude Include="Components\RenderableComponents\DebugComponent.h" />
     <ClInclude Include="Components\RenderableComponents\StaticMeshComponent.h" />
     <ClInclude Include="Error\ErrorDefines.h" />
     <ClInclude Include="Error\ErrorManager.h" />
@@ -425,6 +426,7 @@
   <ItemGroup>
     <ClCompile Include="Components\Attachments\BoundingBox.cpp" />
     <ClCompile Include="Components\RenderableComponent.cpp" />
+    <ClCompile Include="Components\RenderableComponents\DebugComponent.cpp" />
     <ClCompile Include="Components\RenderableComponents\StaticMeshComponent.cpp" />
     <ClCompile Include="Error\ErrorManager.cpp" />
     <ClCompile Include="Error\MessageBox.cpp" />

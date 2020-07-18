@@ -78,6 +78,7 @@ namespace Dynamik
         RBuffer* createVertexBuffer(UI64 size);
         RBuffer* createIndexBuffer(UI64 size);
         void copyBuffer(RBuffer* pSrcBuffer, RBuffer* pDstBuffer, UI64 size);
+        void copyDataToBuffer(RBuffer* pDstBuffer, VPTR data, UI64 size, UI64 offset);
 
         RTexture* createTexture(const DMKTexture* pTexture);
 
@@ -100,6 +101,7 @@ namespace Dynamik
         void updateEnvironment();
         void updateEntities();
         void updateBoundingBoxes();
+        void updateDebugObjects();
         void endFrameInstruction();
 
     private:    /* Internal Methods */
@@ -135,6 +137,7 @@ namespace Dynamik
 
         ARRAY<REntity> myEntities;
         ARRAY<RBoundingBox> myBoundingBoxes;
+        ARRAY<RDebugMeshComponent> myDebugObjects;
 
         UI32 currentImageIndex = 0;
 

@@ -189,6 +189,15 @@ namespace Dynamik
 		pushRendererCommand(StaticAllocator<RendererAddEntity>::allocateInit(_command));
 	}
 
+	void DMKThreadManager::issueInitializeEntitiesCommandRT(ARRAY<DMKGameEntity*> pEntities)
+	{
+		RendererInitializeEntities _command;
+		_command.pEntities = pEntities;
+
+		/* Push to command queue */
+		pushRendererCommand(StaticAllocator<RendererInitializeEntities>::allocateInit(_command));
+	}
+
 	void DMKThreadManager::issueInitializeGameWorldCommandRT(DMKGameWorld* pGameWorld)
 	{
 		RendererInitializeGameWorld _command;

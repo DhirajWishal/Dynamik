@@ -8,8 +8,6 @@
 
 #include "../RenderableComponent.h"
 
-#include <cmath>
-
 namespace Dynamik
 {
 	DMK_FORCEINLINE DMKVertexBuffer generateBoundingBoxVertex(Vector3F minimum, Vector3F maximum, DMKColorComponent idleColor)
@@ -196,6 +194,12 @@ namespace Dynamik
 
 	void DMKBoundingBoxAttachment::update()
 	{
+		if (!shouldDisplay)
+		{
+			uniformBufferObject.setZero();
+			return;
+		}
+
 		TUniformObject _uniform;
 		_uniform.matrix =
 			DMathLib::translate(Matrix4F::Identity, getPosition()) *
@@ -276,75 +280,97 @@ namespace Dynamik
 		return B1();
 	}
 
-	char HitBoundingBox(F32* minB, F32* maxB, F32* origin, F32* dir, F32* coord);
-
 	B1 DMKBoundingBoxAttachment::_checkOBBIntercept(DMKCameraRay ray)
 	{
-		return HitBoundingBox((F32*)&minimumBounds, (F32*)&maximumBounds, (F32*)&ray.origin, (F32*)&ray.direction, (F32*)&getPosition());
-	}
+		shouldDisplay = false;
 
-#define NUMDIM	3
-#define RIGHT	0
-#define LEFT	1
-#define MIDDLE	2
+		TUniformObject _uniform;
+		DMKMemoryFunctions::copyData(&_uniform, uniformBufferObject.data(), uniformBufferObject.byteSize());
 
-	char HitBoundingBox(F32* minB, F32* maxB, F32* origin, F32* dir, F32* coord)
-	{
-		char inside = true;
-		char quadrant[NUMDIM];
-		register int i;
-		int whichPlane;
-		F32 maxT[NUMDIM];
-		F32 candidatePlane[NUMDIM];
+		Vector3F worldPos = Vector3F(_uniform.matrix[3].x, _uniform.matrix[3].y, _uniform.matrix[3].z);
+		Vector3F delta = worldPos - ray.origin;
 
-		/* Find candidate planes; this loop can be avoided if
-		rays cast all from the eye(assume perpsective view) */
-		for (i = 0; i < NUMDIM; i++)
-			if (origin[i] < minB[i]) {
-				quadrant[i] = LEFT;
-				candidatePlane[i] = minB[i];
-				inside = false;
+		F32 tMax = 1000000.0f, tMin = 0.0f;
+
+		/* Calculate X Axis */
+		{
+			Vector3F axis = Vector3F(_uniform.matrix[0].x, _uniform.matrix[0].y, _uniform.matrix[0].z);
+			F32 e = DMathLib::dot(axis, delta);
+			F32 f = DMathLib::dot(ray.direction, axis);
+
+			if (fabs(f) > 0.001f) {
+
+				F32 t1 = (e + (minimumBounds.x)) / f;
+				F32 t2 = (e + (maximumBounds.x)) / f;
+
+				if (t1 > t2) { F32 w = t1; t1 = t2; t2 = w; }
+				if (t2 < tMax) tMax = t2;
+				if (t1 > tMin) tMin = t1;
+
+				if (tMax < tMin)
+					return false;
 			}
-			else if (origin[i] > maxB[i]) {
-				quadrant[i] = RIGHT;
-				candidatePlane[i] = maxB[i];
-				inside = false;
+			else
+			{
+				if (-e + minimumBounds.x > 0.0f || -e + maximumBounds.x < 0.0f)
+					return false;
 			}
-			else {
-				quadrant[i] = MIDDLE;
-			}
-
-		/* Ray origin inside bounding box */
-		if (inside) {
-			coord = origin;
-			return (true);
 		}
 
+		/* Calculate Y Axis */
+		{
+			Vector3F axis = Vector3F(_uniform.matrix[1].x, _uniform.matrix[1].y, _uniform.matrix[1].z);
+			F32 e = DMathLib::dot(axis, delta);
+			F32 f = DMathLib::dot(ray.direction, axis);
 
-		/* Calculate T distances to candidate planes */
-		for (i = 0; i < NUMDIM; i++)
-			if (quadrant[i] != MIDDLE && dir[i] != 0.)
-				maxT[i] = (candidatePlane[i] - origin[i]) / dir[i];
+			if (fabs(f) > 0.001f) {
+
+				F32 t1 = (e + (minimumBounds.y)) / f;
+				F32 t2 = (e + (maximumBounds.y)) / f;
+
+				if (t1 > t2) { F32 w = t1; t1 = t2; t2 = w; }
+				if (t2 < tMax) tMax = t2;
+				if (t1 > tMin) tMin = t1;
+
+				if (tMax < tMin)
+					return false;
+			}
 			else
-				maxT[i] = -1.;
-
-		/* Get largest of the maxT's for final choice of intersection */
-		whichPlane = 0;
-		for (i = 1; i < NUMDIM; i++)
-			if (maxT[whichPlane] < maxT[i])
-				whichPlane = i;
-
-		/* Check final candidate actually inside box */
-		if (maxT[whichPlane] < 0.) return (false);
-		for (i = 0; i < NUMDIM; i++)
-			if (whichPlane != i) {
-				coord[i] = origin[i] + maxT[whichPlane] * dir[i];
-				if (coord[i] < minB[i] || coord[i] > maxB[i])
-					return (false);
+			{
+				if (-e + minimumBounds.y > 0.0f || -e + maximumBounds.y < 0.0f)
+					return false;
 			}
-			else {
-				coord[i] = candidatePlane[i];
+		}
+
+		/* Calculate Z Axis */
+		{
+			Vector3F axis = Vector3F(_uniform.matrix[2].x, _uniform.matrix[2].y, _uniform.matrix[2].z);
+			F32 e = DMathLib::dot(axis, delta);
+			F32 f = DMathLib::dot(ray.direction, axis);
+
+			if (fabs(f) > 0.001f) {
+
+				F32 t1 = (e + (minimumBounds.z)) / f;
+				F32 t2 = (e + (maximumBounds.z)) / f;
+
+				if (t1 > t2) { F32 w = t1; t1 = t2; t2 = w; }
+				if (t2 < tMax) tMax = t2;
+				if (t1 > tMin) tMin = t1;
+
+				if (tMax < tMin)
+					return false;
 			}
-		return (true);				/* ray hits box */
+			else
+			{
+				if (-e + minimumBounds.z > 0.0f || -e + maximumBounds.z < 0.0f)
+					return false;
+			}
+		}
+
+		if (tMin != 0.0f)
+			return false;
+
+		shouldDisplay = true;
+		return shouldDisplay;
 	}
 }

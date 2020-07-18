@@ -54,11 +54,14 @@ namespace Dynamik
 		ray.origin = position;
 
 		auto rayEye = DMathLib::inverse(matrix.projection) *
-			Vector4F((2.0f * mousePosition.x) / viewPortExtent.width - 1.0f, 1.0f - (2.0f * mousePosition.y) / viewPortExtent.height, -1.0f, 1.0f);
+			Vector4F(
+				(2.0f * mousePosition.x) / viewPortExtent.width - 1.0f,
+				(2.0f * mousePosition.y) / viewPortExtent.height - 1.0f,
+				-1.0f, 1.0f);
 		rayEye = Vector4F(rayEye.x, rayEye.y, -1.0f, 0.0f);
 
 		auto rayWorld_v4 = (DMathLib::inverse(matrix.view) * rayEye);
-		ray.direction = DMathLib::normalize(Vector3F(rayWorld_v4.x, rayWorld_v4.y, rayWorld_v4.z));
+		ray.direction = DMathLib::normalize(Vector3F(rayWorld_v4.x, rayWorld_v4.y, rayWorld_v4.z)) + position;
 
 		printf("Ray Direction: X: %f, Y: %f, Z: %f\t Ray Origin: X: %f, Y: %f, Z: %f\n", ray.direction.x, ray.direction.y, ray.direction.z, ray.origin.x, ray.origin.y, ray.origin.z);
 

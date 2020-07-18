@@ -6,6 +6,7 @@
 #define _DYNAMIK_LEVEL_1_H
 
 #include "GameLibrary/LevelComponent.h"
+#include "Core/Components/RenderableComponents/DebugComponent.h"
 #include "Entities/PlayerMoon.h"
 using namespace Dynamik;
 
@@ -23,8 +24,12 @@ public:
 	virtual void onPlayerMoveLeft() override final;
 	virtual void onPlayerMoveRight() override final;
 
+	DMKDebugComponent initializeRayLine();
+	void copyDataToDebug(DMKCameraRay ray);
+
 private:
 	F32 movementBias = 0.1f;
+	B1 shouldRenderRay = true;
 };
 
 #endif // !_DYNAMIK_LEVEL_1_H

@@ -95,6 +95,7 @@ namespace Dynamik
 		/* Issue renderer commands */
 		_threadManager.issueInitializeCameraCommandRT(pCurrentLevel->playerObject->getCameraModule());
 		_threadManager.issueInitializeGameWorldCommandRT(pCurrentLevel->pCurrentGameWorld);
+		_threadManager.issueInitializeEntitiesCommandRT(pCurrentLevel->pEntities);
 		_threadManager.issueInitializeFinalsCommandRT();
 
 		UI64 _itrIndex = 0;

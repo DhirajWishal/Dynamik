@@ -22,6 +22,7 @@ namespace Dynamik
 		RENDERER_INSTRUCTION_INITIALIZE_GAME_WORLD,
 		RENDERER_INSTRUCTION_INITIALIZE_ENVIRONMENT_MAP,
 		RENDERER_INSTRUCTION_INITIALIZE_ENTITY,
+		RENDERER_INSTRUCTION_INITIALIZE_ENTITIES,
 		RENDERER_INSTRUCTION_INITIALIZE_FINALS,
 		RENDERER_INSTRUCTION_SUBMIT_OBJECTS,
 
@@ -110,6 +111,15 @@ namespace Dynamik
 		~RendererInitializeEnvironmentMap() {}
 
 		DMKEnvironmentMap* pEnvironmentMap = nullptr;
+	};
+
+	/* Initialize Entities */
+	class DMK_API RendererInitializeEntities : public DMKRendererCommand {
+	public:
+		RendererInitializeEntities() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITIES) {}
+		~RendererInitializeEntities() {}
+
+		ARRAY<DMKGameEntity*> pEntities;
 	};
 
 	/* Add Entity */

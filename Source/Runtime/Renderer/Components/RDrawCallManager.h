@@ -41,6 +41,8 @@ namespace Dynamik
 	 This object manages all the draw instructions.
 	*/
 	class DMK_API RDrawCallManager {
+	public:
+
 		struct DMK_API DrawEntry {
 			DrawEntry() {}
 			DrawEntry(
@@ -75,11 +77,35 @@ namespace Dynamik
 			RBuffer* vertexBuffer = nullptr;
 		};
 
-	public:
+		struct DMK_API EmptyDraw {
+			EmptyDraw() {}
+			EmptyDraw(RPipelineObject* pPipeline) : pPipeline(pPipeline) {}
+			~EmptyDraw() {}
+
+			RPipelineObject* pPipeline = nullptr;
+		};
+
+		struct DMK_API DebugDraw {
+			DMKVertexBuffer rawVertexBuffer;
+			ARRAY<UI32>* pRawIndexBuffer;
+			RPipelineObject* pPipeline = nullptr;
+			RBuffer* pVertexBuffer = nullptr;
+			UI64 vertexCount = 0;
+			RBuffer* pIndexBuffer = nullptr;
+			UI64 indexCount = 0;
+		};
+
 		RDrawCallManager() {}
 		~RDrawCallManager() {}
 
-		void addDrawEntry(
+		UI64 addDrawEntry(
+			DMKVertexBuffer vertexBuffer,
+			ARRAY<UI32>* indexBuffer,
+			RPipelineObject* pPipelineObject);
+
+		UI64 addEmptyEntry(RPipelineObject* pPipelineObject);
+
+		UI64 addDebugEntry(
 			DMKVertexBuffer vertexBuffer,
 			ARRAY<UI32>* indexBuffer,
 			RPipelineObject* pPipelineObject);
@@ -96,10 +122,14 @@ namespace Dynamik
 
 		void terminate(RCoreObject* pCoreObject);
 
+		DebugDraw& getDebugEntry(I64 index);
+
 	private:
 		std::unordered_map<DMKVertexLayout, VertexBufferEntry> entryMap;
 		ARRAY<VertexBufferContainer> vertexBuffers;
 		ARRAY<IndexBufferEntry> indexBufferEntries;
+		ARRAY<EmptyDraw> emptyDraws;
+		ARRAY<DebugDraw> debugEntries;
 
 		/*
 		 Index Buffer

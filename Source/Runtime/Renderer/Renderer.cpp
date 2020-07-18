@@ -7,6 +7,7 @@
 #include "RUtilities.h"
 
 #include "Core/Math/MathFunctions.h"
+#include "Core/Components/RenderableComponents/DebugComponent.h"
 #include "Services/RuntimeSystems/AssetRegistry.h"
 
 /* Vulkan headers */
@@ -76,6 +77,13 @@ namespace Dynamik
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITY:
 			createEntityResources(Inherit<RendererAddEntity>(myCommand)->entity);
 			break;
+		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITIES:
+		{
+			auto pEntities = Inherit<RendererInitializeEntities>(myCommand)->pEntities;
+			for (auto entity : pEntities)
+				createEntityResources(entity);
+		}
+		break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SUBMIT_OBJECTS:
 			break;
 		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_INITIALIZE:
@@ -302,6 +310,17 @@ namespace Dynamik
 		pDstBuffer->copy(myCoreObject, pSrcBuffer, size, 0, 0);
 	}
 
+	void DMKRenderer::copyDataToBuffer(RBuffer* pDstBuffer, VPTR data, UI64 size, UI64 offset)
+	{
+		auto staggingBuffer = createBuffer(RBufferType::BUFFER_TYPE_STAGGING, size);
+		staggingBuffer->setData(myCoreObject, size, offset, data);
+
+		copyBuffer(staggingBuffer, pDstBuffer, size);
+
+		staggingBuffer->terminate(myCoreObject);
+		StaticAllocator<RBuffer>::rawDeallocate(staggingBuffer, 0);
+	}
+
 	RTexture* DMKRenderer::createTexture(const DMKTexture* pTexture)
 	{
 		switch (myAPI)
@@ -378,7 +397,10 @@ namespace Dynamik
 		myCurrentEnvironment.pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, myRenderTarget, mySwapChain);
 
 		/* Initialize Vertex and Index Buffers */
-		myDrawCallManager.addDrawEntry(pEnvironmentMap->skyBox.vertexBuffer, &pEnvironmentMap->skyBox.indexBuffer, myCurrentEnvironment.pPipeline);
+		if (pEnvironmentMap->skyBox.vertexBuffer.size() || pEnvironmentMap->skyBox.indexBuffer.size())
+			myDrawCallManager.addDrawEntry(pEnvironmentMap->skyBox.vertexBuffer, &pEnvironmentMap->skyBox.indexBuffer, myCurrentEnvironment.pPipeline);
+		else
+			myDrawCallManager.addEmptyEntry(myCurrentEnvironment.pPipeline);
 
 		/* Initialize Pipeline Resources */
 		/* Initialize Uniform Buffer Resources */
@@ -426,10 +448,19 @@ namespace Dynamik
 			pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
 			meshComponent->pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, myRenderTarget, mySwapChain);
 
+			/* Initialize Vertex and Index Buffers */
+			if (mesh->vertexBuffer.size() || mesh->indexBuffer.size())
+				meshComponent->resourceIndex = myDrawCallManager.addDrawEntry(mesh->vertexBuffer, &mesh->indexBuffer, meshComponent->pPipeline);
+			else
+				meshComponent->resourceIndex = myDrawCallManager.addEmptyEntry(meshComponent->pPipeline);
+
 			/* Initialize Pipeline Resources */
 			{
 				/* Initialize Uniform Buffer Resources */
-				ARRAY<RBuffer*> uniformBuffers = { meshComponent->pUniformBuffer };
+				ARRAY<RBuffer*> uniformBuffers;
+				if (meshComponent->pUniformBuffer)
+					uniformBuffers.pushBack(meshComponent->pUniformBuffer);
+
 				if (pGameEntity->isCameraAvailable && myCameraComponent->pUniformBuffer)
 					uniformBuffers.pushBack(myCameraComponent->pUniformBuffer);
 
@@ -439,11 +470,6 @@ namespace Dynamik
 
 				meshComponent->pPipeline->initializeResources(myCoreObject, uniformBuffers, textures);
 
-				/* Initialize Vertex and Index Buffers */
-				myDrawCallManager.addDrawEntry(mesh->vertexBuffer, &mesh->indexBuffer, meshComponent->pPipeline);
-
-				entity.pMeshObjects.pushBack(meshComponent);
-
 				/* Initialize Constant Blocks */
 				for (auto material : mesh->materials)		/* TODO */
 					meshComponent->pPipeline->addConstantBlock(
@@ -451,9 +477,9 @@ namespace Dynamik
 						sizeof(DMKMaterial::MaterialPushBlock),
 						DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, 0);
 			}
-		}
 
-		myEntities.pushBack(entity);
+			entity.pMeshObjects.pushBack(meshComponent);
+		}
 
 		/* Initialize Attachments */
 		{
@@ -461,6 +487,75 @@ namespace Dynamik
 			for (UI64 index = 0; index < pGameEntity->componentManager.getObjectArray<DMKBoundingBoxAttachment>()->size(); index++)
 				myBoundingBoxes.pushBack(createBoundingBox(pGameEntity->getComponent<DMKBoundingBoxAttachment>(index)));
 		}
+
+		/* Initialize Debug Components */
+		for (UI64 index = 0; index < pGameEntity->componentManager.getObjectArray<DMKDebugComponent>()->size(); index++)
+		{
+			auto debug = pGameEntity->getComponent<DMKDebugComponent>(index);
+			RDebugMeshComponent mesh;
+			mesh.pComponent = debug;
+
+			/* Initialize Uniforms */
+			if (debug->getUniformBuffer().byteSize())
+			{
+				mesh.pUniformBuffer = RUtilities::allocateBuffer(myAPI);
+				mesh.pUniformBuffer->initialize(myCoreObject, RBufferType::BUFFER_TYPE_UNIFORM, debug->getUniformBuffer().byteSize());
+				mesh.pUniformBuffer->setData(myCoreObject, debug->getUniformBuffer().byteSize(), 0, debug->uniformBuffer.data());
+			}
+
+			/* Initialize Materials */
+			for (auto material : debug->getMaterials())
+			{
+				/* Initialize Textures */
+				for (auto texture : material.textureContainers)
+					mesh.pTextures.pushBack(createTexture(texture.pTexture));
+			}
+
+			/* Initialize Pipeline */
+			mesh.pPipeline = RUtilities::allocatePipeline(myAPI);
+
+			RPipelineSpecification pipelineCreateInfo = {};
+			pipelineCreateInfo.shaders = debug->shaders;
+			pipelineCreateInfo.scissorInfos.resize(1);
+			pipelineCreateInfo.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
+			pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
+			pipelineCreateInfo.primitiveAssemblyInfo.primitiveTopology = RPrimitiveTopology::PRIMITIVE_TOPOLOGY_LINE_LIST;
+			mesh.pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, myRenderTarget, mySwapChain);
+
+			/* Initialize Primitives */
+			if (debug->vertexBuffer.size() || debug->indexBuffer.size())
+				mesh.resourceIndex = myDrawCallManager.addDebugEntry(debug->vertexBuffer, &debug->indexBuffer, mesh.pPipeline);
+			else
+				mesh.resourceIndex = myDrawCallManager.addEmptyEntry(mesh.pPipeline);
+
+			/* Initialize Pipeline Resources */
+			{
+				/* Initialize Uniform Buffer Resources */
+				ARRAY<RBuffer*> uniformBuffers;
+				if (mesh.pUniformBuffer)
+					uniformBuffers.pushBack(mesh.pUniformBuffer);
+
+				if (pGameEntity->isCameraAvailable && myCameraComponent->pUniformBuffer)
+					uniformBuffers.pushBack(myCameraComponent->pUniformBuffer);
+
+				/* Initialize Texture Resources */
+				ARRAY<RTexture*> textures;
+				textures.insert(mesh.pTextures);
+
+				mesh.pPipeline->initializeResources(myCoreObject, uniformBuffers, textures);
+
+				/* Initialize Constant Blocks */
+				for (auto material : debug->materials)		/* TODO */
+					mesh.pPipeline->addConstantBlock(
+						StaticAllocator<DMKMaterial::MaterialPushBlock>::allocateInit(material.generatePushBlock()),
+						sizeof(DMKMaterial::MaterialPushBlock),
+						DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, 0);
+			}
+
+			myDebugObjects.pushBack(mesh);
+		}
+
+		myEntities.pushBack(entity);
 	}
 
 	void DMKRenderer::initializeGameWorld(DMKGameWorld* pGameWorld)
@@ -592,6 +687,7 @@ namespace Dynamik
 		updateEnvironment();
 		updateEntities();
 		updateBoundingBoxes();
+		updateDebugObjects();
 	}
 
 	void DMKRenderer::updateCamera()
@@ -625,6 +721,16 @@ namespace Dynamik
 	{
 		for (auto boundingBox : myBoundingBoxes)
 			boundingBox.pUniformBuffer->setData(myCoreObject, boundingBox.pBoundingBox->getUniform().byteSize(), 0, boundingBox.pBoundingBox->getUniform().data());
+	}
+
+	void DMKRenderer::updateDebugObjects()
+	{
+		for (auto debug : myDebugObjects)
+		{
+			/* Update Vertex Data */
+			auto entry = myDrawCallManager.getDebugEntry(debug.resourceIndex);
+			copyDataToBuffer(entry.pVertexBuffer, debug.pComponent->getVertexBuffer().data(), debug.pComponent->getVertexBuffer().byteSize(), 0);
+		}
 	}
 
 	void DMKRenderer::endFrameInstruction()

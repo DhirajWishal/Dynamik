@@ -102,11 +102,15 @@ namespace Dynamik
 
 		/*
 		 Get an object stored in the array.
+		 Returns nullptr if not registered.
 		*/
 		template<class OBJECT>
 		DMK_FORCEINLINE OBJECT* getObject(I64 index = 0)
 		{
-			return (OBJECT*)getObjectArray<OBJECT>()->location(index);
+			if (registeredComponentTypes.find(typeid(OBJECT).name()).size())
+				return (OBJECT*)getObjectArray<OBJECT>()->location(index);
+
+			return nullptr;
 		}
 
 		/*

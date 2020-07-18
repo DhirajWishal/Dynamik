@@ -5,10 +5,11 @@
 #include "RDrawCallManager.h"
 
 #include "VulkanRBL/Primitives/VulkanBuffer.h"
+#include "../RUtilities.h"
 
 namespace Dynamik
 {
-	void RDrawCallManager::addDrawEntry(DMKVertexBuffer vertexBuffer, ARRAY<UI32>* indexBuffer, RPipelineObject* pPipelineObject)
+	UI64 RDrawCallManager::addDrawEntry(DMKVertexBuffer vertexBuffer, ARRAY<UI32>* indexBuffer, RPipelineObject* pPipelineObject)
 	{
 		entryMap[vertexBuffer.layout].drawEntries.pushBack(
 			DrawEntry(entryMap[vertexBuffer.layout].vertexCount, vertexBuffer, totalIndexCount, indexBuffer->size(), pPipelineObject));
@@ -20,6 +21,28 @@ namespace Dynamik
 		indexBufferEntries.pushBack(_entry);
 
 		totalIndexCount += indexBuffer->size();
+
+		return entryMap[vertexBuffer.layout].drawEntries.size() - 1;
+	}
+
+	UI64 RDrawCallManager::addEmptyEntry(RPipelineObject* pPipelineObject)
+	{
+		emptyDraws.pushBack(EmptyDraw(pPipelineObject));
+
+		return emptyDraws.size() - 1;
+	}
+
+	UI64 RDrawCallManager::addDebugEntry(DMKVertexBuffer vertexBuffer, ARRAY<UI32>* indexBuffer, RPipelineObject* pPipelineObject)
+	{
+		DebugDraw entry;
+		entry.indexCount = indexBuffer->size();
+		entry.rawVertexBuffer = vertexBuffer;
+		entry.vertexCount = vertexBuffer.size();
+		entry.pRawIndexBuffer = indexBuffer;
+		entry.pPipeline = pPipelineObject;
+		debugEntries.pushBack(entry);
+
+		return debugEntries.size() - 1;
 	}
 
 	void RDrawCallManager::initializeBuffers(RCoreObject* pCoreObject)
@@ -85,6 +108,42 @@ namespace Dynamik
 
 		indexBufferEntries.clear();
 
+		/* Initialize Debug Entries */
+		for (UI64 index = 0; index < debugEntries.size(); index++)
+		{
+			auto& entry = debugEntries[index];
+
+			/* Initialize Vertex Buffer */
+			{
+				RBuffer* pStaggingBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
+				pStaggingBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, entry.rawVertexBuffer.byteSize());
+				pStaggingBuffer->setData(pCoreObject, entry.rawVertexBuffer.byteSize(), 0, entry.rawVertexBuffer.data());
+
+				entry.pVertexBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
+				entry.pVertexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_VERTEX, entry.rawVertexBuffer.byteSize());
+				entry.pVertexBuffer->copy(pCoreObject, pStaggingBuffer, entry.rawVertexBuffer.byteSize());
+				entry.rawVertexBuffer.clear();
+
+				pStaggingBuffer->terminate(pCoreObject);
+				StaticAllocator<RBuffer>::rawDeallocate(pStaggingBuffer, 0);
+			}
+
+			/* Initialize Index Buffer */
+			{
+				RBuffer* pStaggingBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
+				pStaggingBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, entry.pRawIndexBuffer->size() * entry.pRawIndexBuffer->typeSize());
+				pStaggingBuffer->setData(pCoreObject, entry.pRawIndexBuffer->size() * entry.pRawIndexBuffer->typeSize(), 0, entry.pRawIndexBuffer->data());
+
+				entry.pIndexBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
+				entry.pIndexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_INDEX, entry.pRawIndexBuffer->size() * entry.pRawIndexBuffer->typeSize());
+				entry.pIndexBuffer->copy(pCoreObject, pStaggingBuffer, entry.pRawIndexBuffer->size() * entry.pRawIndexBuffer->typeSize());
+				entry.pRawIndexBuffer->clear();
+
+				pStaggingBuffer->terminate(pCoreObject);
+				StaticAllocator<RBuffer>::rawDeallocate(pStaggingBuffer, 0);
+			}
+		}
+
 #ifdef DMK_DEBUG
 		DMK_INFO("Number of individual vertex buffers: " + std::to_string(vertexBuffers.size()));
 
@@ -124,6 +183,22 @@ namespace Dynamik
 					pCommandBuffer->drawVertexes(entry.firstVertex, entry.vertexBuffer.size(), 1);
 			}
 		}
+
+		/* Bind empty draws */
+		for (auto draw : emptyDraws)
+		{
+			pCommandBuffer->bindGraphicsPipeline(draw.pPipeline);
+			pCommandBuffer->drawVertexes(0, 3, 1);
+		}
+
+		/* Bind debug entries */
+		for (auto entry : debugEntries)
+		{
+			pCommandBuffer->bindVertexBuffer(entry.pVertexBuffer, 0);
+			pCommandBuffer->bindIndexBuffer(entry.pIndexBuffer);
+			pCommandBuffer->bindGraphicsPipeline(entry.pPipeline);
+			pCommandBuffer->drawIndexed(0, 0, entry.indexCount, 1);
+		}
 	}
 
 	void RDrawCallManager::unbindRenderTarget()
@@ -146,5 +221,20 @@ namespace Dynamik
 
 		indexBuffer->terminate(pCoreObject);
 		StaticAllocator<RBuffer>::rawDeallocate(indexBuffer, 0);
+
+		/* Terminate Debug Entries */
+		for (auto entry : debugEntries)
+		{
+			entry.pVertexBuffer->terminate(pCoreObject);
+			StaticAllocator<RBuffer>::rawDeallocate(entry.pVertexBuffer, 0);
+
+			entry.pIndexBuffer->terminate(pCoreObject);
+			StaticAllocator<RBuffer>::rawDeallocate(entry.pIndexBuffer, 0);
+		}
+	}
+	
+	RDrawCallManager::DebugDraw& RDrawCallManager::getDebugEntry(I64 index)
+	{
+		return debugEntries[index];
 	}
 }

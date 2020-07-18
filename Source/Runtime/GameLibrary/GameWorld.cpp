@@ -12,10 +12,7 @@ namespace Dynamik
 	void DMKGameWorld::initializeEntities()
 	{
 		for (auto entity : entities)
-		{
 			entity->initialize();
-			
-		}
 	}
 
 	void DMKGameWorld::setCamera(DMKCameraModule* pCameraModule)
@@ -23,7 +20,7 @@ namespace Dynamik
 		for (auto entity : entities)
 			entity->setupCamera(pCameraModule);
 	}
-	
+
 	void DMKGameWorld::setEnvironmentMap(DMKEnvironmentMap* pEnvironment)
 	{
 		pEnvironmentMap = pEnvironment;

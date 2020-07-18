@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "DefaultWorld.h"
 #include "Core/Math/MathFunctions.h"
+#include "Core/Types/StaticArray.h"
 using namespace Dynamik;
 
 void Level1::onLoad()
@@ -19,6 +20,7 @@ void Level1::onLoad()
 	/* Create Basic World */
 	createUserGameWorld<DefaultWorld>();
 	pCurrentGameWorld->setCamera(playerObject->getCameraModule());
+	//pCurrentGameWorld->entities.front()->addComponent<DMKDebugComponent>(initializeRayLine());
 
 	movementBias = 0.1f;
 }
@@ -34,15 +36,21 @@ void Level1::onUpdate(const DMKEventPool* pEventPool)
 
 		auto ray = playerObject->getCameraModule()->generateRay(DMKEventPool::getMousePosition());
 
-		for (auto entity : pCurrentGameWorld->entities)
+		if (shouldRenderRay)
 		{
-			for (UI64 index = 0; index < entity->getComponentArray<DMKBoundingBoxAttachment>()->size(); index++)
-				if(entity->getComponent<DMKBoundingBoxAttachment>(index)->checkRayIntercept(ray))
-					DMK_INFO("Intercepted!");
+			copyDataToDebug(ray);
+			shouldRenderRay = false;
 		}
+
+		for (auto entity : pCurrentGameWorld->entities)
+			for (UI64 index = 0; index < entity->getComponentArray<DMKBoundingBoxAttachment>()->size(); index++)
+				entity->getComponent<DMKBoundingBoxAttachment>(index)->checkRayIntercept(ray);
 	}
 	if (DMKEventPool::MouseButtonLeft.isReleased())
 		refresh = true;
+
+	if (DMKEventPool::MouseButtonRight.isPressed())
+		shouldRenderRay = true;
 
 	if (DMKEventPool::KeyUp.isPressed() || DMKEventPool::KeyUp.isOnRepeat())
 		playerObject->addUpVector(movementBias);
@@ -79,4 +87,43 @@ void Level1::onPlayerMoveLeft()
 void Level1::onPlayerMoveRight()
 {
 	playerObject->addLeftVector(movementBias);
+}
+
+DMKDebugComponent Level1::initializeRayLine()
+{
+	DMKDebugComponent rayLine;
+
+	/* Initialize Shaders */
+	rayLine.addShader(DMKShaderFactory::createModule(DMKFileSystem::getWorkingDirectory() + TEXT("/Runtime/Assets/Shaders/RayLine/vert.spv"), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+	rayLine.addShader(DMKShaderFactory::createModule(DMKFileSystem::getWorkingDirectory() + TEXT("/Runtime/Assets/Shaders/RayLine/frag.spv"), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+
+	/* Initialize Vertex Buffer */
+	DMKVertexLayout layout;
+	DMKVertexAttribute attribute;
+	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
+	attribute.dataCount = 1;
+	attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
+	layout.attributes.pushBack(attribute);
+	rayLine.vertexBuffer.setLayout(layout);
+
+	rayLine.vertexBuffer.initialize(2);
+
+	struct VertexT {
+		Vector3F position = Vector3F(1.0f);
+	};
+
+	StaticArray<VertexT, 2> vertexData;
+	rayLine.vertexBuffer.setData(vertexData.data());
+
+	/* Initialize Index Buffer */
+	rayLine.setIndexBuffer({ 0, 1 });
+
+	return rayLine;
+}
+
+void Level1::copyDataToDebug(DMKCameraRay ray)
+{
+	auto component = pCurrentGameWorld->entities.front()->getComponent<DMKDebugComponent>();
+	if (component)
+		component->getVertexBuffer().setData(&ray);
 }

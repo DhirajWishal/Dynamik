@@ -70,6 +70,11 @@ namespace Dynamik
 		DMKMemoryFunctions::moveData(pUniformBufferStorage, data, myDescription.getUniformSize());
 	}
 
+	void DMKUniformBufferObject::setZero()
+	{
+		DMKMemoryFunctions::setData(pUniformBufferStorage, 0, byteSize());
+	}
+
 	void DMKUniformBufferObject::clear()
 	{
 		StaticAllocator<VPTR>::deallocate(pUniformBufferStorage, myDescription.getUniformSize());

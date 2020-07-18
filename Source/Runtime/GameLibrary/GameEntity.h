@@ -18,6 +18,8 @@ namespace Dynamik
 	 input based characters are derived from this.
 
 	 You can imagine entities as a soul. You are required to control it. 
+
+	 @warn: Entities that are not in the game world must be externally initialized.
 	*/
 	class DMK_API DMKGameEntity {
 	public:

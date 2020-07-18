@@ -206,8 +206,8 @@ namespace Dynamik
 			TUniformObject(Matrix4F mat, DMKColorComponent col) : matrix(mat), color(col) {}
 			~TUniformObject() {}
 
-			Matrix4F matrix;
-			DMKColorComponent color;
+			Matrix4F matrix = Matrix4F(0.0f);
+			DMKColorComponent color = DMKColorComponent(0.0f);
 		};
 	};
 }

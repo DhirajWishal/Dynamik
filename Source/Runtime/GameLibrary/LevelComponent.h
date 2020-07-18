@@ -58,14 +58,29 @@ namespace Dynamik
 		virtual void onPlayerLookAt() {}	/* eg: Looking at a scene. */
 		virtual void onPlayerView() {}	/* eg: Looking at a gun. */
 
-		VEC3 getPlayerPosition();
-
 	public:		/* Level Data Store */
 		/*
 		 Pointer to the current (active) game world.
 		 A level can cycle through multiple game worlds at times.
 		*/
 		DMKGameWorld* pCurrentGameWorld = nullptr;
+
+		/*
+		 Local entities.
+		*/
+		ARRAY<DMKGameEntity*> pEntities;
+
+		/*
+		 Add an entity to the entity store.
+
+		 @param pEntity: Pointer to the entity.
+		*/
+		void addEntity(DMKGameEntity* pEntity);
+
+		/*
+		 Create a hollow entity.
+		*/
+		DMKGameEntity* createHollowEntity();
 
 		/*
 		 Allocates a user defined Game World and initializes it.

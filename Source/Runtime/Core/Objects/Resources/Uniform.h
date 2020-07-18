@@ -115,6 +115,11 @@ namespace Dynamik
 		*/
 		void setData(const VPTR& data);
 
+		/*
+		 Sets 0 to the whole store.
+		*/
+		void setZero();
+
 		/* Clear all the stored values in the buffer */
 		void clear();
 
