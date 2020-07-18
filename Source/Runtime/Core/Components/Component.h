@@ -7,7 +7,6 @@
 
 #include "Core/Macros/Global.h"
 #include "Core/Types/TSArray.h"
-#include "Attachments/ComponentAttachment.h"
 
 namespace Dynamik
 {
@@ -18,10 +17,6 @@ namespace Dynamik
 	public:
 		DMKComponent() {}
 		virtual ~DMKComponent() {}
-
-		virtual void setAttachment(DMKComponentAttachment* attachment) { attachments.pushBack(attachment); }
-
-		ARRAY<DMKComponentAttachment*> attachments;
 	};
 }
 

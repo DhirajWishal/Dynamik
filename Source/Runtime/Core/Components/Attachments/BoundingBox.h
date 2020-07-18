@@ -10,6 +10,7 @@
 #include "Core/Math/Quaternion.h"
 #include "Core/Types/ComplexTypes.h"
 #include "Core/Objects/Resources/VertexBuffer.h"
+#include "GameLibrary/Camera/CameraModule.h"
 
 namespace Dynamik
 {
@@ -37,10 +38,26 @@ namespace Dynamik
 	class DMK_API DMKBoundingBoxAttachment : public DMKComponentAttachment {
 	public:
 		DMKBoundingBoxAttachment() :
-			type(DMKBoundingBoxType::DMK_BOUNDING_BOX_TYPE_ORIENTATION_ALIGNED), shouldDisplay(true),
-			rotation(Quaternion::Default), idleColor(1.0f), selectColor(1.0f), position(0.0f),
-			minimumBounds(-1.0f), maximumBounds(1.0f), scale(2.0f),
-			DMKComponentAttachment(DMKComponentAttachmentType::DMK_COMPONENT_ATTACHMENT_TYPE_BOUNDING_BOX) {}
+			type(DMKBoundingBoxType::DMK_BOUNDING_BOX_TYPE_ORIENTATION_ALIGNED),
+			rotation(Quaternion::Default),
+			idleColor(1.0f),
+			selectColor(1.0f),
+			minimumBounds(-1.0f),
+			maximumBounds(1.0f),
+			scale(2.0f),
+			DMKComponentAttachment(
+				nullptr,
+				DMKComponentAttachmentType::DMK_COMPONENT_ATTACHMENT_TYPE_BOUNDING_BOX
+			),
+			shouldDisplay(false) {}
+		DMKBoundingBoxAttachment(
+			DMKComponent* pComponent,
+			Quaternion rotation = Quaternion::Default,
+			DMKColorComponent idleColor = DMKColorComponent(1.0f),
+			DMKColorComponent selectColor = DMKColorComponent(1.0f),
+			Vector3F minimumBounds = Vector3F(-1.0f),
+			Vector3F maximumBounds = Vector3F(1.0f),
+			Vector3F scale = Vector3F(2.0f));
 		~DMKBoundingBoxAttachment() {}
 
 		/*
@@ -103,13 +120,6 @@ namespace Dynamik
 		DMKColorComponent getSelectColor() const;
 
 		/*
-		 Set the position of the BB.
-
-		 @param position: The position of the BB.
-		*/
-		void setPosition(Vector3F position);
-
-		/*
 		 Get the position of the BB.
 		*/
 		Vector3F getPosition() const;
@@ -168,14 +178,24 @@ namespace Dynamik
 		Quaternion rotation = Quaternion::Default;		/* Used only by OBB */
 		DMKColorComponent idleColor;					/* When the bounding box is in idle */
 		DMKColorComponent selectColor;					/* When the user has selected the bounding box */
-		Vector3F position;
 		Vector3F minimumBounds = Vector3F::ZeroAll;
 		Vector3F maximumBounds = Vector3F::ZeroAll;
 		Vector3F scale = Vector3F::ZeroAll;
 
 		DMKBoundingBoxType type = DMKBoundingBoxType::DMK_BOUNDING_BOX_TYPE_ORIENTATION_ALIGNED;
 
+	public:		/* Mouse Picking */
+		/*
+		 Check if the camera ray intercepts with the current bounding box.
+		 This function depends heavily on the box type.
+
+		 @param ray: The camera ray.
+		*/
+		B1 checkRayIntercept(DMKCameraRay ray);
+
 	private:
+		B1 _checkOBBIntercept(DMKCameraRay ray);
+
 		B1 shouldDisplay = true;
 		B1 isSelected = false;
 

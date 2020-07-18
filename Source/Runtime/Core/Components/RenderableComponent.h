@@ -10,8 +10,6 @@
 #include "Core/Objects/Resources/Texture.h"
 #include "GameLibrary/Camera/CameraModule.h"
 
-#include "Attachments/BoundingBox.h"
-
 namespace Dynamik
 {
 	/*
@@ -53,25 +51,6 @@ namespace Dynamik
 		virtual void translate(const MAT4& mat, const VEC3& vec) {}
 		virtual void rotate(const VEC3& direction, const F32& radians) {}
 
-		virtual void addAttachment(DMKComponentAttachment* pAttachment);
-
-		/*
-		 Get an attachment from the store.
-
-		 @param type: Type of the attachment.
-		*/
-		DMKComponentAttachment* getAttachment(DMKComponentAttachmentType type);
-
-		/*
-		 Get attachment from template type.
-		*/
-		template<class ATTACHMENT>
-		ATTACHMENT* getAttachment()
-		{
-			ATTACHMENT _attachment = {};
-			return Inherit<ATTACHMENT>(getAttachment(_attachment.attachmentType));
-		}
-
 		/*
 		 Add a renderable component which this component uses.
 		*/
@@ -82,11 +61,6 @@ namespace Dynamik
 		*/
 		virtual void setLocation(Vector3F position);
 
-		/*
-		 Setup bounding box.
-		*/
-		virtual void setupBoundingBox(DMKBoundingBoxAttachment BBAttachment = DMKBoundingBoxAttachment());
-
 	public:		/* Constant methods */
 		void setBindingIndex(const UI32& index);
 
@@ -94,7 +68,6 @@ namespace Dynamik
 		ARRAY<DMKShaderModule> shaderModules;
 		ARRAY<DMKTexture*> pTextures;
 		ARRAY<DMKRenderableComponent*> renderComponents;
-		ARRAY<DMKComponentAttachment*> pAttachments;
 
 		/*
 		 Position of one instance.

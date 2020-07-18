@@ -60,12 +60,6 @@ namespace Dynamik
 		isMatrixUpdated = false;
 	}
 
-	void DMKStaticMeshComponent::addAttachment(DMKComponentAttachment* pAttachment)
-	{
-		pAttachment->initialize();
-		pAttachments.pushBack(pAttachment);
-	}
-
 	void DMKStaticMeshComponent::setLocation(Vector3F position)
 	{
 		this->position = position;

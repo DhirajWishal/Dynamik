@@ -108,13 +108,22 @@ namespace Dynamik
 		return rhs * (1.0f / std::sqrt(dot(rhs, rhs)));
 	}
 
-	Matrix4F DMKMathFunctions::multiply(Matrix4F const lhs, Matrix4F const rhs)
+	Matrix4F DMKMathFunctions::multiply(Matrix4F const& lhs, Matrix4F const& rhs)
 	{
 		return Matrix4F(
 			(lhs[0] * rhs[0][0]) + (lhs[1] * rhs[0][1]) + (lhs[2] * rhs[0][2]) + (lhs[3] * rhs[0][3]),
 			(lhs[0] * rhs[1][0]) + (lhs[1] * rhs[1][1]) + (lhs[2] * rhs[1][2]) + (lhs[3] * rhs[1][3]),
 			(lhs[0] * rhs[2][0]) + (lhs[1] * rhs[2][1]) + (lhs[2] * rhs[2][2]) + (lhs[3] * rhs[2][3]),
 			(lhs[0] * rhs[3][0]) + (lhs[1] * rhs[3][1]) + (lhs[2] * rhs[3][2]) + (lhs[3] * rhs[3][3]));
+	}
+
+	Vector4F DMKMathFunctions::multiply(Matrix4F const& lhs, Vector4F const& rhs)
+	{
+		return
+			((lhs[0] * Vector4F(rhs[0])) +
+				(lhs[1] * Vector4F(rhs[1]))) +
+			((lhs[2] * Vector4F(rhs[2])) +
+				(lhs[3] * Vector4F(rhs[3])));
 	}
 
 	Matrix4F DMKMathFunctions::lookAt(Vector3F const eye, Vector3F const center, Vector3F const up)
@@ -202,59 +211,66 @@ namespace Dynamik
 		return newMatrix;
 	}
 
-	Matrix4F DMKMathFunctions::inverse(Matrix4F const& mat)
+	Matrix4F DMKMathFunctions::inverse(Matrix4F const& m)
 	{
-		Vector4F fac0 =
-			(Vector4F(mat[2][2], mat[2][2], mat[1][2], mat[1][2]) *
-				Vector4F(mat[3][3], mat[3][3], mat[3][3], mat[2][3])) -
-			(Vector4F(mat[3][2], mat[3][2], mat[3][2], mat[2][2]) *
-				Vector4F(mat[1][2], mat[2][3], mat[1][3], mat[1][3]));
+		Vector4F Fac0(
+			m[2][2] * m[3][3] - m[3][2] * m[2][3],
+			m[2][2] * m[3][3] - m[3][2] * m[2][3],
+			m[1][2] * m[3][3] - m[3][2] * m[1][3], 
+			m[1][2] * m[2][3] - m[2][2] * m[1][3]);
 
-		Vector4F fac1 =
-			(Vector4F(mat[2][1], mat[2][1], mat[1][1], mat[1][1]) *
-				Vector4F(mat[3][3], mat[3][3], mat[3][3], mat[2][3])) -
-			(Vector4F(mat[3][1], mat[3][1], mat[3][1], mat[2][1]) *
-				Vector4F(mat[2][3], mat[2][3], mat[1][3], mat[1][3]));
+		Vector4F Fac1(
+			m[2][1] * m[3][3] - m[3][1] * m[2][3],
+			m[2][1] * m[3][3] - m[3][1] * m[2][3],
+			m[1][1] * m[3][3] - m[3][1] * m[1][3],
+			m[1][1] * m[2][3] - m[2][1] * m[1][3]);
 
-		Vector4F fac2 =
-			(Vector4F(mat[2][1], mat[2][1], mat[1][1], mat[1][1]) *
-				Vector4F(mat[3][2], mat[3][2], mat[3][2], mat[2][2])) -
-			(Vector4F(mat[3][1], mat[3][1], mat[3][1], mat[2][1]) *
-				Vector4F(mat[2][2], mat[2][2], mat[1][2], mat[1][2]));
+		Vector4F Fac2(
+			m[2][1] * m[3][2] - m[3][1] * m[2][2],
+			m[2][1] * m[3][2] - m[3][1] * m[2][2],
+			m[1][1] * m[3][2] - m[3][1] * m[1][2],
+			m[1][1] * m[2][2] - m[2][1] * m[1][2]);
 
-		Vector4F fac3 =
-			(Vector4F(mat[2][0], mat[2][0], mat[1][0], mat[1][0]) *
-				Vector4F(mat[3][3], mat[3][3], mat[3][3], mat[2][3])) -
-			(Vector4F(mat[3][0], mat[3][0], mat[3][0], mat[2][0]) *
-				Vector4F(mat[2][3], mat[2][3], mat[1][3], mat[1][3]));
+		Vector4F Fac3(
+			m[2][0] * m[3][3] - m[3][0] * m[2][3],
+			m[2][0] * m[3][3] - m[3][0] * m[2][3],
+			m[1][0] * m[3][3] - m[3][0] * m[1][3],
+			m[1][0] * m[2][3] - m[2][0] * m[1][3]);
 
-		Vector4F fac4 =
-			(Vector4F(mat[2][0], mat[2][0], mat[1][0], mat[1][0]) *
-				Vector4F(mat[3][2], mat[3][2], mat[3][2], mat[2][2])) -
-			(Vector4F(mat[3][0], mat[3][0], mat[3][0], mat[2][0]) *
-				Vector4F(mat[2][2], mat[2][2], mat[1][2], mat[1][2]));
+		Vector4F Fac4(
+			m[2][0] * m[3][2] - m[3][0] * m[2][2],
+			m[2][0] * m[3][2] - m[3][0] * m[2][2],
+			m[1][0] * m[3][2] - m[3][0] * m[1][2],
+			m[1][0] * m[2][2] - m[2][0] * m[1][2]);
 
-		Vector4F fac5 =
-			(Vector4F(mat[2][0], mat[2][0], mat[1][0], mat[1][0]) *
-				Vector4F(mat[3][1], mat[3][1], mat[3][1], mat[2][1])) -
-			(Vector4F(mat[3][0], mat[3][0], mat[3][0], mat[2][0]) *
-				Vector4F(mat[2][1], mat[2][1], mat[1][1], mat[1][1]));
+		Vector4F Fac5(
+			m[2][0] * m[3][1] - m[3][0] * m[2][1],
+			m[2][0] * m[3][1] - m[3][0] * m[2][1],
+			m[1][0] * m[3][1] - m[3][0] * m[1][1],
+			m[1][0] * m[2][1] - m[2][0] * m[1][1]);
 
-		Vector4F v0 = Vector4F(mat[1][0], mat[0][0], mat[0][0], mat[0][0]);
-		Vector4F v1 = Vector4F(mat[1][1], mat[0][1], mat[0][1], mat[0][1]);
-		Vector4F v2 = Vector4F(mat[1][2], mat[0][2], mat[0][2], mat[0][2]);
-		Vector4F v3 = Vector4F(mat[1][3], mat[0][3], mat[0][3], mat[0][3]);
+		Vector4F Vec0(m[1][0], m[0][0], m[0][0], m[0][0]);
+		Vector4F Vec1(m[1][1], m[0][1], m[0][1], m[0][1]);
+		Vector4F Vec2(m[1][2], m[0][2], m[0][2], m[0][2]);
+		Vector4F Vec3(m[1][3], m[0][3], m[0][3], m[0][3]);
 
-		Vector4F inv0 = (v1 * fac0) - (v2 * fac1) + (v3 * fac2);
-		Vector4F inv1 = (v0 * fac0) - (v2 * fac3) + (v3 * fac4);
-		Vector4F inv2 = (v0 * fac1) - (v1 * fac3) + (v3 * fac5);
-		Vector4F inv3 = (v0 * fac2) - (v1 * fac4) + (v2 * fac5);
+		Vector4F Inv0(Vec1 * Fac0 - Vec2 * Fac1 + Vec3 * Fac2);
+		Vector4F Inv1(Vec0 * Fac0 - Vec2 * Fac3 + Vec3 * Fac4);
+		Vector4F Inv2(Vec0 * Fac1 - Vec1 * Fac3 + Vec3 * Fac5);
+		Vector4F Inv3(Vec0 * Fac2 - Vec1 * Fac4 + Vec2 * Fac5);
 
-		Vector4F signA = Vector4F(+1.0f, -1.0f, +1.0f, -1.0f);
-		Vector4F signB = Vector4F(-1.0f, +1.0f, -1.0f, +1.0f);
+		Vector4F SignA(+1, -1, +1, -1);
+		Vector4F SignB(-1, +1, -1, +1);
+		Matrix4F Inverse(Inv0 * SignA, Inv1 * SignB, Inv2 * SignA, Inv3 * SignB);
 
-		Matrix4F inverse = Matrix4F(inv0 * signA, inv1 * signB, inv2 * signA, inv3 * signB);
-		return inverse * (1.0f / (dot(mat[0], Vector4F(inverse[0][0], inverse[1][0], inverse[2][0], inverse[3][0]))));
+		Vector4F Row0(Inverse[0][0], Inverse[1][0], Inverse[2][0], Inverse[3][0]);
+
+		Vector4F Dot0(m[0] * Row0);
+		F32 Dot1 = (Dot0.x + Dot0.y) + (Dot0.z + Dot0.w);
+
+		F32 OneOverDeterminant = static_cast<F32>(1) / Dot1;
+
+		return Inverse * OneOverDeterminant;
 	}
 
 	Quaternion DMKMathFunctions::interpolate(Quaternion const& start, Quaternion const& end, const F32& blend)

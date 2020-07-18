@@ -131,6 +131,7 @@ namespace Dynamik
 				else
 				{
 					pCurrentLevel->playerObject->setAspectRatio(_extent.width / _extent.height);
+					pCurrentLevel->playerObject->setCameraViewPort(_extent);
 					_threadManager.issueFrameBufferResizeCommandRT(_extent);
 				}
 			}
@@ -140,13 +141,9 @@ namespace Dynamik
 			{
 				/* Update attachments */
 				{
-					/* Mesh components */
-					for (UI64 index = 0; index < entity->getComponentArray<DMKStaticMeshComponent>()->size(); index++)
-					{
-						/* Update attachments */
-						for (auto attachment : entity->getComponent<DMKStaticMeshComponent>(index)->pAttachments)
-							attachment->update();
-					}
+					/* Bounding box attachment */
+					for (UI64 index = 0; index < entity->getComponentArray<DMKBoundingBoxAttachment>()->size(); index++)
+						entity->getComponent<DMKBoundingBoxAttachment>(index)->update();
 				}
 			}
 
@@ -192,6 +189,7 @@ namespace Dynamik
 		pCurrentLevel->initializeComponents();
 
 		pCurrentLevel->setupPlayerControls(&myPlayerController);
+		pCurrentLevel->playerObject->setCameraViewPort(pActiveWindow->getWindowExtent());
 	}
 
 	void DMKEngine::_initializeGameWorld()

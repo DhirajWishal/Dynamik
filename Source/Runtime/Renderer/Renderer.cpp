@@ -450,17 +450,17 @@ namespace Dynamik
 						StaticAllocator<DMKMaterial::MaterialPushBlock>::allocateInit(material.generatePushBlock()),
 						sizeof(DMKMaterial::MaterialPushBlock),
 						DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, 0);
-
-				/* Initialize Attachments */
-				for (auto attachment : mesh->pAttachments)
-				{
-					if (attachment->attachmentType == DMKComponentAttachmentType::DMK_COMPONENT_ATTACHMENT_TYPE_BOUNDING_BOX)
-						myBoundingBoxes.pushBack(createBoundingBox(Inherit<DMKBoundingBoxAttachment>(attachment)));
-				}
 			}
 		}
 
 		myEntities.pushBack(entity);
+
+		/* Initialize Attachments */
+		{
+			/* Initialize Bounding Boxes */
+			for (UI64 index = 0; index < pGameEntity->componentManager.getObjectArray<DMKBoundingBoxAttachment>()->size(); index++)
+				myBoundingBoxes.pushBack(createBoundingBox(pGameEntity->getComponent<DMKBoundingBoxAttachment>(index)));
+		}
 	}
 
 	void DMKRenderer::initializeGameWorld(DMKGameWorld* pGameWorld)

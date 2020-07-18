@@ -14,7 +14,6 @@ void Level1::onLoad()
 	playerObject->cameraModule = StaticAllocator<DMKCameraModule>::allocate();
 	playerObject->setPosition({ 0.0f, 0.0f, 0.0f });
 	playerObject->setCameraPosition({ 0.0f, 0.0f, 0.0f });
-	playerObject->setAspectRatio(1280.0f / 720.0f);
 	playerObject->setCameraAndWorldUp(VEC3(0.0f, -1.0f, 0.0f), VEC3(0.0f, -1.0f, 0.0f));
 
 	/* Create Basic World */
@@ -30,8 +29,17 @@ void Level1::onUpdate(const DMKEventPool* pEventPool)
 
 	if (DMKEventPool::MouseButtonLeft.isPressed())
 	{
-		playerObject->processMouseInput(DMKEventPool::getMousePosition(), 0.1f, refresh, true);
+		playerObject->processMouseControl(DMKEventPool::getMousePosition(), 0.1f, refresh, true);
 		refresh = false;
+
+		auto ray = playerObject->getCameraModule()->generateRay(DMKEventPool::getMousePosition());
+
+		for (auto entity : pCurrentGameWorld->entities)
+		{
+			for (UI64 index = 0; index < entity->getComponentArray<DMKBoundingBoxAttachment>()->size(); index++)
+				if(entity->getComponent<DMKBoundingBoxAttachment>(index)->checkRayIntercept(ray))
+					DMK_INFO("Intercepted!");
+		}
 	}
 	if (DMKEventPool::MouseButtonLeft.isReleased())
 		refresh = true;

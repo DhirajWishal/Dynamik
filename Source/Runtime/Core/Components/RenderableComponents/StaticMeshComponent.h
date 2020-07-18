@@ -98,13 +98,6 @@ namespace Dynamik
 		void resetUpdateNotice();
 
 		/*
-		 Add an attachment to the static mesh.
-
-		 @param pAttachment: Pointer to the attachment.
-		*/
-		virtual void addAttachment(DMKComponentAttachment* pAttachment) override final;
-
-		/*
 		 Set location of the mesh.
 
 		 @param position: Location to be set.

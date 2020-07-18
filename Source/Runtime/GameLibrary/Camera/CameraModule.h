@@ -8,6 +8,7 @@
 #include "Core/Macros/Global.h"
 #include "Core/Math/MathTypes.h"
 #include "Core/Objects/Resources/Uniform.h"
+#include "Core/Types/ComplexTypes.h"
 
 namespace Dynamik
 {
@@ -15,6 +16,12 @@ namespace Dynamik
 	struct DMK_API DMKCameraMatrix {
 		MAT4 view = MAT4(1.0f);
 		MAT4 projection = MAT4(1.0f);
+	};
+
+	/* A ray shot by the camera. Used for mouse picking. */
+	struct DMK_API DMKCameraRay {
+		Vector3F origin;
+		Vector3F direction;
 	};
 
 	/*
@@ -27,11 +34,20 @@ namespace Dynamik
 		DMKCameraModule();
 		virtual ~DMKCameraModule() {}
 
+		/*
+		 Set the camera view port extent.
+
+		 @param extent: Extent of the view port.
+		*/
+		void setViewPortExtent(DMKExtent2D extent);
+
 		virtual void update();
 		DMKUniformDescription getDescription() const;
 
 		void updateVectors();
 		virtual void updateMatrix();
+
+		virtual DMKCameraRay generateRay(DMKExtent2D mousePosition);
 
 		DMKCameraMatrix matrix;
 
@@ -40,6 +56,8 @@ namespace Dynamik
 		VEC3 right = { 1.0f, 0.0f, 0.0f };
 		VEC3 cameraUp = { 0.0f, 1.0f, 0.0f };
 		VEC3 worldUp = { 0.0f, 1.0f, 0.0f };
+
+		DMKExtent2D viewPortExtent;
 
 		F32 fieldOfView = 45.0f;
 		F32 farRender = 256.0f;

@@ -128,6 +128,14 @@ namespace Dynamik
 			return getLast<OBJECT>();
 		}
 
+		/*
+		 Get all the registered type names.
+		*/
+		ARRAY<STRING> getRegisteredComponentTypeNames()
+		{
+			return registeredComponentTypes;
+		}
+
 	private:
 		std::unordered_map<STRING, IObjectArrayBase*> objectArray;
 		ARRAY<STRING> registeredComponentTypes;

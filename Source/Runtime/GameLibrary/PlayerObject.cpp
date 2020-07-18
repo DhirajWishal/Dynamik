@@ -63,7 +63,7 @@ namespace Dynamik
 		cameraModule.roll = roll;
 	}
 
-	void DMKPlayerObject::processMouseInput(DMKExtent2D position, F32 sensitivity, B1 refresh, B1 flipAxises)
+	void DMKPlayerObject::processMouseControl(DMKExtent2D position, F32 sensitivity, B1 refresh, B1 flipAxises)
 	{
 		if (flipAxises)
 		{
@@ -89,6 +89,11 @@ namespace Dynamik
 			cameraModule.pitch = 89.0f;
 		if (cameraModule.pitch < -89.0f)
 			cameraModule.pitch = -89.0f;
+	}
+
+	void DMKPlayerObject::setCameraViewPort(DMKExtent2D extent)
+	{
+		cameraModule.setViewPortExtent(extent);
 	}
 	
 	void DMKPlayerObject::setCameraPosition(const VEC3& position)

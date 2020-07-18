@@ -125,7 +125,12 @@ namespace Dynamik
 		/*
 		 Multiply two Matrix4Fs
 		*/
-		static Matrix4F multiply(Matrix4F const lhs, Matrix4F const rhs);
+		static Matrix4F multiply(Matrix4F const& lhs, Matrix4F const& rhs);
+
+		/*
+		 Multiply a matrix and a vector.
+		*/
+		static Vector4F multiply(Matrix4F const& lhs, Vector4F const& rhs);
 
 	public:
 		/*
@@ -186,6 +191,17 @@ namespace Dynamik
 	 @param rhs: Right matrix.
 	*/
 	DMK_FORCEINLINE Matrix4F operator*(const Matrix4F& lhs, const Matrix4F& rhs)
+	{
+		return DMKMathFunctions::multiply(lhs, rhs);
+	}
+
+	/*
+	 Multiply a Matrix4F with a Vector4F.
+
+	 @param lhs: The matrix.
+	 @param rhs: The vector.
+	*/
+	DMK_FORCEINLINE Vector4F operator*(const Matrix4F& lhs, const Vector4F& rhs)
 	{
 		return DMKMathFunctions::multiply(lhs, rhs);
 	}

@@ -50,7 +50,9 @@ namespace Dynamik
 		void addRotationY(F32 yaw);
 		void addRotationZ(F32 roll);
 
-		void processMouseInput(DMKExtent2D position, F32 sensitivity = 0.1f, B1 refresh = false, B1 flipAxises = false);
+		void processMouseControl(DMKExtent2D position, F32 sensitivity = 0.1f, B1 refresh = false, B1 flipAxises = false);
+
+		void setCameraViewPort(DMKExtent2D extent);
 
 	public:		/* Component manager */
 		DMKComponentManager componentManager;

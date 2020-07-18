@@ -28,21 +28,6 @@ namespace Dynamik
 		basePipeline = pipeline;
 	}
 
-	void DMKRenderableComponent::addAttachment(DMKComponentAttachment* pAttachment)
-	{
-		pAttachment->initialize();
-		pAttachments.pushBack(pAttachment);
-	}
-
-	DMKComponentAttachment* DMKRenderableComponent::getAttachment(DMKComponentAttachmentType type)
-	{
-		for (auto pAttachment : pAttachments)
-			if (pAttachment->attachmentType == type)
-				return pAttachment;
-
-		return nullptr;
-	}
-
 	void DMKRenderableComponent::addRenderableComponent(DMKRenderableComponent* component)
 	{
 		renderComponents.pushBack(component);
@@ -51,12 +36,6 @@ namespace Dynamik
 	void DMKRenderableComponent::setLocation(Vector3F position)
 	{
 		this->position = position;
-	}
-
-	void DMKRenderableComponent::setupBoundingBox(DMKBoundingBoxAttachment BBAttachment)
-	{
-		BBAttachment.setPosition(position);
-		addAttachment(StaticAllocator<DMKBoundingBoxAttachment>::allocateInit(BBAttachment));
 	}
 
 	void DMKRenderableComponent::setBindingIndex(const UI32& index)

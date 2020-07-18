@@ -10,6 +10,8 @@
 #include "GameEntity.h"
 #include "EnvironmentMap.h"
 
+#include "Core/Components/Attachments/BoundingBox.h"
+
 namespace Dynamik
 {
 	/* 
