@@ -20,7 +20,7 @@ namespace Dynamik
 	
 	void DMKToolsRegistry::initializeDefaultTools()
 	{
-		instance.toolMap[TEXT("GLSL_VALIDATOR_EXE")] = instance.defaultToolsBasePath + TEXT("\\glslValidator\\glslangValidator.exe");
+		instance.toolMap[TEXT("GLSL_VALIDATOR_EXE")] = instance.defaultToolsBasePath + TEXT("\\glslangValidator\\glslangValidator.exe");
 	}
 	
 	void DMKToolsRegistry::addTool(const STRING& name, const STRING& tool)

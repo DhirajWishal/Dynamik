@@ -18,7 +18,14 @@ namespace Dynamik
 		GLSLCompiler() {}
 		~GLSLCompiler() {}
 
-		ARRAY<UI32> getSPIRV(const STRING& file, DMKShaderLocation location, DMKShaderCodeType codeType);
+		/*
+		 GLSL code to SPIRV code converter.
+
+		 @param file: GLSL file path.
+		 @param location: Shader code location.
+		 @param codeType: The input code type.
+		*/
+		DMKShaderModule getSPIRV(const STRING& file, DMKShaderLocation location, DMKShaderCodeType codeType);
 	};
 }
 

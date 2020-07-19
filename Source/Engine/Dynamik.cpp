@@ -81,12 +81,6 @@ namespace Dynamik
 			DMKToolsRegistry::initializeDefaultTools();
 		}
 
-		/* DEBUG */
-		{
-			GLSLCompiler compiler;
-			compiler.getSPIRV(TEXT("E:\\Projects\\Dynamik Engine\\Versions\\DynamikEngine\\Source\\Assets\\Shaders\\PBR\\IBL\\BRDFTable.frag"), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_GLSL);
-		}
-
 		/* Create and initialize windows */
 		pActiveWindow = _createWindow(1280, 720, "Dynamik Engine");
 
