@@ -69,7 +69,7 @@ namespace Dynamik
 			staggingBuffer->unmapMemory(pCoreObject);
 
 			_container.vertexBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-			_container.vertexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_VERTEX, bufferSize);
+			_container.vertexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_VERTEX, bufferSize, RResourceMemoryType(RESOURCE_MEMORY_TYPE_DEVICE_LOCAL | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
 			_container.vertexBuffer->copy(pCoreObject, staggingBuffer, bufferSize, 0, 0);
 
 			vertexBuffers.pushBack(_container);
@@ -100,7 +100,7 @@ namespace Dynamik
 		staggingBuffer->unmapMemory(pCoreObject);
 
 		indexBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-		indexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_INDEX, bufferSize);
+		indexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_INDEX, bufferSize, RResourceMemoryType(RESOURCE_MEMORY_TYPE_DEVICE_LOCAL | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
 		indexBuffer->copy(pCoreObject, staggingBuffer, bufferSize, 0, 0);
 
 		staggingBuffer->terminate(pCoreObject);

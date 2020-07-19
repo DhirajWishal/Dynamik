@@ -49,7 +49,7 @@ namespace Dynamik
 				nullptr,
 				DMKComponentAttachmentType::DMK_COMPONENT_ATTACHMENT_TYPE_BOUNDING_BOX
 			),
-			shouldDisplay(false) {}
+			shouldDisplay(true) {}
 		DMKBoundingBoxAttachment(
 			DMKComponent* pComponent,
 			Quaternion rotation = Quaternion::Default,

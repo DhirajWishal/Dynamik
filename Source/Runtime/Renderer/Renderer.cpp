@@ -729,7 +729,7 @@ namespace Dynamik
 		{
 			/* Update Vertex Data */
 			auto entry = myDrawCallManager.getDebugEntry(debug.resourceIndex);
-			copyDataToBuffer(entry.pVertexBuffer, debug.pComponent->getVertexBuffer().data(), debug.pComponent->getVertexBuffer().byteSize(), 0);
+			entry.pVertexBuffer->setData(myCoreObject, debug.pComponent->getVertexBuffer().byteSize(), 0, debug.pComponent->getVertexBuffer().data());
 		}
 	}
 
@@ -811,15 +811,21 @@ namespace Dynamik
 					StaticAllocator<RTexture>::rawDeallocate(texture, 0);
 				}
 
-				mesh->pUniformBuffer->terminate(myCoreObject);
-				StaticAllocator<RBuffer>::rawDeallocate(mesh->pUniformBuffer, 0);
+				if (mesh->pUniformBuffer)
+				{
+					mesh->pUniformBuffer->terminate(myCoreObject);
+					StaticAllocator<RBuffer>::rawDeallocate(mesh->pUniformBuffer, 0);
+				}
 
-				mesh->pPipeline->terminate(myCoreObject);
+				if (mesh->pPipeline)
+				{
+					mesh->pPipeline->terminate(myCoreObject);
 
-				for (auto block : mesh->pPipeline->constantBlocks)
-					StaticAllocator<BYTE>::rawDeallocate(block.data, block.byteSize);
+					for (auto block : mesh->pPipeline->constantBlocks)
+						StaticAllocator<BYTE>::rawDeallocate(block.data, block.byteSize);
 
-				StaticAllocator<RPipelineObject>::rawDeallocate(mesh->pPipeline, 0);
+					StaticAllocator<RPipelineObject>::rawDeallocate(mesh->pPipeline, 0);
+				}
 
 				StaticAllocator<RMeshObject>::rawDeallocate(mesh);
 			}
@@ -834,6 +840,24 @@ namespace Dynamik
 			boundingBox.terminate(myCoreObject);
 
 		myBoundingBoxes.clear();
+
+		/* Terminate Debug Objects */
+		for (auto debug : myDebugObjects)
+		{
+			if (debug.pPipeline)
+			{
+				debug.pPipeline->terminate(myCoreObject);
+				StaticAllocator<RPipelineObject>::rawDeallocate(debug.pPipeline, 0);
+			}
+
+			if (debug.pUniformBuffer)
+			{
+				debug.pUniformBuffer->terminate(myCoreObject);
+				StaticAllocator<RBuffer>::rawDeallocate(debug.pUniformBuffer, 0);
+			}
+		}
+
+		myDebugObjects.clear();
 	}
 
 	RBoundingBox DMKRenderer::createBoundingBox(DMKBoundingBoxAttachment* pBoundingBox)
@@ -846,7 +870,10 @@ namespace Dynamik
 		else
 			boundingBox.initialize(myCoreObject, myRenderTarget, mySwapChain, nullptr);
 
-		myDrawCallManager.addDrawEntry(pBoundingBox->vertexBuffer, &pBoundingBox->indexBuffer, boundingBox.pPipeline);
+		if (pBoundingBox->vertexBuffer.size() || pBoundingBox->indexBuffer.size())
+			myDrawCallManager.addDrawEntry(pBoundingBox->vertexBuffer, &pBoundingBox->indexBuffer, boundingBox.pPipeline);
+		else
+			myDrawCallManager.addEmptyEntry(boundingBox.pPipeline);
 
 		return boundingBox;
 	}

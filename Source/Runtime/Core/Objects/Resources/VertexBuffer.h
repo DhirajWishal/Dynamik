@@ -81,6 +81,7 @@ namespace Dynamik
 		 Create a bounding box vertex layout.
 		 This contains,
 		 - Position				[Vector3F * 1]
+		 - Color				[Vector4F * 1]
 		*/
 		static DMKVertexLayout createBoundingBox();
 

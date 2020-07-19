@@ -63,8 +63,6 @@ namespace Dynamik
 		auto rayWorld_v4 = (DMathLib::inverse(matrix.view) * rayEye);
 		ray.direction = DMathLib::normalize(Vector3F(rayWorld_v4.x, rayWorld_v4.y, rayWorld_v4.z)) + position;
 
-		printf("Ray Direction: X: %f, Y: %f, Z: %f\t Ray Origin: X: %f, Y: %f, Z: %f\n", ray.direction.x, ray.direction.y, ray.direction.z, ray.origin.x, ray.origin.y, ray.origin.z);
-
 		return ray;
 	}
 }

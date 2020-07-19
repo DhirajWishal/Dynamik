@@ -25,21 +25,31 @@ namespace Dynamik
 		struct VertexBB
 		{
 			VertexBB() {}
-			VertexBB(Vector3F position) : position(position) {}
+			VertexBB(Vector3F position, DMKColorComponent color) : position(position), color(color) {}
 			~VertexBB() {}
 
 			Vector3F position = Vector3F(0.0f);
+			DMKColorComponent color = DMKColorComponent(0.0f);
 		};
 
 		ARRAY<VertexBB> vertexList;
-		vertexList.pushBack(VertexBB({ MIN_X, MAX_Y, MAX_Z }));
-		vertexList.pushBack(VertexBB({ MIN_X, MAX_Y, MIN_Z }));
-		vertexList.pushBack(VertexBB({ MAX_X, MAX_Y, MIN_Z }));
-		vertexList.pushBack(VertexBB({ MAX_X, MAX_Y, MAX_Z }));
-		vertexList.pushBack(VertexBB({ MAX_X, MIN_Y, MAX_Z }));
-		vertexList.pushBack(VertexBB({ MAX_X, MIN_Y, MIN_Z }));
-		vertexList.pushBack(VertexBB({ MIN_X, MIN_Y, MIN_Z }));
-		vertexList.pushBack(VertexBB({ MIN_X, MIN_Y, MAX_Z }));
+		/* The box */
+		vertexList.pushBack(VertexBB({ MIN_X, MAX_Y, MAX_Z }, idleColor));
+		vertexList.pushBack(VertexBB({ MIN_X, MAX_Y, MIN_Z }, idleColor));
+		vertexList.pushBack(VertexBB({ MAX_X, MAX_Y, MIN_Z }, idleColor));
+		vertexList.pushBack(VertexBB({ MAX_X, MAX_Y, MAX_Z }, idleColor));
+		vertexList.pushBack(VertexBB({ MAX_X, MIN_Y, MAX_Z }, idleColor));
+		vertexList.pushBack(VertexBB({ MAX_X, MIN_Y, MIN_Z }, idleColor));
+		vertexList.pushBack(VertexBB({ MIN_X, MIN_Y, MIN_Z }, idleColor));
+		vertexList.pushBack(VertexBB({ MIN_X, MIN_Y, MAX_Z }, idleColor));
+
+		/* Coordinates */
+		vertexList.pushBack(VertexBB({ (MIN_X + MAX_X) / 2, (MIN_Y + MAX_Y) / 2, (MIN_Z + MAX_Z) / 2 }, { 1.0f, 0.0f, 0.0f, 1.0f }));		/* X axis start */
+		vertexList.pushBack(VertexBB({ MAX_X, (MIN_Y + MAX_Y) / 2, (MIN_Z + MAX_Z) / 2 }, { 1.0f, 0.0f, 0.0f, 1.0f }));						/* X axis end */
+		vertexList.pushBack(VertexBB({ (MIN_X + MAX_X) / 2, (MIN_Y + MAX_Y) / 2, (MIN_Z + MAX_Z) / 2 }, { 0.0f, 1.0f, 0.0f, 1.0f }));		/* Y axis start */
+		vertexList.pushBack(VertexBB({ (MIN_X + MAX_X) / 2, MAX_Y, (MIN_Z + MAX_Z) / 2 }, { 0.0f, 1.0f, 0.0f, 1.0f }));						/* Y axis end */
+		vertexList.pushBack(VertexBB({ (MIN_X + MAX_X) / 2, (MIN_Y + MAX_Y) / 2, (MIN_Z + MAX_Z) / 2 }, { 0.0f, 0.0f, 1.0f, 1.0f }));		/* Z axis start */
+		vertexList.pushBack(VertexBB({ (MIN_X + MAX_X) / 2 ,(MIN_Y + MAX_Y) / 2, MAX_Z }, { 0.0f, 0.0f, 1.0f, 1.0f }));						/* Z axis end */
 
 		buffer.setLayout(DMKVertexLayout::createBoundingBox());
 		buffer.initialize(vertexList.size());
@@ -53,7 +63,11 @@ namespace Dynamik
 		return {
 			0, 1, 1, 2, 2, 3, 3, 0,
 			3, 4, 4, 5, 5, 2, 5, 6,
-			6, 1, 6, 7, 7, 0, 7, 4
+			6, 1, 6, 7, 7, 0, 7, 4,
+
+			8, 9,
+			10, 11,
+			12, 13
 		};
 	}
 
@@ -77,7 +91,7 @@ namespace Dynamik
 			pComponent,
 			DMKComponentAttachmentType::DMK_COMPONENT_ATTACHMENT_TYPE_BOUNDING_BOX
 		),
-		shouldDisplay(false)
+		shouldDisplay(true)
 	{
 		if (!pComponent)
 		{

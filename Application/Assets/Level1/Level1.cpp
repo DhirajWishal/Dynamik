@@ -20,7 +20,7 @@ void Level1::onLoad()
 	/* Create Basic World */
 	createUserGameWorld<DefaultWorld>();
 	pCurrentGameWorld->setCamera(playerObject->getCameraModule());
-	//pCurrentGameWorld->entities.front()->addComponent<DMKDebugComponent>(initializeRayLine());
+	pCurrentGameWorld->entities.front()->addComponent<DMKDebugComponent>(initializeRayLine());
 
 	movementBias = 0.1f;
 }
@@ -42,9 +42,9 @@ void Level1::onUpdate(const DMKEventPool* pEventPool)
 			shouldRenderRay = false;
 		}
 
-		for (auto entity : pCurrentGameWorld->entities)
-			for (UI64 index = 0; index < entity->getComponentArray<DMKBoundingBoxAttachment>()->size(); index++)
-				entity->getComponent<DMKBoundingBoxAttachment>(index)->checkRayIntercept(ray);
+		//for (auto entity : pCurrentGameWorld->entities)
+		//	for (UI64 index = 0; index < entity->getComponentArray<DMKBoundingBoxAttachment>()->size(); index++)
+		//		entity->getComponent<DMKBoundingBoxAttachment>(index)->checkRayIntercept(ray);
 	}
 	if (DMKEventPool::MouseButtonLeft.isReleased())
 		refresh = true;

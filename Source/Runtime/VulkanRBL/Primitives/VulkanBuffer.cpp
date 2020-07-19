@@ -71,6 +71,12 @@ namespace Dynamik
 
 		void VulkanBuffer::copy(RCoreObject* pCoreObject, RBuffer* pSrcBuffer, UI64 size, UI64 srcOffset, UI64 dstOffset)
 		{
+			if ((size > this->size) || (srcOffset > pSrcBuffer->getSize()) || (dstOffset > this->size))
+			{
+				DMK_ERROR("An argument submitted to copy a buffer is invalid!");
+				return;
+			}
+
 			VulkanOneTimeCommandBuffer commandBuffer(pCoreObject);
 
 			VkBufferCopy copyRegion = {};
@@ -83,6 +89,12 @@ namespace Dynamik
 
 		void VulkanBuffer::setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, VPTR data)
 		{
+			if (uSize > size)
+			{
+				DMK_ERROR("The size submitted to update the buffer is larger than the allocated size!");
+				return;
+			}
+
 			VPTR myData = getData(pCoreObject, uSize, offset);
 			DMKMemoryFunctions::moveData(myData, data, uSize);
 			unmapMemory(pCoreObject);
@@ -90,6 +102,12 @@ namespace Dynamik
 
 		VPTR VulkanBuffer::getData(RCoreObject* pCoreObject, UI64 size, UI64 offset)
 		{
+			if (size > this->size)
+			{
+				DMK_ERROR("The size submitted to map the buffer is larger than the allocated size!");
+				return nullptr;
+			}
+
 			VPTR data = nullptr;
 			DMK_VULKAN_ASSERT(vkMapMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, bufferMemory, offset, size, VK_NULL_HANDLE, &data), "Unable to map the buffer memory!");
 			return data;
