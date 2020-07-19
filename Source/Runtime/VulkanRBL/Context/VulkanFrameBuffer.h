@@ -22,7 +22,7 @@ namespace Dynamik
             VulkanFrameBuffer() {}
             ~VulkanFrameBuffer() {}
 
-            virtual void initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, RSwapChain* pSwapChain) override final;
+            virtual void initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, RSwapChain* pSwapChain, DMKExtent2D frameExtent, UI32 bufferCount, DMKFormat overrideFormat = DMKFormat::DMK_FORMAT_UNDEFINED) override final;
             virtual void terminate(RCoreObject* pCoreObject) override final;
 
             const VkFramebuffer operator[](UI32 index) const;

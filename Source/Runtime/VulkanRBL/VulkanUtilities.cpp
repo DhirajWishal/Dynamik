@@ -179,6 +179,34 @@ namespace Dynamik
 			return VK_SHADER_STAGE_ALL;
 		}
 
+		DMKShaderLocation VulkanUtilities::getShaderLocation(VkShaderStageFlagBits flag)
+		{
+			switch (flag)
+			{
+			case VK_SHADER_STAGE_VERTEX_BIT:					return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
+			case VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT:		return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_TESSELLATION;
+			case VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT:	return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_TESSELLATION;
+			case VK_SHADER_STAGE_GEOMETRY_BIT:					return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_GEOMETRY;
+			case VK_SHADER_STAGE_FRAGMENT_BIT:					return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT;
+			case VK_SHADER_STAGE_COMPUTE_BIT:					return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_COMPUTE;
+			case VK_SHADER_STAGE_ALL_GRAPHICS:					return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_ALL_GRAPHICS;
+			case VK_SHADER_STAGE_ALL:							return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_ALL;
+			case VK_SHADER_STAGE_RAYGEN_BIT_KHR:				return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_RAY_GEN;
+			case VK_SHADER_STAGE_ANY_HIT_BIT_KHR:				return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_ANY_HIT;
+			case VK_SHADER_STAGE_CLOSEST_HIT_BIT_KHR:			return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_CLOSEST_HIT;
+			case VK_SHADER_STAGE_MISS_BIT_KHR:					return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_MISS;
+			case VK_SHADER_STAGE_INTERSECTION_BIT_KHR:			return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_INTERSECTION;
+			case VK_SHADER_STAGE_CALLABLE_BIT_KHR:				return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_CALLABLE;
+			case VK_SHADER_STAGE_TASK_BIT_NV:					return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_TASK;
+			case VK_SHADER_STAGE_MESH_BIT_NV:					return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_MESH;
+			default:
+				DMK_ERROR("Invalid Vulkan Shader Stage!");
+				break;
+			}
+
+			return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_ALL;
+		}
+
 		ARRAY<VkDescriptorSetLayoutBinding> VulkanUtilities::getDescriptorSetLayoutBindings(DMKUniformBufferDescriptor descriptor)
 		{
 			ARRAY<VkDescriptorSetLayoutBinding> _bindings;

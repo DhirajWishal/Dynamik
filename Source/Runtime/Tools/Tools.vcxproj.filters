@@ -4,16 +4,25 @@
     <Filter Include="Shader">
       <UniqueIdentifier>{FC0C0CD1-E8AE-36A7-D169-4AFBBDAABDF7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader\GLSL">
+      <UniqueIdentifier>{5D47C2A5-C9FC-3A9B-52F1-3472BEA5319F}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Shader\SPIR-V">
       <UniqueIdentifier>{0C80B23B-7840-2E72-417B-77EFADFA724E}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Shader\GLSL\Compiler.h">
+      <Filter>Shader\GLSL</Filter>
+    </ClInclude>
     <ClInclude Include="Shader\SPIR-V\Disassembler.h">
       <Filter>Shader\SPIR-V</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Shader\GLSL\Compiler.cpp">
+      <Filter>Shader\GLSL</Filter>
+    </ClCompile>
     <ClCompile Include="Shader\SPIR-V\Disassembler.cpp">
       <Filter>Shader\SPIR-V</Filter>
     </ClCompile>

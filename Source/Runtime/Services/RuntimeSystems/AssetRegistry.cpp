@@ -36,7 +36,7 @@ namespace Dynamik
 
 		instance.assetMap[TEXT("SHADER_SKYBOX_VERT_SPV")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\SkyBox\\vert.spv");
 		instance.assetMap[TEXT("SHADER_SKYBOX_FRAG_SPV")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\SkyBox\\frag.spv");
-	
+
 		instance.assetMap[TEXT("SHADER_BOUNDING_BOX_VERT_SPV")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\BoundingBox\\vert.spv");
 		instance.assetMap[TEXT("SHADER_BOUNDING_BOX_FRAG_SPV")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\BoundingBox\\frag.spv");
 
@@ -48,17 +48,21 @@ namespace Dynamik
 		instance.assetMap[TEXT("TEXTURE_SKYBOX_RIGHT_JPG")] = instance.defaultAssetBasePath + TEXT("\\Textures\\SkyBox\\right.jpg");
 		instance.assetMap[TEXT("TEXTURE_SKYBOX_TOP_JPG")] = instance.defaultAssetBasePath + TEXT("\\Textures\\SkyBox\\top.jpg");
 	}
-	
+
 	STRING DMKAssetRegistry::getAsset(const STRING& assetName)
 	{
-		return instance.assetMap[assetName];
+		if (instance.assetMap.find(assetName) != instance.assetMap.end())
+			return instance.assetMap[assetName];
+
+		DMK_ERROR("The requested asset is not available in the registry! The Asset: " + assetName);
+		return STRING();
 	}
-	
+
 	void DMKAssetRegistry::addAsset(const STRING& assetName, const STRING& assetPath)
 	{
 		instance.assetMap.insert({ assetName, assetPath });
 	}
-	
+
 	UI64 DMKAssetRegistry::getNumberOfRegisteredAssets()
 	{
 		return instance.assetMap.size();
@@ -73,7 +77,7 @@ namespace Dynamik
 
 		return names;
 	}
-	
+
 	std::unordered_map<STRING, STRING> DMKAssetRegistry::getAssetMap()
 	{
 		return instance.assetMap;

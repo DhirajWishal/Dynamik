@@ -18,7 +18,7 @@ namespace Dynamik
 			ARRAY<VkAttachmentReference> inputAttachments;
 		};
 
-		void VulkanRenderPass::initialize(RCoreObject* pCoreObject, ARRAY<RSubPasses> aSubPasses, RSwapChain* pSwapChain)
+		void VulkanRenderPass::initialize(RCoreObject* pCoreObject, ARRAY<RSubPasses> aSubPasses, ARRAY<RSubpassDependency> dependencies, RSwapChain* pSwapChain, DMKFormat overrideFormat)
 		{
 			subPasses = aSubPasses;
 
@@ -41,7 +41,12 @@ namespace Dynamik
 				{
 					VkAttachmentDescription colorAttachmentResolve = {};
 					colorAttachmentResolve.flags = VK_NULL_HANDLE;
-					colorAttachmentResolve.format = VulkanUtilities::getVulkanFormat(pSwapChain->format);
+
+					if (pSwapChain)
+						colorAttachmentResolve.format = VulkanUtilities::getVulkanFormat(pSwapChain->format);
+					else
+						colorAttachmentResolve.format = VulkanUtilities::getVulkanFormat(overrideFormat);
+					
 					colorAttachmentResolve.samples = VK_SAMPLE_COUNT_1_BIT;
 					colorAttachmentResolve.loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
 					colorAttachmentResolve.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -79,7 +84,12 @@ namespace Dynamik
 				{
 					VkAttachmentDescription description;
 					description.flags = VK_NULL_HANDLE;
-					description.format = VulkanUtilities::getVulkanFormat(pSwapChain->format);
+
+					if (pSwapChain)
+						description.format = VulkanUtilities::getVulkanFormat(pSwapChain->format);
+					else
+						description.format = VulkanUtilities::getVulkanFormat(overrideFormat);
+
 					description.samples = (VkSampleCountFlagBits)pCoreObject->sampleCount;
 					description.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 					description.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -114,13 +124,21 @@ namespace Dynamik
 			subpass.pResolveAttachments = attachmentReferences.resolveAttachments.data();
 			subpass.pPreserveAttachments = VK_NULL_HANDLE;
 
-			VkSubpassDependency dependency = {};
-			dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
-			dependency.dstSubpass = 0;	/* TODO */
-			dependency.srcStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-			dependency.srcAccessMask = 0;	/* TODO */
-			dependency.dstStageMask = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-			dependency.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
+			/* Subpass Dependencies */
+			ARRAY<VkSubpassDependency> subpassDependencies;
+			VkSubpassDependency subpassDependency = {};
+			for (auto dependency : dependencies)
+			{
+				subpassDependency.srcSubpass = dependency.srcSubpassIndex;
+				subpassDependency.dstSubpass = dependency.dstSubpassIndex;
+				subpassDependency.srcStageMask = dependency.srcPipelineStage;
+				subpassDependency.dstStageMask = dependency.dstPipelineStage;
+				subpassDependency.srcAccessMask = dependency.srcMemoryAccessType;
+				subpassDependency.dstAccessMask = dependency.dstMemoryAccessType;
+				subpassDependency.dependencyFlags = dependency.pipelineDependency;
+
+				subpassDependencies.pushBack(subpassDependency);
+			}
 
 			VkRenderPassCreateInfo createInfo;
 			createInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
@@ -130,8 +148,8 @@ namespace Dynamik
 			createInfo.pAttachments = _attachmenDescriptions.data();
 			createInfo.subpassCount = 1;
 			createInfo.pSubpasses = &subpass;
-			createInfo.dependencyCount = 1;		/* TODO */
-			createInfo.pDependencies = &dependency;		/* TODO */
+			createInfo.dependencyCount = subpassDependencies.size();
+			createInfo.pDependencies = subpassDependencies.data();
 
 			DMK_VULKAN_ASSERT(vkCreateRenderPass(Inherit<VulkanCoreObject>(pCoreObject)->device, &createInfo, nullptr, &renderPass), "Failed to create the Render Pass!");
 		}

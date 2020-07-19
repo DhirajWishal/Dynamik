@@ -54,6 +54,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\Attachments\BoundingBox.h">
+      <Filter>Components\Attachments</Filter>
+    </ClInclude>
     <ClInclude Include="Components\Attachments\ComponentAttachment.h">
       <Filter>Components\Attachments</Filter>
     </ClInclude>
@@ -65,6 +68,9 @@
     </ClInclude>
     <ClInclude Include="Components\RenderableComponent.h">
       <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\RenderableComponents\DebugComponent.h">
+      <Filter>Components\RenderableComponents</Filter>
     </ClInclude>
     <ClInclude Include="Components\RenderableComponents\StaticMeshComponent.h">
       <Filter>Components\RenderableComponents</Filter>
@@ -225,12 +231,16 @@
     <ClInclude Include="Utilities\Ticker.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Components\Attachments\BoundingBox.h" />
-    <ClInclude Include="Components\RenderableComponents\DebugComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Components\Attachments\BoundingBox.cpp">
+      <Filter>Components\Attachments</Filter>
+    </ClCompile>
     <ClCompile Include="Components\RenderableComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\RenderableComponents\DebugComponent.cpp">
+      <Filter>Components\RenderableComponents</Filter>
     </ClCompile>
     <ClCompile Include="Components\RenderableComponents\StaticMeshComponent.cpp">
       <Filter>Components\RenderableComponents</Filter>
@@ -316,8 +326,6 @@
     <ClCompile Include="Utilities\Ticker.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Components\Attachments\BoundingBox.cpp" />
-    <ClCompile Include="Components\RenderableComponents\DebugComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core.lua" />

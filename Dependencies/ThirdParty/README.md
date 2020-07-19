@@ -34,5 +34,11 @@ https://github.com/nothings/stb
 #### Vulkan
 https://github.com/KhronosGroup/Vulkan-Headers
 
+#### glslang
+https://github.com/KhronosGroup/glslang
+GLSL language tools.
+Binaries are required to be externally.
+[Link To Download](https://github.com/KhronosGroup/glslang/releases/tag/master-tot)
+
 ### Binary Location
 Binaries for almost all the locally stored libraries and stand alone binaries are stored here at Binaries/.

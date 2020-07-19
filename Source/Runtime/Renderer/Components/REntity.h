@@ -17,7 +17,7 @@ namespace Dynamik
 		REntity() = default;
 		virtual ~REntity() = default;
 
-		ARRAY<RMeshObject*> pMeshObjects;
+		ARRAY<RMeshObject> meshObjects;
 	};
 }
 

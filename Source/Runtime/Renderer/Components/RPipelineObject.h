@@ -58,7 +58,7 @@ namespace Dynamik
 
 	/*
 	 Renderer Pipeline Object
-	 Pipeline objects consists all the necessary data to be passed to the shader (Vertex inputs, resource 
+	 Pipeline objects consists all the necessary data to be passed to the shader (Vertex inputs, resource
 	 descriptors).
 	*/
 	class DMK_API RPipelineObject {
@@ -71,7 +71,7 @@ namespace Dynamik
 		virtual void terminate(RCoreObject* pCoreObject) = 0;
 
 		virtual void initializeResources(RCoreObject* pCoreObject, ARRAY<RBuffer*> pBuffers, ARRAY<RTexture*> pTextures) = 0;
-	
+
 		RPipelineSpecification mySpecification = {};
 		RPipelineUsage myUsage = RPipelineUsage::PIPELINE_USAGE_GRAPHICS;
 
@@ -88,9 +88,10 @@ namespace Dynamik
 			UI64 offset = 0;
 		};
 
-		DMK_FORCEINLINE virtual void addConstantBlock(VPTR data, UI64 byteSize, DMKShaderLocation location, UI64 offset = 0)
+		DMK_FORCEINLINE virtual void submitConstantData(VPTR data, UI64 blockIndex)
 		{
-			constantBlocks.pushBack(PConstantBlock(data, byteSize, location, offset));
+			if (constantBlocks.size())
+				constantBlocks[blockIndex].data = data;
 		}
 
 		ARRAY<PConstantBlock> constantBlocks;

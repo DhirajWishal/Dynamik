@@ -7,6 +7,7 @@
 
 #include "RCoreObject.h"
 #include "REntity.h"
+#include "Lighting/RBRDFTable.h"
 
 namespace Dynamik
 {
@@ -33,6 +34,8 @@ namespace Dynamik
 		RTexture* pTexture = nullptr;
 		RPipelineObject* pPipeline = nullptr;
 		RBuffer* pUniformBuffer = nullptr;
+
+		RBRDFTable* pBRDFTable = nullptr;
 
 	public:		/* Parent Mesh Component*/
 		DMKStaticMeshComponent* pMeshComponent = nullptr;

@@ -20,7 +20,10 @@ namespace Dynamik
 
 	void DMKRenderableComponent::addTextureModule(DMKTexture* pTexture)
 	{
-		pTextures.pushBack(pTexture);
+		DMKMaterial newMaterial;
+		newMaterial.addTexture(pTexture, MaterialTextureType::MATERIAL_TEXTURE_TYPE_DEFAULT);
+
+		addMaterial(newMaterial);
 	}
 
 	void DMKRenderableComponent::setBaseRenderingPipeline(const DMKBaseRenderingPipeline& pipeline)
@@ -33,9 +36,19 @@ namespace Dynamik
 		renderComponents.pushBack(component);
 	}
 
-	void DMKRenderableComponent::setLocation(Vector3F position)
+	void DMKRenderableComponent::setRotation(Quaternion rotation)
+	{
+		this->rotation = rotation;
+	}
+
+	void DMKRenderableComponent::setPosition(Vector3F position)
 	{
 		this->position = position;
+	}
+
+	void DMKRenderableComponent::setScale(Vector3F scale)
+	{
+		this->scale = scale;
 	}
 
 	void DMKRenderableComponent::setBindingIndex(const UI32& index)

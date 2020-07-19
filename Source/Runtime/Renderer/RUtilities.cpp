@@ -87,4 +87,9 @@ namespace Dynamik
 
 		return subpasses;
 	}
+	
+	RTexture* RUtilities::createBRDFTable(RCoreObject* pCoreObject, F32 dimentions)
+	{
+		return nullptr;
+	}
 }

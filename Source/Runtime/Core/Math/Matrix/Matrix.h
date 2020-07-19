@@ -37,6 +37,18 @@ namespace Dynamik
             return (*this)();
         }
 
+        inline TYPE& operator*=(const TYPE& rhs)
+        {
+            (*this)() = (*this)() * rhs;
+            return (*this)();
+        }
+
+        inline TYPE& operator*=(const value_type& rhs)
+        {
+            (*this)() = (*this)() * TYPE(rhs);
+            return (*this)();
+        }
+
         inline TYPE operator++(int)
         {
             TYPE tmp = (*this)();
@@ -59,6 +71,18 @@ namespace Dynamik
         inline TYPE& operator-=(const value_type& rhs)
         {
             (*this)() = (*this)() + TYPE(rhs);
+            return (*this)();
+        }
+
+        inline TYPE& operator/=(const TYPE& rhs)
+        {
+            (*this)() = (*this)() / rhs;
+            return (*this)();
+        }
+
+        inline TYPE& operator/=(const value_type& rhs)
+        {
+            (*this)() = (*this)() / TYPE(rhs);
             return (*this)();
         }
 

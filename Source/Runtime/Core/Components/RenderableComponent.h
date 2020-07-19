@@ -7,8 +7,9 @@
 
 #include "Component.h"
 #include "Core/Objects/Resources/ShaderModule.h"
-#include "Core/Objects/Resources/Texture.h"
+#include "Core/Objects/Resources/Material.h"
 #include "GameLibrary/Camera/CameraModule.h"
+#include "Core/Math/Quaternion.h"
 
 namespace Dynamik
 {
@@ -57,22 +58,61 @@ namespace Dynamik
 		virtual void addRenderableComponent(DMKRenderableComponent* component);
 
 		/*
+		 Set a rotation to the instance.
+		*/
+		virtual void setRotation(Quaternion rotation);
+
+		/*
+		 Get rotation of the instance.
+		*/
+		Quaternion getRotation() const { return rotation; }
+
+		/*
 		 Add a location to the component.
 		*/
-		virtual void setLocation(Vector3F position);
+		virtual void setPosition(Vector3F position);
+
+		/*
+		 Get the position of the instance.
+		*/
+		Vector3F getPosition() const { return position; }
+
+		/*
+		 Add a scale to the component.
+		*/
+		virtual void setScale(Vector3F scale);
+
+		/*
+		 Get the scale of the instance.
+		*/
+		Vector3F getScale() const { return scale; }
 
 	public:		/* Constant methods */
 		void setBindingIndex(const UI32& index);
 
+	public:		/* Materials */
+		void addMaterial(const DMKMaterial& material) { materials.pushBack(material); }
+
+		ARRAY<DMKMaterial> materials;
+
 	public:		/* Data Store */
 		ARRAY<DMKShaderModule> shaderModules;
-		ARRAY<DMKTexture*> pTextures;
 		ARRAY<DMKRenderableComponent*> renderComponents;
+
+		/*
+		 Rotation of the instance.
+		*/
+		Quaternion rotation;
 
 		/*
 		 Position of one instance.
 		*/
 		Vector3F position;
+
+		/*
+		 Scale of the instance.
+		*/
+		Vector3F scale;
 
 		DMKUniformDescription uniformDescription;
 		DMKBaseRenderingPipeline basePipeline = DMKBaseRenderingPipeline::DMK_BASE_RENDERING_PIPELINE_CUSTOM;

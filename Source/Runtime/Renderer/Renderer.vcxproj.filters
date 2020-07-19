@@ -4,17 +4,26 @@
     <Filter Include="Components">
       <UniqueIdentifier>{6B7DD516-5735-1764-C03C-F0BFAC13B254}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Attachments">
+      <UniqueIdentifier>{7675544D-626F-7D9F-4BDC-13B03775E30B}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Components\Context">
       <UniqueIdentifier>{FF328E1F-EB16-4F75-5477-49C8407A39F7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Components\Factories">
       <UniqueIdentifier>{9A8AB35F-8619-3D29-2F38-51241BA64DCF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Lighting">
+      <UniqueIdentifier>{5059A280-BCBA-7F8E-4528-C640B188B64D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Components\Primitives">
       <UniqueIdentifier>{66E2AA9B-D24E-6696-9B42-FEF3076E88FE}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Components\Attachments\RBoundingBox.h">
+      <Filter>Components\Attachments</Filter>
+    </ClInclude>
     <ClInclude Include="Components\Context\RFrameBuffer.h">
       <Filter>Components\Context</Filter>
     </ClInclude>
@@ -38,6 +47,9 @@
     </ClInclude>
     <ClInclude Include="Components\Factories\PipelineFactory.h">
       <Filter>Components\Factories</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Lighting\RBRDFTable.h">
+      <Filter>Components\Lighting</Filter>
     </ClInclude>
     <ClInclude Include="Components\PipelineTypeDefs.h">
       <Filter>Components</Filter>
@@ -93,12 +105,14 @@
     <ClInclude Include="Components\RRenderTarget.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="RUtilities.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RendererCommand.h" />
-    <ClInclude Include="Components\Attachments\RBoundingBox.h" />
-    <ClInclude Include="RUtilities.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Components\Attachments\RBoundingBox.cpp">
+      <Filter>Components\Attachments</Filter>
+    </ClCompile>
     <ClCompile Include="Components\Factories\BufferFactory.cpp">
       <Filter>Components\Factories</Filter>
     </ClCompile>
@@ -111,9 +125,8 @@
     <ClCompile Include="Components\RDrawCallManager.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="Components\Attachments\RBoundingBox.cpp" />
     <ClCompile Include="RUtilities.cpp" />
+    <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Renderer.lua" />

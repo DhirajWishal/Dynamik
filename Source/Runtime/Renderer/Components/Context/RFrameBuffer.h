@@ -21,7 +21,7 @@ namespace Dynamik
 		RFrameBuffer() {}
 		virtual ~RFrameBuffer() {}
 
-		virtual void initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, RSwapChain* pSwapChain) = 0;
+		virtual void initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, RSwapChain* pSwapChain, DMKExtent2D frameExtent, UI32 bufferCount, DMKFormat overrideFormat = DMKFormat::DMK_FORMAT_UNDEFINED) = 0;
 		virtual void terminate(RCoreObject* pCoreObject) = 0;
 
 		UI32 width = 0;

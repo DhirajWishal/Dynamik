@@ -10,6 +10,9 @@
     <Filter Include="Context\Attachments">
       <UniqueIdentifier>{35D1033D-A132-E14A-2AA0-27FD9600180A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lighting">
+      <UniqueIdentifier>{5B1EC029-47EB-1A35-7004-09DD5C3050C3}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Pipelines">
       <UniqueIdentifier>{CE92F1E0-3AFD-A557-833B-57FDEFE483AC}</UniqueIdentifier>
     </Filter>
@@ -71,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="Context\VulkanSwapChain.h">
       <Filter>Context</Filter>
+    </ClInclude>
+    <ClInclude Include="Lighting\VulkanBRDFTable.h">
+      <Filter>Lighting</Filter>
     </ClInclude>
     <ClInclude Include="Pipelines\VulkanGraphicsPipeline.h">
       <Filter>Pipelines</Filter>
@@ -142,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="Context\VulkanSwapChain.cpp">
       <Filter>Context</Filter>
+    </ClCompile>
+    <ClCompile Include="Lighting\VulkanBRDFTable.cpp">
+      <Filter>Lighting</Filter>
     </ClCompile>
     <ClCompile Include="Pipelines\VulkanGraphicsPipeline.cpp">
       <Filter>Pipelines</Filter>

@@ -52,6 +52,7 @@ namespace Dynamik
 
             static VkDescriptorType getDescriptorType(DMKUniformType type);
             static VkShaderStageFlagBits getShaderStage(DMKShaderLocation location);
+            static DMKShaderLocation getShaderLocation(VkShaderStageFlagBits flag);
             static ARRAY<VkDescriptorSetLayoutBinding> getDescriptorSetLayoutBindings(DMKUniformBufferDescriptor descriptor);
             static ARRAY<VkDescriptorSetLayoutBinding> getDescriptorSetLayoutBindings(ARRAY<DMKShaderModule> modules);
             static ARRAY<VkDescriptorPoolSize> getDescriptorPoolSizes(DMKUniformBufferDescriptor descriptor, UI32 descriptorCount);

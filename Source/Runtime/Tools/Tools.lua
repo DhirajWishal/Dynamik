@@ -40,6 +40,7 @@ project "Tools"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.zlib}",
 		"%{IncludeDir.SPIRVTools}",
+		"%{IncludeDir.glslang}",
 	}
 
 	libdirs {
@@ -47,6 +48,7 @@ project "Tools"
 		"%{IncludeLib.GLFW}",
 		"%{IncludeLib.GLEW}",
 		"%{IncludeLib.SPIRVTools}",
+		"%{IncludeLib.glslang}",
 	}
 
 	links { 
@@ -56,6 +58,7 @@ project "Tools"
 		"vulkan-1",
 		"SPIRV-Tools",
 		"SPIRV-Cross",
+		"glslang",
 	}
 
 	filter "system:windows"

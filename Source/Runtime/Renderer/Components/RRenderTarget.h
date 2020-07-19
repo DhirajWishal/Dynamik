@@ -22,20 +22,11 @@ namespace Dynamik
 		RRenderTarget() : pFrameBuffer(nullptr), pRenderPass(nullptr) {}
 		virtual ~RRenderTarget() {}
 
-		virtual void setComponents(RFrameBuffer* frameBuffer, RRenderPass* renderPass) { pFrameBuffer = frameBuffer, pRenderPass = renderPass; }
+		void setComponents(RFrameBuffer* frameBuffer, RRenderPass* renderPass) { pFrameBuffer = frameBuffer, pRenderPass = renderPass; }
 		virtual void submit(RCommandBuffer* pCommandBuffer) {}
 
 		RFrameBuffer* pFrameBuffer = nullptr;
 		RRenderPass* pRenderPass = nullptr;
-	};
-
-	/*
-	 Render Target Texture Object
-	*/
-	class DMK_API RRenderTargetTexture : public RRenderTarget {
-	public:
-		RRenderTargetTexture() {}
-		virtual ~RRenderTargetTexture() {}
 	};
 }
 

@@ -364,7 +364,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Components\Attachments\RBoundingBox.h" />
-    <ClInclude Include="RUtilities.h" />
     <ClInclude Include="Components\Context\RFrameBuffer.h" />
     <ClInclude Include="Components\Context\RFrameBufferAttachment.h" />
     <ClInclude Include="Components\Context\RRenderPass.h" />
@@ -373,6 +372,7 @@
     <ClInclude Include="Components\CoreTypeDefs.h" />
     <ClInclude Include="Components\Factories\BufferFactory.h" />
     <ClInclude Include="Components\Factories\PipelineFactory.h" />
+    <ClInclude Include="Components\Lighting\RBRDFTable.h" />
     <ClInclude Include="Components\PipelineTypeDefs.h" />
     <ClInclude Include="Components\PrimitiveTypeDefs.h" />
     <ClInclude Include="Components\Primitives\RBuffer.h" />
@@ -391,6 +391,7 @@
     <ClInclude Include="Components\RMeshObject.h" />
     <ClInclude Include="Components\RPipelineObject.h" />
     <ClInclude Include="Components\RRenderTarget.h" />
+    <ClInclude Include="RUtilities.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RendererCommand.h" />
   </ItemGroup>
@@ -400,8 +401,8 @@
     <ClCompile Include="Components\Factories\PipelineFactory.cpp" />
     <ClCompile Include="Components\Primitives\RImageSampler.cpp" />
     <ClCompile Include="Components\RDrawCallManager.cpp" />
-    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RUtilities.cpp" />
+    <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Renderer.lua" />

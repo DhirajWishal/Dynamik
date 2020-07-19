@@ -14,7 +14,6 @@
 #include "../RenderableComponent.h"
 #include "Core/Utilities/ShaderFactory.h"
 #include "Core/Utilities/TextureFactory.h"
-#include "Core/Objects/Resources/Material.h"
 #include "Core/Objects/Resources/VertexBuffer.h"
 
 namespace Dynamik
@@ -69,17 +68,12 @@ namespace Dynamik
 		*/
 		void clearIndexBuffer();
 
-	public:		/* Materials */
-		void addMaterial(const DMKMaterial& material);
-
-		ARRAY<DMKMaterial> materials;
-
 	public:		/* Matrix */
 		/*
 		 Model matrix of the mesh component.
 		 By default this is passed to the vertex shader with the binding 0.
 		*/
-		MAT4 modelMatrix = MAT4(1.0f);
+		MAT4 modelMatrix = MAT4::Identity;
 
 		operator MAT4() const;
 
@@ -102,7 +96,21 @@ namespace Dynamik
 
 		 @param position: Location to be set.
 		*/
-		virtual void setLocation(Vector3F position) override final;
+		virtual void setPosition(Vector3F position) override final;
+
+		/*
+		 Set scale of the mesh.
+
+		 @param scale: The scale.
+		*/
+		virtual void setScale(Vector3F scale) override final;
+
+		/*
+		 Set rotation to the mesh.
+
+		 @param rotation: The rotation.
+		*/
+		virtual void setRotation(Quaternion rotation) override final;
 
 	public:		/* Public Data Store */
 		DMKVertexBuffer vertexBuffer;

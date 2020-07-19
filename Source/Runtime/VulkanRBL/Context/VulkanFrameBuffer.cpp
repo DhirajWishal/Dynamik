@@ -13,17 +13,20 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanFrameBuffer::initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, RSwapChain* pSwapChain)
+		void VulkanFrameBuffer::initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, RSwapChain* pSwapChain, DMKExtent2D frameExtent, UI32 bufferCount, DMKFormat overrideFormat)
 		{
-			width = Cast<UI32>(pSwapChain->extent.width);
-			height = Cast<UI32>(pSwapChain->extent.height);
+			width = Cast<UI32>(frameExtent.width);
+			height = Cast<UI32>(frameExtent.height);
 
 			VulkanColorAttachment colorAttachment;
 			B1 isColorAttachmentInitialized = false;
 			VulkanDepthAttachment depthAttachment;
 			B1 isDepthAttachmentInitialized = false;
 
-			for (size_t i = 0; i < pSwapChain->bufferCount; i++)
+			if (bufferCount < 1)
+				DMK_ERROR("Requested frame buffer count is not a valid count!");
+
+			for (size_t i = 0; i < bufferCount; i++)
 			{
 				ARRAY<VkImageView> _attachments;
 
@@ -32,6 +35,9 @@ namespace Dynamik
 					switch (_subpass)
 					{
 					case Dynamik::RSubPasses::SUBPASSES_SWAPCHAIN:
+						if (!pSwapChain)
+							DMK_FATAL("Submitted Swap Chain object is null!");
+
 						_attachments.pushBack(((VulkanImageView*)InheritCast<VulkanSwapChain>(pSwapChain).imageViews[i])->imageView);
 						break;
 					case Dynamik::RSubPasses::SUBPASSES_DEPTH:
@@ -59,7 +65,12 @@ namespace Dynamik
 						if (!isColorAttachmentInitialized)
 						{
 							VulkanFrameBufferAttachmentInitInfo attachmentInfo;
-							attachmentInfo.format = (DMKFormat)InheritCast<VulkanSwapChain>(pSwapChain).format;
+
+							if (pSwapChain)
+								attachmentInfo.format = (DMKFormat)InheritCast<VulkanSwapChain>(pSwapChain).format;
+							else
+								attachmentInfo.format = overrideFormat;
+
 							attachmentInfo.imageWidth = width;
 							attachmentInfo.imageHeight = height;
 							attachmentInfo.msaaSamples = pCoreObject->sampleCount;

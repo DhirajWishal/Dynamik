@@ -81,6 +81,8 @@ namespace Dynamik
 		static DMKMaterial createMetalBlue();
 		static DMKMaterial createMetalBlack();
 
+		static DMKMaterial createDefaultTexture(const STRING& path, DMKTextureType type);
+
 	public:		/* Push Block Utilities */
 		/*
 		 This block is submitted to the shaders via constants.

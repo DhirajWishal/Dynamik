@@ -19,6 +19,8 @@ namespace Dynamik
 		static RBuffer* allocateBuffer(DMKRenderingAPI API);
 		static ARRAY<RColorBlendState> createBasicColorBlendStates();
 		static ARRAY<RSubPasses> createSubPasses(DMKRenderContextType contextType);
+
+		static RTexture* createBRDFTable(RCoreObject* pCoreObject, F32 dimentions);
 	};
 }
 

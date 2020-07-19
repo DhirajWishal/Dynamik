@@ -78,6 +78,16 @@ namespace Dynamik
 			pipelineLayoutCreateInfo.setLayoutCount = 0;
 			pipelineLayoutCreateInfo.pSetLayouts = nullptr;
 
+			/* Create Constant Blocks */
+			for (auto entry : pushConstants)
+			{
+				PConstantBlock newBlock;
+				newBlock.byteSize = entry.size;
+				newBlock.location = VulkanUtilities::getShaderLocation(Cast<VkShaderStageFlagBits>(entry.stageFlags));
+				newBlock.offset = entry.offset;
+				constantBlocks.pushBack(newBlock);
+			}
+
 			if ((resourceBindings.size() >= 1) && (descriptorPoolSizes.size() >= 1) && (descriptor.set == VK_NULL_HANDLE))
 			{
 				/* Create descriptor set layout */

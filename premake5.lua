@@ -58,7 +58,7 @@ IncludeDir["gli"] = "$(SolutionDir)Dependencies/ThirdParty/gli/gli"
 IncludeDir["zlib"] = "$(SolutionDir)Dependencies/Libraries/External/zlib/"
 IncludeDir["Vulkan"] = "$(SolutionDir)Dependencies/ThirdParty/Vulkan/include"
 IncludeDir["SPIRVTools"] = "$(SolutionDir)Dependencies/ThirdParty/SPIRV-Tools/include"
-IncludeDir["glslang"] = "$(SolutionDir)Dependencies/Libraries/External/glslang"
+IncludeDir["glslang"] = "$(SolutionDir)Dependencies/ThirdParty/glslang/"
 
 IncludeDir["boost"] = "E:/Projects/Dynamik Engine/Libraries/boost_1_70_0"
 IncludeDir["jpeg"] = "$(SolutionDir)Dependencies/ThirdParty/gil/jpeg-6b"
@@ -76,7 +76,7 @@ IncludeLib["boost"] = "E:/Projects/Dynamik Engine/Libraries/boost_1_70_0/stage/l
 IncludeLib["Assimp"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/Assimp"
 IncludeLib["SPIRVTools"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/SPIRV-Tools/"
 IncludeLib["zlib"] = ""	-- TODO
-IncludeLib["glslang"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/glslang/lib"
+IncludeLib["glslang"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/glslang/"
 
 
 group "Engine"	-- Add the Engine to a virtual folder

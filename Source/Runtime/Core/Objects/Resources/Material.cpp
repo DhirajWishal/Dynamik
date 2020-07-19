@@ -4,6 +4,8 @@
 #include "dmkafx.h"
 #include "Material.h"
 
+#include "Core/Utilities/TextureFactory.h"
+
 namespace Dynamik
 {
 	void DMKMaterial::addTexture(DMKTexture* pTexture, MaterialTextureType textureType)
@@ -67,6 +69,14 @@ namespace Dynamik
 	DMKMaterial DMKMaterial::createMetalBlack()
 	{
 		return DMKMaterial("Black", DMKColorComponent(0.0f, 0.0f, 0.0f, 1.0f), DMKColorComponent(), 0.1f, 1.0f);
+	}
+
+	DMKMaterial DMKMaterial::createDefaultTexture(const STRING& path, DMKTextureType type)
+	{
+		DMKMaterial newMaterial;
+		newMaterial.name = TEXT("DefaultTexture");
+		newMaterial.addTexture(DMKTextureFactory::create(type, path), MaterialTextureType::MATERIAL_TEXTURE_TYPE_DEFAULT);
+		return newMaterial;
 	}
 	
 	DMKMaterial::MaterialPushBlock DMKMaterial::generatePushBlock()

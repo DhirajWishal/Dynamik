@@ -14,6 +14,9 @@ namespace Dynamik
 	 This singleton contains all the runtime assets of the engine. Clients are allowed to import and store
 	 their own assets to this.
 
+	 Default registry path is
+	     $(SolutionDir)Source/Assets
+
 	 Asset naming convention:
 	   "TYPE_SUBTYPE_USAGE1_USAGE2_..._EXTENSION"
 	   eg:

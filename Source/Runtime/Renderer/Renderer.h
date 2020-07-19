@@ -125,7 +125,7 @@ namespace Dynamik
         RDrawCallManager myDrawCallManager;
 
         RSwapChain* mySwapChain = nullptr;
-        RRenderTarget* myRenderTarget = nullptr;
+        RRenderTarget myRenderTarget = {};
         DMKRenderContextType myCurrentContextType = DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT;
 
         RCommandBufferManager* myCommandBufferManager = nullptr;

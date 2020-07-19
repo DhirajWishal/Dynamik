@@ -366,11 +366,13 @@
     <ClInclude Include="RuntimeSystems\AssetRegistry.h" />
     <ClInclude Include="RuntimeSystems\ConfigurationService.h" />
     <ClInclude Include="RuntimeSystems\ListenerServices.h" />
+    <ClInclude Include="RuntimeSystems\ToolsRegistry.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RuntimeSystems\AssetRegistry.cpp" />
     <ClCompile Include="RuntimeSystems\ConfigurationService.cpp" />
     <ClCompile Include="RuntimeSystems\ListenerServices.cpp" />
+    <ClCompile Include="RuntimeSystems\ToolsRegistry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Services.lua" />

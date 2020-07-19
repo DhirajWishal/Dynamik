@@ -28,6 +28,9 @@
 #include "GameLibrary/Utilities/MeshFactory.h"
 
 #include "Services/RuntimeSystems/AssetRegistry.h"
+#include "Services/RuntimeSystems/ToolsRegistry.h"
+
+#include "Tools/Shader/GLSL/Compiler.h"
 
 namespace Dynamik
 {
@@ -64,11 +67,25 @@ namespace Dynamik
 			STRING _thisFilePath = __FILE__;
 			_thisFilePath = _thisFilePath.substr(0, _thisFilePath.find_last_of("\\"));
 			_thisFilePath = _thisFilePath.substr(0, _thisFilePath.find_last_of("\\"));
-			DMKAssetRegistry::setDefaultAssetBasePath(_thisFilePath + "\\Assets");
+			DMKAssetRegistry::setDefaultAssetBasePath(_thisFilePath + TEXT("\\Assets"));
+			DMKAssetRegistry::initializeDefaultAssets();
 		}
 
-		/* Initialize asset registry */
-		DMKAssetRegistry::initializeDefaultAssets();
+		/* Set the default tool registry path */
+		{
+			STRING _thisFilePath = __FILE__;
+			_thisFilePath = _thisFilePath.substr(0, _thisFilePath.find_last_of("\\"));
+			_thisFilePath = _thisFilePath.substr(0, _thisFilePath.find_last_of("\\"));
+			_thisFilePath = _thisFilePath.substr(0, _thisFilePath.find_last_of("\\"));
+			DMKToolsRegistry::setDefaultToolsBasePath(_thisFilePath + TEXT("\\Dependencies\\ThirdParty\\Binaries"));
+			DMKToolsRegistry::initializeDefaultTools();
+		}
+
+		/* DEBUG */
+		{
+			GLSLCompiler compiler;
+			compiler.getSPIRV(TEXT("E:\\Projects\\Dynamik Engine\\Versions\\DynamikEngine\\Source\\Assets\\Shaders\\PBR\\IBL\\BRDFTable.frag"), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_GLSL);
+		}
 
 		/* Create and initialize windows */
 		pActiveWindow = _createWindow(1280, 720, "Dynamik Engine");

@@ -60,15 +60,27 @@ namespace Dynamik
 		isMatrixUpdated = false;
 	}
 
-	void DMKStaticMeshComponent::setLocation(Vector3F position)
+	void DMKStaticMeshComponent::setPosition(Vector3F position)
 	{
 		this->position = position;
 		translate(Matrix4F::Identity, position);
 	}
 
+	void DMKStaticMeshComponent::setScale(Vector3F scale)
+	{
+		this->scale = scale;
+		modelMatrix *= DMathLib::scale(Matrix4F::Identity, scale);
+	}
+
+	void DMKStaticMeshComponent::setRotation(Quaternion rotation)
+	{
+		this->rotation = rotation;
+		modelMatrix *= DMathLib::toRotationalMatrix(rotation);
+	}
+
 	void DMKStaticMeshComponent::translate(const MAT4& mat, const VEC3& vec)
 	{
-		modelMatrix = DMKMathFunctions::translate(mat, vec);
+		modelMatrix *= DMKMathFunctions::translate(mat, vec);
 	}
 
 	void DMKStaticMeshComponent::rotate(const VEC3& direction, const F32& radians)
@@ -78,7 +90,7 @@ namespace Dynamik
 
 	void DMKStaticMeshComponent::addTexture(const STRING& path, const DMKTextureType& type)
 	{
-		pTextures.pushBack(DMKTextureFactory::create(type, path));
+		addMaterial(DMKMaterial::createDefaultTexture(path, type));
 	}
 
 	void DMKStaticMeshComponent::clearVertexBuffer()
@@ -89,11 +101,6 @@ namespace Dynamik
 	void DMKStaticMeshComponent::clearIndexBuffer()
 	{
 		indexBuffer.clear();
-	}
-
-	void DMKStaticMeshComponent::addMaterial(const DMKMaterial& material)
-	{
-		materials.pushBack(material);
 	}
 
 	DMKStaticMeshComponent::operator MAT4() const
