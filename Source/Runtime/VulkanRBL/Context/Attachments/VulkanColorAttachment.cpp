@@ -4,11 +4,13 @@
 #include "dmkafx.h"
 #include "VulkanColorAttachment.h"
 
+#include "../../Primitives/VulkanImage.h"
+
 namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanColorAttachment::initialize(RCoreObject* pCoreObject, VulkanFrameBufferAttachmentInitInfo initInfo)
+		void VulkanColorAttachment::initialize(RCoreObject* pCoreObject, RFrameBufferAttachmentInfo initInfo)
 		{
 			RImageCreateInfo imgCreateInfo;
 			imgCreateInfo.imageFormat = initInfo.format;
@@ -20,13 +22,18 @@ namespace Dynamik
 			imgCreateInfo.vDimentions.height = Cast<F32>(initInfo.imageHeight);
 			imgCreateInfo.sampleCount = initInfo.msaaSamples;
 
-			image = StaticAllocator<VulkanImage>::rawAllocate();
-			image.initialize(pCoreObject, imgCreateInfo);
+			pImageAttachment = StaticAllocator<VulkanImage>::rawAllocate();
+			pImageAttachment->initialize(pCoreObject, imgCreateInfo);
 
-			imageView = StaticAllocator<VulkanImageView>::rawAllocate();
-			imageView.initialize(pCoreObject, &image, DMKTexture::TextureSwizzles());
+			pImageAttachment->createImageView(pCoreObject, DMKTexture::TextureSwizzles());
 
-			image.setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_COLOR_ATTACHMENT);
+			pImageAttachment->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_COLOR_ATTACHMENT);
+		}
+		
+		void VulkanColorAttachment::terminate(RCoreObject* pCoreObject)
+		{
+			pImageAttachment->terminate(pCoreObject);
+			StaticAllocator<VulkanImage>::rawDeallocate(pImageAttachment);
 		}
 	}
 }

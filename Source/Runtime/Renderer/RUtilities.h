@@ -18,7 +18,10 @@ namespace Dynamik
 		static RPipelineObject* allocatePipeline(DMKRenderingAPI API);
 		static RBuffer* allocateBuffer(DMKRenderingAPI API);
 		static ARRAY<RColorBlendState> createBasicColorBlendStates();
-		static ARRAY<RSubPasses> createSubPasses(DMKRenderContextType contextType);
+		static ARRAY<RSubpassAttachment> createSubPasses(DMKRenderContextType contextType, RCoreObject* pCoreObject, RSwapChain* pSwapChain);
+		static ARRAY<RSubPasses> getSubpassNames(DMKRenderContextType contextType);
+
+		static ARRAY<ARRAY<RFrameBufferAttachment*>> getFrameBufferAttachments(DMKRenderingAPI API, ARRAY<RSubpassAttachment> subPassAttachments, RCoreObject* pCoreObject, RSwapChain* pSwapChain, DMKExtent2D imageExtent);
 
 		static RTexture* createBRDFTable(RCoreObject* pCoreObject, F32 dimentions);
 	};

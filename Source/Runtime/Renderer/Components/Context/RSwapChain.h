@@ -36,7 +36,6 @@ namespace Dynamik
 		virtual void terminate(RCoreObject* pCoreObject) = 0;
 
 		ARRAY<RImage*> images;
-		ARRAY<RImageView*> imageViews;
 		DMKExtent2D extent = DMKExtent2D(0.0f);
 		UI32 bufferCount = 0;
 		DMKFormat format = DMKFormat::DMK_FORMAT_UNDEFINED;

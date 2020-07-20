@@ -31,6 +31,14 @@ namespace Dynamik
 		instance.assetMap[TEXT("SHADER_PBR_VERT_SPV")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\PBR\\vert.spv");
 		instance.assetMap[TEXT("SHADER_PBR_FRAG_SPV")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\PBR\\frag.spv");
 
+		instance.assetMap[TEXT("SHADER_PBR_IBL_BRDF_TABLE_VERT")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\PBR\\IBL\\BRDFTable.vert");
+		instance.assetMap[TEXT("SHADER_PBR_IBL_BRDF_TABLE_FRAG")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\PBR\\IBL\\BRDFTable.frag");
+		instance.assetMap[TEXT("SHADER_PBR_IBL_FILTER_CUBE_VERT")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\PBR\\IBL\\filterCube.vert");
+		instance.assetMap[TEXT("SHADER_PBR_IBL_PREFILTER_CUBE_FRAG")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\PBR\\IBL\\prefilterCube.frag");
+		instance.assetMap[TEXT("SHADER_PBR_IBL_PREFILTER_ENVIRONMENT_FRAG")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\PBR\\IBL\\prefilterEnvironment.frag");
+		instance.assetMap[TEXT("SHADER_PBR_IBL_VERT")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\PBR\\IBL\\shader.vert");
+		instance.assetMap[TEXT("SHADER_PBR_IBL_FRAG")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\PBR\\IBL\\shader.frag");
+
 		instance.assetMap[TEXT("SHADER_SKELETAL_ANIMATION_VERT_SPV")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\SkeletalAnimation\\vert.spv");
 		instance.assetMap[TEXT("SHADER_SKELETAL_ANIMATION_FRAG_SPV")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\SkeletalAnimation\\frag.spv");
 

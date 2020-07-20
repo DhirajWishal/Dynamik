@@ -4,9 +4,13 @@
 #include "../Primitives/VulkanTexture.h"
 #include "../Context/VulkanRenderPass.h"
 #include "../Context/VulkanFrameBuffer.h"
+#include "../Common/VulkanOneTimeCommandBuffer.h"
 
 #include "Services/RuntimeSystems/AssetRegistry.h"
 #include "Core/Utilities/ShaderFactory.h"
+#include "Core/Types/StaticArray.h"
+#include "Tools/Shader/GLSL/Compiler.h"
+#include "Renderer/RUtilities.h"
 
 namespace Dynamik
 {
@@ -27,7 +31,13 @@ namespace Dynamik
 			_initializeFrameBuffer(pCoreObject);
 
 			/* Initialize Pipeline */
-			_initializePipelines(pCoreObject);
+			_initializePipelines(pCoreObject, dimentions);
+
+			/* Issue Process Command */
+			_process(pCoreObject, dimentions);
+
+			/* Terminate Support Structures */
+			_terminateSupportStructures(pCoreObject);
 		}
 
 		void VulkanBRDFTable::terminate(RCoreObject* pCoreObject)
@@ -44,6 +54,10 @@ namespace Dynamik
 			RImageCreateInfo imageCreateInfo = {};
 			imageCreateInfo.imageFormat = format;
 			imageCreateInfo.imageType = DMKTextureType::TEXTURE_TYPE_2D;
+			imageCreateInfo.vDimentions.width = dimentions.width;
+			imageCreateInfo.vDimentions.height = dimentions.height;
+			imageCreateInfo.vDimentions.depth = 1;
+			imageCreateInfo.imageUsage = RImageUsage(IMAGE_USAGE_COLOR_ATTACHMENT | IMAGE_USAGE_RENDER);
 
 			pTexture->pImage = StaticAllocator<VulkanImage>::rawAllocate();
 			pTexture->pImage->initialize(pCoreObject, imageCreateInfo);
@@ -54,11 +68,24 @@ namespace Dynamik
 			/* Initialize Sampler */
 			pTexture->pSampler = StaticAllocator<VulkanImageSampler>::rawAllocate();
 			pTexture->pSampler->initialize(pCoreObject, RImageSamplerCreateInfo::createDefaultSampler());
+
+			pTexture->makeRenderable(pCoreObject);
 		}
 
 		void VulkanBRDFTable::_initializeRenderPass(RCoreObject* pCoreObject)
 		{
 			renderTarget.pRenderPass = StaticAllocator<VulkanRenderPass>::rawAllocate();
+
+			ARRAY<RSubpassAttachment> subpassAttachments(1);
+			subpassAttachments[0].subpass = RSubPasses::SUBPASSES_COLOR;
+			subpassAttachments[0].format = format;
+			subpassAttachments[0].samples = DMK_SAMPLE_COUNT_1_BIT;
+			subpassAttachments[0].loadOp = RSubpassAttachmentLoadOp::SUBPASS_ATTACHMENT_LOAD_OP_CLEAR;
+			subpassAttachments[0].storeOp = RSubpassAttachmentStoreOp::SUBPASS_ATTACHMENT_STORE_OP_STORE;
+			subpassAttachments[0].stencilLoadOp = RSubpassAttachmentLoadOp::SUBPASS_ATTACHMENT_LOAD_OP_DONT_CARE;
+			subpassAttachments[0].stencilStoreOp = RSubpassAttachmentStoreOp::SUBPASS_ATTACHMENT_STORE_OP_DONT_CARE;
+			subpassAttachments[0].initialLayout = RImageLayout::IMAGE_LAYOUT_UNDEFINED;
+			subpassAttachments[0].finalLayout = RImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY;
 
 			ARRAY<RSubpassDependency> subpassDependencies(2);
 			RSubpassDependency subpassDependency;
@@ -80,23 +107,94 @@ namespace Dynamik
 			subpassDependency.dstMemoryAccessType = RMemoryAccessType::MEMORY_ACCESS_TYPE_MEMORY_READ;
 			subpassDependencies[1] = subpassDependency;
 
-			renderTarget.pRenderPass->initialize(pCoreObject, { RSubPasses::SUBPASSES_COLOR }, subpassDependencies, nullptr, format);
+			renderTarget.pRenderPass->initialize(pCoreObject, subpassAttachments, subpassDependencies, nullptr, format);
 		}
-		
+
 		void VulkanBRDFTable::_initializeFrameBuffer(RCoreObject* pCoreObject)
 		{
 			renderTarget.pFrameBuffer = StaticAllocator<VulkanFrameBuffer>::rawAllocate();
-			renderTarget.pFrameBuffer->initialize(pCoreObject, renderTarget.pRenderPass, nullptr, dimentions, 1);
+
+			RFrameBufferAttachment* pAttachment = StaticAllocator<RFrameBufferAttachment>::rawAllocate();
+			pAttachment->setImage(pTexture->pImage);
+
+			renderTarget.pFrameBuffer->initialize(pCoreObject, renderTarget.pRenderPass, dimentions, 1, { { pAttachment } });
 		}
-		
-		void VulkanBRDFTable::_initializePipelines(RCoreObject* pCoreObject)
+
+		void VulkanBRDFTable::_initializePipelines(RCoreObject* pCoreObject, DMKExtent2D dimentions)
 		{
-			ARRAY<DMKShaderModule> shaders;	/* TODO */
-			shaders.pushBack(DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_BRDF_TABLE_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
-			shaders.pushBack(DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_BRDF_TABLE_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+			Tools::GLSLCompiler compiler;
+
+			ARRAY<DMKShaderModule> shaders;
+			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_BRDF_TABLE_VERT")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX));
+			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_BRDF_TABLE_FRAG")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT));
+
+			DMKViewport _viewport;
+			_viewport.width = Cast<I32>(dimentions.width);
+			_viewport.height = Cast<I32>(dimentions.height);
+			_viewport.windowHandle = nullptr;
 
 			RPipelineSpecification pipelineSepc = {};
 			pipelineSepc.shaders = shaders;
+			pipelineSepc.dynamicStates = { RDynamicState::DYNAMIC_STATE_VIEWPORT, RDynamicState::DYNAMIC_STATE_SCISSOR };
+			pipelineSepc.scissorInfos.resize(1);
+			pipelineSepc.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
+			pipelineSepc.multiSamplingInfo.sampleCount = DMK_SAMPLE_COUNT_1_BIT;
+			pipeline.initialize(pCoreObject, pipelineSepc, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &renderTarget, _viewport);
+		}
+
+		void VulkanBRDFTable::_process(RCoreObject* pCoreObject, DMKExtent2D dimentions)
+		{
+			VulkanOneTimeCommandBuffer buffer(pCoreObject);
+
+			/* Begin Render Pass */
+			VkRenderPassBeginInfo beginInfo = {};
+			beginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+			beginInfo.pNext = VK_NULL_HANDLE;
+			beginInfo.framebuffer = Inherit<VulkanFrameBuffer>(renderTarget.pFrameBuffer)->buffers[0];
+			beginInfo.renderArea.extent.width = Cast<I32>(dimentions.width);
+			beginInfo.renderArea.extent.height = Cast<I32>(dimentions.height);
+			beginInfo.renderPass = Inherit<VulkanRenderPass>(renderTarget.pRenderPass)->renderPass;
+			beginInfo.clearValueCount = 1;
+
+			StaticArray<VkClearValue, 1> clearValues;
+			clearValues[0].color = { { 0.0f, 0.0f, 0.0f, 1.0f } };
+			beginInfo.pClearValues = clearValues.data();
+
+			vkCmdBeginRenderPass(buffer, &beginInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+			/* Bind Viewport */
+			VkViewport vViewport = {};
+			vViewport.maxDepth = 1.0f;
+			vViewport.minDepth = 0.0f;
+			vViewport.width = dimentions.width;
+			vViewport.height = dimentions.height;
+			vkCmdSetViewport(buffer, 0, 1, &vViewport);
+
+			/* Bind Scissor */
+			VkRect2D vScissor = {};
+			vScissor.extent.width = Cast<I32>(dimentions.width);
+			vScissor.extent.height = Cast<I32>(dimentions.height);
+			vkCmdSetScissor(buffer, 0, 1, &vScissor);
+
+			/* Bind Pipeline */
+			vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
+
+			/* Draw Call */
+			vkCmdDraw(buffer, 3, 1, 0, 0);
+
+			/* End Render Pass */
+			vkCmdEndRenderPass(buffer);
+		}
+
+		void VulkanBRDFTable::_terminateSupportStructures(RCoreObject* pCoreObject)
+		{
+			pipeline.terminate(pCoreObject);
+
+			renderTarget.pRenderPass->terminate(pCoreObject);
+			StaticAllocator<VulkanRenderPass>::rawDeallocate(renderTarget.pRenderPass);
+
+			renderTarget.pFrameBuffer->terminate(pCoreObject);
+			StaticAllocator<VulkanFrameBuffer>::rawDeallocate(renderTarget.pFrameBuffer);
 		}
 	}
 }

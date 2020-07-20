@@ -127,6 +127,7 @@
     </ClCompile>
     <ClCompile Include="RUtilities.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Components\Context\RRenderPass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Renderer.lua" />

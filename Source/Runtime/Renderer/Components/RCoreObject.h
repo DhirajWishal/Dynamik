@@ -39,6 +39,8 @@ namespace Dynamik
 		virtual I32 prepareFrame(RSwapChain* pSwapChain) = 0;
 		virtual void submitCommand(RCommandBuffer* pCommandBuffer, RSwapChain* pSwapChain) = 0;
 
+		virtual DMKFormat getDepthFormat() = 0;
+
 		DMKSampleCount sampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_64_BIT;
 
 	protected:

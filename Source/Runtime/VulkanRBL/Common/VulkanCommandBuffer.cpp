@@ -21,8 +21,8 @@ namespace Dynamik
 			renderPassInfo.framebuffer = InheritCast<VulkanFrameBuffer>(pRenderTarget->pFrameBuffer)[bufferIndex];
 			renderPassInfo.renderArea.offset.x = pSwapChain->viewPort.xOffset;
 			renderPassInfo.renderArea.offset.y = pSwapChain->viewPort.yOffset;
-			renderPassInfo.renderArea.extent.width = (UI32)pSwapChain->extent.width;
-			renderPassInfo.renderArea.extent.height = (UI32)pSwapChain->extent.height;
+			renderPassInfo.renderArea.extent.width = (UI32)pRenderTarget->pFrameBuffer->width;
+			renderPassInfo.renderArea.extent.height = (UI32)pRenderTarget->pFrameBuffer->height;
 
 			std::array<VkClearValue, 2> clearValues = {};
 

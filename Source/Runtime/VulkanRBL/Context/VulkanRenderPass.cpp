@@ -18,7 +18,7 @@ namespace Dynamik
 			ARRAY<VkAttachmentReference> inputAttachments;
 		};
 
-		void VulkanRenderPass::initialize(RCoreObject* pCoreObject, ARRAY<RSubPasses> aSubPasses, ARRAY<RSubpassDependency> dependencies, RSwapChain* pSwapChain, DMKFormat overrideFormat)
+		void VulkanRenderPass::initialize(RCoreObject* pCoreObject, ARRAY<RSubpassAttachment> aSubPasses, ARRAY<RSubpassDependency> dependencies, RSwapChain* pSwapChain, DMKFormat overrideFormat)
 		{
 			subPasses = aSubPasses;
 
@@ -35,26 +35,25 @@ namespace Dynamik
 
 			for (auto _subpass : aSubPasses)
 			{
-				switch (_subpass)
+				VkAttachmentDescription description = {};
+				description.flags = VK_NULL_HANDLE;
+				description.format = VulkanUtilities::getVulkanFormat(_subpass.format);
+				description.samples = Cast<VkSampleCountFlagBits>(_subpass.samples);
+				description.loadOp = Cast<VkAttachmentLoadOp>(_subpass.loadOp);
+				description.storeOp = Cast<VkAttachmentStoreOp>(_subpass.storeOp);
+				description.stencilLoadOp = Cast<VkAttachmentLoadOp>(_subpass.stencilLoadOp);
+				description.stencilStoreOp = Cast<VkAttachmentStoreOp>(_subpass.stencilStoreOp);
+				description.initialLayout = VulkanUtilities::getVulkanLayout(_subpass.initialLayout);
+				description.finalLayout = VulkanUtilities::getVulkanLayout(_subpass.finalLayout);
+
+				switch (_subpass.subpass)
 				{
+				case Dynamik::RSubPasses::SUBPASSES_UNDEFINED:
+					DMK_ERROR("Undefined subpass!");
+					break;
 				case Dynamik::RSubPasses::SUBPASSES_SWAPCHAIN:
 				{
-					VkAttachmentDescription colorAttachmentResolve = {};
-					colorAttachmentResolve.flags = VK_NULL_HANDLE;
-
-					if (pSwapChain)
-						colorAttachmentResolve.format = VulkanUtilities::getVulkanFormat(pSwapChain->format);
-					else
-						colorAttachmentResolve.format = VulkanUtilities::getVulkanFormat(overrideFormat);
-					
-					colorAttachmentResolve.samples = VK_SAMPLE_COUNT_1_BIT;
-					colorAttachmentResolve.loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-					colorAttachmentResolve.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-					colorAttachmentResolve.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-					colorAttachmentResolve.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-					colorAttachmentResolve.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-					colorAttachmentResolve.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
-					_attachmenDescriptions.pushBack(colorAttachmentResolve);
+					_attachmenDescriptions.pushBack(description);
 
 					attachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 					attachmentReferences.resolveAttachments.pushBack(attachmentReference);
@@ -63,17 +62,7 @@ namespace Dynamik
 
 				case Dynamik::RSubPasses::SUBPASSES_DEPTH:
 				{
-					VkAttachmentDescription depthAttachment = {};
-					depthAttachment.flags = VK_NULL_HANDLE;
-					depthAttachment.format = VulkanUtilities::findDepthFormat(Inherit<VulkanCoreObject>(pCoreObject)->device);
-					depthAttachment.samples = (VkSampleCountFlagBits)pCoreObject->sampleCount;
-					depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-					depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-					depthAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-					depthAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-					depthAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-					depthAttachment.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-					_attachmenDescriptions.pushBack(depthAttachment);
+					_attachmenDescriptions.pushBack(description);
 
 					attachmentReference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 					attachmentReferences.depthAttachmentRefs.pushBack(attachmentReference);
@@ -82,21 +71,6 @@ namespace Dynamik
 
 				case Dynamik::RSubPasses::SUBPASSES_COLOR:
 				{
-					VkAttachmentDescription description;
-					description.flags = VK_NULL_HANDLE;
-
-					if (pSwapChain)
-						description.format = VulkanUtilities::getVulkanFormat(pSwapChain->format);
-					else
-						description.format = VulkanUtilities::getVulkanFormat(overrideFormat);
-
-					description.samples = (VkSampleCountFlagBits)pCoreObject->sampleCount;
-					description.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
-					description.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-					description.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
-					description.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
-					description.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
-					description.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
 					_attachmenDescriptions.pushBack(description);
 
 					attachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;

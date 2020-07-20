@@ -27,7 +27,9 @@ namespace Dynamik
 			void _initializeTexture(RCoreObject* pCoreObject);
 			void _initializeRenderPass(RCoreObject* pCoreObject);
 			void _initializeFrameBuffer(RCoreObject* pCoreObject);
-			void _initializePipelines(RCoreObject* pCoreObject);
+			void _initializePipelines(RCoreObject* pCoreObject, DMKExtent2D dimentions);
+			void _process(RCoreObject* pCoreObject, DMKExtent2D dimentions);
+			void _terminateSupportStructures(RCoreObject* pCoreObject);
 
 			VulkanGraphicsPipeline pipeline;
 		};

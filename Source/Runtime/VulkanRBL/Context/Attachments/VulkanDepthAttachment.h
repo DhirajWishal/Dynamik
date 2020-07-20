@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_VULKAN_DEPTH_ATTACHMENT_H
 #define _DYNAMIK_VULKAN_DEPTH_ATTACHMENT_H
 
-#include "../VulkanFrameBufferAttachment.h"
+#include "Renderer/Components/Context/RFrameBufferAttachment.h"
 
 namespace Dynamik
 {
@@ -14,12 +14,13 @@ namespace Dynamik
         /*
          Vulkan Depth Attachment for the Dynamik RBL
         */
-        class DMK_API VulkanDepthAttachment : public VulkanFrameBufferAttachment {
+        class DMK_API VulkanDepthAttachment : public RFrameBufferAttachment {
         public:
             VulkanDepthAttachment() {}
             ~VulkanDepthAttachment() {}
 
-            void initialize(RCoreObject* pCoreObject, VulkanFrameBufferAttachmentInitInfo initInfo) override;
+            virtual void initialize(RCoreObject* pCoreObject, RFrameBufferAttachmentInfo initInfo) override final;
+            virtual void terminate(RCoreObject* pCoreObject) override final;
         };
     }
 }

@@ -90,12 +90,12 @@ namespace Dynamik
 			return pushConstantRanges;
 		}
 
-		VkVertexInputBindingDescription SPIRVDisassembler::getVertexBindingDescription()
+		ARRAY<VkVertexInputBindingDescription> SPIRVDisassembler::getVertexBindingDescriptions()
 		{
 			if (!isParsed)
 				_parseModule();
 
-			return bindingDescription;
+			return bindingDescriptions;
 		}
 
 		void SPIRVDisassembler::setShaderModule(const DMKShaderModule& sModule)
@@ -238,14 +238,16 @@ namespace Dynamik
 
 			/* Shader inputs */
 			VkVertexInputAttributeDescription _attributeDescription;
+			VkVertexInputBindingDescription bindingDescription;
 			_attributeDescription.offset = 0;
 			DMKShaderInputAttribute inputAttribute;
 			for (auto& resource : resources.stage_inputs)
 			{
-#ifdef DMK_DEBUG
 				unsigned location = _glslCompiler.get_decoration(resource.id, spv::DecorationLocation);
 				unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
+#ifdef DMK_DEBUG
 				printf("Location: %u\t Binding: %u\t Type: %s\n", location, binding, resource.name.c_str());
+
 #endif // DMK_DEBUG
 
 				_type = _glslCompiler.get_type(resource.base_type_id);
@@ -257,9 +259,14 @@ namespace Dynamik
 
 				_attributeDescription.offset += (_type.width / sizeof(D64)) * ((_type.vecsize == 3) ? 4 : _type.vecsize);
 			}
-			bindingDescription.binding = 0;
-			bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-			bindingDescription.stride = _attributeDescription.offset;
+
+			if (_attributeDescription.offset)
+			{
+				bindingDescription.binding = 0;
+				bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+				bindingDescription.stride = _attributeDescription.offset;
+				bindingDescriptions.pushBack(bindingDescription);
+			}
 
 #ifdef DMK_DEBUG
 			printf("\n");
@@ -379,7 +386,7 @@ namespace Dynamik
 			_range.offset = 0;
 			for (auto& resource : resources.push_constant_buffers)
 			{
-			_range.size = 0;
+				_range.size = 0;
 #ifdef DMK_DEBUG
 				unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
 				unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);

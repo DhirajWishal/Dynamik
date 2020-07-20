@@ -7,6 +7,7 @@
 #include "Common/VulkanCommandBuffer.h"
 #include "Context/VulkanSwapChain.h"
 #include "Common/VulkanControlHeader.h"
+#include "VulkanUtilities.h"
 
 namespace Dynamik
 {
@@ -100,6 +101,11 @@ namespace Dynamik
 
 		frameResult = vkQueuePresentKHR(queues.utilityQueue, &presentInfo);
 		this->currentFrameIndex = (this->currentFrameIndex + 1) % MAX_FRAMES_IN_FLIGHT;
+	}
+
+	DMKFormat VulkanCoreObject::getDepthFormat()
+	{
+		return DMKFormat(Backend::VulkanUtilities::findDepthFormat(device));
 	}
 
 	VulkanCoreObject::operator Backend::VulkanInstance() const

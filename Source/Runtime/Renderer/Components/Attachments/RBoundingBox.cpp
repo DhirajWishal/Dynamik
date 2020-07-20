@@ -34,7 +34,7 @@ namespace Dynamik
 		pipelineSpecification.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
 		pipelineSpecification.primitiveAssemblyInfo.primitiveTopology = RPrimitiveTopology::PRIMITIVE_TOPOLOGY_LINE_LIST;
 		pPipeline = RUtilities::allocatePipeline(renderingAPI);
-		pPipeline->initialize(pCoreObject, pipelineSpecification, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, pRenderTarget, pSwapChain);
+		pPipeline->initialize(pCoreObject, pipelineSpecification, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, pRenderTarget, pSwapChain->viewPort);
 
 		/* Initialize Uniforms */
 		pUniformBuffer = RUtilities::allocateBuffer(renderingAPI);

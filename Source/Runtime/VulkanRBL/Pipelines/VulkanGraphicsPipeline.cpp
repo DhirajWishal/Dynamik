@@ -13,7 +13,7 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanGraphicsPipeline::initialize(RCoreObject* pCoreObject, RPipelineSpecification createInfo, RPipelineUsage usage, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain)
+		void VulkanGraphicsPipeline::initialize(RCoreObject* pCoreObject, RPipelineSpecification createInfo, RPipelineUsage usage, RRenderTarget* pRenderTarget, DMKViewport viewport)
 		{
 			if (usage != RPipelineUsage::PIPELINE_USAGE_GRAPHICS)
 			{
@@ -32,7 +32,6 @@ namespace Dynamik
 			vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 			vertexInputInfo.flags = VK_NULL_HANDLE;
 			vertexInputInfo.pNext = VK_NULL_HANDLE;
-			vertexInputInfo.vertexBindingDescriptionCount = 1;
 
 			/* Resolve Shaders */
 			ARRAY<VkPipelineShaderStageCreateInfo> shaderStages;
@@ -59,10 +58,11 @@ namespace Dynamik
 
 				if (createInfo.shaders[index].location == DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
 				{
-					resourceLayouts[index].vertexInputBinding = dissassembler.getVertexBindingDescription();
+					resourceLayouts[index].vertexInputBindings.insert(dissassembler.getVertexBindingDescriptions());
 					resourceLayouts[index].vertexInputAttributes = dissassembler.getVertexAttributeDescriptions();
 
-					vertexInputInfo.pVertexBindingDescriptions = &resourceLayouts[index].vertexInputBinding;
+					vertexInputInfo.vertexBindingDescriptionCount = resourceLayouts[index].vertexInputBindings.size();
+					vertexInputInfo.pVertexBindingDescriptions = resourceLayouts[index].vertexInputBindings.data();
 					vertexInputInfo.vertexAttributeDescriptionCount = (UI32)resourceLayouts[index].vertexInputAttributes.size();
 					vertexInputInfo.pVertexAttributeDescriptions = resourceLayouts[index].vertexInputAttributes.data();
 				}
@@ -144,13 +144,13 @@ namespace Dynamik
 			tessellationState.patchControlPoints = createInfo.tessellationStateControlInfo.patchControlPoints;
 
 			/* Initialize View Port */
-			VkViewport viewport = {};
-			viewport.x = (F32)pSwapChain->viewPort.xOffset;
-			viewport.y = (F32)pSwapChain->viewPort.yOffset;
-			viewport.width = pSwapChain->extent.width;
-			viewport.height = pSwapChain->extent.height;
-			viewport.minDepth = 0.0f;
-			viewport.maxDepth = 1.0f;
+			VkViewport vViewport = {};
+			vViewport.x = (F32)viewport.xOffset;
+			vViewport.y = (F32)viewport.yOffset;
+			vViewport.width = Cast<F32>(viewport.width);
+			vViewport.height = Cast<F32>(viewport.height);
+			vViewport.minDepth = 0.0f;
+			vViewport.maxDepth = 1.0f;
 
 			/* Initialize Scissors */
 			ARRAY<VkRect2D> scissors = {};
@@ -158,8 +158,8 @@ namespace Dynamik
 				VkRect2D vScissor = {};
 				vScissor.offset.x = (I32)scissor.offset.x;
 				vScissor.offset.y = (I32)scissor.offset.y;
-				vScissor.extent.width = (UI32)pSwapChain->extent.width;
-				vScissor.extent.height = (UI32)pSwapChain->extent.height;
+				vScissor.extent.width = (UI32)viewport.width;
+				vScissor.extent.height = (UI32)viewport.height;
 
 				scissors.pushBack(vScissor);
 			}
@@ -172,7 +172,7 @@ namespace Dynamik
 			viewportState.scissorCount = (UI32)scissors.size();
 			viewportState.pScissors = scissors.data();
 			viewportState.viewportCount = 1;
-			viewportState.pViewports = &viewport;
+			viewportState.pViewports = &vViewport;
 
 			/* Initialize Rasterizer */
 			VkPipelineRasterizationStateCreateInfo rasterizer = {};
@@ -270,14 +270,13 @@ namespace Dynamik
 				vkDestroyShaderModule(InheritCast<VulkanCoreObject>(pCoreObject).device, stage.module, nullptr);
 		}
 
-		void VulkanGraphicsPipeline::reCreate(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain)
+		void VulkanGraphicsPipeline::reCreate(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, DMKViewport viewport)
 		{
 			/* Initialize Vertex Input Info */
 			VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
 			vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 			vertexInputInfo.flags = VK_NULL_HANDLE;
 			vertexInputInfo.pNext = VK_NULL_HANDLE;
-			vertexInputInfo.vertexBindingDescriptionCount = 1;
 
 			/* Resolve Shaders */
 			ARRAY<VkPipelineShaderStageCreateInfo> shaderStages;
@@ -301,10 +300,11 @@ namespace Dynamik
 
 				if (mySpecification.shaders[index].location == DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
 				{
-					resourceLayouts[index].vertexInputBinding = dissassembler.getVertexBindingDescription();
+					resourceLayouts[index].vertexInputBindings.insert(dissassembler.getVertexBindingDescriptions());
 					resourceLayouts[index].vertexInputAttributes = dissassembler.getVertexAttributeDescriptions();
 
-					vertexInputInfo.pVertexBindingDescriptions = &resourceLayouts[index].vertexInputBinding;
+					vertexInputInfo.vertexBindingDescriptionCount = resourceLayouts[index].vertexInputBindings.size();
+					vertexInputInfo.pVertexBindingDescriptions = resourceLayouts[index].vertexInputBindings.data();
 					vertexInputInfo.vertexAttributeDescriptionCount = (UI32)resourceLayouts[index].vertexInputAttributes.size();
 					vertexInputInfo.pVertexAttributeDescriptions = resourceLayouts[index].vertexInputAttributes.data();
 				}
@@ -326,13 +326,13 @@ namespace Dynamik
 			tessellationState.patchControlPoints = (UI32)mySpecification.tessellationStateControlInfo.patchControlPoints;
 
 			/* Initialize View Port */
-			VkViewport viewport = {};
-			viewport.x = (F32)pSwapChain->viewPort.xOffset;
-			viewport.y = (F32)pSwapChain->viewPort.yOffset;
-			viewport.width = pSwapChain->extent.width;
-			viewport.height = pSwapChain->extent.height;
-			viewport.minDepth = 0.0f;
-			viewport.maxDepth = 1.0f;
+			VkViewport vViewport = {};
+			vViewport.x = (F32)viewport.xOffset;
+			vViewport.y = (F32)viewport.yOffset;
+			vViewport.width = viewport.width;
+			vViewport.height = viewport.height;
+			vViewport.minDepth = 0.0f;
+			vViewport.maxDepth = 1.0f;
 
 			/* Initialize Scissors */
 			ARRAY<VkRect2D> scissors = {};
@@ -340,8 +340,8 @@ namespace Dynamik
 				VkRect2D vScissor = {};
 				vScissor.offset.x = (I32)scissor.offset.x;
 				vScissor.offset.y = (I32)scissor.offset.y;
-				vScissor.extent.width = (UI32)pSwapChain->extent.width;
-				vScissor.extent.height = (UI32)pSwapChain->extent.height;
+				vScissor.extent.width = (UI32)viewport.width;
+				vScissor.extent.height = (UI32)viewport.height;
 
 				scissors.pushBack(vScissor);
 			}
@@ -354,7 +354,7 @@ namespace Dynamik
 			viewportState.scissorCount = (UI32)scissors.size();
 			viewportState.pScissors = scissors.data();
 			viewportState.viewportCount = 1;
-			viewportState.pViewports = &viewport;
+			viewportState.pViewports = &vViewport;
 
 			/* Initialize Rasterizer */
 			VkPipelineRasterizationStateCreateInfo rasterizer = {};

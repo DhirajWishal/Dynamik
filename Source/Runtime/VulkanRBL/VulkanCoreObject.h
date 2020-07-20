@@ -36,6 +36,8 @@ namespace Dynamik
 		virtual I32 prepareFrame(RSwapChain* pSwapChain) override final;
 		virtual void submitCommand(RCommandBuffer* pCommandBuffer, RSwapChain* pSwapChain) override final;
 
+		virtual DMKFormat getDepthFormat() override final;
+
 		operator Backend::VulkanInstance() const;
 		operator Backend::VulkanDevice() const;
 		operator Backend::VulkanSurface() const;

@@ -51,7 +51,7 @@ namespace Dynamik
 			 Get the binding description of the current shader.
 			 @warn: Only works with vertex shaders.
 			*/
-			VkVertexInputBindingDescription getVertexBindingDescription();
+			ARRAY<VkVertexInputBindingDescription> getVertexBindingDescriptions();
 
 			/*
 			 Set the shader module
@@ -77,7 +77,7 @@ namespace Dynamik
 			ARRAY<VkDescriptorPoolSize> poolSizes;
 			ARRAY<VkVertexInputAttributeDescription> vertexAttributes;
 			ARRAY<VkPushConstantRange> pushConstantRanges;
-			VkVertexInputBindingDescription bindingDescription;
+			ARRAY<VkVertexInputBindingDescription> bindingDescriptions;
 			B1 isParsed = false;
 		};
 	}

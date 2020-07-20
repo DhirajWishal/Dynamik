@@ -67,7 +67,7 @@ namespace Dynamik
 
     private:    /* Context */
         RSwapChain* createSwapChain(DMKViewport viewport, RSwapChainPresentMode presentMode);
-        RRenderPass* createRenderPass(ARRAY<RSubPasses> subPasses);
+        RRenderPass* createRenderPass(ARRAY<RSubpassAttachment> subPasses);
         RFrameBuffer* createFrameBuffer();
 
         void createContext(DMKRenderContextType type, DMKViewport viewport);
@@ -81,6 +81,8 @@ namespace Dynamik
         void copyDataToBuffer(RBuffer* pDstBuffer, VPTR data, UI64 size, UI64 offset);
 
         RTexture* createTexture(const DMKTexture* pTexture);
+
+        RBRDFTable* createBRDFTable();
 
         void initializeCamera(DMKCameraModule* pCameraModule);
         void initializeEnvironmentMap(DMKEnvironmentMap* pEnvironmentMap);

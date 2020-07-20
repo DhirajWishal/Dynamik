@@ -16,10 +16,28 @@ namespace Dynamik
 
 	/* Subpasses */
 	enum class DMK_API RSubPasses {
+		SUBPASSES_UNDEFINED,
 		SUBPASSES_SWAPCHAIN,
 		SUBPASSES_DEPTH,
 		SUBPASSES_COLOR,
 		SUBPASSES_OVERLAY,
+	};
+
+	/* Subpass Attachment */
+	struct DMK_API RSubpassAttachment {
+		RSubPasses subpass;
+		DMKFormat format = DMKFormat::DMK_FORMAT_UNDEFINED;
+		DMKSampleCount samples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+		RSubpassAttachmentLoadOp loadOp;
+		RSubpassAttachmentStoreOp storeOp;
+		RSubpassAttachmentLoadOp stencilLoadOp;
+		RSubpassAttachmentStoreOp stencilStoreOp;
+		RImageLayout initialLayout = RImageLayout::IMAGE_LAYOUT_UNDEFINED;
+		RImageLayout finalLayout = RImageLayout::IMAGE_LAYOUT_UNDEFINED;
+
+		static RSubpassAttachment createSwapChain(RSwapChain* pSwapChain);
+		static RSubpassAttachment createDepth(RCoreObject* pCoreObject);
+		static RSubpassAttachment createColor(DMKFormat format, DMKSampleCount samples);
 	};
 
 	/* Subpass Dependency */
@@ -57,13 +75,13 @@ namespace Dynamik
 	class DMK_API RRenderPass {
 	public:
 		RRenderPass() {}
-		RRenderPass(ARRAY<RSubPasses> aSubPasses) : subPasses(aSubPasses) {}
+		RRenderPass(ARRAY<RSubpassAttachment> aSubPasses) : subPasses(aSubPasses) {}
 		virtual ~RRenderPass() {}
 
-		virtual void initialize(RCoreObject* pCoreObject, ARRAY<RSubPasses> aSubPasses, ARRAY<RSubpassDependency> dependencies, RSwapChain* pSwapChain, DMKFormat overrideFormat = DMKFormat::DMK_FORMAT_UNDEFINED) = 0;
+		virtual void initialize(RCoreObject* pCoreObject, ARRAY<RSubpassAttachment> aSubPasses, ARRAY<RSubpassDependency> dependencies, RSwapChain* pSwapChain, DMKFormat overrideFormat = DMKFormat::DMK_FORMAT_UNDEFINED) = 0;
 		virtual void terminate(RCoreObject* pCoreObject) = 0;
 
-		ARRAY<RSubPasses> subPasses;
+		ARRAY<RSubpassAttachment> subPasses;
 	};
 }
 

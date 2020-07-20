@@ -98,6 +98,10 @@ namespace Dynamik
 			VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes, ePresentMode);
 			VkExtent2D scExtent = chooseSwapExtent(swapChainSupport.capabilities, viewPort.width, viewPort.width);
 
+			/* TODO */
+			viewPort.width = scExtent.width;
+			viewPort.height = scExtent.height;
+
 			VkCompositeAlphaFlagBitsKHR surfaceComposite =
 				(Inherit<VulkanCoreObject>(pCoreObject)->surface.surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR)
 				? VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR
@@ -163,36 +167,28 @@ namespace Dynamik
 				_vImage->format = format;
 				_vImage->layers = 1;
 				_vImage->mipLevel = 1;
-				images.pushBack(_vImage);
-			}
 
-			extent.width = Cast<F32>(scExtent.width);
-			extent.height = Cast<F32>(scExtent.height);
-
-			for (UI32 itr = 0; itr < images.size(); itr++)
-			{
-				VulkanImageView* _vView = StaticAllocator<VulkanImageView>::rawAllocate();
 				DMKTexture::TextureSwizzles _swizzles = {
 					DMKTextureSwizzle::TEXTURE_SWIZZLE_IDENTITY,
 					DMKTextureSwizzle::TEXTURE_SWIZZLE_IDENTITY,
 					DMKTextureSwizzle::TEXTURE_SWIZZLE_IDENTITY,
 					DMKTextureSwizzle::TEXTURE_SWIZZLE_IDENTITY };
-				_vView->initialize(pCoreObject, images[itr], _swizzles);
-				imageViews.pushBack(_vView);
+				_vImage->createImageView(pCoreObject, _swizzles);
+				images.pushBack(_vImage);
 			}
+
+			extent.width = Cast<F32>(scExtent.width);
+			extent.height = Cast<F32>(scExtent.height);
 		}
 
 		void VulkanSwapChain::terminate(RCoreObject* pCoreObject)
 		{
-			for (auto image : imageViews)
-			{
-				vkDestroyImageView(InheritCast<VulkanCoreObject>(pCoreObject).device, InheritCast<VulkanImageView>(image), nullptr);
-				StaticAllocator<VulkanImageView>::rawDeallocate(image);
-			}
-			imageViews.clear();
-
 			for (auto image : images)
+			{
+				image->pImageView->terminate(pCoreObject);
+				StaticAllocator<VulkanImageView>::rawDeallocate(image->pImageView);
 				StaticAllocator<VulkanImage>::rawDeallocate(image);
+			}
 			images.clear();
 
 			vkDestroySwapchainKHR(InheritCast<VulkanCoreObject>(pCoreObject).device, swapChain, nullptr);

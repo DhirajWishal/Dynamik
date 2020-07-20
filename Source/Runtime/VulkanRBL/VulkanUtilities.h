@@ -25,7 +25,7 @@ namespace Dynamik
         */
         struct DMK_API VulkanResourceLayout {
             ARRAY<VkVertexInputAttributeDescription> vertexInputAttributes;
-            VkVertexInputBindingDescription vertexInputBinding;
+            ARRAY<VkVertexInputBindingDescription> vertexInputBindings;
             ARRAY<VkDescriptorSetLayoutBinding> descriptorBindings;
             ARRAY<VkDescriptorPoolSize> descriptorPoolSizes;
         };

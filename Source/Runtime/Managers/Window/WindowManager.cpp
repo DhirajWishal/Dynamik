@@ -20,7 +20,7 @@ namespace Dynamik
 		myWindowHandles.pushBack(_window);
 #endif
 
-		return windowIDs++;
+		return Cast<I32>(windowIDs++);
 	}
 
 	DMKWindowHandle* DMKWindowManager::getWindowHandle(I32 windowID)

@@ -13,84 +13,24 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanFrameBuffer::initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, RSwapChain* pSwapChain, DMKExtent2D frameExtent, UI32 bufferCount, DMKFormat overrideFormat)
+		void VulkanFrameBuffer::initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, DMKExtent2D frameExtent, UI32 bufferCount, ARRAY<ARRAY<RFrameBufferAttachment*>> pAttachments)
 		{
 			width = Cast<UI32>(frameExtent.width);
 			height = Cast<UI32>(frameExtent.height);
-
-			VulkanColorAttachment colorAttachment;
-			B1 isColorAttachmentInitialized = false;
-			VulkanDepthAttachment depthAttachment;
-			B1 isDepthAttachmentInitialized = false;
+			this->pAttachments = pAttachments;
 
 			if (bufferCount < 1)
 				DMK_ERROR("Requested frame buffer count is not a valid count!");
+
+			if (pAttachments.size() != bufferCount)
+				DMK_FATAL("Invalid buffer count or attachment count!");
 
 			for (size_t i = 0; i < bufferCount; i++)
 			{
 				ARRAY<VkImageView> _attachments;
 
-				for (auto _subpass : pRenderPass->subPasses)
-				{
-					switch (_subpass)
-					{
-					case Dynamik::RSubPasses::SUBPASSES_SWAPCHAIN:
-						if (!pSwapChain)
-							DMK_FATAL("Submitted Swap Chain object is null!");
-
-						_attachments.pushBack(((VulkanImageView*)InheritCast<VulkanSwapChain>(pSwapChain).imageViews[i])->imageView);
-						break;
-					case Dynamik::RSubPasses::SUBPASSES_DEPTH:
-					{
-						if (!isDepthAttachmentInitialized)
-						{
-							VulkanFrameBufferAttachmentInitInfo attachmentInfo;
-							attachmentInfo.format = (DMKFormat)VulkanUtilities::findDepthFormat(Inherit<VulkanCoreObject>(pCoreObject)->device);
-							attachmentInfo.imageWidth = width;
-							attachmentInfo.imageHeight = height;
-							attachmentInfo.msaaSamples = pCoreObject->sampleCount;
-
-							depthAttachment.initialize(pCoreObject, attachmentInfo);
-							isDepthAttachmentInitialized = true;
-
-							attachmentImages.pushBack(depthAttachment.image);
-							attachmentViews.pushBack(depthAttachment.imageView);
-						}
-
-						_attachments.pushBack(depthAttachment.imageView);
-					}
-					break;
-					case Dynamik::RSubPasses::SUBPASSES_COLOR:
-					{
-						if (!isColorAttachmentInitialized)
-						{
-							VulkanFrameBufferAttachmentInitInfo attachmentInfo;
-
-							if (pSwapChain)
-								attachmentInfo.format = (DMKFormat)InheritCast<VulkanSwapChain>(pSwapChain).format;
-							else
-								attachmentInfo.format = overrideFormat;
-
-							attachmentInfo.imageWidth = width;
-							attachmentInfo.imageHeight = height;
-							attachmentInfo.msaaSamples = pCoreObject->sampleCount;
-
-							colorAttachment.initialize(pCoreObject, attachmentInfo);
-							isColorAttachmentInitialized = true;
-
-							attachmentImages.pushBack(colorAttachment.image);
-							attachmentViews.pushBack(colorAttachment.imageView);
-						}
-
-						_attachments.pushBack(colorAttachment.imageView);
-					}
-					break;
-					case Dynamik::RSubPasses::SUBPASSES_OVERLAY:
-						break;
-					default:
-						break;
-					}
-				}
+				for (auto pAttachment : pAttachments[i])
+					_attachments.pushBack(Inherit<VulkanImageView>(Inherit<VulkanImage>(pAttachment->pImageAttachment)->pImageView)->imageView);
 
 				VkFramebufferCreateInfo framebufferInfo = {};
 				framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
@@ -110,15 +50,16 @@ namespace Dynamik
 
 		void VulkanFrameBuffer::terminate(RCoreObject* pCoreObject)
 		{
-			/* Terminate attachment images */
-			for (auto image : attachmentImages)
-				image.terminate(pCoreObject);
-			attachmentImages.clear();
-
-			/* Terminate attachment image views */
-			for (auto imageView : attachmentViews)
-				imageView.terminate(pCoreObject);
-			attachmentViews.clear();
+			/* Terminate attachments */
+			for (auto container : pAttachments)
+			{
+				for (auto pAttachment : container)
+				{
+					pAttachment->terminate(pCoreObject);
+					StaticAllocator<RFrameBufferAttachment>::rawDeallocate(pAttachment, 0);
+				}
+			}
+			pAttachments.clear();
 
 			/* Terminate frame buffers */
 			for (auto buffer : buffers)

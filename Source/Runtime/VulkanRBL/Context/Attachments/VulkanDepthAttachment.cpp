@@ -4,11 +4,13 @@
 #include "dmkafx.h"
 #include "VulkanDepthAttachment.h"
 
+#include "../../Primitives/VulkanImage.h"
+
 namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanDepthAttachment::initialize(RCoreObject* pCoreObject, VulkanFrameBufferAttachmentInitInfo initInfo)
+		void VulkanDepthAttachment::initialize(RCoreObject* pCoreObject, RFrameBufferAttachmentInfo initInfo)
 		{
 			RImageCreateInfo imgCreateInfo;
 			imgCreateInfo.imageFormat = initInfo.format;
@@ -20,11 +22,17 @@ namespace Dynamik
 			imgCreateInfo.vDimentions.height = Cast<F32>(initInfo.imageHeight);
 			imgCreateInfo.sampleCount = initInfo.msaaSamples;
 
-			image.initialize(pCoreObject, imgCreateInfo);
+			pImageAttachment = StaticAllocator<VulkanImage>::rawAllocate();
+			pImageAttachment->initialize(pCoreObject, imgCreateInfo);
+			pImageAttachment->createImageView(pCoreObject, DMKTexture::TextureSwizzles());
 
-			imageView.initialize(pCoreObject, &image, DMKTexture::TextureSwizzles());
-
-			image.setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_DEPTH_STECIL_ATTACHMENT);
+			pImageAttachment->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT);
+		}
+		
+		void VulkanDepthAttachment::terminate(RCoreObject* pCoreObject)
+		{
+			pImageAttachment->terminate(pCoreObject);
+			StaticAllocator<VulkanImage>::rawDeallocate(pImageAttachment);
 		}
 	}
 }

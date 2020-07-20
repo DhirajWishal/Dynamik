@@ -23,6 +23,7 @@
 #include "VulkanRBL/Context/VulkanRenderPass.h"
 #include "VulkanRBL/Context/VulkanFrameBuffer.h"
 #include "VulkanRBL/Pipelines/VulkanGraphicsPipeline.h"
+#include "VulkanRBL/Lighting/VulkanBRDFTable.h"
 
 namespace Dynamik
 {
@@ -206,7 +207,7 @@ namespace Dynamik
 		return mySwapChain;
 	}
 
-	RRenderPass* DMKRenderer::createRenderPass(ARRAY<RSubPasses> subPasses)
+	RRenderPass* DMKRenderer::createRenderPass(ARRAY<RSubpassAttachment> subPasses)
 	{
 		switch (myAPI)
 		{
@@ -241,7 +242,7 @@ namespace Dynamik
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
 			myRenderTarget.pFrameBuffer = Inherit<RFrameBuffer>(StaticAllocator<VulkanFrameBuffer>::rawAllocate().get());
-			myRenderTarget.pFrameBuffer->initialize(myCoreObject, myRenderTarget.pRenderPass, mySwapChain, mySwapChain->extent, mySwapChain->bufferCount);
+			myRenderTarget.pFrameBuffer->initialize(myCoreObject, myRenderTarget.pRenderPass, mySwapChain->extent, mySwapChain->bufferCount, RUtilities::getFrameBufferAttachments(myAPI, myRenderTarget.pRenderPass->subPasses, myCoreObject, mySwapChain, mySwapChain->extent));
 		}
 		break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
@@ -264,7 +265,7 @@ namespace Dynamik
 		createSwapChain(viewport, RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_FIFO);
 
 		/* Initialize Render pass */
-		createRenderPass(RUtilities::createSubPasses(myCurrentContextType));
+		createRenderPass(RUtilities::createSubPasses(myCurrentContextType, myCoreObject, mySwapChain));
 
 		/* Initialize Frame buffer */
 		createFrameBuffer();
@@ -352,6 +353,26 @@ namespace Dynamik
 		return nullptr;
 	}
 
+	RBRDFTable* DMKRenderer::createBRDFTable()
+	{
+		switch (myAPI)
+		{
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_NONE:
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
+			return StaticAllocator<VulkanBRDFTable>::rawAllocate();
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
+			break;
+		default:
+			break;
+		}
+
+		return nullptr;
+	}
+
 	void DMKRenderer::initializeCamera(DMKCameraModule* pCameraModule)
 	{
 		if (!pCameraModule)
@@ -400,7 +421,7 @@ namespace Dynamik
 		pipelineCreateInfo.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
 		pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
 		pipelineCreateInfo.rasterizerInfo.frontFace = RFrontFace::FRONT_FACE_CLOCKWISE;
-		myCurrentEnvironment.pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &myRenderTarget, mySwapChain);
+		myCurrentEnvironment.pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &myRenderTarget, mySwapChain->viewPort);
 
 		/* Initialize Vertex and Index Buffers */
 		if (pEnvironmentMap->skyBox.vertexBuffer.size() || pEnvironmentMap->skyBox.indexBuffer.size())
@@ -417,6 +438,13 @@ namespace Dynamik
 
 		/* Initialize Texture Resources */
 		ARRAY<RTexture*> textures = { myCurrentEnvironment.pTexture };
+
+		/* Initialize Resources */
+		{
+			/* Initialize the BRDF table */
+			myCurrentEnvironment.pBRDFTable = createBRDFTable();
+			myCurrentEnvironment.pBRDFTable->initialize(myCoreObject, { 512.0f, 512.0f });
+		}
 
 		myCurrentEnvironment.pPipeline->initializeResources(myCoreObject, uniformBuffers, textures);
 	}
@@ -454,7 +482,7 @@ namespace Dynamik
 			pipelineCreateInfo.scissorInfos.resize(1);
 			pipelineCreateInfo.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
 			pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
-			meshComponent.pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &myRenderTarget, mySwapChain);
+			meshComponent.pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &myRenderTarget, mySwapChain->viewPort);
 
 			/* Initialize Vertex and Index Buffers */
 			if (meshComponent.pMeshComponent->vertexBuffer.size() || meshComponent.pMeshComponent->indexBuffer.size())
@@ -531,7 +559,7 @@ namespace Dynamik
 			pipelineCreateInfo.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
 			pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
 			pipelineCreateInfo.primitiveAssemblyInfo.primitiveTopology = RPrimitiveTopology::PRIMITIVE_TOPOLOGY_LINE_LIST;
-			mesh.pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &myRenderTarget, mySwapChain);
+			mesh.pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &myRenderTarget, mySwapChain->viewPort);
 
 			/* Initialize Primitives */
 			if (debug->vertexBuffer.size() || debug->indexBuffer.size())
@@ -665,29 +693,29 @@ namespace Dynamik
 			mySwapChain->initialize(myCoreObject, newViewPort, RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_FIFO);
 
 			/* Initialize Render Pass */
-			myRenderTarget.pRenderPass->initialize(myCoreObject, RUtilities::createSubPasses(myCurrentContextType), { RSubpassDependency() }, mySwapChain);
+			myRenderTarget.pRenderPass->initialize(myCoreObject, RUtilities::createSubPasses(myCurrentContextType, myCoreObject, mySwapChain), { RSubpassDependency() }, mySwapChain);
 
 			/* Initialize Frame Buffer */
-			myRenderTarget.pFrameBuffer->initialize(myCoreObject, myRenderTarget.pRenderPass, mySwapChain, mySwapChain->extent, mySwapChain->bufferCount);
+			myRenderTarget.pFrameBuffer->initialize(myCoreObject, myRenderTarget.pRenderPass, mySwapChain->extent, mySwapChain->bufferCount, RUtilities::getFrameBufferAttachments(myAPI, myRenderTarget.pRenderPass->subPasses, myCoreObject, mySwapChain, mySwapChain->extent));
 		}
 
 		/* Initialize Pipelines */
 		{
 			/* Initialize Environment Map Pipeline */
-			myCurrentEnvironment.pPipeline->reCreate(myCoreObject, &myRenderTarget, mySwapChain);
+			myCurrentEnvironment.pPipeline->reCreate(myCoreObject, &myRenderTarget, mySwapChain->viewPort);
 
 			/* Initialize Entity Pipelines */
 			for (auto entity : myEntities)
 				for (auto mesh : entity.meshObjects)
-					mesh.pPipeline->reCreate(myCoreObject, &myRenderTarget, mySwapChain);
+					mesh.pPipeline->reCreate(myCoreObject, &myRenderTarget, mySwapChain->viewPort);
 
 			/* Initialize Bounding Boxes */
 			for (auto box : myBoundingBoxes)
-				box.pPipeline->reCreate(myCoreObject, &myRenderTarget, mySwapChain);
+				box.pPipeline->reCreate(myCoreObject, &myRenderTarget, mySwapChain->viewPort);
 
 			/* Initialize Debug Objects */
 			for (auto debug : myDebugObjects)
-				debug.pPipeline->reCreate(myCoreObject, &myRenderTarget, mySwapChain);
+				debug.pPipeline->reCreate(myCoreObject, &myRenderTarget, mySwapChain->viewPort);
 		}
 
 		/* Initialize Buffers */
@@ -815,6 +843,12 @@ namespace Dynamik
 			{
 				myCurrentEnvironment.pUniformBuffer->terminate(myCoreObject);
 				StaticAllocator<RBuffer>::rawDeallocate(myCurrentEnvironment.pUniformBuffer, 0);
+			}
+
+			if (myCurrentEnvironment.pBRDFTable)
+			{
+				myCurrentEnvironment.pBRDFTable->terminate(myCoreObject);
+				StaticAllocator<RBRDFTable>::rawDeallocate(myCurrentEnvironment.pBRDFTable, 0);
 			}
 		}
 

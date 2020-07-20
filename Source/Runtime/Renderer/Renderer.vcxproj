@@ -397,6 +397,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\Attachments\RBoundingBox.cpp" />
+    <ClCompile Include="Components\Context\RRenderPass.cpp" />
     <ClCompile Include="Components\Factories\BufferFactory.cpp" />
     <ClCompile Include="Components\Factories\PipelineFactory.cpp" />
     <ClCompile Include="Components\Primitives\RImageSampler.cpp" />

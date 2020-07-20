@@ -66,9 +66,6 @@
     <ClInclude Include="Context\VulkanFrameBuffer.h">
       <Filter>Context</Filter>
     </ClInclude>
-    <ClInclude Include="Context\VulkanFrameBufferAttachment.h">
-      <Filter>Context</Filter>
-    </ClInclude>
     <ClInclude Include="Context\VulkanRenderPass.h">
       <Filter>Context</Filter>
     </ClInclude>
@@ -138,9 +135,6 @@
       <Filter>Context\Attachments</Filter>
     </ClCompile>
     <ClCompile Include="Context\VulkanFrameBuffer.cpp">
-      <Filter>Context</Filter>
-    </ClCompile>
-    <ClCompile Include="Context\VulkanFrameBufferAttachment.cpp">
       <Filter>Context</Filter>
     </ClCompile>
     <ClCompile Include="Context\VulkanRenderPass.cpp">
