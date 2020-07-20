@@ -520,6 +520,78 @@ namespace Dynamik
 			entity.meshObjects.pushBack(meshComponent);
 		}
 
+		/* Initialize Static Model */
+		for (UI64 index = 0; index < pGameEntity->getComponentArray<DMKStaticModel>()->size(); index++)
+		{
+			for (UI64 mIndex = 0; mIndex < pGameEntity->getComponent<DMKStaticModel>(index)->getMeshCount(); mIndex++)
+			{
+				RMeshObject meshComponent;
+				meshComponent.pMeshComponent = Cast<DMKStaticMeshComponent*>(pGameEntity->getComponent<DMKStaticModel>(index)->staticMeshes.location(mIndex));
+
+				/* Initialize Materials */
+				for (auto material : meshComponent.pMeshComponent->materials)
+				{
+					/* Initialize Textures */
+					for (auto texture : material.textureContainers)
+						meshComponent.pTextures.pushBack(createTexture(texture.pTexture));
+				}
+
+				/* Initialize Uniform Buffers */
+				{
+					/* Initialize Default Uniform */
+					RBuffer* defaultUniform = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, meshComponent.pMeshComponent->getUniformByteSize());
+					meshComponent.pUniformBuffer = defaultUniform;
+
+					meshComponent.pUniformBuffer->setData(myCoreObject, sizeof(meshComponent.pMeshComponent->modelMatrix), 0, &meshComponent.pMeshComponent->modelMatrix);
+				}
+
+				/* Initialize Pipeline */
+				meshComponent.pPipeline = RUtilities::allocatePipeline(myAPI);
+
+				RPipelineSpecification pipelineCreateInfo = {};
+				pipelineCreateInfo.shaders = meshComponent.pMeshComponent->shaderModules;
+				pipelineCreateInfo.scissorInfos.resize(1);
+				pipelineCreateInfo.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
+				pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
+				meshComponent.pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &myRenderTarget, mySwapChain->viewPort);
+
+				/* Initialize Vertex and Index Buffers */
+				if (meshComponent.pMeshComponent->vertexBuffer.size() || meshComponent.pMeshComponent->indexBuffer.size())
+					meshComponent.resourceIndex = myDrawCallManager.addDrawEntry(meshComponent.pMeshComponent->vertexBuffer, &meshComponent.pMeshComponent->indexBuffer, meshComponent.pPipeline);
+				else
+					meshComponent.resourceIndex = myDrawCallManager.addEmptyEntry(meshComponent.pPipeline);
+
+				/* Initialize Pipeline Resources */
+				{
+					/* Initialize Uniform Buffer Resources */
+					ARRAY<RBuffer*> uniformBuffers;
+					if (meshComponent.pUniformBuffer)
+						uniformBuffers.pushBack(meshComponent.pUniformBuffer);
+
+					if (pGameEntity->isCameraAvailable && myCameraComponent->pUniformBuffer)
+						uniformBuffers.pushBack(myCameraComponent->pUniformBuffer);
+
+					/* Initialize Texture Resources */
+					ARRAY<RTexture*> textures;
+					textures.insert(meshComponent.pTextures);
+
+					meshComponent.pPipeline->initializeResources(myCoreObject, uniformBuffers, textures);
+
+					/* Initialize Constant Blocks */
+					for (UI64 itr = 0; itr < meshComponent.pMeshComponent->materials.size(); itr++)
+					{
+						auto& material = meshComponent.pMeshComponent->materials[itr];
+
+						meshComponent.pPipeline->submitConstantData(
+							StaticAllocator<DMKMaterial::MaterialPushBlock>::allocateInit(material.generatePushBlock()),
+							itr);
+					}
+				}
+
+				entity.meshObjects.pushBack(meshComponent);
+			}
+		}
+
 		/* Initialize Attachments */
 		{
 			/* Initialize Bounding Boxes */

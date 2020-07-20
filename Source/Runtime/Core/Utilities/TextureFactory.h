@@ -25,6 +25,7 @@ namespace Dynamik
 
 		static DMKTexture* create(const DMKTextureType& type, const STRING& path);
 		static DMKTexture* createCubeMap(const ARRAY<STRING>& paths);
+		static DMKTexture* createCubeMapFromPanorama(const STRING& file);
 
 		static void destroy(DMKTexture* texture);
 	};

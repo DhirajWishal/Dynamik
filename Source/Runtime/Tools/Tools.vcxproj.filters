@@ -18,6 +18,7 @@
     <ClInclude Include="Shader\SPIR-V\Disassembler.h">
       <Filter>Shader\SPIR-V</Filter>
     </ClInclude>
+    <ClInclude Include="Texture\PanoramaToCubemap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shader\GLSL\Compiler.cpp">
@@ -26,6 +27,7 @@
     <ClCompile Include="Shader\SPIR-V\Disassembler.cpp">
       <Filter>Shader\SPIR-V</Filter>
     </ClCompile>
+    <ClCompile Include="Texture\PanoramaToCubemap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Tools.lua" />

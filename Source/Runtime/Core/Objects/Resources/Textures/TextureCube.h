@@ -23,6 +23,7 @@ namespace Dynamik
 
 	private:
 		void _loadCube6(ARRAY<STRING> paths);
+		void _loadCube(STRING path);
 	};
 }
 

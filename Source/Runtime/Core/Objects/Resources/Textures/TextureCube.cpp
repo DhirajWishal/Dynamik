@@ -10,13 +10,12 @@ namespace Dynamik
 {
 	void DMKTextureCube::load(ARRAY<STRING> texturePaths)
 	{
-		if (texturePaths.size() != 6)
-		{
-			DMK_FATAL("Dynamik Only Supports 6-image Sky Boxes Only! (For now)");
-			return;
-		}
-
-		_loadCube6(texturePaths);
+		if (texturePaths.size() == 1)
+			_loadCube(texturePaths[0]);
+		else if (texturePaths.size() == 6)
+			_loadCube6(texturePaths);
+		else
+			DMK_FATAL("Invalid texture path count to initialize the cube map!");
 	}
 
 	void DMKTextureCube::clear()
@@ -58,5 +57,27 @@ namespace Dynamik
 			format = DMKFormat::DMK_FORMAT_RGBA_8_UNORMAL;
 		else
 			DMK_ERROR_BOX("Invalid texture format!");
+	}
+
+	void DMKTextureCube::_loadCube(STRING path)
+	{
+		image = (UCPTR)stbi_load(path.c_str(), (I32*)&width, (I32*)&height, (I32*)&channels, NULL);
+
+		/* Check if the texture file was successfully loaded */
+		if (!image)
+			DMK_ERROR_BOX("Unable to import the requested texture file!");
+
+		if (channels == 1)
+			format = DMKFormat::DMK_FORMAT_R_8_UNORMAL;
+		else if (channels == 2)
+			format = DMKFormat::DMK_FORMAT_RG_8_UNORMAL;
+		else if (channels == 3)
+			format = DMKFormat::DMK_FORMAT_RGB_8_UNORMAL;
+		else if (channels == 4)
+			format = DMKFormat::DMK_FORMAT_RGBA_8_UNORMAL;
+		else
+			DMK_ERROR_BOX("Invalid texture format!");
+
+		layerCount = 1;
 	}
 }

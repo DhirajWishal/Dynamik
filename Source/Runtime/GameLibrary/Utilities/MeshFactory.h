@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_MESH_FACTORY_H
 #define _DYNAMIK_MESH_FACTORY_H
 
-#include "Core/Components/RenderableComponents/StaticMeshComponent.h"
+#include "Core/Components/RenderableComponents/StaticModel.h"
 #include "Animation/AnimatedMeshComponent.h"
 
 namespace Dynamik
@@ -68,6 +68,13 @@ namespace Dynamik
 		 @param file: The asset file.
 		*/
 		static DMKAnimatedMeshComponent loadAnimatedMesh(const STRING& file);
+
+		/*
+		 Load a static model from an asset file.
+
+		 @param file: The asset file.
+		*/
+		static DMKStaticModel loadStaticModel(const STRING& file, Vector3F position = { 0.0f, 0.0f, 0.0f }, Vector3F scale = { 1.0f, 1.0f, 1.0f });
 
 	private:
 		STRING workingDirectory = TEXT("");

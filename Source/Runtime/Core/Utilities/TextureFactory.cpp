@@ -6,6 +6,8 @@
 
 #include "Core/Objects/Resources/Textures/TextureCube.h"
 
+#include <stb_image.h>
+
 namespace Dynamik
 {
 	DMKTexture* DMKTextureFactory::create(const DMKTextureType& type, const STRING& path)
@@ -39,6 +41,15 @@ namespace Dynamik
 		_cube->load(paths);
 
 		return _cube;
+	}
+
+	DMKTexture* DMKTextureFactory::createCubeMapFromPanorama(const STRING& file)
+	{
+		auto out = stbi_is_hdr(file.c_str());
+		I32 width = 0, height = 0, channels = 0;
+		auto image = stbi_load(file.c_str(), &width, &height, &channels, NULL);
+
+		return nullptr;
 	}
 	
 	void DMKTextureFactory::destroy(DMKTexture* texture)

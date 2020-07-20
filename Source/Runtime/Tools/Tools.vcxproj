@@ -401,10 +401,12 @@
   <ItemGroup>
     <ClInclude Include="Shader\GLSL\Compiler.h" />
     <ClInclude Include="Shader\SPIR-V\Disassembler.h" />
+    <ClInclude Include="Texture\PanoramaToCubemap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shader\GLSL\Compiler.cpp" />
     <ClCompile Include="Shader\SPIR-V\Disassembler.cpp" />
+    <ClCompile Include="Texture\PanoramaToCubemap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Tools.lua" />

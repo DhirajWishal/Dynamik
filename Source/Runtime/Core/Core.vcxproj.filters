@@ -231,6 +231,7 @@
     <ClInclude Include="Utilities\Ticker.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Components\RenderableComponents\StaticModel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\Attachments\BoundingBox.cpp">
@@ -326,6 +327,7 @@
     <ClCompile Include="Utilities\Ticker.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Components\RenderableComponents\StaticModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core.lua" />
