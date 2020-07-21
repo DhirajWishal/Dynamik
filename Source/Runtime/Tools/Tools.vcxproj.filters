@@ -10,6 +10,12 @@
     <Filter Include="Shader\SPIR-V">
       <UniqueIdentifier>{0C80B23B-7840-2E72-417B-77EFADFA724E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Texture">
+      <UniqueIdentifier>{76AD313A-E28C-B0D5-EBA4-3BAC57031737}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty">
+      <UniqueIdentifier>{107145F9-FC28-8746-6530-60A251072237}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader\GLSL\Compiler.h">
@@ -18,7 +24,12 @@
     <ClInclude Include="Shader\SPIR-V\Disassembler.h">
       <Filter>Shader\SPIR-V</Filter>
     </ClInclude>
-    <ClInclude Include="Texture\PanoramaToCubemap.h" />
+    <ClInclude Include="Texture\PanoramaToCubemap.h">
+      <Filter>Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\CImg.h">
+      <Filter>ThirdParty</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shader\GLSL\Compiler.cpp">
@@ -27,7 +38,9 @@
     <ClCompile Include="Shader\SPIR-V\Disassembler.cpp">
       <Filter>Shader\SPIR-V</Filter>
     </ClCompile>
-    <ClCompile Include="Texture\PanoramaToCubemap.cpp" />
+    <ClCompile Include="Texture\PanoramaToCubemap.cpp">
+      <Filter>Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Tools.lua" />

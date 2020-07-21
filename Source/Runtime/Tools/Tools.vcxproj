@@ -202,8 +202,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;glslang.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;$(SolutionDir)Dependencies\ThirdParty\Binaries\glslang;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unix|x64'">
@@ -223,8 +223,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;glslang.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;$(SolutionDir)Dependencies\ThirdParty\Binaries\glslang;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Mac|x64'">
@@ -244,8 +244,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>-lglew32s;-lopengl32;-lglfw3dll;-lvulkan-1;-lSPIRV-Tools;-lglslang;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;$(SolutionDir)Dependencies\ThirdParty\Binaries\glslang;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>-lglew32s;-lopengl32;-lglfw3dll;-lvulkan-1;-lSPIRV-Tools;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Windows|x64'">
@@ -269,8 +269,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;glslang.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;$(SolutionDir)Dependencies\ThirdParty\Binaries\glslang;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unix|x64'">
@@ -294,8 +294,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;glslang.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;$(SolutionDir)Dependencies\ThirdParty\Binaries\glslang;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Mac|x64'">
@@ -319,8 +319,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>-lglew32s;-lopengl32;-lglfw3dll;-lvulkan-1;-lSPIRV-Tools;-lglslang;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;$(SolutionDir)Dependencies\ThirdParty\Binaries\glslang;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>-lglew32s;-lopengl32;-lglfw3dll;-lvulkan-1;-lSPIRV-Tools;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Windows|x64'">
@@ -344,8 +344,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;glslang.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;$(SolutionDir)Dependencies\ThirdParty\Binaries\glslang;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Unix|x64'">
@@ -369,8 +369,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;glslang.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;$(SolutionDir)Dependencies\ThirdParty\Binaries\glslang;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3dll.lib;vulkan-1.lib;SPIRV-Tools.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Mac|x64'">
@@ -394,14 +394,15 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>-lglew32s;-lopengl32;-lglfw3dll;-lvulkan-1;-lSPIRV-Tools;-lglslang;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;$(SolutionDir)Dependencies\ThirdParty\Binaries\glslang;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>-lglew32s;-lopengl32;-lglfw3dll;-lvulkan-1;-lSPIRV-Tools;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Vulkan;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLFW\lib-vc2019;$(SolutionDir)Dependencies\ThirdParty\Binaries\GLEW\Release\x64;$(SolutionDir)Dependencies\ThirdParty\Binaries\SPIRV-Tools;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Shader\GLSL\Compiler.h" />
     <ClInclude Include="Shader\SPIR-V\Disassembler.h" />
     <ClInclude Include="Texture\PanoramaToCubemap.h" />
+    <ClInclude Include="ThirdParty\CImg.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Shader\GLSL\Compiler.cpp" />

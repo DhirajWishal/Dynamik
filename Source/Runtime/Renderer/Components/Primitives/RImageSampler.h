@@ -32,8 +32,8 @@ namespace Dynamik
 		B1 enableAnisotropy = false;
 
 	public:		/* Utility Methods */
-		static RImageSamplerCreateInfo createDefaultSampler();
-		static RImageSamplerCreateInfo createCubeMapSampler();
+		static RImageSamplerCreateInfo createDefaultSampler(F32 levelOfDetail = 1.0f);
+		static RImageSamplerCreateInfo createCubeMapSampler(F32 levelOfDetail = 1.0f);
 	};
 
 	/*

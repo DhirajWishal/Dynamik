@@ -99,6 +99,7 @@
     <ClInclude Include="VulkanCoreObject.h" />
     <ClInclude Include="VulkanRenderTarget.h" />
     <ClInclude Include="VulkanUtilities.h" />
+    <ClInclude Include="Lighting\VulkanPreFilteredCube.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\VulkanCommandBuffer.cpp">
@@ -169,6 +170,7 @@
     </ClCompile>
     <ClCompile Include="VulkanCoreObject.cpp" />
     <ClCompile Include="VulkanUtilities.cpp" />
+    <ClCompile Include="Lighting\VulkanPreFilteredCube.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="VulkanRBL.lua" />

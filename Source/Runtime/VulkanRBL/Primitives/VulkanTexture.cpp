@@ -7,6 +7,8 @@
 #include "VulkanBuffer.h"
 #include "../VulkanUtilities.h"
 
+#include <cmath>
+
 namespace Dynamik
 {
 	namespace Backend
@@ -40,7 +42,7 @@ namespace Dynamik
 			staggingBuffer.terminate(pCoreObject);
 		}
 
-		void VulkanTexture::createView(RCoreObject* pCoreObject)
+		void VulkanTexture::createView(RCoreObject* pCoreObject, I32 mipLevel)
 		{
 			pImage->createImageView(pCoreObject, pTexture->swizzles);
 		}
@@ -48,6 +50,8 @@ namespace Dynamik
 		void VulkanTexture::createSampler(RCoreObject* pCoreObject, RImageSamplerCreateInfo createInfo)
 		{
 			pSampler = (RImageSampler*)StaticAllocator<VulkanImageSampler>::rawAllocate();
+
+			createInfo.maxLOD = pImage->mipLevel;
 			pSampler->initialize(pCoreObject, createInfo);
 		}
 

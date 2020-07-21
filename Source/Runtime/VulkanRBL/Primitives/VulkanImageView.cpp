@@ -43,11 +43,11 @@ namespace Dynamik
 				DMK_ERROR_BOX("Invalid image type!");
 				break;
 			}
-
+			
 			createInfo.subresourceRange.baseArrayLayer = 0;
 			createInfo.subresourceRange.baseMipLevel = 0;
-			createInfo.subresourceRange.aspectMask = (InheritCast<VulkanImage>(pImage).usage == RImageUsage::IMAGE_USAGE_DEPTH_ATTACHMENT) ? VK_IMAGE_ASPECT_DEPTH_BIT : VK_IMAGE_ASPECT_COLOR_BIT;
-			createInfo.subresourceRange.levelCount = InheritCast<VulkanImage>(pImage).mipLevel;
+			createInfo.subresourceRange.aspectMask = (pImage->usage == RImageUsage::IMAGE_USAGE_DEPTH_ATTACHMENT) ? VK_IMAGE_ASPECT_DEPTH_BIT : VK_IMAGE_ASPECT_COLOR_BIT;
+			createInfo.subresourceRange.levelCount = pImage->mipLevel;
 			createInfo.flags = VK_NULL_HANDLE;
 			// { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A }
 

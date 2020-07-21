@@ -95,6 +95,14 @@ namespace Dynamik
 			UI64 indexCount = 0;
 		};
 
+		struct DMK_API EnvironmentDraw {
+			RPipelineObject* pPipeline = nullptr;
+			RBuffer* pVertexBuffer = nullptr;
+			UI64 vertexCount = 0;
+			RBuffer* pIndexBuffer = nullptr;
+			UI64 indexCount = 0;
+		};
+
 		RDrawCallManager() {}
 		~RDrawCallManager() {}
 
@@ -104,6 +112,9 @@ namespace Dynamik
 			RPipelineObject* pPipelineObject);
 
 		UI64 addEmptyEntry(RPipelineObject* pPipelineObject);
+
+		void setEnvironment(RPipelineObject* pPipeline, RBuffer* pVertexBuffer, UI64 vertexCount, RBuffer* pIndexBuffer, UI64 indexCount);
+		EnvironmentDraw& getEnvironmentData();
 
 		UI64 addDebugEntry(
 			DMKVertexBuffer vertexBuffer,
@@ -130,6 +141,7 @@ namespace Dynamik
 		ARRAY<IndexBufferEntry> indexBufferEntries;
 		ARRAY<EmptyDraw> emptyDraws;
 		ARRAY<DebugDraw> debugEntries;
+		EnvironmentDraw myEnvironment;
 
 		/*
 		 Index Buffer

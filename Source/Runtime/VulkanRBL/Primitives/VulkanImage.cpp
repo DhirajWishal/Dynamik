@@ -18,7 +18,6 @@ namespace Dynamik
 			mipLevel = info.mipLevels;
 			layers = info.layers;
 			size = (UI32)info.vDimentions.width * (UI32)info.vDimentions.height * (UI32)info.vDimentions.depth * 4;
-			availabeMipLevels = info.mipLevels;
 			extent = info.vDimentions;
 			format = info.imageFormat;
 
@@ -103,10 +102,13 @@ namespace Dynamik
 			barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
 			barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 			barrier.subresourceRange.baseArrayLayer = 0;
-			barrier.subresourceRange.layerCount = 1;
+			barrier.subresourceRange.layerCount = layers;
 			barrier.subresourceRange.levelCount = 1;
 
-			for (UI32 i = 1; i < availabeMipLevels; i++) {
+			I32 _width = extent.width;
+			I32 _height = extent.height;
+
+			for (UI32 i = 1; i < mipLevel; i++) {
 				barrier.subresourceRange.baseMipLevel = i - 1;
 				barrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
 				barrier.newLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL;
@@ -121,17 +123,17 @@ namespace Dynamik
 
 				VkImageBlit blit = {};
 				blit.srcOffsets[0] = { 0, 0, 0 };
-				blit.srcOffsets[1] = { (I32)extent.width, (I32)extent.height, (I32)extent.depth };
+				blit.srcOffsets[1] = { _width, _height, (I32)extent.depth };
 				blit.srcSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 				blit.srcSubresource.mipLevel = i - 1;
 				blit.srcSubresource.baseArrayLayer = 0;
-				blit.srcSubresource.layerCount = 1;
+				blit.srcSubresource.layerCount = layers;
 				blit.dstOffsets[0] = { 0, 0, 0 };
-				blit.dstOffsets[1] = { (I32)extent.width > 1 ? (I32)extent.width / 2 : 1, (I32)extent.height > 1 ? (I32)extent.height / 2 : 1, (I32)extent.depth > 1 ? (I32)extent.depth / 2 : 1 };
+				blit.dstOffsets[1] = { _width > 1 ? _width / 2 : 1, _height > 1 ? _height / 2 : 1, (I32)extent.depth > 1 ? (I32)extent.depth / 2 : 1 };
 				blit.dstSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 				blit.dstSubresource.mipLevel = i;
 				blit.dstSubresource.baseArrayLayer = 0;
-				blit.dstSubresource.layerCount = 1;
+				blit.dstSubresource.layerCount = layers;
 
 				vkCmdBlitImage(_buffer,
 					image, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
@@ -150,8 +152,8 @@ namespace Dynamik
 					0, nullptr,
 					1, &barrier);
 
-				if (extent.width > 1) extent.width /= 2;
-				if (extent.height > 1) extent.height /= 2;
+				if (_width > 1) _width /= 2;
+				if (_height > 1) _height /= 2;
 			}
 		}
 
@@ -178,7 +180,7 @@ namespace Dynamik
 				barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
 
 			barrier.subresourceRange.baseMipLevel = 0;
-			barrier.subresourceRange.levelCount = availabeMipLevels;
+			barrier.subresourceRange.levelCount = mipLevel;
 			barrier.subresourceRange.baseArrayLayer = 0;
 			barrier.subresourceRange.layerCount = layers;
 			barrier.srcAccessMask = 0; // TODO

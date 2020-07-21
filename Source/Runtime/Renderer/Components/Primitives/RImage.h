@@ -56,7 +56,6 @@ namespace Dynamik
 		DMKTextureType type = DMKTextureType::TEXTURE_TYPE_2D;
 		RImageUsage usage = RImageUsage::IMAGE_USAGE_RENDER;
 		UI32 size = 0;
-		UI32 availabeMipLevels = 0;
 		UI32 mipLevel = 0;
 		UI32 layers = 0;
 		DMKFormat format = DMKFormat::DMK_FORMAT_UNDEFINED;

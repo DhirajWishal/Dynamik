@@ -26,5 +26,7 @@ namespace Dynamik
 			format = DMKFormat::DMK_FORMAT_RGBA_8_UNORMAL;
 		else
 			DMK_ERROR_BOX("Invalid texture format!");
+
+		//mipLevels = Cast<UI32>(std::floor(std::log2(std::max(width, height))) + 1);
 	}
 }

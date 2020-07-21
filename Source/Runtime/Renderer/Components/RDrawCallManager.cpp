@@ -32,6 +32,20 @@ namespace Dynamik
 		return emptyDraws.size() - 1;
 	}
 
+	void RDrawCallManager::setEnvironment(RPipelineObject* pPipeline, RBuffer* pVertexBuffer, UI64 vertexCount, RBuffer* pIndexBuffer, UI64 indexCount)
+	{
+		myEnvironment.pPipeline = pPipeline;
+		myEnvironment.pVertexBuffer = pVertexBuffer;
+		myEnvironment.vertexCount = vertexCount;
+		myEnvironment.pIndexBuffer = pIndexBuffer;
+		myEnvironment.indexCount = indexCount;
+	}
+
+	RDrawCallManager::EnvironmentDraw& RDrawCallManager::getEnvironmentData()
+	{
+		return myEnvironment;
+	}
+
 	UI64 RDrawCallManager::addDebugEntry(DMKVertexBuffer vertexBuffer, ARRAY<UI32>* indexBuffer, RPipelineObject* pPipelineObject)
 	{
 		DebugDraw entry;
@@ -167,7 +181,19 @@ namespace Dynamik
 
 	void RDrawCallManager::bindDrawCalls(RDrawCallType callType)
 	{
-		pCommandBuffer->bindIndexBuffer(indexBuffer);
+		/* Bind Environment */
+		{
+			pCommandBuffer->bindVertexBuffer(myEnvironment.pVertexBuffer, 0);
+			pCommandBuffer->bindIndexBuffer(myEnvironment.pIndexBuffer);
+			pCommandBuffer->bindGraphicsPipeline(myEnvironment.pPipeline);
+			if (callType == RDrawCallType::DRAW_CALL_TYPE_INDEX)
+				pCommandBuffer->drawIndexed(0, 0, myEnvironment.indexCount, 1);
+			else if (callType == RDrawCallType::DRAW_CALL_TYPE_VERTEX)
+				pCommandBuffer->drawVertexes(0, myEnvironment.vertexCount, 1);
+		}
+
+		if (indexBuffer)
+			pCommandBuffer->bindIndexBuffer(indexBuffer);
 
 		for (auto container : vertexBuffers)
 		{
@@ -213,6 +239,12 @@ namespace Dynamik
 
 	void RDrawCallManager::terminate(RCoreObject* pCoreObject)
 	{
+		/* Terminate Environment */
+		myEnvironment.pVertexBuffer->terminate(pCoreObject);
+		StaticAllocator<RBuffer>::rawDeallocate(myEnvironment.pVertexBuffer, 0);
+		myEnvironment.pIndexBuffer->terminate(pCoreObject);
+		StaticAllocator<RBuffer>::rawDeallocate(myEnvironment.pIndexBuffer, 0);
+
 		for (auto buffer : vertexBuffers)
 		{
 			buffer.vertexBuffer->terminate(pCoreObject);
@@ -232,7 +264,7 @@ namespace Dynamik
 			StaticAllocator<RBuffer>::rawDeallocate(entry.pIndexBuffer, 0);
 		}
 	}
-	
+
 	RDrawCallManager::DebugDraw& RDrawCallManager::getDebugEntry(I64 index)
 	{
 		return debugEntries[index];

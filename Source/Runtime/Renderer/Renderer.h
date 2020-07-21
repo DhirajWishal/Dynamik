@@ -91,7 +91,6 @@ namespace Dynamik
 
     private:    /* Finals */
         void updateResources();
-        void bindEnvironment(RCommandBuffer* pCommandBuffer, UI64* pFirstVertex, UI64* pFirstIndex);
         void initializeCommandBuffers();
         void initializeFinals();
 
@@ -113,6 +112,7 @@ namespace Dynamik
 
     private:    /* Utility Methods */
         RBoundingBox createBoundingBox(DMKBoundingBoxAttachment* pBoundingBox);
+        RMeshObject loadMeshComponent(DMKStaticMeshComponent* pComponent, DMKGameEntity* pGameEntity);
 
     private:    /* Internal */
         DMKRendererCompatibility myCompatibility;

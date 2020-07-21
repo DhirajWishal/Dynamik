@@ -15,7 +15,9 @@
     <ClInclude Include="RuntimeSystems\ListenerServices.h">
       <Filter>RuntimeSystems</Filter>
     </ClInclude>
-    <ClInclude Include="RuntimeSystems\ToolsRegistry.h" />
+    <ClInclude Include="RuntimeSystems\ToolsRegistry.h">
+      <Filter>RuntimeSystems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RuntimeSystems\AssetRegistry.cpp">
@@ -27,7 +29,9 @@
     <ClCompile Include="RuntimeSystems\ListenerServices.cpp">
       <Filter>RuntimeSystems</Filter>
     </ClCompile>
-    <ClCompile Include="RuntimeSystems\ToolsRegistry.cpp" />
+    <ClCompile Include="RuntimeSystems\ToolsRegistry.cpp">
+      <Filter>RuntimeSystems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Services.lua" />

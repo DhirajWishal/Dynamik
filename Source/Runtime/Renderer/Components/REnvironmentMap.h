@@ -8,6 +8,7 @@
 #include "RCoreObject.h"
 #include "REntity.h"
 #include "Lighting/RBRDFTable.h"
+#include "Lighting/RPreFilteredCube.h"
 
 namespace Dynamik
 {
@@ -27,8 +28,8 @@ namespace Dynamik
 		//virtual void createPrefilteredCube(RCoreObject* pCoreObject, UI32 dimensions, DMKFormat format) = 0;
 
 	public:		/* Vertex and Index Data */
-		UI64 vertexBufferOffset = 0;
-		UI64 indexBufferOffset = 0;
+		RBuffer* pVertexBuffer = nullptr;
+		RBuffer* pIndexBuffer = nullptr;
 
 	public:		/* Resource Data */
 		RTexture* pTexture = nullptr;
@@ -36,6 +37,7 @@ namespace Dynamik
 		RBuffer* pUniformBuffer = nullptr;
 
 		RBRDFTable* pBRDFTable = nullptr;
+		RPreFilteredCube* pPreFilteredCube = nullptr;
 
 	public:		/* Parent Mesh Component*/
 		DMKStaticMeshComponent* pMeshComponent = nullptr;

@@ -28,7 +28,7 @@ namespace Dynamik
             ~VulkanTexture() {}
 
             virtual void initialize(RCoreObject* pCoreObject, DMKTexture* pTextureObject) override final;
-            virtual void createView(RCoreObject* pCoreObject) override final;
+            virtual void createView(RCoreObject* pCoreObject, I32 mipLevel = 1) override final;
             virtual void createSampler(RCoreObject* pCoreObject, RImageSamplerCreateInfo createInfo) override final;
             virtual void makeRenderable(RCoreObject* pCoreObject) override final;
             virtual void terminate(RCoreObject* pCoreObject) override final;

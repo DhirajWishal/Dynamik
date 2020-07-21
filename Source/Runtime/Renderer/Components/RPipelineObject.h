@@ -17,6 +17,7 @@ namespace Dynamik
 {
 	class DMK_API RCoreObject;
 	class DMK_API RSwapChain;
+	class DMK_API RRenderTarget;
 	class DMK_API RTexture;
 
 	/* Renderer Pipeline Usage */

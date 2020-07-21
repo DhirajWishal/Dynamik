@@ -57,6 +57,8 @@ namespace Dynamik
 			format = DMKFormat::DMK_FORMAT_RGBA_8_UNORMAL;
 		else
 			DMK_ERROR_BOX("Invalid texture format!");
+
+		mipLevels = Cast<UI32>(std::floor(std::log2(std::max(width, height))) + 1);
 	}
 
 	void DMKTextureCube::_loadCube(STRING path)
@@ -79,5 +81,6 @@ namespace Dynamik
 			DMK_ERROR_BOX("Invalid texture format!");
 
 		layerCount = 1;
+		mipLevels = Cast<UI32>(std::floor(std::log2(std::max(width, height))) + 1);
 	}
 }

@@ -1,22 +1,28 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
-#include "VulkanBRDFTable.h"
+#include "VulkanPreFilteredCube.h"
 
 #include "../Primitives/VulkanTexture.h"
 #include "../Context/VulkanRenderPass.h"
-#include "../Context/VulkanFrameBuffer.h"
+#include "../Context/Attachments/VulkanColorAttachment.h"
 #include "../Common/VulkanOneTimeCommandBuffer.h"
+#include "../Context/VulkanFrameBuffer.h"
 
-#include "Services/RuntimeSystems/AssetRegistry.h"
-#include "Core/Utilities/ShaderFactory.h"
-#include "Core/Types/StaticArray.h"
-#include "Tools/Shader/GLSL/Compiler.h"
 #include "Renderer/RUtilities.h"
+#include "Tools/Shader/GLSL/Compiler.h"
+#include "Services/RuntimeSystems/AssetRegistry.h"
+#include "Core/Math/MathFunctions.h"
+#include "Core/Types/StaticArray.h"
+
+#include <corecrt_math_defines.h>
 
 namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanBRDFTable::initialize(RCoreObject* pCoreObject, DMKExtent2D dimentions, DMKFormat format)
+		void VulkanPreFilteredCube::initialize(RCoreObject* pCoreObject, RTexture* pEnvironmentTexture, DMKExtent2D dimentions, DMKFormat format)
 		{
 			this->format = format;
 			this->dimentions = dimentions;
@@ -31,7 +37,7 @@ namespace Dynamik
 			_initializeFrameBuffer(pCoreObject);
 
 			/* Initialize Pipeline */
-			_initializePipelines(pCoreObject);
+			_initializePipelines(pCoreObject, pEnvironmentTexture);
 
 			/* Issue Process Command */
 			_process(pCoreObject);
@@ -40,24 +46,26 @@ namespace Dynamik
 			_terminateSupportStructures(pCoreObject);
 		}
 
-		void VulkanBRDFTable::terminate(RCoreObject* pCoreObject)
+		void VulkanPreFilteredCube::terminate(RCoreObject* pCoreObject)
 		{
 			pTexture->terminate(pCoreObject);
 			StaticAllocator<VulkanTexture>::rawDeallocate(pTexture);
 		}
-
-		void VulkanBRDFTable::_initializeTexture(RCoreObject* pCoreObject)
+		
+		void VulkanPreFilteredCube::_initializeTexture(RCoreObject* pCoreObject)
 		{
 			pTexture = StaticAllocator<VulkanTexture>::rawAllocate();
 
 			/* Initialize Image */
 			RImageCreateInfo imageCreateInfo = {};
 			imageCreateInfo.imageFormat = format;
-			imageCreateInfo.imageType = DMKTextureType::TEXTURE_TYPE_2D;
+			imageCreateInfo.imageType = DMKTextureType::TEXTURE_TYPE_CUBEMAP;
 			imageCreateInfo.vDimentions.width = dimentions.width;
 			imageCreateInfo.vDimentions.height = dimentions.height;
 			imageCreateInfo.vDimentions.depth = 1;
 			imageCreateInfo.imageUsage = RImageUsage(IMAGE_USAGE_COLOR_ATTACHMENT | IMAGE_USAGE_RENDER);
+			imageCreateInfo.layers = 6;
+			imageCreateInfo.mipLevels = Cast<UI32>(floor(log2(dimentions.width))) + 1;
 
 			pTexture->pImage = StaticAllocator<VulkanImage>::rawAllocate();
 			pTexture->pImage->initialize(pCoreObject, imageCreateInfo);
@@ -67,12 +75,12 @@ namespace Dynamik
 
 			/* Initialize Sampler */
 			pTexture->pSampler = StaticAllocator<VulkanImageSampler>::rawAllocate();
-			pTexture->pSampler->initialize(pCoreObject, RImageSamplerCreateInfo::createDefaultSampler());
+			pTexture->pSampler->initialize(pCoreObject, RImageSamplerCreateInfo::createCubeMapSampler());
 
 			pTexture->makeRenderable(pCoreObject);
 		}
-
-		void VulkanBRDFTable::_initializeRenderPass(RCoreObject* pCoreObject)
+		
+		void VulkanPreFilteredCube::_initializeRenderPass(RCoreObject* pCoreObject)
 		{
 			renderTarget.pRenderPass = StaticAllocator<VulkanRenderPass>::rawAllocate();
 
@@ -85,7 +93,7 @@ namespace Dynamik
 			subpassAttachments[0].stencilLoadOp = RSubpassAttachmentLoadOp::SUBPASS_ATTACHMENT_LOAD_OP_DONT_CARE;
 			subpassAttachments[0].stencilStoreOp = RSubpassAttachmentStoreOp::SUBPASS_ATTACHMENT_STORE_OP_DONT_CARE;
 			subpassAttachments[0].initialLayout = RImageLayout::IMAGE_LAYOUT_UNDEFINED;
-			subpassAttachments[0].finalLayout = RImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY;
+			subpassAttachments[0].finalLayout = RImageLayout::IMAGE_LAYOUT_COLOR_ATTACHMENT;
 
 			ARRAY<RSubpassDependency> subpassDependencies(2);
 			RSubpassDependency subpassDependency;
@@ -109,24 +117,30 @@ namespace Dynamik
 
 			renderTarget.pRenderPass->initialize(pCoreObject, subpassAttachments, subpassDependencies, nullptr, format);
 		}
-
-		void VulkanBRDFTable::_initializeFrameBuffer(RCoreObject* pCoreObject)
+		
+		void VulkanPreFilteredCube::_initializeFrameBuffer(RCoreObject* pCoreObject)
 		{
-			renderTarget.pFrameBuffer = StaticAllocator<VulkanFrameBuffer>::rawAllocate();
+			RFrameBufferAttachmentInfo attachmentInfo;
+			attachmentInfo.format = format;
+			attachmentInfo.msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+			attachmentInfo.imageWidth = dimentions.width;
+			attachmentInfo.imageHeight = dimentions.height;
 
-			RFrameBufferAttachment* pAttachment = StaticAllocator<RFrameBufferAttachment>::rawAllocate();
-			pAttachment->setImage(pTexture->pImage);
+			VulkanColorAttachment* pAttachment = StaticAllocator<VulkanColorAttachment>::rawAllocate();
+			pAttachment->initialize(pCoreObject, attachmentInfo);
 
 			renderTarget.pFrameBuffer->initialize(pCoreObject, renderTarget.pRenderPass, dimentions, 1, { { pAttachment } });
+		
+			pAttachment->pImageAttachment->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_COLOR_ATTACHMENT);
 		}
 
-		void VulkanBRDFTable::_initializePipelines(RCoreObject* pCoreObject)
+		void VulkanPreFilteredCube::_initializePipelines(RCoreObject* pCoreObject, RTexture* pEnvironmentTexture)
 		{
 			Tools::GLSLCompiler compiler;
 
 			ARRAY<DMKShaderModule> shaders;
-			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_BRDF_TABLE_VERT")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX));
-			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_BRDF_TABLE_FRAG")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT));
+			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_FILTER_CUBE_VERT")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX));
+			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_PREFILTER_ENVIRONMENT_FRAG")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT));
 
 			DMKViewport _viewport;
 			_viewport.width = Cast<I32>(dimentions.width);
@@ -140,11 +154,16 @@ namespace Dynamik
 			pipelineSepc.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
 			pipelineSepc.multiSamplingInfo.sampleCount = DMK_SAMPLE_COUNT_1_BIT;
 			pipeline.initialize(pCoreObject, pipelineSepc, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &renderTarget, _viewport);
+		
+			pipeline.submitConstantData(StaticAllocator<ConstantBlock>::allocate(), 0);
+
+			pipeline.initializeResources(pCoreObject, ARRAY<RBuffer*>(), { pEnvironmentTexture });
 		}
 
-		void VulkanBRDFTable::_process(RCoreObject* pCoreObject)
+		void VulkanPreFilteredCube::_process(RCoreObject* pCoreObject)
 		{
 			VulkanOneTimeCommandBuffer buffer(pCoreObject);
+			ConstantBlock constantBlock;
 
 			/* Begin Render Pass */
 			VkRenderPassBeginInfo beginInfo = {};
@@ -156,11 +175,18 @@ namespace Dynamik
 			beginInfo.renderPass = Inherit<VulkanRenderPass>(renderTarget.pRenderPass)->renderPass;
 			beginInfo.clearValueCount = 1;
 
+			/* Matrices */
+			ARRAY<Matrix4F> matrices;
+			matrices.pushBack(DMathLib::rotate(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(90.0f), Vector3F(0.0f, 1.0f, 0.0f)), DMathLib::radians(180.0f), Vector3F(1.0f, 0.0f, 0.0f)));
+			matrices.pushBack(DMathLib::rotate(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(-90.0f), Vector3F(0.0f, 1.0f, 0.0f)), DMathLib::radians(180.0f), Vector3F(1.0f, 0.0f, 0.0f)));
+			matrices.pushBack(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(-90.0f), Vector3F(1.0f, 0.0f, 0.0f)));
+			matrices.pushBack(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(90.0f), Vector3F(1.0f, 0.0f, 0.0f)));
+			matrices.pushBack(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(180.0f), Vector3F(1.0f, 0.0f, 0.0f)));
+			matrices.pushBack(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(180.0f), Vector3F(0.0f, 0.0f, 1.0f)));
+			
 			StaticArray<VkClearValue, 1> clearValues;
 			clearValues[0].color = { { 0.0f, 0.0f, 0.0f, 1.0f } };
 			beginInfo.pClearValues = clearValues.data();
-
-			vkCmdBeginRenderPass(buffer, &beginInfo, VK_SUBPASS_CONTENTS_INLINE);
 
 			/* Bind Viewport */
 			VkViewport vViewport = {};
@@ -176,25 +202,34 @@ namespace Dynamik
 			vScissor.extent.height = Cast<I32>(dimentions.height);
 			vkCmdSetScissor(buffer, 0, 1, &vScissor);
 
-			/* Bind Pipeline */
-			vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
+			VkImageSubresourceRange subresourceRange = {};
+			subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
+			subresourceRange.baseMipLevel = 0;
+			subresourceRange.levelCount = pTexture->pImage->mipLevel;
+			subresourceRange.layerCount = 6;
 
-			/* Draw Call */
-			vkCmdDraw(buffer, 3, 1, 0, 0);
+			pTexture->pImage->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_TRANSFER_DST);
 
-			/* End Render Pass */
-			vkCmdEndRenderPass(buffer);
+			for (UI32 i = 0; i < subresourceRange.levelCount; i++)
+			{
+				vViewport.width = dimentions.width * std::pow(0.5f, i);
+				vViewport.height = dimentions.height * std::pow(0.5f, i);
+				vkCmdSetViewport(buffer, 0, 1, &vViewport);
+
+				vkCmdBeginRenderPass(buffer, &beginInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+				constantBlock.matrix = DMathLib::perspective(M_PI / 2.0f, 1.0f, 0.1f, 512.0f) * matrices[i];
+				vkCmdPushConstants(buffer, pipeline, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(ConstantBlock), &constantBlock);
+
+				vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
+
+				if (pipeline.isResourceAvailable)
+					vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline, 0, 1, &pipeline.descriptor.set, 0, VK_NULL_HANDLE);
+			}
 		}
 
-		void VulkanBRDFTable::_terminateSupportStructures(RCoreObject* pCoreObject)
+		void VulkanPreFilteredCube::_terminateSupportStructures(RCoreObject* pCoreObject)
 		{
-			pipeline.terminate(pCoreObject);
-
-			renderTarget.pRenderPass->terminate(pCoreObject);
-			StaticAllocator<VulkanRenderPass>::rawDeallocate(renderTarget.pRenderPass);
-
-			renderTarget.pFrameBuffer->terminate(pCoreObject);
-			StaticAllocator<VulkanFrameBuffer>::rawDeallocate(renderTarget.pFrameBuffer);
 		}
 	}
 }

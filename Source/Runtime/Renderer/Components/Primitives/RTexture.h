@@ -22,7 +22,7 @@ namespace Dynamik
 		virtual ~RTexture() {}
 
 		virtual void initialize(RCoreObject* pCoreObject, DMKTexture* pTextureObject) = 0;
-		virtual void createView(RCoreObject* pCoreObject) = 0;
+		virtual void createView(RCoreObject* pCoreObject, I32 mipLevel = 1) = 0;
 		virtual void createSampler(RCoreObject* pCoreObject, RImageSamplerCreateInfo createInfo) = 0;
 		virtual void makeRenderable(RCoreObject* pCoreObject) = 0;
 		virtual void terminate(RCoreObject* pCoreObject) = 0;

@@ -373,6 +373,7 @@
     <ClInclude Include="Components\Factories\BufferFactory.h" />
     <ClInclude Include="Components\Factories\PipelineFactory.h" />
     <ClInclude Include="Components\Lighting\RBRDFTable.h" />
+    <ClInclude Include="Components\Lighting\RPreFilteredCube.h" />
     <ClInclude Include="Components\PipelineTypeDefs.h" />
     <ClInclude Include="Components\PrimitiveTypeDefs.h" />
     <ClInclude Include="Components\Primitives\RBuffer.h" />

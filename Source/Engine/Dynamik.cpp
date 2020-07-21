@@ -3,9 +3,6 @@
 
 /*
  This file contains all the definitions of the Dynamik Engine interface.
-
- Author:    Dhiraj Wishal
- Date:      15/05/2020
 */
 
 #include "dmkafx.h"
@@ -29,8 +26,6 @@
 
 #include "Services/RuntimeSystems/AssetRegistry.h"
 #include "Services/RuntimeSystems/ToolsRegistry.h"
-
-#include "Tools/Shader/GLSL/Compiler.h"
 
 namespace Dynamik
 {
