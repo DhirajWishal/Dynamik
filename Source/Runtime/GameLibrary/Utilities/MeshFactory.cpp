@@ -7,7 +7,6 @@
 #include "Importer/Asset/MeshImporter.h"
 #include "Importer/Asset/AnimationImporter.h"
 #include "Core/Utilities/TextureFactory.h"
-#include "Services/RuntimeSystems/AssetRegistry.h"
 
 namespace Dynamik
 {
@@ -73,8 +72,8 @@ namespace Dynamik
 	{
 		DMKStaticMeshComponent component = DMKMeshImporter::loadMeshes(path, DMKVertexLayout::createBasicIBL())[0];
 
-		component.addShaderModule(DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
-		component.addShaderModule(DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/3D/vert.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/3D/frag.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 
 		return component;
 	}

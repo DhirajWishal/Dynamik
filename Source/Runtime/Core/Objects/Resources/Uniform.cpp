@@ -23,63 +23,53 @@ namespace Dynamik
 		return _ID;
 	}
 
-	void DMKUniformBufferObject::setDescription(const DMKUniformDescription& description)
+	void DMKUniformBufferObject::addAttribute(const STRING& name, const UI64& attribSize)
 	{
-		initialize(description);
+		Attribute newAttribute;
+		newAttribute.byteSize = attribSize;
+		newAttribute.offset = uByteSize;
+		attributeMap[name] = newAttribute;
+
+		uByteSize += attribSize;
 	}
 
-	void DMKUniformBufferObject::initialize(const DMKUniformDescription& description)
+	ARRAY<DMKUniformBufferObject::UniformBufferAttribute> DMKUniformBufferObject::getAttributes() const
 	{
-		myDescription = description;
-		pUniformBufferStorage = StaticAllocator<UI32>::allocateArr(myDescription.getUniformSize());
-		nextPointer = (BYTE*)pUniformBufferStorage;
-	}
-
-	void DMKUniformBufferObject::setData(const VPTR& data, const UI32& byteSize, const UI32& location, const UI32& arrayIndex)
-	{
-		if (location < myDescription.attributes.size())
+		ARRAY<DMKUniformBufferObject::UniformBufferAttribute> attributes;
+		for (auto attribute : attributeMap)
 		{
-			if ((UI32)myDescription.attributes[location].dataType != byteSize)
-				DMK_FATAL("Invalid data size bound! Possibly because your binding the wrong data.");
+			DMKUniformBufferObject::UniformBufferAttribute _attribute;
+			_attribute.byteSize = attribute.second.byteSize;
+			_attribute.offset = attribute.second.offset;
+			_attribute.name = attribute.first;
 
-			if (location)
-			{
-				if (arrayIndex < (UI32)myDescription.attributes[location - 1].dataCount)
-				{
-					nextPointer = (BYTE*)(((UI64)nextPointer) + (UI64)myDescription.attributes[location - 1].dataType * (arrayIndex + 1));
-				}
-				else
-				{
-					DMK_ERROR("Invalid array location in the uniform element at: " +
-						std::to_string(location) +
-						". Neglecting the array location and binding to the data to the given location.");
-
-					nextPointer = (BYTE*)(((UI64)nextPointer) + (UI64)myDescription.attributes[location - 1].dataType);
-				}
-				DMKMemoryFunctions::moveData(nextPointer, data, byteSize);
-			}
-			else
-				DMKMemoryFunctions::moveData(pUniformBufferStorage, data, byteSize);
+			attributes.pushBack(_attribute);
 		}
-		else
-			DMK_FATAL("Invalid data location bound!");
+
+		return attributes;
 	}
 
-	void DMKUniformBufferObject::setData(const VPTR& data)
+	void DMKUniformBufferObject::setData(const STRING& name, VPTR data, const UI64& offset)
 	{
-		DMKMemoryFunctions::moveData(pUniformBufferStorage, data, myDescription.getUniformSize());
+		auto attribute = attributeMap[name];
+		DMKMemoryFunctions::copyData(IncrementPointer(pUniformBufferStorage, attribute.offset + offset), data, attribute.byteSize);
+	}
+
+	VPTR DMKUniformBufferObject::getData(const STRING& name, const UI64& offset)
+	{
+		auto attribute = attributeMap[name];
+		return IncrementPointer(pUniformBufferStorage, attribute.offset + offset);
 	}
 
 	void DMKUniformBufferObject::setZero()
 	{
-		DMKMemoryFunctions::setData(pUniformBufferStorage, 0, byteSize());
+		DMKMemoryFunctions::setData(pUniformBufferStorage, 0, uByteSize);
 	}
 
 	void DMKUniformBufferObject::clear()
 	{
-		StaticAllocator<VPTR>::deallocate(pUniformBufferStorage, myDescription.getUniformSize());
+		StaticAllocator<VPTR>::deallocate(pUniformBufferStorage, uByteSize);
 		pUniformBufferStorage = nullptr;
-		nextPointer = (BYTE*)pUniformBufferStorage;
 	}
 
 	VPTR DMKUniformBufferObject::data() const
@@ -89,43 +79,26 @@ namespace Dynamik
 
 	UI64 DMKUniformBufferObject::byteSize() const
 	{
-		return myDescription.getUniformSize();
+		return this->uByteSize;
 	}
 
-	DMKUniformDescription DMKUniformBufferObject::createUniformCamera(UI32 binding, DMKShaderLocation location)
+	void DMKUniformBufferObject::setBindingLocation(const UI64& binding)
 	{
-		DMKUniformDescription _description;
-		_description.destinationBinding = binding;
-		_description.offset = 0;
-		_description.shaderLocation = location;
-		_description.type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
-
-		DMKUniformAttribute _attribute1;
-		_attribute1.dataCount = 1;
-		_attribute1.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
-		_description.attributes.pushBack(_attribute1);
-
-		DMKUniformAttribute _attribute2;
-		_attribute2.dataCount = 1;
-		_attribute2.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
-		_description.attributes.pushBack(_attribute2);
-
-		return _description;
+		bindingLocation = binding;
 	}
 
-	DMKUniformDescription DMKUniformBufferObject::createUniformModel(UI32 binding, DMKShaderLocation location)
+	UI64 DMKUniformBufferObject::getBindingLocation() const
 	{
-		DMKUniformDescription _description;
-		_description.destinationBinding = binding;
-		_description.offset = 0;
-		_description.shaderLocation = location;
-		_description.type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
+		return bindingLocation;
+	}
 
-		DMKUniformAttribute _attribute1;
-		_attribute1.dataCount = 1;
-		_attribute1.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
-		_description.attributes.pushBack(_attribute1);
+	void DMKUniformBufferObject::setLocation(const DMKShaderLocation& location)
+	{
+		this->location = location;
+	}
 
-		return _description;
+	DMKShaderLocation DMKUniformBufferObject::getLocation() const
+	{
+		return location;
 	}
 }

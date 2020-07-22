@@ -27,6 +27,15 @@ namespace Dynamik
 	 input based characters are derived from this.
 
 	 You can imagine entities as a soul. You are required to control it. 
+	 An entity is a collection of data to store a complete entity in a game. 
+	 A basic entity contains:
+	   - Shaders
+	   - Meshes
+	     - Materials
+		   - Textures
+	   - Uniform Buffer Objects
+	   - Audio Components
+	   - Physics Bodies
 
 	 @warn: Entities that are not in the game world must be externally initialized.
 	*/
