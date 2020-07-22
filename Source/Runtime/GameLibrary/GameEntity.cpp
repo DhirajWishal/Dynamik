@@ -17,4 +17,14 @@ namespace Dynamik
 		this->pCameraModule = Cast<DMKCameraModule*>(pCameraModule);
 		isCameraAvailable = true;
 	}
+
+	void DMKGameEntity::addAttribute(const DMKGameEntityAttribute& attribute)
+	{
+		attributes.pushBack(attribute);
+	}
+
+	ARRAY<DMKGameEntityAttribute> DMKGameEntity::getAttributes() const
+	{
+		return attributes;
+	}
 }

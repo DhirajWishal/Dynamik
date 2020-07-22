@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "dmkafx.h"
-#include "VulkanPreFilteredCube.h"
+#include "VulkanIrradianceCube.h"
 
 #include "../Primitives/VulkanTexture.h"
 #include "../Context/VulkanRenderPass.h"
@@ -18,13 +18,11 @@
 #include "Core/Math/MathFunctions.h"
 #include "Core/Types/StaticArray.h"
 
-#include <corecrt_math_defines.h>
-
 namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanPreFilteredCube::initialize(RCoreObject* pCoreObject, REnvironmentMap* pEnvironmentMap, DMKExtent2D dimentions, DMKFormat format)
+		void Dynamik::Backend::VulkanIrradianceCube::initialize(RCoreObject* pCoreObject, REnvironmentMap* pEnvironmentMap, DMKExtent2D dimentions, DMKFormat format)
 		{
 			this->format = format;
 			this->dimentions = dimentions;
@@ -49,13 +47,13 @@ namespace Dynamik
 			_terminateSupportStructures(pCoreObject);
 		}
 
-		void VulkanPreFilteredCube::terminate(RCoreObject* pCoreObject)
+		void Dynamik::Backend::VulkanIrradianceCube::terminate(RCoreObject* pCoreObject)
 		{
 			pTexture->terminate(pCoreObject);
 			StaticAllocator<VulkanTexture>::rawDeallocate(pTexture);
 		}
 
-		void VulkanPreFilteredCube::_initializeTexture(RCoreObject* pCoreObject)
+		void Dynamik::Backend::VulkanIrradianceCube::_initializeTexture(RCoreObject* pCoreObject)
 		{
 			pTexture = StaticAllocator<VulkanTexture>::rawAllocate();
 
@@ -81,7 +79,7 @@ namespace Dynamik
 			pTexture->pSampler->initialize(pCoreObject, RImageSamplerCreateInfo::createCubeMapSampler());
 		}
 
-		void VulkanPreFilteredCube::_initializeRenderPass(RCoreObject* pCoreObject)
+		void Dynamik::Backend::VulkanIrradianceCube::_initializeRenderPass(RCoreObject* pCoreObject)
 		{
 			renderTarget.pRenderPass = StaticAllocator<VulkanRenderPass>::rawAllocate();
 
@@ -119,7 +117,7 @@ namespace Dynamik
 			renderTarget.pRenderPass->initialize(pCoreObject, subpassAttachments, subpassDependencies, nullptr, format);
 		}
 
-		void VulkanPreFilteredCube::_initializeFrameBuffer(RCoreObject* pCoreObject)
+		void Dynamik::Backend::VulkanIrradianceCube::_initializeFrameBuffer(RCoreObject* pCoreObject)
 		{
 			RImageCreateInfo imageCreateInfo = {};
 			imageCreateInfo.vDimentions.width = dimentions.width;
@@ -142,13 +140,13 @@ namespace Dynamik
 			pAttachment->pImageAttachment->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_COLOR_ATTACHMENT);
 		}
 
-		void VulkanPreFilteredCube::_initializePipelines(RCoreObject* pCoreObject)
+		void Dynamik::Backend::VulkanIrradianceCube::_initializePipelines(RCoreObject* pCoreObject)
 		{
 			Tools::GLSLCompiler compiler;
 
 			ARRAY<DMKShaderModule> shaders;
 			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_FILTER_CUBE_VERT")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX));
-			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_PREFILTER_ENVIRONMENT_FRAG")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT));
+			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_IRRADIANCE_CUBE_FRAG")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT));
 
 			DMKViewport _viewport;
 			_viewport.width = Cast<I32>(dimentions.width);
@@ -166,7 +164,7 @@ namespace Dynamik
 			pipeline.initializeResources(pCoreObject, ARRAY<RBuffer*>(), { pParent->pTexture });
 		}
 
-		void VulkanPreFilteredCube::_process(RCoreObject* pCoreObject)
+		void Dynamik::Backend::VulkanIrradianceCube::_process(RCoreObject* pCoreObject)
 		{
 			VulkanOneTimeCommandBuffer buffer(pCoreObject);
 
@@ -175,8 +173,8 @@ namespace Dynamik
 			} constantOne;
 
 			struct ConstantTwo {
-				F32 roughness = 0.0f;
-				UI32 samples = 32;
+				F32 deltaPhi = (2.0f * Cast<F32>(M_PI)) / 180.0f;
+				F32 deltaTheta = (0.5f * Cast<F32>(M_PI)) / 64.0f;
 			} constantTwo;
 
 			/* Begin Render Pass */
@@ -238,7 +236,6 @@ namespace Dynamik
 
 			for (UI32 i = 0; i < subresourceRange.levelCount; i++)
 			{
-				constantTwo.roughness = Cast<F32>(i) / Cast<F32>(pTexture->pImage->mipLevel - 1);
 				for (UI32 j = 0; j < 6; j++)
 				{
 					vViewport.width = dimentions.width * Cast<F32>(std::pow(0.5f, i));
@@ -310,7 +307,7 @@ namespace Dynamik
 				pTexture->pImage->format);
 		}
 
-		void VulkanPreFilteredCube::_terminateSupportStructures(RCoreObject* pCoreObject)
+		void Dynamik::Backend::VulkanIrradianceCube::_terminateSupportStructures(RCoreObject* pCoreObject)
 		{
 			pipeline.terminate(pCoreObject);
 

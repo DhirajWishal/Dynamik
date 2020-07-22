@@ -220,10 +220,13 @@ namespace Dynamik
 		/* Bind debug entries */
 		for (auto entry : debugEntries)
 		{
-			pCommandBuffer->bindVertexBuffer(entry.pVertexBuffer, 0);
-			pCommandBuffer->bindIndexBuffer(entry.pIndexBuffer);
-			pCommandBuffer->bindGraphicsPipeline(entry.pPipeline);
-			pCommandBuffer->drawIndexed(0, 0, entry.indexCount, 1);
+			if (entry.pVertexBuffer)
+			{
+				pCommandBuffer->bindVertexBuffer(entry.pVertexBuffer, 0);
+				pCommandBuffer->bindIndexBuffer(entry.pIndexBuffer);
+				pCommandBuffer->bindGraphicsPipeline(entry.pPipeline);
+				pCommandBuffer->drawIndexed(0, 0, entry.indexCount, 1);
+			}
 		}
 	}
 
@@ -240,10 +243,17 @@ namespace Dynamik
 	void RDrawCallManager::terminate(RCoreObject* pCoreObject)
 	{
 		/* Terminate Environment */
-		myEnvironment.pVertexBuffer->terminate(pCoreObject);
-		StaticAllocator<RBuffer>::rawDeallocate(myEnvironment.pVertexBuffer, 0);
-		myEnvironment.pIndexBuffer->terminate(pCoreObject);
-		StaticAllocator<RBuffer>::rawDeallocate(myEnvironment.pIndexBuffer, 0);
+		if (myEnvironment.pVertexBuffer)
+		{
+			myEnvironment.pVertexBuffer->terminate(pCoreObject);
+			StaticAllocator<RBuffer>::rawDeallocate(myEnvironment.pVertexBuffer, 0);
+		}
+
+		if (myEnvironment.pIndexBuffer)
+		{
+			myEnvironment.pIndexBuffer->terminate(pCoreObject);
+			StaticAllocator<RBuffer>::rawDeallocate(myEnvironment.pIndexBuffer, 0);
+		}
 
 		for (auto buffer : vertexBuffers)
 		{
@@ -251,17 +261,26 @@ namespace Dynamik
 			StaticAllocator<RBuffer>::rawDeallocate(buffer.vertexBuffer, 0);
 		}
 
-		indexBuffer->terminate(pCoreObject);
-		StaticAllocator<RBuffer>::rawDeallocate(indexBuffer, 0);
+		if (indexBuffer)
+		{
+			indexBuffer->terminate(pCoreObject);
+			StaticAllocator<RBuffer>::rawDeallocate(indexBuffer, 0);
+		}
 
 		/* Terminate Debug Entries */
 		for (auto entry : debugEntries)
 		{
-			entry.pVertexBuffer->terminate(pCoreObject);
-			StaticAllocator<RBuffer>::rawDeallocate(entry.pVertexBuffer, 0);
+			if (entry.pVertexBuffer)
+			{
+				entry.pVertexBuffer->terminate(pCoreObject);
+				StaticAllocator<RBuffer>::rawDeallocate(entry.pVertexBuffer, 0);
+			}
 
-			entry.pIndexBuffer->terminate(pCoreObject);
-			StaticAllocator<RBuffer>::rawDeallocate(entry.pIndexBuffer, 0);
+			if (entry.pIndexBuffer)
+			{
+				entry.pIndexBuffer->terminate(pCoreObject);
+				StaticAllocator<RBuffer>::rawDeallocate(entry.pIndexBuffer, 0);
+			}
 		}
 	}
 

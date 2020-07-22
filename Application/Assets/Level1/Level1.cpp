@@ -16,6 +16,8 @@ void Level1::onLoad()
 	playerObject->setPosition({ 0.0f, 0.0f, 0.0f });
 	playerObject->setCameraPosition({ 0.0f, 0.0f, 0.0f });
 	playerObject->setCameraAndWorldUp(VEC3(0.0f, -1.0f, 0.0f), VEC3(0.0f, -1.0f, 0.0f));
+	playerObject->getCameraModule()->setExposure(1.0f);
+	playerObject->getCameraModule()->setGamma(1.0f);
 
 	/* Create Basic World */
 	createUserGameWorld<DefaultWorld>();

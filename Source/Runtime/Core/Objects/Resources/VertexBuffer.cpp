@@ -35,6 +35,26 @@ namespace Dynamik
 		return layout;
 	}
 
+	DMKVertexLayout DMKVertexLayout::createBasicIBL()
+	{
+		DMKVertexLayout layout;
+		DMKVertexAttribute attribute;
+		attribute.dataCount = 1;
+
+		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
+		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
+		layout.attributes.pushBack(attribute);
+
+		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL;
+		layout.attributes.pushBack(attribute);
+
+		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES;
+		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC2;
+		layout.attributes.pushBack(attribute);
+
+		return layout;
+	}
+
 	DMKVertexLayout DMKVertexLayout::createAnimated()
 	{
 		DMKVertexLayout layout;

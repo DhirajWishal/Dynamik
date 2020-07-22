@@ -64,6 +64,9 @@ namespace Dynamik
 		/* Metallicness */
 		F32 metallicness = 0.0f;
 
+		/* Specular */
+		F32 specular = 0.0f;
+
 		/* Textures */
 		ARRAY<MTextureContainer> textureContainers;
 
@@ -89,14 +92,15 @@ namespace Dynamik
 		*/
 		struct DMK_API MaterialPushBlock {
 			MaterialPushBlock() = default;
-			MaterialPushBlock(DMKColorComponent surface, DMKColorComponent subSurface, F32 roughness, F32 metalic)
-				: surfaceColor(surface), subSurfaceColor(subSurface), roughness(roughness), metallicness(metalic) {}
+			MaterialPushBlock(DMKColorComponent surface, DMKColorComponent subSurface, F32 roughness, F32 metalic, F32 specular)
+				: surfaceColor(surface), subSurfaceColor(subSurface), roughness(roughness), metallicness(metalic), specular(specular) {}
 			~MaterialPushBlock() = default;
 
 			DMKColorComponent surfaceColor;
 			DMKColorComponent subSurfaceColor;
 			F32 roughness = 0;
 			F32 metallicness = 0;
+			F32 specular = 0;
 		};
 
 		/*

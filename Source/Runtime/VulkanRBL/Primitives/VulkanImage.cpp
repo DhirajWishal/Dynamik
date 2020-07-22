@@ -89,6 +89,7 @@ namespace Dynamik
 		void VulkanImage::generateMipMaps(RCoreObject* pCoreObject)
 		{
 			VulkanOneTimeCommandBuffer _buffer(pCoreObject);
+
 			VkFormatProperties formatProperties;
 			vkGetPhysicalDeviceFormatProperties(Inherit<VulkanCoreObject>(pCoreObject)->device, VulkanUtilities::getVulkanFormat(format), &formatProperties);
 
@@ -105,8 +106,8 @@ namespace Dynamik
 			barrier.subresourceRange.layerCount = layers;
 			barrier.subresourceRange.levelCount = 1;
 
-			I32 _width = extent.width;
-			I32 _height = extent.height;
+			I32 _width = Cast<I32>(extent.width);
+			I32 _height = Cast<I32>(extent.height);
 
 			for (UI32 i = 1; i < mipLevel; i++) {
 				barrier.subresourceRange.baseMipLevel = i - 1;
@@ -155,122 +156,31 @@ namespace Dynamik
 				if (_width > 1) _width /= 2;
 				if (_height > 1) _height /= 2;
 			}
+
+			barrier.subresourceRange.baseMipLevel = mipLevel - 1;
+			barrier.oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
+			barrier.newLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+			barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+			barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
+
+			vkCmdPipelineBarrier(_buffer,
+				VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, 0,
+				0, nullptr,
+				0, nullptr,
+				1, &barrier);
+
+			layout = RImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY;
 		}
 
 		void VulkanImage::setLayout(RCoreObject* pCoreObject, RImageLayout newLayout)
 		{
-			VulkanOneTimeCommandBuffer oneTimeCommandBuffer(pCoreObject);
+			VulkanOneTimeCommandBuffer buffer(pCoreObject);
+			VulkanUtilities::rawTransitionImageLayout(buffer, image,
+				VulkanUtilities::getVulkanLayout(layout),
+				VulkanUtilities::getVulkanLayout(newLayout),
+				mipLevel, layers, format);
 
-			VkImageMemoryBarrier barrier = {};
-			barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-			barrier.oldLayout = VulkanUtilities::getVulkanLayout(layout);
-			barrier.newLayout = VulkanUtilities::getVulkanLayout(newLayout);
-			barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-			barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-			barrier.image = image;
-
-			if (VulkanUtilities::getVulkanLayout(newLayout) == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL)
-			{
-				barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
-
-				if (VulkanUtilities::hasStencilComponent(VulkanUtilities::getVulkanFormat(format)))
-					barrier.subresourceRange.aspectMask |= VK_IMAGE_ASPECT_STENCIL_BIT;
-			}
-			else
-				barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-
-			barrier.subresourceRange.baseMipLevel = 0;
-			barrier.subresourceRange.levelCount = mipLevel;
-			barrier.subresourceRange.baseArrayLayer = 0;
-			barrier.subresourceRange.layerCount = layers;
-			barrier.srcAccessMask = 0; // TODO
-			barrier.dstAccessMask = 0; // TODO
-
-			VkPipelineStageFlags sourceStage = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;
-			VkPipelineStageFlags destinationStage = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;
-
-			switch (barrier.oldLayout)
-			{
-			case VK_IMAGE_LAYOUT_UNDEFINED:
-				//sourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
-				barrier.srcAccessMask = 0;
-				break;
-
-			case VK_IMAGE_LAYOUT_PREINITIALIZED:
-				barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
-				break;
-
-			case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
-				barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-				break;
-
-			case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
-				barrier.srcAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
-				break;
-
-			case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
-				barrier.srcAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
-				break;
-
-			case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
-				//sourceStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
-				barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-				break;
-
-			case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
-				//destinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-				barrier.srcAccessMask = VK_ACCESS_SHADER_READ_BIT;
-				break;
-			default:
-				DMK_ERROR_BOX("Unsupported layout transition!");
-				break;
-			}
-
-			switch (barrier.newLayout)
-			{
-			case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
-				//destinationStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
-				barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-				break;
-
-			case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
-				barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
-				break;
-
-			case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
-				//destinationStage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-				barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-				break;
-
-			case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
-				//destinationStage = VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
-				barrier.dstAccessMask = barrier.dstAccessMask | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
-				break;
-
-			case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
-				if (barrier.srcAccessMask == 0)
-					barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT | VK_ACCESS_TRANSFER_WRITE_BIT;
-
-				barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
-				//destinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-				break;
-
-			case VK_IMAGE_LAYOUT_GENERAL:
-				//destinationStage = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;
-				break;
-			default:
-				DMK_ERROR_BOX("Unsupported layout transition!");
-				break;
-			}
-
-			vkCmdPipelineBarrier(
-				oneTimeCommandBuffer,
-				sourceStage, destinationStage,
-				0,
-				0, nullptr,
-				0, nullptr,
-				1, &barrier
-			);
+			layout = newLayout;
 		}
 
 		void VulkanImage::createImageView(RCoreObject* pCoreObject, DMKTexture::TextureSwizzles swizzles)

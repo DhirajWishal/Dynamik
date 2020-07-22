@@ -65,4 +65,34 @@ namespace Dynamik
 
 		return ray;
 	}
+
+	void DMKCameraModule::setParams(const DMKCameraViewParams& params)
+	{
+		this->params = params;
+	}
+
+	DMKCameraViewParams DMKCameraModule::getViewParams() const
+	{
+		return params;
+	}
+
+	void DMKCameraModule::setExposure(const F32& exposure)
+	{
+		params.exposure = exposure;
+	}
+
+	void DMKCameraModule::setGamma(const F32& gamma)
+	{
+		params.gamma = gamma;
+	}
+
+	F32 DMKCameraModule::getExposure() const
+	{
+		return params.exposure;
+	}
+
+	F32 DMKCameraModule::getGamma() const
+	{
+		return params.gamma;
+	}
 }

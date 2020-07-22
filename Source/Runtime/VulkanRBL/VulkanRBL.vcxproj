@@ -417,6 +417,7 @@
     <ClInclude Include="Context\VulkanRenderPass.h" />
     <ClInclude Include="Context\VulkanSwapChain.h" />
     <ClInclude Include="Lighting\VulkanBRDFTable.h" />
+    <ClInclude Include="Lighting\VulkanIrradianceCube.h" />
     <ClInclude Include="Lighting\VulkanPreFilteredCube.h" />
     <ClInclude Include="Pipelines\VulkanGraphicsPipeline.h" />
     <ClInclude Include="Primitives\VulkanBuffer.h" />
@@ -445,6 +446,7 @@
     <ClCompile Include="Context\VulkanRenderPass.cpp" />
     <ClCompile Include="Context\VulkanSwapChain.cpp" />
     <ClCompile Include="Lighting\VulkanBRDFTable.cpp" />
+    <ClCompile Include="Lighting\VulkanIrradianceCube.cpp" />
     <ClCompile Include="Lighting\VulkanPreFilteredCube.cpp" />
     <ClCompile Include="Pipelines\VulkanGraphicsPipeline.cpp" />
     <ClCompile Include="Primitives\VulkanBuffer.cpp" />

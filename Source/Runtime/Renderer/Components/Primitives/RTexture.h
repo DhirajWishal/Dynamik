@@ -31,7 +31,6 @@ namespace Dynamik
 		DMKTexture* pTexture = nullptr;
 		RImage* pImage = nullptr;
 		RImageSampler* pSampler = nullptr;
-		RImageLayout currentLayout = RImageLayout::IMAGE_LAYOUT_GENERAL;
 	};
 }
 

@@ -2,24 +2,23 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_VULKAN_PRE_FILTERED_CUBE_H
-#define _DYNAMIK_VULKAN_PRE_FILTERED_CUBE_H
+#ifndef _DYNAMIK_VULKAN_IRRADIANCE_CUBE_H
+#define _DYNAMIK_VULKAN_IRRADIANCE_CUBE_H
 
-#include "Renderer/Components/Lighting/RPreFilteredCube.h"
+#include "Renderer/Components/Lighting/RIrradianceCube.h"
 #include "../Pipelines/VulkanGraphicsPipeline.h"
-#include "../Context/Attachments/VulkanColorAttachment.h"
 
 namespace Dynamik
 {
 	namespace Backend
 	{
 		/*
-		 Vulkan Pre Filtered Cube
+		 Vulkan Irradiance Cube
 		*/
-		class DMK_API VulkanPreFilteredCube : public RPreFilteredCube {
+		class DMK_API VulkanIrradianceCube : public RIrradianceCube {
 		public:
-			VulkanPreFilteredCube() {}
-			~VulkanPreFilteredCube() {}
+			VulkanIrradianceCube() = default;
+			~VulkanIrradianceCube() = default;
 
 			virtual void initialize(RCoreObject* pCoreObject, REnvironmentMap* pEnvironmentMap, DMKExtent2D dimentions, DMKFormat format = DMKFormat::DMK_FORMAT_RG_16_SF32) override final;
 			virtual void terminate(RCoreObject* pCoreObject) override final;
@@ -38,4 +37,4 @@ namespace Dynamik
 	}
 }
 
-#endif // !_DYNAMIK_VULKAN_PRE_FILTERED_CUBE_H
+#endif // !_DYNAMIK_VULKAN_IRRADIANCE_CUBE_H

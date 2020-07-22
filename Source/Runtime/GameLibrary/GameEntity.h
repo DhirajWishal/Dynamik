@@ -14,6 +14,15 @@
 namespace Dynamik
 {
 	/*
+	 Dynamik Game Entity Attribute
+	 These define additional information required by the components in the entity.
+	*/
+	enum class DMK_API DMKGameEntityAttribute {
+		DMK_GAME_ENTITY_ATTRIBUTE_CAMERA_PARAMS,
+		DMK_GAME_ENTITY_ATTRIBUTE_LIGHTS,
+	};
+
+	/*
 	 The entity class is the component which the user directly interact with. Player character and other
 	 input based characters are derived from this.
 
@@ -80,6 +89,20 @@ namespace Dynamik
 		ObjectArray componentManager;
 
 		B1 isCameraAvailable = false;
+
+		ARRAY<DMKGameEntityAttribute> attributes;
+
+		/*
+		 Add a game entity attribute
+
+		 @param attribute: The attribute.
+		*/
+		void addAttribute(const DMKGameEntityAttribute& attribute);
+
+		/*
+		 Get all the attributes.
+		*/
+		ARRAY<DMKGameEntityAttribute> getAttributes() const;
 
 	protected:	/* Protected Data */
 		DMKCameraModule* pCameraModule = nullptr;

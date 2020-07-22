@@ -3,37 +3,36 @@
 layout (location = 0) in vec3 inWorldPos;
 layout (location = 1) in vec3 inNormal;
 layout (location = 2) in vec2 inUV;
-
-layout (binding = 0) uniform UBO {
-	mat4 projection;
-	mat4 model;
-	mat4 view;
-	vec3 camPos;
-} ubo;
+layout (location = 3) in mat4 inProjection;
+layout (location = 4) in mat4 inModel;
+layout (location = 5) in mat4 inView;
 
 layout (binding = 1) uniform UBOParams {
 	vec4 lights[4];
-	float exposure;
-	float gamma;
 } uboParams;
 
+layout (binding = 2) uniform CameraParams {
+	vec3 camPos;
+ 	float exposure;
+	float gamma;
+} cParams;
+
 layout(push_constant) uniform PushConsts {
-	layout(offset = 12) float roughness;
-	layout(offset = 16) float metallic;
-	layout(offset = 20) float specular;
-	layout(offset = 24) float r;
-	layout(offset = 28) float g;
-	layout(offset = 32) float b;
+	vec4 color;
+	vec4 color2;
+	float roughness;
+	float metallic;
+	float specular;
 } material;
 
-layout (binding = 2) uniform samplerCube samplerIrradiance;
 layout (binding = 3) uniform sampler2D samplerBRDFLUT;
-layout (binding = 4) uniform samplerCube prefilteredMap;
+layout (binding = 4) uniform samplerCube samplerIrradiance;
+layout (binding = 5) uniform samplerCube prefilteredMap;
 
 layout (location = 0) out vec4 outColor;
 
 #define PI 3.1415926535897932384626433832795
-#define ALBEDO vec3(material.r, material.g, material.b)
+#define ALBEDO vec3(material.color.r, material.color.g, material.color.b)
 
 // From http://filmicgames.com/archives/75
 vec3 Uncharted2Tonemap(vec3 x)
@@ -153,10 +152,10 @@ void main()
 	vec3 color = ambient + Lo;
 
 	// Tone mapping
-	color = Uncharted2Tonemap(color * uboParams.exposure);
+	color = Uncharted2Tonemap(color * cParams.exposure);
 	color = color * (1.0f / Uncharted2Tonemap(vec3(11.2f)));	
 	// Gamma correction
-	color = pow(color, vec3(1.0f / uboParams.gamma));
+	color = pow(color, vec3(1.0f / cParams.gamma));
 
 	outColor = vec4(color, 1.0);
 }

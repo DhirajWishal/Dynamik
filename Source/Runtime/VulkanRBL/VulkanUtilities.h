@@ -49,6 +49,7 @@ namespace Dynamik
             static VkFormat findSupportedFormat(const ARRAY<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features, VkPhysicalDevice physicalDevice);
             static VkFormat findDepthFormat(const VkPhysicalDevice& physicalDevice);
             static VkComponentMapping getComponentMapping(DMKTexture::TextureSwizzles swizzles);
+            static void rawTransitionImageLayout(VkCommandBuffer commandBuffer, VkImage image, VkImageLayout oldLayout, VkImageLayout newLayout, UI32 mipLevels, UI32 layerCount, DMKFormat format);
 
             static VkDescriptorType getDescriptorType(DMKUniformType type);
             static VkShaderStageFlagBits getShaderStage(DMKShaderLocation location);

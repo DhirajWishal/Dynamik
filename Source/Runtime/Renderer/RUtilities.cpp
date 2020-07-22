@@ -189,8 +189,8 @@ namespace Dynamik
 				RFrameBufferAttachmentInfo initInfo;
 				initInfo.format = subPass.format;
 				initInfo.msaaSamples = subPass.samples;
-				initInfo.imageWidth = imageExtent.width;
-				initInfo.imageHeight = imageExtent.height;
+				initInfo.imageWidth = Cast<UI32>(imageExtent.width);
+				initInfo.imageHeight = Cast<UI32>(imageExtent.height);
 
 				RFrameBufferAttachment* pAttachment = nullptr;
 				switch (subPass.subpass)

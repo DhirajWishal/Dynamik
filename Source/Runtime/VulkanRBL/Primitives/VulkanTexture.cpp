@@ -35,6 +35,7 @@ namespace Dynamik
 			pImage = (RImage*)StaticAllocator<VulkanImage>::rawAllocate();
 			pImage->initialize(pCoreObject, initInfo);
 
+			pImage->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_TRANSFER_DST);
 			pImage->copyBuffer(pCoreObject, &staggingBuffer);
 
 			pImage->generateMipMaps(pCoreObject);
@@ -51,14 +52,13 @@ namespace Dynamik
 		{
 			pSampler = (RImageSampler*)StaticAllocator<VulkanImageSampler>::rawAllocate();
 
-			createInfo.maxLOD = pImage->mipLevel;
+			createInfo.maxLOD = Cast<F32>(pImage->mipLevel);
 			pSampler->initialize(pCoreObject, createInfo);
 		}
 
 		void VulkanTexture::makeRenderable(RCoreObject* pCoreObject)
 		{
 			pImage->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY);
-			currentLayout = RImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY;
 		}
 
 		void VulkanTexture::terminate(RCoreObject* pCoreObject)

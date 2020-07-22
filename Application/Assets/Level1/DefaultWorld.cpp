@@ -15,10 +15,14 @@ DefaultWorld::DefaultWorld()
 	//entity->addComponent<DMKBoundingBoxAttachment>(DMKBoundingBoxAttachment(entity->getComponent<DMKStaticMeshComponent>(0)));
 
 	/* Load another basic mesh */
-	//entity->addComponent<DMKStaticMeshComponent>(DMKMeshFactory::createDefault(TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\tree\\Tree.obj")));
-	//entity->getComponent<DMKStaticMeshComponent>(1)->setPosition({ 0.0f, 0.0f, 5.0f });
+	entity->addComponent<DMKStaticMeshComponent>(DMKMeshFactory::createDefault(TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\venus.fbx")));
+	entity->getComponent<DMKStaticMeshComponent>(0)->setPosition({ 0.0f, 0.0f, 5.0f });
 	//entity->getComponent<DMKStaticMeshComponent>(1)->addTexture(TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\tree\\leaves_03.jpg"), DMKTextureType::TEXTURE_TYPE_2D);
-	//entity->addComponent<DMKBoundingBoxAttachment>(DMKBoundingBoxAttachment(entity->getComponent<DMKStaticMeshComponent>(1)));
+	entity->getComponent<DMKStaticMeshComponent>(0)->addMaterial(DMKMaterial::createMetalChromium());
+	entity->addComponent<DMKBoundingBoxAttachment>(DMKBoundingBoxAttachment(entity->getComponent<DMKStaticMeshComponent>(1)));
+	
+	entity->addAttribute(DMKGameEntityAttribute::DMK_GAME_ENTITY_ATTRIBUTE_LIGHTS);
+	entity->addAttribute(DMKGameEntityAttribute::DMK_GAME_ENTITY_ATTRIBUTE_CAMERA_PARAMS);
 
 	//entity->addComponent<DMKStaticModel>(DMKMeshFactory::loadStaticModel(TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\tree\\Tree.obj")));
 	//entity->getComponent<DMKStaticModel>(0)->getMesh(0).addTexture(TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\tree\\leaves_03.jpg"), DMKTextureType::TEXTURE_TYPE_2D);
@@ -40,4 +44,11 @@ DefaultWorld::DefaultWorld()
 	texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/back.jpg");
 	//texturePaths.pushBack(TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/abandoned_tank_farm_04_1k.hdr"));
 	loadEnvironmentMap(texturePaths);
+
+	DMKGameWorldLightComponent light1;
+	light1.colorValue = { 1.0f, 1.0f, 1.0f, 1.0f };
+	addLightComponent(light1);
+	addLightComponent(light1);
+	addLightComponent(light1);
+	addLightComponent(light1);
 }

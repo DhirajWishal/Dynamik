@@ -9,6 +9,7 @@
 #include "REntity.h"
 #include "Lighting/RBRDFTable.h"
 #include "Lighting/RPreFilteredCube.h"
+#include "Lighting/RIrradianceCube.h"
 
 namespace Dynamik
 {
@@ -38,6 +39,7 @@ namespace Dynamik
 
 		RBRDFTable* pBRDFTable = nullptr;
 		RPreFilteredCube* pPreFilteredCube = nullptr;
+		RIrradianceCube* pIrradianceCube = nullptr;
 
 	public:		/* Parent Mesh Component*/
 		DMKStaticMeshComponent* pMeshComponent = nullptr;

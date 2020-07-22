@@ -2,22 +2,23 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_RENDERER_PRE_FILTERED_CUBE_H
-#define _DYNAMIK_RENDERER_PRE_FILTERED_CUBE_H
+#ifndef _DYNAMIK_RENDERER_IRRADIANCE_CUBE_H
+#define _DYNAMIK_RENDERER_IRRADIANCE_CUBE_H
 
 #include "../RRenderTarget.h"
+#define M_PI       3.14159265358979323846
 
 namespace Dynamik
 {
 	class DMK_API REnvironmentMap;
-
+	
 	/*
-	 Renderer PreFiltered Cube
+	 Renderer Irradiance Cube
 	*/
-	class DMK_API RPreFilteredCube {
+	class DMK_API RIrradianceCube {
 	public:
-		RPreFilteredCube() = default;
-		virtual ~RPreFilteredCube() = default;
+		RIrradianceCube() = default;
+		virtual ~RIrradianceCube() = default;
 
 		virtual void initialize(RCoreObject* pCoreObject, REnvironmentMap* pEnvironmentMap, DMKExtent2D dimentions, DMKFormat format = DMKFormat::DMK_FORMAT_RG_16_SF32) = 0;
 		virtual void terminate(RCoreObject* pCoreObject) = 0;
@@ -30,4 +31,4 @@ namespace Dynamik
 	};
 }
 
-#endif // !_DYNAMIK_RENDERER_PRE_FILTERED_CUBE_H
+#endif // !_DYNAMIK_RENDERER_IRRADIANCE_CUBE_H

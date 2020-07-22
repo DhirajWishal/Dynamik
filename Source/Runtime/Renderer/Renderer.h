@@ -83,6 +83,8 @@ namespace Dynamik
         RTexture* createTexture(const DMKTexture* pTexture);
 
         RBRDFTable* createBRDFTable();
+        RIrradianceCube* createIrradianceCube();
+        RPreFilteredCube* createPreFilteredCube();
 
         void initializeCamera(DMKCameraModule* pCameraModule);
         void initializeEnvironmentMap(DMKEnvironmentMap* pEnvironmentMap);

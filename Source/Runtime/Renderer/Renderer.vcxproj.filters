@@ -109,6 +109,7 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RendererCommand.h" />
     <ClInclude Include="Components\Lighting\RPreFilteredCube.h" />
+    <ClInclude Include="Components\Lighting\RIrradianceCube.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\Attachments\RBoundingBox.cpp">

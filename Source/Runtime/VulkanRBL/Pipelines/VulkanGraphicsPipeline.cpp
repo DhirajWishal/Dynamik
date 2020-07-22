@@ -61,11 +61,19 @@ namespace Dynamik
 					resourceLayouts[index].vertexInputBindings.insert(dissassembler.getVertexBindingDescriptions());
 					resourceLayouts[index].vertexInputAttributes = dissassembler.getVertexAttributeDescriptions();
 
-					vertexInputInfo.vertexBindingDescriptionCount = resourceLayouts[index].vertexInputBindings.size();
+					vertexInputInfo.vertexBindingDescriptionCount = Cast<UI32>(resourceLayouts[index].vertexInputBindings.size());
 					vertexInputInfo.pVertexBindingDescriptions = resourceLayouts[index].vertexInputBindings.data();
 					vertexInputInfo.vertexAttributeDescriptionCount = (UI32)resourceLayouts[index].vertexInputAttributes.size();
 					vertexInputInfo.pVertexAttributeDescriptions = resourceLayouts[index].vertexInputAttributes.data();
 				}
+			}
+
+			/* Resolve push constant offsets */
+			UI64 _pushConstantOffset = 0;
+			for (UI32 itr = 0; itr < pushConstants.size(); itr++)
+			{
+				pushConstants[itr].offset = Cast<UI32>(_pushConstantOffset);
+				_pushConstantOffset += pushConstants[itr].size;
 			}
 
 			/* Initialize Pipeline Layout */
@@ -303,7 +311,7 @@ namespace Dynamik
 					resourceLayouts[index].vertexInputBindings.insert(dissassembler.getVertexBindingDescriptions());
 					resourceLayouts[index].vertexInputAttributes = dissassembler.getVertexAttributeDescriptions();
 
-					vertexInputInfo.vertexBindingDescriptionCount = resourceLayouts[index].vertexInputBindings.size();
+					vertexInputInfo.vertexBindingDescriptionCount = Cast<UI32>(resourceLayouts[index].vertexInputBindings.size());
 					vertexInputInfo.pVertexBindingDescriptions = resourceLayouts[index].vertexInputBindings.data();
 					vertexInputInfo.vertexAttributeDescriptionCount = (UI32)resourceLayouts[index].vertexInputAttributes.size();
 					vertexInputInfo.pVertexAttributeDescriptions = resourceLayouts[index].vertexInputAttributes.data();
@@ -329,8 +337,8 @@ namespace Dynamik
 			VkViewport vViewport = {};
 			vViewport.x = (F32)viewport.xOffset;
 			vViewport.y = (F32)viewport.yOffset;
-			vViewport.width = viewport.width;
-			vViewport.height = viewport.height;
+			vViewport.width = Cast<F32>(viewport.width);
+			vViewport.height = Cast<F32>(viewport.height);
 			vViewport.minDepth = 0.0f;
 			vViewport.maxDepth = 1.0f;
 
@@ -497,7 +505,7 @@ namespace Dynamik
 				switch (descriptorWrite.descriptorType)
 				{
 				case VK_DESCRIPTOR_TYPE_SAMPLER:
-					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->currentLayout);
+					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
 					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
 					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
 					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
@@ -505,7 +513,7 @@ namespace Dynamik
 					break;
 
 				case VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER:
-					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->currentLayout);
+					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
 					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
 					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
 					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
@@ -513,7 +521,7 @@ namespace Dynamik
 					break;
 
 				case VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE:
-					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->currentLayout);
+					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
 					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
 					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
 					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
@@ -521,7 +529,7 @@ namespace Dynamik
 					break;
 
 				case VK_DESCRIPTOR_TYPE_STORAGE_IMAGE:
-					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->currentLayout);
+					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
 					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
 					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
 					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
@@ -579,7 +587,7 @@ namespace Dynamik
 				case VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_NV:
 					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_NV)");
 					break;
-
+					
 				default:
 					DMK_ERROR_BOX("Invalid Vulkan Descriptor Type!");
 					break;

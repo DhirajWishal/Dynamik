@@ -66,6 +66,15 @@ namespace Dynamik
 		static DMKVertexLayout createBasic();
 
 		/*
+		 Create a basic Image Based Lighting vertex layout.
+		 This contains,
+		 - Position				[Vector3F * 1]
+		 - Normal				[Vector3F * 1]
+		 - Color				[Vector2F * 1]
+		*/
+		static DMKVertexLayout createBasicIBL();
+
+		/*
 		 Create an animated vertex layout.
 		 This contains,
 		 - Position				[Vector3F * 1]

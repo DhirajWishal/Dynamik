@@ -81,6 +81,6 @@ namespace Dynamik
 	
 	DMKMaterial::MaterialPushBlock DMKMaterial::generatePushBlock()
 	{
-		return MaterialPushBlock(surfaceColor, subSurfaceColor, roughness, metallicness);
+		return MaterialPushBlock(surfaceColor, subSurfaceColor, roughness, metallicness, specular);
 	}
 }

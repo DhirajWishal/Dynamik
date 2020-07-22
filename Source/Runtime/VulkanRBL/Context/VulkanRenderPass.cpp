@@ -122,7 +122,7 @@ namespace Dynamik
 			createInfo.pAttachments = _attachmenDescriptions.data();
 			createInfo.subpassCount = 1;
 			createInfo.pSubpasses = &subpass;
-			createInfo.dependencyCount = subpassDependencies.size();
+			createInfo.dependencyCount = Cast<UI32>(subpassDependencies.size());
 			createInfo.pDependencies = subpassDependencies.data();
 
 			DMK_VULKAN_ASSERT(vkCreateRenderPass(Inherit<VulkanCoreObject>(pCoreObject)->device, &createInfo, nullptr, &renderPass), "Failed to create the Render Pass!");

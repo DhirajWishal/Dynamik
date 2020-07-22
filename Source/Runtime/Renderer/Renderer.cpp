@@ -24,6 +24,8 @@
 #include "VulkanRBL/Context/VulkanFrameBuffer.h"
 #include "VulkanRBL/Pipelines/VulkanGraphicsPipeline.h"
 #include "VulkanRBL/Lighting/VulkanBRDFTable.h"
+#include "VulkanRBL/Lighting/VulkanPreFilteredCube.h"
+#include "VulkanRBL/Lighting/VulkanIrradianceCube.h"
 
 namespace Dynamik
 {
@@ -337,9 +339,6 @@ namespace Dynamik
 				texture->createSampler(myCoreObject, RImageSamplerCreateInfo::createCubeMapSampler(3.0f));
 			else
 				texture->createSampler(myCoreObject, RImageSamplerCreateInfo::createDefaultSampler(0.0f));
-
-			texture->makeRenderable(myCoreObject);
-
 			return texture;
 		}
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
@@ -361,6 +360,46 @@ namespace Dynamik
 			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 			return StaticAllocator<VulkanBRDFTable>::rawAllocate();
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
+			break;
+		default:
+			break;
+		}
+
+		return nullptr;
+	}
+
+	RIrradianceCube* DMKRenderer::createIrradianceCube()
+	{
+		switch (myAPI)
+		{
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_NONE:
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
+			return StaticAllocator<VulkanIrradianceCube>::rawAllocate();
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
+			break;
+		default:
+			break;
+		}
+
+		return nullptr;
+	}
+
+	RPreFilteredCube* DMKRenderer::createPreFilteredCube()
+	{
+		switch (myAPI)
+		{
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_NONE:
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
+			return StaticAllocator<VulkanPreFilteredCube>::rawAllocate();
 			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
 			break;
@@ -431,6 +470,21 @@ namespace Dynamik
 		pipelineCreateInfo.rasterizerInfo.frontFace = RFrontFace::FRONT_FACE_CLOCKWISE;
 		myCurrentEnvironment.pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &myRenderTarget, mySwapChain->viewPort);
 
+		/* Initialize Resources */
+		{
+			/* Initialize the BRDF table */
+			myCurrentEnvironment.pBRDFTable = createBRDFTable();
+			myCurrentEnvironment.pBRDFTable->initialize(myCoreObject, { 512.0f, 512.0f });
+
+			/* Initialize the irradiance cube */
+			myCurrentEnvironment.pIrradianceCube = createIrradianceCube();
+			myCurrentEnvironment.pIrradianceCube->initialize(myCoreObject, &myCurrentEnvironment, { 512.0f, 512.0f });
+
+			/* Initialize the pre filtered cube */
+			myCurrentEnvironment.pPreFilteredCube = createPreFilteredCube();
+			myCurrentEnvironment.pPreFilteredCube->initialize(myCoreObject, &myCurrentEnvironment, { 512.0f, 512.0f });
+		}
+
 		/* Initialize Vertex and Index Buffers */
 		myDrawCallManager.setEnvironment(myCurrentEnvironment.pPipeline, myCurrentEnvironment.pVertexBuffer, pEnvironmentMap->skyBox.vertexBuffer.size(), myCurrentEnvironment.pIndexBuffer, pEnvironmentMap->skyBox.indexBuffer.size());
 		pEnvironmentMap->skyBox.vertexBuffer.clear();
@@ -445,13 +499,6 @@ namespace Dynamik
 
 		/* Initialize Texture Resources */
 		ARRAY<RTexture*> textures = { myCurrentEnvironment.pTexture };
-
-		/* Initialize Resources */
-		{
-			/* Initialize the BRDF table */
-			myCurrentEnvironment.pBRDFTable = createBRDFTable();
-			myCurrentEnvironment.pBRDFTable->initialize(myCoreObject, { 512.0f, 512.0f });
-		}
 
 		myCurrentEnvironment.pPipeline->initializeResources(myCoreObject, uniformBuffers, textures);
 	}
@@ -715,8 +762,12 @@ namespace Dynamik
 		for (auto debug : myDebugObjects)
 		{
 			/* Update Vertex Data */
-			auto entry = myDrawCallManager.getDebugEntry(debug.resourceIndex);
-			entry.pVertexBuffer->setData(myCoreObject, debug.pComponent->getVertexBuffer().byteSize(), 0, debug.pComponent->getVertexBuffer().data());
+			if (debug.pComponent)
+			{
+				auto entry = myDrawCallManager.getDebugEntry(debug.resourceIndex);
+				if (entry.pVertexBuffer)
+					entry.pVertexBuffer->setData(myCoreObject, debug.pComponent->getVertexBuffer().byteSize(), 0, debug.pComponent->getVertexBuffer().data());
+			}
 		}
 	}
 
@@ -787,6 +838,18 @@ namespace Dynamik
 			{
 				myCurrentEnvironment.pBRDFTable->terminate(myCoreObject);
 				StaticAllocator<RBRDFTable>::rawDeallocate(myCurrentEnvironment.pBRDFTable, 0);
+			}
+
+			if (myCurrentEnvironment.pIrradianceCube)
+			{
+				myCurrentEnvironment.pIrradianceCube->terminate(myCoreObject);
+				StaticAllocator<RIrradianceCube>::rawDeallocate(myCurrentEnvironment.pIrradianceCube, 0);
+			}
+
+			if (myCurrentEnvironment.pPreFilteredCube)
+			{
+				myCurrentEnvironment.pPreFilteredCube->terminate(myCoreObject);
+				StaticAllocator<RIrradianceCube>::rawDeallocate(myCurrentEnvironment.pPreFilteredCube, 0);
 			}
 		}
 

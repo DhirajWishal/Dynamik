@@ -24,6 +24,12 @@ namespace Dynamik
 		Vector3F direction;
 	};
 
+	/* Camera view params */
+	struct DMK_API DMKCameraViewParams {
+		F32 exposure = 1.0f;
+		F32 gamma = 1.0f;
+	};
+
 	/*
 	 Camera module for the Dynamik Engine.
 
@@ -49,6 +55,13 @@ namespace Dynamik
 
 		virtual DMKCameraRay generateRay(DMKExtent2D mousePosition);
 
+		virtual void setParams(const DMKCameraViewParams& params);
+		virtual DMKCameraViewParams getViewParams() const;
+		virtual void setExposure(const F32& exposure);
+		virtual void setGamma(const F32& gamma);
+		virtual F32 getExposure() const;
+		virtual F32 getGamma() const;
+
 		DMKCameraMatrix matrix;
 
 		VEC3 position = { 0.0f, 0.0f, 0.0f };
@@ -58,6 +71,8 @@ namespace Dynamik
 		VEC3 worldUp = { 0.0f, 1.0f, 0.0f };
 
 		DMKExtent2D viewPortExtent;
+
+		DMKCameraViewParams params = {};
 
 		F32 fieldOfView = 45.0f;
 		F32 farRender = 256.0f;

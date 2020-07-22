@@ -398,7 +398,7 @@ namespace Dynamik
 				for (auto ID : _glslCompiler.get_type(resource.base_type_id).member_types)
 				{
 					auto Ty = _glslCompiler.get_type(ID);
-					_range.size += ((Ty.width / sizeof(F32)) * Ty.vecsize * Ty.columns);
+					_range.size += ((Ty.width / 8) * Ty.vecsize * Ty.columns);
 				}
 
 				pushConstantRanges.pushBack(_range);
