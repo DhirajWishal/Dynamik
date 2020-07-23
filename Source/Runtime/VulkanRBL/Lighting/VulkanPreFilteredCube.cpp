@@ -130,7 +130,7 @@ namespace Dynamik
 			imageCreateInfo.mipLevels = 1;
 			imageCreateInfo.layers = 1;
 
-			pAttachment = StaticAllocator<VulkanColorAttachment>::rawAllocate();
+			pAttachment = StaticAllocator<RFrameBufferAttachment>::rawAllocate();
 			pAttachment->pImageAttachment = StaticAllocator<VulkanImage>::rawAllocate();
 
 			pAttachment->pImageAttachment->initialize(pCoreObject, imageCreateInfo);

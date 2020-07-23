@@ -51,7 +51,6 @@ void VenusModel::initialize()
 	}
 
 	dataVS.model = Matrix4F::Identity;
-	//dataVS.model = DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(90.0f), Vector3F(0.0f, 0.0f, 1.0f));
 
 	const F32 p = 15;
 	camParamFS.lights[0] = Vector4F(-p, -p * 0.5f, -p, 1.0f);

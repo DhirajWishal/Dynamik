@@ -456,8 +456,20 @@ namespace Dynamik
 		myCurrentEnvironment.pIndexBuffer->setData(myCoreObject, pEnvironmentMap->skyBox.getIndexBufferObjectByteSize(), 0, pEnvironmentMap->skyBox.indexBuffer.data());
 
 		/* Initialize Uniforms */
-		myCurrentEnvironment.pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, sizeof(MAT4));
-		myCurrentEnvironment.pUniformBuffer->setData(myCoreObject, sizeof(MAT4), 0, &pEnvironmentMap->skyBox.modelMatrix);
+		ARRAY<RBuffer*> uniformBuffers;
+		for (auto shaders : pEnvironmentMap->skyBox.shaderModules)
+		{
+			for (UI64 index = 0; index < shaders.getUniforms().size(); index++)
+			{
+				RUniformContainer _container;
+				_container.pParent = &shaders.getUniform(index);
+				_container.pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, _container.pParent->byteSize());
+				_container.pUniformBuffer->setData(myCoreObject, _container.pParent->byteSize(), 0, _container.pParent->data());
+
+				uniformBuffers.pushBack(_container.pUniformBuffer);
+				myCurrentEnvironment.uniformBuffers.pushBack(_container);
+			}
+		}
 
 		/* Initialize Pipeline */
 		myCurrentEnvironment.pPipeline = RUtilities::allocatePipeline(myAPI);
@@ -472,17 +484,19 @@ namespace Dynamik
 
 		/* Initialize Resources */
 		{
+			Vector2F dim = { 512.0f, 512.0f };
+
 			/* Initialize the BRDF table */
 			myCurrentEnvironment.pBRDFTable = createBRDFTable();
-			myCurrentEnvironment.pBRDFTable->initialize(myCoreObject, { 512.0f, 512.0f });
+			myCurrentEnvironment.pBRDFTable->initialize(myCoreObject, dim);
 
 			/* Initialize the irradiance cube */
 			myCurrentEnvironment.pIrradianceCube = createIrradianceCube();
-			myCurrentEnvironment.pIrradianceCube->initialize(myCoreObject, &myCurrentEnvironment, { 512.0f, 512.0f });
+			myCurrentEnvironment.pIrradianceCube->initialize(myCoreObject, &myCurrentEnvironment, dim);
 
 			/* Initialize the pre filtered cube */
 			myCurrentEnvironment.pPreFilteredCube = createPreFilteredCube();
-			myCurrentEnvironment.pPreFilteredCube->initialize(myCoreObject, &myCurrentEnvironment, { 512.0f, 512.0f });
+			myCurrentEnvironment.pPreFilteredCube->initialize(myCoreObject, &myCurrentEnvironment, dim);
 		}
 
 		/* Initialize Vertex and Index Buffers */
@@ -490,16 +504,10 @@ namespace Dynamik
 		pEnvironmentMap->skyBox.vertexBuffer.clear();
 		pEnvironmentMap->skyBox.indexBuffer.clear();
 
-		/* Initialize Pipeline Resources */
-		/* Initialize Uniform Buffer Resources */
-		ARRAY<RBuffer*> uniformBuffers = { myCurrentEnvironment.pUniformBuffer };
-
-		if (myCameraComponent->pUniformBuffer)
-			uniformBuffers.pushBack(myCameraComponent->pUniformBuffer);
-
 		/* Initialize Texture Resources */
 		ARRAY<RTexture*> textures = { myCurrentEnvironment.pTexture };
 
+		/* Initialize Pipeline Resources */
 		myCurrentEnvironment.pPipeline->initializeResources(myCoreObject, uniformBuffers, textures);
 	}
 
@@ -733,25 +741,16 @@ namespace Dynamik
 
 	void DMKRenderer::updateEnvironment()
 	{
-		if (myCurrentEnvironment.pUniformBuffer)
-			myCurrentEnvironment.pUniformBuffer->setData(myCoreObject, sizeof(myCurrentEnvironment.pMeshComponent->getMatrix()), 0, &myCurrentEnvironment.pMeshComponent->modelMatrix);
+		for(auto pUniform : myCurrentEnvironment.uniformBuffers)
+			pUniform.pUniformBuffer->setData(myCoreObject, pUniform.pParent->byteSize(), 0, pUniform.pParent->data());
 	}
 
 	void DMKRenderer::updateEntities()
 	{
-		for (UI64 eIndex = 0; eIndex < myEntities.size(); eIndex++)
-		{
-			for (UI64 mIndex = 0; mIndex < myEntities[eIndex].meshObjects.size(); mIndex++)
-			{
-				for (UI64 uIndex = 0; uIndex < myEntities[eIndex].meshObjects[mIndex].uniformBuffers.size(); uIndex++)
-				{
-					myEntities[eIndex].meshObjects[mIndex].uniformBuffers[uIndex].pUniformBuffer->setData(
-						myCoreObject,
-						myEntities[eIndex].meshObjects[mIndex].uniformBuffers[uIndex].pParent->byteSize(),
-						0, myEntities[eIndex].meshObjects[mIndex].uniformBuffers[uIndex].pParent->data());
-				}
-			}
-		}
+		for (auto entity : myEntities)
+			for (auto meshComponent : entity.meshObjects)
+				for (auto pUniform : meshComponent.uniformBuffers)
+					pUniform.pUniformBuffer->setData(myCoreObject, pUniform.pParent->byteSize(), 0, pUniform.pParent->data());
 	}
 
 	void DMKRenderer::updateBoundingBoxes()
@@ -831,10 +830,10 @@ namespace Dynamik
 				StaticAllocator<RTexture>::rawDeallocate(myCurrentEnvironment.pTexture, 0);
 			}
 
-			if (myCurrentEnvironment.pUniformBuffer)
+			for (auto pUniform : myCurrentEnvironment.uniformBuffers)
 			{
-				myCurrentEnvironment.pUniformBuffer->terminate(myCoreObject);
-				StaticAllocator<RBuffer>::rawDeallocate(myCurrentEnvironment.pUniformBuffer, 0);
+				pUniform.pUniformBuffer->terminate(myCoreObject);
+				StaticAllocator<RBuffer>::rawDeallocate(pUniform.pUniformBuffer, 0);
 			}
 
 			if (myCurrentEnvironment.pBRDFTable)

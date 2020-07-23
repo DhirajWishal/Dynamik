@@ -48,6 +48,9 @@ namespace Dynamik
 		instance.assetMap[TEXT("SHADER_SKYBOX_VERT_SPV")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\SkyBox\\vert.spv");
 		instance.assetMap[TEXT("SHADER_SKYBOX_FRAG_SPV")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\SkyBox\\frag.spv");
 
+		instance.assetMap[TEXT("SHADER_SKYBOX_CINEMATIC_VERT_SPV")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\SkyBox\\Cinematic\\vert.spv");
+		instance.assetMap[TEXT("SHADER_SKYBOX_CINEMATIC_FRAG_SPV")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\SkyBox\\Cinematic\\frag.spv");
+
 		instance.assetMap[TEXT("SHADER_BOUNDING_BOX_VERT_SPV")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\BoundingBox\\vert.spv");
 		instance.assetMap[TEXT("SHADER_BOUNDING_BOX_FRAG_SPV")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\BoundingBox\\frag.spv");
 

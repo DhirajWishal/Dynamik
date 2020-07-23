@@ -25,8 +25,13 @@ namespace Dynamik
 			entity->onUpdate(timeStep);
 
 		if (pCurrentGameWorld)
+		{
 			for (auto entity : pCurrentGameWorld->entities)
 				entity->onUpdate(timeStep);
+
+			if (pCurrentGameWorld->pEnvironmentMap)
+				pCurrentGameWorld->pEnvironmentMap->onUpdate(timeStep);
+		}
 	}
 
 	DMKGameEntity* DMKLevelComponent::createHollowEntity()

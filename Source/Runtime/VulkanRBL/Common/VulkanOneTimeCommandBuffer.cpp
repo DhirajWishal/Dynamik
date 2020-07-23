@@ -49,8 +49,8 @@ namespace Dynamik
 			submitInfo.commandBufferCount = 1;
 			submitInfo.pCommandBuffers = &buffer;
 
-			DMK_VULKAN_ASSERT(vkQueueSubmit(myQueues.processQueue, 1, &submitInfo, VK_NULL_HANDLE), "Faild to submit the process queue of the one time command buffer!");
-			DMK_VULKAN_ASSERT(vkQueueWaitIdle(myQueues.processQueue), "Failed to call idle after subitting one time command buffer data!");
+			DMK_VULKAN_ASSERT(vkQueueSubmit(myQueues.processQueue, 1, &submitInfo, VK_NULL_HANDLE), "Failed to submit the process queue of the one time command buffer!");
+			DMK_VULKAN_ASSERT(vkQueueWaitIdle(myQueues.processQueue), "Failed to call idle after submitting one time command buffer data!");
 
 			/* Free the allocated command buffers and pools */
 			vkFreeCommandBuffers(myDevice, pool, 1, &buffer);

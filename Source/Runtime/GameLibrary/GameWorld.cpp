@@ -16,6 +16,8 @@ namespace Dynamik
 			entity->setupCurrentLevel(pCurrentLevel);
 			entity->initialize();
 		}
+
+		pEnvironmentMap->setupCurrentLevel(pCurrentLevel);
 	}
 
 	void DMKGameWorld::setCamera(DMKCameraModule* pCameraModule)

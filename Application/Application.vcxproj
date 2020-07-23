@@ -369,12 +369,14 @@
     <ClInclude Include="Assets\Level1\Entities\VenusModel.h" />
     <ClInclude Include="Assets\Level1\Level1.h" />
     <ClInclude Include="Assets\Level1\Player.h" />
+    <ClInclude Include="Assets\Level1\SkySphere.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ApplicationPackage.cpp" />
     <ClCompile Include="Assets\Level1\DefaultWorld.cpp" />
     <ClCompile Include="Assets\Level1\Entities\VenusModel.cpp" />
     <ClCompile Include="Assets\Level1\Level1.cpp" />
+    <ClCompile Include="Assets\Level1\SkySphere.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

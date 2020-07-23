@@ -58,6 +58,12 @@ namespace Dynamik
 		void loadEnvironmentMap(ARRAY<STRING> texturePaths);
 		void loadEnvironmentMap(STRING texturePath);
 
+		template<class OBJECT>
+		DMK_FORCEINLINE void createUserEnvironment(const OBJECT& environment)
+		{
+			pEnvironmentMap = StaticAllocator<OBJECT>::allocateInit(environment);
+		}
+
 	public:		/* Light Component */
 		/* Global Light Components */
 		ARRAY<DMKGameWorldLightComponent> globalLightComponents;

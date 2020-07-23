@@ -35,7 +35,7 @@ namespace Dynamik
 	public:		/* Resource Data */
 		RTexture* pTexture = nullptr;
 		RPipelineObject* pPipeline = nullptr;
-		RBuffer* pUniformBuffer = nullptr;
+		ARRAY<RUniformContainer> uniformBuffers;
 
 		RBRDFTable* pBRDFTable = nullptr;
 		RPreFilteredCube* pPreFilteredCube = nullptr;

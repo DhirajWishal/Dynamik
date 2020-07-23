@@ -17,7 +17,7 @@ namespace Dynamik
 	 user defined method or will use the internal clock to cycle 
 	 (allocated time slot per sky box = clock cycle time / total number of sky boxes).
 	*/
-	class DMK_API DMKEnvironmentMap {
+	class DMK_API DMKEnvironmentMap : public DMKGameEntity {
 	public:
 		DMKEnvironmentMap() = default;
 		virtual ~DMKEnvironmentMap() = default;

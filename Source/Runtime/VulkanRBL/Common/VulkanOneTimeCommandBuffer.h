@@ -14,6 +14,9 @@ namespace Dynamik
 {
     namespace Backend
     {
+        /*
+         Vulkan one time command buffer
+        */
         class DMK_API VulkanOneTimeCommandBuffer {
         public:
             VulkanOneTimeCommandBuffer(RCoreObject* pCoreObject);
