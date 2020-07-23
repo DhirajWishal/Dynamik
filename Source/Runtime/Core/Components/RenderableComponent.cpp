@@ -26,9 +26,24 @@ namespace Dynamik
 		addMaterial(newMaterial);
 	}
 
-	void DMKRenderableComponent::setBaseRenderingPipeline(const DMKBaseRenderingPipeline& pipeline)
+	void DMKRenderableComponent::addResourceRequest(const DMKResourceRequest& request)
 	{
-		basePipeline = pipeline;
+		resourceRequests.pushBack(request);
+	}
+
+	void DMKRenderableComponent::setResourceRequests(ARRAY<DMKResourceRequest> resourceRequests)
+	{
+		this->resourceRequests = resourceRequests;
+	}
+
+	ARRAY<DMKResourceRequest> DMKRenderableComponent::getResourceRequests() const
+	{
+		return resourceRequests;
+	}
+
+	DMKUniformBufferObject& DMKRenderableComponent::getUniform(I64 shaderIndex, I64 uniformIndex)
+	{
+		return shaderModules[shaderIndex].getUniform(uniformIndex);
 	}
 
 	void DMKRenderableComponent::addRenderableComponent(DMKRenderableComponent* component)
@@ -49,10 +64,5 @@ namespace Dynamik
 	void DMKRenderableComponent::setScale(Vector3F scale)
 	{
 		this->scale = scale;
-	}
-
-	void DMKRenderableComponent::setBindingIndex(const UI32& index)
-	{
-		uniformDescription.destinationBinding = index;
 	}
 }

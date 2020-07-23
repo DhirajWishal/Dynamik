@@ -85,7 +85,7 @@ namespace Dynamik
 
 			VPTR data = nullptr;
 			UI64 byteSize = 0;
-			DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
+			DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT;
 			UI64 offset = 0;
 		};
 

@@ -144,15 +144,7 @@ namespace Dynamik
 			}
 
 			/* Update entities */
-			for (auto entity : pCurrentLevel->pCurrentGameWorld->entities)
-			{
-				/* Update attachments */
-				{
-					/* Bounding box attachment */
-					for (UI64 index = 0; index < entity->getComponentArray<DMKBoundingBoxAttachment>()->size(); index++)
-						entity->getComponent<DMKBoundingBoxAttachment>(index)->update();
-				}
-			}
+			pCurrentLevel->updateEntities(1.0f);
 
 			myPlayerController.executeAll();
 			pCurrentLevel->onUpdate(&myEventPool);
@@ -207,7 +199,7 @@ namespace Dynamik
 			return;
 		}
 
-		pCurrentLevel->pCurrentGameWorld->initializeEntities();
+		pCurrentLevel->pCurrentGameWorld->initializeEntities(pCurrentLevel);
 	}
 
 	DMKWindowHandle* DMKEngine::_createWindow(I32 width, I32 height, STRING title)

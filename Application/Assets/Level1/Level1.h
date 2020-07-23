@@ -7,7 +7,6 @@
 
 #include "GameLibrary/LevelComponent.h"
 #include "Core/Components/RenderableComponents/DebugComponent.h"
-#include "Entities/PlayerMoon.h"
 using namespace Dynamik;
 
 class Level1 : public DMKLevelComponent {

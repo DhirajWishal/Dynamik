@@ -5,8 +5,8 @@
 #ifndef _DYNAMIK_SHADER_MODULE_H
 #define _DYNAMIK_SHADER_MODULE_H
 
-#include "Core/Macros/Global.h"
 #include "Core/Types/Array.h"
+#include "Uniform.h"
 
 namespace Dynamik
 {
@@ -50,6 +50,11 @@ namespace Dynamik
 
 	/*
 	 Shader module for the Dynamik Engine
+
+	 Shader uniforms (only the uniforms which the users are allowed to submit data from) are managed by the
+	 shader module itself. Users are required to provide the shader module with the uniforms it contains
+	 and creating and updating uniform buffers are required to be done by the user. Initialization, 
+	 termination and maintenance is done by the module.
 	*/
     class DMK_API DMKShaderModule {
     public:
@@ -69,7 +74,27 @@ namespace Dynamik
 		*/
 		void setLocation(const DMKShaderLocation& location);
 
+		/*
+		 Add an uniform to the shader.
+
+		 @param uniform: The uniform buffer object.
+		*/
+		void addUniform(const DMKUniformBufferObject& uniform);
+
+		/*
+		 Get a uniform buffer object at a given index.
+
+		 @param index: The index of the required index buffer;
+		*/
+		DMKUniformBufferObject& getUniform(I64 index);
+
+		/*
+		 Get all the uniforms of the current shader.
+		*/
+		ARRAY<DMKUniformBufferObject>& getUniforms();
+
 	public:
+		ARRAY<DMKUniformBufferObject> uniforms;
         ARRAY<UI32> shaderCode;
 		DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_ALL;
 		DMKShaderCodeType codeType = DMKShaderCodeType::DMK_SHADER_CODE_TYPE_GLSL;

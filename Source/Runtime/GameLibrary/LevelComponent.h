@@ -78,6 +78,13 @@ namespace Dynamik
 		void addEntity(DMKGameEntity* pEntity);
 
 		/*
+		 Update all the entities in the level.
+
+		 @param timeStep: The time step of the current call.
+		*/
+		void updateEntities(F32 timeStep);
+
+		/*
 		 Create a hollow entity.
 		*/
 		DMKGameEntity* createHollowEntity();
@@ -96,6 +103,11 @@ namespace Dynamik
 
 		/* Player Object */
 		DMKPlayerObject* playerObject = nullptr;
+
+		/*
+		 Get the camera module ties to this level's player object.
+		*/
+		DMKCameraModule* getCameraModule() const;
 
 	protected:	/* Helper methods */
 		/*

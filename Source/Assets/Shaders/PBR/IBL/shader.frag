@@ -3,26 +3,26 @@
 layout (location = 0) in vec3 inWorldPos;
 layout (location = 1) in vec3 inNormal;
 layout (location = 2) in vec2 inUV;
-layout (location = 3) in mat4 inProjection;
-layout (location = 4) in mat4 inModel;
-layout (location = 5) in mat4 inView;
 
-layout (binding = 1) uniform UBOParams {
+layout (binding = 1) uniform UBO {
+	mat4 projection;
+	mat4 model;
+	mat4 view;
+	vec3 camPos;
+} ubo;
+
+layout (binding = 2) uniform UBOParams {
 	vec4 lights[4];
+	float exposure;
+	float gamma;
 } uboParams;
 
-layout (binding = 2) uniform CameraParams {
-	vec3 camPos;
- 	float exposure;
-	float gamma;
-} cParams;
-
 layout(push_constant) uniform PushConsts {
-	vec4 color;
-	vec4 color2;
-	float roughness;
-	float metallic;
-	float specular;
+	 vec3 color;
+	 vec3 color2;
+	 float roughness;
+	 float metallic;
+	 float specular;
 } material;
 
 layout (binding = 3) uniform sampler2D samplerBRDFLUT;
@@ -152,10 +152,10 @@ void main()
 	vec3 color = ambient + Lo;
 
 	// Tone mapping
-	color = Uncharted2Tonemap(color * cParams.exposure);
+	color = Uncharted2Tonemap(color * uboParams.exposure);
 	color = color * (1.0f / Uncharted2Tonemap(vec3(11.2f)));	
 	// Gamma correction
-	color = pow(color, vec3(1.0f / cParams.gamma));
+	color = pow(color, vec3(1.0f / uboParams.gamma));
 
 	outColor = vec4(color, 1.0);
 }

@@ -5,7 +5,8 @@
 #ifndef _DYNAMIK_UNIFORM_H
 #define _DYNAMIK_UNIFORM_H
 
-#include "ShaderModule.h"
+#include "Core/Macros/Global.h"
+#include "Core/Types/DataTypes.h"
 
 namespace Dynamik
 {
@@ -25,40 +26,6 @@ namespace Dynamik
 		DMK_UNIFORM_TYPE_SAMPLER_2D_ARRAY,
 		DMK_UNIFORM_TYPE_SAMPLER_CUBE_ARRAY,
 		DMK_UNIFORM_TYPE_ACCELERATION_STRUCTURE,
-	};
-
-	/* Dynamik Uniform Attribute */
-	struct DMK_API DMKUniformAttribute {
-		DMKDataType dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
-		UI32 dataCount = 1;     /* Number of data elements that is sent to the shader. Used when sending an array. */
-	};
-
-	/*
-	 Dynamik Uniform Description
-	 This object contains all the necessary information to create a uniform buffer object in the Dynamik Engine.
-	*/
-	struct DMK_API DMKUniformDescription {
-		ARRAY<DMKUniformAttribute> attributes;
-		DMKUniformType type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
-		DMKShaderLocation shaderLocation = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
-		UI32 destinationBinding = 0;
-		UI32 offset = 0;
-
-		/* Get the total byte size of the uniform buffer object. */
-		UI64 getUniformSize() const;
-	};
-
-	/* Dynamik Uniform Descriptor */
-	class DMK_API DMKUniformBufferDescriptor {
-	public:
-		DMKUniformBufferDescriptor() {}
-		~DMKUniformBufferDescriptor() {}
-
-		/* Buffer object container */
-		ARRAY<DMKUniformDescription> uniformBufferObjects;
-
-		/* ID operator */
-		I64 operator()();
 	};
 
 	/*
@@ -82,7 +49,7 @@ namespace Dynamik
 		};
 
 	public:
-		DMKUniformBufferObject() = default;
+		DMKUniformBufferObject(UI32 binding = 0) : bindingLocation(binding) {}
 		~DMKUniformBufferObject() = default;
 
 		/*
@@ -103,6 +70,13 @@ namespace Dynamik
 		ARRAY<UniformBufferAttribute> getAttributes() const;
 
 		/*
+		 Initialize the buffer.
+		 This allocates the buffer and initializes the whole buffer to zero. This function needs to be called
+		 externally. Meaning that the user must call this after adding all the attributes.
+		*/
+		void initialize();
+
+		/*
 		 Set data to an attribute.
 		 This attribute is identifies by the name and an additional offset can be added is the attribute 
 		 contains an array.
@@ -112,6 +86,13 @@ namespace Dynamik
 		 @param offset: The offset to be added to the attribute.
 		*/
 		void setData(const STRING& name, VPTR data, const UI64& offset = 0);
+
+		/*
+		 Set data to the whole buffer object.
+
+		 @param data: The data to set to the buffer.
+		*/
+		void setData(VPTR data);
 
 		/*
 		 Get the data pointer to the attribute. 
@@ -145,7 +126,7 @@ namespace Dynamik
 
 		 @param binding: The shader binding location.
 		*/
-		void setBindingLocation(const UI64& binding);
+		void setBindingLocation(const UI32& binding);
 
 		/*
 		 Get the shader binding location of the uniform.
@@ -153,16 +134,16 @@ namespace Dynamik
 		UI64 getBindingLocation() const;
 
 		/*
-		 Set the shader location this uniform is bound to.
+		 Set the uniform type of the buffer.
 
-		 @param location: The shader location.
+		 @param uniformType: The type of the uniform.
 		*/
-		void setLocation(const DMKShaderLocation& location);
+		void setUniformType(const DMKUniformType& uniformType);
 
 		/*
-		 Get the shader location of this uniform.
+		 Get the uniform buffer type.
 		*/
-		DMKShaderLocation getLocation() const;
+		DMKUniformType getUniformType() const;
 
 	private:	/* Private Data Store */
 		std::unordered_map<STRING, Attribute> attributeMap;
@@ -171,7 +152,7 @@ namespace Dynamik
 	public:		/* Public Data */
 		UI64 uByteSize = 0;
 		UI32 bindingLocation = 0;
-		DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_ALL;
+		DMKUniformType type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
 	};
 }
 

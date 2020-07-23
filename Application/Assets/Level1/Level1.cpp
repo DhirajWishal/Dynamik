@@ -22,7 +22,6 @@ void Level1::onLoad()
 	/* Create Basic World */
 	createUserGameWorld<DefaultWorld>();
 	pCurrentGameWorld->setCamera(playerObject->getCameraModule());
-	pCurrentGameWorld->entities.front()->addComponent<DMKDebugComponent>(initializeRayLine());
 
 	movementBias = 0.1f;
 }
@@ -40,7 +39,7 @@ void Level1::onUpdate(const DMKEventPool* pEventPool)
 
 		if (shouldRenderRay)
 		{
-			copyDataToDebug(ray);
+			//copyDataToDebug(ray);
 			shouldRenderRay = false;
 		}
 

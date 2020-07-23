@@ -15,9 +15,6 @@ layout (binding = 0) uniform UBO
 layout (location = 0) out vec3 outWorldPos;
 layout (location = 1) out vec3 outNormal;
 layout (location = 2) out vec2 outUV;
-layout (location = 3) out mat4 outProjection;
-layout (location = 4) out mat4 outModel;
-layout (location = 5) out mat4 outView;
 
 out gl_PerVertex 
 {
@@ -30,8 +27,4 @@ void main()
 	outUV = inUV;
 	outUV.t = 1.0 - inUV.t;
 	gl_Position =  ubo.projection * ubo.view * vec4(inPos, 1.0);
-
-	outProjection = ubo.projection;
-	outModel = ubo.model;
-	outView = ubo.view;
 }

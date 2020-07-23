@@ -126,4 +126,9 @@ namespace Dynamik
 
 		return newModel;
 	}
+	
+	ARRAY<DMKStaticMeshComponent> DMKMeshFactory::loadMeshes(const STRING& file, DMKVertexLayout vertexLayout)
+	{
+		return  DMKMeshImporter::loadMeshes(file, vertexLayout);
+	}
 }

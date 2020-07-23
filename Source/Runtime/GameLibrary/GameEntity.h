@@ -10,17 +10,11 @@
 */
 #include "ComponentSystem/ComponentManager.h"
 #include "Core/Types/ObjectArray.h"
+#include "Core/Components/PrimitiveCompoennts.h"
 
 namespace Dynamik
 {
-	/*
-	 Dynamik Game Entity Attribute
-	 These define additional information required by the components in the entity.
-	*/
-	enum class DMK_API DMKGameEntityAttribute {
-		DMK_GAME_ENTITY_ATTRIBUTE_CAMERA_PARAMS,
-		DMK_GAME_ENTITY_ATTRIBUTE_LIGHTS,
-	};
+	class DMK_API DMKLevelComponent;
 
 	/*
 	 The entity class is the component which the user directly interact with. Player character and other
@@ -45,11 +39,38 @@ namespace Dynamik
 		virtual ~DMKGameEntity() {}
 
 		/*
+		 Setup the current level.
+		 This function is handled internally!
+
+		 @param pCurrentLevel: Pointer to the current level component.
+		*/
+		void setupCurrentLevel(DMKLevelComponent* pCurrentLevel);
+
+		/*
 		 Initialize the entity
 		*/
 		virtual void initialize() {}
 
 		// void addInstance(Vector3F position, Vector3F rotation);
+
+		/*
+		 Add a material to every requested component in the entity.
+		 @warn: The component requires to be a renderable component. Else this function may fail.
+
+		 @param material: The material to be added.
+		 @tparam COMPONENT: The component to be added.
+		*/
+		template<class COMPONENT>
+		DMK_FORCEINLINE void addMaterial(const DMKMaterial& material)
+		{
+			for (UI64 index = 0; index < getComponentArray<COMPONENT>()->size(); index++)
+				getComponent<COMPONENT>(index)->addMaterial(material);
+		}
+
+		/*
+		 Update method used to update components.
+		*/
+		virtual void onUpdate(F32 timeStep) {}
 
 		/*
 		 Setup camera module
@@ -69,6 +90,18 @@ namespace Dynamik
 		DMK_FORCEINLINE void addComponent(const COMPONENT& component)
 		{
 			componentManager.addObject<COMPONENT>(component);
+		}
+
+		/*
+		 Add multiple components of the same type to the component manager.
+
+		 @param components: The array of components.
+		 @tparam COMPONENT: The component type.
+		*/
+		template<class COMPONENT>
+		DMK_FORCEINLINE void addComponents(ARRAY<COMPONENT> components)
+		{
+			componentManager.addObjects<COMPONENT>(components);
 		}
 
 		/*
@@ -99,22 +132,9 @@ namespace Dynamik
 
 		B1 isCameraAvailable = false;
 
-		ARRAY<DMKGameEntityAttribute> attributes;
-
-		/*
-		 Add a game entity attribute
-
-		 @param attribute: The attribute.
-		*/
-		void addAttribute(const DMKGameEntityAttribute& attribute);
-
-		/*
-		 Get all the attributes.
-		*/
-		ARRAY<DMKGameEntityAttribute> getAttributes() const;
-
 	protected:	/* Protected Data */
 		DMKCameraModule* pCameraModule = nullptr;
+		DMKLevelComponent* pCurrentLevel = nullptr;
 
 	private:	/* Internal Data */
 	};

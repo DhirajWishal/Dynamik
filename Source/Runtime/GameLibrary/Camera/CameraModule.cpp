@@ -10,7 +10,6 @@ namespace Dynamik
 {
 	DMKCameraModule::DMKCameraModule()
 	{
-		myDescription = DMKUniformBufferObject::createUniformCamera();
 	}
 
 	void DMKCameraModule::setViewPortExtent(DMKExtent2D extent)
@@ -23,11 +22,6 @@ namespace Dynamik
 	{
 		matrix.view = DMKMathFunctions::lookAt(position, position + front, cameraUp);
 		matrix.projection = DMKMathFunctions::perspective(DMKMathFunctions::radians(fieldOfView), aspectRatio, nearRender, farRender);
-	}
-
-	DMKUniformDescription DMKCameraModule::getDescription() const
-	{
-		return myDescription;
 	}
 
 	void DMKCameraModule::updateVectors()

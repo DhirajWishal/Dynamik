@@ -364,6 +364,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera\CameraModule.h" />
+    <ClInclude Include="Entities\HollowEntity.h" />
     <ClInclude Include="EnvironmentMap.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameMechanics.h" />
@@ -379,6 +380,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp" />
+    <ClCompile Include="Entities\HollowEntity.cpp" />
     <ClCompile Include="EnvironmentMap.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameWorld.cpp" />

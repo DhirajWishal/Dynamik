@@ -13,6 +13,12 @@
 
 namespace Dynamik
 {
+	/* Renderer Uniform Container */
+	struct DMK_API RUniformContainer {
+		DMKUniformBufferObject* pParent = nullptr;
+		RBuffer* pUniformBuffer = nullptr;
+	};
+
 	/*
 	 Renderer Mesh Object
 	 This object contains all the necessary information required to render a mesh.
@@ -32,7 +38,7 @@ namespace Dynamik
 	public:		/* Resource Data */
 		ARRAY<RTexture*> pTextures;
 		RPipelineObject* pPipeline = nullptr;
-		RBuffer* pUniformBuffer = nullptr;
+		ARRAY<RUniformContainer> uniformBuffers;
 		UI64 resourceIndex = 0;
 
 	public:		/* Parent Mesh Component*/

@@ -76,6 +76,13 @@ namespace Dynamik
 		*/
 		static DMKStaticModel loadStaticModel(const STRING& file, Vector3F position = { 0.0f, 0.0f, 0.0f }, Vector3F scale = { 1.0f, 1.0f, 1.0f });
 
+		/*
+		 Load all the meshes in a given asset.
+
+		 @param asset: The asset path.
+		*/
+		static ARRAY<DMKStaticMeshComponent> loadMeshes(const STRING& file, DMKVertexLayout vertexLayout = DMKVertexLayout::createBasic());
+
 	private:
 		STRING workingDirectory = TEXT("");
 	};

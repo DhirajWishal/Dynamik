@@ -48,7 +48,6 @@ namespace Dynamik
 		void setViewPortExtent(DMKExtent2D extent);
 
 		virtual void update();
-		DMKUniformDescription getDescription() const;
 
 		void updateVectors();
 		virtual void updateMatrix();
@@ -82,9 +81,6 @@ namespace Dynamik
 		F32 pitch = 0.0f;
 		F32 roll = 0.0f;
 		F32 yaw = 0.0f;
-
-	private:
-		DMKUniformDescription myDescription;
 	};
 }
 

@@ -6,6 +6,11 @@
 
 namespace Dynamik
 {
+	void DMKGameEntity::setupCurrentLevel(DMKLevelComponent* pCurrentLevel)
+	{
+		this->pCurrentLevel = pCurrentLevel;
+	}
+	
 	void DMKGameEntity::setupCamera(const DMKCameraModule* pCameraModule)
 	{
 		if (isCameraAvailable)
@@ -16,15 +21,5 @@ namespace Dynamik
 
 		this->pCameraModule = Cast<DMKCameraModule*>(pCameraModule);
 		isCameraAvailable = true;
-	}
-
-	void DMKGameEntity::addAttribute(const DMKGameEntityAttribute& attribute)
-	{
-		attributes.pushBack(attribute);
-	}
-
-	ARRAY<DMKGameEntityAttribute> DMKGameEntity::getAttributes() const
-	{
-		return attributes;
 	}
 }

@@ -7,7 +7,7 @@
 #include "Importer/Asset/MeshImporter.h"
 
 namespace Dynamik
-{		
+{
 	DMKLevelComponent::DMKLevelComponent()
 	{
 		pCurrentGameWorld = nullptr;
@@ -19,12 +19,27 @@ namespace Dynamik
 		pEntities.pushBack(pEntity);
 	}
 
+	void DMKLevelComponent::updateEntities(F32 timeStep)
+	{
+		for (auto entity : pEntities)
+			entity->onUpdate(timeStep);
+
+		if (pCurrentGameWorld)
+			for (auto entity : pCurrentGameWorld->entities)
+				entity->onUpdate(timeStep);
+	}
+
 	DMKGameEntity* DMKLevelComponent::createHollowEntity()
 	{
 		pEntities.pushBack(StaticAllocator<DMKGameEntity>::allocateInit(DMKGameEntity()));
 		return Cast<DMKGameEntity*>(pEntities.location(-1));
 	}
-		
+
+	DMKCameraModule* DMKLevelComponent::getCameraModule() const
+	{
+		return playerObject->getCameraModule();
+	}
+
 	DMKPlayerObject* DMKLevelComponent::createHollowPlayerObject()
 	{
 		playerObject = StaticAllocator<DMKPlayerObject>::allocate().get();

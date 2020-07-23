@@ -194,8 +194,10 @@ namespace Dynamik
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES:
-					/* TODO */
-					pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
+					if (_mesh->HasTextureCoords(0))
+						pComponent->vertexBuffer.addData(&_mesh->mTextureCoords[0][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
+					else
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_INTEGRITY:

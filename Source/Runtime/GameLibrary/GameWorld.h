@@ -6,6 +6,7 @@
 #define _DYNAMIK_GAME_WORLD_H
 
 #include "Core/Types/ComplexTypes.h"
+#include "Core/Types/Utilities.h"
 #include "Core/FileSystem/FileSystem.h"
 #include "GameEntity.h"
 #include "EnvironmentMap.h"
@@ -14,6 +15,8 @@
 
 namespace Dynamik
 {
+	class DMK_API DMKLevelComponent;
+
 	/* 
 	 Dynamik Game World Light Component
 	 This structure defines a global light component.
@@ -39,7 +42,7 @@ namespace Dynamik
 		/*
 		 Initialize stored entities.
 		*/
-		void initializeEntities();
+		void initializeEntities(DMKLevelComponent* pCurrentLevel);
 
 		/*
 		 Setup Camera Module

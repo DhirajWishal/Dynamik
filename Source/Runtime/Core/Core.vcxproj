@@ -367,6 +367,7 @@
     <ClInclude Include="Components\Attachments\ComponentAttachment.h" />
     <ClInclude Include="Components\Attachments\PhysicsAttachment.h" />
     <ClInclude Include="Components\Component.h" />
+    <ClInclude Include="Components\PrimitiveCompoennts.h" />
     <ClInclude Include="Components\RenderableComponent.h" />
     <ClInclude Include="Components\RenderableComponents\DebugComponent.h" />
     <ClInclude Include="Components\RenderableComponents\StaticMeshComponent.h" />

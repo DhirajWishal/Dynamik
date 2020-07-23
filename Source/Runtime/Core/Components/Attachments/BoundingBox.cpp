@@ -109,20 +109,6 @@ namespace Dynamik
 			idleColor);
 
 		/* Initialize Uniform Buffer */
-		DMKUniformDescription description;
-		description.destinationBinding = 0;
-		description.shaderLocation = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
-		description.type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
-
-		DMKUniformAttribute attribute;
-		attribute.dataCount = 1;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
-		description.attributes.pushBack(attribute);
-
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC4;
-		description.attributes.pushBack(attribute);
-
-		uniformBufferObject.initialize(description);
 		uniformBufferObject.setData(&_uniform);
 	}
 
@@ -245,20 +231,6 @@ namespace Dynamik
 			idleColor);
 
 		/* Initialize Uniform Buffer */
-		DMKUniformDescription description;
-		description.destinationBinding = 0;
-		description.shaderLocation = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
-		description.type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
-
-		DMKUniformAttribute attribute;
-		attribute.dataCount = 1;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
-		description.attributes.pushBack(attribute);
-
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC4;
-		description.attributes.pushBack(attribute);
-
-		uniformBufferObject.initialize(description);
 		uniformBufferObject.setData(&_uniform);
 	}
 

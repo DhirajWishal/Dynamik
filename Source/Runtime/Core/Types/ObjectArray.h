@@ -101,6 +101,16 @@ namespace Dynamik
 		}
 
 		/*
+		 Add multiple object of the same kind to the array.
+		*/
+		template<class OBJECT>
+		DMK_FORCEINLINE void addObjects(ARRAY<OBJECT> objects)
+		{
+			for (auto object : objects)
+				addObject<OBJECT>(object);
+		}
+
+		/*
 		 Get an object stored in the array.
 		 Returns nullptr if not registered.
 		*/
@@ -111,6 +121,25 @@ namespace Dynamik
 				return (OBJECT*)getObjectArray<OBJECT>()->location(index);
 
 			return nullptr;
+		}
+
+		/*
+		 Get all the requested objects stored in the class.
+		 These data are copies of the original data and modifications will not get applies to the actual data.
+		*/
+		template<class OBJECT>
+		DMK_FORCEINLINE ARRAY<OBJECT> getObjects()
+		{
+			if (!registeredComponentTypes.find(typeid(OBJECT).name()).size())
+				return ARRAY<OBJECT>();
+
+			ARRAY<OBJECT> objects;
+			auto arr = getObjectArray<OBJECT>();
+
+			for (auto elem : *arr)
+				objects.pushBack(elem);
+
+			return objects;
 		}
 
 		/*

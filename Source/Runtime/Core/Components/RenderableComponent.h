@@ -13,25 +13,11 @@
 
 namespace Dynamik
 {
-	/*
-	 Mesh rendering pipeline
-	 This defines which pipeline to use when rendering the mesh.
-	 Custom pipelines should provide its own shader modules.
-	*/
-	enum class DMKBaseRenderingPipeline {
-		DMK_BASE_RENDERING_PIPELINE_DEFAULT,
-		DMK_BASE_RENDERING_PIPELINE_PBR,
-		DMK_BASE_RENDERING_PIPELINE_LIGHT,
-		DMK_BASE_RENDERING_PIPELINE_CUSTOM,
-	};
-
-	/*
-	 Mesh rendering specifications
-	 This defines how the mesh should be rendered.
-	*/
-	struct DMK_API DMKMeshRenderSpecifications {
-		ARRAY<DMKShaderModule> shaderModules;
-		DMKBaseRenderingPipeline basePipeline = DMKBaseRenderingPipeline::DMK_BASE_RENDERING_PIPELINE_CUSTOM;
+	/* Dynamik Resource Request */
+	enum class DMK_API DMKResourceRequest {
+		DMK_RESOURCE_REQUEST_BRDF_TABLE,
+		DMK_RESOURCE_REQUEST_IRRADIANCE_CUBE,
+		DMK_RESOURCE_REQUEST_PRE_FILTERED_CUBE,
 	};
 
 	/*
@@ -47,10 +33,22 @@ namespace Dynamik
 		virtual void clearShaderModules();
 
 		virtual void addTextureModule(DMKTexture* pTexture);
-		virtual void setBaseRenderingPipeline(const DMKBaseRenderingPipeline& pipeline);
 
 		virtual void translate(const MAT4& mat, const VEC3& vec) {}
 		virtual void rotate(const VEC3& direction, const F32& radians) {}
+
+		void addResourceRequest(const DMKResourceRequest& request);
+		void setResourceRequests(ARRAY<DMKResourceRequest> resourceRequests);
+		ARRAY<DMKResourceRequest> getResourceRequests() const;
+
+		/*
+		 Get a uniform stored in a given shader index.
+		 The shader index is in the order of shader submission.
+
+		 @param shaderIndex: The index of the shader.
+		 @param unuformIndex: The index of the uniform in the shader.
+		*/
+		DMKUniformBufferObject& getUniform(I64 shaderIndex = 0, I64 uniformIndex = 0);
 
 		/*
 		 Add a renderable component which this component uses.
@@ -98,6 +96,7 @@ namespace Dynamik
 	public:		/* Data Store */
 		ARRAY<DMKShaderModule> shaderModules;
 		ARRAY<DMKRenderableComponent*> renderComponents;
+		ARRAY<DMKResourceRequest> resourceRequests;
 
 		/*
 		 Rotation of the instance.
@@ -113,9 +112,6 @@ namespace Dynamik
 		 Scale of the instance.
 		*/
 		Vector3F scale;
-
-		DMKUniformDescription uniformDescription;
-		DMKBaseRenderingPipeline basePipeline = DMKBaseRenderingPipeline::DMK_BASE_RENDERING_PIPELINE_CUSTOM;
 	};
 }
 

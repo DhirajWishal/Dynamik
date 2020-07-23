@@ -305,6 +305,8 @@ namespace Dynamik
 				VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
 				pTexture->pImage->mipLevel, pTexture->pImage->layers,
 				pTexture->pImage->format);
+
+			pTexture->pImage->layout = RImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY;
 		}
 
 		void Dynamik::Backend::VulkanIrradianceCube::_terminateSupportStructures(RCoreObject* pCoreObject)

@@ -96,7 +96,7 @@ namespace Dynamik
 			}
 
 			VPTR myData = getData(pCoreObject, uSize, offset);
-			DMKMemoryFunctions::moveData(myData, data, uSize);
+			DMKMemoryFunctions::copyData(myData, data, uSize);
 			unmapMemory(pCoreObject);
 		}
 

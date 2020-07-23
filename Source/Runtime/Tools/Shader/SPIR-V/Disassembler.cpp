@@ -131,10 +131,6 @@ namespace Dynamik
 			_binding.stageFlags = Backend::VulkanUtilities::getShaderStage(shaderModule.location);
 			_binding.descriptorCount = 1;
 
-			DMKUniformBufferDescriptor shaderResourceDescriptor;
-			DMKUniformDescription resourceDescription;
-			resourceDescription.shaderLocation = shaderModule.location;
-			DMKUniformAttribute resourceAttribute;
 			UI64 offsetCount = 0;
 
 			/* Uniform buffers */
@@ -151,8 +147,6 @@ namespace Dynamik
 				printf("\n");
 #endif // DMK_DEBUG
 
-				resourceDescription.type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER;
-				resourceDescription.destinationBinding = binding;
 
 				_binding.binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
 				_binding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
@@ -166,27 +160,10 @@ namespace Dynamik
 				{
 					auto Ty = _glslCompiler.get_type(ID);
 					UI32 byteSize = (Ty.width / sizeof(F32)) * Ty.vecsize * Ty.columns;
-					resourceAttribute.dataCount = (UI32)((Ty.array.size()) ? Ty.array.size() : 1);
 					offsetCount += byteSize;
 
 					/* Check if the member is a matrix */
-					if (Ty.vecsize == Ty.columns)
-					{
-						if (byteSize == 64)
-							resourceAttribute.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
-						else if (byteSize == 36)
-							resourceAttribute.dataType = DMKDataType::DMK_DATA_TYPE_MAT3;
-						else if (byteSize == 16)
-							resourceAttribute.dataType = DMKDataType::DMK_DATA_TYPE_MAT2;
-						else
-							resourceAttribute.dataType = (DMKDataType)byteSize;
-					}
-
-					resourceDescription.attributes.pushBack(resourceAttribute);
 				}
-
-				shaderResourceDescriptor.uniformBufferObjects.pushBack(resourceDescription);
-				resourceDescription.attributes.clear();
 			}
 
 			/* Storage buffers */
@@ -214,25 +191,7 @@ namespace Dynamik
 				{
 					auto Ty = _glslCompiler.get_type(ID);
 					UI32 byteSize = (Ty.width / sizeof(F32)) * Ty.vecsize * Ty.columns;
-					resourceAttribute.dataCount = ((Ty.array.size()) ? Cast<UI32>(Ty.array.size()) : 1);
 					offsetCount += byteSize;
-
-					/* Check if the member is a matrix */
-					if (Ty.vecsize == Ty.columns)
-					{
-						if (byteSize == 64)
-							resourceAttribute.dataType = DMKDataType::DMK_DATA_TYPE_MAT4;
-						else if (byteSize == 36)
-							resourceAttribute.dataType = DMKDataType::DMK_DATA_TYPE_MAT3;
-						else if (byteSize == 16)
-							resourceAttribute.dataType = DMKDataType::DMK_DATA_TYPE_MAT2;
-						else
-							resourceAttribute.dataType = (DMKDataType)byteSize;
-					}
-					else
-						resourceAttribute.dataType = (DMKDataType)byteSize;
-
-					resourceDescription.attributes.pushBack(resourceAttribute);
 				}
 			}
 
@@ -398,7 +357,7 @@ namespace Dynamik
 				for (auto ID : _glslCompiler.get_type(resource.base_type_id).member_types)
 				{
 					auto Ty = _glslCompiler.get_type(ID);
-					_range.size += ((Ty.width / 8) * Ty.vecsize * Ty.columns);
+					_range.size += ((Ty.width / 8) * ((Ty.vecsize == 3) ? 4 : Ty.vecsize) * Ty.columns);
 				}
 
 				pushConstantRanges.pushBack(_range);

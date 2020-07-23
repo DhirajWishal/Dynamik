@@ -6,23 +6,6 @@
 
 namespace Dynamik
 {
-	UI64 DMKUniformDescription::getUniformSize() const
-	{
-		UI64 _size = 0;
-		for (auto _attribute : attributes)
-			_size += ((UI64)_attribute.dataType * _attribute.dataCount);
-
-		return _size;
-	}
-
-	I64 DMKUniformBufferDescriptor::operator()()
-	{
-		auto descriptorCount = this->uniformBufferObjects.size();
-		I64 _ID = 0;
-
-		return _ID;
-	}
-
 	void DMKUniformBufferObject::addAttribute(const STRING& name, const UI64& attribSize)
 	{
 		Attribute newAttribute;
@@ -49,10 +32,35 @@ namespace Dynamik
 		return attributes;
 	}
 
+	void DMKUniformBufferObject::initialize()
+	{
+		if (!uByteSize)
+		{
+			DMK_ERROR("The buffer is not initialized! Make sure to add all the attributes prior to calling this function!");
+			return;
+		}
+
+		if (pUniformBufferStorage)
+		{
+			if (uByteSize)
+			{
+				DMK_WARN("The buffer is already allocated! Reallocating the buffer.");
+				StaticAllocator<VPTR>::deallocate(pUniformBufferStorage, uByteSize);
+			}
+		}
+
+		pUniformBufferStorage = StaticAllocator<BYTE>::allocate(uByteSize);
+	}
+
 	void DMKUniformBufferObject::setData(const STRING& name, VPTR data, const UI64& offset)
 	{
 		auto attribute = attributeMap[name];
 		DMKMemoryFunctions::copyData(IncrementPointer(pUniformBufferStorage, attribute.offset + offset), data, attribute.byteSize);
+	}
+
+	void DMKUniformBufferObject::setData(VPTR data)
+	{
+		DMKMemoryFunctions::copyData(pUniformBufferStorage, data, uByteSize);
 	}
 
 	VPTR DMKUniformBufferObject::getData(const STRING& name, const UI64& offset)
@@ -82,7 +90,7 @@ namespace Dynamik
 		return this->uByteSize;
 	}
 
-	void DMKUniformBufferObject::setBindingLocation(const UI64& binding)
+	void DMKUniformBufferObject::setBindingLocation(const UI32& binding)
 	{
 		bindingLocation = binding;
 	}
@@ -92,13 +100,13 @@ namespace Dynamik
 		return bindingLocation;
 	}
 
-	void DMKUniformBufferObject::setLocation(const DMKShaderLocation& location)
+	void DMKUniformBufferObject::setUniformType(const DMKUniformType& uniformType)
 	{
-		this->location = location;
+		type = uniformType;
 	}
 
-	DMKShaderLocation DMKUniformBufferObject::getLocation() const
+	DMKUniformType DMKUniformBufferObject::getUniformType() const
 	{
-		return location;
+		return type;
 	}
 }

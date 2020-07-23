@@ -336,7 +336,7 @@ namespace Dynamik
 			texture->createView(myCoreObject);
 
 			if ((pTexture->type == DMKTextureType::TEXTURE_TYPE_CUBEMAP) || (pTexture->type == DMKTextureType::TEXTURE_TYPE_CUBEMAP_ARRAY)) /* TODO */
-				texture->createSampler(myCoreObject, RImageSamplerCreateInfo::createCubeMapSampler(3.0f));
+				texture->createSampler(myCoreObject, RImageSamplerCreateInfo::createCubeMapSampler(0.0f));
 			else
 				texture->createSampler(myCoreObject, RImageSamplerCreateInfo::createDefaultSampler(0.0f));
 			return texture;
@@ -506,6 +506,7 @@ namespace Dynamik
 	void DMKRenderer::createEntityResources(DMKGameEntity* pGameEntity)
 	{
 		REntity entity;
+
 		for (UI64 index = 0; index < pGameEntity->componentManager.getObjectArray<DMKStaticMeshComponent>()->size(); index++)
 			entity.meshObjects.pushBack(loadMeshComponent(pGameEntity->componentManager.getObject<DMKStaticMeshComponent>(index), pGameEntity));
 
@@ -738,14 +739,16 @@ namespace Dynamik
 
 	void DMKRenderer::updateEntities()
 	{
-		for (UI64 entityIndex = 0; entityIndex < myEntities.size(); entityIndex++)
+		for (UI64 eIndex = 0; eIndex < myEntities.size(); eIndex++)
 		{
-			for (UI64 meshIndex = 0; meshIndex < myEntities[entityIndex].meshObjects.size(); meshIndex++)
+			for (UI64 mIndex = 0; mIndex < myEntities[eIndex].meshObjects.size(); mIndex++)
 			{
-				if (myEntities[entityIndex].meshObjects[meshIndex].pMeshComponent->isUpdated())
+				for (UI64 uIndex = 0; uIndex < myEntities[eIndex].meshObjects[mIndex].uniformBuffers.size(); uIndex++)
 				{
-					myEntities[entityIndex].meshObjects[meshIndex].pUniformBuffer->setData(myCoreObject, sizeof(MAT4), 0, &myEntities[entityIndex].meshObjects[meshIndex].pMeshComponent->modelMatrix);
-					myEntities[entityIndex].meshObjects[meshIndex].pMeshComponent->resetUpdateNotice();
+					myEntities[eIndex].meshObjects[mIndex].uniformBuffers[uIndex].pUniformBuffer->setData(
+						myCoreObject,
+						myEntities[eIndex].meshObjects[mIndex].uniformBuffers[uIndex].pParent->byteSize(),
+						0, myEntities[eIndex].meshObjects[mIndex].uniformBuffers[uIndex].pParent->data());
 				}
 			}
 		}
@@ -864,10 +867,10 @@ namespace Dynamik
 					StaticAllocator<RTexture>::rawDeallocate(texture, 0);
 				}
 
-				if (mesh.pUniformBuffer)
+				for (auto pUniform : mesh.uniformBuffers)
 				{
-					mesh.pUniformBuffer->terminate(myCoreObject);
-					StaticAllocator<RBuffer>::rawDeallocate(mesh.pUniformBuffer, 0);
+					pUniform.pUniformBuffer->terminate(myCoreObject);
+					StaticAllocator<RBuffer>::rawDeallocate(pUniform.pUniformBuffer, 0);
 				}
 
 				if (mesh.pPipeline)
@@ -943,12 +946,24 @@ namespace Dynamik
 		}
 
 		/* Initialize Uniform Buffers */
+		ARRAY<RBuffer*> pUniformBuffers;
 		{
 			/* Initialize Default Uniform */
-			RBuffer* defaultUniform = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, meshComponent.pMeshComponent->getUniformByteSize());
-			meshComponent.pUniformBuffer = defaultUniform;
+			for (auto shader : meshComponent.pMeshComponent->shaderModules)
+			{
+				auto UBOs = shader.getUniforms();
+				for (UI64 index = 0; index < shader.getUniforms().size(); index++)
+				{
+					RUniformContainer _container;
+					_container.pParent = Cast<DMKUniformBufferObject*>(shader.getUniforms().location(index));
 
-			meshComponent.pUniformBuffer->setData(myCoreObject, sizeof(meshComponent.pMeshComponent->modelMatrix), 0, &meshComponent.pMeshComponent->modelMatrix);
+					_container.pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, _container.pParent->byteSize());
+					_container.pUniformBuffer->setData(myCoreObject, _container.pParent->byteSize(), 0, _container.pParent->data());
+
+					meshComponent.uniformBuffers.pushBack(_container);
+					pUniformBuffers.pushBack(_container.pUniformBuffer);
+				}
+			}
 		}
 
 		/* Initialize Pipeline */
@@ -969,19 +984,30 @@ namespace Dynamik
 
 		/* Initialize Pipeline Resources */
 		{
-			/* Initialize Uniform Buffer Resources */
-			ARRAY<RBuffer*> uniformBuffers;
-			if (meshComponent.pUniformBuffer)
-				uniformBuffers.pushBack(meshComponent.pUniformBuffer);
-
-			if (pGameEntity->isCameraAvailable && myCameraComponent->pUniformBuffer)
-				uniformBuffers.pushBack(myCameraComponent->pUniformBuffer);
-
 			/* Initialize Texture Resources */
 			ARRAY<RTexture*> textures;
 			textures.insert(meshComponent.pTextures);
 
-			meshComponent.pPipeline->initializeResources(myCoreObject, uniformBuffers, textures);
+			for (auto request : meshComponent.pMeshComponent->getResourceRequests())
+			{
+				switch (request)
+				{
+				case Dynamik::DMKResourceRequest::DMK_RESOURCE_REQUEST_BRDF_TABLE:
+					textures.pushBack(myCurrentEnvironment.pBRDFTable->pTexture);
+					break;
+				case Dynamik::DMKResourceRequest::DMK_RESOURCE_REQUEST_IRRADIANCE_CUBE:
+					textures.pushBack(myCurrentEnvironment.pIrradianceCube->pTexture);
+					break;
+				case Dynamik::DMKResourceRequest::DMK_RESOURCE_REQUEST_PRE_FILTERED_CUBE:
+					textures.pushBack(myCurrentEnvironment.pPreFilteredCube->pTexture);
+					break;
+				default:
+					DMK_ERROR("Invalid resource request!");
+					break;
+				}
+			}
+
+			meshComponent.pPipeline->initializeResources(myCoreObject, pUniformBuffers, textures);
 
 			/* Initialize Constant Blocks */
 			for (UI64 itr = 0; itr < meshComponent.pMeshComponent->materials.size(); itr++)

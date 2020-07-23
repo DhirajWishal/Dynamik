@@ -325,42 +325,6 @@ namespace Dynamik
 			return ::Dynamik::DMKShaderLocation::DMK_SHADER_LOCATION_ALL;
 		}
 
-		ARRAY<VkDescriptorSetLayoutBinding> VulkanUtilities::getDescriptorSetLayoutBindings(DMKUniformBufferDescriptor descriptor)
-		{
-			ARRAY<VkDescriptorSetLayoutBinding> _bindings;
-
-			for (auto _object : descriptor.uniformBufferObjects)
-			{
-				if (_object.type == DMKUniformType::DMK_UNIFORM_TYPE_CONSTANT)
-					continue;
-
-				VkDescriptorSetLayoutBinding _binding;
-				_binding.binding = _object.destinationBinding;
-				_binding.descriptorCount = 1;
-				_binding.descriptorType = getDescriptorType(_object.type);
-				_binding.pImmutableSamplers = VK_NULL_HANDLE;
-				_binding.stageFlags = getShaderStage(_object.shaderLocation);
-				_bindings.pushBack(_binding);
-			}
-
-			return _bindings;
-		}
-
-		ARRAY<VkDescriptorPoolSize> VulkanUtilities::getDescriptorPoolSizes(DMKUniformBufferDescriptor descriptor, UI32 descriptorCount)
-		{
-			ARRAY<VkDescriptorPoolSize> _sizes;
-
-			for (auto _object : descriptor.uniformBufferObjects)
-			{
-				VkDescriptorPoolSize _size;
-				_size.descriptorCount = descriptorCount;
-				_size.type = getDescriptorType(_object.type);
-				_sizes.pushBack(_size);
-			}
-
-			return _sizes;
-		}
-
 		ARRAY<VkVertexInputAttributeDescription> VulkanUtilities::getVertexAttributeDescriptions(DMKVertexLayout descriptor)
 		{
 			ARRAY<VkVertexInputAttributeDescription> attributeDescriptions;

@@ -27,4 +27,19 @@ namespace Dynamik
 	{
 		this->location = location;
 	}
+
+	void DMKShaderModule::addUniform(const DMKUniformBufferObject& uniform)
+	{
+		uniforms.pushBack(uniform);
+	}
+
+	DMKUniformBufferObject& DMKShaderModule::getUniform(I64 index)
+	{
+		return uniforms[index];
+	}
+
+	ARRAY<DMKUniformBufferObject>& DMKShaderModule::getUniforms()
+	{
+		return uniforms;
+	}
 }
