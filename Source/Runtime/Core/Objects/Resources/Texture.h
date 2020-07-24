@@ -66,6 +66,9 @@ namespace Dynamik
 			DMKTextureSwizzle componentThree = DMKTextureSwizzle::TEXTURE_SWIZZLE_BLUE;
 			DMKTextureSwizzle componentFour = DMKTextureSwizzle::TEXTURE_SWIZZLE_ALPHA;
 		} swizzles;
+
+	protected:
+		void resolveChannels();
 	};
 }
 

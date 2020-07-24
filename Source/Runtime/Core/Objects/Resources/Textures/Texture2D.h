@@ -18,6 +18,9 @@ namespace Dynamik
 		~DMKTexture2D() {}
 
 		void load(const STRING& path);
+
+	private:
+		void _load_KTX(const STRING& path);
 	};
 }
 

@@ -4,13 +4,15 @@
 #include "DefaultWorld.h"
 #include "Entities/VenusModel.h"
 #include "SkySphere.h"
+#include "Entities/CerberusModel.h"
 
 #include "GameLibrary/Utilities/MeshFactory.h"
 #include "Services/RuntimeSystems/AssetRegistry.h"
 
 DefaultWorld::DefaultWorld()
 {
-	auto entity = createUserEntity<VenusModel>();
+	//auto entity1 = createUserEntity<VenusModel>();
+	auto entity2 = createUserEntity<CerberusModel>();
 
 	/* Initialize Sky Box */
 	//ARRAY<STRING> texturePaths;

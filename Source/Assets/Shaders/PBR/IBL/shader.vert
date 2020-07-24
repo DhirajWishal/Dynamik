@@ -26,5 +26,5 @@ void main()
 	outNormal = mat3(ubo.model) * inNormal;
 	outUV = inUV;
 	outUV.t = 1.0 - inUV.t;
-	gl_Position =  ubo.projection * ubo.view * vec4(inPos, 1.0);
+	gl_Position =  ubo.projection * ubo.view * ubo.model * vec4(inPos, 1.0);
 }

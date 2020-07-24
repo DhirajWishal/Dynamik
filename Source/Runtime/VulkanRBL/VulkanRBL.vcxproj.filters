@@ -75,6 +75,12 @@
     <ClInclude Include="Lighting\VulkanBRDFTable.h">
       <Filter>Lighting</Filter>
     </ClInclude>
+    <ClInclude Include="Lighting\VulkanIrradianceCube.h">
+      <Filter>Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Lighting\VulkanPreFilteredCube.h">
+      <Filter>Lighting</Filter>
+    </ClInclude>
     <ClInclude Include="Pipelines\VulkanGraphicsPipeline.h">
       <Filter>Pipelines</Filter>
     </ClInclude>
@@ -99,8 +105,6 @@
     <ClInclude Include="VulkanCoreObject.h" />
     <ClInclude Include="VulkanRenderTarget.h" />
     <ClInclude Include="VulkanUtilities.h" />
-    <ClInclude Include="Lighting\VulkanPreFilteredCube.h" />
-    <ClInclude Include="Lighting\VulkanIrradianceCube.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\VulkanCommandBuffer.cpp">
@@ -148,6 +152,12 @@
     <ClCompile Include="Lighting\VulkanBRDFTable.cpp">
       <Filter>Lighting</Filter>
     </ClCompile>
+    <ClCompile Include="Lighting\VulkanIrradianceCube.cpp">
+      <Filter>Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Lighting\VulkanPreFilteredCube.cpp">
+      <Filter>Lighting</Filter>
+    </ClCompile>
     <ClCompile Include="Pipelines\VulkanGraphicsPipeline.cpp">
       <Filter>Pipelines</Filter>
     </ClCompile>
@@ -171,8 +181,6 @@
     </ClCompile>
     <ClCompile Include="VulkanCoreObject.cpp" />
     <ClCompile Include="VulkanUtilities.cpp" />
-    <ClCompile Include="Lighting\VulkanPreFilteredCube.cpp" />
-    <ClCompile Include="Lighting\VulkanIrradianceCube.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="VulkanRBL.lua" />

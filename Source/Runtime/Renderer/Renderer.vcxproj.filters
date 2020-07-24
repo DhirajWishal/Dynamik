@@ -51,6 +51,12 @@
     <ClInclude Include="Components\Lighting\RBRDFTable.h">
       <Filter>Components\Lighting</Filter>
     </ClInclude>
+    <ClInclude Include="Components\Lighting\RIrradianceCube.h">
+      <Filter>Components\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\Lighting\RPreFilteredCube.h">
+      <Filter>Components\Lighting</Filter>
+    </ClInclude>
     <ClInclude Include="Components\PipelineTypeDefs.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -108,8 +114,6 @@
     <ClInclude Include="RUtilities.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RendererCommand.h" />
-    <ClInclude Include="Components\Lighting\RPreFilteredCube.h" />
-    <ClInclude Include="Components\Lighting\RIrradianceCube.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\Attachments\RBoundingBox.cpp">

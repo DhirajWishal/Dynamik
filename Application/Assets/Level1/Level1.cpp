@@ -6,6 +6,8 @@
 #include "DefaultWorld.h"
 #include "Core/Math/MathFunctions.h"
 #include "Core/Types/StaticArray.h"
+#include "SkySphere.h"
+#include "Entities/CerberusModel.h"
 using namespace Dynamik;
 
 void Level1::onLoad()
@@ -58,6 +60,30 @@ void Level1::onUpdate(const DMKEventPool* pEventPool)
 
 	if (DMKEventPool::KeyDown.isPressed() || DMKEventPool::KeyDown.isOnRepeat())
 		playerObject->addDownVector(movementBias);
+
+	if (DMKEventPool::KeyRight.isPressed() || DMKEventPool::KeyRight.isOnRepeat())
+	{
+		Inherit<SkySphere>(pCurrentGameWorld->pEnvironmentMap)->fsUBO.exposure += 0.1f;
+		//Inherit<CerberusModel>(pCurrentGameWorld->entities[0])->camParamFS.exposure += 0.1f;
+	}
+
+	if (DMKEventPool::KeyLeft.isPressed() || DMKEventPool::KeyLeft.isOnRepeat())
+	{
+		Inherit<SkySphere>(pCurrentGameWorld->pEnvironmentMap)->fsUBO.exposure -= 0.1f;
+		//Inherit<CerberusModel>(pCurrentGameWorld->entities[0])->camParamFS.exposure -= 0.1f;
+	}
+
+	if (DMKEventPool::KeyI.isPressed() || DMKEventPool::KeyI.isOnRepeat())
+	{
+		Inherit<SkySphere>(pCurrentGameWorld->pEnvironmentMap)->fsUBO.gamma += 0.1f;
+		//Inherit<CerberusModel>(pCurrentGameWorld->entities[0])->camParamFS.gamma += 0.1f;
+	}
+
+	if (DMKEventPool::KeyO.isPressed() || DMKEventPool::KeyO.isOnRepeat())
+	{
+		Inherit<SkySphere>(pCurrentGameWorld->pEnvironmentMap)->fsUBO.gamma -= 0.1f;
+		//Inherit<CerberusModel>(pCurrentGameWorld->entities[0])->camParamFS.gamma -= 0.1f;
+	}
 
 	playerObject->updateCamera();
 }

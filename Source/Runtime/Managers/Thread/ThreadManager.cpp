@@ -11,6 +11,8 @@
 /* Maximum commands that can be in a command queue at runtime */
 #define MAX_COMMANDS_IN_FLIGHT		10
 
+#define ALLOCATE_MEM(...) new __VA_ARGS__
+
 namespace Dynamik
 {
 	std::mutex _globalMutex;

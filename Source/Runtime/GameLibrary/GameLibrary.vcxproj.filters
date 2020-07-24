@@ -4,6 +4,9 @@
     <Filter Include="Camera">
       <UniqueIdentifier>{CE7141AB-BA13-6C81-A3CE-7FD58F0FF3D1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{8AA33B53-7670-965E-9F89-84068BB5CBEC}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Mechanics">
       <UniqueIdentifier>{30EBFAEF-9C55-AF66-E593-600C513D8DBB}</UniqueIdentifier>
     </Filter>
@@ -17,6 +20,9 @@
   <ItemGroup>
     <ClInclude Include="Camera\CameraModule.h">
       <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\HollowEntity.h">
+      <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="EnvironmentMap.h" />
     <ClInclude Include="GameEntity.h" />
@@ -44,6 +50,9 @@
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp">
       <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\HollowEntity.cpp">
+      <Filter>Entities</Filter>
     </ClCompile>
     <ClCompile Include="EnvironmentMap.cpp" />
     <ClCompile Include="GameEntity.cpp" />

@@ -596,7 +596,7 @@ namespace Dynamik
 				descriptorWrites.pushBack(descriptorWrite);
 			}
 
-			vkUpdateDescriptorSets(InheritCast<VulkanCoreObject>(pCoreObject).device, (UI32)descriptorWrites.size(), descriptorWrites.data(), 0, VK_NULL_HANDLE);
+			vkUpdateDescriptorSets(InheritCast<VulkanCoreObject>(pCoreObject).device, Cast<UI32>(descriptorWrites.size()), descriptorWrites.data(), 0, VK_NULL_HANDLE);
 		}
 
 		VulkanGraphicsPipeline::operator VkPipelineLayout() const

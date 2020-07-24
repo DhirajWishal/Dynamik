@@ -106,6 +106,18 @@ namespace Dynamik
 		return layout;
 	}
 
+	DMKVertexLayout DMKVertexLayout::createBasicSkybox()
+	{
+		DMKVertexLayout layout;
+		DMKVertexAttribute attribute;
+		attribute.dataCount = 1;
+		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
+		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
+		layout.attributes.pushBack(attribute);
+
+		return layout;
+	}
+
 	B1 DMKVertexLayout::operator==(const DMKVertexLayout& other) const
 	{
 		if (this->attributes.size() != other.attributes.size())

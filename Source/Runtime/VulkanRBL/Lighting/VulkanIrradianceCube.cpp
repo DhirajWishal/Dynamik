@@ -22,7 +22,7 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void Dynamik::Backend::VulkanIrradianceCube::initialize(RCoreObject* pCoreObject, REnvironmentMap* pEnvironmentMap, DMKExtent2D dimentions, DMKFormat format)
+		void VulkanIrradianceCube::initialize(RCoreObject* pCoreObject, REnvironmentMap* pEnvironmentMap, DMKExtent2D dimentions, DMKFormat format)
 		{
 			this->format = format;
 			this->dimentions = dimentions;
@@ -47,13 +47,13 @@ namespace Dynamik
 			_terminateSupportStructures(pCoreObject);
 		}
 
-		void Dynamik::Backend::VulkanIrradianceCube::terminate(RCoreObject* pCoreObject)
+		void VulkanIrradianceCube::terminate(RCoreObject* pCoreObject)
 		{
 			pTexture->terminate(pCoreObject);
 			StaticAllocator<VulkanTexture>::rawDeallocate(pTexture);
 		}
 
-		void Dynamik::Backend::VulkanIrradianceCube::_initializeTexture(RCoreObject* pCoreObject)
+		void VulkanIrradianceCube::_initializeTexture(RCoreObject* pCoreObject)
 		{
 			pTexture = StaticAllocator<VulkanTexture>::rawAllocate();
 
@@ -79,7 +79,7 @@ namespace Dynamik
 			pTexture->pSampler->initialize(pCoreObject, RImageSamplerCreateInfo::createCubeMapSampler());
 		}
 
-		void Dynamik::Backend::VulkanIrradianceCube::_initializeRenderPass(RCoreObject* pCoreObject)
+		void VulkanIrradianceCube::_initializeRenderPass(RCoreObject* pCoreObject)
 		{
 			renderTarget.pRenderPass = StaticAllocator<VulkanRenderPass>::rawAllocate();
 
@@ -117,7 +117,7 @@ namespace Dynamik
 			renderTarget.pRenderPass->initialize(pCoreObject, subpassAttachments, subpassDependencies, nullptr, format);
 		}
 
-		void Dynamik::Backend::VulkanIrradianceCube::_initializeFrameBuffer(RCoreObject* pCoreObject)
+		void VulkanIrradianceCube::_initializeFrameBuffer(RCoreObject* pCoreObject)
 		{
 			RImageCreateInfo imageCreateInfo = {};
 			imageCreateInfo.vDimentions.width = dimentions.width;
@@ -140,7 +140,7 @@ namespace Dynamik
 			pAttachment->pImageAttachment->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_COLOR_ATTACHMENT);
 		}
 
-		void Dynamik::Backend::VulkanIrradianceCube::_initializePipelines(RCoreObject* pCoreObject)
+		void VulkanIrradianceCube::_initializePipelines(RCoreObject* pCoreObject)
 		{
 			Tools::GLSLCompiler compiler;
 
@@ -164,7 +164,7 @@ namespace Dynamik
 			pipeline.initializeResources(pCoreObject, ARRAY<RBuffer*>(), { pParent->pTexture });
 		}
 
-		void Dynamik::Backend::VulkanIrradianceCube::_process(RCoreObject* pCoreObject)
+		void VulkanIrradianceCube::_process(RCoreObject* pCoreObject)
 		{
 			VulkanOneTimeCommandBuffer buffer(pCoreObject);
 
@@ -214,13 +214,14 @@ namespace Dynamik
 			vScissor.extent.height = Cast<I32>(dimentions.height);
 			vkCmdSetScissor(buffer, 0, 1, &vScissor);
 
-			VkImageSubresourceRange subresourceRange = {};
-			subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-			subresourceRange.baseMipLevel = 0;
-			subresourceRange.levelCount = pTexture->pImage->mipLevel;
-			subresourceRange.layerCount = 6;
+			VulkanUtilities::rawTransitionImageLayout(
+				buffer, Inherit<VulkanImage>(pTexture->pImage)->image,
+				VK_IMAGE_LAYOUT_UNDEFINED,
+				VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+				pTexture->pImage->mipLevel, pTexture->pImage->layers,
+				pTexture->pImage->format);
 
-			pTexture->pImage->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_TRANSFER_DST);
+			pTexture->pImage->layout = RImageLayout::IMAGE_LAYOUT_TRANSFER_DST;
 
 			VkImageCopy copyRegion = {};
 
@@ -234,7 +235,7 @@ namespace Dynamik
 			copyRegion.dstSubresource.layerCount = 1;
 			copyRegion.dstOffset = { 0, 0, 0 };
 
-			for (UI32 i = 0; i < subresourceRange.levelCount; i++)
+			for (UI32 i = 0; i < pTexture->pImage->mipLevel; i++)
 			{
 				for (UI32 j = 0; j < 6; j++)
 				{
@@ -242,13 +243,18 @@ namespace Dynamik
 					vViewport.height = dimentions.height * Cast<F32>(std::pow(0.5f, i));
 					vkCmdSetViewport(buffer, 0, 1, &vViewport);
 
+					VkRect2D vScissor = {};
+					vScissor.extent.width = Cast<I32>(dimentions.width);
+					vScissor.extent.height = Cast<I32>(dimentions.height);
+					vkCmdSetScissor(buffer, 0, 1, &vScissor);
+
 					vkCmdBeginRenderPass(buffer, &beginInfo, VK_SUBPASS_CONTENTS_INLINE);
+
+					vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
 
 					constantOne.matrix = DMathLib::perspective(Cast<F32>(M_PI) / 2.0f, 1.0f, 0.1f, 512.0f) * matrices[j];
 					vkCmdPushConstants(buffer, pipeline, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ConstantOne), &constantOne);
 					vkCmdPushConstants(buffer, pipeline, VK_SHADER_STAGE_FRAGMENT_BIT, sizeof(ConstantOne), sizeof(ConstantTwo), &constantTwo);
-
-					vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
 
 					if (pipeline.isResourceAvailable)
 						vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline, 0, 1, &pipeline.descriptor.set, 0, VK_NULL_HANDLE);
@@ -309,7 +315,7 @@ namespace Dynamik
 			pTexture->pImage->layout = RImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY;
 		}
 
-		void Dynamik::Backend::VulkanIrradianceCube::_terminateSupportStructures(RCoreObject* pCoreObject)
+		void VulkanIrradianceCube::_terminateSupportStructures(RCoreObject* pCoreObject)
 		{
 			pipeline.terminate(pCoreObject);
 

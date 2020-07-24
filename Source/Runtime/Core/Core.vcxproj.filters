@@ -66,6 +66,9 @@
     <ClInclude Include="Components\Component.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Components\PrimitiveCompoennts.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="Components\RenderableComponent.h">
       <Filter>Components</Filter>
     </ClInclude>

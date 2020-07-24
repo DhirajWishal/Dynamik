@@ -63,9 +63,9 @@ namespace Dynamik
 		return component;
 	}
 
-	DMKStaticMeshComponent DMKMeshFactory::loadFromFile(const STRING& file)
+	DMKStaticMeshComponent DMKMeshFactory::loadFromFile(const STRING& file, const DMKVertexLayout& vertexLayout)
 	{
-		return DMKMeshImporter::loadMeshes(file, DMKVertexLayout::createBasic())[0];
+		return DMKMeshImporter::loadMeshes(file, vertexLayout)[0];
 	}
 
 	DMKStaticMeshComponent DMKMeshFactory::createDefault(const STRING& path)

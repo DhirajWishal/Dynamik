@@ -94,6 +94,13 @@ namespace Dynamik
 		*/
 		static DMKVertexLayout createBoundingBox();
 
+		/*
+		 Create a basic skybox vertex layout.
+		 This contains,
+		 -  Position			[Vector3F * 1]
+		*/
+		static DMKVertexLayout createBasicSkybox();
+
 	public:		/* Operators */
 		B1 operator==(const DMKVertexLayout& other) const;
 	};

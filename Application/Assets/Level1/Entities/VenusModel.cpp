@@ -50,13 +50,13 @@ void VenusModel::initialize()
 		pStaticMesh->addMaterial(DMKMaterial::createMetalPlatinum());
 	}
 
-	dataVS.model = Matrix4F::Identity;
+	dataVS.model = DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(-90.0f), Vector3F(1.0f, 0.0f, 0.0f));
 
 	const F32 p = 15;
-	camParamFS.lights[0] = Vector4F(-p, -p * 0.5f, -p, 1.0f);
-	camParamFS.lights[1] = Vector4F(-p, -p * 0.5f, p, 1.0f);
-	camParamFS.lights[2] = Vector4F(p, -p * 0.5f, p, 1.0f);
-	camParamFS.lights[3] = Vector4F(p, -p * 0.5f, -p, 1.0f);
+	camParamFS.lights[0] = Vector4F(-p, p * 0.5f, -p, 1.0f);
+	camParamFS.lights[1] = Vector4F(-p, p * 0.5f, p, 1.0f);
+	camParamFS.lights[2] = Vector4F(p, p * 0.5f, p, 1.0f);
+	camParamFS.lights[3] = Vector4F(p, p * 0.5f, -p, 1.0f);
 }
 
 void VenusModel::onUpdate(F32 timeStep)

@@ -49,8 +49,23 @@ namespace Dynamik
 			submitInfo.commandBufferCount = 1;
 			submitInfo.pCommandBuffers = &buffer;
 
-			DMK_VULKAN_ASSERT(vkQueueSubmit(myQueues.processQueue, 1, &submitInfo, VK_NULL_HANDLE), "Failed to submit the process queue of the one time command buffer!");
-			DMK_VULKAN_ASSERT(vkQueueWaitIdle(myQueues.processQueue), "Failed to call idle after submitting one time command buffer data!");
+			/* Create a fence */
+			VkFenceCreateInfo fenceCreateInfo = {};
+			fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+			fenceCreateInfo.flags = VK_NULL_HANDLE;
+			fenceCreateInfo.pNext = VK_NULL_HANDLE;
+
+			VkFence fence = VK_NULL_HANDLE;
+			DMK_VULKAN_ASSERT(vkCreateFence(myDevice, &fenceCreateInfo, nullptr, &fence), "Failed to create fence!");
+
+			/* Submit the queue */
+			DMK_VULKAN_ASSERT(vkQueueSubmit(myQueues.processQueue, 1, &submitInfo, fence), "Failed to submit the process queue of the one time command buffer!");
+			
+			/* Wait for fence */
+			DMK_VULKAN_ASSERT(vkWaitForFences(myDevice, 1, &fence, VK_TRUE, std::numeric_limits<UI32>::max()), "Failed to wait for fence to complete!");
+			
+			/* Destroy the created fence */
+			vkDestroyFence(myDevice, fence, nullptr);
 
 			/* Free the allocated command buffers and pools */
 			vkFreeCommandBuffers(myDevice, pool, 1, &buffer);

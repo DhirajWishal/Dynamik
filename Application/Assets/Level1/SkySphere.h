@@ -18,8 +18,8 @@ public:
 
 	struct UniformFS {
 		StaticArray<Vector4F, 4> lights;
-		F32 exposure;
-		F32 gamma;
+		F32 exposure = 4.5f;
+		F32 gamma = 2.2f;
 	} fsUBO;
 };
 

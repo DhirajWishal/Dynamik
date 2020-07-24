@@ -216,13 +216,14 @@ namespace Dynamik
 			vScissor.extent.height = Cast<I32>(dimentions.height);
 			vkCmdSetScissor(buffer, 0, 1, &vScissor);
 
-			VkImageSubresourceRange subresourceRange = {};
-			subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-			subresourceRange.baseMipLevel = 0;
-			subresourceRange.levelCount = pTexture->pImage->mipLevel;
-			subresourceRange.layerCount = 6;
+			VulkanUtilities::rawTransitionImageLayout(
+				buffer, Inherit<VulkanImage>(pTexture->pImage)->image,
+				VK_IMAGE_LAYOUT_UNDEFINED,
+				VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+				pTexture->pImage->mipLevel, pTexture->pImage->layers,
+				pTexture->pImage->format);
 
-			pTexture->pImage->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_TRANSFER_DST);
+			pTexture->pImage->layout = RImageLayout::IMAGE_LAYOUT_TRANSFER_DST;
 
 			VkImageCopy copyRegion = {};
 
@@ -236,7 +237,7 @@ namespace Dynamik
 			copyRegion.dstSubresource.layerCount = 1;
 			copyRegion.dstOffset = { 0, 0, 0 };
 
-			for (UI32 i = 0; i < subresourceRange.levelCount; i++)
+			for (UI32 i = 0; i < pTexture->pImage->mipLevel; i++)
 			{
 				constantTwo.roughness = Cast<F32>(i) / Cast<F32>(pTexture->pImage->mipLevel - 1);
 				for (UI32 j = 0; j < 6; j++)

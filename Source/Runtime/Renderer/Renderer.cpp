@@ -490,13 +490,13 @@ namespace Dynamik
 			myCurrentEnvironment.pBRDFTable = createBRDFTable();
 			myCurrentEnvironment.pBRDFTable->initialize(myCoreObject, dim);
 
-			/* Initialize the irradiance cube */
-			myCurrentEnvironment.pIrradianceCube = createIrradianceCube();
-			myCurrentEnvironment.pIrradianceCube->initialize(myCoreObject, &myCurrentEnvironment, dim);
-
 			/* Initialize the pre filtered cube */
 			myCurrentEnvironment.pPreFilteredCube = createPreFilteredCube();
 			myCurrentEnvironment.pPreFilteredCube->initialize(myCoreObject, &myCurrentEnvironment, dim);
+
+			/* Initialize the irradiance cube */
+			myCurrentEnvironment.pIrradianceCube = createIrradianceCube();
+			myCurrentEnvironment.pIrradianceCube->initialize(myCoreObject, &myCurrentEnvironment, dim);
 		}
 
 		/* Initialize Vertex and Index Buffers */

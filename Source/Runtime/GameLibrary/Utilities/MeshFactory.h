@@ -39,7 +39,7 @@ namespace Dynamik
 		/*
 		 Load mesh components from a file.
 		*/
-		static DMKStaticMeshComponent loadFromFile(const STRING& file);
+		static DMKStaticMeshComponent loadFromFile(const STRING& file, const DMKVertexLayout& vertexLayout = DMKVertexLayout::createBasic());
 
 		/*
 		 Create a default mesh component from a provided file.
