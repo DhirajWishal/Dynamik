@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Clients">
+      <UniqueIdentifier>{57FACF2C-C3D9-4EC8-CCF1-D99E3850B529}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Common">
       <UniqueIdentifier>{8EEA3EAC-7A8C-6982-6347-7DD64F88F0D2}</UniqueIdentifier>
     </Filter>
@@ -21,6 +24,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Clients\VulkanImGuiClient.h">
+      <Filter>Clients</Filter>
+    </ClInclude>
     <ClInclude Include="Common\VulkanCommandBuffer.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -107,6 +113,9 @@
     <ClInclude Include="VulkanUtilities.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Clients\VulkanImGuiClient.cpp">
+      <Filter>Clients</Filter>
+    </ClCompile>
     <ClCompile Include="Common\VulkanCommandBuffer.cpp">
       <Filter>Common</Filter>
     </ClCompile>

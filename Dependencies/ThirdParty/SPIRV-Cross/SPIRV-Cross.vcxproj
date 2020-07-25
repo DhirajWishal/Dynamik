@@ -132,56 +132,56 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Windows|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Debug\SPIRV-Cross\</IntDir>
+    <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Debug\SPIRV-Cross\</IntDir>
     <TargetName>SPIRV-Cross</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unix|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Debug\SPIRV-Cross\</IntDir>
+    <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Debug\SPIRV-Cross\</IntDir>
     <TargetName>libSPIRV-Cross</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Mac|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Debug\SPIRV-Cross\</IntDir>
+    <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Debug\SPIRV-Cross\</IntDir>
     <TargetName>libSPIRV-Cross</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Windows|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Release\SPIRV-Cross\</IntDir>
+    <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Release\SPIRV-Cross\</IntDir>
     <TargetName>SPIRV-Cross</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unix|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Release\SPIRV-Cross\</IntDir>
+    <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Release\SPIRV-Cross\</IntDir>
     <TargetName>libSPIRV-Cross</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Mac|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Release\SPIRV-Cross\</IntDir>
+    <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Release\SPIRV-Cross\</IntDir>
     <TargetName>libSPIRV-Cross</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Windows|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Distribution\SPIRV-Cross\</IntDir>
+    <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Distribution\SPIRV-Cross\</IntDir>
     <TargetName>SPIRV-Cross</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Unix|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Distribution\SPIRV-Cross\</IntDir>
+    <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Distribution\SPIRV-Cross\</IntDir>
     <TargetName>libSPIRV-Cross</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Mac|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Distribution\SPIRV-Cross\</IntDir>
+    <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Distribution\SPIRV-Cross\</IntDir>
     <TargetName>libSPIRV-Cross</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>

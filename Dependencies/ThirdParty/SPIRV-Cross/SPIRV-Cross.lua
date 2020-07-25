@@ -8,8 +8,8 @@ project "SPIRV-Cross"
 	cppdialect "C++17"
 	staticruntime "On"
 
-	targetdir "$(SolutionDir)Builds/Engine/Binaries/$(Configuration)-$(Platform)/$(ProjectName)"
-	objdir "$(SolutionDir)Builds/Engine/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
+	targetdir "$(SolutionDir)Builds/ThirdParty/Binaries/$(Configuration)-$(Platform)/$(ProjectName)"
+	objdir "$(SolutionDir)Builds/ThirdParty/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
 
 	files {
 		"**.txt",

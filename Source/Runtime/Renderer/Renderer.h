@@ -143,8 +143,6 @@ namespace Dynamik
         ARRAY<RBoundingBox> myBoundingBoxes;
         ARRAY<RDebugMeshComponent> myDebugObjects;
 
-        ARRAY<RMeshObject> myStaticMeshes;
-
         UI32 currentImageIndex = 0;
 
     private:    /* Factories */

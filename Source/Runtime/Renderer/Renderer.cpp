@@ -911,34 +911,6 @@ namespace Dynamik
 		}
 
 		myDebugObjects.clear();
-
-		/* Terminate Static Components */
-		for (auto mesh : myStaticMeshes)
-		{
-			for (auto texture : mesh.pTextures)
-			{
-				texture->terminate(myCoreObject);
-				StaticAllocator<RTexture>::rawDeallocate(texture, 0);
-			}
-
-			for (auto pUniform : mesh.uniformBuffers)
-			{
-				pUniform.pUniformBuffer->terminate(myCoreObject);
-				StaticAllocator<RBuffer>::rawDeallocate(pUniform.pUniformBuffer, 0);
-			}
-
-			if (mesh.pPipeline)
-			{
-				mesh.pPipeline->terminate(myCoreObject);
-
-				for (auto block : mesh.pPipeline->constantBlocks)
-					StaticAllocator<BYTE>::rawDeallocate(block.data, block.byteSize);
-
-				StaticAllocator<RPipelineObject>::rawDeallocate(mesh.pPipeline, 0);
-			}
-		}
-
-		myStaticMeshes.clear();
 	}
 
 	RBoundingBox DMKRenderer::createBoundingBox(DMKBoundingBoxAttachment* pBoundingBox)

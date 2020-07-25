@@ -5,27 +5,42 @@
 #ifndef _DYNAMIK_STUDIO_H
 #define _DYNAMIK_STUDIO_H
 
-#include "GUI/GUIManager/GUIManager.h"
+#include "GUI/ImGuiWrapper.h"
 
 namespace Dynamik
 {
 	/*
-	 Dynamik Studio
+	 Main Dynamik Studio class
 	*/
 	class DMKStudio {
 	public:
+		/*
+		 Default constructor.
+		*/
 		DMKStudio();
+
+		/*
+		 Default destructor.
+		*/
 		~DMKStudio();
 
+		/*
+		 Initialize the studio.
+		*/
+		void initialize();
+
+		/*
+		 Execute the studio.
+		*/
 		void execute();
 
-	private:
-		void beginFrame();
-		void updateFrame();
-		void endFrame();
+		/*
+		 Terminate the studio.
+		*/
+		void terminate();
 
 	private:
-		GUIManager myGuiManager;
+		DMKImGuiWrapper imGuiWrapper;
 	};
 }
 

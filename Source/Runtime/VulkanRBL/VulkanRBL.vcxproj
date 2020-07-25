@@ -399,6 +399,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Clients\VulkanImGuiClient.h" />
     <ClInclude Include="Common\VulkanCommandBuffer.h" />
     <ClInclude Include="Common\VulkanCommandBufferManager.h" />
     <ClInclude Include="Common\VulkanControlHeader.h" />
@@ -431,6 +432,7 @@
     <ClInclude Include="VulkanUtilities.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Clients\VulkanImGuiClient.cpp" />
     <ClCompile Include="Common\VulkanCommandBuffer.cpp" />
     <ClCompile Include="Common\VulkanCommandBufferManager.cpp" />
     <ClCompile Include="Common\VulkanDescriptorSetManager.cpp" />

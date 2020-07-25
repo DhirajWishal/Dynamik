@@ -23,6 +23,7 @@ project "Renderer"
 		"**.lua",
 		"**.txt",
 		"**.md",
+		"**.inl",
 	}
 
 	includedirs {

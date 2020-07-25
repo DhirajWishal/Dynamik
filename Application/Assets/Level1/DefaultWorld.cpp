@@ -13,13 +13,13 @@
 void DefaultWorld::initialize()
 {
 	//auto entity1 = createUserEntity<VenusModel>();
-	//auto entity2 = createUserEntity<CerberusModel>();
+	auto cerberus = createUserEntity<CerberusModel>();
 
-	auto entity1 = createUserEntity<DMKStaticEntity>();
-	entity1->loadAsset(
-		TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\moon\\Moon 2K.fbx"),
-		{ DMKTextureFactory::create(DMKTextureType::TEXTURE_TYPE_2D, TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\moon\\Diffuse_2K.png")) }
-	);
+	//auto entity1 = createUserEntity<DMKStaticEntity>();
+	//entity1->loadAsset(
+	//	TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\moon\\Moon 2K.fbx"),
+	//	{ DMKTextureFactory::create(DMKTextureType::TEXTURE_TYPE_2D, TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\moon\\Diffuse_2K.png")) }
+	//);
 
 	/* Initialize Sky Box */
 	createUserEnvironment<SkySphere>(SkySphere());

@@ -8,8 +8,8 @@ project "DynamikStudio"
 	cppdialect "C++17"
 	language "C++"
 
-	targetdir "$(SolutionDir)Builds/Engine/Binaries/$(Configuration)-$(Platform)/$(ProjectName)"
-	objdir "$(SolutionDir)Builds/Engine/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
+	targetdir "$(SolutionDir)Builds/Studio/Binaries/$(Configuration)-$(Platform)/$(ProjectName)"
+	objdir "$(SolutionDir)Builds/Studio/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
 
 	pchheader "dmkafx.h"
 	pchsource "../Core/PCH/dmkafx.cpp"
@@ -26,12 +26,14 @@ project "DynamikStudio"
 		"$(SolutionDir)Dependencies/Libraries/Local",
 		"$(SolutionDir)Source/Runtime/",
 		"$(SolutionDir)Source/Runtime/Core/PCH/",
+		"$(SolutionDir)Dependencies/ThirdParty/imgui",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLEW}",
 		"%{IncludeDir.assimp}",
 	}
 
 	links {
+		"ImGui",
 		"DynamikEngine"
 	}
 

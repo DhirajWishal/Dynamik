@@ -133,55 +133,55 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Windows|x64'">
     <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Debug\</IntDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Debug\ImGui\</IntDir>
     <TargetName>ImGui</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unix|x64'">
     <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Debug\</IntDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Debug\ImGui\</IntDir>
     <TargetName>libImGui</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Mac|x64'">
     <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Debug\</IntDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Debug\ImGui\</IntDir>
     <TargetName>libImGui</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Windows|x64'">
     <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Release\</IntDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Release\ImGui\</IntDir>
     <TargetName>ImGui</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unix|x64'">
     <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Release\</IntDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Release\ImGui\</IntDir>
     <TargetName>libImGui</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Mac|x64'">
     <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Release\</IntDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Release\ImGui\</IntDir>
     <TargetName>libImGui</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Windows|x64'">
     <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Distribution\</IntDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Distribution\ImGui\</IntDir>
     <TargetName>ImGui</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Unix|x64'">
     <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Distribution\</IntDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Distribution\ImGui\</IntDir>
     <TargetName>libImGui</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Mac|x64'">
     <OutDir>$(SolutionDir)Builds\ThirdParty\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Distribution\</IntDir>
+    <IntDir>$(SolutionDir)Builds\ThirdParty\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Distribution\ImGui\</IntDir>
     <TargetName>libImGui</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
@@ -365,8 +365,6 @@
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
-    <ClCompile Include="imgui_internal.cpp" />
-    <ClCompile Include="imgui_rectpack.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>

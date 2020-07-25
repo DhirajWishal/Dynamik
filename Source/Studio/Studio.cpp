@@ -8,31 +8,29 @@ namespace Dynamik
 {
 	DMKStudio::DMKStudio()
 	{
+		DMK_INFO("Welcome to the Dynamik Studio!");
+		imGuiWrapper.initialize();
 	}
 
 	DMKStudio::~DMKStudio()
 	{
+		DMK_INFO("Shutting down the Dynamik Studio!");
+		imGuiWrapper.terminate();
 	}
-	
+
+	void DMKStudio::initialize()
+	{
+	}
+
 	void DMKStudio::execute()
 	{
-		beginFrame();
-		updateFrame();
-		endFrame();
+		while (true)
+		{
+
+		}
 	}
 
-	void DMKStudio::beginFrame()
+	void DMKStudio::terminate()
 	{
-		myGuiManager.beginFrame();
-	}
-
-	void DMKStudio::updateFrame()
-	{
-		myGuiManager.onUpdate();
-	}
-
-	void DMKStudio::endFrame()
-	{
-		myGuiManager.endFrame();
 	}
 }
