@@ -208,7 +208,7 @@ namespace Dynamik
 		height = texture.extent().y;
 		depth = texture.extent().z;
 		format = getFormat(texture.format());
-		layerCount = texture.layers();
+		layerCount = Cast<UI32>(texture.layers());
 		resolveChannels();
 
 		image = StaticAllocator<UCHR>::allocate(size() * layerCount);

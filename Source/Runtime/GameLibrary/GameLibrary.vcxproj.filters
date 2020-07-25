@@ -46,6 +46,7 @@
     <ClInclude Include="Utilities\MeshFactory.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Entities\StaticEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp">
@@ -65,6 +66,7 @@
     <ClCompile Include="Utilities\MeshFactory.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\StaticEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameLibrary.lua" />

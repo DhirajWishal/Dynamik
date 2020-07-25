@@ -21,9 +21,10 @@ namespace Dynamik
 	void DMKRenderableComponent::addTextureModule(DMKTexture* pTexture)
 	{
 		DMKMaterial newMaterial;
+		newMaterial.name = TEXT("DefaultTexture");
 		newMaterial.addTexture(pTexture, MaterialTextureType::MATERIAL_TEXTURE_TYPE_DEFAULT);
-
 		addMaterial(newMaterial);
+		
 	}
 
 	void DMKRenderableComponent::addResourceRequest(const DMKResourceRequest& request)

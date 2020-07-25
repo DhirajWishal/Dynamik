@@ -62,8 +62,7 @@ namespace Dynamik
 		*/
 		DMK_FORCEINLINE static PTR allocate(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
-			PTR _ptr = (PTR)DMKAutomatedMemoryManager::allocateNew(byteSize, offset, alignment);
-			set(_ptr, TYPE());
+			PTR _ptr = (PTR)DMKAutomatedMemoryManager::allocateNew<TYPE>(byteSize, offset, alignment);
 
 			return _ptr;
 		}

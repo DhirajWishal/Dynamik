@@ -14,7 +14,7 @@ void Level1::onLoad()
 {
 	playerObject = createUserPlayer<Player>();
 
-	playerObject->cameraModule = StaticAllocator<DMKCameraModule>::allocate();
+	//playerObject->cameraModule = StaticAllocator<DMKCameraModule>::allocate();
 	playerObject->setPosition({ 0.0f, 0.0f, 0.0f });
 	playerObject->setCameraPosition({ 0.0f, 0.0f, 0.0f });
 	playerObject->setCameraAndWorldUp(VEC3(0.0f, -1.0f, 0.0f), VEC3(0.0f, -1.0f, 0.0f));

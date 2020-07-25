@@ -10,11 +10,6 @@ namespace Dynamik
 {
 	void DMKHollowEntity::initialize()
 	{
-		componentManager.addObjects<DMKStaticMeshComponent>(DMKMeshFactory::loadStaticModel(assetPath).staticMeshes);
-	}
-	
-	void DMKHollowEntity::setAssetPath(const STRING& path)
-	{
-		assetPath = path;
+		//componentManager.addObjects<DMKStaticMeshComponent>(DMKMeshFactory::loadStaticModel(assetPath).staticMeshes);
 	}
 }

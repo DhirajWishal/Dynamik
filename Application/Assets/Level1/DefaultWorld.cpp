@@ -8,22 +8,20 @@
 
 #include "GameLibrary/Utilities/MeshFactory.h"
 #include "Services/RuntimeSystems/AssetRegistry.h"
+#include "GameLibrary/Entities/StaticEntity.h"
 
-DefaultWorld::DefaultWorld()
+void DefaultWorld::initialize()
 {
 	//auto entity1 = createUserEntity<VenusModel>();
-	auto entity2 = createUserEntity<CerberusModel>();
+	//auto entity2 = createUserEntity<CerberusModel>();
+
+	auto entity1 = createUserEntity<DMKStaticEntity>();
+	entity1->loadAsset(
+		TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\moon\\Moon 2K.fbx"),
+		{ DMKTextureFactory::create(DMKTextureType::TEXTURE_TYPE_2D, TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\moon\\Diffuse_2K.png")) }
+	);
 
 	/* Initialize Sky Box */
-	//ARRAY<STRING> texturePaths;
-	//texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/right.jpg");
-	//texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/left.jpg");
-	//texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/top.jpg");
-	//texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/bottom.jpg");
-	//texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/front.jpg");
-	//texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/back.jpg");
-	//texturePaths.pushBack(TEXT("E:/Projects/Dynamik Engine/Game Repository/assets/assets/moon/abandoned_tank_farm_04_1k.hdr"));
-	//loadEnvironmentMap(texturePaths);
 	createUserEnvironment<SkySphere>(SkySphere());
 
 	DMKGameWorldLightComponent light1;

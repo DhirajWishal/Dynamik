@@ -12,7 +12,6 @@ using namespace Dynamik;
 class SkySphere : public DMKEnvironmentMap {
 public:
 	SkySphere();
-	~SkySphere() {}
 
 	virtual void onUpdate(F32 timeStep) override final;
 

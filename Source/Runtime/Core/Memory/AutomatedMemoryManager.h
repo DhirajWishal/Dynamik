@@ -39,7 +39,14 @@ namespace Dynamik
 		/*
 		 Allocate a new buffer
 		*/
-		static VPTR allocateNew(UI64 size, UI64 offset, UI64 alignment);
+		template<class TYPE>
+		static TYPE* allocateNew(UI64 size = sizeof(TYPE), UI64 offset = 0, UI64 alignment = 0)
+		{
+			TYPE* _pointer = StaticAllocator<TYPE>::rawAllocate(size, alignment, offset);
+			instance.memoryMap[(UI64)_pointer] = _pointer;
+
+			return _pointer;
+		}
 
 		/*
 		 Deallocate a allocated buffer

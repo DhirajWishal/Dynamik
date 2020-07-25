@@ -10,8 +10,9 @@ using namespace Dynamik;
 
 class DefaultWorld : public DMKGameWorld {
 public:
-	DefaultWorld();
-	~DefaultWorld() {}
+	DefaultWorld() {}
+
+	virtual void initialize() override final;
 };
 
 #endif // !_APPLICATION_DEFAULT_WORLD_H

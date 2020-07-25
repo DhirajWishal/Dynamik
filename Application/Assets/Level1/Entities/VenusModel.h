@@ -12,7 +12,6 @@ using namespace Dynamik;
 class VenusModel : public DMKGameEntity {
 public:
 	VenusModel() {}
-	~VenusModel() {}
 
 	virtual void initialize() override final;
 	virtual void onUpdate(F32 timeStep) override final;

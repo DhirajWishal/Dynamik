@@ -15,11 +15,6 @@
 namespace Dynamik
 {
 	/*
-	 Assimp Importer object.
-	*/
-	Assimp::Importer localImporter;
-
-	/*
 	 Return the correct readable size of a given container.
 	*/
 	template<class TYPE>
@@ -247,6 +242,14 @@ namespace Dynamik
 
 	}
 
+	AssimpWrapper::AssimpWrapper()
+	{
+	}
+
+	AssimpWrapper::~AssimpWrapper()
+	{
+	}
+
 	DMKStaticMeshComponent AssimpWrapper::loadMeshComponent(VPTR pAiMeshObject, const DMKVertexLayout& vertexLayout)
 	{
 		DMKStaticMeshComponent _meshComponent;
@@ -388,11 +391,15 @@ namespace Dynamik
 
 	DMKAnimatedMeshComponent AssimpWrapper::loadAnimatedModel(const STRING& file, const DMKVertexLayout& vertexLayout, const UI32& nodesPerVertex)
 	{
+		Assimp::Importer localImporter;
+
 		return loadAnimatedMeshComponent((VPTR)localImporter.ReadFile(file, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs), vertexLayout, nodesPerVertex);
 	}
 
 	ARRAY<DMKStaticMeshComponent> AssimpWrapper::loadStaticModel(const STRING& file, const DMKVertexLayout& vertexLayout)
 	{
+		Assimp::Importer localImporter;
+
 		auto _scene = localImporter.ReadFile(file, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs);
 
 		if (!_scene)

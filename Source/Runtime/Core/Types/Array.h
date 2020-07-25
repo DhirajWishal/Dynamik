@@ -688,15 +688,15 @@ namespace Dynamik
 		 */
 		B1 isValidIndex(I64 index)
 		{
-			if (index > (I64)0)
+			if (index >= (I64)0)
 			{
-				if (index < (I64)_getAllocationSize())
+				if (index < (I64)size())
 					return true;
 			}
 			else
 			{
 				index *= (-1);
-				if (index > (I64)(_getAllocationSize() * (-1)))
+				if (index > (I64)(size() * (-1)))
 					return true;
 			}
 

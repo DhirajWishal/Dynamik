@@ -30,14 +30,18 @@ namespace Dynamik
 	/*
 	 Dynamik Game World
 	 This object represents a game world and may or may not contain behavior defined entities.  
-
-	 Since the game world acts much like a container object, user defined initializations are only allowed
-	 to be placed in the constructor as there are no virtual initialize functions defined.
 	*/
 	class DMK_API DMKGameWorld {
 	public:
 		DMKGameWorld() = default;
 		virtual ~DMKGameWorld() = default;
+
+		/*
+		 Initialize the game world.
+		 This function will be called upon creation of the object (Only if the provided functions are used).
+		 IF the world is created and assigned by the user, this function needs to be explicitly called.
+		*/
+		virtual void initialize() {}
 
 		/*
 		 Initialize stored entities.
@@ -102,12 +106,12 @@ namespace Dynamik
 		 @tparam ENTITY: The user defined entity
 		*/
 		template<class ENTITY>
-		DMK_FORCEINLINE DMKGameEntity* createUserEntity()
+		DMK_FORCEINLINE ENTITY* createUserEntity()
 		{
 			DMKGameEntity* entity = Cast<DMKGameEntity*>(StaticAllocator<ENTITY>::allocate().get());
 
 			entities.pushBack(entity);
-			return entity;
+			return Cast<ENTITY*>(entity);
 		}
 
 		/*

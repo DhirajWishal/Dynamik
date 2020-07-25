@@ -114,8 +114,7 @@ namespace Dynamik
 
     private:    /* Utility Methods */
         RBoundingBox createBoundingBox(DMKBoundingBoxAttachment* pBoundingBox);
-        RMeshObject loadMeshComponent(DMKStaticMeshComponent* pComponent, DMKGameEntity* pGameEntity);
-        ARRAY<RBuffer*> createUniformBuffers(ARRAY<DMKUniformBufferObject> ubos);
+        RMeshObject loadMeshComponent(DMKStaticMeshComponent* pComponent);
 
     private:    /* Internal */
         DMKRendererCompatibility myCompatibility;
@@ -143,6 +142,8 @@ namespace Dynamik
         ARRAY<REntity> myEntities;
         ARRAY<RBoundingBox> myBoundingBoxes;
         ARRAY<RDebugMeshComponent> myDebugObjects;
+
+        ARRAY<RMeshObject> myStaticMeshes;
 
         UI32 currentImageIndex = 0;
 

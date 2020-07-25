@@ -12,6 +12,7 @@ namespace Dynamik
 	/*
 	 Dynamik Hollow Entity
 	 This class is a default object which the user can use to import basic data.
+	 This object works as a container which can store multiple models as individual meshes.
 	*/
 	class DMK_API DMKHollowEntity : public DMKGameEntity {
 	public:
@@ -19,9 +20,6 @@ namespace Dynamik
 		virtual ~DMKHollowEntity() {}
 
 		virtual void initialize() override;
-
-		void setAssetPath(const STRING& path);
-		STRING assetPath = TEXT("");
 	};
 }
 

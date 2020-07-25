@@ -12,7 +12,6 @@ using namespace Dynamik;
 class CerberusModel : public DMKGameEntity {
 public:
 	CerberusModel() {}
-	~CerberusModel() {}
 
 	virtual void initialize() override final;
 	virtual void onUpdate(F32 ts) override final;

@@ -3,6 +3,7 @@
 
 #include "dmkafx.h"
 #include "LevelComponent.h"
+#include "GameEntity.h"
 
 #include "Importer/Asset/MeshImporter.h"
 

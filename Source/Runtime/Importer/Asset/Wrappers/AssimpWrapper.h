@@ -16,8 +16,8 @@ namespace Dynamik
 	*/
 	class DMK_API AssimpWrapper {
 	public:
-		AssimpWrapper() {}
-		~AssimpWrapper() {}
+		AssimpWrapper();
+		~AssimpWrapper();
 
 		/*
 		 Load mesh component using an aiMesh object.
@@ -64,6 +64,8 @@ namespace Dynamik
 		 Load vertex data to the vertex buffer.
 		*/
 		void loadDataToVertex(DMKVertexBuffer* pBuffer, DMKVertexAttribute attribute);
+
+		VPTR importer = nullptr;
 	};
 }
 

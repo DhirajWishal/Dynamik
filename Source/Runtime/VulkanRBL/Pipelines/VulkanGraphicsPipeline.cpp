@@ -505,6 +505,13 @@ namespace Dynamik
 				switch (descriptorWrite.descriptorType)
 				{
 				case VK_DESCRIPTOR_TYPE_SAMPLER:
+					if (!pTextures.isValidIndex(textureIndex))
+					{
+						DMK_ERROR("A texture entry is not supplied!");
+						textureIndex++;
+						break;
+					}
+
 					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
 					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
 					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
@@ -513,6 +520,13 @@ namespace Dynamik
 					break;
 
 				case VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER:
+					if (!pTextures.isValidIndex(textureIndex))
+					{
+						DMK_ERROR("A texture entry is not supplied!");
+						textureIndex++;
+						break;
+					}
+
 					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
 					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
 					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
@@ -521,6 +535,13 @@ namespace Dynamik
 					break;
 
 				case VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE:
+					if (!pTextures.isValidIndex(textureIndex))
+					{
+						DMK_ERROR("A texture entry is not supplied!");
+						textureIndex++;
+						break;
+					}
+
 					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
 					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
 					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
@@ -529,6 +550,13 @@ namespace Dynamik
 					break;
 
 				case VK_DESCRIPTOR_TYPE_STORAGE_IMAGE:
+					if (!pTextures.isValidIndex(textureIndex))
+					{
+						DMK_ERROR("A texture entry is not supplied!");
+						textureIndex++;
+						break;
+					}
+
 					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
 					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
 					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
@@ -545,6 +573,13 @@ namespace Dynamik
 					break;
 
 				case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER:
+					if (!pBuffers.isValidIndex(bufferIndex))
+					{
+						DMK_ERROR("A uniform entry is not supplied!");
+						bufferIndex++;
+						break;
+					}
+
 					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
 					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
 					bufferInfos[bufferIndex].offset = 0;	/* TODO */
@@ -553,6 +588,13 @@ namespace Dynamik
 					break;
 
 				case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER:
+					if (!pBuffers.isValidIndex(bufferIndex))
+					{
+						DMK_ERROR("A uniform entry is not supplied!");
+						bufferIndex++;
+						break;
+					}
+
 					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
 					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
 					bufferInfos[bufferIndex].offset = 0;	/* TODO */
@@ -561,6 +603,13 @@ namespace Dynamik
 					break;
 
 				case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC:
+					if (!pBuffers.isValidIndex(bufferIndex))
+					{
+						DMK_ERROR("A uniform entry is not supplied!");
+						bufferIndex++;
+						break;
+					}
+
 					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
 					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
 					bufferInfos[bufferIndex].offset = 0;	/* TODO */
@@ -569,6 +618,13 @@ namespace Dynamik
 					break;
 
 				case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC:
+					if (!pBuffers.isValidIndex(bufferIndex))
+					{
+						DMK_ERROR("A uniform entry is not supplied!");
+						bufferIndex++;
+						break;
+					}
+
 					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
 					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
 					bufferInfos[bufferIndex].offset = 0;	/* TODO */

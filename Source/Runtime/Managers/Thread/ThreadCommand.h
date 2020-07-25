@@ -25,7 +25,7 @@ namespace Dynamik
 	*/
 	class DMK_API DMKThreadCommand {
 	public:
-		DMKThreadCommand(DMKThreadCommandType ty) : type(ty) {}
+		DMKThreadCommand(DMKThreadCommandType ty = DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_UNDEFINED) : type(ty) {}
 		virtual ~DMKThreadCommand() {}
 
 		DMKThreadCommandType type = DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_SYSTEM;

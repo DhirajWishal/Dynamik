@@ -91,11 +91,15 @@ namespace Dynamik
 
 		/*
 		 Allocates a user defined Game World and initializes it.
+
+		 @param world: Initialization values.
+		 @tparam WORLD: The world type.
 		*/
 		template<class WORLD>
-		DMK_FORCEINLINE void createUserGameWorld()
+		DMK_FORCEINLINE void createUserGameWorld(const WORLD& world = DefaultWorld())
 		{
 			pCurrentGameWorld = StaticAllocator<WORLD>::allocate();
+			pCurrentGameWorld->initialize();
 		}
 
 		/* Game Mechanics */

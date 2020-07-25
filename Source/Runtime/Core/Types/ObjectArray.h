@@ -53,6 +53,12 @@ namespace Dynamik
 			{
 				object.second->~IObjectArrayBase();
 				StaticAllocator<IObjectArrayBase>::rawDeallocate(object.second, 0);
+
+#ifdef DMK_DEBUG
+				DMK_INFO("Deleting object array!");
+
+#endif // DMK_DEBUG
+
 			}
 		}
 

@@ -516,12 +516,12 @@ namespace Dynamik
 		REntity entity;
 
 		for (UI64 index = 0; index < pGameEntity->componentManager.getObjectArray<DMKStaticMeshComponent>()->size(); index++)
-			entity.meshObjects.pushBack(loadMeshComponent(pGameEntity->componentManager.getObject<DMKStaticMeshComponent>(index), pGameEntity));
+			entity.meshObjects.pushBack(loadMeshComponent(pGameEntity->componentManager.getObject<DMKStaticMeshComponent>(index)));
 
 		/* Initialize Static Model */
 		for (UI64 index = 0; index < pGameEntity->getComponentArray<DMKStaticModel>()->size(); index++)
 			for (UI64 mIndex = 0; mIndex < pGameEntity->getComponent<DMKStaticModel>(index)->getMeshCount(); mIndex++)
-				entity.meshObjects.pushBack(loadMeshComponent(Cast<DMKStaticMeshComponent*>(pGameEntity->getComponent<DMKStaticModel>(index)->staticMeshes.location(mIndex)), pGameEntity));
+				entity.meshObjects.pushBack(loadMeshComponent(Cast<DMKStaticMeshComponent*>(pGameEntity->getComponent<DMKStaticModel>(index)->staticMeshes.location(mIndex))));
 
 		/* Initialize Attachments */
 		{
@@ -911,6 +911,34 @@ namespace Dynamik
 		}
 
 		myDebugObjects.clear();
+
+		/* Terminate Static Components */
+		for (auto mesh : myStaticMeshes)
+		{
+			for (auto texture : mesh.pTextures)
+			{
+				texture->terminate(myCoreObject);
+				StaticAllocator<RTexture>::rawDeallocate(texture, 0);
+			}
+
+			for (auto pUniform : mesh.uniformBuffers)
+			{
+				pUniform.pUniformBuffer->terminate(myCoreObject);
+				StaticAllocator<RBuffer>::rawDeallocate(pUniform.pUniformBuffer, 0);
+			}
+
+			if (mesh.pPipeline)
+			{
+				mesh.pPipeline->terminate(myCoreObject);
+
+				for (auto block : mesh.pPipeline->constantBlocks)
+					StaticAllocator<BYTE>::rawDeallocate(block.data, block.byteSize);
+
+				StaticAllocator<RPipelineObject>::rawDeallocate(mesh.pPipeline, 0);
+			}
+		}
+
+		myStaticMeshes.clear();
 	}
 
 	RBoundingBox DMKRenderer::createBoundingBox(DMKBoundingBoxAttachment* pBoundingBox)
@@ -931,7 +959,7 @@ namespace Dynamik
 		return boundingBox;
 	}
 
-	RMeshObject DMKRenderer::loadMeshComponent(DMKStaticMeshComponent* pComponent, DMKGameEntity* pGameEntity)
+	RMeshObject DMKRenderer::loadMeshComponent(DMKStaticMeshComponent* pComponent)
 	{
 		RMeshObject meshComponent;
 		meshComponent.pMeshComponent = pComponent;
