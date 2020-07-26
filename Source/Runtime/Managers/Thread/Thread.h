@@ -8,6 +8,11 @@
 #include "Core/Macros/Global.h"
 #include "ThreadCommand.h"
 
+#include <thread>
+#include <queue>
+
+#define MAX_COMMANDS_PER_THREAD     10
+
 namespace Dynamik
 {
     /*
@@ -32,17 +37,19 @@ namespace Dynamik
     class DMK_API DMKThread {
     public:
         DMKThread() {}
-        DMKThread(const DMKThreadType& ty) : type(ty) {}
         virtual ~DMKThread() {}
 
-        virtual void initialize() {}
+        virtual void initializeThread() {}
+        virtual void terminateThread() {}
+
+        virtual void onInitialize() {}
         virtual void processCommand(DMKThreadCommand* pCommand) {}
-
         virtual void onLoop() {}
-
         virtual void onTermination() {}
-
-        DMKThreadType type = DMKThreadType::DMK_THREAD_TYPE_PARENT;
+        
+    protected:
+        std::thread* pThread = nullptr;
+        std::queue<DMKThreadCommand*> pThreadCommands;
     };
 }
 

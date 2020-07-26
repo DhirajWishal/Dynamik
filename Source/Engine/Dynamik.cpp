@@ -24,8 +24,11 @@
 
 #include "GameLibrary/Utilities/MeshFactory.h"
 
+#include "Services/SystemLocator.h"
 #include "Services/RuntimeSystems/AssetRegistry.h"
 #include "Services/RuntimeSystems/ToolsRegistry.h"
+
+#include "Renderer/Renderer.h"
 
 namespace Dynamik
 {
@@ -46,7 +49,8 @@ namespace Dynamik
 		myPlayerController.setEventPool(&myEventPool);
 
 		/* Initialize runtime systems */
-		_initializeRuntimeSystems();
+		DMKSystemLocator::createSystem<DMKRenderer>();
+		DMKSystemLocator::getSystem<DMKRenderer>()->initializeThread();
 
 		/* Initialize singletons */
 		DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
@@ -80,10 +84,10 @@ namespace Dynamik
 		pActiveWindow = _createWindow(1280, 720, "Dynamik Engine");
 
 		/* Issue thread commands */
-		_threadManager.issueWindowHandleCommandRT(pActiveWindow);
+		DMKSystemLocator::getSystem<DMKRenderer>()->setWindowHandleCMD(pActiveWindow);
 
-		_threadManager.issueInitializeCommandRT();
-		_threadManager.issueCreateContextCommandRT(DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT, pActiveWindow->createViewport(512, 512, 0, 0));
+		DMKSystemLocator::getSystem<DMKRenderer>()->initializeCMD();
+		DMKSystemLocator::getSystem<DMKRenderer>()->createContextCMD(pActiveWindow->createViewport(512, 512, 0, 0), DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT);
 
 		/* Call the on init function of the game package */
 		pGamePackage->onInit();
@@ -99,10 +103,10 @@ namespace Dynamik
 		pGamePackage->onExecute();
 
 		/* Issue renderer commands */
-		_threadManager.issueInitializeCameraCommandRT(pCurrentLevel->playerObject->getCameraModule());
-		_threadManager.issueInitializeGameWorldCommandRT(pCurrentLevel->pCurrentGameWorld);
-		_threadManager.issueInitializeEntitiesCommandRT(pCurrentLevel->pEntities);
-		_threadManager.issueInitializeFinalsCommandRT();
+		DMKSystemLocator::getSystem<DMKRenderer>()->initializeCameraModuleCMD(pCurrentLevel->playerObject->getCameraModule());
+		DMKSystemLocator::getSystem<DMKRenderer>()->initializeGameWorldCMD(pCurrentLevel->pCurrentGameWorld);
+		DMKSystemLocator::getSystem<DMKRenderer>()->initializeEntitiesCMD(pCurrentLevel->pEntities);
+		DMKSystemLocator::getSystem<DMKRenderer>()->initializeFinalsCMD();
 
 		UI64 _itrIndex = 0;
 		DMKGameEntity* _entity = nullptr;
@@ -116,8 +120,6 @@ namespace Dynamik
 		while (!myEventPool.WindowCloseEvent)
 		{
 			pGamePackage->onBeginFrame();
-
-			_threadManager.clearCommands();
 
 			pActiveWindow->pollEvents();
 
@@ -139,7 +141,7 @@ namespace Dynamik
 				{
 					pCurrentLevel->playerObject->setAspectRatio(_extent.width / _extent.height);
 					pCurrentLevel->playerObject->setCameraViewPort(_extent);
-					_threadManager.issueFrameBufferResizeCommandRT(_extent);
+					DMKSystemLocator::getSystem<DMKRenderer>()->setFrameBufferResizeCMD(_extent);
 				}
 			}
 
@@ -149,7 +151,7 @@ namespace Dynamik
 			myPlayerController.executeAll();
 			pCurrentLevel->onUpdate(&myEventPool);
 
-			_threadManager.issueRawCommandRT(RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE);
+			DMKSystemLocator::getSystem<DMKRenderer>()->issueRawCommand(RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE);
 
 			pActiveWindow->clean();
 
@@ -162,7 +164,7 @@ namespace Dynamik
 	{
 		pGamePackage->onExit();
 
-		_threadManager.issueTerminateCommand();
+		DMKSystemLocator::getSystem<DMKRenderer>()->terminateThread();
 
 		DMKConfigurationService::writeWindowSize(Cast<F32>(pActiveWindow->windowWidth), Cast<F32>(pActiveWindow->windowHeight));
 		pActiveWindow->terminate();
@@ -173,7 +175,6 @@ namespace Dynamik
 
 	void DMKEngine::_initializeRuntimeSystems()
 	{
-		_threadManager.initializeBasicThreads();
 	}
 
 	void DMKEngine::_loadLevel()

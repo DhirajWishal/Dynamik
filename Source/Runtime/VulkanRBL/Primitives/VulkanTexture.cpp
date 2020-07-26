@@ -63,11 +63,17 @@ namespace Dynamik
 
 		void VulkanTexture::terminate(RCoreObject* pCoreObject)
 		{
-			pImage->terminate(pCoreObject);
-			StaticAllocator<VulkanImage>::rawDeallocate(pImage);
+			if (pImage)
+			{
+				pImage->terminate(pCoreObject);
+				StaticAllocator<VulkanImage>::rawDeallocate(pImage);
+			}
 
-			pSampler->terminate(pCoreObject);
-			StaticAllocator<VulkanImageSampler>::rawDeallocate(pSampler);
+			if (pSampler)
+			{
+				pSampler->terminate(pCoreObject);
+				StaticAllocator<VulkanImageSampler>::rawDeallocate(pSampler);
+			}
 		}
 
 		VulkanTexture::operator VulkanImage() const

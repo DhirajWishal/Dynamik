@@ -18,6 +18,7 @@
     <ClInclude Include="RuntimeSystems\ToolsRegistry.h">
       <Filter>RuntimeSystems</Filter>
     </ClInclude>
+    <ClInclude Include="SystemLocator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RuntimeSystems\AssetRegistry.cpp">
@@ -32,6 +33,7 @@
     <ClCompile Include="RuntimeSystems\ToolsRegistry.cpp">
       <Filter>RuntimeSystems</Filter>
     </ClCompile>
+    <ClCompile Include="SystemLocator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Services.lua" />

@@ -360,6 +360,18 @@ namespace Dynamik
 			return VkFormat::VK_FORMAT_UNDEFINED;
 		}
 
+		void VulkanUtilities::copyDataToImage(RCoreObject* pCoreObject, RImage* pImage, VPTR data, UI64 byteSize, UI64 dstOffset, UI64 srcOffset)
+		{
+			VulkanBuffer staggingBuffer;
+			staggingBuffer.initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, byteSize);
+			staggingBuffer.setData(pCoreObject, byteSize, srcOffset, data);
+
+			pImage->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_TRANSFER_DST);
+			pImage->copyBuffer(pCoreObject, &staggingBuffer);
+
+			staggingBuffer.terminate(pCoreObject);
+		}
+
 		VkShaderModule VulkanUtilities::createShaderModule(const RCoreObject* pCoreObject, const DMKShaderModule& shaderModule)
 		{
 			VkShaderModuleCreateInfo createInfo = {};

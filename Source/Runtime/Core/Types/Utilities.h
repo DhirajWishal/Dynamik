@@ -17,7 +17,7 @@ namespace Dynamik
 	 @tparam CAST_FROM: To cast from.
 	*/
 	template<class CAST_TO, class CAST_FROM>
-	DMK_FORCEINLINE CAST_TO Cast(const CAST_FROM& value)
+	DMK_FORCEINLINE constexpr CAST_TO Cast(const CAST_FROM& value)
 	{
 		return (CAST_TO)value;
 	}
@@ -30,7 +30,7 @@ namespace Dynamik
 	 @tparam BASE: Base class of the deriving class.
 	*/
 	template<class DERIVED, class BASE>
-	DMK_FORCEINLINE DERIVED InheritCast(BASE* pBase)
+	DMK_FORCEINLINE constexpr DERIVED InheritCast(BASE* pBase)
 	{
 		return *(DERIVED*)pBase;
 	}
@@ -43,7 +43,7 @@ namespace Dynamik
 	 @tparam BASE: Base class of the deriving class.
 	*/
 	template<class DERIVED, class BASE>
-	DMK_FORCEINLINE DERIVED* Inherit(BASE* pBase)
+	DMK_FORCEINLINE constexpr DERIVED* Inherit(BASE* pBase)
 	{
 		return dynamic_cast<DERIVED*>(pBase);
 	}
@@ -53,7 +53,7 @@ namespace Dynamik
 
 	 @param pointer: Pointer.
 	*/
-	DMK_FORCEINLINE UI64 GetPointerAsInteger(const VPTR pointer)
+	DMK_FORCEINLINE constexpr UI64 GetPointerAsInteger(const VPTR pointer)
 	{
 		return (UI64)pointer;
 	}

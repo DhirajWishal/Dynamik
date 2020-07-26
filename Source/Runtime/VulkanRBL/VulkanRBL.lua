@@ -10,6 +10,10 @@ project "VulkanRBL"
 	cppdialect "C++17"
 	staticruntime "On"
 
+	defines {
+		"DMK_INTERNAL"
+	}
+
 	targetdir "$(SolutionDir)Builds/Engine/Binaries/$(Configuration)-$(Platform)/$(ProjectName)"
 	objdir "$(SolutionDir)Builds/Engine/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
 
@@ -49,6 +53,7 @@ project "VulkanRBL"
 	}
 
 	links { 
+		"ImGui",
 		"glew32s",
 		"opengl32",
 		"glfw3dll",

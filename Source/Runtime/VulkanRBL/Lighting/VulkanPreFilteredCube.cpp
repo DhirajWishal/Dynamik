@@ -130,7 +130,7 @@ namespace Dynamik
 			imageCreateInfo.mipLevels = 1;
 			imageCreateInfo.layers = 1;
 
-			pAttachment = StaticAllocator<RFrameBufferAttachment>::rawAllocate();
+			pAttachment = StaticAllocator<VulkanColorAttachment>::rawAllocate();
 			pAttachment->pImageAttachment = StaticAllocator<VulkanImage>::rawAllocate();
 
 			pAttachment->pImageAttachment->initialize(pCoreObject, imageCreateInfo);
@@ -155,13 +155,13 @@ namespace Dynamik
 			_viewport.height = Cast<I32>(dimentions.height);
 			_viewport.windowHandle = nullptr;
 
-			RPipelineSpecification pipelineSepc = {};
-			pipelineSepc.shaders = shaders;
-			pipelineSepc.dynamicStates = { RDynamicState::DYNAMIC_STATE_VIEWPORT, RDynamicState::DYNAMIC_STATE_SCISSOR };
-			pipelineSepc.scissorInfos.resize(1);
-			pipelineSepc.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
-			pipelineSepc.multiSamplingInfo.sampleCount = DMK_SAMPLE_COUNT_1_BIT;
-			pipeline.initialize(pCoreObject, pipelineSepc, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &renderTarget, _viewport);
+			RPipelineSpecification pipelineSpec = {};
+			pipelineSpec.shaders = shaders;
+			pipelineSpec.dynamicStates = { RDynamicState::DYNAMIC_STATE_VIEWPORT, RDynamicState::DYNAMIC_STATE_SCISSOR };
+			pipelineSpec.scissorInfos.resize(1);
+			pipelineSpec.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
+			pipelineSpec.multiSamplingInfo.sampleCount = DMK_SAMPLE_COUNT_1_BIT;
+			pipeline.initialize(pCoreObject, pipelineSpec, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &renderTarget, _viewport);
 
 			pipeline.initializeResources(pCoreObject, ARRAY<RBuffer*>(), { pParent->pTexture });
 		}

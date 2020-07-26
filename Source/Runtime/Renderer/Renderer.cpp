@@ -26,25 +26,15 @@
 #include "VulkanRBL/Lighting/VulkanBRDFTable.h"
 #include "VulkanRBL/Lighting/VulkanPreFilteredCube.h"
 #include "VulkanRBL/Lighting/VulkanIrradianceCube.h"
+#include "VulkanRBL/Clients/VulkanImGuiClient.h"
+
+#include "Managers/Thread/ThreadFunction.inl"
 
 namespace Dynamik
 {
 	using namespace Backend;
 
 	/* ---------- CLASS DEFINITION ---------- */
-	void DMKRenderer::initialize()
-	{
-		myCompatibility.isVulkanAvailable = glfwVulkanSupported();
-
-		myAPI = DMKRenderingAPI::DMK_RENDERING_API_VULKAN;
-
-#ifdef DMK_DEBUG
-		DMK_INFO("Entered the renderer thread!");
-
-#endif // DMK_DEBUG
-
-	}
-
 	void DMKRenderer::processCommand(DMKThreadCommand* pCommand)
 	{
 		myCommand = Inherit<DMKRendererCommand>(pCommand);
@@ -129,6 +119,9 @@ namespace Dynamik
 		case Dynamik::RendererInstruction::RENDERER_RESIZE_FRAME_BUFFER:
 			resizeFrameBuffer(Inherit<RendererResizeFrameBuffer>(myCommand)->windowExtent);
 			break;
+		case Dynamik::RendererInstruction::RENDERER_CREATE_IM_GUI_CLIENT:
+			initializeImGuiClient(Inherit<RendererCreateImGuiClient>(myCommand)->pReturnAddressSpace);
+			break;
 		default:
 			break;
 		}
@@ -146,6 +139,145 @@ namespace Dynamik
 	void DMKRenderer::onTermination()
 	{
 		DMK_INFO("Terminated the renderer thread!");
+	}
+
+	void DMKRenderer::terminateThread()
+	{
+		DMKThreadCommand _command(DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_TERMINATE);
+
+		submitCommand(StaticAllocator<DMKThreadCommand>::allocateInit(_command));
+	}
+
+	void DMKRenderer::initializeInternals()
+	{
+		myCompatibility.isVulkanAvailable = glfwVulkanSupported();
+
+		myAPI = DMKRenderingAPI::DMK_RENDERING_API_VULKAN;
+
+#ifdef DMK_DEBUG
+		DMK_INFO("Entered the renderer thread!");
+
+#endif // DMK_DEBUG
+	}
+
+	void DMKRenderer::terminateInternals()
+	{
+	}
+
+	void DMKRenderer::submitCommand(DMKRendererCommand* pCommand)
+	{
+		while (pThreadCommands.size() >= MAX_COMMANDS_PER_THREAD);
+
+		pThreadCommands.push(Cast<DMKThreadCommand*>(pCommand));
+	}
+
+	void DMKRenderer::issueRawCommand(RendererInstruction instruction)
+	{
+		DMKRendererCommand _command(instruction);
+
+		submitCommand(StaticAllocator<DMKRendererCommand>::allocateInit(_command));
+	}
+
+	void DMKRenderer::initializeCMD()
+	{
+		issueRawCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE);
+	}
+
+	void DMKRenderer::initializeFinalsCMD()
+	{
+		issueRawCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_FINALS);
+	}
+
+	void DMKRenderer::setSamplesCMD(DMKSampleCount samples)
+	{
+		RendererSetSamplesCommand _command;
+		_command.samples = samples;
+
+		submitCommand(StaticAllocator<RendererSetSamplesCommand>::allocateInit(_command));
+	}
+
+	void DMKRenderer::setWindowHandleCMD(DMKWindowHandle* pWindowHandle)
+	{
+		RendererSetWindowHandleCommand _command;
+		_command.windowHandle = pWindowHandle;
+
+		submitCommand(StaticAllocator<RendererSetWindowHandleCommand>::allocateInit(_command));
+	}
+
+	void DMKRenderer::createContextCMD(DMKViewport viewPort, DMKRenderContextType contextType)
+	{
+		RendererCreateContextCommand _command;
+		_command.viewport = viewPort;
+		_command.contextType = contextType;
+
+		submitCommand(StaticAllocator<RendererCreateContextCommand>::allocateInit(_command));
+	}
+
+	void DMKRenderer::initializeCameraModuleCMD(DMKCameraModule* pCameraModule)
+	{
+		RendererInitializeCamera _command;
+		_command.pCameraModule = pCameraModule;
+
+		submitCommand(StaticAllocator<RendererInitializeCamera>::allocateInit(_command));
+	}
+
+	void DMKRenderer::initializeGameWorldCMD(DMKGameWorld* pGameWorld)
+	{
+		RendererInitializeGameWorld _command;
+		_command.pGameWorld = pGameWorld;
+
+		submitCommand(StaticAllocator<RendererInitializeGameWorld>::allocateInit(_command));
+	}
+
+	void DMKRenderer::initializeEnvironmentMapCMD(DMKEnvironmentMap* pEnvironmentMap)
+	{
+		RendererInitializeEnvironmentMap _command;
+		_command.pEnvironmentMap = pEnvironmentMap;
+
+		submitCommand(StaticAllocator<RendererInitializeEnvironmentMap>::allocateInit(_command));
+	}
+
+	void DMKRenderer::initializeEntitiesCMD(ARRAY<DMKGameEntity*> pEntities)
+	{
+		RendererInitializeEntities _command;
+		_command.pEntities = pEntities;
+
+		submitCommand(StaticAllocator<RendererInitializeEntities>::allocateInit(_command));
+	}
+
+	void DMKRenderer::initializeEntityCMD(DMKGameEntity* pEntity)
+	{
+		RendererAddEntity _command;
+		_command.entity = pEntity;
+
+		submitCommand(StaticAllocator<RendererAddEntity>::allocateInit(_command));
+	}
+
+	void DMKRenderer::setFrameBufferResizeCMD(DMKExtent2D newExtent)
+	{
+		RendererResizeFrameBuffer _command;
+		_command.windowExtent = newExtent;
+
+		submitCommand(StaticAllocator<RendererResizeFrameBuffer>::allocateInit(_command));
+	}
+
+	void DMKRenderer::createImGuiClientCMD(VPTR* returnAddressSpace)
+	{
+		RendererCreateImGuiClient _command;
+		_command.pReturnAddressSpace = returnAddressSpace;
+
+		submitCommand(StaticAllocator<RendererCreateImGuiClient>::allocateInit(_command));
+	}
+
+	void DMKRenderer::initializeThread()
+	{
+		pThread = StaticAllocator<std::thread>::allocate();
+		pThread->swap(std::thread(basicThreadFunction<DMKRenderer>, &pThreadCommands));
+	}
+
+	void DMKRenderer::onInitialize()
+	{
+		initializeInternals();
 	}
 
 	/* ---------- INTERNAL METHODS ---------- */
@@ -412,6 +544,26 @@ namespace Dynamik
 		return nullptr;
 	}
 
+	RImGuiClient* DMKRenderer::allocateImGuiClient()
+	{
+		switch (myAPI)
+		{
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_NONE:
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
+			return StaticAllocator<VulkanImGuiClient>::rawAllocate();
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
+			break;
+		default:
+			break;
+		}
+
+		return nullptr;
+	}
+
 	void DMKRenderer::initializeCamera(DMKCameraModule* pCameraModule)
 	{
 		if (!pCameraModule)
@@ -489,14 +641,14 @@ namespace Dynamik
 			/* Initialize the BRDF table */
 			myCurrentEnvironment.pBRDFTable = createBRDFTable();
 			myCurrentEnvironment.pBRDFTable->initialize(myCoreObject, dim);
+			
+			/* Initialize the irradiance cube */
+			myCurrentEnvironment.pIrradianceCube = createIrradianceCube();
+			myCurrentEnvironment.pIrradianceCube->initialize(myCoreObject, &myCurrentEnvironment, dim);
 
 			/* Initialize the pre filtered cube */
 			myCurrentEnvironment.pPreFilteredCube = createPreFilteredCube();
 			myCurrentEnvironment.pPreFilteredCube->initialize(myCoreObject, &myCurrentEnvironment, dim);
-
-			/* Initialize the irradiance cube */
-			myCurrentEnvironment.pIrradianceCube = createIrradianceCube();
-			myCurrentEnvironment.pIrradianceCube->initialize(myCoreObject, &myCurrentEnvironment, dim);
 		}
 
 		/* Initialize Vertex and Index Buffers */
@@ -741,7 +893,7 @@ namespace Dynamik
 
 	void DMKRenderer::updateEnvironment()
 	{
-		for(auto pUniform : myCurrentEnvironment.uniformBuffers)
+		for (auto pUniform : myCurrentEnvironment.uniformBuffers)
 			pUniform.pUniformBuffer->setData(myCoreObject, pUniform.pParent->byteSize(), 0, pUniform.pParent->data());
 	}
 
@@ -776,6 +928,14 @@ namespace Dynamik
 	void DMKRenderer::endFrameInstruction()
 	{
 		myCoreObject->submitCommand(myCommandBuffers[currentImageIndex], mySwapChain);
+	}
+
+	void DMKRenderer::initializeImGuiClient(VPTR* pAddressStore)
+	{
+		RImGuiClient* pClient = allocateImGuiClient();
+		pClient->setCoreObject(myCoreObject);
+
+		pClient->initialize();
 	}
 
 	void DMKRenderer::terminateContext()
@@ -992,13 +1152,16 @@ namespace Dynamik
 				switch (request)
 				{
 				case Dynamik::DMKResourceRequest::DMK_RESOURCE_REQUEST_BRDF_TABLE:
-					textures.pushBack(myCurrentEnvironment.pBRDFTable->pTexture);
+					if (myCurrentEnvironment.pBRDFTable)
+						textures.pushBack(myCurrentEnvironment.pBRDFTable->pTexture);
 					break;
 				case Dynamik::DMKResourceRequest::DMK_RESOURCE_REQUEST_IRRADIANCE_CUBE:
-					textures.pushBack(myCurrentEnvironment.pIrradianceCube->pTexture);
+					if (myCurrentEnvironment.pIrradianceCube)
+						textures.pushBack(myCurrentEnvironment.pIrradianceCube->pTexture);
 					break;
 				case Dynamik::DMKResourceRequest::DMK_RESOURCE_REQUEST_PRE_FILTERED_CUBE:
-					textures.pushBack(myCurrentEnvironment.pPreFilteredCube->pTexture);
+					if (myCurrentEnvironment.pPreFilteredCube)
+						textures.pushBack(myCurrentEnvironment.pPreFilteredCube->pTexture);
 					break;
 				default:
 					DMK_ERROR("Invalid resource request!");

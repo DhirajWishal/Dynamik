@@ -56,8 +56,10 @@ namespace Dynamik
             static DMKShaderLocation getShaderLocation(VkShaderStageFlagBits flag);
             static ARRAY<VkDescriptorSetLayoutBinding> getDescriptorSetLayoutBindings(ARRAY<DMKShaderModule> modules);
         
-            static ARRAY<VkVertexInputAttributeDescription> VulkanUtilities::getVertexAttributeDescriptions(DMKVertexLayout descriptor);
-            static VkFormat VulkanUtilities::vertexAttributeTypeToVkFormat(DMKDataType type);
+            static ARRAY<VkVertexInputAttributeDescription> getVertexAttributeDescriptions(DMKVertexLayout descriptor);
+            static VkFormat vertexAttributeTypeToVkFormat(DMKDataType type);
+
+            static void copyDataToImage(RCoreObject* pCoreObject, RImage* pImage, VPTR data, UI64 byteSize, UI64 dstOffset = 0, UI64 srcOffset = 0);
 
         public:     /* Pipeline */
             static VkShaderModule createShaderModule(const RCoreObject* pCoreObject, const DMKShaderModule& shaderModule);

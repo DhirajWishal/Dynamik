@@ -82,6 +82,15 @@ namespace Dynamik
 		}
 
 		/*
+		 Check if an object is already registered.
+		*/
+		template<class OBJECT>
+		DMK_FORCEINLINE B1 isRegistered()
+		{
+			return registeredComponentTypes.find(typeid(OBJECT).name()).size();
+		}
+
+		/*
 		 Return a given object array.
 		 Returns nullptr if the array was not registered.
 		*/

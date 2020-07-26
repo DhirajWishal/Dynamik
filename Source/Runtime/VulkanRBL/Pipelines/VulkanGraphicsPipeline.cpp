@@ -81,7 +81,7 @@ namespace Dynamik
 			pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 			pipelineLayoutCreateInfo.flags = VK_NULL_HANDLE;
 			pipelineLayoutCreateInfo.pNext = VK_NULL_HANDLE;
-			pipelineLayoutCreateInfo.pushConstantRangeCount = Cast<UI32>(pushConstants.size());	
+			pipelineLayoutCreateInfo.pushConstantRangeCount = Cast<UI32>(pushConstants.size());
 			pipelineLayoutCreateInfo.pPushConstantRanges = pushConstants.data();
 			pipelineLayoutCreateInfo.setLayoutCount = 0;
 			pipelineLayoutCreateInfo.pSetLayouts = nullptr;
@@ -269,7 +269,10 @@ namespace Dynamik
 			pipelineInfo.basePipelineIndex = 0;
 			pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;	/* TODO */
 			pipelineInfo.layout = layout;
-			pipelineInfo.renderPass = InheritCast<VulkanRenderPass>(pRenderTarget->pRenderPass).renderPass;
+			pipelineInfo.renderPass = VK_NULL_HANDLE;
+
+			if (pRenderTarget)
+				pipelineInfo.renderPass = InheritCast<VulkanRenderPass>(pRenderTarget->pRenderPass).renderPass;
 
 			DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(InheritCast<VulkanCoreObject>(pCoreObject).device, VK_NULL_HANDLE /* TODO */, 1, &pipelineInfo, VK_NULL_HANDLE, &pipeline), "Failed to create graphics pipeline!");
 
@@ -451,7 +454,10 @@ namespace Dynamik
 			pipelineInfo.basePipelineIndex = -1;
 			pipelineInfo.basePipelineHandle = pipeline;
 			pipelineInfo.layout = layout;
-			pipelineInfo.renderPass = InheritCast<VulkanRenderPass>(pRenderTarget->pRenderPass).renderPass;
+			pipelineInfo.renderPass = VK_NULL_HANDLE;
+
+			if (pRenderTarget)
+				pipelineInfo.renderPass = InheritCast<VulkanRenderPass>(pRenderTarget->pRenderPass).renderPass;
 
 			VkPipeline _newPipeline = VK_NULL_HANDLE;
 			DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(InheritCast<VulkanCoreObject>(pCoreObject).device, VK_NULL_HANDLE /* TODO */, 1, &pipelineInfo, VK_NULL_HANDLE, &_newPipeline), "Failed to create graphics pipeline!");
@@ -643,7 +649,7 @@ namespace Dynamik
 				case VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_NV:
 					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_NV)");
 					break;
-					
+
 				default:
 					DMK_ERROR_BOX("Invalid Vulkan Descriptor Type!");
 					break;

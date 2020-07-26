@@ -19,10 +19,16 @@ namespace Dynamik
 			VulkanImGuiClient() {}
 			~VulkanImGuiClient() {}
 
-			virtual void initialize(RCoreObject* pCoreObject) override final;
-			virtual void update(RCoreObject* pCoreObject) override final;
-			virtual void drawFrame(RCoreObject* pCoreObject) override final;
-			virtual void terminate(RCoreObject* pCoreObject) override final;
+			virtual void initialize() override final;
+			virtual void update() override final;
+			virtual void drawFrame() override final;
+			virtual void terminate() override final;
+
+		private:
+			void _initializeFontTexture();
+			void _initializePipeline();
+
+			RColorBlendState createColorBlendState();
 		};
 	}
 }

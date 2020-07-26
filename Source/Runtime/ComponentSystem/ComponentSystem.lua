@@ -10,6 +10,10 @@ project "ComponentSystem"
 	cppdialect "C++17"
 	staticruntime "On"
 
+	defines {
+		"DMK_INTERNAL"
+	}
+
 	targetdir "$(SolutionDir)Builds/Engine/Binaries/$(Configuration)-$(Platform)/$(ProjectName)"
 	objdir "$(SolutionDir)Builds/Engine/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
 

@@ -65,6 +65,9 @@ namespace Dynamik
 		instance.assetMap[TEXT("SHADER_BOUNDING_BOX_VERT_SPV")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\BoundingBox\\vert.spv");
 		instance.assetMap[TEXT("SHADER_BOUNDING_BOX_FRAG_SPV")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\BoundingBox\\frag.spv");
 
+		instance.assetMap[TEXT("SHADER_IM_GUI_UI_VERT")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\ImGui\\UI.vert");
+		instance.assetMap[TEXT("SHADER_IM_GUI_UI_FRAG")] = instance.defaultAssetBasePath + TEXT("\\Shaders\\ImGui\\UI.frag");
+
 		/* Initialize textures */
 		instance.assetMap[TEXT("TEXTURE_SKYBOX_BACK_JPG")] = instance.defaultAssetBasePath + TEXT("\\Textures\\SkyBox\\back.jpg");
 		instance.assetMap[TEXT("TEXTURE_SKYBOX_BOTTOM_JPG")] = instance.defaultAssetBasePath + TEXT("\\Textures\\SkyBox\\bottom.jpg");

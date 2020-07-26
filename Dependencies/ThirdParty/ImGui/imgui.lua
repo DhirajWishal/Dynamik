@@ -1,5 +1,8 @@
+-- Copyright 2020 Dhiraj Wishal
+-- SPDX-License-Identifier: Apache-2.0
+
 ---------- Dynamik Engine Support Library: Dear ImGui ----------
--- This library is forked and cloned from https://github.com/ocornut/imgui --
+-- This library is cloned from https://github.com/ocornut/imgui --
 
 project "ImGui"
 	kind "StaticLib"

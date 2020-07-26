@@ -8,6 +8,10 @@ project "DynamikStudio"
 	cppdialect "C++17"
 	language "C++"
 
+	defines {
+		"DMK_INTERNAL"
+	}
+
 	targetdir "$(SolutionDir)Builds/Studio/Binaries/$(Configuration)-$(Platform)/$(ProjectName)"
 	objdir "$(SolutionDir)Builds/Studio/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
 

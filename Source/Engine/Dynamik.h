@@ -15,7 +15,6 @@
 #include "Core/Globals/RenderSettings.h"
 
 #include "Managers/Window/WindowManager.h"
-#include "Managers/Thread/ThreadManager.h"
 
 #include "Core/Utilities/Clock.h"
 
@@ -73,7 +72,6 @@ namespace Dynamik
 
 		DMKWindowHandle* pActiveWindow = nullptr;
 
-		DMKThreadManager _threadManager;
 		DMKClock _clock;
 
 		UI32 _levelIndex = 0;

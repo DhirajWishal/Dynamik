@@ -5,6 +5,7 @@
 #ifndef _DYNAMIK_RENDERER_H
 #define _DYNAMIK_RENDERER_H
 
+#include "Core/Objects/System.h"
 #include "RendererCommand.h"
 #include "Managers/Thread/Thread.h"
 #include "Managers/Thread/ThreadCommand.h"
@@ -21,133 +22,173 @@
 
 namespace Dynamik
 {
-    /*
-     Dynamik Renderer Compatibility structure
-    */
-    struct DMK_API DMKRendererCompatibility {
-        B1 isVulkanAvailable = false;
-    };
+	/*
+	 Dynamik Renderer Compatibility structure
+	*/
+	struct DMK_API DMKRendererCompatibility {
+		B1 isVulkanAvailable = false;
+	};
 
-    /*
-     Renderer thread for the Dynamik Engine
-     This is the base rendering API.
-     This unit is executed on a single thread which manages all of its rendering commands sent via the thread
-     commands.
-    */
-    class DMK_API DMKRenderer : public DMKThread {
-    public:
-        DMKRenderer() : DMKThread(DMKThreadType::DMK_THREAD_TYPE_RENDERER) {}
-        ~DMKRenderer() {}
+	/*
+	 Renderer thread for the Dynamik Engine
+	 This is the base rendering API.
+	 This unit is executed on a single thread which manages all of its rendering commands sent via the thread
+	 commands.
+	*/
+	class DMK_API DMKRenderer : public DMKSystem, public DMKThread {
+	public:
+		DMKRenderer() {}
+		~DMKRenderer() {}
 
-        /*
-         Initialize the core components.
-        */
-        void initialize() override;
+		/*
+		 Initialize the thread.
+		*/
+		virtual void initializeThread() override final;
 
-        /*
-         Process commands and call individual functions of the backend.
-        */
-        void processCommand(DMKThreadCommand* pCommand) override;
+		/*
+		 On Initialize call in the thread function.
+		*/
+		virtual void onInitialize() override final;
 
-        /*
-         Execute the three steps of draw call.
-        */
-        void onLoop() override;
+		/*
+		 Process commands and call individual functions of the backend.
+		*/
+		virtual void processCommand(DMKThreadCommand* pCommand) override final;
 
-        /*
-         Terminate the backend.
-        */
-        void onTermination() override;
+		/*
+		 Execute the three steps of draw call.
+		*/
+		virtual void onLoop() override final;
 
-    private:    /* Core */
-        void setSamples(const DMKSampleCount& samples);
-        void setWindowHandle(const DMKWindowHandle* windowHandle);
+		/*
+		 Terminate the backend.
+		*/
+		virtual void onTermination() override final;
 
-        RCoreObject* createCore(B1 bEnableValidation);
+		/*
+		 Terminate the thread.
+		*/
+		virtual void terminateThread() override final;
 
-    private:    /* Context */
-        RSwapChain* createSwapChain(DMKViewport viewport, RSwapChainPresentMode presentMode);
-        RRenderPass* createRenderPass(ARRAY<RSubpassAttachment> subPasses);
-        RFrameBuffer* createFrameBuffer();
+		/*
+		 Initialize the internal components.
+		*/
+		virtual void initializeInternals() override final;
 
-        void createContext(DMKRenderContextType type, DMKViewport viewport);
+		/*
+		 Terminate internal components.
+		*/
+		virtual void terminateInternals() override final;
 
-    private:    /* Resource */
-        RBuffer* createBuffer(const RBufferType& type, UI64 size, RResourceMemoryType memoryType = (RResourceMemoryType)
-            (RESOURCE_MEMORY_TYPE_HOST_VISIBLE | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
-        RBuffer* createVertexBuffer(UI64 size);
-        RBuffer* createIndexBuffer(UI64 size);
-        void copyBuffer(RBuffer* pSrcBuffer, RBuffer* pDstBuffer, UI64 size);
-        void copyDataToBuffer(RBuffer* pDstBuffer, VPTR data, UI64 size, UI64 offset);
+	public:		/* Command Interface */
+		void submitCommand(DMKRendererCommand* pCommand);
 
-        RTexture* createTexture(const DMKTexture* pTexture);
+		void issueRawCommand(RendererInstruction instruction);
+		void initializeCMD();
+		void initializeFinalsCMD();
+		void setSamplesCMD(DMKSampleCount samples);
+		void setWindowHandleCMD(DMKWindowHandle* pWindowHandle);
+		void createContextCMD(DMKViewport viewPort, DMKRenderContextType contextType);
+		void initializeCameraModuleCMD(DMKCameraModule* pCameraModule);
+		void initializeGameWorldCMD(DMKGameWorld* pGameWorld);
+		void initializeEnvironmentMapCMD(DMKEnvironmentMap* pEnvironmentMap);
+		void initializeEntitiesCMD(ARRAY<DMKGameEntity*> pEntities);
+		void initializeEntityCMD(DMKGameEntity* pEntity);
+		void setFrameBufferResizeCMD(DMKExtent2D newExtent);
+		void createImGuiClientCMD(VPTR* returnAddressSpace);
 
-        RBRDFTable* createBRDFTable();
-        RIrradianceCube* createIrradianceCube();
-        RPreFilteredCube* createPreFilteredCube();
+	private:    /* Core */
+		void setSamples(const DMKSampleCount& samples);
+		void setWindowHandle(const DMKWindowHandle* windowHandle);
 
-        void initializeCamera(DMKCameraModule* pCameraModule);
-        void initializeEnvironmentMap(DMKEnvironmentMap* pEnvironmentMap);
-        void createEntityResources(DMKGameEntity* pGameEntity);
-        void initializeGameWorld(DMKGameWorld* pGameWorld);
+		RCoreObject* createCore(B1 bEnableValidation);
 
-    private:    /* Finals */
-        void updateResources();
-        void initializeCommandBuffers();
-        void initializeFinals();
+	private:    /* Context */
+		RSwapChain* createSwapChain(DMKViewport viewport, RSwapChainPresentMode presentMode);
+		RRenderPass* createRenderPass(ARRAY<RSubpassAttachment> subPasses);
+		RFrameBuffer* createFrameBuffer();
 
-    private:    /* Instructions */
-        void resizeFrameBuffer(DMKExtent2D windowExtent);
-        void beginFrameInstruction();
-        void updateInstruction();
-        void updateCamera();
-        void updateEnvironment();
-        void updateEntities();
-        void updateBoundingBoxes();
-        void updateDebugObjects();
-        void endFrameInstruction();
+		void createContext(DMKRenderContextType type, DMKViewport viewport);
 
-    private:    /* Internal Methods */
-        void terminateContext();
-        void terminateComponents();
-        void terminateEntities();
+	private:    /* Resource */
+		RBuffer* createBuffer(const RBufferType& type, UI64 size, RResourceMemoryType memoryType = (RResourceMemoryType)
+			(RESOURCE_MEMORY_TYPE_HOST_VISIBLE | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
+		RBuffer* createVertexBuffer(UI64 size);
+		RBuffer* createIndexBuffer(UI64 size);
+		void copyBuffer(RBuffer* pSrcBuffer, RBuffer* pDstBuffer, UI64 size);
+		void copyDataToBuffer(RBuffer* pDstBuffer, VPTR data, UI64 size, UI64 offset);
 
-    private:    /* Utility Methods */
-        RBoundingBox createBoundingBox(DMKBoundingBoxAttachment* pBoundingBox);
-        RMeshObject loadMeshComponent(DMKStaticMeshComponent* pComponent);
+		RTexture* createTexture(const DMKTexture* pTexture);
 
-    private:    /* Internal */
-        DMKRendererCompatibility myCompatibility;
+		RBRDFTable* createBRDFTable();
+		RIrradianceCube* createIrradianceCube();
+		RPreFilteredCube* createPreFilteredCube();
 
-        DMKRendererCommand* myCommand = nullptr;
+		RImGuiClient* allocateImGuiClient();
 
-        DMKRenderingAPI myAPI;
-        DMKSampleCount mySampleCount;
-        DMKWindowHandle* myWindowHandle = nullptr;
+		void initializeCamera(DMKCameraModule* pCameraModule);
+		void initializeEnvironmentMap(DMKEnvironmentMap* pEnvironmentMap);
+		void createEntityResources(DMKGameEntity* pGameEntity);
+		void initializeGameWorld(DMKGameWorld* pGameWorld);
 
-        RCoreObject* myCoreObject = nullptr;
-        RDrawCallManager myDrawCallManager;
+	private:    /* Finals */
+		void updateResources();
+		void initializeCommandBuffers();
+		void initializeFinals();
 
-        RSwapChain* mySwapChain = nullptr;
-        RRenderTarget myRenderTarget = {};
-        DMKRenderContextType myCurrentContextType = DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT;
+	private:    /* Instructions */
+		void resizeFrameBuffer(DMKExtent2D windowExtent);
+		void beginFrameInstruction();
+		void updateInstruction();
+		void updateCamera();
+		void updateEnvironment();
+		void updateEntities();
+		void updateBoundingBoxes();
+		void updateDebugObjects();
+		void endFrameInstruction();
+		void initializeImGuiClient(VPTR* pAddressStore);
 
-        RCommandBufferManager* myCommandBufferManager = nullptr;
-        ARRAY<RCommandBuffer*> myCommandBuffers;
-        B1 isReadyToRun = false;
+	private:    /* Internal Methods */
+		void terminateContext();
+		void terminateComponents();
+		void terminateEntities();
 
-        RCameraComponent* myCameraComponent = nullptr;
-        REnvironmentMap myCurrentEnvironment;
+	private:    /* Utility Methods */
+		RBoundingBox createBoundingBox(DMKBoundingBoxAttachment* pBoundingBox);
+		RMeshObject loadMeshComponent(DMKStaticMeshComponent* pComponent);
 
-        ARRAY<REntity> myEntities;
-        ARRAY<RBoundingBox> myBoundingBoxes;
-        ARRAY<RDebugMeshComponent> myDebugObjects;
+	private:    /* Internal */
+		DMKRendererCompatibility myCompatibility;
 
-        UI32 currentImageIndex = 0;
+		DMKRendererCommand* myCommand = nullptr;
 
-    private:    /* Factories */
-        DMKBufferFactory myBufferFactory;
-    };
+		DMKRenderingAPI myAPI;
+		DMKSampleCount mySampleCount;
+		DMKWindowHandle* myWindowHandle = nullptr;
+
+		RCoreObject* myCoreObject = nullptr;
+		RDrawCallManager myDrawCallManager;
+
+		RSwapChain* mySwapChain = nullptr;
+		RRenderTarget myRenderTarget = {};
+		DMKRenderContextType myCurrentContextType = DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT;
+
+		RCommandBufferManager* myCommandBufferManager = nullptr;
+		ARRAY<RCommandBuffer*> myCommandBuffers;
+		B1 isReadyToRun = false;
+
+		RCameraComponent* myCameraComponent = nullptr;
+		REnvironmentMap myCurrentEnvironment;
+
+		ARRAY<REntity> myEntities;
+		ARRAY<RBoundingBox> myBoundingBoxes;
+		ARRAY<RDebugMeshComponent> myDebugObjects;
+
+		UI32 currentImageIndex = 0;
+
+	private:    /* Factories */
+		DMKBufferFactory myBufferFactory;
+	};
 }
 
 #endif // !_DYNAMIK_RENDERER_THREAD_H

@@ -12,6 +12,8 @@
 #include "Components/CoreTypeDefs.h"
 #include "GameLibrary/LevelComponent.h"
 
+#include "Clients/RImGuiClient.h"
+
 namespace Dynamik
 {
 	/* Renderer Instructions */
@@ -43,7 +45,9 @@ namespace Dynamik
 		RENDERER_INSTRUCTION_SET_SAMPLES,
 		RENDERER_INSTRUCTION_SET_WINDOW_HANDLE,
 
-		RENDERER_RESIZE_FRAME_BUFFER
+		RENDERER_RESIZE_FRAME_BUFFER,
+
+		RENDERER_CREATE_IM_GUI_CLIENT,
 	};
 
 	/*
@@ -138,6 +142,16 @@ namespace Dynamik
 		~RendererResizeFrameBuffer() {}
 
 		DMKExtent2D windowExtent;
+	};
+
+	/* Create Im Gui Client */
+	class DMK_API RendererCreateImGuiClient : public DMKRendererCommand {
+	public:
+		RendererCreateImGuiClient() : DMKRendererCommand(RendererInstruction::RENDERER_CREATE_IM_GUI_CLIENT) {}
+		~RendererCreateImGuiClient() {}
+
+		/* This pointer stores the return address of the Im Gui client */
+		VPTR* pReturnAddressSpace = nullptr;
 	};
 }
 

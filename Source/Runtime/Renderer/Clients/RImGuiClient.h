@@ -6,6 +6,8 @@
 #define _DYNAMIK_RENDERER_IM_GUI_CLIENT_H
 
 #include "../Components/RCoreObject.h"
+#include "../Components/RPipelineObject.h"
+#include "../Components/Primitives/RTexture.h"
 
 namespace Dynamik
 {
@@ -19,10 +21,28 @@ namespace Dynamik
 		RImGuiClient() = default;
 		virtual ~RImGuiClient() = default;
 
-		virtual void initialize(RCoreObject* pCoreObject) = 0;
-		virtual void update(RCoreObject* pCoreObject) = 0;
-		virtual void drawFrame(RCoreObject* pCoreObject) = 0;
-		virtual void terminate(RCoreObject* pCoreObject) = 0;
+		virtual void setCoreObject(RCoreObject* pCoreObject) { this->pCoreObject = pCoreObject; }
+
+		virtual void initialize() = 0;
+		virtual void update() = 0;
+		virtual void drawFrame() = 0;
+		virtual void terminate() = 0;
+
+	protected:
+		RCoreObject* pCoreObject = nullptr;
+		RPipelineObject* pPipelineObject = nullptr;
+		RTexture* pFontTexture = nullptr;
+
+		RBuffer* pVertexBuffer = nullptr;
+		UI64 vertexCount = 0;
+
+		RBuffer* pIndexBuffer = nullptr;
+		UI64 indexCount = 0;
+
+		struct DMK_API RConstantBlock {
+			Vector2F scale = { 0.0f, 0.0f };
+			Vector2F translate = { 0.0f, 0.0f };
+		};
 	};
 }
 

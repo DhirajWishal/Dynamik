@@ -144,7 +144,7 @@ namespace Dynamik
 	};
 
 	/* Color Component */
-	enum class DMK_API RColorComponent {
+	enum DMK_API RColorComponent {
 		COLOR_COMPONENT_R_BIT = BIT_SHIFT(0),
 		COLOR_COMPONENT_G_BIT = BIT_SHIFT(1),
 		COLOR_COMPONENT_B_BIT = BIT_SHIFT(2),
