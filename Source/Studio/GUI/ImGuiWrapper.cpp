@@ -4,6 +4,10 @@
 #include "dmkafx.h"
 #include "ImGuiWrapper.h"
 
+#include "Services/SystemLocator.h"
+#include "Renderer/Renderer.h"
+#include "Renderer/Clients/DMKImGuiBackend.h"
+
 #include <imgui.h>
 
 namespace Dynamik
@@ -19,6 +23,25 @@ namespace Dynamik
 	void DMKImGuiWrapper::initialize()
 	{
 		ImGui::CreateContext();
+
+		// Color scheme
+		ImGuiStyle& style = ImGui::GetStyle();
+		style.Colors[ImGuiCol_TitleBg] = ImVec4(1.0f, 0.0f, 0.0f, 0.6f);
+		style.Colors[ImGuiCol_TitleBgActive] = ImVec4(1.0f, 0.0f, 0.0f, 0.8f);
+		style.Colors[ImGuiCol_MenuBarBg] = ImVec4(1.0f, 0.0f, 0.0f, 0.4f);
+		style.Colors[ImGuiCol_Header] = ImVec4(1.0f, 0.0f, 0.0f, 0.4f);
+		style.Colors[ImGuiCol_CheckMark] = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
+
+		// Dimensions
+		ImGuiIO& io = ImGui::GetIO();
+		io.DisplaySize = ImVec2(windowExtent.width, windowExtent.height);
+		io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
+	}
+
+	void DMKImGuiWrapper::initializeBackend()
+	{
+		DMKImGuiBackend* myImGuiBackend = StaticAllocator<DMKImGuiBackend>::allocate();
+		DMKSystemLocator::getSystem<DMKRenderer>()->createImGuiClientCMD(Cast<VPTR*>(&myImGuiBackend));
 	}
 
 	void DMKImGuiWrapper::terminate()

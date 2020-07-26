@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "dmkafx.h"
-#include "VulkanImGuiClient.h"
+#include "VulkanImGuiBackend.h"
 
 #include "../Primitives/VulkanTexture.h"
 #include "../VulkanUtilities.h"
@@ -17,7 +17,7 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanImGuiClient::initialize()
+		void VulkanImGuiBackend::initialize()
 		{
 			/* Initialize Font Data */
 			_initializeFontTexture();
@@ -26,15 +26,15 @@ namespace Dynamik
 			_initializePipeline();
 		}
 
-		void VulkanImGuiClient::update()
+		void VulkanImGuiBackend::update()
 		{
 		}
 
-		void VulkanImGuiClient::drawFrame()
+		void VulkanImGuiBackend::drawFrame()
 		{
 		}
 
-		void VulkanImGuiClient::terminate()
+		void VulkanImGuiBackend::terminate()
 		{
 			pPipelineObject->terminate(pCoreObject);
 			StaticAllocator<VulkanGraphicsPipeline>::rawDeallocate(pPipelineObject);
@@ -43,7 +43,7 @@ namespace Dynamik
 			StaticAllocator<VulkanTexture>::rawDeallocate(pFontTexture);
 		}
 
-		void VulkanImGuiClient::_initializeFontTexture()
+		void VulkanImGuiBackend::_initializeFontTexture()
 		{
 			ImGuiIO& io = ImGui::GetIO();
 
@@ -77,7 +77,7 @@ namespace Dynamik
 			pFontTexture->pSampler->initialize(pCoreObject, RImageSamplerCreateInfo::createDefaultSampler());
 		}
 
-		void VulkanImGuiClient::_initializePipeline()
+		void VulkanImGuiBackend::_initializePipeline()
 		{
 			Tools::GLSLCompiler compiler;
 
@@ -97,7 +97,7 @@ namespace Dynamik
 			pPipelineObject->initializeResources(pCoreObject, ARRAY<RBuffer*>(), { pFontTexture });
 		}
 
-		RColorBlendState VulkanImGuiClient::createColorBlendState()
+		RColorBlendState VulkanImGuiBackend::createColorBlendState()
 		{
 			RColorBlendState blendState = {};
 			blendState.enable = true;

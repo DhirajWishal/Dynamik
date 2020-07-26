@@ -124,7 +124,7 @@ namespace Dynamik
 		RIrradianceCube* createIrradianceCube();
 		RPreFilteredCube* createPreFilteredCube();
 
-		RImGuiClient* allocateImGuiClient();
+		DMKImGuiBackend* allocateImGuiClient();
 
 		void initializeCamera(DMKCameraModule* pCameraModule);
 		void initializeEnvironmentMap(DMKEnvironmentMap* pEnvironmentMap);

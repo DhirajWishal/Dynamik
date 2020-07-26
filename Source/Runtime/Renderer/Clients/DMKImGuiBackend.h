@@ -16,10 +16,10 @@ namespace Dynamik
 	 This object is the main Im Gui backend for the Dynamik Engine.
 	 Each RBL will contain an object which allows Im Gui to render its components through the active RBL.
 	*/
-	class DMK_API RImGuiClient {
+	class DMK_API DMKImGuiBackend {
 	public:
-		RImGuiClient() = default;
-		virtual ~RImGuiClient() = default;
+		DMKImGuiBackend() = default;
+		virtual ~DMKImGuiBackend() = default;
 
 		virtual void setCoreObject(RCoreObject* pCoreObject) { this->pCoreObject = pCoreObject; }
 

@@ -5,6 +5,8 @@
 #ifndef _DYNAMIK_IM_GUI_WRAPPER_H
 #define _DYNAMIK_IM_GUI_WRAPPER_H
 
+#include "Core/Types/ComplexTypes.h"
+
 namespace Dynamik
 {
 	/*
@@ -16,7 +18,11 @@ namespace Dynamik
 		~DMKImGuiWrapper();
 
 		void initialize();
+		void initializeBackend();
 		void terminate();
+
+	private:
+		DMKExtent2D windowExtent = { 1280.0f, 720.0f };
 	};
 }
 

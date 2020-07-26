@@ -26,7 +26,7 @@
 #include "VulkanRBL/Lighting/VulkanBRDFTable.h"
 #include "VulkanRBL/Lighting/VulkanPreFilteredCube.h"
 #include "VulkanRBL/Lighting/VulkanIrradianceCube.h"
-#include "VulkanRBL/Clients/VulkanImGuiClient.h"
+#include "VulkanRBL/Clients/VulkanImGuiBackend.h"
 
 #include "Managers/Thread/ThreadFunction.inl"
 
@@ -544,14 +544,14 @@ namespace Dynamik
 		return nullptr;
 	}
 
-	RImGuiClient* DMKRenderer::allocateImGuiClient()
+	DMKImGuiBackend* DMKRenderer::allocateImGuiClient()
 	{
 		switch (myAPI)
 		{
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_NONE:
 			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
-			return StaticAllocator<VulkanImGuiClient>::rawAllocate();
+			return StaticAllocator<VulkanImGuiBackend>::rawAllocate();
 			break;
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
 			break;
@@ -932,7 +932,7 @@ namespace Dynamik
 
 	void DMKRenderer::initializeImGuiClient(VPTR* pAddressStore)
 	{
-		RImGuiClient* pClient = allocateImGuiClient();
+		DMKImGuiBackend* pClient = allocateImGuiClient();
 		pClient->setCoreObject(myCoreObject);
 
 		pClient->initialize();

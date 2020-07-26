@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_VULKAN_IM_GUI_CLIENT_H
-#define _DYNAMIK_VULKAN_IM_GUI_CLIENT_H
+#ifndef _DYNAMIK_VULKAN_IM_GUI_BACKEND_H
+#define _DYNAMIK_VULKAN_IM_GUI_BACKEND_H
 
-#include "Renderer/Clients/RImGuiClient.h"
+#include "Renderer/Clients/DMKImGuiBackend.h"
 
 namespace Dynamik
 {
@@ -14,10 +14,10 @@ namespace Dynamik
 		/*
 		 Vulkan Im Gui Client
 		*/
-		class DMK_API VulkanImGuiClient : public RImGuiClient {
+		class DMK_API VulkanImGuiBackend : public DMKImGuiBackend {
 		public:
-			VulkanImGuiClient() {}
-			~VulkanImGuiClient() {}
+			VulkanImGuiBackend() {}
+			~VulkanImGuiBackend() {}
 
 			virtual void initialize() override final;
 			virtual void update() override final;

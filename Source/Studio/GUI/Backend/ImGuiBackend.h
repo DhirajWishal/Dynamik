@@ -5,13 +5,15 @@
 #ifndef _DYNAMIK_IM_GUI_BACKEND_H
 #define _DYNAMIK_IM_GUI_BACKEND_H
 
+#include "Core/Macros/Global.h"
+
 namespace Dynamik
 {
 	/*
 	 Dynamik Im Gui Backend
 	 This object stores all the backend information and functions needed to render Im Gui.
 	*/
-	class DMKImGuiBackend {
+	class DMK_API DMKImGuiBackend {
 	public:
 		DMKImGuiBackend() {}
 		virtual ~DMKImGuiBackend() {}
