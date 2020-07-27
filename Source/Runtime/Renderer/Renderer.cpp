@@ -261,7 +261,7 @@ namespace Dynamik
 		submitCommand(StaticAllocator<RendererResizeFrameBuffer>::allocateInit(_command));
 	}
 
-	void DMKRenderer::createImGuiClientCMD(VPTR* returnAddressSpace)
+	void DMKRenderer::createImGuiClientCMD(DMKImGuiBackendHandle** returnAddressSpace)
 	{
 		RendererCreateImGuiClient _command;
 		_command.pReturnAddressSpace = returnAddressSpace;
@@ -544,7 +544,7 @@ namespace Dynamik
 		return nullptr;
 	}
 
-	DMKImGuiBackend* DMKRenderer::allocateImGuiClient()
+	RImGuiBackend* DMKRenderer::allocateImGuiClient()
 	{
 		switch (myAPI)
 		{
@@ -641,7 +641,7 @@ namespace Dynamik
 			/* Initialize the BRDF table */
 			myCurrentEnvironment.pBRDFTable = createBRDFTable();
 			myCurrentEnvironment.pBRDFTable->initialize(myCoreObject, dim);
-			
+
 			/* Initialize the irradiance cube */
 			myCurrentEnvironment.pIrradianceCube = createIrradianceCube();
 			myCurrentEnvironment.pIrradianceCube->initialize(myCoreObject, &myCurrentEnvironment, dim);
@@ -788,6 +788,9 @@ namespace Dynamik
 			myDrawCallManager.beginCommand();
 			myDrawCallManager.bindRenderTarget(&myRenderTarget, mySwapChain, itr);
 
+			if (myImGuiBackend)
+				myImGuiBackend->bindCommands(myCommandBuffers[itr]);
+
 			myDrawCallManager.bindDrawCalls(RDrawCallType::DRAW_CALL_TYPE_INDEX);
 
 			myDrawCallManager.unbindRenderTarget();
@@ -930,12 +933,15 @@ namespace Dynamik
 		myCoreObject->submitCommand(myCommandBuffers[currentImageIndex], mySwapChain);
 	}
 
-	void DMKRenderer::initializeImGuiClient(VPTR* pAddressStore)
+	void DMKRenderer::initializeImGuiClient(DMKImGuiBackendHandle** pAddressStore)
 	{
-		DMKImGuiBackend* pClient = allocateImGuiClient();
-		pClient->setCoreObject(myCoreObject);
+		myImGuiBackend = allocateImGuiClient();
+		myImGuiBackend->setCoreObject(myCoreObject);
+		myImGuiBackend->setRenderTarget(&myRenderTarget);
 
-		pClient->initialize();
+		myImGuiBackend->initialize();
+
+		*pAddressStore = myImGuiBackend;
 	}
 
 	void DMKRenderer::terminateContext()
@@ -1154,15 +1160,24 @@ namespace Dynamik
 				case Dynamik::DMKResourceRequest::DMK_RESOURCE_REQUEST_BRDF_TABLE:
 					if (myCurrentEnvironment.pBRDFTable)
 						textures.pushBack(myCurrentEnvironment.pBRDFTable->pTexture);
+					else
+						DMK_ERROR("An environment map is not submitted! Make sure to submit an environment map in order to provide resources.");
 					break;
+
 				case Dynamik::DMKResourceRequest::DMK_RESOURCE_REQUEST_IRRADIANCE_CUBE:
 					if (myCurrentEnvironment.pIrradianceCube)
 						textures.pushBack(myCurrentEnvironment.pIrradianceCube->pTexture);
+					else
+						DMK_ERROR("An environment map is not submitted! Make sure to submit an environment map in order to provide resources.");
 					break;
+
 				case Dynamik::DMKResourceRequest::DMK_RESOURCE_REQUEST_PRE_FILTERED_CUBE:
 					if (myCurrentEnvironment.pPreFilteredCube)
 						textures.pushBack(myCurrentEnvironment.pPreFilteredCube->pTexture);
+					else
+						DMK_ERROR("An environment map is not submitted! Make sure to submit an environment map in order to provide resources.");
 					break;
+
 				default:
 					DMK_ERROR("Invalid resource request!");
 					break;

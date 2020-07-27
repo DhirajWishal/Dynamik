@@ -6,7 +6,6 @@
 
 #include "Services/SystemLocator.h"
 #include "Renderer/Renderer.h"
-#include "Renderer/Clients/DMKImGuiBackend.h"
 
 #include <imgui.h>
 
@@ -40,12 +39,20 @@ namespace Dynamik
 
 	void DMKImGuiWrapper::initializeBackend()
 	{
-		DMKImGuiBackend* myImGuiBackend = StaticAllocator<DMKImGuiBackend>::allocate();
-		DMKSystemLocator::getSystem<DMKRenderer>()->createImGuiClientCMD(Cast<VPTR*>(&myImGuiBackend));
+		DMKSystemLocator::getSystem<DMKRenderer>()->createImGuiClientCMD(&myImGuiBackend);
+
+		while (myImGuiBackend == nullptr);
+
+		DMK_INFO("Successfully created the im gui backend!");
 	}
 
 	void DMKImGuiWrapper::terminate()
 	{
 		ImGui::DestroyContext();
+	}
+	
+	void DMKImGuiWrapper::update()
+	{
+		myImGuiBackend->update(ImGui::GetDrawData());
 	}
 }

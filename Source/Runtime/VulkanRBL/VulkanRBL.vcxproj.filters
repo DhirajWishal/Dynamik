@@ -24,7 +24,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Clients\VulkanImGuiClient.h">
+    <ClInclude Include="Clients\VulkanImGuiBackend.h">
       <Filter>Clients</Filter>
     </ClInclude>
     <ClInclude Include="Common\VulkanCommandBuffer.h">
@@ -113,7 +113,7 @@
     <ClInclude Include="VulkanUtilities.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Clients\VulkanImGuiClient.cpp">
+    <ClCompile Include="Clients\VulkanImGuiBackend.cpp">
       <Filter>Clients</Filter>
     </ClCompile>
     <ClCompile Include="Common\VulkanCommandBuffer.cpp">

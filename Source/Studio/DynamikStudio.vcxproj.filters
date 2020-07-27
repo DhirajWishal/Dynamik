@@ -4,14 +4,8 @@
     <Filter Include="GUI">
       <UniqueIdentifier>{2AEC870B-96F5-877C-1F71-9E7C8B79937C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\Backend">
-      <UniqueIdentifier>{E17C3899-4D32-B18E-D626-AB6542DBA792}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GUI\Backend\ImGuiBackend.h">
-      <Filter>GUI\Backend</Filter>
-    </ClInclude>
     <ClInclude Include="GUI\ImGuiWrapper.h">
       <Filter>GUI</Filter>
     </ClInclude>

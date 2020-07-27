@@ -6,6 +6,7 @@
 #define _DYNAMIK_IM_GUI_WRAPPER_H
 
 #include "Core/Types/ComplexTypes.h"
+#include "Renderer/Clients/ImGuiBackendHandle.h"
 
 namespace Dynamik
 {
@@ -21,8 +22,11 @@ namespace Dynamik
 		void initializeBackend();
 		void terminate();
 
+		void update();
+
 	private:
 		DMKExtent2D windowExtent = { 1280.0f, 720.0f };
+		DMKImGuiBackendHandle* myImGuiBackend = nullptr;
 	};
 }
 

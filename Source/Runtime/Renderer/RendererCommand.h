@@ -12,7 +12,7 @@
 #include "Components/CoreTypeDefs.h"
 #include "GameLibrary/LevelComponent.h"
 
-#include "Clients/RImGuiClient.h"
+#include "Clients/ImGuiBackendHandle.h"
 
 namespace Dynamik
 {
@@ -151,7 +151,7 @@ namespace Dynamik
 		~RendererCreateImGuiClient() {}
 
 		/* This pointer stores the return address of the Im Gui client */
-		VPTR* pReturnAddressSpace = nullptr;
+		DMKImGuiBackendHandle** pReturnAddressSpace = nullptr;
 	};
 }
 

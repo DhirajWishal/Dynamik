@@ -19,6 +19,7 @@
 #include "Components/REnvironmentMap.h"
 #include "Components/RDrawCallManager.h"
 #include "Components/Attachments/RBoundingBox.h"
+#include "Clients/RImGuiBackend.h"
 
 namespace Dynamik
 {
@@ -95,7 +96,7 @@ namespace Dynamik
 		void initializeEntitiesCMD(ARRAY<DMKGameEntity*> pEntities);
 		void initializeEntityCMD(DMKGameEntity* pEntity);
 		void setFrameBufferResizeCMD(DMKExtent2D newExtent);
-		void createImGuiClientCMD(VPTR* returnAddressSpace);
+		void createImGuiClientCMD(DMKImGuiBackendHandle** returnAddressSpace);
 
 	private:    /* Core */
 		void setSamples(const DMKSampleCount& samples);
@@ -124,7 +125,7 @@ namespace Dynamik
 		RIrradianceCube* createIrradianceCube();
 		RPreFilteredCube* createPreFilteredCube();
 
-		DMKImGuiBackend* allocateImGuiClient();
+		RImGuiBackend* allocateImGuiClient();
 
 		void initializeCamera(DMKCameraModule* pCameraModule);
 		void initializeEnvironmentMap(DMKEnvironmentMap* pEnvironmentMap);
@@ -146,7 +147,7 @@ namespace Dynamik
 		void updateBoundingBoxes();
 		void updateDebugObjects();
 		void endFrameInstruction();
-		void initializeImGuiClient(VPTR* pAddressStore);
+		void initializeImGuiClient(DMKImGuiBackendHandle** pAddressStore);
 
 	private:    /* Internal Methods */
 		void terminateContext();
@@ -188,6 +189,9 @@ namespace Dynamik
 
 	private:    /* Factories */
 		DMKBufferFactory myBufferFactory;
+
+	private:
+		RImGuiBackend* myImGuiBackend = nullptr;
 	};
 }
 

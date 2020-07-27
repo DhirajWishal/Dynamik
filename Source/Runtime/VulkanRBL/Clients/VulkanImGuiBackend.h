@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_VULKAN_IM_GUI_BACKEND_H
 #define _DYNAMIK_VULKAN_IM_GUI_BACKEND_H
 
-#include "Renderer/Clients/DMKImGuiBackend.h"
+#include "Renderer/Clients/RImGuiBackend.h"
 
 namespace Dynamik
 {
@@ -14,15 +14,17 @@ namespace Dynamik
 		/*
 		 Vulkan Im Gui Client
 		*/
-		class DMK_API VulkanImGuiBackend : public DMKImGuiBackend {
+		class DMK_API VulkanImGuiBackend : public RImGuiBackend {
 		public:
 			VulkanImGuiBackend() {}
 			~VulkanImGuiBackend() {}
 
 			virtual void initialize() override final;
-			virtual void update() override final;
+			virtual void update(ImDrawData* pDrawData) override final;
 			virtual void drawFrame() override final;
 			virtual void terminate() override final;
+
+			virtual void bindCommands(RCommandBuffer* pCommandBuffer) override final;
 
 		private:
 			void _initializeFontTexture();

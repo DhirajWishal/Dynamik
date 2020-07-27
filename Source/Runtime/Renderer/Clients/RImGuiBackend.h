@@ -5,6 +5,7 @@
 #ifndef _DYNAMIK_RENDERER_IM_GUI_CLIENT_H
 #define _DYNAMIK_RENDERER_IM_GUI_CLIENT_H
 
+#include "ImGuiBackendHandle.h"
 #include "../Components/RCoreObject.h"
 #include "../Components/RPipelineObject.h"
 #include "../Components/Primitives/RTexture.h"
@@ -12,24 +13,23 @@
 namespace Dynamik
 {
 	/*
-	 Renderer Im Gui client
+	 Renderer Im Gui Backend
 	 This object is the main Im Gui backend for the Dynamik Engine.
 	 Each RBL will contain an object which allows Im Gui to render its components through the active RBL.
 	*/
-	class DMK_API DMKImGuiBackend {
+	class DMK_API RImGuiBackend : public DMKImGuiBackendHandle {
 	public:
-		DMKImGuiBackend() = default;
-		virtual ~DMKImGuiBackend() = default;
+		RImGuiBackend() = default;
+		virtual ~RImGuiBackend() = default;
 
 		virtual void setCoreObject(RCoreObject* pCoreObject) { this->pCoreObject = pCoreObject; }
-
-		virtual void initialize() = 0;
-		virtual void update() = 0;
-		virtual void drawFrame() = 0;
-		virtual void terminate() = 0;
+		virtual void setRenderTarget(RRenderTarget* pRenderTarget) { this->pRenderTarget = pRenderTarget; }
+		virtual void bindCommands(RCommandBuffer* pCommandBuffer) = 0;
 
 	protected:
 		RCoreObject* pCoreObject = nullptr;
+		RRenderTarget* pRenderTarget = nullptr;
+
 		RPipelineObject* pPipelineObject = nullptr;
 		RTexture* pFontTexture = nullptr;
 

@@ -38,7 +38,6 @@ project "DynamikStudio"
 
 	links {
 		"ImGui",
-		"DynamikEngine"
 	}
 
 	filter "system:windows"

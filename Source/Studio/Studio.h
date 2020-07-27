@@ -6,6 +6,8 @@
 #define _DYNAMIK_STUDIO_H
 
 #include "GUI/ImGuiWrapper.h"
+#include "Window/WindowHandle.h"
+#include "Events/EventPool.h"
 
 namespace Dynamik
 {
@@ -41,6 +43,13 @@ namespace Dynamik
 
 	private:
 		DMKImGuiWrapper imGuiWrapper;
+		DMKEventPool myEventPool;
+		DMKWindowHandle* pActiveWindow = nullptr;
+
+	private:
+		void initializeRuntimeSystems();
+
+		DMKWindowHandle* createWindowHandle(I32 width, I32 height, STRING title);
 	};
 }
 

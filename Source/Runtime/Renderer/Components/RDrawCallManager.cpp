@@ -94,67 +94,70 @@ namespace Dynamik
 
 		entryMap.clear();
 
-		/* Initialize Index Buffer */
-		UI64 bufferSize = totalIndexCount * sizeof(UI32);
-
-		/* Check if we have data to allocate an index buffer */
-		if (bufferSize == 0)
-			return;
-
-		RBuffer* staggingBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-		staggingBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, bufferSize);
-		POINTER<BYTE> indexPointer = staggingBuffer->getData(pCoreObject, bufferSize, 0);
-
-		for (auto entry : indexBufferEntries)
+		if (totalIndexCount)
 		{
-			DMKMemoryFunctions::moveData(indexPointer.get(), entry.pIndexBuffer->data(), entry.pIndexBuffer->size() * entry.pIndexBuffer->typeSize());
-			indexPointer += entry.pIndexBuffer->size() * entry.pIndexBuffer->typeSize();
-			entry.pIndexBuffer->clear();
-		}
-		staggingBuffer->unmapMemory(pCoreObject);
-
-		indexBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-		indexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_INDEX, bufferSize, RResourceMemoryType(RESOURCE_MEMORY_TYPE_DEVICE_LOCAL | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
-		indexBuffer->copy(pCoreObject, staggingBuffer, bufferSize, 0, 0);
-
-		staggingBuffer->terminate(pCoreObject);
-		StaticAllocator<RBuffer>::rawDeallocate(staggingBuffer, 0);
-
-		indexBufferEntries.clear();
-
-		/* Initialize Debug Entries */
-		for (UI64 index = 0; index < debugEntries.size(); index++)
-		{
-			auto& entry = debugEntries[index];
-
-			/* Initialize Vertex Buffer */
-			{
-				RBuffer* pStaggingBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-				pStaggingBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, entry.rawVertexBuffer.byteSize());
-				pStaggingBuffer->setData(pCoreObject, entry.rawVertexBuffer.byteSize(), 0, entry.rawVertexBuffer.data());
-
-				entry.pVertexBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-				entry.pVertexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_VERTEX, entry.rawVertexBuffer.byteSize());
-				entry.pVertexBuffer->copy(pCoreObject, pStaggingBuffer, entry.rawVertexBuffer.byteSize());
-				entry.rawVertexBuffer.clear();
-
-				pStaggingBuffer->terminate(pCoreObject);
-				StaticAllocator<RBuffer>::rawDeallocate(pStaggingBuffer, 0);
-			}
-
 			/* Initialize Index Buffer */
+			UI64 bufferSize = totalIndexCount * sizeof(UI32);
+
+			/* Check if we have data to allocate an index buffer */
+			if (bufferSize == 0)
+				return;
+
+			RBuffer* staggingBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
+			staggingBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, bufferSize);
+			POINTER<BYTE> indexPointer = staggingBuffer->getData(pCoreObject, bufferSize, 0);
+
+			for (auto entry : indexBufferEntries)
 			{
-				RBuffer* pStaggingBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-				pStaggingBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, entry.pRawIndexBuffer->size() * entry.pRawIndexBuffer->typeSize());
-				pStaggingBuffer->setData(pCoreObject, entry.pRawIndexBuffer->size() * entry.pRawIndexBuffer->typeSize(), 0, entry.pRawIndexBuffer->data());
+				DMKMemoryFunctions::moveData(indexPointer.get(), entry.pIndexBuffer->data(), entry.pIndexBuffer->size() * entry.pIndexBuffer->typeSize());
+				indexPointer += entry.pIndexBuffer->size() * entry.pIndexBuffer->typeSize();
+				entry.pIndexBuffer->clear();
+			}
+			staggingBuffer->unmapMemory(pCoreObject);
 
-				entry.pIndexBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-				entry.pIndexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_INDEX, entry.pRawIndexBuffer->size() * entry.pRawIndexBuffer->typeSize());
-				entry.pIndexBuffer->copy(pCoreObject, pStaggingBuffer, entry.pRawIndexBuffer->size() * entry.pRawIndexBuffer->typeSize());
-				entry.pRawIndexBuffer->clear();
+			indexBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
+			indexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_INDEX, bufferSize, RResourceMemoryType(RESOURCE_MEMORY_TYPE_DEVICE_LOCAL | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
+			indexBuffer->copy(pCoreObject, staggingBuffer, bufferSize, 0, 0);
 
-				pStaggingBuffer->terminate(pCoreObject);
-				StaticAllocator<RBuffer>::rawDeallocate(pStaggingBuffer, 0);
+			staggingBuffer->terminate(pCoreObject);
+			StaticAllocator<RBuffer>::rawDeallocate(staggingBuffer, 0);
+
+			indexBufferEntries.clear();
+
+			/* Initialize Debug Entries */
+			for (UI64 index = 0; index < debugEntries.size(); index++)
+			{
+				auto& entry = debugEntries[index];
+
+				/* Initialize Vertex Buffer */
+				{
+					RBuffer* pStaggingBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
+					pStaggingBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, entry.rawVertexBuffer.byteSize());
+					pStaggingBuffer->setData(pCoreObject, entry.rawVertexBuffer.byteSize(), 0, entry.rawVertexBuffer.data());
+
+					entry.pVertexBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
+					entry.pVertexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_VERTEX, entry.rawVertexBuffer.byteSize());
+					entry.pVertexBuffer->copy(pCoreObject, pStaggingBuffer, entry.rawVertexBuffer.byteSize());
+					entry.rawVertexBuffer.clear();
+
+					pStaggingBuffer->terminate(pCoreObject);
+					StaticAllocator<RBuffer>::rawDeallocate(pStaggingBuffer, 0);
+				}
+
+				/* Initialize Index Buffer */
+				{
+					RBuffer* pStaggingBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
+					pStaggingBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, entry.pRawIndexBuffer->size() * entry.pRawIndexBuffer->typeSize());
+					pStaggingBuffer->setData(pCoreObject, entry.pRawIndexBuffer->size() * entry.pRawIndexBuffer->typeSize(), 0, entry.pRawIndexBuffer->data());
+
+					entry.pIndexBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
+					entry.pIndexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_INDEX, entry.pRawIndexBuffer->size() * entry.pRawIndexBuffer->typeSize());
+					entry.pIndexBuffer->copy(pCoreObject, pStaggingBuffer, entry.pRawIndexBuffer->size() * entry.pRawIndexBuffer->typeSize());
+					entry.pRawIndexBuffer->clear();
+
+					pStaggingBuffer->terminate(pCoreObject);
+					StaticAllocator<RBuffer>::rawDeallocate(pStaggingBuffer, 0);
+				}
 			}
 		}
 
@@ -182,6 +185,7 @@ namespace Dynamik
 	void RDrawCallManager::bindDrawCalls(RDrawCallType callType)
 	{
 		/* Bind Environment */
+		if (myEnvironment.pVertexBuffer)
 		{
 			pCommandBuffer->bindVertexBuffer(myEnvironment.pVertexBuffer, 0);
 			pCommandBuffer->bindIndexBuffer(myEnvironment.pIndexBuffer);

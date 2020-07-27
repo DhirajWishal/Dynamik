@@ -14,8 +14,8 @@ project "VulkanRBL"
 		"DMK_INTERNAL"
 	}
 
-	targetdir "$(SolutionDir)Builds/Engine/Binaries/$(Configuration)-$(Platform)/$(ProjectName)"
-	objdir "$(SolutionDir)Builds/Engine/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
+	targetdir "$(SolutionDir)Builds/Runtime/Binaries/$(Configuration)-$(Platform)/$(ProjectName)"
+	objdir "$(SolutionDir)Builds/Runtime/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
 
 	pchheader "dmkafx.h"
 	pchsource "../Core/PCH/dmkafx.cpp"
