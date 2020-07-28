@@ -57,6 +57,8 @@ namespace Dynamik
             static ARRAY<VkDescriptorSetLayoutBinding> getDescriptorSetLayoutBindings(ARRAY<DMKShaderModule> modules);
         
             static ARRAY<VkVertexInputAttributeDescription> getVertexAttributeDescriptions(DMKVertexLayout descriptor);
+            static ARRAY<VkVertexInputAttributeDescription> getVertexAttributeDescriptions(DMKShaderModule shaderModule);
+            static ARRAY<VkVertexInputBindingDescription> getVertexBindingDescriptions(DMKShaderModule shaderModule);
             static VkFormat vertexAttributeTypeToVkFormat(DMKDataType type);
 
             static void copyDataToImage(RCoreObject* pCoreObject, RImage* pImage, VPTR data, UI64 byteSize, UI64 dstOffset = 0, UI64 srcOffset = 0);

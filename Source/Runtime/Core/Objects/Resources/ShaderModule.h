@@ -35,9 +35,12 @@ namespace Dynamik
 	/* Dynamik Shader Input Attribute */
 	struct DMK_API DMKShaderInputAttribute {
 		DMKShaderInputAttribute() = default;
+		DMKShaderInputAttribute(DMKDataType dataType, DMKFormat format, UI32 dataCount) 
+			: dataType(dataType), dataFormat(format), dataCount(dataCount) {}
 		virtual ~DMKShaderInputAttribute() = default;
 
 		DMKDataType dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
+		DMKFormat dataFormat = DMKFormat::DMK_FORMAT_UNDEFINED;
 		UI32 dataCount = 1;     /* Number of elements of data which is sent. Used for sending arrays. */
 	};
 
@@ -93,8 +96,29 @@ namespace Dynamik
 		*/
 		ARRAY<DMKUniformBufferObject>& getUniforms();
 
+		/*
+		 This defines the inputs which the shader requires. 
+		 This is only needed if the shader location is Vertex.
+
+		 @param attribute: The input attribute.
+		*/
+		void addInputAttribute(const DMKShaderInputAttribute& attribute);
+
+		/*
+		 Get a stored shader attribute.
+
+		 @param index: The index of the attribute.
+		*/
+		DMKShaderInputAttribute getAttribute(I64 index) const;
+
+		/*
+		 Get the whole attribute array.
+		*/
+		ARRAY<DMKShaderInputAttribute>& getAttributes();
+
 	public:
 		ARRAY<DMKUniformBufferObject> uniforms;
+		ARRAY<DMKShaderInputAttribute> inputAttributes;
         ARRAY<UI32> shaderCode;
 		DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_ALL;
 		DMKShaderCodeType codeType = DMKShaderCodeType::DMK_SHADER_CODE_TYPE_GLSL;

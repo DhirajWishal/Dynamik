@@ -42,4 +42,19 @@ namespace Dynamik
 	{
 		return uniforms;
 	}
+
+	void DMKShaderModule::addInputAttribute(const DMKShaderInputAttribute& attribute)
+	{
+		inputAttributes.pushBack(attribute);
+	}
+
+	DMKShaderInputAttribute DMKShaderModule::getAttribute(I64 index) const
+	{
+		return inputAttributes[index];
+	}
+
+	ARRAY<DMKShaderInputAttribute>& DMKShaderModule::getAttributes()
+	{
+		return inputAttributes;
+	}
 }

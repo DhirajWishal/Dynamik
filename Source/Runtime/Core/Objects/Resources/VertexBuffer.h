@@ -38,6 +38,8 @@ namespace Dynamik
 	/* Dynamik Vertex Attribute */
 	struct DMK_API DMKVertexAttribute : public DMKShaderInputAttribute {
 		DMKVertexAttribute() = default;
+		DMKVertexAttribute(DMKDataType dataType, DMKFormat format, UI32 dataCount, DMKVertexAttributeType attributeType)
+			: DMKShaderInputAttribute(dataType, format, dataCount), attributeType(attributeType) {}
 		~DMKVertexAttribute() = default;
 
 		DMKVertexAttributeType attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;

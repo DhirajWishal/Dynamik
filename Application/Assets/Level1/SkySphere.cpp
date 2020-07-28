@@ -29,6 +29,10 @@ SkySphere::SkySphere()
 	unifomVS.addAttribute(TEXT("model"), sizeof(Matrix4F));
 	unifomVS.initialize();
 	shaderVS.addUniform(unifomVS);
+	shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKDataType::DMK_DATA_TYPE_VEC3, DMKFormat::DMK_FORMAT_RGBA_32_SF32, 1));
+	shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKDataType::DMK_DATA_TYPE_VEC3, DMKFormat::DMK_FORMAT_RGBA_32_SF32, 1));
+	shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKDataType::DMK_DATA_TYPE_VEC2, DMKFormat::DMK_FORMAT_RG_32_SF32, 1));
+
 	skyBox.addShaderModule(shaderVS);
 
 	auto shaderFS = DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_SKYBOX_CINEMATIC_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);

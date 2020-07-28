@@ -40,6 +40,10 @@ void CerberusModel::initialize()
 	ubo1.initialize();
 	shaderVS.addUniform(ubo1);
 
+	shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKDataType::DMK_DATA_TYPE_VEC3, DMKFormat::DMK_FORMAT_RGBA_32_SF32, 1));
+	shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKDataType::DMK_DATA_TYPE_VEC3, DMKFormat::DMK_FORMAT_RGBA_32_SF32, 1));
+	shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKDataType::DMK_DATA_TYPE_VEC2, DMKFormat::DMK_FORMAT_RG_32_SF32, 1));
+
 	auto shaderFS = DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_TBL_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
 	DMKUniformBufferObject ubo2(1);
 	ubo2.addAttribute(TEXT("projection"), sizeof(Matrix4F));

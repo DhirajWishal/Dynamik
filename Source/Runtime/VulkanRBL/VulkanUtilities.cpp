@@ -345,6 +345,51 @@ namespace Dynamik
 			return attributeDescriptions;
 		}
 
+		ARRAY<VkVertexInputAttributeDescription> VulkanUtilities::getVertexAttributeDescriptions(DMKShaderModule shaderModule)
+		{
+			if (shaderModule.location != DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
+				DMK_WARN("The submitted shader module is not bound as a Vertex Shader!");
+
+			ARRAY<VkVertexInputAttributeDescription> attributeDescriptions;
+
+			VkVertexInputAttributeDescription _description = {};
+			_description.binding = 0;
+			_description.location = 0;
+			_description.offset = 0;
+
+			for (auto attribute : shaderModule.getAttributes())
+			{
+				_description.format = getVulkanFormat(attribute.dataFormat);
+				attributeDescriptions.pushBack(_description);
+
+				_description.offset += Cast<UI32>(Cast<UI32>(attribute.dataType) * attribute.dataCount);
+				_description.location++;
+			}
+
+			return attributeDescriptions;
+		}
+
+		ARRAY<VkVertexInputBindingDescription> VulkanUtilities::getVertexBindingDescriptions(DMKShaderModule shaderModule)
+		{
+			if (shaderModule.location != DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
+				DMK_WARN("The submitted shader module is not bound as a Vertex Shader!");
+
+			ARRAY<VkVertexInputBindingDescription> descriptions(1);
+
+			VkVertexInputBindingDescription bindingDescription = {};
+			bindingDescription.binding = 0;
+			bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+			
+			UI64 stride = 0;
+			for (auto attribute : shaderModule.getAttributes())
+				stride += FormatSize(attribute.dataFormat);
+
+			bindingDescription.stride = stride;
+
+			descriptions[0] = bindingDescription;
+			return descriptions;
+		}
+
 		VkFormat VulkanUtilities::vertexAttributeTypeToVkFormat(DMKDataType type)
 		{
 			switch ((UI32)type)
@@ -441,7 +486,7 @@ namespace Dynamik
 
 			return states;
 		}
-		
+
 		ARRAY<VkDynamicState> VulkanUtilities::getDynamicStates(const ARRAY<RDynamicState>& states)
 		{
 			ARRAY<VkDynamicState> vStates;

@@ -156,7 +156,8 @@ namespace Dynamik
 
 			RConstantBlock pushBlock = {};
 			pushBlock.scale = Vector2F(2.0f / io.DisplaySize.x, 2.0f / io.DisplaySize.y);
-			pushBlock.translate = Vector2F(-1.0f);
+			pushBlock.translate[0] = -1.0f - pDrawData->DisplayPos.x * pushBlock.scale[0];
+			pushBlock.translate[1] = -1.0f - pDrawData->DisplayPos.y * pushBlock.scale[1];
 			vkCmdPushConstants(vCommandBuffer, Inherit<VulkanGraphicsPipeline>(pPipelineObject)->layout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(RConstantBlock), &pushBlock);
 
 			if (!pDrawData)
@@ -165,12 +166,15 @@ namespace Dynamik
 			UI64 vertexOffset = 0;
 			UI64 indexOffset = 0;
 
+			ImVec2 clip_off = pDrawData->DisplayPos;         // (0,0) unless using multi-viewports
+			ImVec2 clip_scale = pDrawData->FramebufferScale; // (1,1) unless using retina display which are often (2,2)
+
 			if (pDrawData->CmdListsCount)
 			{
 				StaticArray<VkDeviceSize, 1> offsets;
 
 				vkCmdBindVertexBuffers(vCommandBuffer, 0, 1, &Inherit<VulkanBuffer>(pVertexBuffer)->buffer, offsets.data());
-				vkCmdBindIndexBuffer(vCommandBuffer, Inherit<VulkanBuffer>(pIndexBuffer)->buffer, 0, VK_INDEX_TYPE_UINT16);
+				vkCmdBindIndexBuffer(vCommandBuffer, Inherit<VulkanBuffer>(pIndexBuffer)->buffer, 0, sizeof(ImDrawIdx) == 2 ? VK_INDEX_TYPE_UINT16 : VK_INDEX_TYPE_UINT32);
 
 				for (I32 index = 0; index < pDrawData->CmdListsCount; index++)
 				{
@@ -180,15 +184,25 @@ namespace Dynamik
 					{
 						const ImDrawCmd* pDrawCmd = &pDrawList->CmdBuffer[itr];
 
+						ImVec4 clip_rect;
+						clip_rect.x = (pDrawCmd->ClipRect.x - clip_off.x) * clip_scale.x;
+						clip_rect.y = (pDrawCmd->ClipRect.y - clip_off.y) * clip_scale.y;
+						clip_rect.z = (pDrawCmd->ClipRect.z - clip_off.x) * clip_scale.x;
+						clip_rect.w = (pDrawCmd->ClipRect.w - clip_off.y) * clip_scale.y;
+
+						if (clip_rect.x < 0.0f)
+							clip_rect.x = 0.0f;
+						if (clip_rect.y < 0.0f)
+							clip_rect.y = 0.0f;
+
 						VkRect2D scissor = {};
-						scissor.offset.x = std::max(Cast<I32>(pDrawCmd->ClipRect.x), 0);
-						scissor.offset.y = std::max(Cast<I32>(pDrawCmd->ClipRect.y), 0);
-						scissor.extent.width = Cast<I32>(pDrawCmd->ClipRect.z - pDrawCmd->ClipRect.x);
-						scissor.extent.height = Cast<I32>(pDrawCmd->ClipRect.w - pDrawCmd->ClipRect.y);
+						scissor.offset.x = Cast<I32>(clip_rect.x);
+						scissor.offset.y = Cast<I32>(clip_rect.y);
+						scissor.extent.width = Cast<I32>(clip_rect.z - clip_rect.x);
+						scissor.extent.height = Cast<I32>(clip_rect.w - clip_rect.y);
 
 						vkCmdSetScissor(vCommandBuffer, 0, 1, &scissor);
 						vkCmdDrawIndexed(vCommandBuffer, pDrawCmd->ElemCount, 1, Cast<UI32>(pDrawCmd->IdxOffset + indexOffset), Cast<UI32>(pDrawCmd->VtxOffset + vertexOffset), 0);
-
 					}
 
 					indexOffset += pDrawList->IdxBuffer.Size;
@@ -234,9 +248,15 @@ namespace Dynamik
 		void VulkanImGuiBackend::_initializePipeline()
 		{
 			Tools::GLSLCompiler compiler;
-
 			ARRAY<DMKShaderModule> shaders;
-			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_IM_GUI_UI_VERT")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX));
+
+			auto shaderVS = compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_IM_GUI_UI_VERT")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX);
+
+			shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKDataType::DMK_DATA_TYPE_VEC2, DMKFormat::DMK_FORMAT_RG_32_SF32, 1));
+			shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKDataType::DMK_DATA_TYPE_VEC2, DMKFormat::DMK_FORMAT_RG_32_SF32, 1));
+			shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKDataType::DMK_DATA_TYPE_VEC4, DMKFormat::DMK_FORMAT_RGBA_8_UNORMAL, 1));
+
+			shaders.pushBack(shaderVS);
 			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_IM_GUI_UI_FRAG")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT));
 
 			RPipelineSpecification pipelineSpec = {};
@@ -245,6 +265,8 @@ namespace Dynamik
 			pipelineSpec.scissorInfos.resize(1);
 			pipelineSpec.colorBlendInfo.blendStates = { createColorBlendState() };
 			pipelineSpec.multiSamplingInfo.sampleCount = pCoreObject->sampleCount;
+			pipelineSpec.rasterizerInfo.cullMode = RCullMode::CULL_MODE_NONE;
+			pipelineSpec.depthStencilInfo.compareOp = RStencilCompareOp::STENCIL_COMPARE_OP_LESS_OR_EQUAL;
 
 			pPipelineObject = StaticAllocator<VulkanGraphicsPipeline>::rawAllocate();
 			pPipelineObject->initialize(pCoreObject, pipelineSpec, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, pRenderTarget, DMKViewport());

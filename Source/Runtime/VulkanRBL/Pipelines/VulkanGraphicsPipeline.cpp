@@ -58,8 +58,8 @@ namespace Dynamik
 
 				if (createInfo.shaders[index].location == DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
 				{
-					resourceLayouts[index].vertexInputBindings.insert(dissassembler.getVertexBindingDescriptions());
-					resourceLayouts[index].vertexInputAttributes = dissassembler.getVertexAttributeDescriptions();
+					resourceLayouts[index].vertexInputBindings.insert(VulkanUtilities::getVertexBindingDescriptions(createInfo.shaders[index]));
+					resourceLayouts[index].vertexInputAttributes = VulkanUtilities::getVertexAttributeDescriptions(createInfo.shaders[index]);
 
 					vertexInputInfo.vertexBindingDescriptionCount = Cast<UI32>(resourceLayouts[index].vertexInputBindings.size());
 					vertexInputInfo.pVertexBindingDescriptions = resourceLayouts[index].vertexInputBindings.data();
