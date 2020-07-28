@@ -97,6 +97,7 @@ namespace Dynamik
 		void initializeEntityCMD(DMKGameEntity* pEntity);
 		void setFrameBufferResizeCMD(DMKExtent2D newExtent);
 		void createImGuiClientCMD(DMKImGuiBackendHandle** returnAddressSpace);
+		void submitImGuiDrawData(ImDrawData* pDrawData);
 
 	private:    /* Core */
 		void setSamples(const DMKSampleCount& samples);

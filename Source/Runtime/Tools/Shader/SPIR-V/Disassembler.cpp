@@ -37,6 +37,20 @@ namespace Dynamik
 			return VK_FORMAT_UNDEFINED;
 		}
 
+		inline UI64 getFormatToSize(VkFormat format)
+		{
+			if (format == VK_FORMAT_R32_SFLOAT)
+				return sizeof(F32) * 1;
+			else if(format == VK_FORMAT_R32G32_SFLOAT)
+				return sizeof(F32) * 2;
+			else if (format == VK_FORMAT_R32G32B32_SFLOAT)
+				return sizeof(F32) * 3;
+			else if (format == VK_FORMAT_R32G32B32A32_SFLOAT)
+				return sizeof(F32) * 4;
+
+			return 0;
+		}
+
 		ARRAY<VkDescriptorSetLayoutBinding> SPIRVDisassembler::getDescriptorSetLayoutBindings()
 		{
 			if (!isParsed)
@@ -79,6 +93,31 @@ namespace Dynamik
 			if (!isParsed)
 				_parseModule();
 
+			if (!vertexAttributes.size())
+				return ARRAY<VkVertexInputAttributeDescription>();
+
+			ARRAY<VkVertexInputAttributeDescription> inputs(vertexAttributes.size());
+
+			UI32 minimumLocation = vertexAttributes[0].location;
+			for (auto binding : vertexAttributes)
+				if (minimumLocation > binding.location)
+					minimumLocation = binding.location;
+
+			for (auto binding : vertexAttributes)
+				inputs[binding.location - minimumLocation] = binding;
+
+			vertexAttributes = std::move(inputs);
+
+			UI64 offsets = 0;
+			for (UI64 index = 0; index < vertexAttributes.size(); index++)
+			{
+				UI64 n_offsets = getFormatToSize(vertexAttributes[index].format);
+				vertexAttributes[index].offset = offsets;
+
+				offsets += n_offsets;
+			}
+
+
 			return vertexAttributes;
 		}
 
@@ -95,6 +134,20 @@ namespace Dynamik
 			if (!isParsed)
 				_parseModule();
 
+			if (!bindingDescriptions.size())
+				return ARRAY<VkVertexInputBindingDescription>();
+
+			ARRAY<VkVertexInputBindingDescription> inputs(bindingDescriptions.size());
+
+			UI32 minimumBinding = bindingDescriptions[0].binding;
+			for (auto binding : bindingDescriptions)
+				if (minimumBinding > binding.binding)
+					minimumBinding = binding.binding;
+
+			for (auto binding : bindingDescriptions)
+				inputs[binding.binding - minimumBinding] = binding;
+
+			bindingDescriptions = inputs;
 			return bindingDescriptions;
 		}
 

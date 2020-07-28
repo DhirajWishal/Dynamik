@@ -48,6 +48,7 @@ namespace Dynamik
 		RENDERER_RESIZE_FRAME_BUFFER,
 
 		RENDERER_CREATE_IM_GUI_CLIENT,
+		RENDERER_SUBMIT_IM_GUI_DRAW_DATA,
 	};
 
 	/*
@@ -152,6 +153,15 @@ namespace Dynamik
 
 		/* This pointer stores the return address of the Im Gui client */
 		DMKImGuiBackendHandle** pReturnAddressSpace = nullptr;
+	};
+
+	/* Submit Im Gui Draw Data */
+	class DMK_API RendererSubmitImGuiDrawData : public DMKRendererCommand {
+	public:
+		RendererSubmitImGuiDrawData() : DMKRendererCommand(RendererInstruction::RENDERER_SUBMIT_IM_GUI_DRAW_DATA) {}
+		~RendererSubmitImGuiDrawData() {}
+
+		ImDrawData* pDrawData = nullptr;
 	};
 }
 

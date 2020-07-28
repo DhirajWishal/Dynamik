@@ -79,9 +79,7 @@ namespace Dynamik
 			{
 				/* Push data to the vertex buffer */
 				{
-					VulkanBuffer staggingBuffer;
-					staggingBuffer.initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, vertexBufferSize);
-					ImDrawVert* vtxDst = Cast<ImDrawVert*>(staggingBuffer.getData(pCoreObject, vertexBufferSize, 0));
+					ImDrawVert* vtxDst = Cast<ImDrawVert*>(pVertexBuffer->getData(pCoreObject, vertexBufferSize, 0));
 
 					for (I32 index = 0; index < pDrawData->CmdListsCount; index++)
 					{
@@ -90,15 +88,12 @@ namespace Dynamik
 						vtxDst += pDrawList->VtxBuffer.size();
 					}
 
-					pVertexBuffer->copy(pCoreObject, &staggingBuffer, vertexBufferSize);
-					staggingBuffer.terminate(pCoreObject);
+					pVertexBuffer->unmapMemory(pCoreObject);
 				}
 
 				/* Push data to the index buffer */
 				{
-					VulkanBuffer staggingBuffer;
-					staggingBuffer.initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, vertexBufferSize);
-					ImDrawIdx* idxDst = Cast<ImDrawIdx*>(staggingBuffer.getData(pCoreObject, vertexBufferSize, 0));
+					ImDrawIdx* idxDst = Cast<ImDrawIdx*>(pIndexBuffer->getData(pCoreObject, indexBufferSize, 0));
 
 					for (I32 index = 0; index < pDrawData->CmdListsCount; index++)
 					{
@@ -107,8 +102,7 @@ namespace Dynamik
 						idxDst += pDrawList->IdxBuffer.size();
 					}
 
-					pIndexBuffer->copy(pCoreObject, &staggingBuffer, indexBufferSize);
-					staggingBuffer.terminate(pCoreObject);
+					pIndexBuffer->unmapMemory(pCoreObject);
 				}
 			}
 		}
@@ -152,12 +146,12 @@ namespace Dynamik
 			vkCmdBindPipeline(vCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, Inherit<VulkanGraphicsPipeline>(pPipelineObject)->pipeline);
 
 			VkViewport viewport = {};
-			viewport.x = ImGui::GetIO().DisplaySize.x;
-			viewport.y = ImGui::GetIO().DisplaySize.y;
+			viewport.x = 0.0f;
+			viewport.y = 0.0f;
 			viewport.maxDepth = 1.0f;
 			viewport.minDepth = 0.0f;
-			viewport.width = Cast<F32>(pRenderTarget->pFrameBuffer->width);
-			viewport.height = Cast<F32>(pRenderTarget->pFrameBuffer->height);
+			viewport.width = Cast<F32>(ImGui::GetIO().DisplaySize.x);
+			viewport.height = Cast<F32>(ImGui::GetIO().DisplaySize.y);
 			vkCmdSetViewport(vCommandBuffer, 0, 1, &viewport);
 
 			RConstantBlock pushBlock = {};
@@ -165,7 +159,8 @@ namespace Dynamik
 			pushBlock.translate = Vector2F(-1.0f);
 			vkCmdPushConstants(vCommandBuffer, Inherit<VulkanGraphicsPipeline>(pPipelineObject)->layout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(RConstantBlock), &pushBlock);
 
-			ImDrawData* pDrawData = ImGui::GetDrawData();
+			if (!pDrawData)
+				return;
 
 			UI64 vertexOffset = 0;
 			UI64 indexOffset = 0;
@@ -189,14 +184,14 @@ namespace Dynamik
 						scissor.offset.x = std::max(Cast<I32>(pDrawCmd->ClipRect.x), 0);
 						scissor.offset.y = std::max(Cast<I32>(pDrawCmd->ClipRect.y), 0);
 						scissor.extent.width = Cast<I32>(pDrawCmd->ClipRect.z - pDrawCmd->ClipRect.x);
-						scissor.extent.width = Cast<I32>(pDrawCmd->ClipRect.w - pDrawCmd->ClipRect.y);
+						scissor.extent.height = Cast<I32>(pDrawCmd->ClipRect.w - pDrawCmd->ClipRect.y);
 
 						vkCmdSetScissor(vCommandBuffer, 0, 1, &scissor);
-						vkCmdDrawIndexed(vCommandBuffer, pDrawCmd->ElemCount, 1, Cast<UI32>(indexOffset), Cast<UI32>(vertexOffset), 0);
+						vkCmdDrawIndexed(vCommandBuffer, pDrawCmd->ElemCount, 1, Cast<UI32>(pDrawCmd->IdxOffset + indexOffset), Cast<UI32>(pDrawCmd->VtxOffset + vertexOffset), 0);
 
-						indexOffset = pDrawCmd->ElemCount;
 					}
 
+					indexOffset += pDrawList->IdxBuffer.Size;
 					vertexOffset += pDrawList->VtxBuffer.Size;
 				}
 			}
@@ -233,7 +228,7 @@ namespace Dynamik
 			pFontTexture->makeRenderable(pCoreObject);
 
 			pFontTexture->pSampler = StaticAllocator<VulkanImageSampler>::rawAllocate();
-			pFontTexture->pSampler->initialize(pCoreObject, RImageSamplerCreateInfo::createDefaultSampler());
+			pFontTexture->pSampler->initialize(pCoreObject, RImageSamplerCreateInfo::createDefaultSampler(0.0f));
 		}
 
 		void VulkanImGuiBackend::_initializePipeline()

@@ -69,43 +69,19 @@ namespace Dynamik
 		/* Issue the pre draw call command to initialize all the rendering objects */
 		DMKSystemLocator::getSystem<DMKRenderer>()->initializeFinalsCMD();
 
-		struct UISettings {
-			bool displayModels = true;
-			bool displayLogos = true;
-			bool displayBackground = true;
-			bool animateLight = false;
-			float lightSpeed = 0.25f;
-			StaticArray<float, 50> frameTimes{};
-			float frameTimeMin = 9999.0f, frameTimeMax = 0.0f;
-			float lightTimer = 0.0f;
-		} uiSettings;
-
-		while (true)
+		while (!myEventPool.WindowCloseEvent)
 		{
+			pActiveWindow->pollEvents();
+
 			/* TODO: Im gui commands. */
 			{
-				ImGui::NewFrame();
-
-
-				ImGui::PlotLines("Frame Times", &uiSettings.frameTimes[0], 50, 0, "", uiSettings.frameTimeMin, uiSettings.frameTimeMax, ImVec2(0, 80));
-
-				ImGui::Text("Camera");
-
-				ImGui::SetNextWindowSize(ImVec2(200, 200));
-				ImGui::Begin("Example settings");
-				ImGui::Checkbox("Render models", &uiSettings.displayModels);
-				ImGui::Checkbox("Display logos", &uiSettings.displayLogos);
-				ImGui::Checkbox("Display background", &uiSettings.displayBackground);
-				ImGui::Checkbox("Animate light", &uiSettings.animateLight);
-				ImGui::SliderFloat("Light speed", &uiSettings.lightSpeed, 0.1f, 1.0f);
-				ImGui::End();
-
-				ImGui::SetNextWindowPos(ImVec2(650, 20));
-				ImGui::ShowDemoWindow();
-
-				// Render to generate draw buffers
-				ImGui::Render();
+				ImGuiIO& io = ImGui::GetIO();
+				io.DisplaySize = ImVec2(Cast<F32>(pActiveWindow->windowWidth), Cast<F32>(pActiveWindow->windowHeight));
+			
+				DMKSystemLocator::getSystem<DMKRenderer>()->submitImGuiDrawData(ImGui::GetDrawData());
 			}
+
+			DMKSystemLocator::getSystem<DMKRenderer>()->issueRawCommand(RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE);
 
 			imGuiWrapper.update();
 		}
@@ -114,7 +90,7 @@ namespace Dynamik
 	void DMKStudio::terminate()
 	{
 	}
-	
+
 	void DMKStudio::initializeRuntimeSystems()
 	{
 		/* Initialize the rendering engine. */
@@ -138,7 +114,7 @@ namespace Dynamik
 			imGuiWrapper.initializeBackend();
 		}
 	}
-	
+
 	DMKWindowHandle* DMKStudio::createWindowHandle(I32 width, I32 height, STRING title)
 	{
 #ifdef DMK_PLATFORM_WINDOWS

@@ -23,6 +23,10 @@ namespace Dynamik
 		virtual void update(ImDrawData* pDrawData) = 0;
 		virtual void drawFrame() = 0;
 		virtual void terminate() = 0;
+
+		virtual void setDrawData(ImDrawData* pDrawData) { this->pDrawData = pDrawData; };
+
+		ImDrawData* pDrawData = nullptr;
 	};
 }
 

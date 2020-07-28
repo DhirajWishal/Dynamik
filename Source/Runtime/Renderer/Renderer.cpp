@@ -122,6 +122,10 @@ namespace Dynamik
 		case Dynamik::RendererInstruction::RENDERER_CREATE_IM_GUI_CLIENT:
 			initializeImGuiClient(Inherit<RendererCreateImGuiClient>(myCommand)->pReturnAddressSpace);
 			break;
+		case Dynamik::RendererInstruction::RENDERER_SUBMIT_IM_GUI_DRAW_DATA:
+			if (myImGuiBackend)
+				myImGuiBackend->update(Inherit<RendererSubmitImGuiDrawData>(myCommand)->pDrawData);
+			break;
 		default:
 			break;
 		}
@@ -267,6 +271,14 @@ namespace Dynamik
 		_command.pReturnAddressSpace = returnAddressSpace;
 
 		submitCommand(StaticAllocator<RendererCreateImGuiClient>::allocateInit(_command));
+	}
+
+	void DMKRenderer::submitImGuiDrawData(ImDrawData* pDrawData)
+	{
+		RendererSubmitImGuiDrawData _command;
+		_command.pDrawData = pDrawData;
+
+		submitCommand(StaticAllocator<RendererSubmitImGuiDrawData>::allocateInit(_command));
 	}
 
 	void DMKRenderer::initializeThread()
@@ -788,10 +800,10 @@ namespace Dynamik
 			myDrawCallManager.beginCommand();
 			myDrawCallManager.bindRenderTarget(&myRenderTarget, mySwapChain, itr);
 
+			myDrawCallManager.bindDrawCalls(RDrawCallType::DRAW_CALL_TYPE_INDEX);
+
 			if (myImGuiBackend)
 				myImGuiBackend->bindCommands(myCommandBuffers[itr]);
-
-			myDrawCallManager.bindDrawCalls(RDrawCallType::DRAW_CALL_TYPE_INDEX);
 
 			myDrawCallManager.unbindRenderTarget();
 			myDrawCallManager.endCommand();
@@ -886,6 +898,8 @@ namespace Dynamik
 		updateEntities();
 		updateBoundingBoxes();
 		updateDebugObjects();
+
+
 	}
 
 	void DMKRenderer::updateCamera()
