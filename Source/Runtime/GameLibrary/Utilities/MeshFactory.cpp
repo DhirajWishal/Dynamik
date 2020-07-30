@@ -46,7 +46,7 @@ namespace Dynamik
 		DMKVertexLayout vertexLayout;
 		DMKVertexAttribute vertexAttribute;
 		vertexAttribute.dataCount = 1;
-		vertexAttribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
+		vertexAttribute.dataFormat = DMKFormat::DMK_FORMAT_RGBA_32_SF32;
 
 		vertexAttribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
 		vertexLayout.attributes.pushBack(vertexAttribute);
@@ -91,7 +91,7 @@ namespace Dynamik
 		DMKVertexAttribute attribute;
 		attribute.dataCount = 1;
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
+		attribute.dataFormat = DMKFormat::DMK_FORMAT_RGBA_32_SF32;
 		layout.attributes.pushBack(attribute);
 
 		DMKStaticMeshComponent component = DMKMeshImporter::loadMeshes(instance.workingDirectory + "/Runtime/Assets/Models/SkyBox/SkySphere.obj", layout)[0];

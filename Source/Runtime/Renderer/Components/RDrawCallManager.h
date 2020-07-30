@@ -19,7 +19,7 @@ namespace std
 			size_t sum = 0;
 
 			for (auto attribute : other.attributes)
-				sum += (size_t)attribute.dataType ^ (size_t)attribute.dataCount ^ (size_t)attribute.attributeType;
+				sum += (size_t)FormatSize(attribute.dataFormat) ^ (size_t)attribute.dataCount ^ (size_t)attribute.attributeType;
 
 			return (size_t)(1ULL << (sum % 64ULL));
 		}

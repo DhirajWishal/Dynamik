@@ -129,7 +129,7 @@ DMKDebugComponent Level1::initializeRayLine()
 	DMKVertexAttribute attribute;
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
 	attribute.dataCount = 1;
-	attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
+	attribute.dataFormat = DMKFormat::DMK_FORMAT_RGBA_32_SF32;
 	layout.attributes.pushBack(attribute);
 	rayLine.vertexBuffer.setLayout(layout);
 

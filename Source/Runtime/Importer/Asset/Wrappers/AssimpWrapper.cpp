@@ -72,7 +72,7 @@ namespace Dynamik
 		{
 			for (auto attribute : vertexLayout.attributes)
 			{
-				dataSize = (UI64)attribute.dataType * attribute.dataCount;
+				dataSize = FormatSize(attribute.dataFormat) * attribute.dataCount;
 
 				switch (attribute.attributeType)
 				{

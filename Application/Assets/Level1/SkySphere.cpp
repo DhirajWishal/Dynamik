@@ -19,7 +19,8 @@ SkySphere::SkySphere()
 	texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/front.jpg");
 	texturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/back.jpg");
 
-	skyBox = DMKMeshFactory::loadFromFile(TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\Skybox\\SkySphere.obj"), DMKVertexLayout::createBasicIBL());
+	auto vLayout = DMKVertexLayout::createBasicIBL();
+	skyBox = DMKMeshFactory::loadFromFile(TEXT("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\SkySphere.obj"), vLayout);
 	skyBox.addTextureModule(DMKTextureFactory::createCubeMap(texturePaths));
 
 	auto shaderVS = DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_SKYBOX_CINEMATIC_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
@@ -29,9 +30,7 @@ SkySphere::SkySphere()
 	unifomVS.addAttribute(TEXT("model"), sizeof(Matrix4F));
 	unifomVS.initialize();
 	shaderVS.addUniform(unifomVS);
-	shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKDataType::DMK_DATA_TYPE_VEC3, DMKFormat::DMK_FORMAT_RGBA_32_SF32, 1));
-	shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKDataType::DMK_DATA_TYPE_VEC3, DMKFormat::DMK_FORMAT_RGBA_32_SF32, 1));
-	shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKDataType::DMK_DATA_TYPE_VEC2, DMKFormat::DMK_FORMAT_RG_32_SF32, 1));
+	shaderVS.setInputAttributes(vLayout.getInputAttributes());
 
 	skyBox.addShaderModule(shaderVS);
 

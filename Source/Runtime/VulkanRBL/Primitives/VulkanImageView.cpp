@@ -18,32 +18,29 @@ namespace Dynamik
 			createInfo.image = *Inherit<VulkanImage>(pImage);
 			createInfo.format = VulkanUtilities::getVulkanFormat(InheritCast<VulkanImage>(pImage).format);
 			createInfo.pNext = VK_NULL_HANDLE;
+			createInfo.subresourceRange.layerCount = InheritCast<VulkanImage>(pImage).layers;
 
 			switch (InheritCast<VulkanImage>(pImage).type)
 			{
 			case Dynamik::DMKTextureType::TEXTURE_TYPE_2D:
 				createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
 				createInfo.components = VulkanUtilities::getComponentMapping(swizzles);
-				createInfo.subresourceRange.layerCount = InheritCast<VulkanImage>(pImage).layers;
 				break;
 			case Dynamik::DMKTextureType::TEXTURE_TYPE_2D_ARRAY:
 				createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D_ARRAY;
 				createInfo.components = VulkanUtilities::getComponentMapping(swizzles);
-				createInfo.subresourceRange.layerCount = InheritCast<VulkanImage>(pImage).layers;
 				break;
 			case Dynamik::DMKTextureType::TEXTURE_TYPE_CUBEMAP:
 				createInfo.viewType = VK_IMAGE_VIEW_TYPE_CUBE;
-				createInfo.subresourceRange.layerCount = InheritCast<VulkanImage>(pImage).layers / 6;
 				break;
 			case Dynamik::DMKTextureType::TEXTURE_TYPE_CUBEMAP_ARRAY:
 				createInfo.viewType = VK_IMAGE_VIEW_TYPE_CUBE_ARRAY;
-				createInfo.subresourceRange.layerCount = InheritCast<VulkanImage>(pImage).layers / 6;
 				break;
 			default:
 				DMK_ERROR_BOX("Invalid image type!");
 				break;
 			}
-			
+
 			createInfo.subresourceRange.baseArrayLayer = 0;
 			createInfo.subresourceRange.baseMipLevel = 0;
 			createInfo.subresourceRange.aspectMask = (pImage->usage == RImageUsage::IMAGE_USAGE_DEPTH_ATTACHMENT) ? VK_IMAGE_ASPECT_DEPTH_BIT : VK_IMAGE_ASPECT_COLOR_BIT;

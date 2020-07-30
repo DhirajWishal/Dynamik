@@ -17,18 +17,15 @@ void CerberusModel::initialize()
 	attribute.dataCount = 1;
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
-	attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
 	layout.attributes.pushBack(attribute);
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL;
-	attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
 	layout.attributes.pushBack(attribute);
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES;
-	attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC2;
 	layout.attributes.pushBack(attribute);
 
-	addComponents<DMKStaticMeshComponent>(DMKMeshFactory::loadMeshes(TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\Cerberus\\Assets\\cerberus.fbx"), layout));
+	addComponents<DMKStaticMeshComponent>(DMKMeshFactory::loadMeshes(TEXT("E:\\Dynamik\\Game Repository\\assets\\Cerberus\\Assets\\cerberus.fbx"), layout));
 
 	/* Setup shader modules */
 	auto shaderVS = DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_TBL_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
@@ -39,10 +36,7 @@ void CerberusModel::initialize()
 	ubo1.addAttribute(TEXT("camPos"), sizeof(Vector3F));
 	ubo1.initialize();
 	shaderVS.addUniform(ubo1);
-
-	shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKDataType::DMK_DATA_TYPE_VEC3, DMKFormat::DMK_FORMAT_RGBA_32_SF32, 1));
-	shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKDataType::DMK_DATA_TYPE_VEC3, DMKFormat::DMK_FORMAT_RGBA_32_SF32, 1));
-	shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKDataType::DMK_DATA_TYPE_VEC2, DMKFormat::DMK_FORMAT_RG_32_SF32, 1));
+	shaderVS.setInputAttributes(layout.getInputAttributes());
 
 	auto shaderFS = DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_TBL_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
 	DMKUniformBufferObject ubo2(1);
@@ -71,11 +65,11 @@ void CerberusModel::initialize()
 		pStaticMesh->addShaderModule(shaderVS);
 		pStaticMesh->addShaderModule(shaderFS);
 
-		pStaticMesh->addTexture(TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\Cerberus\\Assets\\albedo.ktx"), DMKTextureType::TEXTURE_TYPE_2D);
-		pStaticMesh->addTexture(TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\Cerberus\\Assets\\normal.ktx"), DMKTextureType::TEXTURE_TYPE_2D);
-		pStaticMesh->addTexture(TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\Cerberus\\Assets\\ao.ktx"), DMKTextureType::TEXTURE_TYPE_2D);
-		pStaticMesh->addTexture(TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\Cerberus\\Assets\\metallic.ktx"), DMKTextureType::TEXTURE_TYPE_2D);
-		pStaticMesh->addTexture(TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\Cerberus\\Assets\\roughness.ktx"), DMKTextureType::TEXTURE_TYPE_2D);
+		pStaticMesh->addTexture(TEXT("E:\\Dynamik\\Game Repository\\assets\\Cerberus\\Assets\\albedo.ktx"), DMKTextureType::TEXTURE_TYPE_2D);
+		pStaticMesh->addTexture(TEXT("E:\\Dynamik\\Game Repository\\assets\\Cerberus\\Assets\\normal.ktx"), DMKTextureType::TEXTURE_TYPE_2D);
+		pStaticMesh->addTexture(TEXT("E:\\Dynamik\\Game Repository\\assets\\Cerberus\\Assets\\ao.ktx"), DMKTextureType::TEXTURE_TYPE_2D);
+		pStaticMesh->addTexture(TEXT("E:\\Dynamik\\Game Repository\\assets\\Cerberus\\Assets\\metallic.ktx"), DMKTextureType::TEXTURE_TYPE_2D);
+		pStaticMesh->addTexture(TEXT("E:\\Dynamik\\Game Repository\\assets\\Cerberus\\Assets\\roughness.ktx"), DMKTextureType::TEXTURE_TYPE_2D);
 	}
 
 	dataVS.model = DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(90.0f), Vector3F(0.0f, 1.0f, 1.0f));

@@ -898,8 +898,6 @@ namespace Dynamik
 		updateEntities();
 		updateBoundingBoxes();
 		updateDebugObjects();
-
-
 	}
 
 	void DMKRenderer::updateCamera()

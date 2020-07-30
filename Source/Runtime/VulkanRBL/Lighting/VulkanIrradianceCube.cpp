@@ -145,7 +145,13 @@ namespace Dynamik
 			Tools::GLSLCompiler compiler;
 
 			ARRAY<DMKShaderModule> shaders;
-			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_FILTER_CUBE_VERT")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX));
+
+			auto shaderVS = compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_FILTER_CUBE_VERT")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX);
+			shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKFormat::DMK_FORMAT_RGBA_32_SF32, 1));
+			shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKFormat::DMK_FORMAT_RGBA_32_SF32, 1));
+			shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKFormat::DMK_FORMAT_RG_32_SF32, 1));
+
+			shaders.pushBack(shaderVS);
 			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_IRRADIANCE_CUBE_FRAG")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT));
 
 			DMKViewport _viewport;

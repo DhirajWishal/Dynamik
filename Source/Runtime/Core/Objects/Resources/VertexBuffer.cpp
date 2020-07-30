@@ -10,26 +10,36 @@ namespace Dynamik
 	{
 		UI64 _size = 0;
 		for (auto _attribute : attributes)
-			_size += ((UI64)_attribute.dataType * _attribute.dataCount);
+			_size += FormatSize(_attribute.dataFormat)* _attribute.dataCount;
 
 		return _size;
+	}
+
+	ARRAY<DMKShaderInputAttribute> DMKVertexLayout::getInputAttributes() const
+	{
+		ARRAY<DMKShaderInputAttribute> inputAttributes;
+
+		for (auto attribute : attributes)
+			inputAttributes.pushBack(DMKShaderInputAttribute(attribute.dataFormat, attribute.dataCount));
+
+		return inputAttributes;
 	}
 
 	DMKVertexLayout DMKVertexLayout::createBasic()
 	{
 		DMKVertexLayout layout;
 		DMKVertexAttribute attribute;
+		attribute.dataFormat = DMKFormat::DMK_FORMAT_RGBA_32_SF32;
 		attribute.dataCount = 1;
 
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
 		layout.attributes.pushBack(attribute);
 
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_0;
 		layout.attributes.pushBack(attribute);
 
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_0;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC2;
+		attribute.dataFormat = DMKFormat::DMK_FORMAT_RG_32_SF32;
 		layout.attributes.pushBack(attribute);
 
 		return layout;
@@ -39,18 +49,17 @@ namespace Dynamik
 	{
 		DMKVertexLayout layout;
 		DMKVertexAttribute attribute;
+		attribute.dataFormat = DMKFormat::DMK_FORMAT_RGBA_32_SF32;
 		attribute.dataCount = 1;
 
+		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
+		layout.attributes.pushBack(attribute);
+
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
 		layout.attributes.pushBack(attribute);
 
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC2;
-		layout.attributes.pushBack(attribute);
-
-		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
+		attribute.dataFormat = DMKFormat::DMK_FORMAT_RG_32_SF32;
 		layout.attributes.pushBack(attribute);
 
 		return layout;
@@ -60,30 +69,30 @@ namespace Dynamik
 	{
 		DMKVertexLayout layout;
 		DMKVertexAttribute attribute;
+		attribute.dataFormat = DMKFormat::DMK_FORMAT_RGBA_32_SF32;
 		attribute.dataCount = 1;
 
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
 		layout.attributes.pushBack(attribute);
 
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL;
 		layout.attributes.pushBack(attribute);
 
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC2;
+		attribute.dataFormat = DMKFormat::DMK_FORMAT_RG_32_SF32;
 		layout.attributes.pushBack(attribute);
 
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_0;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
+		attribute.dataFormat = DMKFormat::DMK_FORMAT_RGBA_32_SF32;
 		layout.attributes.pushBack(attribute);
 
 		attribute.dataCount = 4;
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_F32;
+		attribute.dataFormat = DMKFormat::DMK_FORMAT_R_32_SF32;
 		layout.attributes.pushBack(attribute);
 
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_UI32;
+		attribute.dataFormat = DMKFormat::DMK_FORMAT_R_32_SF32;
 		layout.attributes.pushBack(attribute);
 
 		return layout;
@@ -93,14 +102,13 @@ namespace Dynamik
 	{
 		DMKVertexLayout layout;
 		DMKVertexAttribute attribute;
+		attribute.dataFormat = DMKFormat::DMK_FORMAT_RGBA_32_SF32;
 		attribute.dataCount = 1;
 
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
 		layout.attributes.pushBack(attribute);
 
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_0;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC4;
 		layout.attributes.pushBack(attribute);
 
 		return layout;
@@ -111,8 +119,8 @@ namespace Dynamik
 		DMKVertexLayout layout;
 		DMKVertexAttribute attribute;
 		attribute.dataCount = 1;
+		attribute.dataFormat = DMKFormat::DMK_FORMAT_RGBA_32_SF32;
 		attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
-		attribute.dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
 		layout.attributes.pushBack(attribute);
 
 		return layout;
@@ -127,7 +135,7 @@ namespace Dynamik
 			if (
 				(this->attributes[index].attributeType != other.attributes[index].attributeType) ||
 				(this->attributes[index].dataCount != other.attributes[index].dataCount) ||
-				(this->attributes[index].dataType != other.attributes[index].dataType))
+				(this->attributes[index].dataFormat != other.attributes[index].dataFormat))
 				return false;
 
 		return true;
@@ -230,7 +238,7 @@ namespace Dynamik
 			if (attributeType == attribtue.attributeType)
 				break;
 
-			_offset += (UI64)attribtue.dataCount * (UI64)attribtue.dataType;
+			_offset += (UI64)attribtue.dataCount * FormatSize(attribtue.dataFormat);
 		}
 
 		return _offset;
@@ -240,7 +248,7 @@ namespace Dynamik
 	{
 		for (auto attribtue : layout.attributes)
 			if (attributeType == attribtue.attributeType)
-				return attribtue.dataCount * (UI64)attribtue.dataType;
+				return attribtue.dataCount * FormatSize(attribtue.dataFormat);
 
 		DMK_ERROR("Attribute type is not available in the layout!");
 		return UI64();

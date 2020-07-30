@@ -23,6 +23,7 @@ project "DynamikStudio"
 		"**.cpp",
 		"**.h",
 		"**.md",
+		"**.ini",
 		"**.lua"
 	}
 
@@ -37,6 +38,18 @@ project "DynamikStudio"
 	}
 
 	links {
+		"Animation",
+		"ComponentSystem",
+		"Core",
+		"Events",
+		"GameLibrary",
+		"Importer",
+		"Managers",
+		"Renderer",
+		"Services",
+		"Tools",
+		"Window",
+
 		"ImGui",
 	}
 

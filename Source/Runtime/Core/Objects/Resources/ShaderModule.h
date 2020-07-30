@@ -35,11 +35,10 @@ namespace Dynamik
 	/* Dynamik Shader Input Attribute */
 	struct DMK_API DMKShaderInputAttribute {
 		DMKShaderInputAttribute() = default;
-		DMKShaderInputAttribute(DMKDataType dataType, DMKFormat format, UI32 dataCount) 
-			: dataType(dataType), dataFormat(format), dataCount(dataCount) {}
+		DMKShaderInputAttribute(DMKFormat format, UI32 dataCount) 
+			: dataFormat(format), dataCount(dataCount) {}
 		virtual ~DMKShaderInputAttribute() = default;
 
-		DMKDataType dataType = DMKDataType::DMK_DATA_TYPE_VEC3;
 		DMKFormat dataFormat = DMKFormat::DMK_FORMAT_UNDEFINED;
 		UI32 dataCount = 1;     /* Number of elements of data which is sent. Used for sending arrays. */
 	};
@@ -103,6 +102,13 @@ namespace Dynamik
 		 @param attribute: The input attribute.
 		*/
 		void addInputAttribute(const DMKShaderInputAttribute& attribute);
+
+		/*
+		 Set all the input attributes.
+
+		 @param attributes: All the input attributes..
+		*/
+		void setInputAttributes(ARRAY<DMKShaderInputAttribute> attributes);
 
 		/*
 		 Get a stored shader attribute.

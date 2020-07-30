@@ -48,6 +48,11 @@ namespace Dynamik
 		inputAttributes.pushBack(attribute);
 	}
 
+	void DMKShaderModule::setInputAttributes(ARRAY<DMKShaderInputAttribute> attributes)
+	{
+		this->inputAttributes = attributes;
+	}
+
 	DMKShaderInputAttribute DMKShaderModule::getAttribute(I64 index) const
 	{
 		return inputAttributes[index];

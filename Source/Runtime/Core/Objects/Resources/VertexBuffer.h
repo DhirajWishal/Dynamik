@@ -38,8 +38,8 @@ namespace Dynamik
 	/* Dynamik Vertex Attribute */
 	struct DMK_API DMKVertexAttribute : public DMKShaderInputAttribute {
 		DMKVertexAttribute() = default;
-		DMKVertexAttribute(DMKDataType dataType, DMKFormat format, UI32 dataCount, DMKVertexAttributeType attributeType)
-			: DMKShaderInputAttribute(dataType, format, dataCount), attributeType(attributeType) {}
+		DMKVertexAttribute(DMKFormat format, UI32 dataCount, DMKVertexAttributeType attributeType)
+			: DMKShaderInputAttribute(format, dataCount), attributeType(attributeType) {}
 		~DMKVertexAttribute() = default;
 
 		DMKVertexAttributeType attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
@@ -56,6 +56,11 @@ namespace Dynamik
 
 		/* Vertex attributes */
 		ARRAY<DMKVertexAttribute> attributes;
+
+		/*
+		 Get the vertex layout as shader input attributes.
+		*/
+		ARRAY<DMKShaderInputAttribute> getInputAttributes() const;
 
 	public:		/* Helper methods */
 		/*

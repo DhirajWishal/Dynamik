@@ -328,18 +328,18 @@ namespace Dynamik
 		ARRAY<VkVertexInputAttributeDescription> VulkanUtilities::getVertexAttributeDescriptions(DMKVertexLayout descriptor)
 		{
 			ARRAY<VkVertexInputAttributeDescription> attributeDescriptions;
-			UI32 _previousTypeSize = 0;
+			UI64 _previousTypeSize = 0;
 
 			for (UI32 _index = 0; _index < descriptor.attributes.size(); _index++)
 			{
 				VkVertexInputAttributeDescription _description = {};
 				_description.binding = 0;
 				_description.location = _index;
-				_description.format = vertexAttributeTypeToVkFormat(descriptor.attributes[_index].dataType);
-				_description.offset = _previousTypeSize;
+				_description.format = getVulkanFormat(descriptor.attributes[_index].dataFormat);
+				_description.offset = Cast<UI32>(_previousTypeSize);
 				attributeDescriptions.pushBack(_description);
 
-				_previousTypeSize += (UI32)descriptor.attributes[_index].dataType;
+				_previousTypeSize += FormatSize(descriptor.attributes[_index].dataFormat);
 			}
 
 			return attributeDescriptions;
@@ -362,7 +362,7 @@ namespace Dynamik
 				_description.format = getVulkanFormat(attribute.dataFormat);
 				attributeDescriptions.pushBack(_description);
 
-				_description.offset += Cast<UI32>(Cast<UI32>(attribute.dataType) * attribute.dataCount);
+				_description.offset += Cast<UI32>(FormatSize(attribute.dataFormat) * attribute.dataCount);
 				_description.location++;
 			}
 
@@ -374,19 +374,21 @@ namespace Dynamik
 			if (shaderModule.location != DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
 				DMK_WARN("The submitted shader module is not bound as a Vertex Shader!");
 
-			ARRAY<VkVertexInputBindingDescription> descriptions(1);
+			ARRAY<VkVertexInputBindingDescription> descriptions;
 
 			VkVertexInputBindingDescription bindingDescription = {};
 			bindingDescription.binding = 0;
 			bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-			
+
 			UI64 stride = 0;
 			for (auto attribute : shaderModule.getAttributes())
 				stride += FormatSize(attribute.dataFormat);
 
-			bindingDescription.stride = stride;
-
-			descriptions[0] = bindingDescription;
+			if (stride)
+			{
+				bindingDescription.stride = Cast<UI32>(stride);
+				descriptions.pushBack(bindingDescription);
+			}
 			return descriptions;
 		}
 

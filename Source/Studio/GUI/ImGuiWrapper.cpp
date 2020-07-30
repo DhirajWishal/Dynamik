@@ -105,5 +105,19 @@ namespace Dynamik
 	void DMKImGuiWrapper::update()
 	{
 		myImGuiBackend->setDrawData(ImGui::GetDrawData());
+
+		auto& io = ImGui::GetIO();
+
+		auto mousePos = DMKEventPool::getMousePosition();
+		io.MousePos = ImVec2(mousePos.x, mousePos.x);
+
+		if (DMKEventPool::MouseButtonLeft.isPressed())
+		{
+			DMK_INFO("Pressed!");
+			io.MouseDown[0] = DMKEventPool::MouseButtonLeft.isPressed();
+		}
+		io.MouseDown[1] = DMKEventPool::MouseButtonRight.isPressed();
+
+		auto check = io.WantCaptureMouse;
 	}
 }

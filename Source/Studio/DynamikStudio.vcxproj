@@ -219,7 +219,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unix|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_DEBUG;DMK_INTERNAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -235,7 +235,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Mac|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_DEBUG;DMK_INTERNAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -251,7 +251,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Windows|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_RELEASE;DMK_INTERNAL;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -272,7 +272,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unix|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_RELEASE;DMK_INTERNAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -292,7 +292,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Mac|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_RELEASE;DMK_INTERNAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -312,7 +312,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Windows|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_INTERNAL;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -333,7 +333,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Unix|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_INTERNAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -353,7 +353,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Mac|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_INTERNAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -384,11 +384,41 @@
     <None Include="DynamikStudio.lua" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Runtime\Animation\Animation.vcxproj">
+      <Project>{859E00A2-F108-B518-3A47-66BEA6F0926D}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\ComponentSystem\ComponentSystem.vcxproj">
+      <Project>{9D238DF0-09AF-FAB4-12C0-7DA97ECA56B5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Core\Core.vcxproj">
+      <Project>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Events\Events.vcxproj">
+      <Project>{3A8963B1-262B-8E87-0FE6-A1DBFB2615D8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\GameLibrary\GameLibrary.vcxproj">
+      <Project>{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Importer\Importer.vcxproj">
+      <Project>{D7C05FAE-C38D-BAB9-ECA6-A861D8D2EF47}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Managers\Managers.vcxproj">
+      <Project>{B34CFEBD-9F19-59C9-C832-4771B45E8E57}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Renderer\Renderer.vcxproj">
+      <Project>{7CCE658F-689B-C09A-91B4-AE427DE0F528}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Services\Services.vcxproj">
+      <Project>{A9F04386-95BD-9E91-BED6-8C39AA02D41F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Tools\Tools.vcxproj">
+      <Project>{16CF2D0E-82E3-55BF-4B65-F91EB73852F0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Window\Window.vcxproj">
+      <Project>{3DEA79DA-298C-A4B0-1247-B804FE872B01}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Dependencies\ThirdParty\imgui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Engine\DynamikEngine.vcxproj">
-      <Project>{2873A0D0-9433-1C07-5D6E-6584C9ED60E3}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

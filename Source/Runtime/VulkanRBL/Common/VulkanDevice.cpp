@@ -65,6 +65,9 @@ namespace Dynamik
 			case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_OTHER:
 				printf("Device Type: Other GPU\n");
 				break;
+			case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU:
+				printf("Device Type: Discrete GPU (dedicated)\n");
+				break;
 			case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU:
 				printf("Device Type: Integrated GPU (onboard)\n");
 				break;
