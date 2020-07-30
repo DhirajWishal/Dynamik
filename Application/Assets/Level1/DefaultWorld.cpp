@@ -5,6 +5,8 @@
 #include "Entities/VenusModel.h"
 #include "SkySphere.h"
 #include "Entities/CerberusModel.h"
+#include "Entities/Tree.h"
+
 
 #include "GameLibrary/Utilities/MeshFactory.h"
 #include "Services/RuntimeSystems/AssetRegistry.h"
@@ -14,6 +16,7 @@ void DefaultWorld::initialize()
 {
 	auto entity1 = createUserEntity<VenusModel>();
 	auto cerberus = createUserEntity<CerberusModel>();
+	//auto tree = createUserEntity<Tree>();
 
 	//auto entity1 = createUserEntity<DMKStaticEntity>();
 	//entity1->loadAsset(

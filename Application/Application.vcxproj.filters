@@ -22,6 +22,9 @@
     <ClInclude Include="Assets\Level1\Entities\CerberusModel.h">
       <Filter>Assets\Level1\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Assets\Level1\Entities\Tree.h">
+      <Filter>Assets\Level1\Entities</Filter>
+    </ClInclude>
     <ClInclude Include="Assets\Level1\Entities\VenusModel.h">
       <Filter>Assets\Level1\Entities</Filter>
     </ClInclude>
@@ -41,6 +44,9 @@
       <Filter>Assets\Level1</Filter>
     </ClCompile>
     <ClCompile Include="Assets\Level1\Entities\CerberusModel.cpp">
+      <Filter>Assets\Level1\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Assets\Level1\Entities\Tree.cpp">
       <Filter>Assets\Level1\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Assets\Level1\Entities\VenusModel.cpp">

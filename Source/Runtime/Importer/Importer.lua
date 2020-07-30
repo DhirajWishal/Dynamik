@@ -41,6 +41,7 @@ project "Importer"
 		"%{IncludeDir.assimp}",
 		"%{IncludeDir.stb}",
 		"%{IncludeDir.gli}",
+		"%{IncludeDir.FreeImage}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.zlib}",
 		"%{IncludeDir.SPIRVTools}",
@@ -49,10 +50,12 @@ project "Importer"
 	libdirs {
 		"%{IncludeLib.Assimp}",
 		"%{IncludeLib.zlib}",
+		"%{IncludeLib.FreeImage}",
 	}
 
 	links { 
 		"assimp-vc142-mt",
+		"FreeImageLib",
 	}
 
 	filter "system:windows"

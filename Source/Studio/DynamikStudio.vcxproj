@@ -382,6 +382,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DynamikStudio.lua" />
+    <None Include="imgui.ini" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Runtime\Animation\Animation.vcxproj">

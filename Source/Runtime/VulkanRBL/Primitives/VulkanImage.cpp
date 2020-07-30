@@ -21,6 +21,8 @@ namespace Dynamik
 			extent = info.vDimentions;
 			format = info.imageFormat;
 
+			//vkGetImageMemoryRequirements(Inherit<VulkanCoreObject>(pCoreObject)->device, )
+
 			VkImageCreateInfo imageInfo = {};
 			imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
 			imageInfo.imageType = VK_IMAGE_TYPE_2D;
@@ -35,6 +37,13 @@ namespace Dynamik
 			imageInfo.samples = (VkSampleCountFlagBits)info.sampleCount;
 			imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 			imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+
+			VkImageFormatProperties _props = {};
+			while (vkGetPhysicalDeviceImageFormatProperties(Inherit<VulkanCoreObject>(pCoreObject)->device, imageInfo.format, imageInfo.imageType, imageInfo.tiling, imageInfo.usage, imageInfo.flags, &_props) == VK_ERROR_FORMAT_NOT_SUPPORTED)
+			{
+				format = DMKFormat::DMK_FORMAT_RGBA_8_UNORMAL;
+				imageInfo.format = VulkanUtilities::getVulkanFormat(format);
+			}
 
 			if (info.imageType == DMKTextureType::TEXTURE_TYPE_CUBEMAP || info.imageType == DMKTextureType::TEXTURE_TYPE_CUBEMAP_ARRAY)
 				imageInfo.flags = VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT;

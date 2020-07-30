@@ -21,6 +21,9 @@
     <ClInclude Include="Asset\AnimationImporter.h">
       <Filter>Asset</Filter>
     </ClInclude>
+    <ClInclude Include="Asset\ImageImporter.h">
+      <Filter>Asset</Filter>
+    </ClInclude>
     <ClInclude Include="Asset\MeshImporter.h">
       <Filter>Asset</Filter>
     </ClInclude>
@@ -36,6 +39,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset\AnimationImporter.cpp">
+      <Filter>Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\ImageImporter.cpp">
       <Filter>Asset</Filter>
     </ClCompile>
     <ClCompile Include="Asset\MeshImporter.cpp">

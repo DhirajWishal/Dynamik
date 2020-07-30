@@ -179,7 +179,7 @@ namespace Dynamik
 			_load_KTX(path);
 		else
 		{
-			image = (UCPTR)stbi_load(path.c_str(), (I32*)&width, (I32*)&height, (I32*)&channels, NULL);
+			image = (UCPTR)stbi_load(path.c_str(), (I32*)&width, (I32*)&height, (I32*)&channels, STBI_rgb_alpha);
 
 			/* Check if the texture file was successfully loaded */
 			if (!image)

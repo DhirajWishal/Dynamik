@@ -59,8 +59,9 @@ IncludeDir["zlib"] = "$(SolutionDir)Dependencies/Libraries/External/zlib/"
 IncludeDir["Vulkan"] = "$(SolutionDir)Dependencies/ThirdParty/Vulkan/include"
 IncludeDir["SPIRVTools"] = "$(SolutionDir)Dependencies/ThirdParty/SPIRV-Tools/include"
 IncludeDir["glslang"] = "$(SolutionDir)Dependencies/ThirdParty/glslang/"
+IncludeDir["FreeImage"] = "$(SolutionDir)Dependencies/ThirdParty/FreeImage/Include"
 
-IncludeDir["boost"] = "E:/Projects/Dynamik Engine/Libraries/boost_1_70_0"
+IncludeDir["boost"] = "E:/Dynamik/Libraries/boost_1_70_0"
 IncludeDir["jpeg"] = "$(SolutionDir)Dependencies/ThirdParty/gil/jpeg-6b"
 IncludeDir["irrKlang"] = "$(SolutionDir)Dependencies/Libraries/Local/irrKlang/include"
 IncludeDir["assimp"] = "$(SolutionDir)Dependencies/ThirdParty/Assimp/include"
@@ -72,11 +73,12 @@ IncludeLib["GLEW"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/GLEW/Releas
 IncludeLib["Vulkan"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/Vulkan"
 IncludeLib["DirectX"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/DirectX12"
 IncludeLib["irrKlang"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/irrKlang"
-IncludeLib["boost"] = "E:/Projects/Dynamik Engine/Libraries/boost_1_70_0/stage/lib"
+IncludeLib["boost"] = "E:/Dynamik/Libraries/boost_1_70_0/stage/lib"
 IncludeLib["Assimp"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/Assimp"
 IncludeLib["SPIRVTools"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/SPIRV-Tools/"
 IncludeLib["zlib"] = ""	-- TODO
 IncludeLib["glslang"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/glslang/"
+IncludeLib["FreeImage"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/FreeImage/x64"
 
 
 group "Engine"	-- Add the Engine to a virtual folder

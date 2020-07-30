@@ -103,7 +103,7 @@ namespace Dynamik
 				descriptorSetLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
 				descriptorSetLayoutCreateInfo.flags = VK_NULL_HANDLE;
 				descriptorSetLayoutCreateInfo.pNext = VK_NULL_HANDLE;
-				descriptorSetLayoutCreateInfo.bindingCount = (UI32)resourceBindings.size();
+				descriptorSetLayoutCreateInfo.bindingCount = Cast<UI32>(resourceBindings.size());
 				descriptorSetLayoutCreateInfo.pBindings = resourceBindings.data();
 
 				DMK_VULKAN_ASSERT(vkCreateDescriptorSetLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorSetLayoutCreateInfo, nullptr, &descriptor.layout), "Failed to create descriptor set layout!");
@@ -114,7 +114,7 @@ namespace Dynamik
 				descriptorPoolCreateInfo.flags = VK_NULL_HANDLE;
 				descriptorPoolCreateInfo.pNext = VK_NULL_HANDLE;
 				descriptorPoolCreateInfo.maxSets = 1;
-				descriptorPoolCreateInfo.poolSizeCount = (UI32)descriptorPoolSizes.size();
+				descriptorPoolCreateInfo.poolSizeCount = Cast<UI32>(descriptorPoolSizes.size());
 				descriptorPoolCreateInfo.pPoolSizes = descriptorPoolSizes.data();
 
 				DMK_VULKAN_ASSERT(vkCreateDescriptorPool(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorPoolCreateInfo, VK_NULL_HANDLE, &descriptor.pool), "Failed to create descriptor pool!");

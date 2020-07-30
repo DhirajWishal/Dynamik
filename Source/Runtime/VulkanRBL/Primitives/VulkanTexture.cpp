@@ -15,12 +15,6 @@ namespace Dynamik
 	{
 		void VulkanTexture::initialize(RCoreObject* pCoreObject, DMKTexture* pTextureObject)
 		{
-			pTexture = pTextureObject;
-
-			VulkanBuffer staggingBuffer;
-			staggingBuffer.initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, pTextureObject->size() * pTextureObject->layerCount);
-			staggingBuffer.setData(pCoreObject, pTextureObject->size() * pTextureObject->layerCount, 0, pTextureObject->image);
-
 			RImageCreateInfo initInfo;
 			initInfo.vDimentions.width = (F32)pTextureObject->width;
 			initInfo.vDimentions.height = (F32)pTextureObject->height;
@@ -34,6 +28,19 @@ namespace Dynamik
 
 			pImage = (RImage*)StaticAllocator<VulkanImage>::rawAllocate();
 			pImage->initialize(pCoreObject, initInfo);
+
+			if (pImage->format != pTextureObject->format)
+			{
+				DMK_WARN("The specified texture format was not supported! The format was updated internally!");
+				pTextureObject->format = pImage->format;
+				pTextureObject->channels = 4;	/* TODO */
+			}
+
+			pTexture = pTextureObject;
+
+			VulkanBuffer staggingBuffer;
+			staggingBuffer.initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, pTextureObject->size() * pTextureObject->layerCount);
+			staggingBuffer.setData(pCoreObject, pTextureObject->size() * pTextureObject->layerCount, 0, pTextureObject->image);
 
 			pImage->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_TRANSFER_DST);
 			pImage->copyBuffer(pCoreObject, &staggingBuffer);

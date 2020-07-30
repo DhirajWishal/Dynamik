@@ -20,5 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DynamikStudio.lua" />
+    <None Include="imgui.ini" />
   </ItemGroup>
 </Project>

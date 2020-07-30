@@ -40,5 +40,8 @@ GLSL language tools.
 Binaries are required to be externally.
 [Link To Download](https://github.com/KhronosGroup/glslang/releases/tag/master-tot)
 
+#### FreeImage
+https://freeimage.sourceforge.io/
+
 ### Binary Location
 Binaries for almost all the locally stored libraries and stand alone binaries are stored here at Binaries/.
