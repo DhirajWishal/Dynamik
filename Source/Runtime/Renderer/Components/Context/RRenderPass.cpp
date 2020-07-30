@@ -28,7 +28,7 @@ namespace Dynamik
 		attachment.subpass = RSubPasses::SUBPASSES_DEPTH;
 		attachment.samples = pCoreObject->sampleCount;
 		attachment.format = pCoreObject->getDepthFormat();
-		attachment.loadOp = RSubpassAttachmentLoadOp::SUBPASS_ATTACHMENT_LOAD_OP_DONT_CARE;
+		attachment.loadOp = RSubpassAttachmentLoadOp::SUBPASS_ATTACHMENT_LOAD_OP_CLEAR;
 		attachment.storeOp = RSubpassAttachmentStoreOp::SUBPASS_ATTACHMENT_STORE_OP_STORE;
 		attachment.stencilLoadOp = RSubpassAttachmentLoadOp::SUBPASS_ATTACHMENT_LOAD_OP_DONT_CARE;
 		attachment.stencilStoreOp = RSubpassAttachmentStoreOp::SUBPASS_ATTACHMENT_STORE_OP_DONT_CARE;

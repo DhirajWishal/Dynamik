@@ -25,7 +25,7 @@ void Level1::onLoad()
 	createUserGameWorld<DefaultWorld>();
 	pCurrentGameWorld->setCamera(playerObject->getCameraModule());
 
-	movementBias = 0.1f;
+	movementBias = 0.005f;
 }
 
 void Level1::onUpdate(const DMKEventPool* pEventPool)
@@ -63,25 +63,25 @@ void Level1::onUpdate(const DMKEventPool* pEventPool)
 
 	if (DMKEventPool::KeyRight.isPressed() || DMKEventPool::KeyRight.isOnRepeat())
 	{
-		Inherit<SkySphere>(pCurrentGameWorld->pEnvironmentMap)->fsUBO.exposure += 0.1f;
+		Inherit<SkySphere>(pCurrentGameWorld->pEnvironmentMap)->fsUBO.exposure += 0.001f;
 		//Inherit<CerberusModel>(pCurrentGameWorld->entities[0])->camParamFS.exposure += 0.1f;
 	}
 
 	if (DMKEventPool::KeyLeft.isPressed() || DMKEventPool::KeyLeft.isOnRepeat())
 	{
-		Inherit<SkySphere>(pCurrentGameWorld->pEnvironmentMap)->fsUBO.exposure -= 0.1f;
+		Inherit<SkySphere>(pCurrentGameWorld->pEnvironmentMap)->fsUBO.exposure -= 0.001f;
 		//Inherit<CerberusModel>(pCurrentGameWorld->entities[0])->camParamFS.exposure -= 0.1f;
 	}
 
 	if (DMKEventPool::KeyI.isPressed() || DMKEventPool::KeyI.isOnRepeat())
 	{
-		Inherit<SkySphere>(pCurrentGameWorld->pEnvironmentMap)->fsUBO.gamma += 0.1f;
+		Inherit<SkySphere>(pCurrentGameWorld->pEnvironmentMap)->fsUBO.gamma += 0.001f;
 		//Inherit<CerberusModel>(pCurrentGameWorld->entities[0])->camParamFS.gamma += 0.1f;
 	}
 
 	if (DMKEventPool::KeyO.isPressed() || DMKEventPool::KeyO.isOnRepeat())
 	{
-		Inherit<SkySphere>(pCurrentGameWorld->pEnvironmentMap)->fsUBO.gamma -= 0.1f;
+		Inherit<SkySphere>(pCurrentGameWorld->pEnvironmentMap)->fsUBO.gamma -= 0.001f;
 		//Inherit<CerberusModel>(pCurrentGameWorld->entities[0])->camParamFS.gamma -= 0.1f;
 	}
 

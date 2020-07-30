@@ -27,7 +27,7 @@ public:
 	void copyDataToDebug(DMKCameraRay ray);
 
 private:
-	F32 movementBias = 0.1f;
+	F32 movementBias = 1.0f;
 	B1 shouldRenderRay = true;
 };
 

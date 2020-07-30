@@ -8,6 +8,7 @@
 #include "Services/RuntimeSystems/AssetRegistry.h"
 #include "Core/Types/StaticArray.h"
 #include "../LevelComponent.h"
+#include "Core/Math/MathFunctions.h"
 
 namespace Dynamik
 {
@@ -42,6 +43,7 @@ namespace Dynamik
 					uniformVS.initialize();
 
 					auto shaderVS = DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_3D_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
+					shaderVS.setInputAttributes(vLayout.getInputAttributes());
 					shaderVS.addUniform(uniformVS);
 
 					pStaticMesh->addShaderModule(shaderVS);
@@ -65,6 +67,7 @@ namespace Dynamik
 					uniformVS.initialize();
 
 					auto shaderVS = DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
+					shaderVS.setInputAttributes(vLayout.getInputAttributes());
 					shaderVS.addUniform(uniformVS);
 					pStaticMesh->addShaderModule(shaderVS);
 
@@ -109,7 +112,7 @@ namespace Dynamik
 
 			if (isTexturesAvailable)
 			{
-				Matrix4F modelMat = Matrix4F::Identity;
+				Matrix4F modelMat = DMathLib::translate(Matrix4F::Identity, Vector3F(3.0f, 0.0f, 0.0f));
 				pStaticMesh->getUniform(0, 0).setData("Model", &modelMat);
 				pStaticMesh->getUniform(0, 0).setData("View", &pCurrentLevel->getCameraModule()->matrix.view);
 				pStaticMesh->getUniform(0, 0).setData("Projection", &pCurrentLevel->getCameraModule()->matrix.projection);

@@ -202,6 +202,7 @@ namespace Dynamik
 			multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
 			multisampling.flags = VK_NULL_HANDLE;
 			multisampling.pNext = VK_NULL_HANDLE;
+			multisampling.pSampleMask = VK_NULL_HANDLE;
 			multisampling.rasterizationSamples = (VkSampleCountFlagBits)createInfo.multiSamplingInfo.sampleCount;
 			multisampling.sampleShadingEnable = createInfo.multiSamplingInfo.enableSampleShading;
 			multisampling.minSampleShading = createInfo.multiSamplingInfo.minSampleShading;

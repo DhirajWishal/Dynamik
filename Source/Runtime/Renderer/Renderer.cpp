@@ -476,7 +476,7 @@ namespace Dynamik
 		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
 		{
 			RTexture* texture = Inherit<RTexture>(StaticAllocator<VulkanTexture>::rawAllocate().get());
-			texture->initialize(myCoreObject, (DMKTexture*)pTexture);
+			texture->initialize(myCoreObject, Cast<DMKTexture*>(pTexture));
 			texture->createView(myCoreObject);
 
 			if ((pTexture->type == DMKTextureType::TEXTURE_TYPE_CUBEMAP) || (pTexture->type == DMKTextureType::TEXTURE_TYPE_CUBEMAP_ARRAY)) /* TODO */

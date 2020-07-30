@@ -15,9 +15,9 @@ namespace Dynamik
 		{
 			VkImageViewCreateInfo createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+			createInfo.pNext = VK_NULL_HANDLE;
 			createInfo.image = *Inherit<VulkanImage>(pImage);
 			createInfo.format = VulkanUtilities::getVulkanFormat(InheritCast<VulkanImage>(pImage).format);
-			createInfo.pNext = VK_NULL_HANDLE;
 			createInfo.subresourceRange.layerCount = InheritCast<VulkanImage>(pImage).layers;
 
 			switch (InheritCast<VulkanImage>(pImage).type)

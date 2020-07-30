@@ -12,8 +12,8 @@
 
 void DefaultWorld::initialize()
 {
-	//auto entity1 = createUserEntity<VenusModel>();
-	//auto cerberus = createUserEntity<CerberusModel>();
+	auto entity1 = createUserEntity<VenusModel>();
+	auto cerberus = createUserEntity<CerberusModel>();
 
 	//auto entity1 = createUserEntity<DMKStaticEntity>();
 	//entity1->loadAsset(

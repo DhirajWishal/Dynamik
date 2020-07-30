@@ -7,7 +7,7 @@
 #include "../Pipelines/VulkanGraphicsPipeline.h"
 #include "../VulkanUtilities.h"
 
-#include <array>
+#include "Core/Types/StaticArray.h"
 
 namespace Dynamik
 {
@@ -24,7 +24,7 @@ namespace Dynamik
 			renderPassInfo.renderArea.extent.width = (UI32)pRenderTarget->pFrameBuffer->width;
 			renderPassInfo.renderArea.extent.height = (UI32)pRenderTarget->pFrameBuffer->height;
 
-			std::array<VkClearValue, 2> clearValues = {};
+			StaticArray<VkClearValue, 2> clearValues = {};
 
 			clearValues[0].color = {
 				(2.0f / 255.0f),
@@ -39,15 +39,6 @@ namespace Dynamik
 			renderPassInfo.pClearValues = clearValues.data();
 
 			vkCmdBeginRenderPass(buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
-
-			//VkViewport viewPort;
-			//viewPort.width = (F32)pSwapChain->extent.width;
-			//viewPort.height = (F32)pSwapChain->extent.height;
-			//viewPort.minDepth = 0.0f;
-			//viewPort.maxDepth = 1.0f;
-			//viewPort.x = pSwapChain->viewPort.xOffset;
-			//viewPort.y = pSwapChain->viewPort.yOffset;
-			//vkCmdSetViewport(Inherit<VulkanCommandBuffer>(pCommandBuffer)->buffer, 0, 1, &viewPort);
 		}
 
 		void VulkanCommandBuffer::begin()

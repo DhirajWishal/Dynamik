@@ -14,6 +14,7 @@ void CerberusModel::initialize()
 {
 	DMKVertexLayout layout;
 	DMKVertexAttribute attribute;
+	attribute.dataFormat = DMKFormat::DMK_FORMAT_RGBA_32_SF32;
 	attribute.dataCount = 1;
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
@@ -23,6 +24,7 @@ void CerberusModel::initialize()
 	layout.attributes.pushBack(attribute);
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES;
+	attribute.dataFormat = DMKFormat::DMK_FORMAT_RG_32_SF32;
 	layout.attributes.pushBack(attribute);
 
 	addComponents<DMKStaticMeshComponent>(DMKMeshFactory::loadMeshes(TEXT("E:\\Dynamik\\Game Repository\\assets\\Cerberus\\Assets\\cerberus.fbx"), layout));

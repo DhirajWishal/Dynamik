@@ -10,7 +10,7 @@ namespace Dynamik
 	{
 		UI64 _size = 0;
 		for (auto _attribute : attributes)
-			_size += FormatSize(_attribute.dataFormat)* _attribute.dataCount;
+			_size += FormatSize(_attribute.dataFormat) * _attribute.dataCount;
 
 		return _size;
 	}
