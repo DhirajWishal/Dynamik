@@ -163,12 +163,6 @@ namespace Dynamik
 			viewport.height = Cast<F32>(ImGui::GetIO().DisplaySize.y);
 			vkCmdSetViewport(vCommandBuffer, 0, 1, &viewport);
 
-			RConstantBlock pushBlock = {};
-			pushBlock.scale = Vector2F(2.0f / io.DisplaySize.x, 2.0f / io.DisplaySize.y);
-			pushBlock.translate[0] = -1.0f - pDrawData->DisplayPos.x * pushBlock.scale[0];
-			pushBlock.translate[1] = -1.0f - pDrawData->DisplayPos.y * pushBlock.scale[1];
-			vkCmdPushConstants(vCommandBuffer, Inherit<VulkanGraphicsPipeline>(pPipelineObject)->layout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(RConstantBlock), &pushBlock);
-
 			if (!pDrawData)
 				return;
 
@@ -226,6 +220,11 @@ namespace Dynamik
 				pPipelineObject->reCreate(pCoreObject, pRenderTarget, viewport);
 		}
 
+		void VulkanImGuiBackend::updateResources(RCoreObject* pCoreObject)
+		{
+			pUniformBuffer->setData(pCoreObject, sizeof(uniformData), 0, &uniformData);
+		}
+
 		void VulkanImGuiBackend::_initializeFontTexture()
 		{
 			ImGuiIO& io = ImGui::GetIO();
@@ -263,7 +262,6 @@ namespace Dynamik
 		void VulkanImGuiBackend::_initializePipeline()
 		{
 			Tools::GLSLCompiler compiler;
-			ARRAY<DMKShaderModule> shaders;
 
 			auto shaderVS = compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_IM_GUI_UI_VERT")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX);
 
@@ -271,8 +269,18 @@ namespace Dynamik
 			shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKFormat::DMK_FORMAT_RG_32_SF32, 1));
 			shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKFormat::DMK_FORMAT_RGBA_8_UNORMAL, 1));
 
+			DMKUniformBufferObject uniformVS(0);
+			uniformVS.addAttribute(TEXT("scale"), sizeof(Vector2F));
+			uniformVS.addAttribute(TEXT("transform"), sizeof(Vector2F));
+			shaderVS.addUniform(uniformVS);
+
 			shaders.pushBack(shaderVS);
 			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_IM_GUI_UI_FRAG")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT));
+
+			/* Create uniform buffers */
+			pUniformBuffer = StaticAllocator<VulkanBuffer>::rawAllocate();
+			pUniformBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_UNIFORM, sizeof(uniformData));
+			pUniformBuffer->setData(pCoreObject, sizeof(uniformData), 0, &uniformData);
 
 			RPipelineSpecification pipelineSpec = {};
 			pipelineSpec.shaders = shaders;
@@ -286,7 +294,7 @@ namespace Dynamik
 			pPipelineObject = StaticAllocator<VulkanGraphicsPipeline>::rawAllocate();
 			pPipelineObject->initialize(pCoreObject, pipelineSpec, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, pRenderTarget, DMKViewport());
 
-			pPipelineObject->initializeResources(pCoreObject, ARRAY<RBuffer*>(), { pFontTexture });
+			pPipelineObject->initializeResources(pCoreObject, { pUniformBuffer }, { pFontTexture });
 		}
 
 		RColorBlendState VulkanImGuiBackend::createColorBlendState()

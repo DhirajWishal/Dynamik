@@ -132,7 +132,7 @@ namespace Dynamik
 		template<class OBJECT>
 		DMK_FORCEINLINE OBJECT* getObject(I64 index = 0)
 		{
-			if (registeredComponentTypes.findFirstIndex(typeid(OBJECT).name()) >= 0)
+			if (isRegistered<OBJECT>())
 				return (OBJECT*)getObjectArray<OBJECT>()->location(index);
 
 			return nullptr;
@@ -145,7 +145,7 @@ namespace Dynamik
 		template<class OBJECT>
 		DMK_FORCEINLINE ARRAY<OBJECT> getObjects()
 		{
-			if (!registeredComponentTypes.findFirstIndex(typeid(OBJECT).name()) >= 0)
+			if (!isRegistered<OBJECT>())
 				return ARRAY<OBJECT>();
 
 			ARRAY<OBJECT> objects;

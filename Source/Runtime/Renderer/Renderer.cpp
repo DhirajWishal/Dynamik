@@ -939,6 +939,9 @@ namespace Dynamik
 		updateEntities();
 		updateBoundingBoxes();
 		updateDebugObjects();
+
+		if (myImGuiBackend)
+			myImGuiBackend->updateResources(myCoreObject);
 	}
 
 	void DMKRenderer::updateCamera()

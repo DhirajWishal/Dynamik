@@ -27,7 +27,11 @@ namespace Dynamik
 		virtual void bindCommands(RCommandBuffer* pCommandBuffer) = 0;
 		virtual void reCreatePipeline(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, DMKViewport viewport) = 0;
 
+		virtual void updateResources(RCoreObject* pCoreObject) = 0;
+
 	protected:
+		ARRAY<DMKShaderModule> shaders;
+
 		RCoreObject* pCoreObject = nullptr;
 		RRenderTarget* pRenderTarget = nullptr;
 
@@ -40,10 +44,7 @@ namespace Dynamik
 		RBuffer* pIndexBuffer = nullptr;
 		UI64 indexCount = 0;
 
-		struct DMK_API RConstantBlock {
-			Vector2F scale = { 0.0f, 0.0f };
-			Vector2F translate = { 0.0f, 0.0f };
-		};
+		RBuffer* pUniformBuffer = nullptr;
 	};
 }
 

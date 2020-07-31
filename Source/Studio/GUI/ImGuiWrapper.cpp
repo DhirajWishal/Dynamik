@@ -114,5 +114,11 @@ namespace Dynamik
 		io.MouseDown[1] = DMKEventPool::MouseButtonRight.isPressed();
 
 		auto check = io.WantCaptureMouse;
+
+		auto pDrawData = ImGui::GetDrawData();
+
+		myImGuiBackend->uniformData.scale = Vector2F(2.0f / io.DisplaySize.x, 2.0f / io.DisplaySize.y);
+		myImGuiBackend->uniformData.transform[0] = -1.0f - pDrawData->DisplayPos.x * myImGuiBackend->uniformData.scale[0];
+		myImGuiBackend->uniformData.transform[1] = -1.0f - pDrawData->DisplayPos.y * myImGuiBackend->uniformData.scale[1];
 	}
 }

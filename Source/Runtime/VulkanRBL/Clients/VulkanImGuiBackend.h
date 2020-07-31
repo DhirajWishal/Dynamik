@@ -28,6 +28,8 @@ namespace Dynamik
 
 			virtual void reCreatePipeline(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, DMKViewport viewport) override final;
 
+			virtual void updateResources(RCoreObject* pCoreObject) override final;
+
 		private:
 			void _initializeFontTexture();
 			void _initializePipeline();

@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_IM_GUI_BACKEND_HANDLE_H
 #define _DYNAMIK_IM_GUI_BACKEND_HANDLE_H
 
-#include "Core/Macros/Global.h"
+#include "Core/Math/Vector/Vector2F.h"
 #include <imgui.h>
 
 namespace Dynamik
@@ -27,6 +27,11 @@ namespace Dynamik
 		virtual void setDrawData(ImDrawData* pDrawData) { this->pDrawData = pDrawData; };
 
 		ImDrawData* pDrawData = nullptr;
+
+		struct DMK_API ImGuiUniform {
+			Vector2F scale = Vector2F(0.0f);
+			Vector2F transform = Vector2F(0.0f);
+		} uniformData;
 	};
 }
 
