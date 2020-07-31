@@ -220,6 +220,12 @@ namespace Dynamik
 			}
 		}
 
+		void VulkanImGuiBackend::reCreatePipeline(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, DMKViewport viewport)
+		{
+			if (pPipelineObject)
+				pPipelineObject->reCreate(pCoreObject, pRenderTarget, viewport);
+		}
+
 		void VulkanImGuiBackend::_initializeFontTexture()
 		{
 			ImGuiIO& io = ImGui::GetIO();

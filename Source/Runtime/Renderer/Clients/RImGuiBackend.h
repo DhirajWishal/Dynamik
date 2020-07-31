@@ -25,6 +25,7 @@ namespace Dynamik
 		virtual void setCoreObject(RCoreObject* pCoreObject) { this->pCoreObject = pCoreObject; }
 		virtual void setRenderTarget(RRenderTarget* pRenderTarget) { this->pRenderTarget = pRenderTarget; }
 		virtual void bindCommands(RCommandBuffer* pCommandBuffer) = 0;
+		virtual void reCreatePipeline(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, DMKViewport viewport) = 0;
 
 	protected:
 		RCoreObject* pCoreObject = nullptr;

@@ -71,7 +71,7 @@ namespace Dynamik
 		{
 			STRING objectName = typeid(OBJECT).name();
 
-			if (registeredComponentTypes.find(objectName).size())
+			if (registeredComponentTypes.findFirstIndex(objectName) >= 0)
 			{
 				DMK_ERROR("Submitted Object Is Already Registered!");
 				return;
@@ -87,7 +87,7 @@ namespace Dynamik
 		template<class OBJECT>
 		DMK_FORCEINLINE B1 isRegistered()
 		{
-			return registeredComponentTypes.find(typeid(OBJECT).name()).size();
+			return registeredComponentTypes.findFirstIndex(typeid(OBJECT).name()) >= 0;
 		}
 
 		/*
@@ -100,7 +100,7 @@ namespace Dynamik
 			STRING objectName = typeid(OBJECT).name();
 
 			/* Check If Registered */
-			if (!registeredComponentTypes.find(objectName).size())
+			if (!isRegistered<OBJECT>())
 				registerObject<OBJECT>();
 
 			return (ObjectArrayType<OBJECT>*)objectArray[objectName];
@@ -132,7 +132,7 @@ namespace Dynamik
 		template<class OBJECT>
 		DMK_FORCEINLINE OBJECT* getObject(I64 index = 0)
 		{
-			if (registeredComponentTypes.find(typeid(OBJECT).name()).size())
+			if (registeredComponentTypes.findFirstIndex(typeid(OBJECT).name()) >= 0)
 				return (OBJECT*)getObjectArray<OBJECT>()->location(index);
 
 			return nullptr;
@@ -145,7 +145,7 @@ namespace Dynamik
 		template<class OBJECT>
 		DMK_FORCEINLINE ARRAY<OBJECT> getObjects()
 		{
-			if (!registeredComponentTypes.find(typeid(OBJECT).name()).size())
+			if (!registeredComponentTypes.findFirstIndex(typeid(OBJECT).name()) >= 0)
 				return ARRAY<OBJECT>();
 
 			ARRAY<OBJECT> objects;

@@ -894,7 +894,8 @@ namespace Dynamik
 		/* Initialize Pipelines */
 		{
 			/* Initialize Environment Map Pipeline */
-			myCurrentEnvironment.pPipeline->reCreate(myCoreObject, &myRenderTarget, mySwapChain->viewPort);
+			if (myCurrentEnvironment.pPipeline)
+				myCurrentEnvironment.pPipeline->reCreate(myCoreObject, &myRenderTarget, mySwapChain->viewPort);
 
 			/* Initialize Entity Pipelines */
 			for (auto entity : myEntities)
@@ -909,6 +910,10 @@ namespace Dynamik
 			for (auto debug : myDebugObjects)
 				debug.pPipeline->reCreate(myCoreObject, &myRenderTarget, mySwapChain->viewPort);
 		}
+
+		/* Recreate Im Gui Backend Pipeline. */
+		if (myImGuiBackend)
+			myImGuiBackend->reCreatePipeline(myCoreObject, &myRenderTarget, mySwapChain->viewPort);
 
 		/* Initialize Buffers */
 		initializeCommandBuffers();

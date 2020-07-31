@@ -112,7 +112,7 @@ namespace Dynamik
 			for (UI64 index = 0; index < vertexAttributes.size(); index++)
 			{
 				UI64 n_offsets = getFormatToSize(vertexAttributes[index].format);
-				vertexAttributes[index].offset = offsets;
+				vertexAttributes[index].offset = Cast<UI32>(offsets);
 
 				offsets += n_offsets;
 			}

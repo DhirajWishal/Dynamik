@@ -53,7 +53,7 @@ namespace Dynamik
 		RColorBlendState state;
 		for (UI32 index = 0; index < 1; index++)
 		{
-			state.colorWriteMask = (RColorComponent)0;
+			state.colorWriteMask = RColorComponent(RColorComponent::COLOR_COMPONENT_R_BIT | RColorComponent::COLOR_COMPONENT_G_BIT | RColorComponent::COLOR_COMPONENT_B_BIT | RColorComponent::COLOR_COMPONENT_A_BIT);
 			state.enable = false;
 
 			blendStates.pushBack(state);

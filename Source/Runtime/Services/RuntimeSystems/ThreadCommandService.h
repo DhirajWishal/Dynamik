@@ -47,7 +47,7 @@ namespace Dynamik
 			std::lock_guard<std::mutex> _lock(__globalThreadCommandMutex);
 			STRING name = typeid(COMMAND).name();
 
-			return registeredCommands.find(name).size();
+			return registeredCommands.findFirstIndex(name) >= 0;
 		}
 
 		/*

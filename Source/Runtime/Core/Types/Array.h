@@ -902,7 +902,7 @@ namespace Dynamik
 		 * Find a given value in this array.
 		 *
 		 * @param data: Data to be searched for.
-		 * @return: Array of indexes which the gived data is found.
+		 * @return: Array of indexes which the given data is found.
 		 */
 		ARRAY<UI64> find(TYPE&& data)
 		{
@@ -913,6 +913,40 @@ namespace Dynamik
 					_indexContainer.pushBack(_itr);
 
 			return _indexContainer;
+		}
+
+		/* FUNCTION
+		 * Get the number of instances a data was found in the array.
+		 *
+		 * This function can be used to easily find if an entry is available in the array as it does not require any
+		 * additional allocations.
+		 *
+		 * @param data: The data to search.
+		 */
+		UI64 getNumberOfInstances(const TYPE& data)
+		{
+			UI64 instanceCount = 0;
+
+			for (UI64 _itr = 0; _itr < size(); _itr++)
+				if (this->at(_itr) == data)
+					instanceCount++;
+
+			return instanceCount;
+		}
+
+		/* FUNCTION
+		 * Find the first occurrence of a given element.
+		 *
+		 * @param data: Data to be searched for.
+		 * @return: The function returns -1 if not found.
+		 */
+		I64 findFirstIndex(const TYPE& data)
+		{
+			for (UI64 _itr = 0; _itr < size(); _itr++)
+				if (this->at(_itr) == data)
+					return _itr;
+
+			return -1;
 		}
 
 		/* FUNCTION
