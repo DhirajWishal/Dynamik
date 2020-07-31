@@ -9,13 +9,14 @@
 
 #include <stb_image.h>
 #include <gli/gli.hpp>
-#include <FreeImage.h>
 
-#include <filesystem>
+#define FREEIMAGE_LIB
+#include <FreeImage.h>
 
 namespace Dynamik
 {
-	DMK_FORCEINLINE DMKFormat getFormat(gli::format format)
+	/* Convert gli::format to Dynamik::DMKFormat. */
+	DMK_FORCEINLINE DMKFormat GetFormat(gli::format format)
 	{
 		switch (format)
 		{
@@ -179,10 +180,218 @@ namespace Dynamik
 		return DMKFormat::DMK_FORMAT_UNDEFINED;
 	}
 
-	DMKTexture* Dynamik::DMKImageImporter::loadTexture2D(const STRING& file)
+	/* Get the number of channels stored in the image. */
+	DMK_FORCEINLINE UI32 GetFreeImageChannelCount(FREE_IMAGE_COLOR_TYPE colorType)
 	{
-		DMKTexture2D* pTexture = StaticAllocator<DMKTexture2D>::allocate();
+		switch (colorType)
+		{
+		case FIC_MINISWHITE:
+			return 1;
+		case FIC_MINISBLACK:
+			return 1;
+		case FIC_RGB:
+			return 3;
+		case FIC_PALETTE:
+			return 3;
+		case FIC_RGBALPHA:
+			return 4;
+		case FIC_CMYK:
+			return 4;
+		default:
+			return 0;
+			break;
+		}
 
-		return nullptr;
+		return 0;
+	}
+
+	/* Get the Dynamik::DMKFormat from FREE_IMAGE_TYPE. */
+	DMK_FORCEINLINE DMKFormat GetFormat(FREE_IMAGE_TYPE type, UI32 channels)
+	{
+		switch (type)
+		{
+		case FIT_UNKNOWN:
+			return DMKFormat::DMK_FORMAT_UNDEFINED;
+		case FIT_BITMAP:
+			if (channels == 1)
+				return DMKFormat::DMK_FORMAT_R_8_UNORMAL;
+			else if (channels == 2)
+				return DMKFormat::DMK_FORMAT_RG_8_UNORMAL;
+			else if (channels == 3)
+				return DMKFormat::DMK_FORMAT_RGB_8_UNORMAL;
+			else if (channels == 4)
+				return DMKFormat::DMK_FORMAT_RGBA_8_UNORMAL;
+
+		case FIT_UINT16:
+			if (channels == 1)
+				return DMKFormat::DMK_FORMAT_R_16_SINT;
+			else if (channels == 2)
+				return DMKFormat::DMK_FORMAT_RG_16_SINT;
+			else if (channels == 3)
+				return DMKFormat::DMK_FORMAT_RGB_16_SINT;
+			else if (channels == 4)
+				return DMKFormat::DMK_FORMAT_RGBA_16_SINT;
+
+		case FIT_INT16:
+			if (channels == 1)
+				return DMKFormat::DMK_FORMAT_R_16_UINT;
+			else if (channels == 2)
+				return DMKFormat::DMK_FORMAT_RG_16_UINT;
+			else if (channels == 3)
+				return DMKFormat::DMK_FORMAT_RGB_16_UINT;
+			else if (channels == 4)
+				return DMKFormat::DMK_FORMAT_RGBA_16_UINT;
+
+		case FIT_UINT32:
+			if (channels == 1)
+				return DMKFormat::DMK_FORMAT_R_32_UINT;
+			else if (channels == 2)
+				return DMKFormat::DMK_FORMAT_RG_32_UINT;
+			else if (channels == 3)
+				return DMKFormat::DMK_FORMAT_RGB_32_UINT;
+			else if (channels == 4)
+				return DMKFormat::DMK_FORMAT_RGBA_32_UINT;
+
+		case FIT_INT32:
+			if (channels == 1)
+				return DMKFormat::DMK_FORMAT_R_32_UINT;
+			else if (channels == 2)
+				return DMKFormat::DMK_FORMAT_RG_32_UINT;
+			else if (channels == 3)
+				return DMKFormat::DMK_FORMAT_RGB_32_UINT;
+			else if (channels == 4)
+				return DMKFormat::DMK_FORMAT_RGBA_32_UINT;
+
+		case FIT_FLOAT:
+			if (channels == 1)
+				return DMKFormat::DMK_FORMAT_R_32_SF32;
+			else if (channels == 2)
+				return DMKFormat::DMK_FORMAT_RG_32_SF32;
+			else if (channels == 3)
+				return DMKFormat::DMK_FORMAT_RGB_32_SF32;
+			else if (channels == 4)
+				return DMKFormat::DMK_FORMAT_RGBA_32_SF32;
+
+		case FIT_DOUBLE:
+			if (channels == 1)
+				return DMKFormat::DMK_FORMAT_R_64_SF32;
+			else if (channels == 2)
+				return DMKFormat::DMK_FORMAT_RG_64_SF32;
+			else if (channels == 3)
+				return DMKFormat::DMK_FORMAT_RGB_64_SF32;
+			else if (channels == 4)
+				return DMKFormat::DMK_FORMAT_RGBA_64_SF32;
+
+		case FIT_COMPLEX:
+			return DMKFormat::DMK_FORMAT_RG_64_SF32;
+
+		case FIT_RGB16:
+			return DMKFormat::DMK_FORMAT_RGB_16_UNORMAL;
+
+		case FIT_RGBA16:
+			return DMKFormat::DMK_FORMAT_RGBA_16_UNORMAL;
+
+		default:
+			DMK_ERROR("Invalid Format!");
+			break;
+		}
+
+		return DMKFormat::DMK_FORMAT_UNDEFINED;
+	}
+
+	DMKTexture* Dynamik::DMKImageImporter::loadTexture2D(const STRING& file, DMKFormat requiredFormat)
+	{
+		if (file.find(".ktx") != STRING::npos)
+			return loadKTX(file, requiredFormat);
+
+		FreeImage_Initialise();
+		FIBITMAP* pImage = FreeImage_Load(FreeImage_GetFileType(file.c_str()), file.c_str());
+
+		if (!pImage->data)
+		{
+			DMK_ERROR("The image file could not be loaded!");
+			return nullptr;
+		}
+
+		DMKTexture2D* pTexture = StaticAllocator<DMKTexture2D>::allocate();
+		pTexture->width = FreeImage_GetWidth(pImage);
+		pTexture->height = FreeImage_GetHeight(pImage);
+		pTexture->depth = 1;
+		pTexture->channels = GetFreeImageChannelCount(FreeImage_GetColorType(pImage));
+		pTexture->format = GetFormat(FreeImage_GetImageType(pImage), pTexture->channels);
+
+		pImage = FreeImage_ConvertToRGBA16(pImage);
+		pTexture->image = Cast<UCPTR>(pImage);
+		pTexture->channels = GetFreeImageChannelCount(FreeImage_GetColorType(pImage));
+		pTexture->format = GetFormat(FreeImage_GetImageType(pImage), pTexture->channels);
+
+		FreeImage_DeInitialise();
+
+		return pTexture;
+	}
+
+	DMKTexture* DMKImageImporter::loadKTX(const STRING& file, DMKFormat requiredFormat)
+	{
+		gli::texture texture = gli::load_ktx(file);
+		if (!texture.data())
+		{
+			DMK_ERROR("Failed to load the required texture file!");
+			return nullptr;
+		}
+
+		DMKTexture2D* pTexture = StaticAllocator<DMKTexture2D>::allocate();
+		pTexture->width = texture.extent().x;
+		pTexture->height = texture.extent().y;
+		pTexture->depth = texture.extent().z;
+		pTexture->format = GetFormat(texture.format());
+		pTexture->layerCount = Cast<UI32>(texture.layers());
+		pTexture->resolveChannels();
+
+		pTexture->image = StaticAllocator<UCHR>::allocate(pTexture->size() * pTexture->layerCount);
+		DMKMemoryFunctions::copyData(pTexture->image, texture.data(), pTexture->size() * pTexture->layerCount);
+
+		return pTexture;
+	}
+	
+	DMKTexture* DMKImageImporter::loadCube(ARRAY<STRING> files, DMKFormat requiredFormat)
+	{
+		DMKTextureCube* pTexture = StaticAllocator<DMKTextureCube>::allocate();
+		pTexture->layerCount = 6;
+
+		UCPTR textures[6] = { nullptr };
+
+		for (UI8 index = 0; index < 6; index++)
+		{
+			textures[index] = (UCPTR)stbi_load(files[index].c_str(), (I32*)&pTexture->width, (I32*)&pTexture->height, (I32*)&pTexture->channels, STBI_rgb_alpha);
+
+			if (!textures[index])
+				DMK_FATAL("Unable to load texture!");
+		}
+
+		pTexture->channels = 4;
+		pTexture->image = StaticAllocator<UCHR>::allocate(pTexture->width * pTexture->height * pTexture->depth * pTexture->channels * 6);
+		POINTER<BYTE> _imgPtr = pTexture->image;
+
+		for (auto ptr : textures)
+		{
+			DMKMemoryFunctions::moveData(_imgPtr.get(), ptr, pTexture->size());
+			_imgPtr += pTexture->size();
+		}
+
+		if (pTexture->channels == 1)
+			pTexture->format = DMKFormat::DMK_FORMAT_R_8_UNORMAL;
+		else if (pTexture->channels == 2)
+			pTexture->format = DMKFormat::DMK_FORMAT_RG_8_UNORMAL;
+		else if (pTexture->channels == 3)
+			pTexture->format = DMKFormat::DMK_FORMAT_RGB_8_UNORMAL;
+		else if (pTexture->channels == 4)
+			pTexture->format = DMKFormat::DMK_FORMAT_RGBA_8_UNORMAL;
+		else
+			DMK_ERROR_BOX("Invalid texture format!");
+
+		pTexture->mipLevels = Cast<UI32>(std::floor(std::log2(std::max(pTexture->width, pTexture->height))) + 1);
+		pTexture->resolveChannels();
+
+		return pTexture;
 	}
 }

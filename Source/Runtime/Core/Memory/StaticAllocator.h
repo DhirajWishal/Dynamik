@@ -25,8 +25,8 @@ namespace Dynamik
 	 The static allocator is used to allocate a buffer in heap. It does not manage its deletion automatically but
 	 needs to be explicitly deleted.
 
-	 @template param: Output type.
-	 @template param: Default alignment type.
+	 @tparam: Output type.
+	 @tparam: Default alignment type.
 	*/
 	template<class TYPE, UI64 DefaultAligment = DMK_ALIGNMENT>
 	class DMK_API StaticAllocator

@@ -43,6 +43,9 @@
     <Filter Include="Objects\Resources\Textures">
       <UniqueIdentifier>{EC94E152-D8A4-8D23-415E-F2412D8D7CBC}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Resources\ThirdParty">
+      <UniqueIdentifier>{13C62E53-FF80-1EFF-A838-974994D2688F}</UniqueIdentifier>
+    </Filter>
     <Filter Include="PCH">
       <UniqueIdentifier>{2010880B-8C19-887C-1595-9E7C819D937C}</UniqueIdentifier>
     </Filter>
@@ -237,6 +240,8 @@
     <ClInclude Include="Utilities\Ticker.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Types\SharedPointer.h" />
+    <ClInclude Include="Types\UniquePointer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\Attachments\BoundingBox.cpp">
@@ -313,6 +318,9 @@
     </ClCompile>
     <ClCompile Include="Objects\Resources\Textures\TextureCube.cpp">
       <Filter>Objects\Resources\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Resources\ThirdParty\stb_image_impl.cpp">
+      <Filter>Objects\Resources\ThirdParty</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Resources\Uniform.cpp">
       <Filter>Objects\Resources</Filter>

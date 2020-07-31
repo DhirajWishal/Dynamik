@@ -366,6 +366,7 @@
     <ClInclude Include="RuntimeSystems\AssetRegistry.h" />
     <ClInclude Include="RuntimeSystems\ConfigurationService.h" />
     <ClInclude Include="RuntimeSystems\ListenerServices.h" />
+    <ClInclude Include="RuntimeSystems\ThreadCommandService.h" />
     <ClInclude Include="RuntimeSystems\ToolsRegistry.h" />
     <ClInclude Include="SystemLocator.h" />
   </ItemGroup>

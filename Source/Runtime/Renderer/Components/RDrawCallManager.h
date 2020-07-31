@@ -135,6 +135,8 @@ namespace Dynamik
 
 		DebugDraw& getDebugEntry(I64 index);
 
+		const B1 isInitialized() const;
+
 	private:
 		std::unordered_map<DMKVertexLayout, VertexBufferEntry> entryMap;
 		ARRAY<VertexBufferContainer> vertexBuffers;
@@ -151,6 +153,8 @@ namespace Dynamik
 		UI64 totalIndexCount = 0;
 
 		RCommandBuffer* pCommandBuffer = nullptr;
+
+		B1 bIsInitialized = false;
 	};
 }
 

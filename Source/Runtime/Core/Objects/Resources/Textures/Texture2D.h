@@ -16,11 +16,6 @@ namespace Dynamik
 	public:
 		DMKTexture2D() : DMKTexture(DMKTextureType::TEXTURE_TYPE_2D) {}
 		~DMKTexture2D() {}
-
-		void load(const STRING& path);
-
-	private:
-		void _load_KTX(const STRING& path);
 	};
 }
 

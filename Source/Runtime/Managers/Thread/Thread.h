@@ -5,13 +5,10 @@
 #ifndef _DYNAMIK_THREAD_H
 #define _DYNAMIK_THREAD_H
 
-#include "Core/Macros/Global.h"
 #include "ThreadCommand.h"
+#include "Services/RuntimeSystems/ThreadCommandService.h"
 
 #include <thread>
-#include <queue>
-
-#define MAX_COMMANDS_PER_THREAD     10
 
 namespace Dynamik
 {
@@ -43,13 +40,15 @@ namespace Dynamik
         virtual void terminateThread() {}
 
         virtual void onInitialize() {}
-        virtual void processCommand(DMKThreadCommand* pCommand) {}
+        virtual void processCommand(STRING commandName) {}
         virtual void onLoop() {}
         virtual void onTermination() {}
+
+        virtual void setupCommandService(DMKThreadCommandService* pService) { pCommandService = pService; }
         
     protected:
         std::thread* pThread = nullptr;
-        std::queue<DMKThreadCommand*> pThreadCommands;
+        DMKThreadCommandService* pCommandService = nullptr;
     };
 }
 

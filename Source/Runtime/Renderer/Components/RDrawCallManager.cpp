@@ -174,6 +174,7 @@ namespace Dynamik
 
 	void RDrawCallManager::beginCommand()
 	{
+		bIsInitialized = false;
 		pCommandBuffer->begin();
 	}
 
@@ -242,6 +243,7 @@ namespace Dynamik
 	void RDrawCallManager::endCommand()
 	{
 		pCommandBuffer->end();
+		bIsInitialized = true;
 	}
 
 	void RDrawCallManager::terminate(RCoreObject* pCoreObject)
@@ -291,5 +293,10 @@ namespace Dynamik
 	RDrawCallManager::DebugDraw& RDrawCallManager::getDebugEntry(I64 index)
 	{
 		return debugEntries[index];
+	}
+	
+	const B1 RDrawCallManager::isInitialized() const
+	{
+		return bIsInitialized;
 	}
 }

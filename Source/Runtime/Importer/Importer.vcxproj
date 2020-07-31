@@ -202,8 +202,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;FreeImageLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;FreeImageLibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unix|x64'">
@@ -223,8 +223,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;FreeImageLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;FreeImageLibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Mac|x64'">
@@ -244,8 +244,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>-lassimp-vc142-mt;-lFreeImageLib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>-lassimp-vc142-mt;-lFreeImageLibd;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Windows|x64'">
@@ -269,8 +269,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;FreeImageLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;FreeImageLibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unix|x64'">
@@ -294,8 +294,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;FreeImageLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;FreeImageLibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Mac|x64'">
@@ -319,8 +319,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>-lassimp-vc142-mt;-lFreeImageLib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>-lassimp-vc142-mt;-lFreeImageLibd;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Windows|x64'">
@@ -344,8 +344,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;FreeImageLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;FreeImageLibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Unix|x64'">
@@ -369,8 +369,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc142-mt.lib;FreeImageLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc142-mt.lib;FreeImageLibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Mac|x64'">
@@ -394,8 +394,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>-lassimp-vc142-mt;-lFreeImageLib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>-lassimp-vc142-mt;-lFreeImageLibd;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\ThirdParty\Binaries\Assimp;.;$(SolutionDir)Dependencies\ThirdParty\Binaries\FreeImage\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

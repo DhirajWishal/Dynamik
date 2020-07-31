@@ -7,6 +7,7 @@
 
 #include "PrimitiveTypeDefs.h"
 #include "Core/Math/Vector/Vector2F.h"
+#include "Core/Types/StaticArray.h"
 
 namespace Dynamik
 {
@@ -255,10 +256,10 @@ namespace Dynamik
 	struct DMK_API RPipelineColorBlendInfo {
 		ARRAY<RColorBlendState> blendStates;
 		ARRAY<RColorComponent> colorComponents;
-		ARRAY<F32> blendConstants = {
+		StaticArray<F32, 4> blendConstants = {
 			0.0f, 0.0f, 0.0f, 0.0f /* R, G, B, A */
 		};
-		RLogicOp blendLogicOp = RLogicOp::LOGIC_OP_COPY;
+		RLogicOp blendLogicOp = RLogicOp::LOGIC_OP_CLEAR;
 		B1 enableColorBlendLogicOp = false;
 	};
 }

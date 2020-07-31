@@ -46,8 +46,14 @@ namespace Dynamik
 		DMKTexture(const DMKTextureType& ty) : type(ty) {}
 		virtual ~DMKTexture() {}
 
+		/* Clear texture data. */
 		virtual void clear();
+
+		/* Size of the texture. */
 		virtual UI64 size();
+
+		/* Resolve channels in the texture. */
+		void resolveChannels();
 
 		UCPTR image = nullptr;
 		UI32 width = 0;
@@ -67,8 +73,8 @@ namespace Dynamik
 			DMKTextureSwizzle componentFour = DMKTextureSwizzle::TEXTURE_SWIZZLE_ALPHA;
 		} swizzles;
 
-	protected:
-		void resolveChannels();
+	public:
+		void convertTo32Bits();
 	};
 }
 

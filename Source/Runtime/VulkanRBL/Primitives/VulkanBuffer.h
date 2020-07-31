@@ -31,6 +31,7 @@ namespace Dynamik
             virtual void setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, VPTR data) override final;
             virtual VPTR getData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset) override final;
             virtual void unmapMemory(RCoreObject* pCoreObject) override final;
+            virtual void flushMemory(RCoreObject* pCoreObject) override final;
 
             VkDescriptorBufferInfo createDescriptorInfo(UI32 offset = 0);
 

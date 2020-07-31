@@ -118,6 +118,21 @@ namespace Dynamik
 			vkUnmapMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, bufferMemory);
 		}
 
+		void VulkanBuffer::flushMemory(RCoreObject* pCoreObject)
+		{
+			if (!bufferMemory)
+				return;
+
+			VkMappedMemoryRange range = {};
+			range.sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE;
+			range.pNext = VK_NULL_HANDLE;
+			range.memory = bufferMemory;
+			range.offset = 0;
+			range.size = VK_WHOLE_SIZE;
+
+			vkFlushMappedMemoryRanges(Inherit<VulkanCoreObject>(pCoreObject)->device, 1, &range);
+		}
+
 		VkDescriptorBufferInfo VulkanBuffer::createDescriptorInfo(UI32 offset)
 		{
 			VkDescriptorBufferInfo _info;

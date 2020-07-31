@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include <string>
+#include <unordered_map>
 #include "Core/Macros/Global.h"
 
 /*

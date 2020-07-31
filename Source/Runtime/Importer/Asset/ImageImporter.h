@@ -19,7 +19,33 @@ namespace Dynamik
 		DMKImageImporter() {}
 		~DMKImageImporter() {}
 
-		DMKTexture* loadTexture2D(const STRING& file);
+		/*
+		 Load a 2D texture to the engine.
+
+		 @param file: The file to be imported.
+		 @param requiredFormat: To format to output the texture in. Default is UNDEFINED which will output the default 
+		   format.
+		*/
+		DMKTexture* loadTexture2D(const STRING& file, DMKFormat requiredFormat = DMKFormat::DMK_FORMAT_UNDEFINED);
+
+		/*
+		 Load a KTX image file to the engine.
+
+		 @param file: The file to be imported.
+		 @param requiredFormat: To format to output the texture in. Default is UNDEFINED which will output the default
+		   format.
+		*/
+		DMKTexture* loadKTX(const STRING& file, DMKFormat requiredFormat = DMKFormat::DMK_FORMAT_UNDEFINED);
+
+		/*
+		 Load cube map to the engine.
+
+		 @param files: The files containing the images. If the size is grater than 1, the method expects 6 images
+		   to create a successful cube map image.
+		 @param requiredFormat: To format to output the texture in. Default is UNDEFINED which will output the default
+		   format.
+		*/
+		DMKTexture* loadCube(ARRAY<STRING> files, DMKFormat requiredFormat = DMKFormat::DMK_FORMAT_UNDEFINED);
 	};
 }
 

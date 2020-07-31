@@ -74,7 +74,7 @@ namespace Dynamik
 		vkWaitForFences(device, 1, &inFlightFences[currentFrameIndex], VK_TRUE, std::numeric_limits<uint64_t>::max());
 
 		imageIndex = 0;
-		frameResult = vkAcquireNextImageKHR(device, InheritCast<Backend::VulkanSwapChain>(pSwapChain), std::numeric_limits<uint64_t>::max(), imageAvailables[currentFrameIndex], VK_NULL_HANDLE, &imageIndex);
+		frameResult = vkAcquireNextImageKHR(device, Inherit<Backend::VulkanSwapChain>(pSwapChain)->swapChain, std::numeric_limits<uint64_t>::max(), imageAvailables[currentFrameIndex], VK_NULL_HANDLE, &imageIndex);
 
 		/* Check if any errors were encountered */
 		if (frameResult == VK_ERROR_OUT_OF_DATE_KHR)

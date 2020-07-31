@@ -6,21 +6,18 @@
 
 #include "Core/Objects/Resources/Textures/TextureCube.h"
 
-#include <stb_image.h>
+#include "Importer/Asset/ImageImporter.h"
 
 namespace Dynamik
 {
 	DMKTexture* DMKTextureFactory::create(const DMKTextureType& type, const STRING& path)
 	{
+		DMKImageImporter importer;
+
 		switch (type)
 		{
 		case Dynamik::DMKTextureType::TEXTURE_TYPE_2D:
-		{
-			DMKTexture2D* _texture = StaticAllocator<DMKTexture2D>::allocate();
-			_texture->load(path);
-			return _texture;
-		}
-
+			return importer.loadTexture2D(path);
 		case Dynamik::DMKTextureType::TEXTURE_TYPE_3D:
 			break;
 		case Dynamik::DMKTextureType::TEXTURE_TYPE_SPRITE:
@@ -37,18 +34,12 @@ namespace Dynamik
 
 	DMKTexture* DMKTextureFactory::createCubeMap(const ARRAY<STRING>& paths)
 	{
-		DMKTextureCube* _cube = StaticAllocator<DMKTextureCube>::allocate();
-		_cube->load(paths);
-
-		return _cube;
+		DMKImageImporter importer;
+		return importer.loadCube(paths);
 	}
 
 	DMKTexture* DMKTextureFactory::createCubeMapFromPanorama(const STRING& file)
 	{
-		auto out = stbi_is_hdr(file.c_str());
-		I32 width = 0, height = 0, channels = 0;
-		auto image = stbi_load(file.c_str(), &width, &height, &channels, NULL);
-
 		return nullptr;
 	}
 	

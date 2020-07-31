@@ -5,7 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_COMMANDS_H
 #define _DYNAMIK_RENDERER_COMMANDS_H
 
-#include "Managers/Thread/ThreadCommand.h"
 #include "Core/Types/DataTypes.h"
 #include "Window/WindowHandle.h"
 #include "Components/ContextTypeDefs.h"
@@ -54,7 +53,7 @@ namespace Dynamik
 	/*
 	 Renderer Command object for the Dynamik Engine
 	*/
-	class DMK_API DMKRendererCommand : public DMKThreadSystemCommand {
+	class DMK_API DMKRendererCommand {
 	public:
 		DMKRendererCommand() {}
 		DMKRendererCommand(RendererInstruction ins) : instruction(ins) {}

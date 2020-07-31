@@ -10,6 +10,8 @@
 #include "TypeTraits.h"
 #include "Core/Memory/MemoryFunctions.h"
 
+#include <initializer_list>
+
 namespace Dynamik
 {
 	/*
@@ -42,6 +44,17 @@ namespace Dynamik
 		StaticArray(const StaticArray<TYPE, Size>& other)
 		{
 			DMKMemoryFunctions::copyData(myData, other.data(), other.typeSize() * size());
+		}
+
+		/* CONSTRUCTOR
+		 Default constructor. Constructs this array from an initializer list.
+		*/
+		StaticArray(const std::initializer_list<TYPE>& list)
+		{
+			if (list.size() > Size)
+				DMK_ERROR("The initializer list submitted to the Static Array contains elements which are out of bound!");
+
+			DMKMemoryFunctions::copyData(myData, Cast<VPTR>(list.begin()), typeSize() * Size);
 		}
 
 		/* DESTRUCTOR

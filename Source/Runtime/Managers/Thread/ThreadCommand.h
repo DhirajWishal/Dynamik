@@ -10,61 +10,12 @@
 namespace Dynamik
 {
 	/* Thread command types */
-	enum class DMK_API DMKThreadCommandType {
-		DMK_THREAD_COMMAND_TYPE_UNDEFINED,
-		DMK_THREAD_COMMAND_TYPE_TERMINATE,
-		DMK_THREAD_COMMAND_TYPE_FORCE_TERMINATE,
-		DMK_THREAD_COMMAND_TYPE_RESET,
-		DMK_THREAD_COMMAND_TYPE_SYSTEM,
-		DMK_THREAD_COMMAND_TYPE_SYNC,
-	};
-
-	/*
-	 Thread Command for the Dynamik Engine
-	 Data requests, substitution and synchronizing commands are sent using this object.
-	*/
-	class DMK_API DMKThreadCommand {
-	public:
-		DMKThreadCommand(DMKThreadCommandType ty = DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_UNDEFINED) : type(ty) {}
-		virtual ~DMKThreadCommand() {}
-
-		DMKThreadCommandType type = DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_SYSTEM;
-	};
-
-	/*
-	 Thread termination command
-	*/
-	class DMK_API DMKThreadTerminationCommand : public DMKThreadCommand {
-	public:
-		DMKThreadTerminationCommand() : DMKThreadCommand(DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_TERMINATE) {}
-		~DMKThreadTerminationCommand() {}
-	};
-
-	/*
-	 Reset command
-	*/
-	class DMK_API DMKThreadResetCommand : public DMKThreadCommand {
-	public:
-		DMKThreadResetCommand() : DMKThreadCommand(DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_RESET) {}
-		virtual ~DMKThreadResetCommand() {}
-	};
-
-	/*
-	 System command
-	*/
-	class DMK_API DMKThreadSystemCommand : public DMKThreadCommand {
-	public:
-		DMKThreadSystemCommand() : DMKThreadCommand(DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_SYSTEM) {}
-		virtual ~DMKThreadSystemCommand() {}
-	};
-
-	/*
-	 Synchronize command
-	*/
-	class DMK_API DMKThreadSyncCommand : public DMKThreadCommand {
-	public:
-		DMKThreadSyncCommand() : DMKThreadCommand(DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_SYNC) {}
-		virtual ~DMKThreadSyncCommand() {}
+	enum class DMK_API DMKThreadControlCommand {
+		DMK_THREAD_CONTROL_COMMAND_UNDEFINED,
+		DMK_THREAD_CONTROL_COMMAND_TERMINATE,
+		DMK_THREAD_CONTROL_COMMAND_FORCE_TERMINATE,
+		DMK_THREAD_CONTROL_COMMAND_RESET,
+		DMK_THREAD_CONTROL_COMMAND_SYNC,
 	};
 }
 

@@ -81,28 +81,34 @@ namespace Dynamik
 				{
 					ImDrawVert* vtxDst = Cast<ImDrawVert*>(pVertexBuffer->getData(pCoreObject, vertexBufferSize, 0));
 
-					for (I32 index = 0; index < pDrawData->CmdListsCount; index++)
+					if (vtxDst)
 					{
-						const ImDrawList* pDrawList = pDrawData->CmdLists[index];
-						DMKMemoryFunctions::copyData(vtxDst, pDrawList->VtxBuffer.Data, pDrawList->VtxBuffer.size() * sizeof(ImDrawVert));
-						vtxDst += pDrawList->VtxBuffer.size();
-					}
+						for (I32 index = 0; index < pDrawData->CmdListsCount; index++)
+						{
+							const ImDrawList* pDrawList = pDrawData->CmdLists[index];
+							DMKMemoryFunctions::copyData(vtxDst, pDrawList->VtxBuffer.Data, pDrawList->VtxBuffer.size() * sizeof(ImDrawVert));
+							vtxDst += pDrawList->VtxBuffer.size();
+						}
 
-					pVertexBuffer->unmapMemory(pCoreObject);
+						pVertexBuffer->unmapMemory(pCoreObject);
+					}
 				}
 
 				/* Push data to the index buffer */
 				{
 					ImDrawIdx* idxDst = Cast<ImDrawIdx*>(pIndexBuffer->getData(pCoreObject, indexBufferSize, 0));
 
-					for (I32 index = 0; index < pDrawData->CmdListsCount; index++)
+					if (idxDst)
 					{
-						const ImDrawList* pDrawList = pDrawData->CmdLists[index];
-						DMKMemoryFunctions::copyData(idxDst, pDrawList->IdxBuffer.Data, pDrawList->IdxBuffer.size() * sizeof(ImDrawIdx));
-						idxDst += pDrawList->IdxBuffer.size();
-					}
+						for (I32 index = 0; index < pDrawData->CmdListsCount; index++)
+						{
+							const ImDrawList* pDrawList = pDrawData->CmdLists[index];
+							DMKMemoryFunctions::copyData(idxDst, pDrawList->IdxBuffer.Data, pDrawList->IdxBuffer.size() * sizeof(ImDrawIdx));
+							idxDst += pDrawList->IdxBuffer.size();
+						}
 
-					pIndexBuffer->unmapMemory(pCoreObject);
+						pIndexBuffer->unmapMemory(pCoreObject);
+					}
 				}
 			}
 		}
@@ -138,6 +144,9 @@ namespace Dynamik
 
 		void VulkanImGuiBackend::bindCommands(RCommandBuffer* pCommandBuffer)
 		{
+			if (!Inherit<VulkanBuffer>(pVertexBuffer)->buffer || !Inherit<VulkanBuffer>(pIndexBuffer)->buffer)
+				return;
+
 			ImGuiIO& io = ImGui::GetIO();
 
 			VulkanCommandBuffer vCommandBuffer = *Inherit<VulkanCommandBuffer>(pCommandBuffer);

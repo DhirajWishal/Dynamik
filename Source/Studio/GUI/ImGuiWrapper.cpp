@@ -57,8 +57,11 @@ namespace Dynamik
 		while (myImGuiBackend == nullptr);
 
 		DMK_INFO("Successfully created the im gui backend!");
+	}
 
-		struct UISettings {
+	void DMKImGuiWrapper::draw()
+	{
+		static struct UISettings {
 			bool displayModels = true;
 			bool displayLogos = true;
 			bool displayBackground = true;
@@ -91,10 +94,6 @@ namespace Dynamik
 			// Render to generate draw buffers
 			ImGui::Render();
 		}
-
-		DMKSystemLocator::getSystem<DMKRenderer>()->submitImGuiDrawData(ImGui::GetDrawData());
-
-		myImGuiBackend->setDrawData(ImGui::GetDrawData());
 	}
 
 	void DMKImGuiWrapper::terminate()
@@ -109,13 +108,9 @@ namespace Dynamik
 		auto& io = ImGui::GetIO();
 
 		auto mousePos = DMKEventPool::getMousePosition();
-		io.MousePos = ImVec2(mousePos.x, mousePos.x);
+		io.MousePos = ImVec2(mousePos.x, mousePos.y);
 
-		if (DMKEventPool::MouseButtonLeft.isPressed())
-		{
-			DMK_INFO("Pressed!");
-			io.MouseDown[0] = DMKEventPool::MouseButtonLeft.isPressed();
-		}
+		io.MouseDown[0] = DMKEventPool::MouseButtonLeft.isPressed();
 		io.MouseDown[1] = DMKEventPool::MouseButtonRight.isPressed();
 
 		auto check = io.WantCaptureMouse;

@@ -31,6 +31,7 @@ namespace Dynamik
 		*/
 		virtual VPTR getData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset) { return nullptr; }
 		virtual void unmapMemory(RCoreObject* pCoreObject) = 0;
+		virtual void flushMemory(RCoreObject* pCoreObject) = 0;
 
 		virtual UI64 getSize() { return size; }
 		virtual RBufferType getType() { return type; }

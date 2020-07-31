@@ -477,12 +477,12 @@ namespace Dynamik
 				attachmentState.alphaBlendOp = (VkBlendOp)state.alphaBlendOp;
 				attachmentState.blendEnable = state.enable;
 				attachmentState.colorBlendOp = (VkBlendOp)state.colorBlendOp;
-				attachmentState.colorWriteMask = VkColorComponentFlagBits::VK_COLOR_COMPONENT_R_BIT | VkColorComponentFlagBits::VK_COLOR_COMPONENT_G_BIT | VkColorComponentFlagBits::VK_COLOR_COMPONENT_B_BIT | VkColorComponentFlagBits::VK_COLOR_COMPONENT_A_BIT;
-				//attachmentState.colorWriteMask = (VkColorComponentFlags)state.colorWriteMask;
+				//attachmentState.colorWriteMask = VkColorComponentFlagBits::VK_COLOR_COMPONENT_R_BIT | VkColorComponentFlagBits::VK_COLOR_COMPONENT_G_BIT | VkColorComponentFlagBits::VK_COLOR_COMPONENT_B_BIT | VkColorComponentFlagBits::VK_COLOR_COMPONENT_A_BIT;
+				attachmentState.colorWriteMask = (VkColorComponentFlags)state.colorWriteMask;
 				attachmentState.srcAlphaBlendFactor = (VkBlendFactor)state.srcAlphaBlendFactor;
 				attachmentState.dstAlphaBlendFactor = (VkBlendFactor)state.dstAlphaBlendFactor;
-				attachmentState.srcColorBlendFactor = (VkBlendFactor)state.srcAlphaBlendFactor;
-				attachmentState.dstColorBlendFactor = (VkBlendFactor)state.dstAlphaBlendFactor;
+				attachmentState.srcColorBlendFactor = (VkBlendFactor)state.srcColorBlendFactor;
+				attachmentState.dstColorBlendFactor = (VkBlendFactor)state.dstColorBlendFactor;
 				states.pushBack(attachmentState);
 			}
 

@@ -35,99 +35,135 @@ namespace Dynamik
 	using namespace Backend;
 
 	/* ---------- CLASS DEFINITION ---------- */
-	void DMKRenderer::processCommand(DMKThreadCommand* pCommand)
+	void DMKRenderer::processCommand(STRING commandName)
 	{
-		myCommand = Inherit<DMKRendererCommand>(pCommand);
-
-		switch (myCommand->instruction)
+		if (commandName == typeid(DMKRendererCommand).name())
 		{
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE:
+			auto instruction = pCommandService->getCommand<DMKRendererCommand>().instruction;
+
+			switch (instruction)
+			{
+			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE:
 
 #ifdef DMK_DEBUG
-			myCoreObject = createCore(true);
+				myCoreObject = createCore(true);
 
 #else
-			myCoreObject = createCore(false);
+				myCoreObject = createCore(false);
 
 #endif // DMK_DEBUG
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_CREATE_CONTEXT:
-			createContext(Inherit<RendererCreateContextCommand>(myCommand)->contextType, Inherit<RendererCreateContextCommand>(myCommand)->viewport);
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_CAMERA:
-			initializeCamera(Inherit<RendererInitializeCamera>(myCommand)->pCameraModule);
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_GAME_WORLD:
-			initializeGameWorld(Inherit<RendererInitializeGameWorld>(myCommand)->pGameWorld);
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENVIRONMENT_MAP:
-			initializeEnvironmentMap(Inherit<RendererInitializeEnvironmentMap>(myCommand)->pEnvironmentMap);
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_FINALS:
-			initializeFinals();
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITY:
-			createEntityResources(Inherit<RendererAddEntity>(myCommand)->entity);
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITIES:
+				break;
+			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_FINALS:
+				initializeFinals();
+				break;
+			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SUBMIT_OBJECTS:
+				break;
+			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_INITIALIZE:
+				break;
+			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE:
+				updateInstruction();
+				break;
+			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE_CAMERA:
+				updateCamera();
+				break;
+			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE_ENVIRONMENT:
+				updateEnvironment();
+				break;
+			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE_ENTITIES:
+				updateEntities();
+				break;
+			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE_BOUNDING_BOXES:
+				updateBoundingBoxes();
+				break;
+			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_SUBMIT:
+				break;
+			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_TERMINATE_FRAME:
+				myCoreObject->idleCall();
+				isReadyToRun = false;
+				break;
+			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_TERMINATE_OBJECTS:
+				terminateEntities();
+				break;
+			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_TERMINATE:
+				terminateContext();
+				terminateComponents();
+				break;
+			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_UPDATE_OBJECTS:
+				break;
+			case Dynamik::RendererInstruction::RENDERER_SUBMIT_IM_GUI_DRAW_DATA:
+				if (myImGuiBackend && myCommandBufferManager)
+				{
+					myCoreObject->idleCall();
+
+					myImGuiBackend->update(Inherit<RendererSubmitImGuiDrawData>(myCommand)->pDrawData);
+
+					if (myDrawCallManager.isInitialized())
+					{
+						isReadyToRun = false;
+
+						myCommandBufferManager->resetBuffers(myCoreObject, myCommandBuffers);
+						initializeCommandBuffers();
+					}
+				}
+				break;
+			default:
+				DMK_ERROR("Unsupported command!");
+				break;
+			}
+		}
+
+		else if (commandName == typeid(RendererSetSamplesCommand).name())
+			setSamples(pCommandService->getCommand<RendererSetSamplesCommand>().samples);
+
+		else if (commandName == typeid(RendererSetWindowHandleCommand).name())
+			setWindowHandle(pCommandService->getCommand<RendererSetWindowHandleCommand>().windowHandle);
+
+		else if (commandName == typeid(RendererCreateContextCommand).name())
 		{
-			auto pEntities = Inherit<RendererInitializeEntities>(myCommand)->pEntities;
+			auto command = pCommandService->getCommand<RendererCreateContextCommand>();
+			createContext(command.contextType, command.viewport);
+		}
+
+		else if (commandName == typeid(RendererInitializeCamera).name())
+			initializeCamera(pCommandService->getCommand<RendererInitializeCamera>().pCameraModule);
+
+		else if (commandName == typeid(RendererInitializeGameWorld).name())
+			initializeGameWorld(pCommandService->getCommand<RendererInitializeGameWorld>().pGameWorld);
+
+		else if (commandName == typeid(RendererInitializeEnvironmentMap).name())
+			initializeEnvironmentMap(pCommandService->getCommand<RendererInitializeEnvironmentMap>().pEnvironmentMap);
+
+		else if (commandName == typeid(RendererInitializeEntities).name())
+		{
+			auto pEntities = pCommandService->getCommand<RendererInitializeEntities>().pEntities;
 			for (auto entity : pEntities)
 				createEntityResources(entity);
 		}
-		break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SUBMIT_OBJECTS:
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_INITIALIZE:
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE:
-			updateInstruction();
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE_CAMERA:
-			updateCamera();
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE_ENVIRONMENT:
-			updateEnvironment();
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE_ENTITIES:
-			updateEntities();
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE_BOUNDING_BOXES:
-			updateBoundingBoxes();
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_SUBMIT:
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_TERMINATE_FRAME:
-			myCoreObject->idleCall();
-			isReadyToRun = false;
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_TERMINATE_OBJECTS:
-			terminateEntities();
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_TERMINATE:
-			terminateContext();
-			terminateComponents();
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_UPDATE_OBJECTS:
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SET_SAMPLES:
-			setSamples(Inherit<RendererSetSamplesCommand>(myCommand)->samples);
-			break;
-		case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_SET_WINDOW_HANDLE:
-			setWindowHandle(Inherit<RendererSetWindowHandleCommand>(myCommand)->windowHandle);
-			break;
-		case Dynamik::RendererInstruction::RENDERER_RESIZE_FRAME_BUFFER:
-			resizeFrameBuffer(Inherit<RendererResizeFrameBuffer>(myCommand)->windowExtent);
-			break;
-		case Dynamik::RendererInstruction::RENDERER_CREATE_IM_GUI_CLIENT:
-			initializeImGuiClient(Inherit<RendererCreateImGuiClient>(myCommand)->pReturnAddressSpace);
-			break;
-		case Dynamik::RendererInstruction::RENDERER_SUBMIT_IM_GUI_DRAW_DATA:
-			if (myImGuiBackend)
-				myImGuiBackend->update(Inherit<RendererSubmitImGuiDrawData>(myCommand)->pDrawData);
-			break;
-		default:
-			break;
+
+		else if (commandName == typeid(RendererAddEntity).name())
+			createEntityResources(pCommandService->getCommand<RendererAddEntity>().entity);
+
+		else if (commandName == typeid(RendererResizeFrameBuffer).name())
+			resizeFrameBuffer(pCommandService->getCommand<RendererResizeFrameBuffer>().windowExtent);
+
+		else if (commandName == typeid(RendererCreateImGuiClient).name())
+			initializeImGuiClient(pCommandService->getCommand<RendererCreateImGuiClient>().pReturnAddressSpace);
+
+		else if (commandName == typeid(RendererSubmitImGuiDrawData).name())
+		{
+			if (myImGuiBackend && myCommandBufferManager)
+			{
+				myCoreObject->idleCall();
+
+				myImGuiBackend->update(pCommandService->getCommand<RendererSubmitImGuiDrawData>().pDrawData);
+
+				if (myDrawCallManager.isInitialized())
+				{
+					isReadyToRun = false;
+
+					initializeCommandBuffers();
+				}
+			}
 		}
 	}
 
@@ -147,9 +183,7 @@ namespace Dynamik
 
 	void DMKRenderer::terminateThread()
 	{
-		DMKThreadCommand _command(DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_TERMINATE);
-
-		submitCommand(StaticAllocator<DMKThreadCommand>::allocateInit(_command));
+		pCommandService->issueControlCommand(DMKThreadControlCommand::DMK_THREAD_CONTROL_COMMAND_TERMINATE);
 	}
 
 	void DMKRenderer::initializeInternals()
@@ -166,20 +200,12 @@ namespace Dynamik
 
 	void DMKRenderer::terminateInternals()
 	{
-	}
-
-	void DMKRenderer::submitCommand(DMKRendererCommand* pCommand)
-	{
-		while (pThreadCommands.size() >= MAX_COMMANDS_PER_THREAD);
-
-		pThreadCommands.push(Cast<DMKThreadCommand*>(pCommand));
+		StaticAllocator<DMKThreadCommandService>::rawDeallocate(pCommandService);
 	}
 
 	void DMKRenderer::issueRawCommand(RendererInstruction instruction)
 	{
-		DMKRendererCommand _command(instruction);
-
-		submitCommand(StaticAllocator<DMKRendererCommand>::allocateInit(_command));
+		pCommandService->issueCommand<DMKRendererCommand>(DMKRendererCommand(instruction));
 	}
 
 	void DMKRenderer::initializeCMD()
@@ -197,7 +223,7 @@ namespace Dynamik
 		RendererSetSamplesCommand _command;
 		_command.samples = samples;
 
-		submitCommand(StaticAllocator<RendererSetSamplesCommand>::allocateInit(_command));
+		pCommandService->issueCommand<RendererSetSamplesCommand>(_command);
 	}
 
 	void DMKRenderer::setWindowHandleCMD(DMKWindowHandle* pWindowHandle)
@@ -205,7 +231,7 @@ namespace Dynamik
 		RendererSetWindowHandleCommand _command;
 		_command.windowHandle = pWindowHandle;
 
-		submitCommand(StaticAllocator<RendererSetWindowHandleCommand>::allocateInit(_command));
+		pCommandService->issueCommand<RendererSetWindowHandleCommand>(_command);
 	}
 
 	void DMKRenderer::createContextCMD(DMKViewport viewPort, DMKRenderContextType contextType)
@@ -214,7 +240,7 @@ namespace Dynamik
 		_command.viewport = viewPort;
 		_command.contextType = contextType;
 
-		submitCommand(StaticAllocator<RendererCreateContextCommand>::allocateInit(_command));
+		pCommandService->issueCommand<RendererCreateContextCommand>(_command);
 	}
 
 	void DMKRenderer::initializeCameraModuleCMD(DMKCameraModule* pCameraModule)
@@ -222,7 +248,7 @@ namespace Dynamik
 		RendererInitializeCamera _command;
 		_command.pCameraModule = pCameraModule;
 
-		submitCommand(StaticAllocator<RendererInitializeCamera>::allocateInit(_command));
+		pCommandService->issueCommand<RendererInitializeCamera>(_command);
 	}
 
 	void DMKRenderer::initializeGameWorldCMD(DMKGameWorld* pGameWorld)
@@ -230,7 +256,7 @@ namespace Dynamik
 		RendererInitializeGameWorld _command;
 		_command.pGameWorld = pGameWorld;
 
-		submitCommand(StaticAllocator<RendererInitializeGameWorld>::allocateInit(_command));
+		pCommandService->issueCommand<RendererInitializeGameWorld>(_command);
 	}
 
 	void DMKRenderer::initializeEnvironmentMapCMD(DMKEnvironmentMap* pEnvironmentMap)
@@ -238,7 +264,7 @@ namespace Dynamik
 		RendererInitializeEnvironmentMap _command;
 		_command.pEnvironmentMap = pEnvironmentMap;
 
-		submitCommand(StaticAllocator<RendererInitializeEnvironmentMap>::allocateInit(_command));
+		pCommandService->issueCommand<RendererInitializeEnvironmentMap>(_command);
 	}
 
 	void DMKRenderer::initializeEntitiesCMD(ARRAY<DMKGameEntity*> pEntities)
@@ -246,7 +272,7 @@ namespace Dynamik
 		RendererInitializeEntities _command;
 		_command.pEntities = pEntities;
 
-		submitCommand(StaticAllocator<RendererInitializeEntities>::allocateInit(_command));
+		pCommandService->issueCommand<RendererInitializeEntities>(_command);
 	}
 
 	void DMKRenderer::initializeEntityCMD(DMKGameEntity* pEntity)
@@ -254,7 +280,7 @@ namespace Dynamik
 		RendererAddEntity _command;
 		_command.entity = pEntity;
 
-		submitCommand(StaticAllocator<RendererAddEntity>::allocateInit(_command));
+		pCommandService->issueCommand<RendererAddEntity>(_command);
 	}
 
 	void DMKRenderer::setFrameBufferResizeCMD(DMKExtent2D newExtent)
@@ -262,7 +288,7 @@ namespace Dynamik
 		RendererResizeFrameBuffer _command;
 		_command.windowExtent = newExtent;
 
-		submitCommand(StaticAllocator<RendererResizeFrameBuffer>::allocateInit(_command));
+		pCommandService->issueCommand<RendererResizeFrameBuffer>(_command);
 	}
 
 	void DMKRenderer::createImGuiClientCMD(DMKImGuiBackendHandle** returnAddressSpace)
@@ -270,7 +296,7 @@ namespace Dynamik
 		RendererCreateImGuiClient _command;
 		_command.pReturnAddressSpace = returnAddressSpace;
 
-		submitCommand(StaticAllocator<RendererCreateImGuiClient>::allocateInit(_command));
+		pCommandService->issueCommand<RendererCreateImGuiClient>(_command);
 	}
 
 	void DMKRenderer::submitImGuiDrawData(ImDrawData* pDrawData)
@@ -278,13 +304,15 @@ namespace Dynamik
 		RendererSubmitImGuiDrawData _command;
 		_command.pDrawData = pDrawData;
 
-		submitCommand(StaticAllocator<RendererSubmitImGuiDrawData>::allocateInit(_command));
+		pCommandService->issueCommand<RendererSubmitImGuiDrawData>(_command);
 	}
 
 	void DMKRenderer::initializeThread()
 	{
+		pCommandService = StaticAllocator<DMKThreadCommandService>::rawAllocate();
+
 		pThread = StaticAllocator<std::thread>::allocate();
-		pThread->swap(std::thread(basicThreadFunction<DMKRenderer>, &pThreadCommands));
+		pThread->swap(std::thread(basicThreadFunction<DMKRenderer>, pCommandService));
 	}
 
 	void DMKRenderer::onInitialize()
@@ -792,7 +820,10 @@ namespace Dynamik
 
 	void DMKRenderer::initializeCommandBuffers()
 	{
-		myCommandBuffers = myCommandBufferManager->allocateCommandBuffers(myCoreObject, mySwapChain->bufferCount);
+		if (!myCommandBuffers.size())
+			myCommandBuffers = myCommandBufferManager->allocateCommandBuffers(myCoreObject, mySwapChain->bufferCount);
+		else
+			myCommandBufferManager->resetBuffers(myCoreObject, myCommandBuffers);
 
 		for (UI32 itr = 0; itr < myCommandBuffers.size(); itr++)
 		{
@@ -885,10 +916,15 @@ namespace Dynamik
 
 	void DMKRenderer::beginFrameInstruction()
 	{
+		isPresenting = true;
+
 		currentImageIndex = myCoreObject->prepareFrame(mySwapChain);
 
 		if (currentImageIndex == -1)
+		{
 			resizeFrameBuffer({ (F32)mySwapChain->viewPort.width, (F32)mySwapChain->viewPort.height });
+			beginFrameInstruction();
+		}
 	}
 
 	void DMKRenderer::updateInstruction()
@@ -943,6 +979,7 @@ namespace Dynamik
 	void DMKRenderer::endFrameInstruction()
 	{
 		myCoreObject->submitCommand(myCommandBuffers[currentImageIndex], mySwapChain);
+		isPresenting = false;
 	}
 
 	void DMKRenderer::initializeImGuiClient(DMKImGuiBackendHandle** pAddressStore)

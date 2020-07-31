@@ -20,6 +20,7 @@ namespace Dynamik
 
 		void initialize();
 		void initializeBackend();
+		void draw();
 		void terminate();
 
 		void update();

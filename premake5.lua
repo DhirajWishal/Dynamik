@@ -78,7 +78,8 @@ IncludeLib["Assimp"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/Assimp"
 IncludeLib["SPIRVTools"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/SPIRV-Tools/"
 IncludeLib["zlib"] = ""	-- TODO
 IncludeLib["glslang"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/glslang/"
-IncludeLib["FreeImage"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/FreeImage/x64"
+IncludeLib["FreeImageD"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/FreeImage/Debug"
+IncludeLib["FreeImageR"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/FreeImage/Release"
 
 
 group "Engine"	-- Add the Engine to a virtual folder

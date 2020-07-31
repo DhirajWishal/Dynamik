@@ -30,6 +30,8 @@
 
 #include "Renderer/Renderer.h"
 
+#include "Importer/Asset/ImageImporter.h"
+
 namespace Dynamik
 {
 	/* Default constructor */

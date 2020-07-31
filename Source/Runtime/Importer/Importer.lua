@@ -50,12 +50,12 @@ project "Importer"
 	libdirs {
 		"%{IncludeLib.Assimp}",
 		"%{IncludeLib.zlib}",
-		"%{IncludeLib.FreeImage}",
+		"%{IncludeLib.FreeImageD}",
 	}
 
 	links { 
 		"assimp-vc142-mt",
-		"FreeImageLib",
+		"FreeImageLibd",
 	}
 
 	filter "system:windows"

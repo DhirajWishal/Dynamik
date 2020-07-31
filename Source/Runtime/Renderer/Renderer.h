@@ -52,9 +52,9 @@ namespace Dynamik
 		virtual void onInitialize() override final;
 
 		/*
-		 Process commands and call individual functions of the backend.
+		 Process commands using its name.
 		*/
-		virtual void processCommand(DMKThreadCommand* pCommand) override final;
+		virtual void processCommand(STRING commandName) override final;
 
 		/*
 		 Execute the three steps of draw call.
@@ -82,8 +82,6 @@ namespace Dynamik
 		virtual void terminateInternals() override final;
 
 	public:		/* Command Interface */
-		void submitCommand(DMKRendererCommand* pCommand);
-
 		void issueRawCommand(RendererInstruction instruction);
 		void initializeCMD();
 		void initializeFinalsCMD();
@@ -187,6 +185,7 @@ namespace Dynamik
 		ARRAY<RDebugMeshComponent> myDebugObjects;
 
 		UI32 currentImageIndex = 0;
+		B1 isPresenting = false;
 
 	private:    /* Factories */
 		DMKBufferFactory myBufferFactory;

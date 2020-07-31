@@ -77,14 +77,17 @@ namespace Dynamik
 			{
 				ImGuiIO& io = ImGui::GetIO();
 				io.DisplaySize = ImVec2(Cast<F32>(pActiveWindow->windowWidth), Cast<F32>(pActiveWindow->windowHeight));
-			
+
+				imGuiWrapper.draw();
+
+				imGuiWrapper.update();
 				DMKSystemLocator::getSystem<DMKRenderer>()->submitImGuiDrawData(ImGui::GetDrawData());
 			}
 
 			DMKSystemLocator::getSystem<DMKRenderer>()->issueRawCommand(RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE);
-
-			imGuiWrapper.update();
 		}
+
+		DMK_INFO("Terminating the engine!");
 	}
 
 	void DMKStudio::terminate()

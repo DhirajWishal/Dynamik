@@ -4,7 +4,6 @@
 #include "dmkafx.h"
 #include "Texture.h"
 
-#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
 namespace Dynamik
@@ -62,5 +61,9 @@ namespace Dynamik
 		}
 
 		channels = 1;
+	}
+	
+	void DMKTexture::convertTo32Bits()
+	{
 	}
 }

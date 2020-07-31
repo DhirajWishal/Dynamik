@@ -18,12 +18,7 @@ namespace Dynamik
 		DMKTextureCube() : DMKTexture(DMKTextureType::TEXTURE_TYPE_CUBEMAP) {}
 		~DMKTextureCube() {}
 
-		void load(ARRAY<STRING> texturePaths);
 		virtual void clear() override final;
-
-	private:
-		void _loadCube6(ARRAY<STRING> paths);
-		void _loadCube(STRING path);
 	};
 }
 

@@ -15,13 +15,14 @@ namespace Dynamik
 	 @tparam THREAD: The system.
 	*/
 	template<class THREAD>
-	void basicThreadFunction(std::queue<DMKThreadCommand*>* pCommandArray)
+	void basicThreadFunction(DMKThreadCommandService* pCommandService)
 	{
 		std::mutex _globalMutex;
 
 		THREAD mySystem;
+		mySystem.setupCommandService(pCommandService);
 		UI64 index = 0;
-		DMKThreadCommand* pCommand = nullptr;
+		DMKThreadControlCommand commandType = DMKThreadControlCommand::DMK_THREAD_CONTROL_COMMAND_UNDEFINED;
 
 	BEGIN:
 		mySystem.onInitialize();
@@ -29,57 +30,30 @@ namespace Dynamik
 		do
 		{
 			/* Process commands */
-			for (index = 0; index < pCommandArray->size(); index++)
+			while (pCommandService->getPendingCommandCount())
 			{
-				/* Securely get the first element of the queue and pop it. */
-				{
-					std::lock_guard<std::mutex> _lock(_globalMutex);
-
-					pCommand = pCommandArray->front();
-					pCommandArray->pop();
-				}
-
 				/* To ensure that the main loop always gets updated */
 				mySystem.onLoop();
 
-				if (pCommand->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_SYSTEM)
-				{
-					mySystem.processCommand(pCommand);
-				}
-				else if (pCommand->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_SYNC)
-				{
+				/* Process control instructions. */
+				commandType = pCommandService->getControlCommand();
 
-				}
-				else if (pCommand->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_RESET)
-				{
+				if (commandType == DMKThreadControlCommand::DMK_THREAD_CONTROL_COMMAND_SYNC);
+				else if (commandType == DMKThreadControlCommand::DMK_THREAD_CONTROL_COMMAND_RESET)
 					goto BEGIN;
-				}
-				else if (pCommand->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_TERMINATE)
-				{
+				else if (commandType == DMKThreadControlCommand::DMK_THREAD_CONTROL_COMMAND_TERMINATE)
 					goto TERMINATE;
-				}
-				else if (pCommand->type == DMKThreadCommandType::DMK_THREAD_COMMAND_TYPE_FORCE_TERMINATE)
-				{
+				else if (commandType == DMKThreadControlCommand::DMK_THREAD_CONTROL_COMMAND_FORCE_TERMINATE)
 					std::terminate();
-				}
 
-				/* Deallocate handled command */
-				StaticAllocator<DMKThreadCommand>::rawDeallocate(pCommand, 0);
+				/* Submit the command to the system. */
+				mySystem.processCommand(pCommandService->getNextCommandName());
 			}
 
 			mySystem.onLoop();
 		} while (true);
 
 	TERMINATE:
-		for (UI64 index = 0; index < pCommandArray->size(); index++)
-		{
-			std::lock_guard<std::mutex> _lock(_globalMutex);
-
-			pCommand = pCommandArray->front();
-			pCommandArray->pop();
-
-			StaticAllocator<DMKThreadCommand>::rawDeallocate(pCommand, 0);
-		}
 
 		mySystem.onTermination();
 	}

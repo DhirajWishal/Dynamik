@@ -416,9 +416,11 @@
     <ClInclude Include="Types\HashMap.h" />
     <ClInclude Include="Types\ObjectArray.h" />
     <ClInclude Include="Types\Pointer.h" />
+    <ClInclude Include="Types\SharedPointer.h" />
     <ClInclude Include="Types\StaticArray.h" />
     <ClInclude Include="Types\TSArray.h" />
     <ClInclude Include="Types\TypeTraits.h" />
+    <ClInclude Include="Types\UniquePointer.h" />
     <ClInclude Include="Types\Utilities.h" />
     <ClInclude Include="Utilities\Clock.h" />
     <ClInclude Include="Utilities\ShaderFactory.h" />
@@ -451,6 +453,7 @@
     <ClCompile Include="Objects\Resources\Texture.cpp" />
     <ClCompile Include="Objects\Resources\Textures\Texture2D.cpp" />
     <ClCompile Include="Objects\Resources\Textures\TextureCube.cpp" />
+    <ClCompile Include="Objects\Resources\ThirdParty\stb_image_impl.cpp" />
     <ClCompile Include="Objects\Resources\Uniform.cpp" />
     <ClCompile Include="Objects\Resources\VertexBuffer.cpp" />
     <ClCompile Include="PCH\dmkafx.cpp">
