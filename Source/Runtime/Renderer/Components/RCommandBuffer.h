@@ -8,11 +8,18 @@
 #include "Context/RFrameBuffer.h"
 #include "RPipelineObject.h"
 #include "Primitives/RBuffer.h"
+#include "ContextTypeDefs.h"
 
 namespace Dynamik
 {
 	class DMK_API RPipelineObject;
 	class DMK_API RRenderTarget;
+
+	/* Renderer Command Buffer Level */
+	enum class DMK_API RCommandBufferLevel {
+		COMMAND_BUFFEER_LEVEL_PRIMARY,
+		COMMAND_BUFFEER_LEVEL_SECONDARY,
+	};
 
 	/*
 	 Renderer Command Buffer
@@ -24,7 +31,7 @@ namespace Dynamik
 
 		virtual void begin() = 0;
 
-		virtual void bindRenderTarget(RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, UI32 bufferIndex) = 0;
+		virtual void bindRenderTarget(RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, UI32 bufferIndex, RSubpassContentType contentType = RSubpassContentType::SUBPASS_CONTENT_TYPE_INLINE) = 0;
 
 		virtual void bindVertexBuffer(RBuffer* pBuffer, UI64 firstBinding) = 0;
 		virtual void bindIndexBuffer(RBuffer* pBuffer) = 0;

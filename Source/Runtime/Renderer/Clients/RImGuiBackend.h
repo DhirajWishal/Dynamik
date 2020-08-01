@@ -9,6 +9,7 @@
 #include "../Components/RCoreObject.h"
 #include "../Components/RPipelineObject.h"
 #include "../Components/Primitives/RTexture.h"
+#include "../Components/RCommandBufferManager.h"
 
 namespace Dynamik
 {
@@ -25,12 +26,14 @@ namespace Dynamik
 		virtual void setCoreObject(RCoreObject* pCoreObject) { this->pCoreObject = pCoreObject; }
 		virtual void setRenderTarget(RRenderTarget* pRenderTarget) { this->pRenderTarget = pRenderTarget; }
 		virtual void bindCommands(RCommandBuffer* pCommandBuffer) = 0;
-		virtual void reCreatePipeline(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, DMKViewport viewport) = 0;
+		virtual void reCreatePipeline(RRenderTarget* pRenderTarget, DMKViewport viewport) = 0;
 
-		virtual void updateResources(RCoreObject* pCoreObject) = 0;
+		virtual void updateResources() = 0;
+		virtual void onRendererUpdate(const UI64 activeFrameIndex, RSwapChain* pSwapChain, RCommandBuffer* pActiveCommandBuffer) = 0;
 
 	protected:
 		ARRAY<DMKShaderModule> shaders;
+		ARRAY<RCommandBuffer*> pCommandBuffers;
 
 		RCoreObject* pCoreObject = nullptr;
 		RRenderTarget* pRenderTarget = nullptr;
@@ -44,7 +47,7 @@ namespace Dynamik
 		RBuffer* pIndexBuffer = nullptr;
 		UI64 indexCount = 0;
 
-		RBuffer* pUniformBuffer = nullptr;
+		RCommandBufferManager* pCommandBufferManager = nullptr;
 	};
 }
 

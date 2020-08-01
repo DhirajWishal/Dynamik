@@ -242,6 +242,7 @@
     </ClInclude>
     <ClInclude Include="Types\SharedPointer.h" />
     <ClInclude Include="Types\UniquePointer.h" />
+    <ClInclude Include="Types\StaticQueue.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\Attachments\BoundingBox.cpp">

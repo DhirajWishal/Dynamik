@@ -25,7 +25,7 @@ namespace Dynamik
 			VulkanCommandBuffer() {}
 			~VulkanCommandBuffer() {}
 
-			virtual void bindRenderTarget(RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, UI32 bufferIndex) override final;
+			virtual void bindRenderTarget(RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, UI32 bufferIndex, RSubpassContentType contentType = RSubpassContentType::SUBPASS_CONTENT_TYPE_INLINE) override final;
 			virtual void begin() override final;
 			virtual void bindVertexBuffer(RBuffer* pBuffer, UI64 firstBinding) override final;
 			virtual void bindIndexBuffer(RBuffer* pBuffer) override final;

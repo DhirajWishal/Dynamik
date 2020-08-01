@@ -13,7 +13,7 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanCommandBuffer::bindRenderTarget(RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, UI32 bufferIndex)
+		void VulkanCommandBuffer::bindRenderTarget(RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, UI32 bufferIndex, RSubpassContentType contentType)
 		{
 			VkRenderPassBeginInfo renderPassInfo = {};
 			renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -38,7 +38,7 @@ namespace Dynamik
 			renderPassInfo.clearValueCount = static_cast<UI32>(clearValues.size());
 			renderPassInfo.pClearValues = clearValues.data();
 
-			vkCmdBeginRenderPass(buffer, &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+			vkCmdBeginRenderPass(buffer, &renderPassInfo, Cast<VkSubpassContents>(contentType));
 		}
 
 		void VulkanCommandBuffer::begin()

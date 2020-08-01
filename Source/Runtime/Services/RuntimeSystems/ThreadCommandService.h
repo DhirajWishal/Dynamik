@@ -7,6 +7,7 @@
 
 #include "Core/Types/Array.h"
 #include "Core/Types/StaticArray.h"
+#include "Core/Types/StaticQueue.h"
 
 #include <queue>
 
@@ -26,6 +27,9 @@ namespace Dynamik
 	*/
 	template<class TYPE>
 	struct DMK_API SCommandQueueContainer : public ICommandQueue {
+		SCommandQueueContainer() {}
+		~SCommandQueueContainer() {}
+
 		std::queue<TYPE> commandQueue;
 	};
 
@@ -63,7 +67,7 @@ namespace Dynamik
 			std::lock_guard<std::mutex> _lock(__globalThreadCommandMutex);
 			STRING name = typeid(COMMAND).name();
 
-			commandMap[name] = StaticAllocator<SCommandQueueContainer<COMMAND>>::rawAllocate();
+			commandMap[name] = StaticAllocator<SCommandQueueContainer<COMMAND>>::allocate();
 			registeredCommands.pushBack(name);
 		}
 

@@ -30,6 +30,8 @@
 
 #include "Managers/Thread/ThreadFunction.inl"
 
+#define DMK_BUILD_STUDIO
+
 namespace Dynamik
 {
 	using namespace Backend;
@@ -61,7 +63,12 @@ namespace Dynamik
 			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_INITIALIZE:
 				break;
 			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE:
+				if (!isReadyToRun)
+					return;
+
+				beginFrameInstruction();
 				updateInstruction();
+				endFrameInstruction();
 				break;
 			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE_CAMERA:
 				updateCamera();
@@ -151,18 +158,11 @@ namespace Dynamik
 
 		else if (commandName == typeid(RendererSubmitImGuiDrawData).name())
 		{
-			if (myImGuiBackend && myCommandBufferManager)
+			if (myImGuiBackend)
 			{
 				myCoreObject->idleCall();
 
 				myImGuiBackend->update(pCommandService->getCommand<RendererSubmitImGuiDrawData>().pDrawData);
-
-				if (myDrawCallManager.isInitialized())
-				{
-					isReadyToRun = false;
-
-					initializeCommandBuffers();
-				}
 			}
 		}
 	}
@@ -830,11 +830,8 @@ namespace Dynamik
 			myDrawCallManager.setCommandBuffer(myCommandBuffers[itr]);
 			myDrawCallManager.beginCommand();
 			myDrawCallManager.bindRenderTarget(&myRenderTarget, mySwapChain, itr);
-
+			
 			myDrawCallManager.bindDrawCalls(RDrawCallType::DRAW_CALL_TYPE_INDEX);
-
-			if (myImGuiBackend)
-				myImGuiBackend->bindCommands(myCommandBuffers[itr]);
 
 			myDrawCallManager.unbindRenderTarget();
 			myDrawCallManager.endCommand();
@@ -913,7 +910,7 @@ namespace Dynamik
 
 		/* Recreate Im Gui Backend Pipeline. */
 		if (myImGuiBackend)
-			myImGuiBackend->reCreatePipeline(myCoreObject, &myRenderTarget, mySwapChain->viewPort);
+			myImGuiBackend->reCreatePipeline(&myRenderTarget, mySwapChain->viewPort);
 
 		/* Initialize Buffers */
 		initializeCommandBuffers();
@@ -939,9 +936,6 @@ namespace Dynamik
 		updateEntities();
 		updateBoundingBoxes();
 		updateDebugObjects();
-
-		if (myImGuiBackend)
-			myImGuiBackend->updateResources(myCoreObject);
 	}
 
 	void DMKRenderer::updateCamera()
@@ -986,6 +980,12 @@ namespace Dynamik
 
 	void DMKRenderer::endFrameInstruction()
 	{
+#ifdef DMK_BUILD_STUDIO
+		if (myImGuiBackend)
+			myImGuiBackend->onRendererUpdate(currentImageIndex, mySwapChain, myCommandBuffers[currentImageIndex]);
+
+#endif
+
 		myCoreObject->submitCommand(myCommandBuffers[currentImageIndex], mySwapChain);
 		isPresenting = false;
 	}

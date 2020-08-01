@@ -26,13 +26,15 @@ namespace Dynamik
 
 			virtual void bindCommands(RCommandBuffer* pCommandBuffer) override final;
 
-			virtual void reCreatePipeline(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, DMKViewport viewport) override final;
+			virtual void reCreatePipeline(RRenderTarget* pRenderTarget, DMKViewport viewport) override final;
 
-			virtual void updateResources(RCoreObject* pCoreObject) override final;
+			virtual void updateResources() override final;
+			virtual void onRendererUpdate(const UI64 activeFrameIndex, RSwapChain* pSwapChain, RCommandBuffer* pActiveCommandBuffer) override final;
 
 		private:
 			void _initializeFontTexture();
 			void _initializePipeline();
+			void _initializeCommandBuffers();
 
 			RColorBlendState createColorBlendState();
 		};

@@ -32,6 +32,12 @@ namespace Dynamik
         RENDER_PASS_ATTACHMENTS_COLOR,
         RENDER_PASS_ATTACHMENTS_OVERLAY,
     };
+
+	/* Renderer Sub Pass Content Type */
+	enum class DMK_API RSubpassContentType {
+		SUBPASS_CONTENT_TYPE_INLINE,
+		SUBPASS_CONTENT_TYPE_SECONDARY_COMMAND_BUFFER,
+	};
 }
 
 #endif // !_DYNAMIK_RENDER_CONTEXT_TYPE_DEFINES_H

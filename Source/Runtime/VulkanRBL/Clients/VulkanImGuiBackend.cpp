@@ -7,6 +7,7 @@
 #include "../Primitives/VulkanTexture.h"
 #include "../VulkanUtilities.h"
 #include "../Common/VulkanCommandBuffer.h"
+#include "../Common/VulkanCommandBufferManager.h"
 
 #include "Services/RuntimeSystems/AssetRegistry.h"
 #include "Tools/Shader/GLSL/Compiler.h"
@@ -19,6 +20,8 @@ namespace Dynamik
 {
 	namespace Backend
 	{
+		std::mutex __globalLock;
+
 		void VulkanImGuiBackend::initialize()
 		{
 			/* Initialize Font Data */
@@ -26,6 +29,9 @@ namespace Dynamik
 
 			/* Initialize Pipeline */
 			_initializePipeline();
+
+			/* Initialize Command Buffers */
+			_initializeCommandBuffers();
 
 			/* Allocate Buffers */
 			pVertexBuffer = StaticAllocator<VulkanBuffer>::rawAllocate();
@@ -92,6 +98,8 @@ namespace Dynamik
 
 						pVertexBuffer->unmapMemory(pCoreObject);
 					}
+					else
+						DMK_INFO("Could not map!");
 				}
 
 				/* Push data to the index buffer */
@@ -109,6 +117,8 @@ namespace Dynamik
 
 						pIndexBuffer->unmapMemory(pCoreObject);
 					}
+					else
+						DMK_INFO("Could not map!");
 				}
 			}
 		}
@@ -140,6 +150,10 @@ namespace Dynamik
 			/* Terminate the Font Texture */
 			pFontTexture->terminate(pCoreObject);
 			StaticAllocator<VulkanTexture>::rawDeallocate(pFontTexture);
+
+			/* Terminate command buffers */
+			pCommandBufferManager->terminate(pCoreObject, pCommandBuffers);
+			StaticAllocator<VulkanCommandBufferManager>::rawDeallocate(pCommandBufferManager);
 		}
 
 		void VulkanImGuiBackend::bindCommands(RCommandBuffer* pCommandBuffer)
@@ -148,6 +162,8 @@ namespace Dynamik
 				return;
 
 			ImGuiIO& io = ImGui::GetIO();
+
+			auto context = ImGui::GetCurrentContext();
 
 			VulkanCommandBuffer vCommandBuffer = *Inherit<VulkanCommandBuffer>(pCommandBuffer);
 
@@ -163,66 +179,117 @@ namespace Dynamik
 			viewport.height = Cast<F32>(ImGui::GetIO().DisplaySize.y);
 			vkCmdSetViewport(vCommandBuffer, 0, 1, &viewport);
 
-			if (!pDrawData)
-				return;
+			/* Submit constant data. */
+			uniformData.scale = Vector2F(2.0f / io.DisplaySize.x, 2.0f / io.DisplaySize.y);
+			uniformData.transform[0] = -1.0f - pDrawData->DisplayPos.x * uniformData.scale[0];
+			uniformData.transform[1] = -1.0f - pDrawData->DisplayPos.y * uniformData.scale[1];
+			vkCmdPushConstants(vCommandBuffer, Inherit<VulkanGraphicsPipeline>(pPipelineObject)->layout, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(uniformData), &uniformData);
 
 			UI64 vertexOffset = 0;
 			UI64 indexOffset = 0;
 
+			/* Wait till pDrawData is submitted with draw data. */
+			while (pDrawData == nullptr);
+			while (pDrawData->CmdListsCount < 1);
+
+			__globalLock.lock();
+
 			ImVec2 clip_off = pDrawData->DisplayPos;         // (0,0) unless using multi-viewports
 			ImVec2 clip_scale = pDrawData->FramebufferScale; // (1,1) unless using retina display which are often (2,2)
 
-			if (pDrawData->CmdListsCount)
+			StaticArray<VkDeviceSize, 1> offsets;
+
+			vkCmdBindVertexBuffers(vCommandBuffer, 0, 1, &Inherit<VulkanBuffer>(pVertexBuffer)->buffer, offsets.data());
+			vkCmdBindIndexBuffer(vCommandBuffer, Inherit<VulkanBuffer>(pIndexBuffer)->buffer, 0, sizeof(ImDrawIdx) == 2 ? VK_INDEX_TYPE_UINT16 : VK_INDEX_TYPE_UINT32);
+
+			for (I32 index = 0; index < pDrawData->CmdListsCount; index++)
 			{
-				StaticArray<VkDeviceSize, 1> offsets;
+				const ImDrawList* pDrawList = pDrawData->CmdLists[index];
 
-				vkCmdBindVertexBuffers(vCommandBuffer, 0, 1, &Inherit<VulkanBuffer>(pVertexBuffer)->buffer, offsets.data());
-				vkCmdBindIndexBuffer(vCommandBuffer, Inherit<VulkanBuffer>(pIndexBuffer)->buffer, 0, sizeof(ImDrawIdx) == 2 ? VK_INDEX_TYPE_UINT16 : VK_INDEX_TYPE_UINT32);
-
-				for (I32 index = 0; index < pDrawData->CmdListsCount; index++)
+				for (I32 itr = 0; itr < pDrawList->CmdBuffer.Size; itr++)
 				{
-					const ImDrawList* pDrawList = pDrawData->CmdLists[index];
+					const ImDrawCmd* pDrawCmd = &pDrawList->CmdBuffer[itr];
 
-					for (I32 itr = 0; itr < pDrawList->CmdBuffer.Size; itr++)
-					{
-						const ImDrawCmd* pDrawCmd = &pDrawList->CmdBuffer[itr];
+					ImVec4 clip_rect;
+					clip_rect.x = (pDrawCmd->ClipRect.x - clip_off.x) * clip_scale.x;
+					clip_rect.y = (pDrawCmd->ClipRect.y - clip_off.y) * clip_scale.y;
+					clip_rect.z = (pDrawCmd->ClipRect.z - clip_off.x) * clip_scale.x;
+					clip_rect.w = (pDrawCmd->ClipRect.w - clip_off.y) * clip_scale.y;
 
-						ImVec4 clip_rect;
-						clip_rect.x = (pDrawCmd->ClipRect.x - clip_off.x) * clip_scale.x;
-						clip_rect.y = (pDrawCmd->ClipRect.y - clip_off.y) * clip_scale.y;
-						clip_rect.z = (pDrawCmd->ClipRect.z - clip_off.x) * clip_scale.x;
-						clip_rect.w = (pDrawCmd->ClipRect.w - clip_off.y) * clip_scale.y;
+					if (clip_rect.x < 0.0f)
+						clip_rect.x = 0.0f;
+					if (clip_rect.y < 0.0f)
+						clip_rect.y = 0.0f;
 
-						if (clip_rect.x < 0.0f)
-							clip_rect.x = 0.0f;
-						if (clip_rect.y < 0.0f)
-							clip_rect.y = 0.0f;
+					VkRect2D scissor = {};
+					scissor.offset.x = Cast<I32>(clip_rect.x);
+					scissor.offset.y = Cast<I32>(clip_rect.y);
+					scissor.extent.width = Cast<I32>(clip_rect.z - clip_rect.x);
+					scissor.extent.height = Cast<I32>(clip_rect.w - clip_rect.y);
 
-						VkRect2D scissor = {};
-						scissor.offset.x = Cast<I32>(clip_rect.x);
-						scissor.offset.y = Cast<I32>(clip_rect.y);
-						scissor.extent.width = Cast<I32>(clip_rect.z - clip_rect.x);
-						scissor.extent.height = Cast<I32>(clip_rect.w - clip_rect.y);
-
-						vkCmdSetScissor(vCommandBuffer, 0, 1, &scissor);
-						vkCmdDrawIndexed(vCommandBuffer, pDrawCmd->ElemCount, 1, Cast<UI32>(pDrawCmd->IdxOffset + indexOffset), Cast<UI32>(pDrawCmd->VtxOffset + vertexOffset), 0);
-					}
-
-					indexOffset += pDrawList->IdxBuffer.Size;
-					vertexOffset += pDrawList->VtxBuffer.Size;
+					vkCmdSetScissor(vCommandBuffer, 0, 1, &scissor);
+					vkCmdDrawIndexed(vCommandBuffer, pDrawCmd->ElemCount, 1, Cast<UI32>(indexOffset), Cast<UI32>(vertexOffset), 0);
+					indexOffset += pDrawCmd->ElemCount;
 				}
+
+				vertexOffset += pDrawList->VtxBuffer.Size;
 			}
+
+			__globalLock.unlock();
 		}
 
-		void VulkanImGuiBackend::reCreatePipeline(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, DMKViewport viewport)
+		void VulkanImGuiBackend::reCreatePipeline(RRenderTarget* pRenderTarget, DMKViewport viewport)
 		{
 			if (pPipelineObject)
 				pPipelineObject->reCreate(pCoreObject, pRenderTarget, viewport);
 		}
 
-		void VulkanImGuiBackend::updateResources(RCoreObject* pCoreObject)
+		void VulkanImGuiBackend::updateResources()
 		{
-			pUniformBuffer->setData(pCoreObject, sizeof(uniformData), 0, &uniformData);
+		}
+
+		void VulkanImGuiBackend::onRendererUpdate(const UI64 activeFrameIndex, RSwapChain* pSwapChain, RCommandBuffer* pActiveCommandBuffer)
+		{
+			/* Update resources prior to drawing. */
+			updateResources();
+
+			/* Bind draw calls */
+			VkCommandBufferBeginInfo cmdBufferBeginInfo = {};
+			cmdBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+			DMK_VULKAN_ASSERT(vkBeginCommandBuffer(Inherit<VulkanCommandBuffer>(pActiveCommandBuffer)->buffer, &cmdBufferBeginInfo), "Failed to begin recording of command buffer!");
+
+			pActiveCommandBuffer->bindRenderTarget(pRenderTarget, pSwapChain, Cast<UI32>(activeFrameIndex), RSubpassContentType::SUBPASS_CONTENT_TYPE_SECONDARY_COMMAND_BUFFER);
+
+			VkCommandBufferInheritanceInfo inheritanceInfo = {};
+			inheritanceInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO;
+			inheritanceInfo.pNext = VK_NULL_HANDLE;
+			inheritanceInfo.renderPass = Inherit<VulkanRenderPass>(pRenderTarget->pRenderPass)->renderPass;
+			inheritanceInfo.framebuffer = Inherit<VulkanFrameBuffer>(pRenderTarget->pFrameBuffer)->buffers[activeFrameIndex];
+
+			/* Bind commands */
+			{
+				auto pCurrentCommandBuffer = pCommandBuffers[activeFrameIndex];
+
+				/* Begin command buffer */
+				VkCommandBufferBeginInfo beginInfo = {};
+				beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+				beginInfo.flags = VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT | VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+				beginInfo.pInheritanceInfo = &inheritanceInfo;
+				DMK_VULKAN_ASSERT(vkBeginCommandBuffer(Inherit<VulkanCommandBuffer>(pCurrentCommandBuffer)->buffer, &beginInfo), "Failed to begin recording of command buffer!");
+
+				/* Bind the commands */
+				bindCommands(pCurrentCommandBuffer);
+
+				/* End the command buffer */
+				DMK_VULKAN_ASSERT(vkEndCommandBuffer(Inherit<VulkanCommandBuffer>(pCurrentCommandBuffer)->buffer), "Failed to end the command buffer recording!");
+
+				/* Execute commands */
+				vkCmdExecuteCommands(Inherit<VulkanCommandBuffer>(pActiveCommandBuffer)->buffer, 1, &Inherit<VulkanCommandBuffer>(pCurrentCommandBuffer)->buffer);
+			}
+
+			pActiveCommandBuffer->unbindRenderTarget();
+
+			pActiveCommandBuffer->end();
 		}
 
 		void VulkanImGuiBackend::_initializeFontTexture()
@@ -269,18 +336,10 @@ namespace Dynamik
 			shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKFormat::DMK_FORMAT_RG_32_SF32, 1));
 			shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKFormat::DMK_FORMAT_RGBA_8_UNORMAL, 1));
 
-			DMKUniformBufferObject uniformVS(0);
-			uniformVS.addAttribute(TEXT("scale"), sizeof(Vector2F));
-			uniformVS.addAttribute(TEXT("transform"), sizeof(Vector2F));
-			shaderVS.addUniform(uniformVS);
-
 			shaders.pushBack(shaderVS);
 			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_IM_GUI_UI_FRAG")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT));
 
 			/* Create uniform buffers */
-			pUniformBuffer = StaticAllocator<VulkanBuffer>::rawAllocate();
-			pUniformBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_UNIFORM, sizeof(uniformData));
-			pUniformBuffer->setData(pCoreObject, sizeof(uniformData), 0, &uniformData);
 
 			RPipelineSpecification pipelineSpec = {};
 			pipelineSpec.shaders = shaders;
@@ -294,7 +353,18 @@ namespace Dynamik
 			pPipelineObject = StaticAllocator<VulkanGraphicsPipeline>::rawAllocate();
 			pPipelineObject->initialize(pCoreObject, pipelineSpec, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, pRenderTarget, DMKViewport());
 
-			pPipelineObject->initializeResources(pCoreObject, { pUniformBuffer }, { pFontTexture });
+			pPipelineObject->initializeResources(pCoreObject, {}, { pFontTexture });
+		}
+
+		void VulkanImGuiBackend::_initializeCommandBuffers()
+		{
+			pCommandBufferManager = StaticAllocator<VulkanCommandBufferManager>::allocate();
+			pCommandBufferManager->initialize(pCoreObject);
+
+			if (pCommandBuffers.size())
+				pCommandBufferManager->resetBuffers(pCoreObject, pCommandBuffers);
+			else
+				pCommandBuffers = pCommandBufferManager->allocateCommandBuffers(pCoreObject, Cast<UI32>(Inherit<VulkanFrameBuffer>(pRenderTarget->pFrameBuffer)->buffers.size()), RCommandBufferLevel::COMMAND_BUFFEER_LEVEL_SECONDARY);
 		}
 
 		RColorBlendState VulkanImGuiBackend::createColorBlendState()

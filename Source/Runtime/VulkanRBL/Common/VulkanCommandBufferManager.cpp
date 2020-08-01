@@ -23,12 +23,12 @@ namespace Dynamik
 			DMK_VULKAN_ASSERT(vkCreateCommandPool(Inherit<VulkanCoreObject>(pCoreObject)->device, &poolInfo, nullptr, &pool), "Failed to create command pool!");
 		}
 
-		ARRAY<RCommandBuffer*> VulkanCommandBufferManager::allocateCommandBuffers(RCoreObject* pCoreObject, UI32 bufferCount)
+		ARRAY<RCommandBuffer*> VulkanCommandBufferManager::allocateCommandBuffers(RCoreObject* pCoreObject, UI32 bufferCount, RCommandBufferLevel level)
 		{
 			VkCommandBufferAllocateInfo allocInfo = {};
 			allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 			allocInfo.commandPool = pool;
-			allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+			allocInfo.level = Cast<VkCommandBufferLevel>(level);
 			allocInfo.commandBufferCount = static_cast<UI32>(bufferCount);
 
 			ARRAY<VkCommandBuffer> _bufferArray(bufferCount);

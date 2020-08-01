@@ -15,16 +15,6 @@ namespace Dynamik
 {
     namespace Backend 
     {
-        struct DMK_API VulkanRenerPassAtachmentDescription {
-            RenderPassAttachment attachment = RenderPassAttachment::RENDER_PASS_ATTACHMENTS_SWAPCHAIN;
-            DMKFormat format = DMKFormat::DMK_FORMAT_UNDEFINED;
-            DMKSampleCount msaaSamples = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
-        };
-
-        struct DMK_API VulkanRenderPassSubpass {
-            ARRAY<VulkanRenerPassAtachmentDescription> attachments;
-        };
-
         /*
          Vulkan Render Pass object for the Dynamik RBL
         */
