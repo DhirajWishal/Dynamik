@@ -130,6 +130,9 @@ namespace Dynamik
 		/* Component Manager */
 		ObjectArray componentManager;
 
+		/* Shader modules of the entity */
+		ARRAY<DMKShaderModule> shaders;
+
 		B1 isCameraAvailable = false;
 
 	protected:	/* Protected Data */

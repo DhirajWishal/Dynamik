@@ -48,10 +48,12 @@ namespace Dynamik
 			DrawEntry(
 				UI64 fVertex, DMKVertexBuffer vertexBuffer,
 				UI64 firstIndex, UI64 indexCount,
-				RPipelineObject* pPipelineObj) :
+				RPipelineObject* pPipelineObj,
+				RPipelineResource* pPipelineResource) :
 				firstVertex(fVertex), vertexBuffer(vertexBuffer),
 				firstIndex(firstIndex), indexCount(indexCount),
-				pPipelineObject(pPipelineObj) {}
+				pPipelineObject(pPipelineObj),
+				pPipelineResource(pPipelineResource) {}
 			~DrawEntry() {}
 
 			UI64 firstVertex = 0;
@@ -59,6 +61,7 @@ namespace Dynamik
 			UI64 indexCount = 0;
 
 			RPipelineObject* pPipelineObject = nullptr;
+			RPipelineResource* pPipelineResource = nullptr;
 			DMKVertexBuffer vertexBuffer;
 		};
 
@@ -83,12 +86,14 @@ namespace Dynamik
 			~EmptyDraw() {}
 
 			RPipelineObject* pPipeline = nullptr;
+			RPipelineResource* pPipelineResource = nullptr;
 		};
 
 		struct DMK_API DebugDraw {
 			DMKVertexBuffer rawVertexBuffer;
 			ARRAY<UI32>* pRawIndexBuffer;
 			RPipelineObject* pPipeline = nullptr;
+			RPipelineResource* pPipelineResource = nullptr;
 			RBuffer* pVertexBuffer = nullptr;
 			UI64 vertexCount = 0;
 			RBuffer* pIndexBuffer = nullptr;
@@ -97,6 +102,7 @@ namespace Dynamik
 
 		struct DMK_API EnvironmentDraw {
 			RPipelineObject* pPipeline = nullptr;
+			RPipelineResource* pPipelineResource = nullptr;
 			RBuffer* pVertexBuffer = nullptr;
 			UI64 vertexCount = 0;
 			RBuffer* pIndexBuffer = nullptr;
@@ -109,17 +115,19 @@ namespace Dynamik
 		UI64 addDrawEntry(
 			DMKVertexBuffer vertexBuffer,
 			ARRAY<UI32>* indexBuffer,
-			RPipelineObject* pPipelineObject);
+			RPipelineObject* pPipelineObject,
+			RPipelineResource* pPipelineResource);
 
 		UI64 addEmptyEntry(RPipelineObject* pPipelineObject);
 
-		void setEnvironment(RPipelineObject* pPipeline, RBuffer* pVertexBuffer, UI64 vertexCount, RBuffer* pIndexBuffer, UI64 indexCount);
+		void setEnvironment(RPipelineObject* pPipeline, RPipelineResource* pPipelineResource, RBuffer* pVertexBuffer, UI64 vertexCount, RBuffer* pIndexBuffer, UI64 indexCount);
 		EnvironmentDraw& getEnvironmentData();
 
 		UI64 addDebugEntry(
 			DMKVertexBuffer vertexBuffer,
 			ARRAY<UI32>* indexBuffer,
-			RPipelineObject* pPipelineObject);
+			RPipelineObject* pPipelineObject,
+			RPipelineResource* pPipelineResource);
 
 		void initializeBuffers(RCoreObject* pCoreObject);
 

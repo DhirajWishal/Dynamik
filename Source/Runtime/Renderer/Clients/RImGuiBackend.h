@@ -39,6 +39,7 @@ namespace Dynamik
 		RRenderTarget* pRenderTarget = nullptr;
 
 		RPipelineObject* pPipelineObject = nullptr;
+		RPipelineResource* pPipelineResource = nullptr;
 		RTexture* pFontTexture = nullptr;
 
 		RBuffer* pVertexBuffer = nullptr;

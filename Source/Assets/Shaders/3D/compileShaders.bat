@@ -1,3 +1,3 @@
-"E:\Programming\SDKs\Vulkan\1.2.131.2\Bin\glslangValidator.exe" -V shader.vert
-"E:\Programming\SDKs\Vulkan\1.2.131.2\Bin\glslangValidator.exe" -V shader.frag
+"E:\Dynamik\Version\DynamikEngine\Dependencies\ThirdParty\Binaries\glslangValidator\glslangValidator.exe" -V shader.vert
+"E:\Dynamik\Version\DynamikEngine\Dependencies\ThirdParty\Binaries\glslangValidator\glslangValidator.exe" -V shader.frag
 PAUSE

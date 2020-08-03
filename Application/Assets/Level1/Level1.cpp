@@ -25,7 +25,7 @@ void Level1::onLoad()
 	createUserGameWorld<DefaultWorld>();
 	pCurrentGameWorld->setCamera(playerObject->getCameraModule());
 
-	movementBias = 0.005f;
+	movementBias = 0.05f;
 }
 
 void Level1::onUpdate(const DMKEventPool* pEventPool)

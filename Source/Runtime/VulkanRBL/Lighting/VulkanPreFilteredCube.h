@@ -33,6 +33,7 @@ namespace Dynamik
 			void _terminateSupportStructures(RCoreObject* pCoreObject);
 
 			VulkanGraphicsPipeline pipeline = {};
+			VulkanGraphicsPipelineResource pipelineResource = {};
 			RFrameBufferAttachment* pAttachment = nullptr;
 		};
 	}

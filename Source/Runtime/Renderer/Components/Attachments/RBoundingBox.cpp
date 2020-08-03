@@ -28,6 +28,7 @@ namespace Dynamik
 
 		/* Initialize Pipeline */
 		RPipelineSpecification pipelineSpecification = {};
+		pipelineSpecification.resourceCount = 1;
 		pipelineSpecification.shaders = shaders;
 		pipelineSpecification.scissorInfos.resize(1);
 		pipelineSpecification.multiSamplingInfo.sampleCount = pCoreObject->sampleCount;
@@ -48,7 +49,8 @@ namespace Dynamik
 		if (pCameraUniform)
 			pBuffers.pushBack(pCameraUniform);
 
-		pPipeline->initializeResources(pCoreObject, pBuffers, ARRAY<RTexture*>());
+		pPipelineResource = pPipeline->allocateResources(pCoreObject)[0];
+		pPipelineResource->update(pCoreObject, pBuffers, ARRAY<RTexture*>());
 	}
 
 	void RBoundingBox::terminate(RCoreObject* pCoreObject)

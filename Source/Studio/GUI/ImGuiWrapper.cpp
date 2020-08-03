@@ -88,6 +88,11 @@ namespace Dynamik
 			ImGui::SliderFloat("Light speed", &uiSettings.lightSpeed, 0.1f, 1.0f);
 			ImGui::End();
 
+
+			ImGui::Begin("Engine View Port");
+			ImGui::Image(NULL, { 512, 512 });
+			ImGui::End();
+
 			ImGui::SetNextWindowPos(ImVec2(650, 20));
 			ImGui::ShowDemoWindow();
 

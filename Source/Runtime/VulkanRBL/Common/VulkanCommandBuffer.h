@@ -29,7 +29,7 @@ namespace Dynamik
 			virtual void begin() override final;
 			virtual void bindVertexBuffer(RBuffer* pBuffer, UI64 firstBinding) override final;
 			virtual void bindIndexBuffer(RBuffer* pBuffer) override final;
-			virtual void bindGraphicsPipeline(RPipelineObject* pPipelineObject) override final;
+			virtual void bindGraphicsPipeline(RPipelineObject* pPipelineObject, RPipelineResource* pPipelineResource) override final;
 			virtual void drawIndexed(UI64 firstIndex, UI64 vertexOffset, UI64 indexCount, UI64 instanceCount) override final;
 			virtual void drawVertexes(UI64 vertexIndex, UI64 vertexCount, UI64 instanceCount) override final;
 			virtual void unbindRenderTarget() override final;

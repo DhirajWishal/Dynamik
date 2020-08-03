@@ -162,6 +162,7 @@ namespace Dynamik
 			_viewport.windowHandle = nullptr;
 
 			RPipelineSpecification pipelineSpec = {};
+			pipelineSpec.resourceCount = 1;
 			pipelineSpec.shaders = shaders;
 			pipelineSpec.dynamicStates = { RDynamicState::DYNAMIC_STATE_VIEWPORT, RDynamicState::DYNAMIC_STATE_SCISSOR };
 			pipelineSpec.scissorInfos.resize(1);
@@ -169,7 +170,8 @@ namespace Dynamik
 			pipelineSpec.multiSamplingInfo.sampleCount = DMK_SAMPLE_COUNT_1_BIT;
 			pipeline.initialize(pCoreObject, pipelineSpec, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &renderTarget, _viewport);
 
-			pipeline.initializeResources(pCoreObject, ARRAY<RBuffer*>(), { pParent->pTexture });
+			pipelineResource = *Cast<VulkanGraphicsPipelineResource*>(pipeline.allocateResources(pCoreObject)[0]);
+			pipelineResource.update(pCoreObject, ARRAY<RBuffer*>(), { pParent->pTexture });
 		}
 
 		void VulkanPreFilteredCube::_process(RCoreObject* pCoreObject)
@@ -261,7 +263,7 @@ namespace Dynamik
 					vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
 
 					if (pipeline.isResourceAvailable)
-						vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline, 0, 1, &pipeline.descriptor.set, 0, VK_NULL_HANDLE);
+						vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline, 0, 1, &pipelineResource.set, 0, VK_NULL_HANDLE);
 
 					VkDeviceSize offsets[1] = { 0 };
 					vkCmdBindVertexBuffers(buffer, 0, 1, &Inherit<VulkanBuffer>(pParent->pVertexBuffer)->buffer, offsets);

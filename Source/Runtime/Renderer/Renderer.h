@@ -155,7 +155,7 @@ namespace Dynamik
 
 	private:    /* Utility Methods */
 		RBoundingBox createBoundingBox(DMKBoundingBoxAttachment* pBoundingBox);
-		RMeshObject loadMeshComponent(DMKStaticMeshComponent* pComponent);
+		RMeshObject loadMeshComponent(DMKStaticMeshComponent* pComponent, RPipelineResource* pResource, RPipelineObject* pParentPipeline);
 
 	private:    /* Internal */
 		DMKRendererCompatibility myCompatibility;

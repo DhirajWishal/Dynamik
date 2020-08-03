@@ -5,12 +5,24 @@
 #include "Services/RuntimeSystems/AssetRegistry.h"
 #include "GameLibrary/LevelComponent.h"
 #include "Core/Math/MathFunctions.h"
+
+#include "Importer/Asset/ImageImporter.h"
+
 #include "Tree.h"
+
+#include <functional>
+#include <future>
+
+void StaticLoad(DMKTexture** pTexture, STRING file)
+{
+	DMKImageImporter importer;
+	*pTexture = importer.loadTexture2D(file);
+}
 
 void Tree::initialize()
 {
 	auto vLayout = DMKVertexLayout::createBasic();
-	addComponents<DMKStaticMeshComponent>(DMKMeshFactory::loadMeshes("E:\\Dynamik\\Game Repository\\assets\\assets\\tree\\Tree.obj", vLayout));
+	addComponents<DMKStaticMeshComponent>(DMKMeshFactory::loadMeshes("E:\\Dynamik\\Game Repository\\assets\\assets\\postwar-city-exterior-scene\\source\\scene.fbx", vLayout));
 
 	DMKUniformBufferObject uniform(0);
 	uniform.addAttribute("Model", sizeof(Matrix4F));
@@ -24,21 +36,134 @@ void Tree::initialize()
 
 	auto shaderFS = DMKShaderFactory::createModule(DMKAssetRegistry::getAsset("SHADER_3D_FRAG_SPV"), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
 
+	shaders.pushBack(shaderVS);
+	shaders.pushBack(shaderFS);
+
+	STRING basePath = "E:\\Dynamik\\Game Repository\\assets\\assets\\postwar-city-exterior-scene\\textures\\";
+
 	ARRAY<STRING> textures;
-	textures.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\tree\\leaves_03.jpg");
-	textures.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\tree\\leaves_03.jpg");
-	textures.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\tree\\leaves_03.jpg");
-	textures.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\tree\\bark_tree.jpg");
-	textures.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\tree\\ground.jpg");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-gauche.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
+	textures.pushBack(basePath + "batiemts-principaux-droite.png");
 
 	/* Initialize the loaded shaders */
-	for (UI64 index = 0; index < getComponentArray<DMKStaticMeshComponent>()->size(); index++)
+	auto size = getComponentArray<DMKStaticMeshComponent>()->size();
+
+	ARRAY<DMKTexture*> pTextures(size);
+
+	{
+		ARRAY<std::future<void>, 1, DMKArrayDestructorCallMode::DMK_ARRAY_DESTRUCTOR_CALL_MODE_DESTRUCT_ALL> threads;
+		
+		for (UI32 itr = 0; itr < size; itr++)
+			threads.pushBack(std::async(std::launch::async, StaticLoad, &pTextures[itr], textures[itr]));
+	}
+
+	for (UI64 index = 0; index < size; index++)
 	{
 		auto pStaticMesh = getComponent<DMKStaticMeshComponent>(index);
 
+		DMK_INFO("Mesh Name: " + pStaticMesh->name + " Mesh Index: " + std::to_string(index));
+
 		pStaticMesh->addShaderModule(shaderVS);
 		pStaticMesh->addShaderModule(shaderFS);
-		pStaticMesh->addTexture(textures[index], DMKTextureType::TEXTURE_TYPE_2D);
+		pStaticMesh->addTextureModule(pTextures[index]);
 	}
 }
 
@@ -48,6 +173,7 @@ void Tree::onUpdate(F32 timeStep)
 	{
 		auto pStaticMesh = getComponent<DMKStaticMeshComponent>(index);
 
+		uniformMVP.Model = DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(-90.0f), Vector3F(1.0f, 0.0f, 0.0f));
 		uniformMVP.View = pCurrentLevel->getCameraModule()->matrix.view;
 		uniformMVP.Projection = pCurrentLevel->getCameraModule()->matrix.projection;
 

@@ -9,10 +9,10 @@
 
 namespace Dynamik
 {
-	UI64 RDrawCallManager::addDrawEntry(DMKVertexBuffer vertexBuffer, ARRAY<UI32>* indexBuffer, RPipelineObject* pPipelineObject)
+	UI64 RDrawCallManager::addDrawEntry(DMKVertexBuffer vertexBuffer, ARRAY<UI32>* indexBuffer, RPipelineObject* pPipelineObject, RPipelineResource* pPipelineResource)
 	{
 		entryMap[vertexBuffer.layout].drawEntries.pushBack(
-			DrawEntry(entryMap[vertexBuffer.layout].vertexCount, vertexBuffer, totalIndexCount, indexBuffer->size(), pPipelineObject));
+			DrawEntry(entryMap[vertexBuffer.layout].vertexCount, vertexBuffer, totalIndexCount, indexBuffer->size(), pPipelineObject, pPipelineResource));
 		entryMap[vertexBuffer.layout].vertexCount += vertexBuffer.size();
 
 		IndexBufferEntry _entry;
@@ -32,13 +32,14 @@ namespace Dynamik
 		return emptyDraws.size() - 1;
 	}
 
-	void RDrawCallManager::setEnvironment(RPipelineObject* pPipeline, RBuffer* pVertexBuffer, UI64 vertexCount, RBuffer* pIndexBuffer, UI64 indexCount)
+	void RDrawCallManager::setEnvironment(RPipelineObject* pPipeline, RPipelineResource* pPipelineResource, RBuffer* pVertexBuffer, UI64 vertexCount, RBuffer* pIndexBuffer, UI64 indexCount)
 	{
 		myEnvironment.pPipeline = pPipeline;
 		myEnvironment.pVertexBuffer = pVertexBuffer;
 		myEnvironment.vertexCount = vertexCount;
 		myEnvironment.pIndexBuffer = pIndexBuffer;
 		myEnvironment.indexCount = indexCount;
+		myEnvironment.pPipelineResource = pPipelineResource;
 	}
 
 	RDrawCallManager::EnvironmentDraw& RDrawCallManager::getEnvironmentData()
@@ -46,7 +47,7 @@ namespace Dynamik
 		return myEnvironment;
 	}
 
-	UI64 RDrawCallManager::addDebugEntry(DMKVertexBuffer vertexBuffer, ARRAY<UI32>* indexBuffer, RPipelineObject* pPipelineObject)
+	UI64 RDrawCallManager::addDebugEntry(DMKVertexBuffer vertexBuffer, ARRAY<UI32>* indexBuffer, RPipelineObject* pPipelineObject, RPipelineResource* pPipelineResource)
 	{
 		DebugDraw entry;
 		entry.indexCount = indexBuffer->size();
@@ -54,6 +55,7 @@ namespace Dynamik
 		entry.vertexCount = vertexBuffer.size();
 		entry.pRawIndexBuffer = indexBuffer;
 		entry.pPipeline = pPipelineObject;
+		entry.pPipelineResource = pPipelineResource;
 		debugEntries.pushBack(entry);
 
 		return debugEntries.size() - 1;
@@ -190,7 +192,7 @@ namespace Dynamik
 		{
 			pCommandBuffer->bindVertexBuffer(myEnvironment.pVertexBuffer, 0);
 			pCommandBuffer->bindIndexBuffer(myEnvironment.pIndexBuffer);
-			pCommandBuffer->bindGraphicsPipeline(myEnvironment.pPipeline);
+			pCommandBuffer->bindGraphicsPipeline(myEnvironment.pPipeline, myEnvironment.pPipelineResource);
 			if (callType == RDrawCallType::DRAW_CALL_TYPE_INDEX)
 				pCommandBuffer->drawIndexed(0, 0, myEnvironment.indexCount, 1);
 			else if (callType == RDrawCallType::DRAW_CALL_TYPE_VERTEX)
@@ -206,7 +208,7 @@ namespace Dynamik
 
 			for (auto entry : container.entries)
 			{
-				pCommandBuffer->bindGraphicsPipeline(entry.pPipelineObject);
+				pCommandBuffer->bindGraphicsPipeline(entry.pPipelineObject, entry.pPipelineResource);
 
 				if (callType == RDrawCallType::DRAW_CALL_TYPE_INDEX)
 					pCommandBuffer->drawIndexed(entry.firstIndex, entry.firstVertex, entry.indexCount, 1);
@@ -218,7 +220,7 @@ namespace Dynamik
 		/* Bind empty draws */
 		for (auto draw : emptyDraws)
 		{
-			pCommandBuffer->bindGraphicsPipeline(draw.pPipeline);
+			pCommandBuffer->bindGraphicsPipeline(draw.pPipeline, draw.pPipelineResource);
 			pCommandBuffer->drawVertexes(0, 3, 1);
 		}
 
@@ -229,7 +231,7 @@ namespace Dynamik
 			{
 				pCommandBuffer->bindVertexBuffer(entry.pVertexBuffer, 0);
 				pCommandBuffer->bindIndexBuffer(entry.pIndexBuffer);
-				pCommandBuffer->bindGraphicsPipeline(entry.pPipeline);
+				pCommandBuffer->bindGraphicsPipeline(entry.pPipeline, entry.pPipelineResource);
 				pCommandBuffer->drawIndexed(0, 0, entry.indexCount, 1);
 			}
 		}

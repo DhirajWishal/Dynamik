@@ -74,7 +74,7 @@ namespace Dynamik
 		DMKCameraViewParams params = {};
 
 		F32 fieldOfView = 45.0f;
-		F32 farRender = 256.0f;
+		F32 farRender = 1024.0f;
 		F32 nearRender = 0.001f;
 		F32 aspectRatio = 0.5f;
 

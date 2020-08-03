@@ -18,6 +18,10 @@ namespace Dynamik
 		virtual ~REntity() = default;
 
 		ARRAY<RMeshObject> meshObjects;
+		VPTR pipelineCache = nullptr;
+
+		/* TODO */
+		RPipelineObject* pPipelineObject = nullptr;
 	};
 }
 

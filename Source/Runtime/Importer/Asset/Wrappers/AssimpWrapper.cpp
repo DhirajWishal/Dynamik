@@ -60,9 +60,34 @@ namespace Dynamik
 		return Quaternion(key.mValue.x, key.mValue.y, key.mValue.z, key.mValue.w);
 	}
 
-	DMK_FORCEINLINE void meshLoadFunction(VPTR pAiMeshObject, const DMKVertexLayout& vertexLayout, DMKStaticMeshComponent* pComponent)
+	DMK_FORCEINLINE void meshLoadFunction(VPTR pAiMeshObject, VPTR pAiScene, const DMKVertexLayout& vertexLayout, DMKStaticMeshComponent* pComponent)
 	{
-		auto _mesh = (aiMesh*)pAiMeshObject;
+		auto _mesh = Cast<aiMesh*>(pAiMeshObject);
+		auto _scene = Cast<aiScene*>(pAiScene);
+		pComponent->name = _mesh->mName.data;
+
+		/* Resolve materials */
+		aiString _texPath;
+		aiMaterial* _material = nullptr;
+
+		if (_scene->HasMaterials())
+		{
+			_material = _scene->mMaterials[_mesh->mMaterialIndex];
+
+			_material->GetTexture(aiTextureType::aiTextureType_DIFFUSE, 0, &_texPath);
+
+			auto tCount0 = _material->GetTextureCount(aiTextureType::aiTextureType_DIFFUSE);
+			auto tCount1 = _material->GetTextureCount(aiTextureType::aiTextureType_SPECULAR);
+			auto tCount2 = _material->GetTextureCount(aiTextureType::aiTextureType_AMBIENT);
+			auto tCount3 = _material->GetTextureCount(aiTextureType::aiTextureType_EMISSIVE);
+			auto tCount4 = _material->GetTextureCount(aiTextureType::aiTextureType_HEIGHT);
+			auto tCount5 = _material->GetTextureCount(aiTextureType::aiTextureType_NORMALS);
+			auto tCount6 = _material->GetTextureCount(aiTextureType::aiTextureType_SHININESS);
+			auto tCount7 = _material->GetTextureCount(aiTextureType::aiTextureType_OPACITY);
+			auto tCount8 = _material->GetTextureCount(aiTextureType::aiTextureType_DISPLACEMENT);
+			auto tCount9 = _material->GetTextureCount(aiTextureType::aiTextureType_LIGHTMAP);
+			auto tCount10 = _material->GetTextureCount(aiTextureType::aiTextureType_REFLECTION);
+		}
 
 		pComponent->vertexBuffer.initialize(_mesh->mNumVertices, vertexLayout);
 		UI64 vertexOffset = 0;
@@ -253,7 +278,7 @@ namespace Dynamik
 	DMKStaticMeshComponent AssimpWrapper::loadMeshComponent(VPTR pAiMeshObject, const DMKVertexLayout& vertexLayout)
 	{
 		DMKStaticMeshComponent _meshComponent;
-		meshLoadFunction(pAiMeshObject, vertexLayout, &_meshComponent);
+		//meshLoadFunction(pAiMeshObject, vertexLayout, &_meshComponent);
 
 		return _meshComponent;
 	}
@@ -413,7 +438,7 @@ namespace Dynamik
 			ARRAY<std::future<void>, 1, DMKArrayDestructorCallMode::DMK_ARRAY_DESTRUCTOR_CALL_MODE_DESTRUCT_ALL> threads;
 
 			for (UI32 _itr = 0; _itr < _scene->mNumMeshes; _itr++)
-				threads.pushBack(std::async(std::launch::async, meshLoadFunction, _scene->mMeshes[_itr], vertexLayout, Cast<DMKStaticMeshComponent*>(myModel.location(_itr))));
+				threads.pushBack(std::async(std::launch::async, meshLoadFunction, _scene->mMeshes[_itr], Cast<VPTR>(_scene), vertexLayout, Cast<DMKStaticMeshComponent*>(myModel.location(_itr))));
 		}
 
 		return myModel;

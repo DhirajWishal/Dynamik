@@ -15,6 +15,8 @@ namespace Dynamik
 	class DMK_API RPipelineObject;
 	class DMK_API RRenderTarget;
 
+	struct DMK_API RPipelineResource;
+
 	/* Renderer Command Buffer Level */
 	enum class DMK_API RCommandBufferLevel {
 		COMMAND_BUFFEER_LEVEL_PRIMARY,
@@ -39,7 +41,7 @@ namespace Dynamik
 		/*
 		 Bind pipeline and resources
 		*/
-		virtual void bindGraphicsPipeline(RPipelineObject* pPipelineObject) = 0;
+		virtual void bindGraphicsPipeline(RPipelineObject* pPipelineObject, RPipelineResource* pPipelineResource) = 0;
 		virtual void drawIndexed(UI64 firstIndex, UI64 vertexOffset, UI64 indexCount, UI64 instanceCount) = 0;
 		virtual void drawVertexes(UI64 vertexIndex, UI64 vertexCount, UI64 instanceCount) = 0;
 

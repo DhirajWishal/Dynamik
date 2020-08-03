@@ -20,6 +20,17 @@ namespace Dynamik
 	class DMK_API RRenderTarget;
 	class DMK_API RTexture;
 
+	/*
+	 Renderer Pipeline Resource
+	 In Vulkan, this translates to Descriptor Sets.
+	*/
+	struct DMK_API RPipelineResource {
+		/*
+		 Update Render Resource.
+		*/
+		virtual void update(RCoreObject* pCoreObject, ARRAY<RBuffer*> pBuffers, ARRAY<RTexture*> pTextures) = 0;
+	};
+
 	/* Renderer Pipeline Usage */
 	enum class DMK_API RPipelineUsage {
 		PIPELINE_USAGE_GRAPHICS,
@@ -31,6 +42,12 @@ namespace Dynamik
 	*/
 	struct DMK_API RPipelineSpecification {
 		ARRAY<DMKShaderModule> shaders;
+
+		/* Pipeline Cache */
+		VPTR* pPipelineCache = { nullptr };
+
+		/* Render Resource Count */
+		UI64 resourceCount = 0;
 
 		/* Primitive Assembly */
 		RPipelinePrimitiveAssemblyInfo primitiveAssemblyInfo;
@@ -71,7 +88,8 @@ namespace Dynamik
 		virtual void reCreate(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, DMKViewport viewport) = 0;
 		virtual void terminate(RCoreObject* pCoreObject) = 0;
 
-		virtual void initializeResources(RCoreObject* pCoreObject, ARRAY<RBuffer*> pBuffers, ARRAY<RTexture*> pTextures) = 0;
+		virtual void createPipelineCache(RCoreObject* pCoreObject, UI64 byteSize, VPTR pData) = 0;
+		virtual ARRAY<RPipelineResource*> allocateResources(RCoreObject* pCoreObject) = 0;
 
 		RPipelineSpecification mySpecification = {};
 		RPipelineUsage myUsage = RPipelineUsage::PIPELINE_USAGE_GRAPHICS;

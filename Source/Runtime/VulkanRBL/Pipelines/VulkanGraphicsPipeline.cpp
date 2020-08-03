@@ -13,6 +13,184 @@ namespace Dynamik
 {
 	namespace Backend
 	{
+		void VulkanGraphicsPipelineResource::update(RCoreObject* pCoreObject, ARRAY<RBuffer*> pBuffers, ARRAY<RTexture*> pTextures)
+		{
+			ARRAY<VkWriteDescriptorSet> descriptorWrites;
+
+			VkWriteDescriptorSet descriptorWrite = {};
+			descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+			descriptorWrite.pNext = VK_NULL_HANDLE;
+			descriptorWrite.descriptorCount = 1;
+			descriptorWrite.dstSet = set;
+			descriptorWrite.dstArrayElement = 0;
+			descriptorWrite.pBufferInfo = VK_NULL_HANDLE;
+			descriptorWrite.pImageInfo = VK_NULL_HANDLE;
+			descriptorWrite.pTexelBufferView = VK_NULL_HANDLE;
+
+			UI64 bufferIndex = 0;
+			ARRAY<VkDescriptorBufferInfo> bufferInfos(pBuffers.size());
+
+			UI64 textureIndex = 0;
+			ARRAY<VkDescriptorImageInfo> imageInfos(pTextures.size());
+
+			for (UI64 index = 0; index < resourceBindings.size(); index++)
+			{
+				descriptorWrite.dstBinding = (UI32)index;
+				descriptorWrite.descriptorType = resourceBindings[index].descriptorType;
+
+				switch (descriptorWrite.descriptorType)
+				{
+				case VK_DESCRIPTOR_TYPE_SAMPLER:
+					if (!pTextures.isValidIndex(textureIndex))
+					{
+						DMK_ERROR("A texture entry is not supplied!");
+						textureIndex++;
+						break;
+					}
+
+					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
+					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
+					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
+					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
+					textureIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER:
+					if (!pTextures.isValidIndex(textureIndex))
+					{
+						DMK_ERROR("A texture entry is not supplied!");
+						textureIndex++;
+						break;
+					}
+
+					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
+					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
+					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
+					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
+					textureIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE:
+					if (!pTextures.isValidIndex(textureIndex))
+					{
+						DMK_ERROR("A texture entry is not supplied!");
+						textureIndex++;
+						break;
+					}
+
+					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
+					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
+					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
+					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
+					textureIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_STORAGE_IMAGE:
+					if (!pTextures.isValidIndex(textureIndex))
+					{
+						DMK_ERROR("A texture entry is not supplied!");
+						textureIndex++;
+						break;
+					}
+
+					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
+					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
+					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
+					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
+					textureIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER:
+					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER)");
+					break;
+
+				case VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER:
+					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER)");
+					break;
+
+				case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER:
+					if (!pBuffers.isValidIndex(bufferIndex))
+					{
+						DMK_ERROR("A uniform entry is not supplied!");
+						bufferIndex++;
+						break;
+					}
+
+					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
+					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
+					bufferInfos[bufferIndex].offset = 0;	/* TODO */
+					descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
+					bufferIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER:
+					if (!pBuffers.isValidIndex(bufferIndex))
+					{
+						DMK_ERROR("A uniform entry is not supplied!");
+						bufferIndex++;
+						break;
+					}
+
+					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
+					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
+					bufferInfos[bufferIndex].offset = 0;	/* TODO */
+					descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
+					bufferIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC:
+					if (!pBuffers.isValidIndex(bufferIndex))
+					{
+						DMK_ERROR("A uniform entry is not supplied!");
+						bufferIndex++;
+						break;
+					}
+
+					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
+					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
+					bufferInfos[bufferIndex].offset = 0;	/* TODO */
+					descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
+					bufferIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC:
+					if (!pBuffers.isValidIndex(bufferIndex))
+					{
+						DMK_ERROR("A uniform entry is not supplied!");
+						bufferIndex++;
+						break;
+					}
+
+					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
+					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
+					bufferInfos[bufferIndex].offset = 0;	/* TODO */
+					descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
+					bufferIndex++;
+					break;
+
+				case VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT:
+					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT)");
+					break;
+
+				case VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK_EXT:
+					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK_EXT)");
+					break;
+
+				case VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_NV:
+					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_NV)");
+					break;
+
+				default:
+					DMK_ERROR_BOX("Invalid Vulkan Descriptor Type!");
+					break;
+				}
+
+				descriptorWrites.pushBack(descriptorWrite);
+			}
+
+			vkUpdateDescriptorSets(InheritCast<VulkanCoreObject>(pCoreObject).device, Cast<UI32>(descriptorWrites.size()), descriptorWrites.data(), 0, VK_NULL_HANDLE);
+		}
+
 		void VulkanGraphicsPipeline::initialize(RCoreObject* pCoreObject, RPipelineSpecification createInfo, RPipelineUsage usage, RRenderTarget* pRenderTarget, DMKViewport viewport)
 		{
 			if (usage != RPipelineUsage::PIPELINE_USAGE_GRAPHICS)
@@ -96,8 +274,19 @@ namespace Dynamik
 				constantBlocks.pushBack(newBlock);
 			}
 
-			if ((resourceBindings.size() >= 1) && (descriptorPoolSizes.size() >= 1) && (descriptor.set == VK_NULL_HANDLE))
+			if ((resourceBindings.size() > 0) && (descriptorPoolSizes.size() > 0))
 			{
+				/* Resolve the descriptor data. */
+				{
+					/* Descriptor set layout */
+					for (UI64 index = 0; index < resourceBindings.size(); index++)
+						resourceBindings[index].descriptorCount = Cast<UI32>(createInfo.resourceCount);
+
+					/* Descriptor pool */
+					for (UI64 index = 0; index < descriptorPoolSizes.size(); index++)
+						descriptorPoolSizes[index].descriptorCount = Cast<UI32>(createInfo.resourceCount);
+				}
+
 				/* Create descriptor set layout */
 				VkDescriptorSetLayoutCreateInfo descriptorSetLayoutCreateInfo = {};
 				descriptorSetLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
@@ -113,21 +302,11 @@ namespace Dynamik
 				descriptorPoolCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
 				descriptorPoolCreateInfo.flags = VK_NULL_HANDLE;
 				descriptorPoolCreateInfo.pNext = VK_NULL_HANDLE;
-				descriptorPoolCreateInfo.maxSets = 1;
+				descriptorPoolCreateInfo.maxSets = Cast<UI32>(createInfo.resourceCount);
 				descriptorPoolCreateInfo.poolSizeCount = Cast<UI32>(descriptorPoolSizes.size());
 				descriptorPoolCreateInfo.pPoolSizes = descriptorPoolSizes.data();
 
 				DMK_VULKAN_ASSERT(vkCreateDescriptorPool(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorPoolCreateInfo, VK_NULL_HANDLE, &descriptor.pool), "Failed to create descriptor pool!");
-
-				/* Allocate descriptor set */
-				VkDescriptorSetAllocateInfo descriptorSetAllocateInfo = {};
-				descriptorSetAllocateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-				descriptorSetAllocateInfo.pNext = VK_NULL_HANDLE;
-				descriptorSetAllocateInfo.descriptorPool = descriptor.pool;
-				descriptorSetAllocateInfo.pSetLayouts = &descriptor.layout;
-				descriptorSetAllocateInfo.descriptorSetCount = 1;
-
-				DMK_VULKAN_ASSERT(vkAllocateDescriptorSets(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorSetAllocateInfo, &descriptor.set), "Failed to allocate descriptor sets!");
 
 				pipelineLayoutCreateInfo.setLayoutCount = 1;
 				pipelineLayoutCreateInfo.pSetLayouts = &descriptor.layout;
@@ -275,7 +454,32 @@ namespace Dynamik
 			if (pRenderTarget)
 				pipelineInfo.renderPass = InheritCast<VulkanRenderPass>(pRenderTarget->pRenderPass).renderPass;
 
-			DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(InheritCast<VulkanCoreObject>(pCoreObject).device, VK_NULL_HANDLE /* TODO */, 1, &pipelineInfo, VK_NULL_HANDLE, &pipeline), "Failed to create graphics pipeline!");
+
+			if (createInfo.pPipelineCache)
+			{
+				if (*createInfo.pPipelineCache)
+				{
+					if (pipelineCache == VK_NULL_HANDLE)
+						pipelineCache = Cast<VkPipelineCache>(*createInfo.pPipelineCache);
+					else
+					{
+						vkDestroyPipelineCache(InheritCast<VulkanCoreObject>(pCoreObject).device, pipelineCache, nullptr);
+						pipelineCache = Cast<VkPipelineCache>(*createInfo.pPipelineCache);
+					}
+				}
+				else
+				{
+					if (pipelineCache == VK_NULL_HANDLE)
+						createPipelineCache(pCoreObject, sizeof(pipelineInfo), &pipelineInfo);
+
+					*createInfo.pPipelineCache = Cast<VPTR>(pipelineCache);
+				}
+			}
+			else
+				if (pipelineCache == VK_NULL_HANDLE)
+					createPipelineCache(pCoreObject, sizeof(pipelineInfo), &pipelineInfo);
+
+			DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(InheritCast<VulkanCoreObject>(pCoreObject).device, pipelineCache, 1, &pipelineInfo, VK_NULL_HANDLE, &pipeline), "Failed to create graphics pipeline!");
 
 			/* Terminate Shader Modules */
 			for (auto stage : shaderStages)
@@ -461,7 +665,7 @@ namespace Dynamik
 				pipelineInfo.renderPass = InheritCast<VulkanRenderPass>(pRenderTarget->pRenderPass).renderPass;
 
 			VkPipeline _newPipeline = VK_NULL_HANDLE;
-			DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(InheritCast<VulkanCoreObject>(pCoreObject).device, VK_NULL_HANDLE /* TODO */, 1, &pipelineInfo, VK_NULL_HANDLE, &_newPipeline), "Failed to create graphics pipeline!");
+			DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(InheritCast<VulkanCoreObject>(pCoreObject).device, pipelineCache, 1, &pipelineInfo, VK_NULL_HANDLE, &_newPipeline), "Failed to create graphics pipeline!");
 
 			/* Destroy the old pipeline */
 			vkDestroyPipeline(InheritCast<VulkanCoreObject>(pCoreObject).device, pipeline, nullptr);
@@ -482,184 +686,49 @@ namespace Dynamik
 			/* Terminate Pipeline */
 			vkDestroyPipeline(InheritCast<VulkanCoreObject>(pCoreObject).device, pipeline, nullptr);
 			vkDestroyPipelineLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, layout, nullptr);
+
+			/* Terminate Pipeline Cache */
+			vkDestroyPipelineCache(InheritCast<VulkanCoreObject>(pCoreObject).device, pipelineCache, nullptr);
 		}
 
-		void VulkanGraphicsPipeline::initializeResources(RCoreObject* pCoreObject, ARRAY<RBuffer*> pBuffers, ARRAY<RTexture*> pTextures)
+		void VulkanGraphicsPipeline::createPipelineCache(RCoreObject* pCoreObject, UI64 byteSize, VPTR pData)
 		{
-			ARRAY<VkWriteDescriptorSet> descriptorWrites;
+			VkPipelineCacheCreateInfo createInfo = {};
+			createInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
+			createInfo.pNext = VK_NULL_HANDLE;
+			createInfo.flags = VK_NULL_HANDLE;
+			createInfo.initialDataSize = Cast<UI32>(byteSize);
+			createInfo.pInitialData = pData;
 
-			VkWriteDescriptorSet descriptorWrite = {};
-			descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-			descriptorWrite.pNext = VK_NULL_HANDLE;
-			descriptorWrite.descriptorCount = 1;
-			descriptorWrite.dstSet = descriptor.set;
-			descriptorWrite.dstArrayElement = 0;
-			descriptorWrite.pBufferInfo = VK_NULL_HANDLE;
-			descriptorWrite.pImageInfo = VK_NULL_HANDLE;
-			descriptorWrite.pTexelBufferView = VK_NULL_HANDLE;
+			DMK_VULKAN_ASSERT(vkCreatePipelineCache(InheritCast<VulkanCoreObject>(pCoreObject).device, &createInfo, nullptr, &pipelineCache), "Failed to create pipeline cache!");
+		}
 
-			UI64 bufferIndex = 0;
-			ARRAY<VkDescriptorBufferInfo> bufferInfos(pBuffers.size());
+		ARRAY<RPipelineResource*> VulkanGraphicsPipeline::allocateResources(RCoreObject* pCoreObject)
+		{
+			ARRAY<VkDescriptorSetLayout> _descriptorLayouts(mySpecification.resourceCount, descriptor.layout);
 
-			UI64 textureIndex = 0;
-			ARRAY<VkDescriptorImageInfo> imageInfos(pTextures.size());
+			VkDescriptorSetAllocateInfo descriptorSetAllocateInfo = {};
+			descriptorSetAllocateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+			descriptorSetAllocateInfo.pNext = VK_NULL_HANDLE;
+			descriptorSetAllocateInfo.descriptorPool = descriptor.pool;
+			descriptorSetAllocateInfo.pSetLayouts = _descriptorLayouts.data();
+			descriptorSetAllocateInfo.descriptorSetCount = Cast<UI32>(mySpecification.resourceCount);
 
-			for (UI64 index = 0; index < resourceBindings.size(); index++)
+			ARRAY<VkDescriptorSet> _descriptors(mySpecification.resourceCount);
+			DMK_VULKAN_ASSERT(vkAllocateDescriptorSets(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorSetAllocateInfo, _descriptors.data()), "Failed to allocate descriptor sets!");
+
+			ARRAY<RPipelineResource*> resources;
+
+			for (auto descriptor : _descriptors)
 			{
-				descriptorWrite.dstBinding = (UI32)index;
-				descriptorWrite.descriptorType = resourceBindings[index].descriptorType;
+				VulkanGraphicsPipelineResource* pResource = StaticAllocator<VulkanGraphicsPipelineResource>::allocate();
+				pResource->resourceBindings = resourceBindings;
+				pResource->set = descriptor;
 
-				switch (descriptorWrite.descriptorType)
-				{
-				case VK_DESCRIPTOR_TYPE_SAMPLER:
-					if (!pTextures.isValidIndex(textureIndex))
-					{
-						DMK_ERROR("A texture entry is not supplied!");
-						textureIndex++;
-						break;
-					}
-
-					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
-					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
-					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
-					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
-					textureIndex++;
-					break;
-
-				case VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER:
-					if (!pTextures.isValidIndex(textureIndex))
-					{
-						DMK_ERROR("A texture entry is not supplied!");
-						textureIndex++;
-						break;
-					}
-
-					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
-					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
-					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
-					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
-					textureIndex++;
-					break;
-
-				case VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE:
-					if (!pTextures.isValidIndex(textureIndex))
-					{
-						DMK_ERROR("A texture entry is not supplied!");
-						textureIndex++;
-						break;
-					}
-
-					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
-					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
-					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
-					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
-					textureIndex++;
-					break;
-
-				case VK_DESCRIPTOR_TYPE_STORAGE_IMAGE:
-					if (!pTextures.isValidIndex(textureIndex))
-					{
-						DMK_ERROR("A texture entry is not supplied!");
-						textureIndex++;
-						break;
-					}
-
-					imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
-					imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
-					imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
-					descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
-					textureIndex++;
-					break;
-
-				case VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER:
-					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER)");
-					break;
-
-				case VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER:
-					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER)");
-					break;
-
-				case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER:
-					if (!pBuffers.isValidIndex(bufferIndex))
-					{
-						DMK_ERROR("A uniform entry is not supplied!");
-						bufferIndex++;
-						break;
-					}
-
-					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
-					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
-					bufferInfos[bufferIndex].offset = 0;	/* TODO */
-					descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
-					bufferIndex++;
-					break;
-
-				case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER:
-					if (!pBuffers.isValidIndex(bufferIndex))
-					{
-						DMK_ERROR("A uniform entry is not supplied!");
-						bufferIndex++;
-						break;
-					}
-
-					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
-					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
-					bufferInfos[bufferIndex].offset = 0;	/* TODO */
-					descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
-					bufferIndex++;
-					break;
-
-				case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC:
-					if (!pBuffers.isValidIndex(bufferIndex))
-					{
-						DMK_ERROR("A uniform entry is not supplied!");
-						bufferIndex++;
-						break;
-					}
-
-					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
-					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
-					bufferInfos[bufferIndex].offset = 0;	/* TODO */
-					descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
-					bufferIndex++;
-					break;
-
-				case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC:
-					if (!pBuffers.isValidIndex(bufferIndex))
-					{
-						DMK_ERROR("A uniform entry is not supplied!");
-						bufferIndex++;
-						break;
-					}
-
-					bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
-					bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
-					bufferInfos[bufferIndex].offset = 0;	/* TODO */
-					descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
-					bufferIndex++;
-					break;
-
-				case VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT:
-					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT)");
-					break;
-
-				case VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK_EXT:
-					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK_EXT)");
-					break;
-
-				case VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_NV:
-					DMK_ERROR("Dynamik Currently Does Not Support This Feature (VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_NV)");
-					break;
-
-				default:
-					DMK_ERROR_BOX("Invalid Vulkan Descriptor Type!");
-					break;
-				}
-
-				descriptorWrites.pushBack(descriptorWrite);
+				resources.pushBack(pResource);
 			}
 
-			vkUpdateDescriptorSets(InheritCast<VulkanCoreObject>(pCoreObject).device, Cast<UI32>(descriptorWrites.size()), descriptorWrites.data(), 0, VK_NULL_HANDLE);
+			return resources;
 		}
 
 		VulkanGraphicsPipeline::operator VkPipelineLayout() const

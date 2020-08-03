@@ -62,13 +62,13 @@ namespace Dynamik
 			vkCmdBindIndexBuffer(buffer, Inherit<VulkanBuffer>(pBuffer)->buffer, 0, VK_INDEX_TYPE_UINT32);
 		}
 
-		void VulkanCommandBuffer::bindGraphicsPipeline(RPipelineObject* pPipelineObject)
+		void VulkanCommandBuffer::bindGraphicsPipeline(RPipelineObject* pPipelineObject, RPipelineResource* pPipelineResource)
 		{
 			VulkanGraphicsPipeline pipeline = InheritCast<VulkanGraphicsPipeline>(pPipelineObject);
 			vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
 
 			if (pipeline.isResourceAvailable)
-				vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline, 0, 1, &pipeline.descriptor.set, 0, VK_NULL_HANDLE);
+				vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline, 0, 1, &Inherit<VulkanGraphicsPipelineResource>(pPipelineResource)->set, 0, VK_NULL_HANDLE);
 
 			for (auto block : pipeline.constantBlocks)
 				vkCmdPushConstants(buffer, pipeline, VulkanUtilities::getShaderStage(block.location), Cast<UI32>(block.offset), Cast<UI32>(block.byteSize), block.data);

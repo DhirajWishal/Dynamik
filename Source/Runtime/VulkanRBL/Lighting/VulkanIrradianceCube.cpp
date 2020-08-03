@@ -161,13 +161,15 @@ namespace Dynamik
 
 			RPipelineSpecification pipelineSpec = {};
 			pipelineSpec.shaders = shaders;
+			pipelineSpec.resourceCount = 1;
 			pipelineSpec.dynamicStates = { RDynamicState::DYNAMIC_STATE_VIEWPORT, RDynamicState::DYNAMIC_STATE_SCISSOR };
 			pipelineSpec.scissorInfos.resize(1);
 			pipelineSpec.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
 			pipelineSpec.multiSamplingInfo.sampleCount = DMK_SAMPLE_COUNT_1_BIT;
 			pipeline.initialize(pCoreObject, pipelineSpec, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &renderTarget, _viewport);
-
-			pipeline.initializeResources(pCoreObject, ARRAY<RBuffer*>(), { pParent->pTexture });
+			
+			pipelineResource = *Cast<VulkanGraphicsPipelineResource*>(pipeline.allocateResources(pCoreObject)[0]);
+			pipelineResource.update(pCoreObject, ARRAY<RBuffer*>(), { pParent->pTexture });
 		}
 
 		void VulkanIrradianceCube::_process(RCoreObject* pCoreObject)
@@ -263,7 +265,7 @@ namespace Dynamik
 					vkCmdPushConstants(buffer, pipeline, VK_SHADER_STAGE_FRAGMENT_BIT, sizeof(ConstantOne), sizeof(ConstantTwo), &constantTwo);
 
 					if (pipeline.isResourceAvailable)
-						vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline, 0, 1, &pipeline.descriptor.set, 0, VK_NULL_HANDLE);
+						vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline, 0, 1, &pipelineResource.set, 0, VK_NULL_HANDLE);
 
 					VkDeviceSize offsets[1] = { 0 };
 					vkCmdBindVertexBuffers(buffer, 0, 1, &Inherit<VulkanBuffer>(pParent->pVertexBuffer)->buffer, offsets);

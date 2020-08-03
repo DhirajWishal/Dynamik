@@ -113,6 +113,7 @@ namespace Dynamik
 		virtual void setRotation(Quaternion rotation) override final;
 
 	public:		/* Public Data Store */
+		STRING name = TEXT("");
 		DMKVertexBuffer vertexBuffer;
 		ARRAY<UI32> indexBuffer;
 		UI64 indexCount = 0;

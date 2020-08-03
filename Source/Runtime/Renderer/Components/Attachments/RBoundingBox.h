@@ -27,6 +27,7 @@ namespace Dynamik
 		ARRAY<DMKShaderModule> shaders;
 		DMKBoundingBoxAttachment* pBoundingBox = nullptr;
 		RPipelineObject* pPipeline = nullptr;
+		RPipelineResource* pPipelineResource = nullptr;
 		RBuffer* pUniformBuffer = nullptr;
 
 	protected:

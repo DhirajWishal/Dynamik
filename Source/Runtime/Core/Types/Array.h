@@ -464,12 +464,12 @@ namespace Dynamik
 				if (!_isValidSize(size + _allocatableSize)) return;
 
 				_reAllocateBack(_allocatableSize);
-				_fillWithData(size, TYPE());
+				_fillWithData(size, std::move(value));
 			}
 			else
 			{
 				_reAllocateBack(_getNextSize());
-				_fillWithData(capacity(), TYPE());
+				_fillWithData(capacity(), std::move(value));
 			}
 
 			myDataCount = size;
@@ -1779,12 +1779,12 @@ namespace Dynamik
 		/* PRIVATE FUNCTION
 		 * Fills the allocated capacity with the constructor of the data type.
 		 */
-		DMK_FORCEINLINE void _fillWithData(UI64 capacity, TYPE&& data)
+		DMK_FORCEINLINE void _fillWithData(UI64 capacity, const TYPE& data)
 		{
 			PTR _tempPtr = myBeginPtr;
 			while (capacity--)
 			{
-				_tempPtr.set((TYPE&&)data);
+				_tempPtr.set(Cast<TYPE&&>(data));
 				_tempPtr++;
 			}
 		}

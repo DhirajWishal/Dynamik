@@ -304,28 +304,25 @@ namespace Dynamik
 		if (file.find(".ktx") != STRING::npos)
 			return loadKTX(file, requiredFormat);
 
-		FreeImage_Initialise();
-		FIBITMAP* pImage = FreeImage_Load(FreeImage_GetFileType(file.c_str()), file.c_str());
+		DMKTexture2D* pTexture = StaticAllocator<DMKTexture2D>::allocate();
+		pTexture->image = stbi_load(file.c_str(), Cast<I32*>(&pTexture->width), Cast<I32*>(&pTexture->height), Cast<I32*>(&pTexture->channels), STBI_rgb_alpha);
 
-		if (!pImage->data)
+		if (!pTexture->image)
 		{
 			DMK_ERROR("The image file could not be loaded!");
 			return nullptr;
 		}
 
-		DMKTexture2D* pTexture = StaticAllocator<DMKTexture2D>::allocate();
-		pTexture->width = FreeImage_GetWidth(pImage);
-		pTexture->height = FreeImage_GetHeight(pImage);
-		pTexture->depth = 1;
-		pTexture->channels = GetFreeImageChannelCount(FreeImage_GetColorType(pImage));
-		pTexture->format = GetFormat(FreeImage_GetImageType(pImage), pTexture->channels);
+		if (pTexture->channels == 1)
+			pTexture->format = DMKFormat::DMK_FORMAT_R_8_UNORMAL;
+		else if (pTexture->channels == 2)
+			pTexture->format = DMKFormat::DMK_FORMAT_RG_8_UNORMAL;
+		else if (pTexture->channels == 3)
+			pTexture->format = DMKFormat::DMK_FORMAT_RGB_8_UNORMAL;
+		else if (pTexture->channels == 4)
+			pTexture->format = DMKFormat::DMK_FORMAT_RGBA_8_UNORMAL;
 
-		pImage = FreeImage_ConvertToRGBA16(pImage);
-		pTexture->image = Cast<UCPTR>(pImage);
-		pTexture->channels = GetFreeImageChannelCount(FreeImage_GetColorType(pImage));
-		pTexture->format = GetFormat(FreeImage_GetImageType(pImage), pTexture->channels);
-
-		FreeImage_DeInitialise();
+		pTexture->resolveChannels();
 
 		return pTexture;
 	}

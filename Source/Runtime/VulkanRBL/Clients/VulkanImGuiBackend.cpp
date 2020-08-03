@@ -158,8 +158,14 @@ namespace Dynamik
 
 		void VulkanImGuiBackend::bindCommands(RCommandBuffer* pCommandBuffer)
 		{
-			if (!Inherit<VulkanBuffer>(pVertexBuffer)->buffer || !Inherit<VulkanBuffer>(pIndexBuffer)->buffer)
-				return;
+			/* Wait till pDrawData is submitted with draw data. */
+			while (pDrawData == nullptr);
+			while (pDrawData->CmdListsCount < 1);
+
+			__globalLock.lock();
+
+			pCoreObject->idleCall();
+			update(pDrawData);
 
 			ImGuiIO& io = ImGui::GetIO();
 
@@ -167,7 +173,7 @@ namespace Dynamik
 
 			VulkanCommandBuffer vCommandBuffer = *Inherit<VulkanCommandBuffer>(pCommandBuffer);
 
-			vkCmdBindDescriptorSets(vCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, Inherit<VulkanGraphicsPipeline>(pPipelineObject)->layout, 0, 1, &Inherit<VulkanGraphicsPipeline>(pPipelineObject)->descriptor.set, 0, nullptr);
+			vkCmdBindDescriptorSets(vCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, Inherit<VulkanGraphicsPipeline>(pPipelineObject)->layout, 0, 1, &Inherit<VulkanGraphicsPipelineResource>(pPipelineResource)->set, 0, nullptr);
 			vkCmdBindPipeline(vCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, Inherit<VulkanGraphicsPipeline>(pPipelineObject)->pipeline);
 
 			VkViewport viewport = {};
@@ -175,8 +181,8 @@ namespace Dynamik
 			viewport.y = 0.0f;
 			viewport.maxDepth = 1.0f;
 			viewport.minDepth = 0.0f;
-			viewport.width = Cast<F32>(ImGui::GetIO().DisplaySize.x);
-			viewport.height = Cast<F32>(ImGui::GetIO().DisplaySize.y);
+			viewport.width = Cast<F32>(io.DisplaySize.x);
+			viewport.height = Cast<F32>(io.DisplaySize.y);
 			vkCmdSetViewport(vCommandBuffer, 0, 1, &viewport);
 
 			/* Submit constant data. */
@@ -187,15 +193,6 @@ namespace Dynamik
 
 			UI64 vertexOffset = 0;
 			UI64 indexOffset = 0;
-
-			/* Wait till pDrawData is submitted with draw data. */
-			while (pDrawData == nullptr);
-			while (pDrawData->CmdListsCount < 1);
-
-			__globalLock.lock();
-
-			ImVec2 clip_off = pDrawData->DisplayPos;         // (0,0) unless using multi-viewports
-			ImVec2 clip_scale = pDrawData->FramebufferScale; // (1,1) unless using retina display which are often (2,2)
 
 			StaticArray<VkDeviceSize, 1> offsets;
 
@@ -210,22 +207,11 @@ namespace Dynamik
 				{
 					const ImDrawCmd* pDrawCmd = &pDrawList->CmdBuffer[itr];
 
-					ImVec4 clip_rect;
-					clip_rect.x = (pDrawCmd->ClipRect.x - clip_off.x) * clip_scale.x;
-					clip_rect.y = (pDrawCmd->ClipRect.y - clip_off.y) * clip_scale.y;
-					clip_rect.z = (pDrawCmd->ClipRect.z - clip_off.x) * clip_scale.x;
-					clip_rect.w = (pDrawCmd->ClipRect.w - clip_off.y) * clip_scale.y;
-
-					if (clip_rect.x < 0.0f)
-						clip_rect.x = 0.0f;
-					if (clip_rect.y < 0.0f)
-						clip_rect.y = 0.0f;
-
 					VkRect2D scissor = {};
-					scissor.offset.x = Cast<I32>(clip_rect.x);
-					scissor.offset.y = Cast<I32>(clip_rect.y);
-					scissor.extent.width = Cast<I32>(clip_rect.z - clip_rect.x);
-					scissor.extent.height = Cast<I32>(clip_rect.w - clip_rect.y);
+					scissor.offset.x = std::max(Cast<I32>(pDrawCmd->ClipRect.x), 0);
+					scissor.offset.y = std::max(Cast<I32>(pDrawCmd->ClipRect.y), 0);
+					scissor.extent.width = Cast<I32>(pDrawCmd->ClipRect.z - pDrawCmd->ClipRect.x);
+					scissor.extent.height = Cast<I32>(pDrawCmd->ClipRect.w - pDrawCmd->ClipRect.y);
 
 					vkCmdSetScissor(vCommandBuffer, 0, 1, &scissor);
 					vkCmdDrawIndexed(vCommandBuffer, pDrawCmd->ElemCount, 1, Cast<UI32>(indexOffset), Cast<UI32>(vertexOffset), 0);
@@ -342,6 +328,7 @@ namespace Dynamik
 			/* Create uniform buffers */
 
 			RPipelineSpecification pipelineSpec = {};
+			pipelineSpec.resourceCount = 1;
 			pipelineSpec.shaders = shaders;
 			pipelineSpec.dynamicStates = { RDynamicState::DYNAMIC_STATE_VIEWPORT, RDynamicState::DYNAMIC_STATE_SCISSOR };
 			pipelineSpec.scissorInfos.resize(1);
@@ -353,7 +340,8 @@ namespace Dynamik
 			pPipelineObject = StaticAllocator<VulkanGraphicsPipeline>::rawAllocate();
 			pPipelineObject->initialize(pCoreObject, pipelineSpec, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, pRenderTarget, DMKViewport());
 
-			pPipelineObject->initializeResources(pCoreObject, {}, { pFontTexture });
+			pPipelineResource = pPipelineObject->allocateResources(pCoreObject)[0];
+			pPipelineResource->update(pCoreObject, {}, { pFontTexture });
 		}
 
 		void VulkanImGuiBackend::_initializeCommandBuffers()
