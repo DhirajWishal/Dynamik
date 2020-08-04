@@ -29,12 +29,12 @@ namespace Dynamik
 	};
 
 	/*
-	 Dynamik Uniform Buffer Object
+	 Dynamik Uniform Buffer 
 	 Uniform data are passed to the Dynamik Engine using this object.
 	 Uniform buffers are controlled by the users. This means that the creation, submission, updating and
 	 termination (not explicitly required) are done by the users.
 	 */
-	class DMK_API DMKUniformBufferObject {
+	class DMK_API DMKUniformBuffer {
 		/* Uniform buffer attribute */
 		struct DMK_API Attribute {
 			UI64 byteSize = 0;
@@ -49,8 +49,8 @@ namespace Dynamik
 		};
 
 	public:
-		DMKUniformBufferObject(UI32 binding = 0) : bindingLocation(binding) {}
-		~DMKUniformBufferObject() = default;
+		DMKUniformBuffer(UI32 binding = 0) : bindingLocation(binding) {}
+		~DMKUniformBuffer() = default;
 
 		/*
 		 Add an attribute to the uniform buffer object.

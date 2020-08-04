@@ -42,7 +42,7 @@ namespace Dynamik
 		return resourceRequests;
 	}
 
-	DMKUniformBufferObject& DMKRenderableComponent::getUniform(I64 shaderIndex, I64 uniformIndex)
+	DMKUniformBuffer& DMKRenderableComponent::getUniform(I64 shaderIndex, I64 uniformIndex)
 	{
 		return shaderModules[shaderIndex].getUniform(uniformIndex);
 	}

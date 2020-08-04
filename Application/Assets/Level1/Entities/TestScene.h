@@ -8,10 +8,10 @@
 #include "GameLibrary/GameEntity.h"
 using namespace Dynamik;
 
-class Tree : public DMKGameEntity {
+class TestScene : public DMKGameEntity {
 public:
-	Tree() {}
-	~Tree() {}
+	TestScene() {}
+	~TestScene() {}
 
 	virtual void initialize() override final;
 	virtual void onUpdate(F32 timeStep) override final;

@@ -1189,7 +1189,7 @@ namespace Dynamik
 				for (UI64 index = 0; index < shader.getUniforms().size(); index++)
 				{
 					RUniformContainer _container;
-					_container.pParent = Cast<DMKUniformBufferObject*>(shader.getUniforms().location(index));
+					_container.pParent = Cast<DMKUniformBuffer*>(shader.getUniforms().location(index));
 
 					_container.pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, _container.pParent->byteSize());
 					_container.pUniformBuffer->setData(myCoreObject, _container.pParent->byteSize(), 0, _container.pParent->data());

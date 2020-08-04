@@ -15,7 +15,7 @@ namespace Dynamik
 {
 	/* Renderer Uniform Container */
 	struct DMK_API RUniformContainer {
-		DMKUniformBufferObject* pParent = nullptr;
+		DMKUniformBuffer* pParent = nullptr;
 		RBuffer* pUniformBuffer = nullptr;
 	};
 

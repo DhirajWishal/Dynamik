@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_CONSTANT_BLOCK_H
 #define _DYNAMIK_CONSTANT_BLOCK_H
 
-#include "Uniform.h"
+#include "UniformBuffer.h"
 
 namespace Dynamik
 {

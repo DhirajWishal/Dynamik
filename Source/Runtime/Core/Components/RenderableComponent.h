@@ -48,7 +48,7 @@ namespace Dynamik
 		 @param shaderIndex: The index of the shader.
 		 @param unuformIndex: The index of the uniform in the shader.
 		*/
-		DMKUniformBufferObject& getUniform(I64 shaderIndex = 0, I64 uniformIndex = 0);
+		DMKUniformBuffer& getUniform(I64 shaderIndex = 0, I64 uniformIndex = 0);
 
 		/*
 		 Add a renderable component which this component uses.

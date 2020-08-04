@@ -36,7 +36,7 @@ namespace Dynamik
 			{
 				if (isTexturesAvailable)
 				{
-					DMKUniformBufferObject uniformVS(0);
+					DMKUniformBuffer uniformVS(0);
 					uniformVS.addAttribute("Model", sizeof(Matrix4F));
 					uniformVS.addAttribute("View", sizeof(Matrix4F));
 					uniformVS.addAttribute("Projection", sizeof(Matrix4F));
@@ -59,7 +59,7 @@ namespace Dynamik
 				{
 					pStaticMesh->setResourceRequests({ DMKResourceRequest::DMK_RESOURCE_REQUEST_BRDF_TABLE, DMKResourceRequest::DMK_RESOURCE_REQUEST_IRRADIANCE_CUBE, DMKResourceRequest::DMK_RESOURCE_REQUEST_PRE_FILTERED_CUBE });
 
-					DMKUniformBufferObject uniformVS(0);
+					DMKUniformBuffer uniformVS(0);
 					uniformVS.addAttribute(TEXT("projection"), sizeof(Matrix4F));
 					uniformVS.addAttribute(TEXT("model"), sizeof(Matrix4F));
 					uniformVS.addAttribute(TEXT("view"), sizeof(Matrix4F));
@@ -71,14 +71,14 @@ namespace Dynamik
 					shaderVS.addUniform(uniformVS);
 					pStaticMesh->addShaderModule(shaderVS);
 
-					DMKUniformBufferObject uniformFS0(1);
+					DMKUniformBuffer uniformFS0(1);
 					uniformFS0.addAttribute(TEXT("projection"), sizeof(Matrix4F));
 					uniformFS0.addAttribute(TEXT("model"), sizeof(Matrix4F));
 					uniformFS0.addAttribute(TEXT("view"), sizeof(Matrix4F));
 					uniformFS0.addAttribute(TEXT("camPos"), sizeof(Vector3F));
 					uniformFS0.initialize();
 
-					DMKUniformBufferObject uniformFS1(2);
+					DMKUniformBuffer uniformFS1(2);
 					uniformFS1.addAttribute(TEXT("lights"), sizeof(Vector4F) * 4);
 					uniformFS1.addAttribute(TEXT("exposure"), sizeof(F32));
 					uniformFS1.addAttribute(TEXT("gamma"), sizeof(F32));

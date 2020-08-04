@@ -6,7 +6,7 @@
 #define _DYNAMIK_SHADER_MODULE_H
 
 #include "Core/Types/Array.h"
-#include "Uniform.h"
+#include "UniformBuffer.h"
 
 namespace Dynamik
 {
@@ -81,19 +81,19 @@ namespace Dynamik
 
 		 @param uniform: The uniform buffer object.
 		*/
-		void addUniform(const DMKUniformBufferObject& uniform);
+		void addUniform(const DMKUniformBuffer& uniform);
 
 		/*
 		 Get a uniform buffer object at a given index.
 
 		 @param index: The index of the required index buffer;
 		*/
-		DMKUniformBufferObject& getUniform(I64 index);
+		DMKUniformBuffer& getUniform(I64 index);
 
 		/*
 		 Get all the uniforms of the current shader.
 		*/
-		ARRAY<DMKUniformBufferObject>& getUniforms();
+		ARRAY<DMKUniformBuffer>& getUniforms();
 
 		/*
 		 This defines the inputs which the shader requires. 
@@ -123,7 +123,7 @@ namespace Dynamik
 		ARRAY<DMKShaderInputAttribute>& getAttributes();
 
 	public:
-		ARRAY<DMKUniformBufferObject> uniforms;
+		ARRAY<DMKUniformBuffer> uniforms;
 		ARRAY<DMKShaderInputAttribute> inputAttributes;
         ARRAY<UI32> shaderCode;
 		DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_ALL;

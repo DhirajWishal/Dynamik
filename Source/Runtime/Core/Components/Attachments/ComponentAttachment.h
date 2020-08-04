@@ -6,7 +6,7 @@
 #define _DYNAMIK_COMPONENT_ATTACHMENT_H
 
 #include "Core/Math/Matrix/Matrix4F.h"
-#include "Core/Objects/Resources/Uniform.h"
+#include "Core/Objects/Resources/UniformBuffer.h"
 
 #include "../Component.h"
 
@@ -32,7 +32,7 @@ namespace Dynamik
 		virtual void initialize() {}
 		virtual void initialize(Matrix4F parentTransform) {}
 		virtual void update() {}
-		virtual DMKUniformBufferObject& getUniform() { return uniformBufferObject; }
+		virtual DMKUniformBuffer& getUniform() { return uniformBufferObject; }
 
 		/*
 		 Set the parent renderable component.
@@ -46,7 +46,7 @@ namespace Dynamik
 		*/
 		DMKComponent* getParentComponent() const { return pParentComponent; }
 
-		DMKUniformBufferObject uniformBufferObject;
+		DMKUniformBuffer uniformBufferObject;
 		DMKComponent* pParentComponent = nullptr;
 		DMKComponentAttachmentType attachmentType = DMKComponentAttachmentType::DMK_COMPONENT_ATTACHMENT_TYPE_BOUNDING_BOX;
 	};

@@ -8,7 +8,7 @@
 
 #include "Importer/Asset/ImageImporter.h"
 
-#include "Tree.h"
+#include "TestScene.h"
 
 #include <functional>
 #include <future>
@@ -19,12 +19,12 @@ void StaticLoad(DMKTexture** pTexture, STRING file)
 	*pTexture = importer.loadTexture2D(file);
 }
 
-void Tree::initialize()
+void TestScene::initialize()
 {
 	auto vLayout = DMKVertexLayout::createBasic();
 	addComponents<DMKStaticMeshComponent>(DMKMeshFactory::loadMeshes("E:\\Dynamik\\Game Repository\\assets\\assets\\postwar-city-exterior-scene\\source\\scene.fbx", vLayout));
 
-	DMKUniformBufferObject uniform(0);
+	DMKUniformBuffer uniform(0);
 	uniform.addAttribute("Model", sizeof(Matrix4F));
 	uniform.addAttribute("View", sizeof(Matrix4F));
 	uniform.addAttribute("Proj", sizeof(Matrix4F));
@@ -167,7 +167,7 @@ void Tree::initialize()
 	}
 }
 
-void Tree::onUpdate(F32 timeStep)
+void TestScene::onUpdate(F32 timeStep)
 {
 	for (UI64 index = 0; index < getComponentArray<DMKStaticMeshComponent>()->size(); index++)
 	{

@@ -400,13 +400,14 @@
     <ClInclude Include="Memory\MemoryPadding.h" />
     <ClInclude Include="Memory\StaticAllocator.h" />
     <ClInclude Include="Objects\Resources\ConstantBlock.h" />
+    <ClInclude Include="Objects\Resources\IndexBuffer.h" />
     <ClInclude Include="Objects\Resources\Material.h" />
-    <ClInclude Include="Objects\Resources\MeshInstance.h" />
+    <ClInclude Include="Objects\Resources\MeshObject.h" />
     <ClInclude Include="Objects\Resources\ShaderModule.h" />
     <ClInclude Include="Objects\Resources\Texture.h" />
     <ClInclude Include="Objects\Resources\Textures\Texture2D.h" />
     <ClInclude Include="Objects\Resources\Textures\TextureCube.h" />
-    <ClInclude Include="Objects\Resources\Uniform.h" />
+    <ClInclude Include="Objects\Resources\UniformBuffer.h" />
     <ClInclude Include="Objects\Resources\VertexBuffer.h" />
     <ClInclude Include="Objects\System.h" />
     <ClInclude Include="PCH\dmkafx.h" />
@@ -449,13 +450,15 @@
     <ClCompile Include="Memory\LocalHeap.cpp" />
     <ClCompile Include="Memory\MemoryFunctions.cpp" />
     <ClCompile Include="Memory\MemoryManager.cpp" />
+    <ClCompile Include="Objects\Resources\IndexBuffer.cpp" />
     <ClCompile Include="Objects\Resources\Material.cpp" />
+    <ClCompile Include="Objects\Resources\MeshObject.cpp" />
     <ClCompile Include="Objects\Resources\ShaderModule.cpp" />
     <ClCompile Include="Objects\Resources\Texture.cpp" />
     <ClCompile Include="Objects\Resources\Textures\Texture2D.cpp" />
     <ClCompile Include="Objects\Resources\Textures\TextureCube.cpp" />
     <ClCompile Include="Objects\Resources\ThirdParty\stb_image_impl.cpp" />
-    <ClCompile Include="Objects\Resources\Uniform.cpp" />
+    <ClCompile Include="Objects\Resources\UniformBuffer.cpp" />
     <ClCompile Include="Objects\Resources\VertexBuffer.cpp" />
     <ClCompile Include="PCH\dmkafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

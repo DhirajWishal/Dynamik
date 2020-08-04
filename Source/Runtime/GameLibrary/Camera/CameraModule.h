@@ -7,7 +7,7 @@
 
 #include "Core/Macros/Global.h"
 #include "Core/Math/MathTypes.h"
-#include "Core/Objects/Resources/Uniform.h"
+#include "Core/Objects/Resources/UniformBuffer.h"
 #include "Core/Types/ComplexTypes.h"
 
 namespace Dynamik

@@ -6,7 +6,7 @@
 #define _DYNAMIK_DEBUG_COMPONENT_H
 
 #include "../Component.h"
-#include "Core/Objects/Resources/Uniform.h"
+#include "Core/Objects/Resources/UniformBuffer.h"
 #include "Core/Objects/Resources/VertexBuffer.h"
 #include "Core/Objects/Resources/ShaderModule.h"
 #include "Core/Objects/Resources/Material.h"
@@ -42,12 +42,12 @@ namespace Dynamik
 
 		 @param buffer: The new uniform buffer.
 		*/
-		void setUniformBuffer(const DMKUniformBufferObject& buffer);
+		void setUniformBuffer(const DMKUniformBuffer& buffer);
 
 		/*
 		 Get the uniform buffer.
 		*/
-		DMKUniformBufferObject& getUniformBuffer();
+		DMKUniformBuffer& getUniformBuffer();
 
 		/*
 		 Set vertex buffer.
@@ -126,7 +126,7 @@ namespace Dynamik
 		ARRAY<DMKShaderModule>& getShaders();
 
 	public:
-		DMKUniformBufferObject uniformBuffer;
+		DMKUniformBuffer uniformBuffer;
 		DMKVertexBuffer vertexBuffer;
 		ARRAY<UI32> indexBuffer;
 		ARRAY<DMKMaterial> materials;

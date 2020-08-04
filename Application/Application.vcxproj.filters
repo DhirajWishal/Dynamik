@@ -22,9 +22,6 @@
     <ClInclude Include="Assets\Level1\Entities\CerberusModel.h">
       <Filter>Assets\Level1\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Assets\Level1\Entities\Tree.h">
-      <Filter>Assets\Level1\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Assets\Level1\Entities\VenusModel.h">
       <Filter>Assets\Level1\Entities</Filter>
     </ClInclude>
@@ -37,6 +34,9 @@
     <ClInclude Include="Assets\Level1\SkySphere.h">
       <Filter>Assets\Level1</Filter>
     </ClInclude>
+    <ClInclude Include="Assets\Level1\Entities\TestScene.h">
+      <Filter>Assets\Level1\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ApplicationPackage.cpp" />
@@ -44,9 +44,6 @@
       <Filter>Assets\Level1</Filter>
     </ClCompile>
     <ClCompile Include="Assets\Level1\Entities\CerberusModel.cpp">
-      <Filter>Assets\Level1\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Assets\Level1\Entities\Tree.cpp">
       <Filter>Assets\Level1\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Assets\Level1\Entities\VenusModel.cpp">
@@ -59,6 +56,9 @@
       <Filter>Assets\Level1</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Assets\Level1\Entities\TestScene.cpp">
+      <Filter>Assets\Level1\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Application.lua" />

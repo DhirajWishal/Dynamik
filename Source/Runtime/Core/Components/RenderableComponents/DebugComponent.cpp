@@ -3,12 +3,12 @@
 
 namespace Dynamik
 {
-    void DMKDebugComponent::setUniformBuffer(const DMKUniformBufferObject& buffer)
+    void DMKDebugComponent::setUniformBuffer(const DMKUniformBuffer& buffer)
     {
         uniformBuffer = buffer;
     }
 
-    DMKUniformBufferObject& DMKDebugComponent::getUniformBuffer()
+    DMKUniformBuffer& DMKDebugComponent::getUniformBuffer()
     {
         return uniformBuffer;
     }

@@ -28,17 +28,17 @@ namespace Dynamik
 		this->location = location;
 	}
 
-	void DMKShaderModule::addUniform(const DMKUniformBufferObject& uniform)
+	void DMKShaderModule::addUniform(const DMKUniformBuffer& uniform)
 	{
 		uniforms.pushBack(uniform);
 	}
 
-	DMKUniformBufferObject& DMKShaderModule::getUniform(I64 index)
+	DMKUniformBuffer& DMKShaderModule::getUniform(I64 index)
 	{
 		return uniforms[index];
 	}
 
-	ARRAY<DMKUniformBufferObject>& DMKShaderModule::getUniforms()
+	ARRAY<DMKUniformBuffer>& DMKShaderModule::getUniforms()
 	{
 		return uniforms;
 	}

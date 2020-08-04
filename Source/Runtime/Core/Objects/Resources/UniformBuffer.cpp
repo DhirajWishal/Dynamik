@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "dmkafx.h"
-#include "Uniform.h"
+#include "UniformBuffer.h"
 
 namespace Dynamik
 {
-	void DMKUniformBufferObject::addAttribute(const STRING& name, const UI64& attribSize)
+	void DMKUniformBuffer::addAttribute(const STRING& name, const UI64& attribSize)
 	{
 		Attribute newAttribute;
 		newAttribute.byteSize = attribSize;
@@ -16,12 +16,12 @@ namespace Dynamik
 		uByteSize += attribSize;
 	}
 
-	ARRAY<DMKUniformBufferObject::UniformBufferAttribute> DMKUniformBufferObject::getAttributes() const
+	ARRAY<DMKUniformBuffer::UniformBufferAttribute> DMKUniformBuffer::getAttributes() const
 	{
-		ARRAY<DMKUniformBufferObject::UniformBufferAttribute> attributes;
+		ARRAY<DMKUniformBuffer::UniformBufferAttribute> attributes;
 		for (auto attribute : attributeMap)
 		{
-			DMKUniformBufferObject::UniformBufferAttribute _attribute;
+			DMKUniformBuffer::UniformBufferAttribute _attribute;
 			_attribute.byteSize = attribute.second.byteSize;
 			_attribute.offset = attribute.second.offset;
 			_attribute.name = attribute.first;
@@ -32,7 +32,7 @@ namespace Dynamik
 		return attributes;
 	}
 
-	void DMKUniformBufferObject::initialize()
+	void DMKUniformBuffer::initialize()
 	{
 		if (!uByteSize)
 		{
@@ -52,60 +52,60 @@ namespace Dynamik
 		pUniformBufferStorage = StaticAllocator<BYTE>::allocate(uByteSize);
 	}
 
-	void DMKUniformBufferObject::setData(const STRING& name, VPTR data, const UI64& offset)
+	void DMKUniformBuffer::setData(const STRING& name, VPTR data, const UI64& offset)
 	{
 		auto attribute = attributeMap[name];
 		DMKMemoryFunctions::copyData(IncrementPointer(pUniformBufferStorage, attribute.offset + offset), data, attribute.byteSize);
 	}
 
-	void DMKUniformBufferObject::setData(VPTR data)
+	void DMKUniformBuffer::setData(VPTR data)
 	{
 		DMKMemoryFunctions::copyData(pUniformBufferStorage, data, uByteSize);
 	}
 
-	VPTR DMKUniformBufferObject::getData(const STRING& name, const UI64& offset)
+	VPTR DMKUniformBuffer::getData(const STRING& name, const UI64& offset)
 	{
 		auto attribute = attributeMap[name];
 		return IncrementPointer(pUniformBufferStorage, attribute.offset + offset);
 	}
 
-	void DMKUniformBufferObject::setZero()
+	void DMKUniformBuffer::setZero()
 	{
 		DMKMemoryFunctions::setData(pUniformBufferStorage, 0, uByteSize);
 	}
 
-	void DMKUniformBufferObject::clear()
+	void DMKUniformBuffer::clear()
 	{
 		StaticAllocator<VPTR>::deallocate(pUniformBufferStorage, uByteSize);
 		pUniformBufferStorage = nullptr;
 	}
 
-	VPTR DMKUniformBufferObject::data() const
+	VPTR DMKUniformBuffer::data() const
 	{
 		return pUniformBufferStorage;
 	}
 
-	UI64 DMKUniformBufferObject::byteSize() const
+	UI64 DMKUniformBuffer::byteSize() const
 	{
 		return this->uByteSize;
 	}
 
-	void DMKUniformBufferObject::setBindingLocation(const UI32& binding)
+	void DMKUniformBuffer::setBindingLocation(const UI32& binding)
 	{
 		bindingLocation = binding;
 	}
 
-	UI64 DMKUniformBufferObject::getBindingLocation() const
+	UI64 DMKUniformBuffer::getBindingLocation() const
 	{
 		return bindingLocation;
 	}
 
-	void DMKUniformBufferObject::setUniformType(const DMKUniformType& uniformType)
+	void DMKUniformBuffer::setUniformType(const DMKUniformType& uniformType)
 	{
 		type = uniformType;
 	}
 
-	DMKUniformType DMKUniformBufferObject::getUniformType() const
+	DMKUniformType DMKUniformBuffer::getUniformType() const
 	{
 		return type;
 	}

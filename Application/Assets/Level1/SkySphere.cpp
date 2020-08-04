@@ -24,7 +24,7 @@ SkySphere::SkySphere()
 	skyBox.addTextureModule(DMKTextureFactory::createCubeMap(texturePaths));
 
 	auto shaderVS = DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_SKYBOX_CINEMATIC_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
-	DMKUniformBufferObject unifomVS(0);
+	DMKUniformBuffer unifomVS(0);
 	unifomVS.addAttribute(TEXT("projection"), sizeof(Matrix4F));
 	unifomVS.addAttribute(TEXT("view"), sizeof(Matrix4F));
 	unifomVS.addAttribute(TEXT("model"), sizeof(Matrix4F));
@@ -35,7 +35,7 @@ SkySphere::SkySphere()
 	skyBox.addShaderModule(shaderVS);
 
 	auto shaderFS = DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_SKYBOX_CINEMATIC_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
-	DMKUniformBufferObject unifomFS(1);
+	DMKUniformBuffer unifomFS(1);
 	unifomFS.addAttribute(TEXT("lights"), sizeof(Vector4F) * 4);
 	unifomFS.addAttribute(TEXT("exposure"), sizeof(F32));
 	unifomFS.addAttribute(TEXT("gamma"), sizeof(F32));

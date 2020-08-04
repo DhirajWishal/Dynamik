@@ -13,7 +13,7 @@
 
 #include "Core/Objects/Resources/ShaderModule.h"
 #include "Core/Objects/Resources/VertexBuffer.h"
-#include "Core/Objects/Resources/Uniform.h"
+#include "Core/Objects/Resources/UniformBuffer.h"
 
 namespace Dynamik
 {
