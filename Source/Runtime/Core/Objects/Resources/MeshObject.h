@@ -5,10 +5,10 @@
 #ifndef _DYNAMIK_MESH_OBJECT_H
 #define _DYNAMIK_MESH_OBJECT_H
 
-#include "UniformBuffer.h"
 #include "Material.h"
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
+#include "UniformBuffer.h"
 
 namespace Dynamik
 {

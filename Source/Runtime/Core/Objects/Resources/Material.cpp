@@ -8,6 +8,71 @@
 
 namespace Dynamik
 {
+	void DMKMaterialProperties::addProperty(const STRING& name, UI64 byteSize)
+	{
+		MProperty mProperty;
+		mProperty.byteSize = byteSize;
+		mProperty.offset = allocationSize;
+		propertyMap[name] = mProperty;
+
+		allocationSize += byteSize;
+	}
+
+	void DMKMaterialProperties::initialize()
+	{
+		if (!allocationSize)
+		{
+			DMK_ERROR("Properties were not added! Material properties are required to be added prior to this method call!");
+			return;
+		}
+
+		pDataStore = StaticAllocator<BYTE>::allocate(allocationSize);
+	}
+
+	void DMKMaterialProperties::setData(const STRING& name, const VPTR data, UI64 size, UI64 offset)
+	{
+		auto mProperty = propertyMap[name];
+
+		if (size)
+			DMKMemoryFunctions::copyData(IncrementPointer(IncrementPointer(pDataStore, mProperty.offset), offset), data, size);
+		else
+			DMKMemoryFunctions::copyData(IncrementPointer(pDataStore, mProperty.offset), data, mProperty.byteSize);
+	}
+
+	void DMKMaterialProperties::set(const VPTR data)
+	{
+		DMKMemoryFunctions::copyData(pDataStore, data, allocationSize);
+	}
+
+	UI64 DMKMaterialProperties::getPropertySize(const STRING& name)
+	{
+		return propertyMap[name].byteSize;
+	}
+
+	UI64 DMKMaterialProperties::getPropertyOffset(const STRING& name)
+	{
+		return propertyMap[name].offset;
+	}
+
+	const UI64 DMKMaterialProperties::size() const
+	{
+		return allocationSize;
+	}
+
+	VPTR DMKMaterialProperties::data() const
+	{
+		return pDataStore;
+	}
+
+	void DMKMaterialProperties::clear()
+	{
+		StaticAllocator<BYTE>::deallocate(pDataStore, allocationSize);
+
+		pDataStore = nullptr;
+		allocationSize = 0;
+		propertyMap.clear();
+	}
+
 	void DMKMaterial::addTexture(DMKTexture* pTexture, MaterialTextureType textureType)
 	{
 		MTextureContainer container;
@@ -15,7 +80,7 @@ namespace Dynamik
 		container.type = textureType;
 		textureContainers.pushBack(container);
 	}
-	
+
 	DMKMaterial DMKMaterial::createMetalGold()
 	{
 		return DMKMaterial("Gold", DMKColorComponent(1.0f, 0.765557f, 0.336057f, 1.0f), DMKColorComponent(), 0.1f, 1.0f);
@@ -78,7 +143,7 @@ namespace Dynamik
 		newMaterial.addTexture(DMKTextureFactory::create(type, path), MaterialTextureType::MATERIAL_TEXTURE_TYPE_DEFAULT);
 		return newMaterial;
 	}
-	
+
 	DMKMaterial::MaterialPushBlock DMKMaterial::generatePushBlock()
 	{
 		return MaterialPushBlock(surfaceColor, subSurfaceColor, roughness, metallicness, specular);

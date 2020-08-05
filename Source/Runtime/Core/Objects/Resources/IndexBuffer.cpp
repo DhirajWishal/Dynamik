@@ -45,7 +45,10 @@ namespace Dynamik
 	void DMKIndexBuffer::clear()
 	{
 		StaticAllocator<BYTE>::deallocate(pDataStore, lastAllocationSize);
+
 		pDataStore = nullptr;
+		lastAllocationSize = 0;
+		indexCount = 0;
 	}
 
 	void DMKIndexBuffer::add(const UI64& index)

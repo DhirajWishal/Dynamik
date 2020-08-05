@@ -77,7 +77,10 @@ namespace Dynamik
 	void DMKUniformBuffer::clear()
 	{
 		StaticAllocator<VPTR>::deallocate(pUniformBufferStorage, uByteSize);
+
 		pUniformBufferStorage = nullptr;
+		uByteSize = 0;
+		attributeMap.clear();
 	}
 
 	VPTR DMKUniformBuffer::data() const
