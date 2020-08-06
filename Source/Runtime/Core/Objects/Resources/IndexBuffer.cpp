@@ -57,6 +57,8 @@ namespace Dynamik
 			_growBuffer(indexSize);
 
 		DMKMemoryFunctions::moveData(at(-1), Cast<VPTR>(&index), indexSize);
+
+		indexCount++;
 	}
 
 	void DMKIndexBuffer::set(const VPTR data, UI64 size, UI64 offset)
@@ -70,6 +72,11 @@ namespace Dynamik
 	}
 
 	const UI64 DMKIndexBuffer::size() const
+	{
+		return indexCount;
+	}
+
+	const UI64 DMKIndexBuffer::byteSize() const
 	{
 		return indexSize * indexCount;
 	}

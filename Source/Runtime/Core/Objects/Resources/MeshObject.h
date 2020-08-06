@@ -38,6 +38,21 @@ namespace Dynamik
 		~DMKMeshObject() {}
 
 		/*
+		 Set the name of the mesh object. 
+
+		 @param name: The name of the mesh.
+		*/
+		void setName(const STRING& name);
+
+		/*
+		 Get the name of the mesh object.
+		*/
+		const STRING& getName() const;
+
+		/* The name of the mesh object. */
+		STRING name = TEXT("");
+
+		/*
 		 Unload/ clear all the data stored in the vertex and index buffers. This helps in reducing memory usage.
 		 This function must be called after submitting all the required data to the GPU.
 		*/
@@ -67,6 +82,14 @@ namespace Dynamik
 		 @param vertexBuffer: The vertex buffer to be set.
 		*/
 		void setVertexBuffer(const DMKVertexBuffer& vertexBuffer);
+
+		/*
+		 Set the vertex layout of the current vertex buffer. 
+		 A vertex layout needs to be set before loading data to the vertex buffer. 
+
+		 @param layout: The vertex layout.
+		*/
+		void setVertexLayout(const DMKVertexLayout& layout);
 
 		/*
 		 Get the vertex buffer stored in the current mesh object.

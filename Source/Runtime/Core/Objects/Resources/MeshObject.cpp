@@ -6,6 +6,16 @@
 
 namespace Dynamik
 {
+	void DMKMeshObject::setName(const STRING& name)
+	{
+		this->name = name;
+	}
+
+	const STRING& DMKMeshObject::getName() const
+	{
+		return name;
+	}
+
 	void DMKMeshObject::clearVertexAndIndexBuffers()
 	{
 		/* Clear vertex buffer */
@@ -28,6 +38,11 @@ namespace Dynamik
 	void DMKMeshObject::setVertexBuffer(const DMKVertexBuffer& vertexBuffer)
 	{
 		this->vertexBuffer = vertexBuffer;
+	}
+
+	void DMKMeshObject::setVertexLayout(const DMKVertexLayout& layout)
+	{
+		vertexBuffer.setLayout(layout);
 	}
 
 	DMKVertexBuffer& DMKMeshObject::getVertexBuffer()

@@ -7,7 +7,7 @@
 
 #include "Component.h"
 #include "Core/Objects/Resources/ShaderModule.h"
-#include "Core/Objects/Resources/Material.h"
+#include "Core/Objects/Resources/MeshObject.h"
 #include "GameLibrary/Camera/CameraModule.h"
 #include "Core/Math/Quaternion.h"
 
@@ -18,6 +18,16 @@ namespace Dynamik
 		DMK_RESOURCE_REQUEST_BRDF_TABLE,
 		DMK_RESOURCE_REQUEST_IRRADIANCE_CUBE,
 		DMK_RESOURCE_REQUEST_PRE_FILTERED_CUBE,
+	};
+
+	/*
+	 Dynamik Render Cluster
+	 The rendering engine handles meshes in clusters. One cluster gets one pipeline and a cluster contains one or 
+	 multiple mesh objects.
+	*/
+	struct DMK_API DMKRenderCluster {
+		ARRAY<DMKMeshObject> meshObjects;
+		ARRAY<DMKShaderModule> shaders;
 	};
 
 	/*

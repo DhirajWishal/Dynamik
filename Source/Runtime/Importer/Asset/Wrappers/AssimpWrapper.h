@@ -8,6 +8,8 @@
 #include "Core/Components/RenderableComponents/StaticMeshComponent.h"
 #include "Animation/AnimatedMeshComponent.h"
 
+#include "Core/Objects/Resources/MeshObject.h"
+
 namespace Dynamik
 {
 	/*

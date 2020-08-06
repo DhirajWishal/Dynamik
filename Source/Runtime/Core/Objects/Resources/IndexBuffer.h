@@ -79,10 +79,15 @@ namespace Dynamik
 		VPTR data() const;
 
 		/*
-		 Return the size of the buffer. 
-		 @return: indexSize * indexCount;
+		 Return the data count of the buffer.
 		*/
 		const UI64 size() const;
+
+		/*
+		 Return the size of the buffer.
+		 @return: indexSize * indexCount;
+		*/
+		const UI64 byteSize() const;
 
 		/* THIS FUNCTION CURRENTLY DOES NOT CARRY OUT ANY FUNCTIONALITY! 
 		 Resize the index buffer. 
