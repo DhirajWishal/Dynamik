@@ -6,6 +6,7 @@
 #define _DYNAMIK_RENEDERER_DRAW_CALL_MANAGER_H
 
 #include "RCommandBuffer.h"
+#include "Core/Objects/Resources/IndexBuffer.h"
 #include "Core/Objects/Resources/VertexBuffer.h"
 
 /* Hash function for the Dynamik Vertex Layout structure */
@@ -67,7 +68,7 @@ namespace Dynamik
 
 		struct DMK_API IndexBufferEntry {
 			UI64 firstIndex = 0;
-			ARRAY<UI32>* pIndexBuffer = nullptr;
+			DMKIndexBuffer* pIndexBuffer = nullptr;
 		};
 
 		struct DMK_API VertexBufferEntry {
@@ -91,7 +92,7 @@ namespace Dynamik
 
 		struct DMK_API DebugDraw {
 			DMKVertexBuffer rawVertexBuffer;
-			ARRAY<UI32>* pRawIndexBuffer;
+			DMKIndexBuffer* pRawIndexBuffer;
 			RPipelineObject* pPipeline = nullptr;
 			RPipelineResource* pPipelineResource = nullptr;
 			RBuffer* pVertexBuffer = nullptr;
@@ -114,7 +115,7 @@ namespace Dynamik
 
 		UI64 addDrawEntry(
 			DMKVertexBuffer vertexBuffer,
-			ARRAY<UI32>* indexBuffer,
+			DMKIndexBuffer* indexBuffer,
 			RPipelineObject* pPipelineObject,
 			RPipelineResource* pPipelineResource);
 
@@ -125,7 +126,7 @@ namespace Dynamik
 
 		UI64 addDebugEntry(
 			DMKVertexBuffer vertexBuffer,
-			ARRAY<UI32>* indexBuffer,
+			DMKIndexBuffer* indexBuffer,
 			RPipelineObject* pPipelineObject,
 			RPipelineResource* pPipelineResource);
 

@@ -30,7 +30,7 @@ namespace Dynamik
 			if (shaders.size())
 			{
 				for (auto shader : shaders)
-					pStaticMesh->addShaderModule(shader);
+					addShaderModule(shader);
 			}
 			else
 			{

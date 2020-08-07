@@ -24,8 +24,6 @@ namespace Dynamik
 	class DMK_API DMKStaticMeshComponent : public DMKRenderableComponent {
 	public:
 		DMKStaticMeshComponent() = default;
-		DMKStaticMeshComponent(const DMKDataType& type)
-			: indexBufferType(type) {}
 		~DMKStaticMeshComponent() = default;
 
 		/*
@@ -37,18 +35,6 @@ namespace Dynamik
 		 Get the total byte size of the index buffer object
 		*/
 		UI64 getIndexBufferObjectByteSize();
-
-		/*
-		 Pack all vertex data into a location.
-
-		 @warn: The pre-allocated memory location must be allocated to fit the whole vertex buffer object.
-				To ensure this, use getVertexBufferObjectByteSize() to allocate the buffer precisely.
-		*/
-		void packData(VPTR location);
-
-		void setMatrix(const MAT4& matrix);
-		void update(const MAT4& matrix);
-		MAT4 getMatrix();
 
 		/*
 		 Add a texture to the mesh.
@@ -68,64 +54,9 @@ namespace Dynamik
 		*/
 		void clearIndexBuffer();
 
-	public:		/* Matrix */
-		/*
-		 Model matrix of the mesh component.
-		 By default this is passed to the vertex shader with the binding 0.
-		*/
-		MAT4 modelMatrix = MAT4::Identity;
-
-		operator MAT4() const;
-
-		UI64 getUniformByteSize();
-
-		/*
-		 Checks if the matrix is updated. This way the engine doesn't need to update all the matrices which
-		 may include matrices which weren't updated.
-		*/
-		B1 isUpdated() const;
-
-		/*
-		 Reset the update notice. This function is called automatically by the engine once the mesh matrix has
-		 been updates internally.
-		*/
-		void resetUpdateNotice();
-
-		/*
-		 Set location of the mesh.
-
-		 @param position: Location to be set.
-		*/
-		virtual void setPosition(Vector3F position) override final;
-
-		/*
-		 Set scale of the mesh.
-
-		 @param scale: The scale.
-		*/
-		virtual void setScale(Vector3F scale) override final;
-
-		/*
-		 Set rotation to the mesh.
-
-		 @param rotation: The rotation.
-		*/
-		virtual void setRotation(Quaternion rotation) override final;
-
 	public:		/* Public Data Store */
-		STRING name = TEXT("");
 		DMKVertexBuffer vertexBuffer;
-		ARRAY<UI32> indexBuffer;
-		UI64 indexCount = 0;
-		B1 isMatrixUpdated = false;
-
-	public:		/* Descriptors */
-		DMKDataType indexBufferType = DMKDataType::DMK_DATA_TYPE_UI32;
-
-	public:		/* Matrix Manipulation */
-		void translate(const MAT4& mat, const VEC3& vec) override final;
-
-		void rotate(const VEC3& direction, const F32& radians) override final;
+		DMKIndexBuffer indexBuffer;
 	};
 }
 

@@ -9,8 +9,9 @@
 #include "Core/Math/MathTypes.h"
 #include "Core/Math/Quaternion.h"
 #include "Core/Types/ComplexTypes.h"
-#include "Core/Objects/Resources/VertexBuffer.h"
 #include "GameLibrary/Camera/CameraModule.h"
+#include "Core/Objects/Resources/IndexBuffer.h"
+#include "Core/Objects/Resources/VertexBuffer.h"
 
 namespace Dynamik
 {
@@ -167,7 +168,7 @@ namespace Dynamik
 
 	public:
 		DMKVertexBuffer vertexBuffer;
-		ARRAY<UI32> indexBuffer;
+		DMKIndexBuffer indexBuffer;
 
 		/*
 		 Initialize the mesh.

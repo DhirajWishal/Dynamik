@@ -32,7 +32,7 @@ SkySphere::SkySphere()
 	shaderVS.addUniform(unifomVS);
 	shaderVS.setInputAttributes(vLayout.getInputAttributes());
 
-	skyBox.addShaderModule(shaderVS);
+	addShaderModule(shaderVS);
 
 	auto shaderFS = DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_SKYBOX_CINEMATIC_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
 	DMKUniformBuffer unifomFS(1);
@@ -41,14 +41,14 @@ SkySphere::SkySphere()
 	unifomFS.addAttribute(TEXT("gamma"), sizeof(F32));
 	unifomFS.initialize();
 	shaderFS.addUniform(unifomFS);
-	skyBox.addShaderModule(shaderFS);
+	addShaderModule(shaderFS);
 }
 
 void SkySphere::onUpdate(F32 timeStep)
 {
 	Matrix4F mat = Matrix4F::Identity;
-	skyBox.getUniform(0, 0).setData(TEXT("projection"), &pCurrentLevel->getCameraModule()->matrix.projection);
-	skyBox.getUniform(0, 0).setData(TEXT("view"), &pCurrentLevel->getCameraModule()->matrix.view);
-	skyBox.getUniform(0, 0).setData(TEXT("model"), &mat);
-	skyBox.getUniform(1, 0).setData(&fsUBO);
+	shaderModules[0].getUniform(0).setData(TEXT("projection"), &pCurrentLevel->getCameraModule()->matrix.projection);
+	shaderModules[0].getUniform(0).setData(TEXT("view"), &pCurrentLevel->getCameraModule()->matrix.view);
+	shaderModules[0].getUniform(0).setData(TEXT("model"), &mat);
+	shaderModules[1].getUniform(0).setData(&fsUBO);
 }

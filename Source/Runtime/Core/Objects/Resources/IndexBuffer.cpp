@@ -81,6 +81,11 @@ namespace Dynamik
 		return indexSize * indexCount;
 	}
 
+	const UI64 DMKIndexBuffer::typeSize() const
+	{
+		return indexSize;
+	}
+
 	void DMKIndexBuffer::resize(UI64 newIndexSize)
 	{
 		if (indexSize)

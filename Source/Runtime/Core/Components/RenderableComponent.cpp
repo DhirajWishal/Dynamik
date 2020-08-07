@@ -8,16 +8,6 @@
 
 namespace Dynamik
 {
-	void DMKRenderableComponent::addShaderModule(const DMKShaderModule& sModule)
-	{
-		shaderModules.pushBack(sModule);
-	}
-
-	void DMKRenderableComponent::clearShaderModules()
-	{
-		shaderModules.clear();
-	}
-
 	void DMKRenderableComponent::addTextureModule(DMKTexture* pTexture)
 	{
 		DMKMaterial newMaterial;
@@ -40,30 +30,5 @@ namespace Dynamik
 	ARRAY<DMKResourceRequest> DMKRenderableComponent::getResourceRequests() const
 	{
 		return resourceRequests;
-	}
-
-	DMKUniformBuffer& DMKRenderableComponent::getUniform(I64 shaderIndex, I64 uniformIndex)
-	{
-		return shaderModules[shaderIndex].getUniform(uniformIndex);
-	}
-
-	void DMKRenderableComponent::addRenderableComponent(DMKRenderableComponent* component)
-	{
-		renderComponents.pushBack(component);
-	}
-
-	void DMKRenderableComponent::setRotation(Quaternion rotation)
-	{
-		this->rotation = rotation;
-	}
-
-	void DMKRenderableComponent::setPosition(Vector3F position)
-	{
-		this->position = position;
-	}
-
-	void DMKRenderableComponent::setScale(Vector3F scale)
-	{
-		this->scale = scale;
 	}
 }

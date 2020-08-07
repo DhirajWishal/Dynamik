@@ -649,7 +649,7 @@ namespace Dynamik
 
 		/* Initialize Uniforms */
 		ARRAY<RBuffer*> uniformBuffers;
-		for (auto shaders : pEnvironmentMap->skyBox.shaderModules)
+		for (auto shaders : pEnvironmentMap->shaderModules)
 		{
 			for (UI64 index = 0; index < shaders.getUniforms().size(); index++)
 			{
@@ -668,7 +668,7 @@ namespace Dynamik
 
 		RPipelineSpecification pipelineCreateInfo = {};
 		pipelineCreateInfo.resourceCount = 1;
-		pipelineCreateInfo.shaders = pEnvironmentMap->skyBox.shaderModules;
+		pipelineCreateInfo.shaders = pEnvironmentMap->shaderModules;
 		pipelineCreateInfo.scissorInfos.resize(1);
 		pipelineCreateInfo.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
 		pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
@@ -722,13 +722,32 @@ namespace Dynamik
 
 		auto resources = entity.pPipelineObject->allocateResources(myCoreObject);
 
+		ARRAY<RBuffer*> pUniformBuffers;
+		{
+			/* Initialize Default Uniform */
+			for (auto shader : pGameEntity->shaders)
+			{
+				auto UBOs = shader.getUniforms();
+				for (UI64 index = 0; index < shader.getUniforms().size(); index++)
+				{
+					RUniformContainer _container;
+					_container.pParent = Cast<DMKUniformBuffer*>(shader.getUniforms().location(index));
+
+					_container.pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, _container.pParent->byteSize());
+					_container.pUniformBuffer->setData(myCoreObject, _container.pParent->byteSize(), 0, _container.pParent->data());
+
+					pUniformBuffers.pushBack(_container.pUniformBuffer);
+				}
+			}
+		}
+
 		for (UI64 index = 0; index < pGameEntity->componentManager.getObjectArray<DMKStaticMeshComponent>()->size(); index++)
-			entity.meshObjects.pushBack(loadMeshComponent(pGameEntity->componentManager.getObject<DMKStaticMeshComponent>(index), resources[index], entity.pPipelineObject));
+			entity.meshObjects.pushBack(loadMeshComponent(pGameEntity->componentManager.getObject<DMKStaticMeshComponent>(index), resources[index], entity.pPipelineObject, pUniformBuffers));
 
 		/* Initialize Static Model */
 		for (UI64 index = 0; index < pGameEntity->getComponentArray<DMKStaticModel>()->size(); index++)
 			for (UI64 mIndex = 0; mIndex < pGameEntity->getComponent<DMKStaticModel>(index)->getMeshCount(); mIndex++)
-				entity.meshObjects.pushBack(loadMeshComponent(Cast<DMKStaticMeshComponent*>(pGameEntity->getComponent<DMKStaticModel>(index)->staticMeshes.location(mIndex)), resources[index], entity.pPipelineObject));
+				entity.meshObjects.pushBack(loadMeshComponent(Cast<DMKStaticMeshComponent*>(pGameEntity->getComponent<DMKStaticModel>(index)->staticMeshes.location(mIndex)), resources[index], entity.pPipelineObject, pUniformBuffers));
 
 		/* Initialize Attachments */
 		{
@@ -1166,7 +1185,7 @@ namespace Dynamik
 		return boundingBox;
 	}
 
-	RMeshObject DMKRenderer::loadMeshComponent(DMKStaticMeshComponent* pComponent, RPipelineResource* pResource, RPipelineObject* pParentPipeline)
+	RMeshObject DMKRenderer::loadMeshComponent(DMKStaticMeshComponent* pComponent, RPipelineResource* pResource, RPipelineObject* pParentPipeline, ARRAY<RBuffer*> pUniformBuffers)
 	{
 		RMeshObject meshComponent;
 		meshComponent.pMeshComponent = pComponent;
@@ -1177,27 +1196,6 @@ namespace Dynamik
 			/* Initialize Textures */
 			for (auto texture : material.textureContainers)
 				meshComponent.pTextures.pushBack(createTexture(texture.pTexture));
-		}
-
-		/* Initialize Uniform Buffers */
-		ARRAY<RBuffer*> pUniformBuffers;
-		{
-			/* Initialize Default Uniform */
-			for (auto shader : meshComponent.pMeshComponent->shaderModules)
-			{
-				auto UBOs = shader.getUniforms();
-				for (UI64 index = 0; index < shader.getUniforms().size(); index++)
-				{
-					RUniformContainer _container;
-					_container.pParent = Cast<DMKUniformBuffer*>(shader.getUniforms().location(index));
-
-					_container.pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, _container.pParent->byteSize());
-					_container.pUniformBuffer->setData(myCoreObject, _container.pParent->byteSize(), 0, _container.pParent->data());
-
-					meshComponent.uniformBuffers.pushBack(_container);
-					pUniformBuffers.pushBack(_container.pUniformBuffer);
-				}
-			}
 		}
 
 		/* Initialize Pipeline Resources */

@@ -28,7 +28,7 @@ namespace Dynamik
         indexBuffer = buffer;
     }
 
-    ARRAY<UI32>& DMKDebugComponent::getIndexBuffer()
+    DMKIndexBuffer& DMKDebugComponent::getIndexBuffer()
     {
         return indexBuffer;
     }

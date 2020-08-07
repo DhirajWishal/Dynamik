@@ -126,6 +126,24 @@ namespace Dynamik
 		*/
 		DMKEnvironmentMap* createHollowEnvironment();
 	};
+
+	/* WORLD LOG (#WorldID, #Date, #Time)
+
+	 [Entity=Grass]
+	 name="Grass01";
+	 ID=0001;
+	 instance {
+		 location=(0.0f, 0.0f, 0.0f);			>> (x, y, z)
+		 rotation=(0.0f, 0.0f, 0.0f, 0.0f);		>> (x, y, z, radians)
+		 scale=(1.0f, 1.0f, 1.0f, 1.0f);		>> (x, y, z, scale)
+	 };
+	 instance {
+		 location=(1.0f, 0.0f, 0.0f);			>> (x, y, z)
+		 rotation=(0.0f, 0.0f, 0.0f, 0.0f);		>> (x, y, z, radians)
+		 scale=(1.0f, 1.0f, 1.0f, 1.0f);		>> (x, y, z, scale)
+	 };
+
+	*/
 }
 
 #endif // !_DYNAMIK_GAME_WORLD_H

@@ -7,6 +7,7 @@
 
 #include "RCoreObject.h"
 #include "Core/Components/RenderableComponents/StaticMeshComponent.h"
+#include "Core/Objects/Resources/MeshObject.h"
 #include "Core/Components/RenderableComponents/DebugComponent.h"
 #include "Primitives/RTexture.h"
 #include "RPipelineObject.h"

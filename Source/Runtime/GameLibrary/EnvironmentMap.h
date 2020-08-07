@@ -22,9 +22,30 @@ namespace Dynamik
 		DMKEnvironmentMap() = default;
 		virtual ~DMKEnvironmentMap() = default;
 
+		/*
+		 Set the sky box. 
+		 The sky box is a static mesh component containing its data. 
+
+		 @param component: The static mesh component.
+		*/
 		void setSkyBox(const DMKStaticMeshComponent& component);
 
+		/*
+		 Set shader modules to the environment map. 
+
+		 @param shaderModules: The shader modules.
+		*/
+		void setShaders(ARRAY<DMKShaderModule> shaderModules);
+
+		/*
+		 Add a shader module to the environment map.
+
+		 @param sModule: The module to be added.
+		*/
+		void addShaderModule(const DMKShaderModule& sModule);
+
 		DMKStaticMeshComponent skyBox;
+		ARRAY<DMKShaderModule> shaderModules;
 	};
 }
 

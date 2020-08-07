@@ -9,7 +9,7 @@
 
 namespace Dynamik
 {
-	UI64 RDrawCallManager::addDrawEntry(DMKVertexBuffer vertexBuffer, ARRAY<UI32>* indexBuffer, RPipelineObject* pPipelineObject, RPipelineResource* pPipelineResource)
+	UI64 RDrawCallManager::addDrawEntry(DMKVertexBuffer vertexBuffer, DMKIndexBuffer* indexBuffer, RPipelineObject* pPipelineObject, RPipelineResource* pPipelineResource)
 	{
 		entryMap[vertexBuffer.layout].drawEntries.pushBack(
 			DrawEntry(entryMap[vertexBuffer.layout].vertexCount, vertexBuffer, totalIndexCount, indexBuffer->size(), pPipelineObject, pPipelineResource));
@@ -47,7 +47,7 @@ namespace Dynamik
 		return myEnvironment;
 	}
 
-	UI64 RDrawCallManager::addDebugEntry(DMKVertexBuffer vertexBuffer, ARRAY<UI32>* indexBuffer, RPipelineObject* pPipelineObject, RPipelineResource* pPipelineResource)
+	UI64 RDrawCallManager::addDebugEntry(DMKVertexBuffer vertexBuffer, DMKIndexBuffer* indexBuffer, RPipelineObject* pPipelineObject, RPipelineResource* pPipelineResource)
 	{
 		DebugDraw entry;
 		entry.indexCount = indexBuffer->size();

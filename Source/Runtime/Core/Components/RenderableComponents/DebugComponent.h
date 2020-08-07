@@ -6,10 +6,11 @@
 #define _DYNAMIK_DEBUG_COMPONENT_H
 
 #include "../Component.h"
-#include "Core/Objects/Resources/UniformBuffer.h"
+#include "Core/Objects/Resources/Material.h"
+#include "Core/Objects/Resources/IndexBuffer.h"
 #include "Core/Objects/Resources/VertexBuffer.h"
 #include "Core/Objects/Resources/ShaderModule.h"
-#include "Core/Objects/Resources/Material.h"
+#include "Core/Objects/Resources/UniformBuffer.h"
 
 namespace Dynamik
 {
@@ -71,7 +72,7 @@ namespace Dynamik
 		/*
 		 Get the index buffer.
 		*/
-		ARRAY<UI32>& getIndexBuffer();
+		DMKIndexBuffer& getIndexBuffer();
 
 		/*
 		 Add a material to the store.
@@ -128,7 +129,7 @@ namespace Dynamik
 	public:
 		DMKUniformBuffer uniformBuffer;
 		DMKVertexBuffer vertexBuffer;
-		ARRAY<UI32> indexBuffer;
+		DMKIndexBuffer indexBuffer;
 		ARRAY<DMKMaterial> materials;
 		ARRAY<DMKShaderModule> shaders;
 		DMKDebugComponentUsage usage = DMKDebugComponentUsage::DMK_DEBUG_COMPONENT_USAGE_RENDERING;

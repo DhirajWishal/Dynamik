@@ -70,11 +70,11 @@ namespace Dynamik
 	 @param vertexLayout: The vertex layout to load the vertex data.
 	 @param pComponent: The mesh component pointer to load all the data to.
 	*/
-	DMK_FORCEINLINE void meshLoadFunction(VPTR pAiMeshObject, VPTR pAiScene, const DMKVertexLayout& vertexLayout, DMKMeshObject* pMeshObject)
+	DMK_FORCEINLINE void meshLoadFunction(VPTR pAiMeshObject, VPTR pAiScene, const DMKVertexLayout& vertexLayout, DMKStaticMeshComponent* pComponent)
 	{
 		auto _mesh = Cast<aiMesh*>(pAiMeshObject);
 		auto _scene = Cast<aiScene*>(pAiScene);
-		pMeshObject->setName(_mesh->mName.data);
+		pComponent->name = _mesh->mName.data;
 
 		/* Resolve materials */
 		aiString _texPath;
@@ -99,10 +99,8 @@ namespace Dynamik
 			auto tCount10 = _material->GetTextureCount(aiTextureType::aiTextureType_REFLECTION);
 		}
 
-		pMeshObject->setVertexLayout(vertexLayout);
-		pMeshObject->getVertexBuffer().initialize(_mesh->mNumVertices);
-		pMeshObject->getIndexBuffer().setIndexSize(sizeof(UI32));
-
+		pComponent->vertexBuffer.initialize(_mesh->mNumVertices, vertexLayout);
+		pComponent->indexBuffer.setIndexSize(sizeof(UI32));
 		UI64 vertexOffset = 0;
 		UI64 dataSize = 0;
 
@@ -116,141 +114,141 @@ namespace Dynamik
 				{
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION:
 					if (_mesh->HasPositions())
-						pMeshObject->getVertexBuffer().addData(&_mesh->mVertices[_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mVertices[_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL:
 					if (_mesh->HasNormals())
-						pMeshObject->getVertexBuffer().addData(&_mesh->mNormals[_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mNormals[_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_0:
 					if (_mesh->HasVertexColors(0))
-						pMeshObject->getVertexBuffer().addData(&_mesh->mColors[0][_index], getCorrectSize<aiColor4D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mColors[0][_index], getCorrectSize<aiColor4D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_1:
 					if (_mesh->HasVertexColors(1))
-						pMeshObject->getVertexBuffer().addData(&_mesh->mColors[1][_index], getCorrectSize<aiColor4D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mColors[1][_index], getCorrectSize<aiColor4D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_2:
 					if (_mesh->HasVertexColors(2))
-						pMeshObject->getVertexBuffer().addData(&_mesh->mColors[2][_index], getCorrectSize<aiColor4D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mColors[2][_index], getCorrectSize<aiColor4D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_3:
 					if (_mesh->HasVertexColors(3))
-						pMeshObject->getVertexBuffer().addData(&_mesh->mColors[3][_index], getCorrectSize<aiColor4D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mColors[3][_index], getCorrectSize<aiColor4D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_0:
 					if (_mesh->HasTextureCoords(0))
-						pMeshObject->getVertexBuffer().addData(&_mesh->mTextureCoords[0][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mTextureCoords[0][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_1:
 					if (_mesh->HasTextureCoords(1))
-						pMeshObject->getVertexBuffer().addData(&_mesh->mTextureCoords[1][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mTextureCoords[1][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_2:
 					if (_mesh->HasTextureCoords(2))
-						pMeshObject->getVertexBuffer().addData(&_mesh->mTextureCoords[2][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mTextureCoords[2][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_3:
 					if (_mesh->HasTextureCoords(3))
-						pMeshObject->getVertexBuffer().addData(&_mesh->mTextureCoords[3][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mTextureCoords[3][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_4:
 					if (_mesh->HasTextureCoords(4))
-						pMeshObject->getVertexBuffer().addData(&_mesh->mTextureCoords[4][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mTextureCoords[4][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_5:
 					if (_mesh->HasTextureCoords(5))
-						pMeshObject->getVertexBuffer().addData(&_mesh->mTextureCoords[5][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mTextureCoords[5][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_6:
 					if (_mesh->HasTextureCoords(6))
-						pMeshObject->getVertexBuffer().addData(&_mesh->mTextureCoords[6][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mTextureCoords[6][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_7:
 					if (_mesh->HasTextureCoords(7))
-						pMeshObject->getVertexBuffer().addData(&_mesh->mTextureCoords[7][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mTextureCoords[7][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TANGENT:
 					if (_mesh->HasTangentsAndBitangents())
-						pMeshObject->getVertexBuffer().addData(&_mesh->mTangents[_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mTangents[_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BITANGENT:
 					if (_mesh->HasTangentsAndBitangents())
-						pMeshObject->getVertexBuffer().addData(&_mesh->mBitangents[_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mBitangents[_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES:
 					if (_mesh->HasTextureCoords(0))
-						pMeshObject->getVertexBuffer().addData(&_mesh->mTextureCoords[0][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
+						pComponent->vertexBuffer.addData(&_mesh->mTextureCoords[0][_index], getCorrectSize<aiVector3D>(dataSize), vertexOffset);
 					else
-						pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+						pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_INTEGRITY:
 					/* TODO */
-					pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+					pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID:
 					/* TODO */
-					pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+					pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT:
 					/* TODO */
-					pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+					pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				case Dynamik::DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_CUSTOM:
 					/* TODO */
-					pMeshObject->getVertexBuffer().setNull(dataSize, vertexOffset);
+					pComponent->vertexBuffer.setNull(dataSize, vertexOffset);
 					break;
 
 				default:
@@ -262,19 +260,20 @@ namespace Dynamik
 			}
 		}
 
-		aiFace face = {};
+		aiFace face;
 		for (UI32 index = 0; index < _mesh->mNumFaces; index++)
 		{
 			face = _mesh->mFaces[index];
 			for (UI32 itr = 0; itr < face.mNumIndices; itr++)
-				pMeshObject->getIndexBuffer().add(face.mIndices[itr]);
+				pComponent->indexBuffer.add(face.mIndices[itr]);
 		}
 
 #ifdef DMK_DEBUG
-		DMK_INFO("Vertex count: " + std::to_string(pMeshObject->getVertexBuffer().size()));
-		DMK_INFO("Index count: " + std::to_string(pMeshObject->getIndexBuffer().size()));
+		DMK_INFO("Vertex count: " + std::to_string(pComponent->vertexBuffer.size()));
+		DMK_INFO("Index count: " + std::to_string(pComponent->indexBuffer.size()));
 
 #endif // DMK_DEBUG
+
 	}
 
 	AssimpWrapper::AssimpWrapper()
@@ -448,10 +447,7 @@ namespace Dynamik
 			ARRAY<std::future<void>, 1, DMKArrayDestructorCallMode::DMK_ARRAY_DESTRUCTOR_CALL_MODE_DESTRUCT_ALL> threads;
 
 			for (UI32 _itr = 0; _itr < _scene->mNumMeshes; _itr++)
-			{
-
-				//threads.pushBack(std::async(std::launch::async, meshLoadFunction, _scene->mMeshes[_itr], Cast<VPTR>(_scene), vertexLayout, Cast<DMKStaticMeshComponent*>(myModel.location(_itr))));
-			}
+				threads.pushBack(std::async(std::launch::async, meshLoadFunction, _scene->mMeshes[_itr], Cast<VPTR>(_scene), vertexLayout, Cast<DMKStaticMeshComponent*>(myModel.location(_itr))));
 		}
 
 		return myModel;

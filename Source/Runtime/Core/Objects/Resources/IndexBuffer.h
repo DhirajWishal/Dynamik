@@ -89,6 +89,11 @@ namespace Dynamik
 		*/
 		const UI64 byteSize() const;
 
+		/*
+		 Get the index index size in bytes.
+		*/
+		const UI64 typeSize() const;
+
 		/* THIS FUNCTION CURRENTLY DOES NOT CARRY OUT ANY FUNCTIONALITY! 
 		 Resize the index buffer. 
 		 This function will resize the index size and re initializes the buffer with the stored data. If the buffer is 

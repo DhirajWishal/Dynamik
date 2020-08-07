@@ -12,4 +12,14 @@ namespace Dynamik
 	{
 		skyBox = component;
 	}
+
+	void DMKEnvironmentMap::setShaders(ARRAY<DMKShaderModule> shaderModules)
+	{
+		this->shaderModules = shaderModules;
+	}
+	
+	void DMKEnvironmentMap::addShaderModule(const DMKShaderModule& sModule)
+	{
+		shaderModules.pushBack(sModule);
+	}
 }
