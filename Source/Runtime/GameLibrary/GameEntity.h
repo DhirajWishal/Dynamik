@@ -17,21 +17,10 @@ namespace Dynamik
 	class DMK_API DMKLevelComponent;
 
 	/*
-	 The entity class is the component which the user directly interact with. Player character and other
-	 input based characters are derived from this.
-
-	 You can imagine entities as a soul. You are required to control it. 
-	 An entity is a collection of data to store a complete entity in a game. 
-	 A basic entity contains:
-	   - Shaders
-	   - Meshes
-	     - Materials
-		   - Textures
-	   - Uniform Buffer Objects
-	   - Audio Components
-	   - Physics Bodies
-
-	 @warn: Entities that are not in the game world must be externally initialized.
+	 Dynamik Game Entity
+	 Entities are fixed and/ or user definable objects which batch components together to form one single unit. 
+	 Usually these entities are used to define an element in the game world.
+	 Data are added to these entities using components which contain sub-components which defines them.
 	*/
 	class DMK_API DMKGameEntity {
 	public:
@@ -50,22 +39,6 @@ namespace Dynamik
 		 Initialize the entity
 		*/
 		virtual void initialize() {}
-
-		// void addInstance(Vector3F position, Vector3F rotation);
-
-		/*
-		 Add a material to every requested component in the entity.
-		 @warn: The component requires to be a renderable component. Else this function may fail.
-
-		 @param material: The material to be added.
-		 @tparam COMPONENT: The component to be added.
-		*/
-		template<class COMPONENT>
-		DMK_FORCEINLINE void addMaterial(const DMKMaterial& material)
-		{
-			for (UI64 index = 0; index < getComponentArray<COMPONENT>()->size(); index++)
-				getComponent<COMPONENT>(index)->addMaterial(material);
-		}
 
 		/*
 		 Update method used to update components.
@@ -138,9 +111,34 @@ namespace Dynamik
 	protected:	/* Protected Data */
 		DMKCameraModule* pCameraModule = nullptr;
 		DMKLevelComponent* pCurrentLevel = nullptr;
-
-	private:	/* Internal Data */
 	};
+
+	/*
+	* 
+	* DMKGameEntity:
+	*   - EnvironmentMap
+	*   - WorldEntity	(Can be instantiated)
+	*     - StaticModel
+	*     - AnimatedModel
+	*     - PointAudio
+	*     - Light
+	*     - Text
+	*     - Canvas
+	*     - Trigger2D
+	*     - Trigger3D
+	* 
+	* DMKComponent:
+	*   - Behavior
+	*   - Audio
+	*   - Physics
+	*   - MeshComponent
+	* 
+	* DMKGameUnit
+	*   - PlayerObject
+	*   - GameWorld
+	*     - Sky Box
+	* 
+	*/
 }
 
 #endif // !_DYNAMIK_GAME_ENTITY_H

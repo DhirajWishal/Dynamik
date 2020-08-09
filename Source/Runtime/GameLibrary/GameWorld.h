@@ -143,6 +143,29 @@ namespace Dynamik
 		 scale=(1.0f, 1.0f, 1.0f, 1.0f);		>> (x, y, z, scale)
 	 };
 
+	 GameWorld
+	 {
+	     auto m1 = addComponent<Model>(STRING);
+		 auto a1 = addComponent<Audio>(STRING);
+		 auto p1 = addComponent<PhysicsBox>(Size);
+
+		 m1->addBehavior(StaticAllocator<Behavior1>::allocate());
+		 m1->addInstance(Location, Rotation, Scale);
+		 m1->addInstance(Location, Rotation, Scale);
+		 m1->addInstance(Location, Rotation, Scale);
+
+		 m1->addSubComponent(a1);
+		 m1->addSubComponent(p1);
+
+		 DMKComponentObject:
+		   - onInitialize();
+		   - onUpdate();
+		   - onTerminate();
+		   : StaticMesh
+		   : AnimatedMesh
+		   : Audio
+	 }
+
 	*/
 }
 

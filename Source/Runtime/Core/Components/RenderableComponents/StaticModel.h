@@ -10,6 +10,19 @@
 
 namespace Dynamik
 {
+	class DMK_API DMKStaticModel;
+
+	/*
+	*  Static model instance.
+	*/
+	struct DMK_API DMKStaticModelInstance {
+		STRING name = TEXT("");
+		Quaternion rotation = Quaternion(0.0f);
+		Vector3F location = Vector3F(0.0f);
+		Vector3F scale = Vector3F(0.0f);
+		DMKStaticModel* pParent = nullptr;
+	};
+
 	/*
 	 Dynamik Static Model
 	 This object contains multiple static mesh components.
@@ -62,8 +75,20 @@ namespace Dynamik
 		*/
 		void setRotation(const Quaternion& rotation);
 
+		/*
+		 Add an instance to the static model.
+
+		 @param name: The name of the instance.
+		 @param location: The location of the new instance.
+		 @param rotation: Rotation of the new instance.
+		 @param scale: Scale of the new instance.
+		*/
+		void addInstance(const STRING& name, const Vector3F& location, const Quaternion& roation, const Vector3F& scale);
+
 	public:		/* Mesh Store */
 		ARRAY<DMKStaticMeshComponent> staticMeshes;
+
+		ARRAY<DMKStaticModelInstance*> pInstances;
 	};
 }
 

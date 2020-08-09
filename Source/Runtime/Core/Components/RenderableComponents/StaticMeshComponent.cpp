@@ -4,10 +4,10 @@
 #include "dmkafx.h"
 #include "StaticMeshComponent.h"
 
+#include "Core/Math/MathFunctions.h"
 #include "Core/Memory/MemoryFunctions.h"
 #include "Importer/Asset/MeshImporter.h"
 #include "Core/Utilities/TextureFactory.h"
-#include "Core/Math/MathFunctions.h"
 
 namespace Dynamik
 {
