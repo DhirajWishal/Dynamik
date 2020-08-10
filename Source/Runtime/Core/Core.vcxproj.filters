@@ -242,6 +242,8 @@
     <ClInclude Include="Objects\Resources\UniformBuffer.h">
       <Filter>Objects\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="Components\SubComponents\Behavior.h" />
+    <ClInclude Include="Components\SubComponents\SubComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\Attachments\BoundingBox.cpp">

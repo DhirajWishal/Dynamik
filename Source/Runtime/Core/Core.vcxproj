@@ -372,6 +372,8 @@
     <ClInclude Include="Components\RenderableComponents\DebugComponent.h" />
     <ClInclude Include="Components\RenderableComponents\StaticMeshComponent.h" />
     <ClInclude Include="Components\RenderableComponents\StaticModel.h" />
+    <ClInclude Include="Components\SubComponents\Behavior.h" />
+    <ClInclude Include="Components\SubComponents\SubComponent.h" />
     <ClInclude Include="Error\ErrorDefines.h" />
     <ClInclude Include="Error\ErrorManager.h" />
     <ClInclude Include="Error\MessageBox.h" />

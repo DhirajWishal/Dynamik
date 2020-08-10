@@ -19,7 +19,7 @@ namespace Dynamik
 	/*
 	 Dynamik Game Entity
 	 Entities are fixed and/ or user definable objects which batch components together to form one single unit. 
-	 Usually these entities are used to define an element in the game world.
+	 Usually these entities are used to define an element in the game world. The engine contains a number of 
 	 Data are added to these entities using components which contain sub-components which defines them.
 	*/
 	class DMK_API DMKGameEntity {
@@ -115,28 +115,18 @@ namespace Dynamik
 
 	/*
 	* 
-	* DMKGameEntity:
-	*   - EnvironmentMap
-	*   - WorldEntity	(Can be instantiated)
-	*     - StaticModel
-	*     - AnimatedModel
-	*     - PointAudio
-	*     - Light
-	*     - Text
-	*     - Canvas
-	*     - Trigger2D
-	*     - Trigger3D
-	* 
-	* DMKComponent:
-	*   - Behavior
-	*   - Audio
-	*   - Physics
-	*   - MeshComponent
-	* 
-	* DMKGameUnit
-	*   - PlayerObject
-	*   - GameWorld
-	*     - Sky Box
+	* GamePackage:
+	*   GameModule:
+	*     PlayerEntity
+	*     GameWorld:
+	*	    SceneObject:
+	*         EnvironmentMap
+	*		  StaticModel
+	*		  AnimatedModel
+	*		  PointObject
+	*		  Canvas2D
+	*		  Trigger2D
+	*		  Trigger3D
 	* 
 	*/
 }
