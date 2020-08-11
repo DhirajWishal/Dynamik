@@ -4,7 +4,7 @@
 #include "dmkafx.h"
 #include "PlayerController.h"
 
-#include "../LevelComponent.h"
+#include "../GameModule.h"
 
 namespace Dynamik
 {
@@ -48,7 +48,7 @@ namespace Dynamik
 		cameraControls.clear();
 	}
 
-	void DMKPlayerController::bindMovementControl(DMKMovementControlInstruction instruction, const STRING& sEvent, DMKLevelComponent* pComponent, DMKEventType eventType)
+	void DMKPlayerController::bindMovementControl(DMKMovementControlInstruction instruction, const STRING& sEvent, DMKGameModule* pComponent, DMKEventType eventType)
 	{
 		switch (instruction)
 		{
@@ -109,7 +109,7 @@ namespace Dynamik
 		}
 	}
 
-	void DMKPlayerController::bindActionControl(DMKActionControlInstruction instruction, const STRING& sEvent, DMKLevelComponent* pComponent, DMKEventType eventType)
+	void DMKPlayerController::bindActionControl(DMKActionControlInstruction instruction, const STRING& sEvent, DMKGameModule* pComponent, DMKEventType eventType)
 	{
 		switch (instruction)
 		{

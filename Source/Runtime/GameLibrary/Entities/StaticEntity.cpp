@@ -7,7 +7,7 @@
 #include "../Utilities/MeshFactory.h"
 #include "Services/RuntimeSystems/AssetRegistry.h"
 #include "Core/Types/StaticArray.h"
-#include "../LevelComponent.h"
+#include "../GameModule.h"
 #include "Core/Math/MathFunctions.h"
 
 namespace Dynamik
@@ -114,8 +114,8 @@ namespace Dynamik
 			{
 				Matrix4F modelMat = DMathLib::translate(Matrix4F::Identity, Vector3F(3.0f, 0.0f, 0.0f));
 				pStaticMesh->getUniform(0, 0).setData("Model", &modelMat);
-				pStaticMesh->getUniform(0, 0).setData("View", &pCurrentLevel->getCameraModule()->matrix.view);
-				pStaticMesh->getUniform(0, 0).setData("Projection", &pCurrentLevel->getCameraModule()->matrix.projection);
+				pStaticMesh->getUniform(0, 0).setData("View", &pCurrentModule->getCameraModule()->matrix.view);
+				pStaticMesh->getUniform(0, 0).setData("Projection", &pCurrentModule->getCameraModule()->matrix.projection);
 			}
 		}
 	}

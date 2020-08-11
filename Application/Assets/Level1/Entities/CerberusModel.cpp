@@ -3,10 +3,10 @@
 
 #include "CerberusModel.h"
 
-#include "GameLibrary/LevelComponent.h"
+#include "GameLibrary/GameModule.h"
 #include "GameLibrary/Utilities/MeshFactory.h"
 #include "Services/RuntimeSystems/AssetRegistry.h"
-#include "GameLibrary/LevelComponent.h"
+#include "GameLibrary/GameModule.h"
 #include "Core/Math/MathFunctions.h"
 using namespace Dynamik;
 
@@ -89,9 +89,9 @@ void CerberusModel::onUpdate(F32 ts)
 	{
 		auto pStaticMesh = getComponent<DMKStaticMeshComponent>(index);
 
-		dataVS.projection = pCurrentLevel->getCameraModule()->matrix.projection;
-		dataVS.view = pCurrentLevel->getCameraModule()->matrix.view;
-		dataVS.camPos = pCurrentLevel->getCameraModule()->position * (-1.0f);
+		dataVS.projection = pCurrentModule->getCameraModule()->matrix.projection;
+		dataVS.view = pCurrentModule->getCameraModule()->matrix.view;
+		dataVS.camPos = pCurrentModule->getCameraModule()->position * (-1.0f);
 
 		pStaticMesh->getUniform(0, 0).setData(&dataVS);
 

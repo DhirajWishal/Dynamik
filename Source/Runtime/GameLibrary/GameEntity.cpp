@@ -6,9 +6,9 @@
 
 namespace Dynamik
 {
-	void DMKGameEntity::setupCurrentLevel(DMKLevelComponent* pCurrentLevel)
+	void DMKGameEntity::setupCurrentModule(DMKGameModule* pCurrentModule)
 	{
-		this->pCurrentLevel = pCurrentLevel;
+		this->pCurrentModule = pCurrentModule;
 	}
 	
 	void DMKGameEntity::setupCamera(const DMKCameraModule* pCameraModule)
@@ -21,5 +21,15 @@ namespace Dynamik
 
 		this->pCameraModule = Cast<DMKCameraModule*>(pCameraModule);
 		isCameraAvailable = true;
+	}
+
+	void DMKGameEntity::addInstance(const STRING& name, const Vector3F& position, const Quaternion& rotation, const Vector3F& scale)
+	{
+		instances.pushBack(DMKGameEntityInstance(name, position, rotation, scale, this));
+	}
+
+	DMKGameEntityInstance* DMKGameEntity::getInstance(I64 index)
+	{
+		return Cast<DMKGameEntityInstance*>(instances.location(index));
 	}
 }

@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_GAME_PACKAGE_H
 #define _DYNAMIK_GAME_PACKAGE_H
 
-#include "LevelComponent.h"
+#include "GameModule.h"
 #include "Core/Globals/RenderSettings.h"
 
 namespace Dynamik
@@ -14,8 +14,11 @@ namespace Dynamik
 	 Dynamik Game Package
 	 The client game application is passed to the engine using this object. Clients are required to derive
 	 their own package from this and submit it to the engine upon instantiating.
+
+	 Loading new modules are done using the package. Developers are required to instruct the engine to load the next 
+	 module.
 	*/
-	class DMK_API DMKGamePackage  {
+	class DMK_API DMKGamePackage {
 	public:
 		DMKGamePackage() {}
 		virtual ~DMKGamePackage() {}
@@ -63,7 +66,10 @@ namespace Dynamik
 		/*
 		 All the levels in a game.
 		*/
-		ARRAY<DMKLevelComponent*> levels;
+		ARRAY<DMKGameModule*> modules;
+
+	protected:
+		void loadNextModule(DMKGameModule* pModule) {}
 
 	public:		/* Engine Description */
 		STRING applicationName = TEXT("Dynamik Engine v1");
@@ -77,10 +83,10 @@ namespace Dynamik
 		 Basic game data
 		*/
 		STRING gameName = TEXT("Dynamik Engine");
-		UI64 gameVersion = 1;
 		STRING gameDataPath = TEXT("");
 		STRING gameAssetBasePath = TEXT("");
-	};
+		UI64 gameVersion = 1;
+	};	
 }
 
 #endif // !_DYNAMIK_GAME_PACKAGE_H

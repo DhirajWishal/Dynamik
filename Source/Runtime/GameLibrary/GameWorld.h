@@ -15,7 +15,7 @@
 
 namespace Dynamik
 {
-	class DMK_API DMKLevelComponent;
+	class DMK_API DMKGameModule;
 
 	/* 
 	 Dynamik Game World Light Component
@@ -46,7 +46,7 @@ namespace Dynamik
 		/*
 		 Initialize stored entities.
 		*/
-		void initializeEntities(DMKLevelComponent* pCurrentLevel);
+		void initializeEntities(DMKGameModule* pCurrentModule);
 
 		/*
 		 Setup Camera Module

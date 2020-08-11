@@ -24,15 +24,15 @@
 namespace Dynamik
 {
 	/*
-	 Dynamik Level Component act as a level for the Dynamik Engine.
+	 Dynamik Game Module act as a level for the Dynamik Engine.
 	 Level component directly translates to a level in the game. A level can also be interpreted as a player.
 
 	 By default, this class can be used as an internal level component.
 	*/
-	class DMK_API DMKLevelComponent {
+	class DMK_API DMKGameModule {
 	public:
-		DMKLevelComponent();
-		virtual ~DMKLevelComponent() {}
+		DMKGameModule();
+		virtual ~DMKGameModule() {}
 
 		virtual void onLoad() {}
 		virtual void initializeComponents() {}

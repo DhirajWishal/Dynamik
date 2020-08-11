@@ -23,20 +23,13 @@ namespace Dynamik
 	/*
 	 Dynamik Mesh Object
 	 This object stores data of a single mesh.
-
-	 The mesh object consists of,
-	   - Vertex Buffer
-	   - Index Buffer
-	   - Uniform Buffer
-	   - Materials
-
-	 TODO: Debug data (Bounding boxes ...)
 	*/
 	class DMK_API DMKMeshObject {
 	public:
-		DMKMeshObject() {}
-		~DMKMeshObject() {}
+		DMKMeshObject() = default;
+		~DMKMeshObject() = default;
 
+	public:
 		/*
 		 Set the name of the mesh object. 
 
@@ -52,6 +45,7 @@ namespace Dynamik
 		/* The name of the mesh object. */
 		STRING name = TEXT("");
 
+	public:
 		/*
 		 Unload/ clear all the data stored in the vertex and index buffers. This helps in reducing memory usage.
 		 This function must be called after submitting all the required data to the GPU.
@@ -76,6 +70,7 @@ namespace Dynamik
 		*/
 		void loadIndexDataFromPointer(const VPTR address);
 
+	public:
 		/*
 		 Set a the vertex buffer of the current mesh object.
 
@@ -99,6 +94,7 @@ namespace Dynamik
 		/* Vertex Buffer */
 		DMKVertexBuffer vertexBuffer = {};
 
+	public:
 		/* 
 		 Set an index buffer to the mesh object.
 
@@ -121,6 +117,7 @@ namespace Dynamik
 		/* Index Buffer */
 		DMKIndexBuffer indexBuffer = {};
 
+	public:
 		/*
 		 Add a uniform buffer to the mesh object.
 
@@ -150,6 +147,7 @@ namespace Dynamik
 		/* Uniform Buffers */
 		ARRAY<DMKUniformBuffer> uniformBuffers = {};
 
+		public:
 		/*
 		 Set a material to the current mesh object.
 

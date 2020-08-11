@@ -13,7 +13,7 @@
 
 namespace Dynamik
 {
-    class DMK_API DMKLevelComponent;
+    class DMK_API DMKGameModule;
 
     /* Dynamik Movement Control Instruction */
     enum class DMK_API DMKMovementControlInstruction {
@@ -84,8 +84,8 @@ namespace Dynamik
 
         void reset();
 
-        void bindMovementControl(DMKMovementControlInstruction instruction, const STRING& sEvent, DMKLevelComponent* pComponent, DMKEventType eventType);
-        void bindActionControl(DMKActionControlInstruction instruction, const STRING& sEvent, DMKLevelComponent* pComponent, DMKEventType eventType);
+        void bindMovementControl(DMKMovementControlInstruction instruction, const STRING& sEvent, DMKGameModule* pComponent, DMKEventType eventType);
+        void bindActionControl(DMKActionControlInstruction instruction, const STRING& sEvent, DMKGameModule* pComponent, DMKEventType eventType);
         void bindCameraControl(DMKCameraControlInstruction instruction, const STRING& sEvent, DMKPlayerObject* pPlayer, DMKEventType eventType);
     
     private:

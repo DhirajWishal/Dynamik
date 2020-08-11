@@ -9,7 +9,7 @@
 #include "Window/WindowHandle.h"
 #include "Components/ContextTypeDefs.h"
 #include "Components/CoreTypeDefs.h"
-#include "GameLibrary/LevelComponent.h"
+#include "GameLibrary/GameModule.h"
 
 #include "Clients/ImGuiBackendHandle.h"
 

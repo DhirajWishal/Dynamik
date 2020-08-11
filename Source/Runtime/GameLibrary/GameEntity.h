@@ -14,7 +14,22 @@
 
 namespace Dynamik
 {
-	class DMK_API DMKLevelComponent;
+	class DMK_API DMKGameModule;
+	class DMK_API DMKGameEntity;
+
+	/* Dynamik Game Entity Instance */
+	struct DMK_API DMKGameEntityInstance {
+		DMKGameEntityInstance() = default;
+		DMKGameEntityInstance(const STRING& name, const Vector3F& position, const Quaternion& rotation, const Vector3F& scale, DMKGameEntity* pParentEntity) :
+			name(name), position(position), rotation(rotation), scale(scale), pParentEntity(pParentEntity) {}
+
+		STRING name = TEXT("");
+		Quaternion rotation = Quaternion(0.0f);
+		Vector3F position = Vector3F::ZeroAll;
+		Vector3F scale = Vector3F::ZeroAll;
+
+		DMKGameEntity* pParentEntity = nullptr;
+	};
 
 	/*
 	 Dynamik Game Entity
@@ -24,16 +39,16 @@ namespace Dynamik
 	*/
 	class DMK_API DMKGameEntity {
 	public:
-		DMKGameEntity() {}
-		virtual ~DMKGameEntity() {}
+		DMKGameEntity() = default;
+		virtual ~DMKGameEntity() = default;
 
 		/*
 		 Setup the current level.
 		 This function is handled internally!
 
-		 @param pCurrentLevel: Pointer to the current level component.
+		 @param pCurrentModule: Pointer to the current level component.
 		*/
-		void setupCurrentLevel(DMKLevelComponent* pCurrentLevel);
+		void setupCurrentModule(DMKGameModule* pCurrentModule);
 
 		/*
 		 Initialize the entity
@@ -108,25 +123,42 @@ namespace Dynamik
 
 		B1 isCameraAvailable = false;
 
+		STRING entityName = TEXT("");
+
+	public:
+		/*
+		 Add an instance of the current entity. 
+		 This makes a direct copy of this entity and places it at another position in the world space with its own 
+		 position, rotation, scale and name.
+
+		 @param name: The name of the instance.
+		 @param position: The position of the instance in the game world.
+		 @param rotation: The rotation of the instance in the game world. Default is 0.0f.
+		 @param scale: The scale of the instance in the game world. Default is 0.0f.
+		*/
+		void addInstance(const STRING& name, const Vector3F& position, const Quaternion& rotation = Quaternion(0.0f), const Vector3F& scale = Vector3F::ZeroAll);
+
+		/*
+		 Get an instance at a given index.
+		*/
+		DMKGameEntityInstance* getInstance(I64 index);
+
+		/* All the instances */
+		ARRAY<DMKGameEntityInstance> instances;
+
 	protected:	/* Protected Data */
 		DMKCameraModule* pCameraModule = nullptr;
-		DMKLevelComponent* pCurrentLevel = nullptr;
+		DMKGameModule* pCurrentModule = nullptr;
 	};
 
 	/*
 	* 
-	* GamePackage:
-	*   GameModule:
-	*     PlayerEntity
-	*     GameWorld:
-	*	    SceneObject:
-	*         EnvironmentMap
-	*		  StaticModel
-	*		  AnimatedModel
-	*		  PointObject
-	*		  Canvas2D
-	*		  Trigger2D
-	*		  Trigger3D
+	* In the studio, users are to add entities by right clicking on the module editor and selecting add entity. Then 
+	* a few options will be available. Some of them are,
+	*   - Create Custom Entity
+	*   - Create StaticModel Entity
+	*   - Create AnimatedModel Entity
+	*   - Create Canvas Entity
 	* 
 	*/
 }

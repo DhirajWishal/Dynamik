@@ -14,7 +14,6 @@
   <ItemGroup>
     <ClInclude Include="ComponentArray.h" />
     <ClInclude Include="ComponentManager.h" />
-    <ClInclude Include="EntityRegistry.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ComponentManager.cpp" />

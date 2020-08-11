@@ -2,25 +2,25 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "dmkafx.h"
-#include "LevelComponent.h"
+#include "GameModule.h"
 #include "GameEntity.h"
 
 #include "Importer/Asset/MeshImporter.h"
 
 namespace Dynamik
 {
-	DMKLevelComponent::DMKLevelComponent()
+	DMKGameModule::DMKGameModule()
 	{
 		pCurrentGameWorld = nullptr;
 		playerObject = nullptr;
 	}
 
-	void DMKLevelComponent::addEntity(DMKGameEntity* pEntity)
+	void DMKGameModule::addEntity(DMKGameEntity* pEntity)
 	{
 		pEntities.pushBack(pEntity);
 	}
 
-	void DMKLevelComponent::updateEntities(F32 timeStep)
+	void DMKGameModule::updateEntities(F32 timeStep)
 	{
 		for (auto entity : pEntities)
 			entity->onUpdate(timeStep);
@@ -35,18 +35,18 @@ namespace Dynamik
 		}
 	}
 
-	DMKGameEntity* DMKLevelComponent::createHollowEntity()
+	DMKGameEntity* DMKGameModule::createHollowEntity()
 	{
 		pEntities.pushBack(StaticAllocator<DMKGameEntity>::allocateInit(DMKGameEntity()));
 		return Cast<DMKGameEntity*>(pEntities.location(-1));
 	}
 
-	DMKCameraModule* DMKLevelComponent::getCameraModule() const
+	DMKCameraModule* DMKGameModule::getCameraModule() const
 	{
 		return playerObject->getCameraModule();
 	}
 
-	DMKPlayerObject* DMKLevelComponent::createHollowPlayerObject()
+	DMKPlayerObject* DMKGameModule::createHollowPlayerObject()
 	{
 		playerObject = StaticAllocator<DMKPlayerObject>::allocate().get();
 		return playerObject;

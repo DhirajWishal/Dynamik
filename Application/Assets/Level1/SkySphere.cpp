@@ -6,7 +6,7 @@
 #include "Core/FileSystem/FileSystem.h"
 #include "Core/Utilities/TextureFactory.h"
 #include "Services/RuntimeSystems/AssetRegistry.h"
-#include "GameLibrary/LevelComponent.h"
+#include "GameLibrary/GameModule.h"
 using namespace Dynamik;
 
 SkySphere::SkySphere()
@@ -47,8 +47,8 @@ SkySphere::SkySphere()
 void SkySphere::onUpdate(F32 timeStep)
 {
 	Matrix4F mat = Matrix4F::Identity;
-	shaderModules[0].getUniform(0).setData(TEXT("projection"), &pCurrentLevel->getCameraModule()->matrix.projection);
-	shaderModules[0].getUniform(0).setData(TEXT("view"), &pCurrentLevel->getCameraModule()->matrix.view);
+	shaderModules[0].getUniform(0).setData(TEXT("projection"), &pCurrentModule->getCameraModule()->matrix.projection);
+	shaderModules[0].getUniform(0).setData(TEXT("view"), &pCurrentModule->getCameraModule()->matrix.view);
 	shaderModules[0].getUniform(0).setData(TEXT("model"), &mat);
 	shaderModules[1].getUniform(0).setData(&fsUBO);
 }

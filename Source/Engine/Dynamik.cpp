@@ -105,9 +105,9 @@ namespace Dynamik
 		pGamePackage->onExecute();
 
 		/* Issue renderer commands */
-		DMKSystemLocator::getSystem<DMKRenderer>()->initializeCameraModuleCMD(pCurrentLevel->playerObject->getCameraModule());
-		DMKSystemLocator::getSystem<DMKRenderer>()->initializeGameWorldCMD(pCurrentLevel->pCurrentGameWorld);
-		DMKSystemLocator::getSystem<DMKRenderer>()->initializeEntitiesCMD(pCurrentLevel->pEntities);
+		DMKSystemLocator::getSystem<DMKRenderer>()->initializeCameraModuleCMD(pCurrentModule->playerObject->getCameraModule());
+		DMKSystemLocator::getSystem<DMKRenderer>()->initializeGameWorldCMD(pCurrentModule->pCurrentGameWorld);
+		DMKSystemLocator::getSystem<DMKRenderer>()->initializeEntitiesCMD(pCurrentModule->pEntities);
 		DMKSystemLocator::getSystem<DMKRenderer>()->initializeFinalsCMD();
 
 		UI64 _itrIndex = 0;
@@ -141,17 +141,17 @@ namespace Dynamik
 				}
 				else
 				{
-					pCurrentLevel->playerObject->setAspectRatio(_extent.width / _extent.height);
-					pCurrentLevel->playerObject->setCameraViewPort(_extent);
+					pCurrentModule->playerObject->setAspectRatio(_extent.width / _extent.height);
+					pCurrentModule->playerObject->setCameraViewPort(_extent);
 					DMKSystemLocator::getSystem<DMKRenderer>()->setFrameBufferResizeCMD(_extent);
 				}
 			}
 
 			/* Update entities */
-			pCurrentLevel->updateEntities(1.0f);
+			pCurrentModule->updateEntities(1.0f);
 
 			myPlayerController.executeAll();
-			pCurrentLevel->onUpdate(&myEventPool);
+			pCurrentModule->onUpdate(&myEventPool);
 
 			DMKSystemLocator::getSystem<DMKRenderer>()->issueRawCommand(RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE);
 
@@ -182,27 +182,27 @@ namespace Dynamik
 	void DMKEngine::_loadLevel()
 	{
 		pGamePackage->onLevelLoad(_nextLevelIndex);
-		pCurrentLevel = pGamePackage->levels[_nextLevelIndex++];
+		pCurrentModule = pGamePackage->modules[_nextLevelIndex++];
 
-		pCurrentLevel->onLoad();
+		pCurrentModule->onLoad();
 
 		_initializeGameWorld();
 
-		pCurrentLevel->initializeComponents();
+		pCurrentModule->initializeComponents();
 
-		pCurrentLevel->setupPlayerControls(&myPlayerController);
-		pCurrentLevel->playerObject->setCameraViewPort(pActiveWindow->getWindowExtent());
+		pCurrentModule->setupPlayerControls(&myPlayerController);
+		pCurrentModule->playerObject->setCameraViewPort(pActiveWindow->getWindowExtent());
 	}
 
 	void DMKEngine::_initializeGameWorld()
 	{
-		if (!pCurrentLevel->pCurrentGameWorld)
+		if (!pCurrentModule->pCurrentGameWorld)
 		{
 			DMK_WARN("A game world has not been set!");
 			return;
 		}
 
-		pCurrentLevel->pCurrentGameWorld->initializeEntities(pCurrentLevel);
+		pCurrentModule->pCurrentGameWorld->initializeEntities(pCurrentModule);
 	}
 
 	DMKWindowHandle* DMKEngine::_createWindow(I32 width, I32 height, STRING title)

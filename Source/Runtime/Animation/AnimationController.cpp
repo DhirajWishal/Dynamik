@@ -14,7 +14,7 @@ namespace Dynamik
 	{
 	}
 
-	void DMKAnimationController::bindInstruction(STRING sEvent, DMKAnimationControlInstruction instruction, DMKLevelComponent* pLevelComponent, DMKEventType eventType)
+	void DMKAnimationController::bindInstruction(STRING sEvent, DMKAnimationControlInstruction instruction, DMKGameModule* pGameModule, DMKEventType eventType)
 	{
 		switch (instruction)
 		{

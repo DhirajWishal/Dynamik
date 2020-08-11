@@ -32,7 +32,6 @@
     <ClInclude Include="GameMechanics.h" />
     <ClInclude Include="GamePackage.h" />
     <ClInclude Include="GameWorld.h" />
-    <ClInclude Include="LevelComponent.h" />
     <ClInclude Include="Mechanics\GameAssetMechanics.h">
       <Filter>Mechanics</Filter>
     </ClInclude>
@@ -49,6 +48,7 @@
     <ClInclude Include="Utilities\MeshFactory.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="GameModule.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp">
@@ -63,7 +63,6 @@
     <ClCompile Include="EnvironmentMap.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameWorld.cpp" />
-    <ClCompile Include="LevelComponent.cpp" />
     <ClCompile Include="Mechanics\PlayerController.cpp">
       <Filter>Mechanics</Filter>
     </ClCompile>
@@ -71,6 +70,7 @@
     <ClCompile Include="Utilities\MeshFactory.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="GameModule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameLibrary.lua" />

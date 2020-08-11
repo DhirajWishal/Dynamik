@@ -9,16 +9,16 @@
 
 namespace Dynamik
 {
-	void DMKGameWorld::initializeEntities(DMKLevelComponent* pCurrentLevel)
+	void DMKGameWorld::initializeEntities(DMKGameModule* pCurrentModule)
 	{
 		for (auto entity : entities)
 		{
-			entity->setupCurrentLevel(pCurrentLevel);
+			entity->setupCurrentModule(pCurrentModule);
 			entity->initialize();
 		}
 
 		if (pEnvironmentMap)
-			pEnvironmentMap->setupCurrentLevel(pCurrentLevel);
+			pEnvironmentMap->setupCurrentModule(pCurrentModule);
 	}
 
 	void DMKGameWorld::setCamera(DMKCameraModule* pCameraModule)

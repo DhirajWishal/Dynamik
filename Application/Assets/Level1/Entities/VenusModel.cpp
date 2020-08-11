@@ -3,7 +3,7 @@
 
 #include "GameLibrary/Utilities/MeshFactory.h"
 #include "Services/RuntimeSystems/AssetRegistry.h"
-#include "GameLibrary/LevelComponent.h"
+#include "GameLibrary/GameModule.h"
 #include "Core/Math/MathFunctions.h"
 #include "VenusModel.h"
 
@@ -67,9 +67,9 @@ void VenusModel::onUpdate(F32 timeStep)
 	{
 		auto pStaticMesh = getComponent<DMKStaticMeshComponent>(index);
 
-		dataVS.projection = pCurrentLevel->getCameraModule()->matrix.projection;
-		dataVS.view = pCurrentLevel->getCameraModule()->matrix.view;
-		dataVS.camPos = pCurrentLevel->getCameraModule()->position;
+		dataVS.projection = pCurrentModule->getCameraModule()->matrix.projection;
+		dataVS.view = pCurrentModule->getCameraModule()->matrix.view;
+		dataVS.camPos = pCurrentModule->getCameraModule()->position;
 
 		pStaticMesh->getUniform(0, 0).setData(&dataVS);
 

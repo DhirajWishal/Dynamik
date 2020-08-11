@@ -61,8 +61,8 @@ namespace Dynamik
 
 	private:	/* Client game data store */
 		DMKGamePackage* pGamePackage = nullptr;
-		DMKLevelComponent* pCurrentLevel = nullptr;
-		DMKLevelComponent* pNextLevel = nullptr;
+		DMKGameModule* pCurrentModule = nullptr;
+		DMKGameModule* pNextLevel = nullptr;
 		DMKEventPool myEventPool;
 		DMKPlayerController myPlayerController;
 		UI64 _nextLevelIndex = 0;

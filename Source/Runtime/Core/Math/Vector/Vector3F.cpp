@@ -44,8 +44,6 @@ namespace Dynamik
         return (F32*)this;
     }
 
-    Vector3F Vector3F::ZeroAll = Vector3F(0.0f);
-
     Vector3F operator+(const Vector3F& lhs, const Vector3F& rhs)
     {
         return (const F32*)&_mm_add_ps(_mm_load_ps(lhs), _mm_load_ps(rhs));

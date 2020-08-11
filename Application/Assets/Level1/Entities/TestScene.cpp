@@ -3,7 +3,7 @@
 
 #include "GameLibrary/Utilities/MeshFactory.h"
 #include "Services/RuntimeSystems/AssetRegistry.h"
-#include "GameLibrary/LevelComponent.h"
+#include "GameLibrary/GameModule.h"
 #include "Core/Math/MathFunctions.h"
 
 #include "Importer/Asset/ImageImporter.h"
@@ -174,8 +174,8 @@ void TestScene::onUpdate(F32 timeStep)
 		auto pStaticMesh = getComponent<DMKStaticMeshComponent>(index);
 
 		uniformMVP.Model = DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(-90.0f), Vector3F(1.0f, 0.0f, 0.0f));
-		uniformMVP.View = pCurrentLevel->getCameraModule()->matrix.view;
-		uniformMVP.Projection = pCurrentLevel->getCameraModule()->matrix.projection;
+		uniformMVP.View = pCurrentModule->getCameraModule()->matrix.view;
+		uniformMVP.Projection = pCurrentModule->getCameraModule()->matrix.projection;
 
 		pStaticMesh->getUniform(0, 0).setData(&uniformMVP);
 	}

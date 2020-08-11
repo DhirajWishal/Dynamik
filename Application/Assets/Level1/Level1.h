@@ -5,11 +5,11 @@
 #ifndef _DYNAMIK_LEVEL_1_H
 #define _DYNAMIK_LEVEL_1_H
 
-#include "GameLibrary/LevelComponent.h"
+#include "GameLibrary/GameModule.h"
 #include "Core/Components/RenderableComponents/DebugComponent.h"
 using namespace Dynamik;
 
-class Level1 : public DMKLevelComponent {
+class Level1 : public DMKGameModule {
 public:
 	Level1() {}
 	~Level1() {}

@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_ANIMATION_CONTROLLER_H
 #define _DYNAMIK_ANIMATION_CONTROLLER_H
 
-#include "GameLibrary/LevelComponent.h"
+#include "GameLibrary/GameModule.h"
 
 #include <functional>
 #include <unordered_map>
@@ -40,7 +40,7 @@ namespace Dynamik
 		void initialize();
 		void update();
 
-		void bindInstruction(STRING sEvent, DMKAnimationControlInstruction instruction, DMKLevelComponent* pLevelComponent, DMKEventType eventType);
+		void bindInstruction(STRING sEvent, DMKAnimationControlInstruction instruction, DMKGameModule* pGameModule, DMKEventType eventType);
 
 	private:
 		std::unordered_map<STRING, AnimationControlInstruction> instructionMap;

@@ -81,6 +81,8 @@ namespace Dynamik
 
 		inline Vector(const Vector&) {}
 		inline Vector& operator=(const  Vector&) { return *this; }
+
+		static TYPE ZeroAll;
 	};
 
 	/* Global operators for the derived classes */
@@ -139,6 +141,9 @@ namespace Dynamik
 	{
 		return TYPE(lhs) / rhs();
 	}
+
+	template<class TYPE>
+	TYPE Vector<TYPE>::ZeroAll = TYPE(0.0f);
 }
 
 #endif // !_DYNAMIK_VECTOR_BASE_H
