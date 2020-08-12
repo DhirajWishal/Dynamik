@@ -113,6 +113,23 @@ namespace Dynamik
 		*/
 		DMKCameraModule* getCameraModule() const;
 
+		/* Global game data */
+	public:
+		/* The current score of the game */
+		F32 score = 0.0f;
+
+		/*
+		 Set the score of the game.
+
+		 @param score: The score to be set.
+		*/
+		void setScore(const F32 score) { this->score = score; }
+
+		/*
+		 Get the current score of the game.
+		*/
+		const F32 getScore() const { score; }
+
 	protected:	/* Helper methods */
 		/*
 		 Create an empty player object.

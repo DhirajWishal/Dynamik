@@ -325,8 +325,6 @@ namespace Dynamik
 			shaders.pushBack(shaderVS);
 			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_IM_GUI_UI_FRAG")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT));
 
-			/* Create uniform buffers */
-
 			RPipelineSpecification pipelineSpec = {};
 			pipelineSpec.resourceCount = 1;
 			pipelineSpec.shaders = shaders;
