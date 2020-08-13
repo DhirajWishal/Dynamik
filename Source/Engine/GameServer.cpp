@@ -5,14 +5,15 @@
 #include "GameServer.h"
 
 #include "Core/Error/ErrorManager.h"
+#include "Core/FileSystem/FileSystem.h"
+#include "Core/Math/MathFunctions.h"
+#include "Core/Memory/AutomatedMemoryManager.h"
+#include "Core/Types/StaticArray.h"
 #include "Core/Utilities/Clock.h"
 #include "Core/Utilities/ShaderFactory.h"
-#include "Core/FileSystem/FileSystem.h"
-#include "Core/Memory/AutomatedMemoryManager.h"
-#include "Core/Math/MathFunctions.h"
-#include "Core/Types/StaticArray.h"
 
 #include "Managers/Window/WindowManager.h"
+
 #include "Window/Windows/WindowsWindow.h"
 
 #include "Importer/Dynamik/DAI/DAIObject.h"
@@ -35,6 +36,8 @@ namespace Dynamik
 {
 	DMKGameServer::DMKGameServer()
 	{
+		DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
+
 		/* Initialize the engine. */
 		initialize();
 
@@ -61,6 +64,7 @@ namespace Dynamik
 	void DMKGameServer::loadGameModule(DMKGameModule* pModule)
 	{
 		this->pActiveGameModule = pModule;
+		this->pActiveGameModule->setGameServer(this);
 	}
 
 	DMKGameModule* DMKGameServer::getActiveGameModule() const
@@ -113,13 +117,59 @@ namespace Dynamik
 
 	void DMKGameServer::execute()
 	{
-		while (true)
+		/* Submit data */
+		submitGameWorldData();
+
+		/* Initialize the finals */
+		getRenderer()->initializeCameraModuleCMD(getActiveGameModule()->getCameraModule());
+		getRenderer()->initializeGameWorldCMD(getActiveGameModule()->pCurrentGameWorld);
+		getRenderer()->initializeEntitiesCMD(getActiveGameModule()->pEntities);
+		getRenderer()->initializeFinalsCMD();
+
+		/* Let the game module submit its data to the required systems. */
+		getActiveGameModule()->onSubmitDataToSystems();
+
+		while (!eventPool.WindowCloseEvent)
 		{
 			/* Call the stage one update. */
 			onBeginUpdate();
 
+			/* Poll events. */
+			getCurrentWindowHandle()->pollEvents();
+
+			if (eventPool.FrameBufferResizeEvent)
+			{
+				auto _extent = getCurrentWindowHandle()->getWindowExtent();
+				eventPool.FrameBufferResizeEvent = false;
+
+				/* Check if the extent is valid */
+				if ((_extent.width <= 0) || (_extent.height <= 0))
+				{
+					DMK_ERROR("Requested frame buffer extent is Width: " +
+						std::to_string(_extent.width) +
+						", Height: " + std::to_string(_extent.width) +
+						". Since these requested values are invalid the frame buffer will not be resized.");
+				}
+				else
+				{
+					getActiveGameModule()->playerObject->setAspectRatio(_extent.width / _extent.height);
+					getActiveGameModule()->playerObject->setCameraViewPort(_extent);
+
+					getRenderer()->setFrameBufferResizeCMD(_extent);
+				}
+			}
+
 			/* Call the on update method. */
 			onUpdate(1.0f);
+
+			/* Update entities */
+			getActiveGameModule()->updateEntities(1.0f);
+
+			/* Update the rendering engine */
+			getRenderer()->issueRawCommand(RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE);
+
+			/* Clear all events */
+			getCurrentWindowHandle()->clean();
 
 			/* Call the end update method. */
 			onEndUpdate();
@@ -130,6 +180,15 @@ namespace Dynamik
 	{
 		/* Call the onTerminate method. */
 		onTerminate();
+
+		/* Terminate the rendering engine */
+		getRenderer()->terminateThread();
+
+		DMKConfigurationService::writeWindowSize(Cast<F32>(getCurrentWindowHandle()->windowWidth), Cast<F32>(getCurrentWindowHandle()->windowHeight));
+		getCurrentWindowHandle()->terminate();
+
+		DMKConfigurationService::closeConfigFile();
+		clock.end();
 	}
 
 	void DMKGameServer::initializeRuntimeSystems()
@@ -143,7 +202,6 @@ namespace Dynamik
 
 	void DMKGameServer::initializeServices()
 	{
-		DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
 		auto _localPath = DMKFileSystem::getExecutablePath();
 		auto _workingDirectory = DMKFileSystem::getWorkingDirectory();
 		DMKConfigurationService::openConfigFile(_workingDirectory + "/EngineConfig.ini");
@@ -174,7 +232,7 @@ namespace Dynamik
 	void DMKGameServer::initializeWindowHandle()
 	{
 		/* Create a window handle. */
-		pActiveWindowHandle = createWindow(1280, 720, "Dynamik Engine");
+		pActiveWindowHandle = createWindow(1280, 720, getGameData().gameName);
 
 		/* Issue the newly created window handle to the required systems. */
 		getRenderer()->setWindowHandleCMD(pActiveWindowHandle);
@@ -194,5 +252,20 @@ namespace Dynamik
 #endif // DMK_PLATFORM_WINDOWS
 
 		return nullptr;
+	}
+	
+	void DMKGameServer::submitGameWorldData()
+	{
+		for (auto pEntity : getActiveGameModule()->pEntities)
+		{
+			for (auto componentName : pEntity->componentManager.getRegisteredComponentTypeNames())
+			{
+				/* Initialize static mesh component data */
+				if (componentName == typeid(DMKStaticMeshComponent).name())
+				{
+
+				}
+			}
+		}
 	}
 }

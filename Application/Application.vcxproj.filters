@@ -12,7 +12,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ApplicationPackage.h" />
     <ClInclude Include="Assets\KeyBinding.h">
       <Filter>Assets</Filter>
     </ClInclude>
@@ -37,9 +36,9 @@
     <ClInclude Include="Assets\Level1\Entities\TestScene.h">
       <Filter>Assets\Level1\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="ApplicationServer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ApplicationPackage.cpp" />
     <ClCompile Include="Assets\Level1\DefaultWorld.cpp">
       <Filter>Assets\Level1</Filter>
     </ClCompile>
@@ -59,6 +58,7 @@
     <ClCompile Include="Assets\Level1\Entities\TestScene.cpp">
       <Filter>Assets\Level1\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationServer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Application.lua" />

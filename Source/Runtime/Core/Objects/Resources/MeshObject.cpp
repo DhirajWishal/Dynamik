@@ -94,4 +94,14 @@ namespace Dynamik
 	{
 		return material;
 	}
+	
+	void DMKMeshObject::setRenderSpecification(const DMKMeshRenderSpecification& specification)
+	{
+		this->renderSpecification = specification;
+	}
+	
+	DMKMeshRenderSpecification& DMKMeshObject::getRenderSpecification() const
+	{
+		return Cast<DMKMeshRenderSpecification&>(this->renderSpecification);
+	}
 }

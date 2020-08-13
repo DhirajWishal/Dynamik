@@ -363,7 +363,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ApplicationPackage.h" />
+    <ClInclude Include="ApplicationServer.h" />
     <ClInclude Include="Assets\KeyBinding.h" />
     <ClInclude Include="Assets\Level1\DefaultWorld.h" />
     <ClInclude Include="Assets\Level1\Entities\CerberusModel.h" />
@@ -374,7 +374,7 @@
     <ClInclude Include="Assets\Level1\SkySphere.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ApplicationPackage.cpp" />
+    <ClCompile Include="ApplicationServer.cpp" />
     <ClCompile Include="Assets\Level1\DefaultWorld.cpp" />
     <ClCompile Include="Assets\Level1\Entities\CerberusModel.cpp" />
     <ClCompile Include="Assets\Level1\Entities\TestScene.cpp" />

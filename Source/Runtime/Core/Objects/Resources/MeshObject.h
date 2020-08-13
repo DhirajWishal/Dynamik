@@ -31,7 +31,7 @@ namespace Dynamik
 
 	public:
 		/*
-		 Set the name of the mesh object. 
+		 Set the name of the mesh object.
 
 		 @param name: The name of the mesh.
 		*/
@@ -53,8 +53,8 @@ namespace Dynamik
 		void clearVertexAndIndexBuffers();
 
 		/*
-		 Load vertex data from an address. 
-		 This method will only work if the vertex buffer is already initialized with the right allocation. This method 
+		 Load vertex data from an address.
+		 This method will only work if the vertex buffer is already initialized with the right allocation. This method
 		 is used to load data back from the GPU.
 
 		 @param address: The address of the data block.
@@ -62,8 +62,8 @@ namespace Dynamik
 		void loadVertexDataFromPointer(const VPTR address);
 
 		/*
-		 Load index data from an address. 
-		 This method will only work if the index buffer is already initialized with the right allocation. This method 
+		 Load index data from an address.
+		 This method will only work if the index buffer is already initialized with the right allocation. This method
 		 is used to load data back from the GPU.
 
 		 @param address: The address of the data block.
@@ -79,8 +79,8 @@ namespace Dynamik
 		void setVertexBuffer(const DMKVertexBuffer& vertexBuffer);
 
 		/*
-		 Set the vertex layout of the current vertex buffer. 
-		 A vertex layout needs to be set before loading data to the vertex buffer. 
+		 Set the vertex layout of the current vertex buffer.
+		 A vertex layout needs to be set before loading data to the vertex buffer.
 
 		 @param layout: The vertex layout.
 		*/
@@ -95,7 +95,7 @@ namespace Dynamik
 		DMKVertexBuffer vertexBuffer = {};
 
 	public:
-		/* 
+		/*
 		 Set an index buffer to the mesh object.
 
 		 @param indexBuffer: The index buffer to be set.
@@ -130,7 +130,7 @@ namespace Dynamik
 
 		 @param buffers: The array of uniform buffers.
 		*/
-		void setUniformBuffers(const ARRAY<DMKUniformBuffer>& buffers);
+		void setUniformBuffers(const ARRAY<DMKUniformBuffer> & buffers);
 
 		/*
 		 Get a uniform buffer from a given index.
@@ -147,13 +147,13 @@ namespace Dynamik
 		/* Uniform Buffers */
 		ARRAY<DMKUniformBuffer> uniformBuffers = {};
 
-		public:
+	public:
 		/*
 		 Set a material to the current mesh object.
 
 		 @param material: The material to be set.
 		*/
-		void setMaterial(const DMKMaterial& material);
+		void setMaterial(const DMKMaterial & material);
 
 		/*
 		 Get the current material.
@@ -162,6 +162,22 @@ namespace Dynamik
 
 		/* Material */
 		DMKMaterial material = {};
+
+	public:
+		/*
+		 Set the render specification of this mesh object.
+
+		 @param specification: The required mesh specification structure.
+		*/
+		void setRenderSpecification(const DMKMeshRenderSpecification & specification);
+
+		/*
+		 Return the mesh render specification structure of the current mesh.
+		*/
+		DMKMeshRenderSpecification& getRenderSpecification() const;
+
+		/* The mesh render specification structure */
+		DMKMeshRenderSpecification renderSpecification = {};
 	};
 }
 

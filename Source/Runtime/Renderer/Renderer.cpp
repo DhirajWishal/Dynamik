@@ -307,6 +307,14 @@ namespace Dynamik
 		pCommandService->issueCommand<RendererSubmitImGuiDrawData>(_command);
 	}
 
+	void DMKRenderer::submitPrimitiveCMD(DMKMeshObject* pMeshObject)
+	{
+	}
+
+	void DMKRenderer::submitPrimitivesCMD(ARRAY<DMKMeshObject*> pMeshObjects)
+	{
+	}
+
 	void DMKRenderer::initializeThread()
 	{
 		pCommandService = StaticAllocator<DMKThreadCommandService>::rawAllocate();

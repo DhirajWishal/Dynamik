@@ -17,3 +17,5 @@ void ApplicationServer::onUpdate(const F32 frameTime)
 void ApplicationServer::onTerminate()
 {
 }
+
+DMK_SETUP_SERVER(ApplicationServer)

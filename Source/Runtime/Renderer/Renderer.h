@@ -97,6 +97,9 @@ namespace Dynamik
 		void createImGuiClientCMD(DMKImGuiBackendHandle** returnAddressSpace);
 		void submitImGuiDrawData(ImDrawData* pDrawData);
 
+		void submitPrimitiveCMD(DMKMeshObject* pMeshObject);
+		void submitPrimitivesCMD(ARRAY<DMKMeshObject*> pMeshObjects);
+
 	private:    /* Core */
 		void setSamples(const DMKSampleCount& samples);
 		void setWindowHandle(const DMKWindowHandle* windowHandle);

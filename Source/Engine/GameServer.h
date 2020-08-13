@@ -26,7 +26,7 @@ namespace Dynamik
 	 This structure contains all the information related to a game.
 	*/
 	struct DMK_API DMKGameData {
-		STRING gameName = TEXT("");
+		STRING gameName = TEXT("Dynamik Engine");
 		STRING gameTitle = TEXT("");
 	};
 
@@ -183,6 +183,11 @@ namespace Dynamik
 		*/
 		DMKWindowHandle* createWindow(UI64 width, UI64 height, const STRING& title);
 
+		/*
+		 Submit all the game world data.
+		*/
+		void submitGameWorldData();
+
 		/* Internal data store */
 	private:
 		/* Internal clock */
@@ -195,5 +200,22 @@ namespace Dynamik
 		DMKWindowHandle* pActiveWindowHandle = nullptr;
 	};
 }
+
+/* Main entry point for the game. */
+#define DMK_SETUP_SERVER(GameServer)											\
+	int main(int argc, char* argv[])											\
+	{																			\
+		try																		\
+		{																		\
+			GameServer gameServer = {};											\
+		}																		\
+		catch (const std::exception& e)											\
+		{																		\
+			Dynamik::DMKErrorManager::logFatal(e.what(), __FILE__, __LINE__);	\
+			return -1;															\
+		}																		\
+																				\
+		return 0;																\
+	}									
 
 #endif // !_DYNAMIK_GAME_SERVER_H

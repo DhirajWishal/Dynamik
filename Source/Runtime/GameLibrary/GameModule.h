@@ -5,9 +5,6 @@
 #ifndef _DYNAMIK_LEVEL_COMPONENT_H
 #define _DYNAMIK_LEVEL_COMPONENT_H
 
-/*
- Dynamik Level Component.
-*/
 #include "GameEntity.h"
 #include "GameMechanics.h"
 #include "PlayerObject.h"
@@ -23,6 +20,8 @@
 
 namespace Dynamik
 {
+	class DMK_API DMKGameServer;
+
 	/*
 	 Dynamik Game Module act as a level for the Dynamik Engine.
 	 Level component directly translates to a level in the game. A level can also be interpreted as a player.
@@ -40,6 +39,33 @@ namespace Dynamik
 		virtual void setupCameraControls() {}
 		virtual void onUpdate(const DMKEventPool* pEventPool) {}
 		virtual void onUnoad() {}
+
+		/* 
+		 On submit data to systems method.
+		 Users are allowed to create their own components but are required to send their data to the relevant systems
+		 using the primitives which those systems require. 
+		 For example, the rendering engine expects mesh objects to 
+		 create a proper renderable object. For this, all the user defined renderable components must submit their 
+		 mesh objects via this method. As an optimization, submit all the mesh objects in one command.
+
+		 These custom made components are allowed to be added to an entity using the component system.
+
+		 This method will be called after submitting all of the internally defined components.
+		*/
+		virtual void onSubmitDataToSystems() {}
+
+		/*
+		 Handle a component action. 
+		 This method is called if the engine detects that the current component is an externally defined component. 
+		 The engine then calls this method with the following parameters so that the user defined component can be 
+		 handled.
+
+		 @param pComponent: The component pointer.
+		 @param componentName: The type name of the component.
+		 @param action: The action of the current component. Either initialize, data submit, update or terminate.
+		 @param systemName: Name of the system which requires the data.
+		*/
+		virtual void handleComponentAction(DMKComponent* pComponent, STRING componentName, DMKComponentAction action, STRING systemName) {}
 
 	public:		/* Player Methods */
 		virtual void onPlayerMoveForward() {}
@@ -109,9 +135,21 @@ namespace Dynamik
 		DMKPlayerObject* playerObject = nullptr;
 
 		/*
-		 Get the camera module ties to this level's player object.
+		 Get the camera module tied to this player object.
 		*/
 		DMKCameraModule* getCameraModule() const;
+
+		/*
+		 Get the game server which the module is currently active.
+		*/
+		DMKGameServer* getGameServer() const { return this->pServer; }
+
+		/*
+		 Set the game server which the module is begin played on. 
+
+		 @param pServer: The pointer to the game server.
+		*/
+		void setGameServer(const DMKGameServer* pServer) { this->pServer = Cast<DMKGameServer*>(pServer); }
 
 		/* Global game data */
 	public:
@@ -145,6 +183,8 @@ namespace Dynamik
 			playerObject = Cast<DMKPlayerObject*>(StaticAllocator<PLAYER>::allocate().get());
 			return playerObject;
 		}
+
+		DMKGameServer* pServer = nullptr;
 	};
 }
 
