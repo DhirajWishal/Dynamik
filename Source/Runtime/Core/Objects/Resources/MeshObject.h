@@ -13,14 +13,6 @@
 namespace Dynamik
 {
 	/*
-	 Dynamik Mesh Render Specification
-	 This describes how a mesh object should be rendered.
-	*/
-	struct DMK_API DMKMeshRenderSpecification {
-		ARRAY<DMKShaderModule> shaders;
-	};
-
-	/*
 	 Dynamik Mesh Object
 	 This object stores data of a single mesh.
 	*/
@@ -162,22 +154,6 @@ namespace Dynamik
 
 		/* Material */
 		DMKMaterial material = {};
-
-	public:
-		/*
-		 Set the render specification of this mesh object.
-
-		 @param specification: The required mesh specification structure.
-		*/
-		void setRenderSpecification(const DMKMeshRenderSpecification & specification);
-
-		/*
-		 Return the mesh render specification structure of the current mesh.
-		*/
-		DMKMeshRenderSpecification& getRenderSpecification() const;
-
-		/* The mesh render specification structure */
-		DMKMeshRenderSpecification renderSpecification = {};
 	};
 }
 
