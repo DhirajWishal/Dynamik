@@ -5,7 +5,6 @@
 #ifndef _DYNAMIK_LEVEL_COMPONENT_H
 #define _DYNAMIK_LEVEL_COMPONENT_H
 
-#include "GameEntity.h"
 #include "GameMechanics.h"
 #include "PlayerObject.h"
 #include "GameWorld.h"
@@ -54,19 +53,6 @@ namespace Dynamik
 		*/
 		virtual void onSubmitDataToSystems() {}
 
-		/*
-		 Handle a component action. 
-		 This method is called if the engine detects that the current component is an externally defined component. 
-		 The engine then calls this method with the following parameters so that the user defined component can be 
-		 handled.
-
-		 @param pComponent: The component pointer.
-		 @param componentName: The type name of the component.
-		 @param action: The action of the current component. Either initialize, data submit, update or terminate.
-		 @param systemName: Name of the system which requires the data.
-		*/
-		virtual void handleComponentAction(DMKComponent* pComponent, STRING componentName, DMKComponentAction action, STRING systemName) {}
-
 	public:		/* Player Methods */
 		virtual void onPlayerMoveForward() {}
 		virtual void onPlayerMoveBackward() {}
@@ -92,28 +78,11 @@ namespace Dynamik
 		DMKGameWorld* pCurrentGameWorld = nullptr;
 
 		/*
-		 Local entities.
-		*/
-		ARRAY<DMKGameEntity*> pEntities;
-
-		/*
-		 Add an entity to the entity store.
-
-		 @param pEntity: Pointer to the entity.
-		*/
-		void addEntity(DMKGameEntity* pEntity);
-
-		/*
 		 Update all the entities in the level.
 
 		 @param timeStep: The time step of the current call.
 		*/
 		void updateEntities(F32 timeStep);
-
-		/*
-		 Create a hollow entity.
-		*/
-		DMKGameEntity* createHollowEntity();
 
 		/*
 		 Allocates a user defined Game World and initializes it.

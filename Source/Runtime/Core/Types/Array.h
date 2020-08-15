@@ -509,6 +509,22 @@ namespace Dynamik
 		 *
 		 * @param index: Index of the stored data.
 		 */
+		TYPE* location(I64 index)
+		{
+			if (index >= (I64)_getSizeOfThis() || (index <= (I64)(0 - _getSizeOfThis())))
+			{
+				DMKErrorManager::logError("Invalid array index!");
+				return nullptr;
+			}
+
+			return &myBeginPtr[_getProcessedIndex(index)];
+		}
+
+		/* FUNCTION
+		 * Return the location of the stored data.
+		 *
+		 * @param index: Index of the stored data.
+		 */
 		const TYPE* location(I64 index)
 		{
 			if (index >= (I64)_getSizeOfThis() || (index <= (I64)(0 - _getSizeOfThis())))

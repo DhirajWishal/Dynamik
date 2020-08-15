@@ -8,16 +8,41 @@
 #include "Core/Types/ComplexTypes.h"
 #include "Core/Types/Utilities.h"
 #include "Core/FileSystem/FileSystem.h"
-#include "GameEntity.h"
 #include "EnvironmentMap.h"
-
-#include "Core/Components/Attachments/BoundingBox.h"
+#include "PlayerObject.h"
 
 namespace Dynamik
 {
 	class DMK_API DMKGameModule;
 
-	/* 
+	/*
+	 Interface Entity Array
+	*/
+	class DMK_API IEntityArray {
+	public:
+		IEntityArray() {}
+		virtual ~IEntityArray() {}
+	};
+
+	/*
+	 Type Entity Array 
+	 This object stores all the entities of a given type.
+	*/
+	template<class OBJECT>
+	class DMK_API TEntityArray : public IEntityArray, public ARRAY<OBJECT> {
+	public:
+		TEntityArray() : ARRAY<OBJECT>() {}
+		TEntityArray(UI64 size) : ARRAY<OBJECT>(size) {}
+		TEntityArray(UI64 size, const OBJECT& value) : ARRAY<OBJECT>(size, value) {}
+		TEntityArray(const OBJECT* arr) : ARRAY<OBJECT>(arr) {}
+		TEntityArray(std::initializer_list<OBJECT> list, UI64 size = 1) : ARRAY<OBJECT>(list, size) {}
+		TEntityArray(const ARRAY<OBJECT>& arr) : ARRAY<OBJECT>(arr) {}
+		TEntityArray(ARRAY<OBJECT>&& arr) : ARRAY<OBJECT>(std::move(arr)) {}
+		TEntityArray(std::vector<OBJECT> vector) : ARRAY<OBJECT>(vector) {}
+		~TEntityArray() {}
+	};
+
+	/*
 	 Dynamik Game World Light Component
 	 This structure defines a global light component.
 	*/
@@ -29,7 +54,7 @@ namespace Dynamik
 
 	/*
 	 Dynamik Game World
-	 This object represents a game world and may or may not contain behavior defined entities.  
+	 This object represents a game world and may or may not contain behavior defined entities.
 	*/
 	class DMK_API DMKGameWorld {
 	public:
@@ -44,15 +69,144 @@ namespace Dynamik
 		virtual void initialize() {}
 
 		/*
-		 Initialize stored entities.
+		 Submit all the data to the respective systems. 
+		 This method is called after calling the initialize method. 
+
+		 The engine is composed of multiple systems and those systems require data to be added prior to other tasks. 
+		 For example in the rendering engine, the model data are required to be present before beginning any frames. 
+		 to accomplish this, use DMKSystemLocator::getSystem<>() to request the required system (eg: the rendering 
+		 engine: DMKRenderer, the audio engine: DMKAudioPlayer) and submit the assets using commands.
 		*/
-		void initializeEntities(DMKGameModule* pCurrentModule);
+		virtual void onSubmitData() {}
 
 		/*
-		 Setup Camera Module
-		 This function sets the camera module to all the stored entities.
+		 On update method. 
+
+		 @param timeStep: The amount of time elapsed from the last iteration.
 		*/
-		void setCamera(DMKCameraModule* pCameraModule);
+		virtual void onUpdate(const F32 timeStep) {}
+
+	public:
+		/*
+		 Set the player object of the current instance. 
+
+		 @param pPlayerObject: The player object pointer.
+		*/
+		void setPlayerObject(const DMKPlayerObject* pPlayerObject);
+
+		/*
+		 Get the player object of the current instance.
+		*/
+		DMKPlayerObject* getPlayerObject() const;
+
+		/* The player object */
+		DMKPlayerObject* pPlayerObject = nullptr;
+
+	public:		/* Entity Management */
+		/*
+		 Check if an entity is registered. 
+
+		 @tparam ENTITY: The entity type.
+		*/
+		template<class ENTITY>
+		DMK_FORCEINLINE B1 isEntityRegistered()
+		{
+			return registeredEntities.getNumberOfInstances(typeid(ENTITY).name()) > 0;
+		}
+
+		/*
+		 Register a new entity. 
+		 This method checks is the entity is already registered. If true, it does not do anything.
+
+		 @tparam ENTITY: The entity type.
+		*/
+		template<class ENTITY>
+		DMK_FORCEINLINE void registerEntity()
+		{
+			if (isEntityRegistered<ENTITY>())
+			{
+				DMK_WARN("The entity is already registered! Entity Name: " + STRING(typeid(ENTITY).name()));
+				return;
+			}
+
+			STRING name = typeid(ENTITY).name();
+			entityMap[name] = StaticAllocator<TEntityArray<ENTITY>>::allocate();
+			registeredEntities.pushBack(name);
+		}
+
+		/*
+		 Get the entity array stored in the object. 
+		 If the entity type is not registered, it automatically registers it. 
+
+		 @tparam ENTITY: The entity type.
+		*/
+		template<class ENTITY>
+		DMK_FORCEINLINE TEntityArray<ENTITY>* getEntities()
+		{
+			if (!isEntityRegistered<ENTITY>())
+			{
+				DMK_WARN("The entity is not registered! Creating a new array. Entity Name: " + STRING(typeid(ENTITY).name()));
+				registerEntity<ENTITY>();
+			}
+
+			return Cast<TEntityArray<ENTITY>*>(entityMap[typeid(ENTITY).name()]);
+		}
+
+		/*
+		 Add an entity to the entity array. 
+
+		 @param constructor: The value to be constructed with.
+		 @tparam ENTITY: The entity type.
+		*/
+		template<class ENTITY>
+		DMK_FORCEINLINE void addEntity(const ENTITY& constructor = ENTITY())
+		{
+			getEntities()->pushBack(constructor);
+		}
+
+		/*
+		 Add an entity to the entity array.
+
+		 @param constructor: The value to be constructed with.
+		 @tparam ENTITY: The entity type.
+		*/
+		template<class ENTITY>
+		DMK_FORCEINLINE void addEntity(ENTITY&& constructor = ENTITY())
+		{
+			getEntities()->pushBack(std::move(constructor));
+		}
+
+		/*
+		 Get an entity in the entity array. 
+
+		 @param index: The index of the entity. 
+		 @tparam ENTITY: The entity type.
+		*/
+		template<class ENTITY>
+		DMK_FORCEINLINE ENTITY* getEntity(I64 index)
+		{
+			return Cast<ENTITY*>(getEntities<ENTITY>()->location(index));
+		}
+
+		/*
+		 Get the number of entities stored in the entity array. 
+
+		 @tparam ENTITY: The entity type.
+		*/
+		template<class ENTITY>
+		DMK_FORCEINLINE UI64 getEntityCount() const
+		{
+			return getEntities<ENTITY>()->size();
+		}
+
+		/*
+		 Get all of the registered entity names. 
+		*/
+		DMK_FORCEINLINE ARRAY<STRING> getAllRegisteredEntityNames() const { return this->registeredEntities; }
+
+	private:
+		std::unordered_map<STRING, IEntityArray*> entityMap;
+		ARRAY<STRING> registeredEntities;
 
 	public:		/* Environment Map */
 		/* Environment Map Pointer */
@@ -75,97 +229,67 @@ namespace Dynamik
 		void addLightComponent(DMKGameWorldLightComponent component);
 
 	public:		/* Entity */
-		/* Entity Array */
-		ARRAY<DMKGameEntity*> entities;
-
-		/*
-		 Create a basic hollow entity.
-		 These entities does not have any functionalities and are basically empty.
-		 By default, this adds the entity to the entity array.
-		*/
-		DMKGameEntity* createHollowEntity();
-
-		/*
-		 Create static object entity.
-		 This entity contains a static mesh without any other functionality attached to it by default.
-		 By default, this adds the entity to the entity array.
-		*/
-		DMKGameEntity* createStaticEntity(const STRING& assetPath);
-
-		/*
-		 Create static entity.
-		 This entity contains a static mesh without any other functionality attached to it by default.
-		 By default, this adds the entity to the entity array.
-		*/
-		DMKGameEntity* createStaticEntity(const STRING& assetPath, const DMKVertexLayout& vertexLayout);
-
-		/* TEMPLATED
-		 Create user defined entity.
-		 This creates a user defined entity, adds it to the entity list and returns its address.
-
-		 @tparam ENTITY: The user defined entity
-		*/
-		template<class ENTITY>
-		DMK_FORCEINLINE ENTITY* createUserEntity()
-		{
-			DMKGameEntity* entity = Cast<DMKGameEntity*>(StaticAllocator<ENTITY>::allocate().get());
-
-			entities.pushBack(entity);
-			return Cast<ENTITY*>(entity);
-		}
-
-		/*
-		 Add an entity to the entity array.
-
-		 @param pEntity: Pointer to the entity.
-		*/
-		void addEntity(DMKGameEntity* pEntity);
-
 		/*
 		 Create an empty environment.
 		*/
 		DMKEnvironmentMap* createHollowEnvironment();
 	};
 
-	/* WORLD LOG (#WorldID, #Date, #Time)
+	/*
 
-	 [Entity=Grass]
-	 name="Grass01";
-	 ID=0001;
-	 instance {
-		 location=(0.0f, 0.0f, 0.0f);			>> (x, y, z)
-		 rotation=(0.0f, 0.0f, 0.0f, 0.0f);		>> (x, y, z, radians)
-		 scale=(1.0f, 1.0f, 1.0f, 1.0f);		>> (x, y, z, scale)
-	 };
-	 instance {
-		 location=(1.0f, 0.0f, 0.0f);			>> (x, y, z)
-		 rotation=(0.0f, 0.0f, 0.0f, 0.0f);		>> (x, y, z, radians)
-		 scale=(1.0f, 1.0f, 1.0f, 1.0f);		>> (x, y, z, scale)
-	 };
-
-	 GameWorld
+	 class BulletEntity final :
+		// public DMKStaticModelEntity,				// Entity containing all the static model information.
+		public DMKAnimatedModelEntity,				// Entity containing all the animated model information.
+		public DMKAudioControllerEntity,			// Entity containing all the audio information.
+		public DMKPhysicalEntity					// Entity containing all the physics information.
 	 {
-	     auto m1 = addComponent<Model>(STRING);
-		 auto a1 = addComponent<Audio>(STRING);
-		 auto p1 = addComponent<PhysicsBox>(Size);
+	  public:
+		BulletEntity() {}
+		~BulletEntity() {}
 
-		 m1->addBehavior(StaticAllocator<Behavior1>::allocate());
-		 m1->addInstance(Location, Rotation, Scale);
-		 m1->addInstance(Location, Rotation, Scale);
-		 m1->addInstance(Location, Rotation, Scale);
+		virtual void onInitialize() override final
+		{
 
-		 m1->addSubComponent(a1);
-		 m1->addSubComponent(p1);
+		}
+	 };
 
-		 DMKComponentObject:
-		   - onInitialize();
-		   - onUpdate();
-		   - onTerminate();
-		   : StaticMesh
-		   : AnimatedMesh
-		   : Audio
+	 template<class ENTITY>
+	 DMK_FORCEINLINE ENTITY* addEntity(const ENTITY& constructor)
+	 {
+		return entityManager.addObject<ENTITY>(constructor);
 	 }
 
+
+	 onInitialize()
+	 {
+		BulletEntity* pEntityOne = addEntity<BulletEntity>(BulletEntity());
+
+		DMKSystemLocator::getSystem<DMKRenderer>::submitEntity(entityOne);
+
+		for(UI32 index = 0; index < getEntityCount<BulletEntity>(); index++)
+		{
+			// Submit render data
+			//DMKSystemLocator::getSystem<DMKRenderer>()->submitStaticModelEntity(getEntity<BulletEntity>(index));
+			DMKSystemLocator::getSystem<DMKRenderer>()->submitAnimatedModelEntity(getEntity<BulletEntity>(index));
+
+			// Submit audio data
+			DMKSystemLocator::getSystem<DMKAudioPlayer>()->submitAudioEntity(getEntity<BulletEntity>(index));
+		}
+	 }
+
+	 onUpdate()
+	 {
+		auto meshIndex = DMKSystemLocator::getSystem<DMKRenderer>()->submitMeshObjects(
+			DMKMeshFactory::loadMesh("asset.obj", DMKVertexLayout::default()),
+			DMKMeshRenderSpecification::createBasic(DMKShaderFactory::createBasic()));
+
+		auto audioIndex = DMKSystemLocator::getSystem<DMKAudioController>()->submitAudioObjects(
+			DMKAudioLoader::loadFromFile("asset.mp3"));
+
+		DMKSystemLocator::getSystem<DMKAudioController>()->playOnce(index, volume, sphereRadius);
+
+		DMKSystemLocator::getSystem<DMKRenderer>()->unloadMeshObject(meshIndex);
+	 }
 	*/
 }
 

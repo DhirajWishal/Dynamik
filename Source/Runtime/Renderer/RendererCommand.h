@@ -11,6 +11,8 @@
 #include "Components/CoreTypeDefs.h"
 #include "GameLibrary/GameModule.h"
 
+#include "Entities/AnimatedModelEntity.h"
+
 #include "Clients/ImGuiBackendHandle.h"
 
 namespace Dynamik
@@ -117,22 +119,22 @@ namespace Dynamik
 		DMKEnvironmentMap* pEnvironmentMap = nullptr;
 	};
 
-	/* Initialize Entities */
-	class DMK_API RendererInitializeEntities : public DMKRendererCommand {
+	/* Submit static entity */
+	class DMK_API RendererSubmitStaticEntity : public DMKRendererCommand {
 	public:
-		RendererInitializeEntities() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITIES) {}
-		~RendererInitializeEntities() {}
+		RendererSubmitStaticEntity() {}
+		~RendererSubmitStaticEntity() {}
 
-		ARRAY<DMKGameEntity*> pEntities;
+		DMKStaticModelEntity* pEntity = nullptr;
 	};
 
-	/* Add Entity */
-	class DMK_API RendererAddEntity : public DMKRendererCommand {
+	/* Submit animated entity */
+	class DMK_API RendererSubmitAnimatedEntity : public DMKRendererCommand {
 	public:
-		RendererAddEntity() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENTITY) {}
-		~RendererAddEntity() {}
+		RendererSubmitAnimatedEntity() {}
+		~RendererSubmitAnimatedEntity() {}
 
-		DMKGameEntity* entity = nullptr;
+		DMKAnimatedModelEntity* pEntity = nullptr;
 	};
 
 	/* Resize Frame Buffer */

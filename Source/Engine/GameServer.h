@@ -40,6 +40,10 @@ namespace Dynamik
 	 game server which means that the game itself is the engine. Much of the internal methods used by the engine runtime
 	 is abstracted out and is unavailable to the user but some methods are exposed to help the user in some tasks.
 	 The thread running the game code is also known as the parent thread or the game thread.
+
+	 Basically, the internal methods are responsible of initializing, managing, updating and terminating all the 
+	 runtime systems. Users are required to initialize their own application, submit resources, update resources and 
+	 program the logic.
 	*/
 	class DMK_API DMKGameServer {
 	public:
@@ -48,6 +52,11 @@ namespace Dynamik
 
 		/* User defined methods */
 	protected:
+		/* USER DEFINED
+		 On startup method. 
+		*/
+		virtual void onStartup() {}
+
 		/* USER DEFINED
 		 On initialize stage one method.
 		 This method is called after initializing all the runtime systems.
@@ -140,6 +149,9 @@ namespace Dynamik
 		/* The active game module */
 		DMKGameModule* pActiveGameModule = nullptr;
 
+		/* The player controller */
+		DMKPlayerController playerController = {};
+
 		/* Main internal methods */
 	private:
 		/* INTERNAL
@@ -187,6 +199,11 @@ namespace Dynamik
 		 Submit all the game world data.
 		*/
 		void submitGameWorldData();
+
+		/*
+		 Initialize the game world.
+		*/
+		void initializeGameWorld();
 
 		/* Internal data store */
 	private:

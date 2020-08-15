@@ -91,8 +91,10 @@ namespace Dynamik
 		void initializeCameraModuleCMD(DMKCameraModule* pCameraModule);
 		void initializeGameWorldCMD(DMKGameWorld* pGameWorld);
 		void initializeEnvironmentMapCMD(DMKEnvironmentMap* pEnvironmentMap);
-		void initializeEntitiesCMD(ARRAY<DMKGameEntity*> pEntities);
-		void initializeEntityCMD(DMKGameEntity* pEntity);
+
+		void submitStaticModelEntityCMD(DMKStaticModelEntity* pStaticModelEntity);
+		void submitAnimatedModelEntityCMD(DMKAnimatedModelEntity* pAnimatedModelEntity);
+
 		void setFrameBufferResizeCMD(DMKExtent2D newExtent);
 		void createImGuiClientCMD(DMKImGuiBackendHandle** returnAddressSpace);
 		void submitImGuiDrawData(ImDrawData* pDrawData);
@@ -131,7 +133,8 @@ namespace Dynamik
 
 		void initializeCamera(DMKCameraModule* pCameraModule);
 		void initializeEnvironmentMap(DMKEnvironmentMap* pEnvironmentMap);
-		void createEntityResources(DMKGameEntity* pGameEntity);
+		void createStaticModelEntityResources(DMKStaticModelEntity* pEntity);
+		void createAnimatedModelEntityResources(DMKAnimatedModelEntity* pEntity);
 		void initializeGameWorld(DMKGameWorld* pGameWorld);
 
 	private:    /* Finals */
@@ -157,8 +160,7 @@ namespace Dynamik
 		void terminateEntities();
 
 	private:    /* Utility Methods */
-		RBoundingBox createBoundingBox(DMKBoundingBoxAttachment* pBoundingBox);
-		RMeshObject loadMeshComponent(DMKStaticMeshComponent* pComponent, RPipelineResource* pResource, RPipelineObject* pParentPipeline, ARRAY<RBuffer*> pUniformBuffers);
+		RMeshObject createMeshObject(DMKStaticModelEntity* pStaticModel, DMKMeshObject* pMeshObject, RPipelineResource* pResource, RPipelineObject* pParentPipeline, ARRAY<RBuffer*> pUniformBuffers);
 
 	private:    /* Internal */
 		DMKRendererCompatibility myCompatibility;
@@ -185,7 +187,6 @@ namespace Dynamik
 
 		ARRAY<REntity> myEntities;
 		ARRAY<RBoundingBox> myBoundingBoxes;
-		ARRAY<RDebugMeshComponent> myDebugObjects;
 
 		UI32 currentImageIndex = 0;
 		B1 isPresenting = false;

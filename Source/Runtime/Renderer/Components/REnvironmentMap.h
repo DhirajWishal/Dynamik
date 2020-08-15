@@ -43,7 +43,7 @@ namespace Dynamik
 		RIrradianceCube* pIrradianceCube = nullptr;
 
 	public:		/* Parent Mesh Component*/
-		DMKStaticMeshComponent* pMeshComponent = nullptr;
+		DMKEnvironmentMap* pParentEntity = nullptr;
 	};
 }
 

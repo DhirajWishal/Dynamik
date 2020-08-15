@@ -65,6 +65,15 @@ namespace Dynamik
 	{
 		this->pActiveGameModule = pModule;
 		this->pActiveGameModule->setGameServer(this);
+
+		getActiveGameModule()->onLoad();
+
+		initializeGameWorld();
+
+		getActiveGameModule()->initializeComponents();
+
+		getActiveGameModule()->setupPlayerControls(&playerController);
+		getActiveGameModule()->playerObject->setCameraViewPort(getCurrentWindowHandle()->getWindowExtent());
 	}
 
 	DMKGameModule* DMKGameServer::getActiveGameModule() const
@@ -123,7 +132,7 @@ namespace Dynamik
 		/* Initialize the finals */
 		getRenderer()->initializeCameraModuleCMD(getActiveGameModule()->getCameraModule());
 		getRenderer()->initializeGameWorldCMD(getActiveGameModule()->pCurrentGameWorld);
-		getRenderer()->initializeEntitiesCMD(getActiveGameModule()->pEntities);
+		//getRenderer()->initializeEntitiesCMD(getActiveGameModule()->pEntities);
 		getRenderer()->initializeFinalsCMD();
 
 		/* Let the game module submit its data to the required systems. */
@@ -143,19 +152,19 @@ namespace Dynamik
 				eventPool.FrameBufferResizeEvent = false;
 
 				/* Check if the extent is valid */
-				if ((_extent.width <= 0) || (_extent.height <= 0))
-				{
-					DMK_ERROR("Requested frame buffer extent is Width: " +
-						std::to_string(_extent.width) +
-						", Height: " + std::to_string(_extent.width) +
-						". Since these requested values are invalid the frame buffer will not be resized.");
-				}
-				else
+				if ((_extent.width > 0) || (_extent.height > 0))
 				{
 					getActiveGameModule()->playerObject->setAspectRatio(_extent.width / _extent.height);
 					getActiveGameModule()->playerObject->setCameraViewPort(_extent);
 
 					getRenderer()->setFrameBufferResizeCMD(_extent);
+				}
+				else
+				{
+					DMK_ERROR("Requested frame buffer extent is Width: " +
+						std::to_string(_extent.width) +
+						", Height: " + std::to_string(_extent.width) +
+						". Since these requested values are invalid the frame buffer will not be resized.");
 				}
 			}
 
@@ -253,19 +262,20 @@ namespace Dynamik
 
 		return nullptr;
 	}
-	
+
 	void DMKGameServer::submitGameWorldData()
 	{
-		for (auto pEntity : getActiveGameModule()->pEntities)
-		{
-			for (auto componentName : pEntity->componentManager.getRegisteredComponentTypeNames())
-			{
-				/* Initialize static mesh component data */
-				if (componentName == typeid(DMKStaticMeshComponent).name())
-				{
+	}
 
-				}
-			}
+	void DMKGameServer::initializeGameWorld()
+	{
+		if (!getActiveGameModule()->pCurrentGameWorld)
+		{
+			DMK_WARN("A game world has not been set!");
+			return;
 		}
+		getActiveGameModule()->pCurrentGameWorld->setPlayerObject(getActiveGameModule()->playerObject);
+		getActiveGameModule()->pCurrentGameWorld->initialize();
+		getActiveGameModule()->pCurrentGameWorld->onSubmitData();
 	}
 }
