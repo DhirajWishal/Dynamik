@@ -127,8 +127,8 @@ namespace Dynamik
 			createContext(command.contextType, command.viewport);
 		}
 
-		else if (commandName == typeid(RendererInitializeEnvironmentMap).name())
-			initializeEnvironmentMap(pCommandService->getCommand<RendererInitializeEnvironmentMap>().pEnvironmentMap);
+		else if (commandName == typeid(RendererInitializeEnvironmentEntity).name())
+			initializeEnvironmentEntity(pCommandService->getCommand<RendererInitializeEnvironmentEntity>().pEnvironmentEntity);
 
 		else if (commandName == typeid(RendererSubmitStaticEntity).name())
 			createStaticModelEntityResources(pCommandService->getCommand<RendererSubmitStaticEntity>().pEntity);
@@ -229,12 +229,12 @@ namespace Dynamik
 		pCommandService->issueCommand<RendererCreateContextCommand>(_command);
 	}
 
-	void DMKRenderer::initializeEnvironmentMapCMD(DMKEnvironmentMap* pEnvironmentMap)
+	void DMKRenderer::initializeEnvironmentEntityCMD(DMKEnvironmentEntity* pEnvironmentEntity)
 	{
-		RendererInitializeEnvironmentMap _command;
-		_command.pEnvironmentMap = pEnvironmentMap;
+		RendererInitializeEnvironmentEntity _command;
+		_command.pEnvironmentEntity = pEnvironmentEntity;
 
-		pCommandService->issueCommand<RendererInitializeEnvironmentMap>(_command);
+		pCommandService->issueCommand<RendererInitializeEnvironmentEntity>(_command);
 	}
 
 	void DMKRenderer::submitStaticModelEntityCMD(DMKStaticModelEntity* pStaticModelEntity)
@@ -582,34 +582,34 @@ namespace Dynamik
 		return nullptr;
 	}
 
-	void DMKRenderer::initializeEnvironmentMap(DMKEnvironmentMap* pEnvironmentMap)
+	void DMKRenderer::initializeEnvironmentEntity(DMKEnvironmentEntity* pEnvironmentEntity)
 	{
-		if (!pEnvironmentMap)
+		if (!pEnvironmentEntity)
 			return;
 
 		/* Initialize Sky Box */
-		myCurrentEnvironment.pParentEntity = pEnvironmentMap;
+		myCurrentEnvironment.pParentEntity = pEnvironmentEntity;
 
 		/* Initialize Material */
 		{
-			if (pEnvironmentMap->skyBoxMesh.getMaterial().textureContainers.size() > 1)
+			if (pEnvironmentEntity->skyBoxMesh.getMaterial().textureContainers.size() > 1)
 				DMK_WARN("Environment Maps only allow one material!");
 
-			for (auto texture : pEnvironmentMap->skyBoxMesh.getMaterial().textureContainers)
+			for (auto texture : pEnvironmentEntity->skyBoxMesh.getMaterial().textureContainers)
 				myCurrentEnvironment.pTexture = createTexture(texture.pTexture);
 		}
 
 		/* Initialize Vertex Buffer */
-		myCurrentEnvironment.pVertexBuffer = createVertexBuffer(pEnvironmentMap->skyBoxMesh.vertexBuffer.byteSize());
-		myCurrentEnvironment.pVertexBuffer->setData(myCoreObject, pEnvironmentMap->skyBoxMesh.vertexBuffer.byteSize(), 0, pEnvironmentMap->skyBoxMesh.vertexBuffer.data());
+		myCurrentEnvironment.pVertexBuffer = createVertexBuffer(pEnvironmentEntity->skyBoxMesh.vertexBuffer.byteSize());
+		myCurrentEnvironment.pVertexBuffer->setData(myCoreObject, pEnvironmentEntity->skyBoxMesh.vertexBuffer.byteSize(), 0, pEnvironmentEntity->skyBoxMesh.vertexBuffer.data());
 
 		/* Initialize Index Buffer */
-		myCurrentEnvironment.pIndexBuffer = createIndexBuffer(pEnvironmentMap->skyBoxMesh.getIndexBuffer().byteSize());
-		myCurrentEnvironment.pIndexBuffer->setData(myCoreObject, pEnvironmentMap->skyBoxMesh.getIndexBuffer().byteSize(), 0, pEnvironmentMap->skyBoxMesh.indexBuffer.data());
+		myCurrentEnvironment.pIndexBuffer = createIndexBuffer(pEnvironmentEntity->skyBoxMesh.getIndexBuffer().byteSize());
+		myCurrentEnvironment.pIndexBuffer->setData(myCoreObject, pEnvironmentEntity->skyBoxMesh.getIndexBuffer().byteSize(), 0, pEnvironmentEntity->skyBoxMesh.indexBuffer.data());
 
 		/* Initialize Uniforms */
 		ARRAY<RBuffer*> uniformBuffers;
-		for (auto shaders : pEnvironmentMap->shaders)
+		for (auto shaders : pEnvironmentEntity->shaders)
 		{
 			for (UI64 index = 0; index < shaders.getUniforms().size(); index++)
 			{
@@ -628,7 +628,7 @@ namespace Dynamik
 
 		RPipelineSpecification pipelineCreateInfo = {};
 		pipelineCreateInfo.resourceCount = 1;
-		pipelineCreateInfo.shaders = pEnvironmentMap->shaders;
+		pipelineCreateInfo.shaders = pEnvironmentEntity->shaders;
 		pipelineCreateInfo.scissorInfos.resize(1);
 		pipelineCreateInfo.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
 		pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
@@ -660,9 +660,9 @@ namespace Dynamik
 		myCurrentEnvironment.pPipelineResource->update(myCoreObject, uniformBuffers, textures);
 
 		/* Initialize Vertex and Index Buffers */
-		myDrawCallManager.setEnvironment(myCurrentEnvironment.pPipeline, myCurrentEnvironment.pPipelineResource, myCurrentEnvironment.pVertexBuffer, pEnvironmentMap->skyBoxMesh.vertexBuffer.size(), myCurrentEnvironment.pIndexBuffer, pEnvironmentMap->skyBoxMesh.indexBuffer.size());
-		pEnvironmentMap->skyBoxMesh.vertexBuffer.clear();
-		pEnvironmentMap->skyBoxMesh.indexBuffer.clear();
+		myDrawCallManager.setEnvironment(myCurrentEnvironment.pPipeline, myCurrentEnvironment.pPipelineResource, myCurrentEnvironment.pVertexBuffer, pEnvironmentEntity->skyBoxMesh.vertexBuffer.size(), myCurrentEnvironment.pIndexBuffer, pEnvironmentEntity->skyBoxMesh.indexBuffer.size());
+		pEnvironmentEntity->skyBoxMesh.vertexBuffer.clear();
+		pEnvironmentEntity->skyBoxMesh.indexBuffer.clear();
 	}
 
 	void DMKRenderer::createStaticModelEntityResources(DMKStaticModelEntity* pEntity)
@@ -709,15 +709,6 @@ namespace Dynamik
 
 	void DMKRenderer::createAnimatedModelEntityResources(DMKAnimatedModelEntity* pEntity)
 	{
-	}
-
-	void DMKRenderer::initializeGameWorld(DMKGameWorld* pGameWorld)
-	{
-		if (!pGameWorld)
-			return;
-
-		/* Initialize Environment Map */
-		initializeEnvironmentMap(pGameWorld->pEnvironmentMap);
 	}
 
 	void DMKRenderer::updateResources()

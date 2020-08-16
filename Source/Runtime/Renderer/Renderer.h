@@ -16,13 +16,15 @@
 #include "Components/Factories/BufferFactory.h"
 #include "Components/REntity.h"
 #include "Components/RCameraComponent.h"
-#include "Components/REnvironmentMap.h"
+#include "Components/REnvironmentEntity.h"
 #include "Components/RDrawCallManager.h"
 #include "Components/Attachments/RBoundingBox.h"
 #include "Clients/RImGuiBackend.h"
 
 namespace Dynamik
 {
+	class DMK_API DMKGameWorld;
+
 	/*
 	 Dynamik Renderer Compatibility structure
 	*/
@@ -89,7 +91,7 @@ namespace Dynamik
 		void setWindowHandleCMD(DMKWindowHandle* pWindowHandle);
 		void createContextCMD(DMKViewport viewPort, DMKRenderContextType contextType);
 
-		void initializeEnvironmentMapCMD(DMKEnvironmentMap* pEnvironmentMap);
+		void initializeEnvironmentEntityCMD(DMKEnvironmentEntity* pEnvironmentEntity);
 		void submitStaticModelEntityCMD(DMKStaticModelEntity* pStaticModelEntity);
 		void submitAnimatedModelEntityCMD(DMKAnimatedModelEntity* pAnimatedModelEntity);
 
@@ -129,10 +131,9 @@ namespace Dynamik
 
 		RImGuiBackend* allocateImGuiClient();
 
-		void initializeEnvironmentMap(DMKEnvironmentMap* pEnvironmentMap);
+		void initializeEnvironmentEntity(DMKEnvironmentEntity* pEnvironmentEntity);
 		void createStaticModelEntityResources(DMKStaticModelEntity* pEntity);
 		void createAnimatedModelEntityResources(DMKAnimatedModelEntity* pEntity);
-		void initializeGameWorld(DMKGameWorld* pGameWorld);
 
 	private:    /* Finals */
 		void updateResources();
@@ -179,7 +180,7 @@ namespace Dynamik
 		B1 isReadyToRun = false;
 
 		RCameraComponent* myCameraComponent = nullptr;
-		REnvironmentMap myCurrentEnvironment;
+		REnvironmentEntity myCurrentEnvironment;
 
 		ARRAY<REntity> myEntities;
 		ARRAY<RBoundingBox> myBoundingBoxes;

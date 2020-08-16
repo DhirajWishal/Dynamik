@@ -21,8 +21,21 @@
     <ClInclude Include="Camera\CameraModule.h">
       <Filter>Camera</Filter>
     </ClInclude>
-    <ClInclude Include="EnvironmentMap.h" />
+    <ClInclude Include="Entities\AnimatedModelEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\EnvironmentEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\PlayerEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\StaticModelEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="EnvironmentEntity.h" />
     <ClInclude Include="GameMechanics.h" />
+    <ClInclude Include="GameModule.h" />
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Mechanics\GameAssetMechanics.h">
       <Filter>Mechanics</Filter>
@@ -39,14 +52,21 @@
     <ClInclude Include="Utilities\MeshFactory.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="GameModule.h" />
-    <ClInclude Include="PlayerEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
-    <ClCompile Include="EnvironmentMap.cpp" />
+    <ClCompile Include="Entities\EnvironmentEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\PlayerEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\StaticModelEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModule.cpp" />
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Mechanics\PlayerController.cpp">
       <Filter>Mechanics</Filter>
@@ -54,8 +74,6 @@
     <ClCompile Include="Utilities\MeshFactory.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="GameModule.cpp" />
-    <ClCompile Include="PlayerEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameLibrary.lua" />

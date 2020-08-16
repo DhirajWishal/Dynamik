@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Components">
-      <UniqueIdentifier>{6B7DD516-5735-1764-C03C-F0BFAC13B254}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Attachments">
-      <UniqueIdentifier>{7675544D-626F-7D9F-4BDC-13B03775E30B}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\RenderableComponents">
-      <UniqueIdentifier>{14C20535-80A5-1475-89A8-42B1F50ADBC5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Error">
       <UniqueIdentifier>{CF11200D-3B26-48BE-04A8-EB1D707B44EF}</UniqueIdentifier>
     </Filter>
@@ -141,7 +132,13 @@
     <ClInclude Include="Objects\Resources\ConstantBlock.h">
       <Filter>Objects\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\Resources\IndexBuffer.h">
+      <Filter>Objects\Resources</Filter>
+    </ClInclude>
     <ClInclude Include="Objects\Resources\Material.h">
+      <Filter>Objects\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resources\MeshObject.h">
       <Filter>Objects\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Resources\ShaderModule.h">
@@ -155,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="Objects\Resources\Textures\TextureCube.h">
       <Filter>Objects\Resources\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Resources\UniformBuffer.h">
+      <Filter>Objects\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Resources\VertexBuffer.h">
       <Filter>Objects\Resources</Filter>
@@ -183,13 +183,22 @@
     <ClInclude Include="Types\Pointer.h">
       <Filter>Types</Filter>
     </ClInclude>
+    <ClInclude Include="Types\SharedPointer.h">
+      <Filter>Types</Filter>
+    </ClInclude>
     <ClInclude Include="Types\StaticArray.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Types\StaticQueue.h">
       <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="Types\TSArray.h">
       <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="Types\TypeTraits.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Types\UniquePointer.h">
       <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="Types\Utilities.h">
@@ -206,14 +215,6 @@
     </ClInclude>
     <ClInclude Include="Utilities\Ticker.h">
       <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Types\SharedPointer.h" />
-    <ClInclude Include="Types\UniquePointer.h" />
-    <ClInclude Include="Types\StaticQueue.h" />
-    <ClInclude Include="Objects\Resources\MeshObject.h" />
-    <ClInclude Include="Objects\Resources\IndexBuffer.h" />
-    <ClInclude Include="Objects\Resources\UniformBuffer.h">
-      <Filter>Objects\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -262,7 +263,13 @@
     <ClCompile Include="Memory\MemoryManager.cpp">
       <Filter>Memory</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Resources\IndexBuffer.cpp">
+      <Filter>Objects\Resources</Filter>
+    </ClCompile>
     <ClCompile Include="Objects\Resources\Material.cpp">
+      <Filter>Objects\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Resources\MeshObject.cpp">
       <Filter>Objects\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Resources\ShaderModule.cpp">
@@ -279,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="Objects\Resources\ThirdParty\stb_image_impl.cpp">
       <Filter>Objects\Resources\ThirdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Resources\UniformBuffer.cpp">
+      <Filter>Objects\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Resources\VertexBuffer.cpp">
       <Filter>Objects\Resources</Filter>
@@ -297,11 +307,6 @@
     </ClCompile>
     <ClCompile Include="Utilities\Ticker.cpp">
       <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\Resources\MeshObject.cpp" />
-    <ClCompile Include="Objects\Resources\IndexBuffer.cpp" />
-    <ClCompile Include="Objects\Resources\UniformBuffer.cpp">
-      <Filter>Objects\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

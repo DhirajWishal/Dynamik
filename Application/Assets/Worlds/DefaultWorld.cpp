@@ -13,7 +13,7 @@ void DefaultWorld::initialize()
 void DefaultWorld::onInitializeEntities()
 {
 	/* Initialize the player entity */
-	getEntity<Player>()->onInitialize();
+	getEntity<Player>()->onInitializePlayer();
 
 	/* Setup player controls */
 	setupPlayerConstrols<Player>();

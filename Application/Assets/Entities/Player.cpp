@@ -3,7 +3,7 @@
 
 #include "Player.h"
 
-void Player::onInitialize()
+void Player::onInitializePlayer()
 {
 	cameraModule = StaticAllocator<DMKCameraModule>::allocate();
 

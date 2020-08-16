@@ -20,7 +20,7 @@ namespace Dynamik
 			VulkanIrradianceCube() = default;
 			~VulkanIrradianceCube() = default;
 
-			virtual void initialize(RCoreObject* pCoreObject, REnvironmentMap* pEnvironmentMap, DMKExtent2D dimentions, DMKFormat format = DMKFormat::DMK_FORMAT_RGBA_32_SF32) override final;
+			virtual void initialize(RCoreObject* pCoreObject, REnvironmentEntity* pEnvironmentEntity, DMKExtent2D dimentions, DMKFormat format = DMKFormat::DMK_FORMAT_RGBA_32_SF32) override final;
 			virtual void terminate(RCoreObject* pCoreObject) override final;
 
 		private:

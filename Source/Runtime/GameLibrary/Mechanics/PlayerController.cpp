@@ -5,6 +5,7 @@
 #include "PlayerController.h"
 
 #include "../GameModule.h"
+#include "../Entities/PlayerEntity.h"
 
 namespace Dynamik
 {

@@ -12,7 +12,7 @@
 #include "../Context/VulkanFrameBuffer.h"
 
 #include "Renderer/RUtilities.h"
-#include "Renderer/Components/REnvironmentMap.h"
+#include "Renderer/Components/REnvironmentEntity.h"
 #include "Tools/Shader/GLSL/Compiler.h"
 #include "Services/RuntimeSystems/AssetRegistry.h"
 #include "Core/Math/MathFunctions.h"
@@ -22,11 +22,11 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		void VulkanIrradianceCube::initialize(RCoreObject* pCoreObject, REnvironmentMap* pEnvironmentMap, DMKExtent2D dimentions, DMKFormat format)
+		void VulkanIrradianceCube::initialize(RCoreObject* pCoreObject, REnvironmentEntity* pEnvironmentEntity, DMKExtent2D dimentions, DMKFormat format)
 		{
 			this->format = format;
 			this->dimentions = dimentions;
-			this->pParent = pEnvironmentMap;
+			this->pParent = pEnvironmentEntity;
 
 			/* Initialize Texture */
 			_initializeTexture(pCoreObject);

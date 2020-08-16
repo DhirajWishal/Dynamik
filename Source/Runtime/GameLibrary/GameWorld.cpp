@@ -9,38 +9,8 @@
 
 namespace Dynamik
 {
-	void DMKGameWorld::setPlayerObject(const DMKPlayerObject* pPlayerObject)
-	{
-		this->pPlayerObject = Cast<DMKPlayerObject*>(pPlayerObject);
-	}
-
-	DMKPlayerObject* DMKGameWorld::getPlayerObject() const
-	{
-		return pPlayerObject;
-	}
-
-	void DMKGameWorld::setEnvironmentMap(DMKEnvironmentMap* pEnvironment)
-	{
-		pEnvironmentMap = pEnvironment;
-	}
-
-	void DMKGameWorld::loadEnvironmentMap(ARRAY<STRING> texturePaths)
-	{
-		pEnvironmentMap = StaticAllocator<DMKEnvironmentMap>::allocate();
-		pEnvironmentMap->skyBoxMesh = DMKMeshFactory::createSkyBox(texturePaths);
-	}
-
-	void DMKGameWorld::loadEnvironmentMap(STRING texturePath)
-	{
-	}
-
 	void DMKGameWorld::addLightComponent(DMKGameWorldLightComponent component)
 	{
 		globalLightComponents.pushBack(component);
-	}
-
-	DMKEnvironmentMap* DMKGameWorld::createHollowEnvironment()
-	{
-		return StaticAllocator<DMKEnvironmentMap>::allocate();
 	}
 }

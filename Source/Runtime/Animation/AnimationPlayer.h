@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_ANIMATION_PLAYER_H
 #define _DYNAMIK_ANIMATION_PLAYER_H
 
-#include "Renderer/Entities/AnimatedModelEntity.h"
+#include "GameLibrary/Entities/AnimatedModelEntity.h"
 #include "Core/Utilities/Ticker.h"
 
 namespace Dynamik

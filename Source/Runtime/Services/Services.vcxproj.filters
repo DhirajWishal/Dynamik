@@ -15,11 +15,13 @@
     <ClInclude Include="RuntimeSystems\ListenerServices.h">
       <Filter>RuntimeSystems</Filter>
     </ClInclude>
+    <ClInclude Include="RuntimeSystems\ThreadCommandService.h">
+      <Filter>RuntimeSystems</Filter>
+    </ClInclude>
     <ClInclude Include="RuntimeSystems\ToolsRegistry.h">
       <Filter>RuntimeSystems</Filter>
     </ClInclude>
     <ClInclude Include="SystemLocator.h" />
-    <ClInclude Include="RuntimeSystems\ThreadCommandService.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RuntimeSystems\AssetRegistry.cpp">

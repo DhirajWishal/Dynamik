@@ -19,6 +19,7 @@
 namespace Dynamik
 {
 	class DMK_API DMKGameServer;
+	class DMK_API DMKGameWorld;
 
 	/*
 	 Dynamik Game Module act as a level for the Dynamik Engine.

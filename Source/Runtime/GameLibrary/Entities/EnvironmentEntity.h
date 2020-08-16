@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_ENVIRONMENT_MAP_H
 #define _DYNAMIK_ENVIRONMENT_MAP_H
 
-#include "Renderer/Entities/StaticModelEntity.h"
+#include "GameLibrary/Entities/StaticModelEntity.h"
 
 namespace Dynamik
 {
@@ -17,10 +17,10 @@ namespace Dynamik
 	 user defined method or will use the internal clock to cycle 
 	 (allocated time slot per sky box = clock cycle time / total number of sky boxes).
 	*/
-	class DMK_API DMKEnvironmentMap {
+	class DMK_API DMKEnvironmentEntity {
 	public:
-		DMKEnvironmentMap() = default;
-		virtual ~DMKEnvironmentMap() = default;
+		DMKEnvironmentEntity() = default;
+		virtual ~DMKEnvironmentEntity() = default;
 
 		/*
 		 Add a shader module.

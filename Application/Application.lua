@@ -24,9 +24,17 @@ project "Application"
 		"$(SolutionDir)Dependencies/Libraries/Local",
 		"$(SolutionDir)Source/Engine/",
 		"$(SolutionDir)Source/Runtime/",
-		"$(SolutionDir)Source/Runtime/Core/",
-		"$(SolutionDir)Source/Runtime/Core/PCH/",
-		"$(SolutionDir)Source/Runtime/GameLibraries",
+		"$(SolutionDir)Dependencies/ThirdParty/imgui",
+		"$(SolutionDir)Dependencies/ThirdParty/SPIRV-Cross",
+		"%{IncludeDir.Vulkan}",
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.GLEW}",
+		"%{IncludeDir.assimp}",
+		"%{IncludeDir.stb}",
+		"%{IncludeDir.gli}",
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.zlib}",
+		"%{IncludeDir.SPIRVTools}",
 	}
 
 	links {

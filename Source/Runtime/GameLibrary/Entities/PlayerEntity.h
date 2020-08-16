@@ -6,8 +6,8 @@
 #define _DYNAMIK_PLAYER_OBJECT_H
 
 #include "Core/Types/ComplexTypes.h"
-#include "Camera/CameraModule.h"
-#include "Mechanics/PlayerController.h"
+#include "../Camera/CameraModule.h"
+#include "../Mechanics/PlayerController.h"
 
 namespace Dynamik
 {
@@ -23,7 +23,7 @@ namespace Dynamik
 		/*
 		 On initialize method
 		*/
-		virtual void onInitialize() {}
+		virtual void onInitializePlayer() {}
 
 		/*
 		 Update the camera.

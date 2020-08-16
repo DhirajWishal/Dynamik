@@ -11,7 +11,7 @@
 #include "Components/CoreTypeDefs.h"
 #include "GameLibrary/GameModule.h"
 
-#include "Entities/AnimatedModelEntity.h"
+#include "GameLibrary/Entities/AnimatedModelEntity.h"
 
 #include "Clients/ImGuiBackendHandle.h"
 
@@ -90,12 +90,12 @@ namespace Dynamik
 	};
 
 	/* Initialize Environment Map */
-	class DMK_API RendererInitializeEnvironmentMap : public DMKRendererCommand {
+	class DMK_API RendererInitializeEnvironmentEntity : public DMKRendererCommand {
 	public: 
-		RendererInitializeEnvironmentMap() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENVIRONMENT_MAP) {}
-		~RendererInitializeEnvironmentMap() {}
+		RendererInitializeEnvironmentEntity() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_ENVIRONMENT_MAP) {}
+		~RendererInitializeEnvironmentEntity() {}
 
-		DMKEnvironmentMap* pEnvironmentMap = nullptr;
+		DMKEnvironmentEntity* pEnvironmentEntity = nullptr;
 	};
 
 	/* Submit static entity */

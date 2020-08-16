@@ -8,8 +8,10 @@
 #include "Core/Types/ComplexTypes.h"
 #include "Core/Types/Utilities.h"
 #include "Core/FileSystem/FileSystem.h"
-#include "EnvironmentMap.h"
+#include "EnvironmentEntity.h"
 #include "Services/SystemLocator.h"
+
+#include "Renderer/Renderer.h"
 
 namespace Dynamik
 {
@@ -146,7 +148,7 @@ namespace Dynamik
 		template<class ENTITY>
 		DMK_FORCEINLINE void addEntity(const ENTITY& constructor = ENTITY())
 		{
-			getEntities()->pushBack(constructor);
+			getEntities<ENTITY>()->pushBack(constructor);
 		}
 
 		/*
@@ -192,9 +194,9 @@ namespace Dynamik
 		/* Helper methods to initialize entities */
 	protected:
 		/*
-		 Setup player controls. 
-		 This method is to be called with a valid player entity submitted to the entity registry on the onInitializeEntities() 
-		 method. Since multiple player entities can be stored, the index of the required entity is needed. 
+		 Setup player controls.
+		 This method is to be called with a valid player entity submitted to the entity registry on the onInitializeEntities()
+		 method. Since multiple player entities can be stored, the index of the required entity is needed.
 
 		 @param index: The index of the player entity. Default is 0.
 		 @tparam ENTITY: The entity type.
@@ -204,44 +206,74 @@ namespace Dynamik
 		{
 			auto pEntity = getEntity<ENTITY>(index);
 
-			if (!IsInheritedFrom_C<DMKPlayerEntity>(pEntity))
-			{
-				DMK_ERROR("The submitted entity is not inherited from DMKPlayerEntity! All player entities are required to be inherited from the DMKPlayerEntity object.");
-					return;
-			}
+			if (!isInheritedFrom<DMKPlayerEntity>(pEntity))
+				return;
 
 			pEntity->setupPlayerControls(DMKSystemLocator::getSystem<DMKPlayerController>());
 		}
 
+		/*
+		 Submit the static model to the renderer. 
+
+		 @param index: The index of the entity.
+		 @tparam ENTITY: The entity type.
+		*/
+		template<class ENTITY>
+		DMK_FORCEINLINE void submitStaticModelToRenderer(I32 index = 0)
+		{
+			auto pEntity = getEntity<ENTITY>(index);
+
+			if (!isInheritedFrom<DMKStaticModelEntity>(pEntity))
+				return;
+
+			DMKSystemLocator::getSystem<DMKRenderer>()->submitStaticModelEntityCMD(pEntity);
+		}
+
+		/*
+		 Submit the static model to the renderer.
+
+		 @param index: The index of the entity.
+		 @tparam ENTITY: The entity type.
+		*/
+		template<class ENTITY>
+		DMK_FORCEINLINE void submitAnimatedModelToRenderer(I32 index = 0)
+		{
+			auto pEntity = getEntity<ENTITY>(index);
+
+			if (!isInheritedFrom<DMKAnimatedModelEntity>(pEntity))
+				return;
+
+			DMKSystemLocator::getSystem<DMKRenderer>()->submitAnimatedModelEntityCMD(pEntity);
+		}
+
 	private:
+		/*
+		 Internal method to check if an object is inherited from another. 
+
+		 @param pEntity: The entity.
+		 @tparam BASE: The base class to check from.
+		 @tparam DERIVED: The class to be checked from.
+		*/
+		template<class BASE, class DERIVED>
+		DMK_FORCEINLINE constexpr B1 isInheritedFrom(DERIVED* pEntity)
+		{
+			if (!IsInheritedFrom_C<BASE>(*pEntity))
+			{
+				DMK_ERROR("The submitted entity is not inherited from " + STRING(typeid(BASE).name()) + "! All player entities are required to be inherited from the " + typeid(BASE).name() + " object.");
+				return false;
+			}
+
+			return true;
+		}
+
 		std::unordered_map<STRING, IEntityArray*> entityMap;
 		ARRAY<STRING> registeredEntities;
-
-	public:		/* Environment Map */
-		/* Environment Map Pointer */
-		DMKEnvironmentMap* pEnvironmentMap = nullptr;
-
-		void setEnvironmentMap(DMKEnvironmentMap* pEnvironment);
-		void loadEnvironmentMap(ARRAY<STRING> texturePaths);
-		void loadEnvironmentMap(STRING texturePath);
-
-		template<class OBJECT>
-		DMK_FORCEINLINE void createUserEnvironment(const OBJECT& environment)
-		{
-			pEnvironmentMap = StaticAllocator<OBJECT>::allocateInit(environment);
-		}
 
 	public:		/* Light Component */
 		/* Global Light Components */
 		ARRAY<DMKGameWorldLightComponent> globalLightComponents;
 
 		void addLightComponent(DMKGameWorldLightComponent component);
-
-	public:		/* Entity */
-		/*
-		 Create an empty environment.
-		*/
-		DMKEnvironmentMap* createHollowEnvironment();
 	};
 
 	/*

@@ -24,10 +24,14 @@ Maps and Light Components. This allows one module to switch between game worlds 
 
 #### Dynamik Entity System
 Entities in the engine represent objects with some behavior/ functionality attached to it. The engine supplies multiple 
-Entity types which the users are allowed to inherit from and use. Some of these entities are: 
+Entity types which the users are allowed to inherit from and use. These entities are: 
 - DMKPlayerEntity
   - This entity contains all the required information about the player character.
   - The player entity is attached to the player controller at runtime.
+  - This contains a default camera module which can be set to a user defined one.
+- DMKEnvironmentEntity
+  - This entity contains all the environment information. 
+  - This contains the sky box.
 - DMKStaticModelEntity
   - This entity holds information about one single model which contains one or more meshes. 
   - This model contains a rendering specification which is applies to all the mesh objects stored in it.

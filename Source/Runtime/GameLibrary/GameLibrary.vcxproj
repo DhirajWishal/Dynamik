@@ -364,24 +364,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera\CameraModule.h" />
-    <ClInclude Include="EnvironmentMap.h" />
+    <ClInclude Include="Entities\AnimatedModelEntity.h" />
+    <ClInclude Include="Entities\EnvironmentEntity.h" />
+    <ClInclude Include="Entities\PlayerEntity.h" />
+    <ClInclude Include="Entities\StaticModelEntity.h" />
+    <ClInclude Include="EnvironmentEntity.h" />
     <ClInclude Include="GameMechanics.h" />
-    <ClInclude Include="GameWorld.h" />
     <ClInclude Include="GameModule.h" />
+    <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Mechanics\GameAssetMechanics.h" />
     <ClInclude Include="Mechanics\PlayerController.h" />
     <ClInclude Include="Menus\Layer.h" />
-    <ClInclude Include="PlayerEntity.h" />
     <ClInclude Include="Utilities\EntityFactory.h" />
     <ClInclude Include="Utilities\MeshFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp" />
-    <ClCompile Include="EnvironmentMap.cpp" />
-    <ClCompile Include="GameWorld.cpp" />
+    <ClCompile Include="Entities\EnvironmentEntity.cpp" />
+    <ClCompile Include="Entities\PlayerEntity.cpp" />
+    <ClCompile Include="Entities\StaticModelEntity.cpp" />
     <ClCompile Include="GameModule.cpp" />
+    <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Mechanics\PlayerController.cpp" />
-    <ClCompile Include="PlayerEntity.cpp" />
     <ClCompile Include="Utilities\MeshFactory.cpp" />
   </ItemGroup>
   <ItemGroup>

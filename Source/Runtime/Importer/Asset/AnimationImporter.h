@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_ANIMATION_IMPORTER_H
 #define _DYNAMIK_ANIMATION_IMPORTER_H
 
-#include "Renderer/Entities/AnimatedModelEntity.h"
+#include "GameLibrary/Entities/AnimatedModelEntity.h"
 
 namespace Dynamik
 {

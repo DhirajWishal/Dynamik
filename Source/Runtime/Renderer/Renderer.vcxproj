@@ -391,13 +391,11 @@
     <ClInclude Include="Components\RCoreObject.h" />
     <ClInclude Include="Components\RDrawCallManager.h" />
     <ClInclude Include="Components\REntity.h" />
-    <ClInclude Include="Components\REnvironmentMap.h" />
+    <ClInclude Include="Components\REnvironmentEntity.h" />
     <ClInclude Include="Components\RMeshObject.h" />
     <ClInclude Include="Components\ROverlay.h" />
     <ClInclude Include="Components\RPipelineObject.h" />
     <ClInclude Include="Components\RRenderTarget.h" />
-    <ClInclude Include="Entities\AnimatedModelEntity.h" />
-    <ClInclude Include="Entities\StaticModelEntity.h" />
     <ClInclude Include="RUtilities.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RendererCommand.h" />
@@ -410,7 +408,6 @@
     <ClCompile Include="Components\Factories\PipelineFactory.cpp" />
     <ClCompile Include="Components\Primitives\RImageSampler.cpp" />
     <ClCompile Include="Components\RDrawCallManager.cpp" />
-    <ClCompile Include="Entities\StaticModelEntity.cpp" />
     <ClCompile Include="RUtilities.cpp" />
     <ClCompile Include="Renderer.cpp" />
   </ItemGroup>

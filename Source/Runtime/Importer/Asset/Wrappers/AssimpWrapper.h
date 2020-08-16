@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_ASSIMP_WRAPPER_H
 #define _DYNAMIK_ASSIMP_WRAPPER_H
 
-#include "Renderer/Entities/AnimatedModelEntity.h"
+#include "GameLibrary/Entities/AnimatedModelEntity.h"
 
 namespace Dynamik
 {

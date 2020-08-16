@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_MESH_FACTORY_H
 #define _DYNAMIK_MESH_FACTORY_H
 
-#include "Renderer/Entities/AnimatedModelEntity.h"
+#include "GameLibrary/Entities/AnimatedModelEntity.h"
 
 namespace Dynamik
 {

@@ -6,7 +6,6 @@
 #define _DYNAMIK_PLAYER_CONTROLLER_H
 
 #include "../GameMechanics.h"
-#include "../PlayerEntity.h"
 #include "Events/EventPool.h"
 
 #include <functional>
@@ -14,6 +13,7 @@
 namespace Dynamik
 {
     class DMK_API DMKGameModule;
+    class DMK_API DMKPlayerEntity;
 
     /* Dynamik Movement Control Instruction */
     enum class DMK_API DMKMovementControlInstruction {
