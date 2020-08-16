@@ -2,68 +2,68 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "dmkafx.h"
-#include "PlayerObject.h"
+#include "PlayerEntity.h"
 #include "Core/Math/MathFunctions.h"
 
 namespace Dynamik
 {
-	void DMKPlayerObject::updateCamera()
+	void DMKPlayerEntity::updateCamera()
 	{
 		cameraModule.updateVectors();
 		cameraModule.updateMatrix();
 	}
 	
-	void DMKPlayerObject::setPosition(const Vector3F& position)
+	void DMKPlayerEntity::setPosition(const Vector3F& position)
 	{
 		this->position = position;
 	}
 
-	void DMKPlayerObject::addForwardVector(const F32& rate)
+	void DMKPlayerEntity::addForwardVector(const F32& rate)
 	{
 		cameraModule.position += cameraModule.front * rate;
 	}
 
-	void DMKPlayerObject::addBackwardVector(const F32& rate)
+	void DMKPlayerEntity::addBackwardVector(const F32& rate)
 	{
 		cameraModule.position += (cameraModule.front * -1.0f) * rate;
 	}
 
-	void DMKPlayerObject::addLeftVector(const F32& rate)
+	void DMKPlayerEntity::addLeftVector(const F32& rate)
 	{
 		cameraModule.position += (cameraModule.right * -1.0f) * rate;
 	}
 
-	void DMKPlayerObject::addRightVector(const F32& rate)
+	void DMKPlayerEntity::addRightVector(const F32& rate)
 	{
 		cameraModule.position += cameraModule.right * rate;
 	}
 
-	void DMKPlayerObject::addUpVector(const F32& rate)
+	void DMKPlayerEntity::addUpVector(const F32& rate)
 	{
 		cameraModule.position += cameraModule.cameraUp * rate;
 	}
 
-	void DMKPlayerObject::addDownVector(const F32& rate)
+	void DMKPlayerEntity::addDownVector(const F32& rate)
 	{
 		cameraModule.position += (cameraModule.cameraUp * -1.0f) * rate;
 	}
 
-	void DMKPlayerObject::addRotationX(F32 pitch)
+	void DMKPlayerEntity::addRotationX(F32 pitch)
 	{
 		cameraModule.pitch = pitch;
 	}
 
-	void DMKPlayerObject::addRotationY(F32 yaw)
+	void DMKPlayerEntity::addRotationY(F32 yaw)
 	{
 		cameraModule.yaw = yaw;
 	}
 
-	void DMKPlayerObject::addRotationZ(F32 roll)
+	void DMKPlayerEntity::addRotationZ(F32 roll)
 	{
 		cameraModule.roll = roll;
 	}
 
-	void DMKPlayerObject::processMouseControl(DMKExtent2D position, F32 sensitivity, B1 refresh, B1 flipAxises)
+	void DMKPlayerEntity::processMouseControl(DMKExtent2D position, F32 sensitivity, B1 refresh, B1 flipAxises)
 	{
 		if (flipAxises)
 		{
@@ -91,23 +91,23 @@ namespace Dynamik
 			cameraModule.pitch = -89.0f;
 	}
 
-	void DMKPlayerObject::setCameraViewPort(DMKExtent2D extent)
+	void DMKPlayerEntity::setCameraViewPort(DMKExtent2D extent)
 	{
 		cameraModule.setViewPortExtent(extent);
 	}
 	
-	void DMKPlayerObject::setCameraPosition(const VEC3& position)
+	void DMKPlayerEntity::setCameraPosition(const VEC3& position)
 	{
 		cameraModule.position = position;
 	}
 
-	void DMKPlayerObject::setCameraAndWorldUp(const VEC3& cameraUp, const VEC3& worldUp)
+	void DMKPlayerEntity::setCameraAndWorldUp(const VEC3& cameraUp, const VEC3& worldUp)
 	{
 		cameraModule.cameraUp = cameraUp;
 		cameraModule.worldUp = worldUp;
 	}
 
-	void DMKPlayerObject::setCameraParams(F32 FOV, F32 aspect, F32 fNear, F32 fFar)
+	void DMKPlayerEntity::setCameraParams(F32 FOV, F32 aspect, F32 fNear, F32 fFar)
 	{
 		cameraModule.fieldOfView = FOV;
 		cameraModule.aspectRatio = aspect;
@@ -115,22 +115,22 @@ namespace Dynamik
 		cameraModule.farRender = fFar;
 	}
 
-	void DMKPlayerObject::setAspectRatio(F32 fAspect)
+	void DMKPlayerEntity::setAspectRatio(F32 fAspect)
 	{
 		cameraModule.aspectRatio = fAspect;
 	}
 
-	void DMKPlayerObject::makeCameraRelative()
+	void DMKPlayerEntity::makeCameraRelative()
 	{
 		isCameraRelative = true;
 	}
 
-	void DMKPlayerObject::makeCameraStationary()
+	void DMKPlayerEntity::makeCameraStationary()
 	{
 		isCameraRelative = false;
 	}
 
-	DMKCameraModule* DMKPlayerObject::getCameraModule()
+	DMKCameraModule* DMKPlayerEntity::getCameraModule()
 	{ 
 		return &cameraModule;
 	}

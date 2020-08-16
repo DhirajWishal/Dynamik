@@ -9,7 +9,7 @@
 #include "Core/Types/Utilities.h"
 #include "Core/FileSystem/FileSystem.h"
 #include "EnvironmentMap.h"
-#include "PlayerObject.h"
+#include "Services/SystemLocator.h"
 
 namespace Dynamik
 {
@@ -25,7 +25,7 @@ namespace Dynamik
 	};
 
 	/*
-	 Type Entity Array 
+	 Type Entity Array
 	 This object stores all the entities of a given type.
 	*/
 	template<class OBJECT>
@@ -69,42 +69,27 @@ namespace Dynamik
 		virtual void initialize() {}
 
 		/*
-		 Submit all the data to the respective systems. 
-		 This method is called after calling the initialize method. 
-
-		 The engine is composed of multiple systems and those systems require data to be added prior to other tasks. 
-		 For example in the rendering engine, the model data are required to be present before beginning any frames. 
-		 to accomplish this, use DMKSystemLocator::getSystem<>() to request the required system (eg: the rendering 
-		 engine: DMKRenderer, the audio engine: DMKAudioPlayer) and submit the assets using commands.
+		 On initialize entities method.
+		 Users are to initialize all the entities and submit them to the relevant systems in this method.
 		*/
-		virtual void onSubmitData() {}
+		virtual void onInitializeEntities() {}
 
 		/*
-		 On update method. 
+		 On update method.
 
 		 @param timeStep: The amount of time elapsed from the last iteration.
 		*/
 		virtual void onUpdate(const F32 timeStep) {}
 
-	public:
 		/*
-		 Set the player object of the current instance. 
-
-		 @param pPlayerObject: The player object pointer.
+		 On main window resize method.
+		 This method is called when the main window is resized. This method is also called when the main window is created.
 		*/
-		void setPlayerObject(const DMKPlayerObject* pPlayerObject);
-
-		/*
-		 Get the player object of the current instance.
-		*/
-		DMKPlayerObject* getPlayerObject() const;
-
-		/* The player object */
-		DMKPlayerObject* pPlayerObject = nullptr;
+		virtual void onMainWindowResize(DMKExtent2D newSize) {}
 
 	public:		/* Entity Management */
 		/*
-		 Check if an entity is registered. 
+		 Check if an entity is registered.
 
 		 @tparam ENTITY: The entity type.
 		*/
@@ -115,7 +100,7 @@ namespace Dynamik
 		}
 
 		/*
-		 Register a new entity. 
+		 Register a new entity.
 		 This method checks is the entity is already registered. If true, it does not do anything.
 
 		 @tparam ENTITY: The entity type.
@@ -135,8 +120,8 @@ namespace Dynamik
 		}
 
 		/*
-		 Get the entity array stored in the object. 
-		 If the entity type is not registered, it automatically registers it. 
+		 Get the entity array stored in the object.
+		 If the entity type is not registered, it automatically registers it.
 
 		 @tparam ENTITY: The entity type.
 		*/
@@ -153,7 +138,7 @@ namespace Dynamik
 		}
 
 		/*
-		 Add an entity to the entity array. 
+		 Add an entity to the entity array.
 
 		 @param constructor: The value to be constructed with.
 		 @tparam ENTITY: The entity type.
@@ -171,25 +156,25 @@ namespace Dynamik
 		 @tparam ENTITY: The entity type.
 		*/
 		template<class ENTITY>
-		DMK_FORCEINLINE void addEntity(ENTITY&& constructor = ENTITY())
+		DMK_FORCEINLINE void addEntity(ENTITY&& constructor)
 		{
 			getEntities()->pushBack(std::move(constructor));
 		}
 
 		/*
-		 Get an entity in the entity array. 
+		 Get an entity in the entity array.
 
-		 @param index: The index of the entity. 
+		 @param index: The index of the entity Default is 0.
 		 @tparam ENTITY: The entity type.
 		*/
 		template<class ENTITY>
-		DMK_FORCEINLINE ENTITY* getEntity(I64 index)
+		DMK_FORCEINLINE ENTITY* getEntity(I64 index = 0)
 		{
 			return Cast<ENTITY*>(getEntities<ENTITY>()->location(index));
 		}
 
 		/*
-		 Get the number of entities stored in the entity array. 
+		 Get the number of entities stored in the entity array.
 
 		 @tparam ENTITY: The entity type.
 		*/
@@ -200,9 +185,33 @@ namespace Dynamik
 		}
 
 		/*
-		 Get all of the registered entity names. 
+		 Get all of the registered entity names.
 		*/
 		DMK_FORCEINLINE ARRAY<STRING> getAllRegisteredEntityNames() const { return this->registeredEntities; }
+
+		/* Helper methods to initialize entities */
+	protected:
+		/*
+		 Setup player controls. 
+		 This method is to be called with a valid player entity submitted to the entity registry on the onInitializeEntities() 
+		 method. Since multiple player entities can be stored, the index of the required entity is needed. 
+
+		 @param index: The index of the player entity. Default is 0.
+		 @tparam ENTITY: The entity type.
+		*/
+		template<class ENTITY>
+		DMK_FORCEINLINE void setupPlayerConstrols(I64 index = 0)
+		{
+			auto pEntity = getEntity<ENTITY>(index);
+
+			if (!IsInheritedFrom_C<DMKPlayerEntity>(pEntity))
+			{
+				DMK_ERROR("The submitted entity is not inherited from DMKPlayerEntity! All player entities are required to be inherited from the DMKPlayerEntity object.");
+					return;
+			}
+
+			pEntity->setupPlayerControls(DMKSystemLocator::getSystem<DMKPlayerController>());
+		}
 
 	private:
 		std::unordered_map<STRING, IEntityArray*> entityMap;

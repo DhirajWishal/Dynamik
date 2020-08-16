@@ -69,9 +69,6 @@ namespace Dynamik
 				updateInstruction();
 				endFrameInstruction();
 				break;
-			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE_CAMERA:
-				updateCamera();
-				break;
 			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE_ENVIRONMENT:
 				updateEnvironment();
 				break;
@@ -129,12 +126,6 @@ namespace Dynamik
 			auto command = pCommandService->getCommand<RendererCreateContextCommand>();
 			createContext(command.contextType, command.viewport);
 		}
-
-		else if (commandName == typeid(RendererInitializeCamera).name())
-			initializeCamera(pCommandService->getCommand<RendererInitializeCamera>().pCameraModule);
-
-		else if (commandName == typeid(RendererInitializeGameWorld).name())
-			initializeGameWorld(pCommandService->getCommand<RendererInitializeGameWorld>().pGameWorld);
 
 		else if (commandName == typeid(RendererInitializeEnvironmentMap).name())
 			initializeEnvironmentMap(pCommandService->getCommand<RendererInitializeEnvironmentMap>().pEnvironmentMap);
@@ -236,22 +227,6 @@ namespace Dynamik
 		_command.contextType = contextType;
 
 		pCommandService->issueCommand<RendererCreateContextCommand>(_command);
-	}
-
-	void DMKRenderer::initializeCameraModuleCMD(DMKCameraModule* pCameraModule)
-	{
-		RendererInitializeCamera _command;
-		_command.pCameraModule = pCameraModule;
-
-		pCommandService->issueCommand<RendererInitializeCamera>(_command);
-	}
-
-	void DMKRenderer::initializeGameWorldCMD(DMKGameWorld* pGameWorld)
-	{
-		RendererInitializeGameWorld _command;
-		_command.pGameWorld = pGameWorld;
-
-		pCommandService->issueCommand<RendererInitializeGameWorld>(_command);
 	}
 
 	void DMKRenderer::initializeEnvironmentMapCMD(DMKEnvironmentMap* pEnvironmentMap)
@@ -607,23 +582,6 @@ namespace Dynamik
 		return nullptr;
 	}
 
-	void DMKRenderer::initializeCamera(DMKCameraModule* pCameraModule)
-	{
-		if (!pCameraModule)
-			return;
-
-		if (!myCameraComponent)
-			myCameraComponent = StaticAllocator<RCameraComponent>::rawAllocate();
-
-		myCameraComponent->pCameraModule = pCameraModule;
-		myCameraComponent->pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, sizeof(DMKCameraMatrix));
-
-		DMKCameraMatrix _matrix;
-		_matrix.projection = DMKMathFunctions::perspective(DMKMathFunctions::radians(45.0f), mySwapChain->extent.width / mySwapChain->extent.height, 0.001f, 256.0f);
-		_matrix.view = DMKMathFunctions::lookAt(pCameraModule->position, pCameraModule->position + pCameraModule->front, pCameraModule->cameraUp);
-		myCameraComponent->pUniformBuffer->setData(myCoreObject, sizeof(_matrix), 0, &_matrix);
-	}
-
 	void DMKRenderer::initializeEnvironmentMap(DMKEnvironmentMap* pEnvironmentMap)
 	{
 		if (!pEnvironmentMap)
@@ -881,17 +839,10 @@ namespace Dynamik
 
 	void DMKRenderer::updateInstruction()
 	{
-		updateCamera();
 		updateEnvironment();
 		updateEntities();
 		updateBoundingBoxes();
 		updateDebugObjects();
-	}
-
-	void DMKRenderer::updateCamera()
-	{
-		if (myCameraComponent)
-			myCameraComponent->pUniformBuffer->setData(myCoreObject, sizeof(DMKCameraMatrix), 0, &myCameraComponent->pCameraModule->matrix);
 	}
 
 	void DMKRenderer::updateEnvironment()
@@ -972,13 +923,6 @@ namespace Dynamik
 
 	void DMKRenderer::terminateEntities()
 	{
-		/* Terminate Camera */
-		if (myCameraComponent)
-		{
-			myCameraComponent->pUniformBuffer->terminate(myCoreObject);
-			StaticAllocator<RBuffer>::rawDeallocate(myCameraComponent->pUniformBuffer, 0);
-		}
-
 		/* Terminate Environment Map */
 		{
 			if (myCurrentEnvironment.pPipeline)

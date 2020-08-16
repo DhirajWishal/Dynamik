@@ -72,10 +72,9 @@ namespace Dynamik
 
 		initializeGameWorld();
 
-		getActiveGameModule()->initializeComponents();
+		getActiveGameModule()->onInitialize();
 
-		getActiveGameModule()->setupPlayerControls(&playerController);
-		getActiveGameModule()->playerObject->setCameraViewPort(getCurrentWindowHandle()->getWindowExtent());
+		getActiveGameModule()->getCurrentGameWorld()->onMainWindowResize(getCurrentWindowHandle()->getWindowExtent());
 	}
 
 	DMKGameModule* DMKGameServer::getActiveGameModule() const
@@ -132,9 +131,6 @@ namespace Dynamik
 		submitGameWorldData();
 
 		/* Initialize the finals */
-		getRenderer()->initializeCameraModuleCMD(getActiveGameModule()->getCameraModule());
-		getRenderer()->initializeGameWorldCMD(getActiveGameModule()->pCurrentGameWorld);
-		//getRenderer()->initializeEntitiesCMD(getActiveGameModule()->pEntities);
 		getRenderer()->initializeFinalsCMD();
 
 		/* Let the game module submit its data to the required systems. */
@@ -156,8 +152,7 @@ namespace Dynamik
 				/* Check if the extent is valid */
 				if ((_extent.width > 0) || (_extent.height > 0))
 				{
-					getActiveGameModule()->playerObject->setAspectRatio(_extent.width / _extent.height);
-					getActiveGameModule()->playerObject->setCameraViewPort(_extent);
+					getActiveGameModule()->getCurrentGameWorld()->onMainWindowResize(_extent);
 
 					getRenderer()->setFrameBufferResizeCMD(_extent);
 				}
@@ -169,6 +164,9 @@ namespace Dynamik
 						". Since these requested values are invalid the frame buffer will not be resized.");
 				}
 			}
+
+			/* Execute the player controller */
+			DMKSystemLocator::getSystem<DMKPlayerController>()->executeAll();
 
 			/* Call the on update method. */
 			onUpdate(1.0f);
@@ -204,6 +202,9 @@ namespace Dynamik
 
 	void DMKGameServer::initializeRuntimeSystems()
 	{
+		/* Initialize the camera controller */
+		DMKSystemLocator::createSystem<DMKPlayerController>();
+
 		/* Initialize the renderer */
 		{
 			DMKSystemLocator::createSystem<DMKRenderer>();
@@ -276,8 +277,7 @@ namespace Dynamik
 			DMK_WARN("A game world has not been set!");
 			return;
 		}
-		getActiveGameModule()->pCurrentGameWorld->setPlayerObject(getActiveGameModule()->playerObject);
-		getActiveGameModule()->pCurrentGameWorld->initialize();
-		getActiveGameModule()->pCurrentGameWorld->onSubmitData();
+		getActiveGameModule()->getCurrentGameWorld()->initialize();
+		getActiveGameModule()->getCurrentGameWorld()->onInitializeEntities();
 	}
 }

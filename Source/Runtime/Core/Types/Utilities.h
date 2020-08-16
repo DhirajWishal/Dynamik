@@ -83,27 +83,27 @@ namespace Dynamik
 	}
 
 	/*
-	 Check if a class is derived from another class.
+	 Check if a class is inherited from another class.
 	 This function determines it at compile time.
 
 	 @tparam BASE: The base class to be checked from.
 	 @tparam DERIVED: The class to test from.
 	*/
 	template<class BASE, class DERIVED>
-	DMK_FORCEINLINE constexpr B1 IsDerivedFrom_C(const DERIVED& v)
+	DMK_FORCEINLINE constexpr B1 IsInheritedFrom_C(const DERIVED& v)
 	{
 		return std::is_base_of<BASE, DERIVED>::value;
 	}
 
 	/*
-	 Check if a class is derived from another class.
+	 Check if a class is inherited from another class.
 	 This function determines it at runtime.
 
 	 @tparam BASE: The base class to be checked from.
 	 @tparam DERIVED: The class to test from.
 	*/
 	template<class BASE, class DERIVED>
-	DMK_FORCEINLINE B1 IsDerivedFrom_R(const DERIVED& v)
+	DMK_FORCEINLINE B1 IsInheritedFrom_R(const DERIVED& v)
 	{
 		return dynamic_cast<BASE*>(&v) != nullptr;
 	}

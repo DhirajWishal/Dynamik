@@ -21,8 +21,6 @@ namespace Dynamik
 	enum class DMK_API RendererInstruction {
 		RENDERER_INSTRUCTION_INITIALIZE,
 		RENDERER_INSTRUCTION_CREATE_CONTEXT,
-		RENDERER_INSTRUCTION_INITIALIZE_CAMERA,
-		RENDERER_INSTRUCTION_INITIALIZE_GAME_WORLD,
 		RENDERER_INSTRUCTION_INITIALIZE_ENVIRONMENT_MAP,
 		RENDERER_INSTRUCTION_INITIALIZE_ENTITY,
 		RENDERER_INSTRUCTION_INITIALIZE_ENTITIES,
@@ -31,7 +29,6 @@ namespace Dynamik
 
 		RENDERER_INSTRUCTION_DRAW_INITIALIZE,
 		RENDERER_INSTRUCTION_DRAW_UPDATE,						/* Updates all the entities */
-		RENDERER_INSTRUCTION_DRAW_UPDATE_CAMERA,
 		RENDERER_INSTRUCTION_DRAW_UPDATE_ENVIRONMENT,
 		RENDERER_INSTRUCTION_DRAW_UPDATE_ENTITIES,
 		RENDERER_INSTRUCTION_DRAW_UPDATE_BOUNDING_BOXES	,
@@ -90,24 +87,6 @@ namespace Dynamik
 
 		DMKViewport viewport;
 		DMKRenderContextType contextType;
-	};
-
-	/* Initialize Camera */
-	class DMK_API RendererInitializeCamera : public DMKRendererCommand {
-	public:
-		RendererInitializeCamera() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_CAMERA) {}
-		~RendererInitializeCamera() {}
-
-		DMKCameraModule* pCameraModule = nullptr;
-	};
-
-	/* Initialize Game World */
-	class DMK_API RendererInitializeGameWorld : public DMKRendererCommand {
-	public:
-		RendererInitializeGameWorld() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_GAME_WORLD) {}
-		~RendererInitializeGameWorld() {}
-
-		DMKGameWorld* pGameWorld = nullptr;
 	};
 
 	/* Initialize Environment Map */

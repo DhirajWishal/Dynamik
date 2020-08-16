@@ -6,7 +6,7 @@
 #define _DYNAMIK_PLAYER_CONTROLLER_H
 
 #include "../GameMechanics.h"
-#include "../PlayerObject.h"
+#include "../PlayerEntity.h"
 #include "Events/EventPool.h"
 
 #include <functional>
@@ -84,9 +84,9 @@ namespace Dynamik
 
         void reset();
 
-        void bindMovementControl(DMKMovementControlInstruction instruction, const STRING& sEvent, DMKGameModule* pComponent, DMKEventType eventType);
-        void bindActionControl(DMKActionControlInstruction instruction, const STRING& sEvent, DMKGameModule* pComponent, DMKEventType eventType);
-        void bindCameraControl(DMKCameraControlInstruction instruction, const STRING& sEvent, DMKPlayerObject* pPlayer, DMKEventType eventType);
+        void bindMovementControl(DMKMovementControlInstruction instruction, const STRING& sEvent, DMKPlayerEntity* pPlayer, DMKEventType eventType);
+        void bindActionControl(DMKActionControlInstruction instruction, const STRING& sEvent, DMKPlayerEntity* pPlayer, DMKEventType eventType);
+        void bindCameraControl(DMKCameraControlInstruction instruction, const STRING& sEvent, DMKPlayerEntity* pPlayer, DMKEventType eventType);
     
     private:
         std::unordered_map<STRING, FunctionInvokeLevel> movementControls;

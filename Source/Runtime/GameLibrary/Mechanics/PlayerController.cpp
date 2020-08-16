@@ -48,14 +48,14 @@ namespace Dynamik
 		cameraControls.clear();
 	}
 
-	void DMKPlayerController::bindMovementControl(DMKMovementControlInstruction instruction, const STRING& sEvent, DMKGameModule* pComponent, DMKEventType eventType)
+	void DMKPlayerController::bindMovementControl(DMKMovementControlInstruction instruction, const STRING& sEvent, DMKPlayerEntity* pPlayer, DMKEventType eventType)
 	{
 		switch (instruction)
 		{
 		case Dynamik::DMKMovementControlInstruction::DMK_MOVEMENT_CONTROL_INSTRUCTION_MOVE_FORWARD:
 		{
 			FunctionInvokeLevel level;
-			level.function = [pComponent]() { pComponent->onPlayerMoveForward(); };
+			level.function = [pPlayer]() { pPlayer->onMoveForward(); };
 			level.invokeCondition = eventType;
 
 			movementControls[sEvent] = level;
@@ -65,7 +65,7 @@ namespace Dynamik
 		case Dynamik::DMKMovementControlInstruction::DMK_MOVEMENT_CONTROL_INSTRUCTION_MOVE_BACKWARD:
 		{
 			FunctionInvokeLevel level;
-			level.function = [pComponent]() { pComponent->onPlayerMoveBackward(); };
+			level.function = [pPlayer]() { pPlayer->onMoveBackward(); };
 			level.invokeCondition = eventType;
 
 			movementControls[sEvent] = level;
@@ -75,7 +75,7 @@ namespace Dynamik
 		case Dynamik::DMKMovementControlInstruction::DMK_MOVEMENT_CONTROL_INSTRUCTION_MOVE_LEFT:
 		{
 			FunctionInvokeLevel level;
-			level.function = [pComponent]() { pComponent->onPlayerMoveLeft(); };
+			level.function = [pPlayer]() { pPlayer->onMoveLeft(); };
 			level.invokeCondition = eventType;
 
 			movementControls[sEvent] = level;
@@ -85,7 +85,7 @@ namespace Dynamik
 		case Dynamik::DMKMovementControlInstruction::DMK_MOVEMENT_CONTROL_INSTRUCTION_MOVE_RIGHT:
 		{
 			FunctionInvokeLevel level;
-			level.function = [pComponent]() { pComponent->onPlayerMoveRight(); };
+			level.function = [pPlayer]() { pPlayer->onMoveRight(); };
 			level.invokeCondition = eventType;
 
 			movementControls[sEvent] = level;
@@ -109,7 +109,7 @@ namespace Dynamik
 		}
 	}
 
-	void DMKPlayerController::bindActionControl(DMKActionControlInstruction instruction, const STRING& sEvent, DMKGameModule* pComponent, DMKEventType eventType)
+	void DMKPlayerController::bindActionControl(DMKActionControlInstruction instruction, const STRING& sEvent, DMKPlayerEntity* pPlayer, DMKEventType eventType)
 	{
 		switch (instruction)
 		{
@@ -128,7 +128,7 @@ namespace Dynamik
 		}
 	}
 
-	void DMKPlayerController::bindCameraControl(DMKCameraControlInstruction instruction, const STRING& sEvent, DMKPlayerObject* pPlayer, DMKEventType eventType)
+	void DMKPlayerController::bindCameraControl(DMKCameraControlInstruction instruction, const STRING& sEvent, DMKPlayerEntity* pPlayer, DMKEventType eventType)
 	{
 		switch (instruction)
 		{

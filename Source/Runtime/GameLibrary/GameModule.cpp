@@ -11,22 +11,10 @@ namespace Dynamik
 	DMKGameModule::DMKGameModule()
 	{
 		pCurrentGameWorld = nullptr;
-		playerObject = nullptr;
 	}
 
 	void DMKGameModule::updateEntities(F32 timeStep)
 	{
 		pCurrentGameWorld->onUpdate(timeStep);
-	}
-
-	DMKCameraModule* DMKGameModule::getCameraModule() const
-	{
-		return playerObject->getCameraModule();
-	}
-
-	DMKPlayerObject* DMKGameModule::createHollowPlayerObject()
-	{
-		playerObject = StaticAllocator<DMKPlayerObject>::allocate().get();
-		return playerObject;
 	}
 }

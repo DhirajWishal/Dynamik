@@ -88,10 +88,8 @@ namespace Dynamik
 		void setSamplesCMD(DMKSampleCount samples);
 		void setWindowHandleCMD(DMKWindowHandle* pWindowHandle);
 		void createContextCMD(DMKViewport viewPort, DMKRenderContextType contextType);
-		void initializeCameraModuleCMD(DMKCameraModule* pCameraModule);
-		void initializeGameWorldCMD(DMKGameWorld* pGameWorld);
-		void initializeEnvironmentMapCMD(DMKEnvironmentMap* pEnvironmentMap);
 
+		void initializeEnvironmentMapCMD(DMKEnvironmentMap* pEnvironmentMap);
 		void submitStaticModelEntityCMD(DMKStaticModelEntity* pStaticModelEntity);
 		void submitAnimatedModelEntityCMD(DMKAnimatedModelEntity* pAnimatedModelEntity);
 
@@ -131,7 +129,6 @@ namespace Dynamik
 
 		RImGuiBackend* allocateImGuiClient();
 
-		void initializeCamera(DMKCameraModule* pCameraModule);
 		void initializeEnvironmentMap(DMKEnvironmentMap* pEnvironmentMap);
 		void createStaticModelEntityResources(DMKStaticModelEntity* pEntity);
 		void createAnimatedModelEntityResources(DMKAnimatedModelEntity* pEntity);
@@ -146,7 +143,6 @@ namespace Dynamik
 		void resizeFrameBuffer(DMKExtent2D windowExtent);
 		void beginFrameInstruction();
 		void updateInstruction();
-		void updateCamera();
 		void updateEnvironment();
 		void updateEntities();
 		void updateBoundingBoxes();

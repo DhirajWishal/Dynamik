@@ -6,7 +6,6 @@
 #define _DYNAMIK_LEVEL_COMPONENT_H
 
 #include "GameMechanics.h"
-#include "PlayerObject.h"
 #include "GameWorld.h"
 #include "Utilities/MeshFactory.h"
 
@@ -33,9 +32,7 @@ namespace Dynamik
 		virtual ~DMKGameModule() {}
 
 		virtual void onLoad() {}
-		virtual void initializeComponents() {}
-		virtual void setupPlayerControls(DMKPlayerController* pController) {}
-		virtual void setupCameraControls() {}
+		virtual void onInitialize() {}
 		virtual void onUpdate(const DMKEventPool* pEventPool) {}
 		virtual void onUnoad() {}
 
@@ -53,23 +50,6 @@ namespace Dynamik
 		*/
 		virtual void onSubmitDataToSystems() {}
 
-	public:		/* Player Methods */
-		virtual void onPlayerMoveForward() {}
-		virtual void onPlayerMoveBackward() {}
-		virtual void onPlayerMoveLeft() {}
-		virtual void onPlayerMoveRight() {}
-
-		virtual void onPlayerJump() {}
-		virtual void onPlayerCrouch() {}
-		virtual void onPlayerSprint() {}
-		virtual void onPlayerSlide() {}
-
-		virtual void onPlayerAim() {}
-		virtual void onPlayerTrigger() {}
-		virtual void onPlayerReload() {}
-		virtual void onPlayerLookAt() {}	/* eg: Looking at a scene. */
-		virtual void onPlayerView() {}	/* eg: Looking at a gun. */
-
 	public:		/* Level Data Store */
 		/*
 		 Pointer to the current (active) game world.
@@ -78,7 +58,12 @@ namespace Dynamik
 		DMKGameWorld* pCurrentGameWorld = nullptr;
 
 		/*
-		 Update all the entities in the level.
+		 Get the current game world.
+		*/
+		DMKGameWorld* getCurrentGameWorld() const { return pCurrentGameWorld; }
+
+		/*
+		 Update all the entities in the game world.
 
 		 @param timeStep: The time step of the current call.
 		*/
@@ -99,14 +84,6 @@ namespace Dynamik
 
 		/* Game Mechanics */
 		ARRAY<DMKGameMechanics*> gameMechanics;
-
-		/* Player Object */
-		DMKPlayerObject* playerObject = nullptr;
-
-		/*
-		 Get the camera module tied to this player object.
-		*/
-		DMKCameraModule* getCameraModule() const;
 
 		/*
 		 Get the game server which the module is currently active.
@@ -136,22 +113,6 @@ namespace Dynamik
 		 Get the current score of the game.
 		*/
 		const F32 getScore() const { score; }
-
-	protected:	/* Helper methods */
-		/*
-		 Create an empty player object.
-		*/
-		DMKPlayerObject* createHollowPlayerObject();
-
-		/*
-		 Create a user defined player object.
-		*/
-		template<class PLAYER>
-		DMK_FORCEINLINE DMKPlayerObject* createUserPlayer()
-		{
-			playerObject = Cast<DMKPlayerObject*>(StaticAllocator<PLAYER>::allocate().get());
-			return playerObject;
-		}
 
 		DMKGameServer* pServer = nullptr;
 	};

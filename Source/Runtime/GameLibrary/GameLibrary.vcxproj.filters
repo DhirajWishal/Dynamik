@@ -33,7 +33,6 @@
     <ClInclude Include="Menus\Layer.h">
       <Filter>Menus</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerObject.h" />
     <ClInclude Include="Utilities\EntityFactory.h">
       <Filter>Utilities</Filter>
     </ClInclude>
@@ -41,6 +40,7 @@
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="GameModule.h" />
+    <ClInclude Include="PlayerEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp">
@@ -51,11 +51,11 @@
     <ClCompile Include="Mechanics\PlayerController.cpp">
       <Filter>Mechanics</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerObject.cpp" />
     <ClCompile Include="Utilities\MeshFactory.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="GameModule.cpp" />
+    <ClCompile Include="PlayerEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameLibrary.lua" />

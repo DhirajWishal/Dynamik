@@ -7,18 +7,18 @@
 
 #include "Core/Types/ComplexTypes.h"
 #include "Camera/CameraModule.h"
-#include "ComponentSystem/ComponentManager.h"
+#include "Mechanics/PlayerController.h"
 
 namespace Dynamik
 {
 	/*
 	 Dynamik Player Object
-	 This object is the user controlled character in the game.
+	 This object is the user controlled character in the game. 
 	*/
-	class DMK_API DMKPlayerObject {
+	class DMK_API DMKPlayerEntity {
 	public:
-		DMKPlayerObject() {}
-		virtual ~DMKPlayerObject() {}
+		DMKPlayerEntity() {}
+		virtual ~DMKPlayerEntity() {}
 
 		/*
 		 On initialize method
@@ -30,6 +30,53 @@ namespace Dynamik
 		 By default, on every call, the player position is added to the camera position.
 		*/
 		virtual void updateCamera();
+
+		/*
+		 Setup the player controller. 
+		 This enables this object to be used in specific events.
+		*/
+		virtual void setupPlayerControls(DMKPlayerController* pPlayerController) {}
+
+		/* Event Handling	*/
+	public:
+		/* On move forward event. */
+		virtual void onMoveForward() {}
+
+		/* On move backward event. */
+		virtual void onMoveBackward() {}
+
+		/* On move left event. */
+		virtual void onMoveLeft() {}
+
+		/* On move right event. */
+		virtual void onMoveRight() {}
+
+		/* On jump event */
+		virtual void onJump() {}
+
+		/* On crouch event */
+		virtual void onCrouch() {}
+
+		/* On sprint event */
+		virtual void onSprint() {}
+
+		/* On slide event */
+		virtual void onSlide() {}
+
+		/* On aim event */
+		virtual void onAim() {}
+
+		/* On trigger event */
+		virtual void onTrigger() {}
+
+		/* On reload event */
+		virtual void onReload() {}
+
+		/* On look at event */
+		virtual void onLookAt() {}	/* eg: Looking at a scene. */
+
+		/* On view event */
+		virtual void onView() {}	/* eg: Looking at a gun. */
 
 	public:		/* Player Data Store */
 		Vector3F position = Vector3F(0.0f);
@@ -53,18 +100,6 @@ namespace Dynamik
 		void processMouseControl(DMKExtent2D position, F32 sensitivity = 0.1f, B1 refresh = false, B1 flipAxises = false);
 
 		void setCameraViewPort(DMKExtent2D extent);
-
-	public:		/* Component manager */
-		DMKComponentManager componentManager;
-
-		/*
-		 Create a new component and return its address.
-		*/
-		template<class COMPONENT>
-		COMPONENT* createComponent()
-		{
-			return componentManager.createComponent<COMPONENT>();
-		}
 
 	public:		/* Camera Module */
 		DMKCameraModule cameraModule;

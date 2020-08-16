@@ -149,9 +149,6 @@ namespace Dynamik
 		/* The active game module */
 		DMKGameModule* pActiveGameModule = nullptr;
 
-		/* The player controller */
-		DMKPlayerController playerController = {};
-
 		/* Main internal methods */
 	private:
 		/* INTERNAL

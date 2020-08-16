@@ -371,7 +371,7 @@
     <ClInclude Include="Mechanics\GameAssetMechanics.h" />
     <ClInclude Include="Mechanics\PlayerController.h" />
     <ClInclude Include="Menus\Layer.h" />
-    <ClInclude Include="PlayerObject.h" />
+    <ClInclude Include="PlayerEntity.h" />
     <ClInclude Include="Utilities\EntityFactory.h" />
     <ClInclude Include="Utilities\MeshFactory.h" />
   </ItemGroup>
@@ -381,7 +381,7 @@
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="GameModule.cpp" />
     <ClCompile Include="Mechanics\PlayerController.cpp" />
-    <ClCompile Include="PlayerObject.cpp" />
+    <ClCompile Include="PlayerEntity.cpp" />
     <ClCompile Include="Utilities\MeshFactory.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -364,6 +364,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationServer.h" />
+    <ClInclude Include="Assets\Modules\Module00\Module00.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ApplicationServer.cpp" />
