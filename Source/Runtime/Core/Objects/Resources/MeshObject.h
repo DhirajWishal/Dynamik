@@ -111,36 +111,6 @@ namespace Dynamik
 
 	public:
 		/*
-		 Add a uniform buffer to the mesh object.
-
-		 @param buffer: The uniform buffer to be added.
-		*/
-		void addUniformBuffer(const DMKUniformBuffer& buffer);
-
-		/*
-		 Set all the uniform buffers of the mesh object.
-
-		 @param buffers: The array of uniform buffers.
-		*/
-		void setUniformBuffers(const ARRAY<DMKUniformBuffer> & buffers);
-
-		/*
-		 Get a uniform buffer from a given index.
-
-		 @param index: The index of the uniform buffer.
-		*/
-		DMKUniformBuffer& getUniformBuffer(I64 index);
-
-		/*
-		 Get all the uniform buffers stored in the mesh object.
-		*/
-		ARRAY<DMKUniformBuffer>& getUniformBuffers();
-
-		/* Uniform Buffers */
-		ARRAY<DMKUniformBuffer> uniformBuffers = {};
-
-	public:
-		/*
 		 Set a material to the current mesh object.
 
 		 @param material: The material to be set.

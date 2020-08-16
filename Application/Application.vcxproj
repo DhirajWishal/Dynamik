@@ -364,24 +364,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationServer.h" />
-    <ClInclude Include="Assets\KeyBinding.h" />
-    <ClInclude Include="Assets\Level1\DefaultWorld.h" />
-    <ClInclude Include="Assets\Level1\Entities\CerberusModel.h" />
-    <ClInclude Include="Assets\Level1\Entities\TestScene.h" />
-    <ClInclude Include="Assets\Level1\Entities\VenusModel.h" />
-    <ClInclude Include="Assets\Level1\Level1.h" />
-    <ClInclude Include="Assets\Level1\Player.h" />
-    <ClInclude Include="Assets\Level1\SkySphere.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ApplicationServer.cpp" />
-    <ClCompile Include="Assets\Level1\DefaultWorld.cpp" />
-    <ClCompile Include="Assets\Level1\Entities\CerberusModel.cpp" />
-    <ClCompile Include="Assets\Level1\Entities\TestScene.cpp" />
-    <ClCompile Include="Assets\Level1\Entities\VenusModel.cpp" />
-    <ClCompile Include="Assets\Level1\Level1.cpp" />
-    <ClCompile Include="Assets\Level1\SkySphere.cpp" />
-    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Application.lua" />

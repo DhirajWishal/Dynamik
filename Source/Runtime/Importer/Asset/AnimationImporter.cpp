@@ -8,9 +8,9 @@
 
 namespace Dynamik
 {
-	DMKAnimatedMeshComponent DMKAnimationImporter::loadAnimation(const STRING& path)
+	DMKAnimatedModelEntity DMKAnimationImporter::loadAnimation(const STRING& path)
 	{
 		AssimpWrapper _wrapper;
-		return _wrapper.loadAnimatedModel(path, DMKVertexLayout::createAnimated());
+		return _wrapper.loadAnimatedModelEntity(path, DMKVertexLayout::createAnimated());
 	}
 }

@@ -63,6 +63,11 @@ namespace Dynamik
 		*/
 		DMKShaderModule* getShaderModule(I32 index);
 
+		/*
+		 Get all the shaders stored in the object.
+		*/
+		ARRAY<DMKShaderModule> getShaders();
+
 		/* The shader modules. */
 		ARRAY<DMKShaderModule> shaders;
 

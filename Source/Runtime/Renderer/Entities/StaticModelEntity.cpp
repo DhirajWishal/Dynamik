@@ -21,6 +21,11 @@ namespace Dynamik
 		return Cast<DMKShaderModule*>(shaders.location(index));
 	}
 
+	ARRAY<DMKShaderModule> DMKStaticModelEntity::getShaders()
+	{
+		return shaders;
+	}
+
 	void DMKStaticModelEntity::addResourceRequest(const DMKResourceRequest& request)
 	{
 		resourceRequests.pushBack(request);

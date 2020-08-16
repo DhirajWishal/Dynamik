@@ -364,12 +364,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera\CameraModule.h" />
-    <ClInclude Include="Entities\HollowEntity.h" />
-    <ClInclude Include="Entities\StaticEntity.h" />
     <ClInclude Include="EnvironmentMap.h" />
-    <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameMechanics.h" />
-    <ClInclude Include="GamePackage.h" />
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="GameModule.h" />
     <ClInclude Include="Mechanics\GameAssetMechanics.h" />
@@ -381,10 +377,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp" />
-    <ClCompile Include="Entities\HollowEntity.cpp" />
-    <ClCompile Include="Entities\StaticEntity.cpp" />
     <ClCompile Include="EnvironmentMap.cpp" />
-    <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="GameModule.cpp" />
     <ClCompile Include="Mechanics\PlayerController.cpp" />

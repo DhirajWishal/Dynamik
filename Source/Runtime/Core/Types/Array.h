@@ -525,7 +525,7 @@ namespace Dynamik
 		 *
 		 * @param index: Index of the stored data.
 		 */
-		const TYPE* location(I64 index)
+		const TYPE* location(I64 index) const
 		{
 			if (index >= (I64)_getSizeOfThis() || (index <= (I64)(0 - _getSizeOfThis())))
 			{

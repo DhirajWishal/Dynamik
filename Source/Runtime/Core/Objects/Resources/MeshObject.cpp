@@ -65,26 +65,6 @@ namespace Dynamik
 		return indexBuffer;
 	}
 
-	void DMKMeshObject::addUniformBuffer(const DMKUniformBuffer& buffer)
-	{
-		uniformBuffers.pushBack(buffer);
-	}
-
-	void DMKMeshObject::setUniformBuffers(const ARRAY<DMKUniformBuffer>& buffers)
-	{
-		uniformBuffers = buffers;
-	}
-
-	DMKUniformBuffer& DMKMeshObject::getUniformBuffer(I64 index)
-	{
-		return uniformBuffers[index];
-	}
-
-	ARRAY<DMKUniformBuffer>& DMKMeshObject::getUniformBuffers()
-	{
-		return uniformBuffers;
-	}
-
 	void DMKMeshObject::setMaterial(const DMKMaterial& material)
 	{
 		this->material = material;
@@ -93,15 +73,5 @@ namespace Dynamik
 	DMKMaterial& DMKMeshObject::getMaterial()
 	{
 		return material;
-	}
-	
-	void DMKMeshObject::setRenderSpecification(const DMKMeshRenderSpecification& specification)
-	{
-		this->renderSpecification = specification;
-	}
-	
-	DMKMeshRenderSpecification& DMKMeshObject::getRenderSpecification() const
-	{
-		return Cast<DMKMeshRenderSpecification&>(this->renderSpecification);
 	}
 }

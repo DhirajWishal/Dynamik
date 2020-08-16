@@ -9,11 +9,11 @@
 #include "VulkanViewport.h"
 #include "VulkanDescriptorSetManager.h"
 
-#include "../Context/VulkanRenderPass.h"
 #include "../Primitives/VulkanShader.h"
+#include "../Context/VulkanRenderPass.h"
 
+#include "Core/Objects/Resources/MeshObject.h"
 #include "Core/Objects/Resources/ConstantBlock.h"
-#include "Core/Components/RenderableComponents/StaticMeshComponent.h"
 
 namespace Dynamik
 {

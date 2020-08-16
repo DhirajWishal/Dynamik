@@ -275,7 +275,7 @@ namespace Dynamik
 					}
 					else
 					{
-						vkCmdDraw(buffer, Cast<UI32>(pParent->pMeshComponent->vertexBuffer.size()), 1, 0, 0);
+						vkCmdDraw(buffer, Cast<UI32>(pParent->pParentEntity->skyBoxMesh.vertexBuffer.size()), 1, 0, 0);
 					}
 
 					vkCmdEndRenderPass(buffer);

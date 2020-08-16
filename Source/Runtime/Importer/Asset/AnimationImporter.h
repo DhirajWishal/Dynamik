@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_ANIMATION_IMPORTER_H
 #define _DYNAMIK_ANIMATION_IMPORTER_H
 
-#include "Animation/AnimatedMeshComponent.h"
+#include "Renderer/Entities/AnimatedModelEntity.h"
 
 namespace Dynamik
 {
@@ -20,7 +20,7 @@ namespace Dynamik
 		/*
 		 Load animation from an asset file.
 		*/
-		static DMKAnimatedMeshComponent loadAnimation(const STRING& path);
+		static DMKAnimatedModelEntity loadAnimation(const STRING& path);
 	};
 }
 

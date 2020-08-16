@@ -27,7 +27,7 @@ namespace Dynamik
 	void DMKGameWorld::loadEnvironmentMap(ARRAY<STRING> texturePaths)
 	{
 		pEnvironmentMap = StaticAllocator<DMKEnvironmentMap>::allocate();
-		pEnvironmentMap->skyBox = DMKMeshFactory::createSkyBox(texturePaths);
+		pEnvironmentMap->skyBoxMesh = DMKMeshFactory::createSkyBox(texturePaths);
 	}
 
 	void DMKGameWorld::loadEnvironmentMap(STRING texturePath)

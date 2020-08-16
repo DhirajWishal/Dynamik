@@ -5,10 +5,7 @@
 #ifndef _DYNAMIK_ASSIMP_WRAPPER_H
 #define _DYNAMIK_ASSIMP_WRAPPER_H
 
-#include "Core/Components/RenderableComponents/StaticMeshComponent.h"
-#include "Animation/AnimatedMeshComponent.h"
-
-#include "Core/Objects/Resources/MeshObject.h"
+#include "Renderer/Entities/AnimatedModelEntity.h"
 
 namespace Dynamik
 {
@@ -22,12 +19,29 @@ namespace Dynamik
 		~AssimpWrapper();
 
 		/*
-		 Load mesh component using an aiMesh object.
+		 Load a static model using Assimp.
 
+		 @param file: Asset file.
+		 @param vertexLayout: Vertex layout of the vertex buffers used to store vertex data.
+		*/
+		DMKStaticModelEntity loadStaticModelEntity(const STRING& file, const DMKVertexLayout& vertexLayout);
+
+		/*
+		 Load animated meshes from an asset file.
+
+		 @param file: Asset file.
+		 @param vertexLayout: Vertex layout of the skinned mesh.
+		*/
+		DMKAnimatedModelEntity loadAnimatedModelEntity(const STRING& file, const DMKVertexLayout& vertexLayout, const UI32& nodesPerVertex = 4);
+	
+	private:
+		/*
+		 Load mesh component using an aiMesh object.
+		
 		 @param pAiMeshObject: Pointer to the aiMesh object.
 		 @param vertexLayout: Vertex layout of the Dynamik Mesh Component.
 		*/
-		DMKStaticMeshComponent loadMeshComponent(VPTR pAiMeshObject, const DMKVertexLayout& vertexLayout);
+		DMKMeshObject loadMeshObject(VPTR pAiMeshObject, const DMKVertexLayout& vertexLayout);
 
 		/*
 		 Load animation using aiAnimation and the root node.
@@ -43,30 +57,9 @@ namespace Dynamik
 		 @param pAiSceneObject: Pointer to the aiScene object.
 		 @param vertexLayout: Vertex layout of the mesh component.
 		*/
-		DMKAnimatedMeshComponent loadAnimatedMeshComponent(VPTR pAiSceneObject, const DMKVertexLayout& vertexLayout, const UI32& nodesPerVertex = 4);
+		DMKAnimatedModelEntity loadAnimatedModelEntity(VPTR pAiSceneObject, const DMKVertexLayout& vertexLayout, const UI32& nodesPerVertex = 4);
 
-		/*
-		 Load animated meshes from an asset file.
-
-		 @param file: Asset file.
-		 @param vertexLayout: Vertex layout of the skinned mesh.
-		*/
-		DMKAnimatedMeshComponent loadAnimatedModel(const STRING& file, const DMKVertexLayout& vertexLayout, const UI32& nodesPerVertex = 4);
-
-		/*
-		 Load a static model using Assimp.
-
-		 @param file: Asset file.
-		 @param vertexLayout: Vertex layout of the vertex buffers used to store vertex data.
-		*/
-		ARRAY<DMKStaticMeshComponent> loadStaticModel(const STRING& file, const DMKVertexLayout& vertexLayout);
-	
-	private:
-		/*
-		 Load vertex data to the vertex buffer.
-		*/
-		void loadDataToVertex(DMKVertexBuffer* pBuffer, DMKVertexAttribute attribute);
-
+		/* The importer object. */
 		VPTR importer = nullptr;
 	};
 }

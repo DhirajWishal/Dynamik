@@ -363,7 +363,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AnimatedMeshComponent.h" />
     <ClInclude Include="AnimationController.h" />
     <ClInclude Include="AnimationPlayer.h" />
     <ClInclude Include="Objects\AnimNode.h" />

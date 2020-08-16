@@ -132,6 +132,8 @@
     <ClInclude Include="ThirdParty\stb_font_consolas_24_latin1.inl">
       <Filter>ThirdParty</Filter>
     </ClInclude>
+    <ClInclude Include="Entities\StaticModelEntity.h" />
+    <ClInclude Include="Entities\AnimatedModelEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\Attachments\RBoundingBox.cpp">
@@ -154,6 +156,7 @@
     </ClCompile>
     <ClCompile Include="RUtilities.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Entities\StaticModelEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Renderer.lua" />

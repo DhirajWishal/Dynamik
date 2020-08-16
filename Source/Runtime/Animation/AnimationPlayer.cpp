@@ -6,7 +6,7 @@
 
 namespace Dynamik
 {
-	void DMKAnimationPlayer::beginPlay(DMKAnimatedMeshComponent* pAnimatedMesh, UI64 animationIndex)
+	void DMKAnimationPlayer::beginPlay(DMKAnimatedModelEntity* pAnimatedMesh, UI64 animationIndex)
 	{
 		pCurrentAnimation = pAnimatedMesh;
 		this->animationIndex = animationIndex;

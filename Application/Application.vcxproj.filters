@@ -12,52 +12,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Assets\KeyBinding.h">
-      <Filter>Assets</Filter>
-    </ClInclude>
-    <ClInclude Include="Assets\Level1\DefaultWorld.h">
-      <Filter>Assets\Level1</Filter>
-    </ClInclude>
-    <ClInclude Include="Assets\Level1\Entities\CerberusModel.h">
-      <Filter>Assets\Level1\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Assets\Level1\Entities\VenusModel.h">
-      <Filter>Assets\Level1\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Assets\Level1\Level1.h">
-      <Filter>Assets\Level1</Filter>
-    </ClInclude>
-    <ClInclude Include="Assets\Level1\Player.h">
-      <Filter>Assets\Level1</Filter>
-    </ClInclude>
-    <ClInclude Include="Assets\Level1\SkySphere.h">
-      <Filter>Assets\Level1</Filter>
-    </ClInclude>
-    <ClInclude Include="Assets\Level1\Entities\TestScene.h">
-      <Filter>Assets\Level1\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationServer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Assets\Level1\DefaultWorld.cpp">
-      <Filter>Assets\Level1</Filter>
-    </ClCompile>
-    <ClCompile Include="Assets\Level1\Entities\CerberusModel.cpp">
-      <Filter>Assets\Level1\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Assets\Level1\Entities\VenusModel.cpp">
-      <Filter>Assets\Level1\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Assets\Level1\Level1.cpp">
-      <Filter>Assets\Level1</Filter>
-    </ClCompile>
-    <ClCompile Include="Assets\Level1\SkySphere.cpp">
-      <Filter>Assets\Level1</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Assets\Level1\Entities\TestScene.cpp">
-      <Filter>Assets\Level1\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationServer.cpp" />
   </ItemGroup>
   <ItemGroup>

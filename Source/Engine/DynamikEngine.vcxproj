@@ -363,11 +363,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Dynamik.h" />
     <ClInclude Include="GameServer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Dynamik.cpp" />
     <ClCompile Include="GameServer.cpp" />
   </ItemGroup>
   <ItemGroup>

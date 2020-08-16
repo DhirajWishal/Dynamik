@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_ANIMATION_PLAYER_H
 #define _DYNAMIK_ANIMATION_PLAYER_H
 
-#include "AnimatedMeshComponent.h"
+#include "Renderer/Entities/AnimatedModelEntity.h"
 #include "Core/Utilities/Ticker.h"
 
 namespace Dynamik
@@ -22,7 +22,7 @@ namespace Dynamik
 		/*
 		 Begin playing the animation.
 		*/
-		void beginPlay(DMKAnimatedMeshComponent* pAnimatedMesh, UI64 animationIndex);
+		void beginPlay(DMKAnimatedModelEntity* pAnimatedMesh, UI64 animationIndex);
 
 		/*
 		 Update the animation.
@@ -36,7 +36,7 @@ namespace Dynamik
 
 	public:	
 		DMKTicker myTicker;
-		DMKAnimatedMeshComponent* pCurrentAnimation = nullptr;
+		DMKAnimatedModelEntity* pCurrentAnimation = nullptr;
 		DMKAnimation* pAnimation = nullptr;
 		UI64 animationIndex = 0;
 	};

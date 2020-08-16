@@ -21,16 +21,8 @@
     <ClInclude Include="Camera\CameraModule.h">
       <Filter>Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\HollowEntity.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Entities\StaticEntity.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
     <ClInclude Include="EnvironmentMap.h" />
-    <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameMechanics.h" />
-    <ClInclude Include="GamePackage.h" />
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Mechanics\GameAssetMechanics.h">
       <Filter>Mechanics</Filter>
@@ -54,14 +46,7 @@
     <ClCompile Include="Camera\CameraModule.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Entities\HollowEntity.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Entities\StaticEntity.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
     <ClCompile Include="EnvironmentMap.cpp" />
-    <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Mechanics\PlayerController.cpp">
       <Filter>Mechanics</Filter>

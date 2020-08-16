@@ -634,21 +634,20 @@ namespace Dynamik
 
 		/* Initialize Material */
 		{
-			if (pEnvironmentMap->skyBox.materials.size() > 1)
+			if (pEnvironmentMap->skyBoxMesh.getMaterial().textureContainers.size() > 1)
 				DMK_WARN("Environment Maps only allow one material!");
 
-			for (auto material : myCurrentEnvironment.pMeshComponent->materials)
-				for (auto texture : material.textureContainers)
-					myCurrentEnvironment.pTexture = createTexture(texture.pTexture);
+			for (auto texture : pEnvironmentMap->skyBoxMesh.getMaterial().textureContainers)
+				myCurrentEnvironment.pTexture = createTexture(texture.pTexture);
 		}
 
 		/* Initialize Vertex Buffer */
-		myCurrentEnvironment.pVertexBuffer = createVertexBuffer(pEnvironmentMap->skyBox.vertexBuffer.byteSize());
-		myCurrentEnvironment.pVertexBuffer->setData(myCoreObject, pEnvironmentMap->skyBox.vertexBuffer.byteSize(), 0, pEnvironmentMap->skyBox.vertexBuffer.data());
+		myCurrentEnvironment.pVertexBuffer = createVertexBuffer(pEnvironmentMap->skyBoxMesh.vertexBuffer.byteSize());
+		myCurrentEnvironment.pVertexBuffer->setData(myCoreObject, pEnvironmentMap->skyBoxMesh.vertexBuffer.byteSize(), 0, pEnvironmentMap->skyBoxMesh.vertexBuffer.data());
 
 		/* Initialize Index Buffer */
-		myCurrentEnvironment.pIndexBuffer = createIndexBuffer(pEnvironmentMap->skyBox.getIndexBufferObjectByteSize());
-		myCurrentEnvironment.pIndexBuffer->setData(myCoreObject, pEnvironmentMap->skyBox.getIndexBufferObjectByteSize(), 0, pEnvironmentMap->skyBox.indexBuffer.data());
+		myCurrentEnvironment.pIndexBuffer = createIndexBuffer(pEnvironmentMap->skyBoxMesh.getIndexBuffer().byteSize());
+		myCurrentEnvironment.pIndexBuffer->setData(myCoreObject, pEnvironmentMap->skyBoxMesh.getIndexBuffer().byteSize(), 0, pEnvironmentMap->skyBoxMesh.indexBuffer.data());
 
 		/* Initialize Uniforms */
 		ARRAY<RBuffer*> uniformBuffers;
@@ -671,7 +670,7 @@ namespace Dynamik
 
 		RPipelineSpecification pipelineCreateInfo = {};
 		pipelineCreateInfo.resourceCount = 1;
-		pipelineCreateInfo.shaders = pEnvironmentMap->shaderModules;
+		pipelineCreateInfo.shaders = pEnvironmentMap->shaders;
 		pipelineCreateInfo.scissorInfos.resize(1);
 		pipelineCreateInfo.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
 		pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
@@ -703,9 +702,9 @@ namespace Dynamik
 		myCurrentEnvironment.pPipelineResource->update(myCoreObject, uniformBuffers, textures);
 
 		/* Initialize Vertex and Index Buffers */
-		myDrawCallManager.setEnvironment(myCurrentEnvironment.pPipeline, myCurrentEnvironment.pPipelineResource, myCurrentEnvironment.pVertexBuffer, pEnvironmentMap->skyBox.vertexBuffer.size(), myCurrentEnvironment.pIndexBuffer, pEnvironmentMap->skyBox.indexBuffer.size());
-		pEnvironmentMap->skyBox.vertexBuffer.clear();
-		pEnvironmentMap->skyBox.indexBuffer.clear();
+		myDrawCallManager.setEnvironment(myCurrentEnvironment.pPipeline, myCurrentEnvironment.pPipelineResource, myCurrentEnvironment.pVertexBuffer, pEnvironmentMap->skyBoxMesh.vertexBuffer.size(), myCurrentEnvironment.pIndexBuffer, pEnvironmentMap->skyBoxMesh.indexBuffer.size());
+		pEnvironmentMap->skyBoxMesh.vertexBuffer.clear();
+		pEnvironmentMap->skyBoxMesh.indexBuffer.clear();
 	}
 
 	void DMKRenderer::createStaticModelEntityResources(DMKStaticModelEntity* pEntity)
@@ -748,6 +747,10 @@ namespace Dynamik
 			entity.meshObjects.pushBack(createMeshObject(pEntity, pEntity->meshObjects.location(index), resources[index], entity.pPipelineObject, pUniformBuffers));
 
 		myEntities.pushBack(entity);
+	}
+
+	void DMKRenderer::createAnimatedModelEntityResources(DMKAnimatedModelEntity* pEntity)
+	{
 	}
 
 	void DMKRenderer::initializeGameWorld(DMKGameWorld* pGameWorld)
@@ -907,8 +910,8 @@ namespace Dynamik
 
 	void DMKRenderer::updateBoundingBoxes()
 	{
-		for (auto boundingBox : myBoundingBoxes)
-			boundingBox.pUniformBuffer->setData(myCoreObject, boundingBox.pBoundingBox->getUniform().byteSize(), 0, boundingBox.pBoundingBox->getUniform().data());
+		//for (auto boundingBox : myBoundingBoxes)
+		//	boundingBox.pUniformBuffer->setData(myCoreObject, boundingBox.pBoundingBox->getUniform().byteSize(), 0, boundingBox.pBoundingBox->getUniform().data());
 	}
 
 	void DMKRenderer::updateDebugObjects()

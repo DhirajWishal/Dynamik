@@ -5,7 +5,6 @@
 #ifndef _DYNAMIK_RENDERER_BOUNDING_BOX_ATTACHMENT_H
 #define _DYNAMIK_RENDERER_BOUNDING_BOX_ATTACHMENT_H
 
-#include "Core/Components/Attachments/BoundingBox.h"
 #include "Core/Objects/Resources/VertexBuffer.h"
 #include "../RPipelineObject.h"
 #include "../Primitives/RBuffer.h"
@@ -25,7 +24,6 @@ namespace Dynamik
 		virtual void terminate(RCoreObject* pCoreObject);
 
 		ARRAY<DMKShaderModule> shaders;
-		DMKBoundingBoxAttachment* pBoundingBox = nullptr;
 		RPipelineObject* pPipeline = nullptr;
 		RPipelineResource* pPipelineResource = nullptr;
 		RBuffer* pUniformBuffer = nullptr;

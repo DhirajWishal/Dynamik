@@ -5,8 +5,7 @@
 #ifndef _DYNAMIK_MESH_FACTORY_H
 #define _DYNAMIK_MESH_FACTORY_H
 
-#include "Core/Components/RenderableComponents/StaticModel.h"
-#include "Animation/AnimatedMeshComponent.h"
+#include "Renderer/Entities/AnimatedModelEntity.h"
 
 namespace Dynamik
 {
@@ -34,24 +33,24 @@ namespace Dynamik
 		/*
 		 Create a basic triangle object.
 		*/
-		static DMKStaticMeshComponent createBasicTriangle();
+		static DMKMeshObject createBasicTriangle();
 
 		/*
 		 Load mesh components from a file.
 		*/
-		static DMKStaticMeshComponent loadFromFile(const STRING& file, const DMKVertexLayout& vertexLayout = DMKVertexLayout::createBasic());
+		static DMKMeshObject loadFromFile(const STRING& file, const DMKVertexLayout& vertexLayout = DMKVertexLayout::createBasic());
 
 		/*
 		 Create a default mesh component from a provided file.
 
 		 @param path: Path to the file which contains the mesh data.
 		*/
-		static DMKStaticMeshComponent createDefault(const STRING& path);
+		static DMKMeshObject createDefault(const STRING& path);
 
 		/*
 		 Create a basic cube mesh.
 		*/
-		static DMKStaticMeshComponent createCube();
+		static DMKMeshObject createCube();
 
 		/*
 		 Create a basic sky box using texture files.
@@ -60,28 +59,28 @@ namespace Dynamik
 				+X, -X, +Y, -Y, +Z, -Z configuration.
 				(eg: { "right.jpg", "left.jpg", "top.jpg", "bottom.jpg", "front.jpg", "back.jpg" })
 		*/
-		static DMKStaticMeshComponent createSkyBox(ARRAY<STRING> textureFiles);
+		static DMKMeshObject createSkyBox(ARRAY<STRING> textureFiles);
 
 		/*
 		 Load an animated mesh from an asset file.
 
 		 @param file: The asset file.
 		*/
-		static DMKAnimatedMeshComponent loadAnimatedMesh(const STRING& file);
+		static DMKMeshObject loadAnimatedMesh(const STRING& file);
 
 		/*
 		 Load a static model from an asset file.
 
 		 @param file: The asset file.
 		*/
-		static DMKStaticModel loadStaticModel(const STRING& file, Vector3F position = { 0.0f, 0.0f, 0.0f }, Vector3F scale = { 1.0f, 1.0f, 1.0f });
+		static DMKMeshObject loadStaticModel(const STRING& file, Vector3F position = { 0.0f, 0.0f, 0.0f }, Vector3F scale = { 1.0f, 1.0f, 1.0f });
 
 		/*
 		 Load all the meshes in a given asset.
 
 		 @param asset: The asset path.
 		*/
-		static ARRAY<DMKStaticMeshComponent> loadMeshes(const STRING& file, DMKVertexLayout vertexLayout = DMKVertexLayout::createBasic());
+		static ARRAY<DMKMeshObject> loadMeshes(const STRING& file, DMKVertexLayout vertexLayout = DMKVertexLayout::createBasic());
 
 	private:
 		STRING workingDirectory = TEXT("");

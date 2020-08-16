@@ -8,7 +8,6 @@
 #include "VulkanDevice.h"
 #include "../Primitives/VulkanBuffer.h"
 #include "../Primitives/VulkanTexture.h"
-#include "Core/Components/RenderableComponents/StaticMeshComponent.h"
 
 namespace Dynamik
 {

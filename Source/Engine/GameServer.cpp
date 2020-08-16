@@ -27,6 +27,8 @@
 
 #include "Importer/Asset/ImageImporter.h"
 
+#include "Renderer/Renderer.h"
+
 /*
  Dynamik Engine Runtime
  This file contains the main engine runtime which are restricted from user access.
@@ -250,7 +252,7 @@ namespace Dynamik
 	DMKWindowHandle* DMKGameServer::createWindow(UI64 width, UI64 height, const STRING& title)
 	{
 #ifdef DMK_PLATFORM_WINDOWS
-		DMKWindowHandle* pHandle = StaticAllocator<WindowsWindow>::allocateInit(WindowsWindow(title, width, height));
+		DMKWindowHandle* pHandle = StaticAllocator<WindowsWindow>::allocateInit(WindowsWindow(title, Cast<I32>(width), Cast<I32>(height)));
 		pHandle->initialize();
 		pHandle->setEventBoard(&eventPool);
 		pHandle->initializeKeyBindings();

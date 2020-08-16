@@ -17,10 +17,10 @@
 
 #include "Services/RuntimeSystems/ConfigurationService.h"
 
-#include "Renderer/Renderer.h"
-
 namespace Dynamik
 {
+	class DMK_API DMKRenderer;
+
 	/*
 	 Dynamik Game Data 
 	 This structure contains all the information related to a game.

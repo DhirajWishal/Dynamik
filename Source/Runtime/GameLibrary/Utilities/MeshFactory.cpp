@@ -17,9 +17,9 @@ namespace Dynamik
 		instance.workingDirectory = path;
 	}
 
-	DMKStaticMeshComponent DMKMeshFactory::createBasicTriangle()
+	DMKMeshObject DMKMeshFactory::createBasicTriangle()
 	{
-		DMKStaticMeshComponent component;
+		DMKMeshObject component;
 
 		struct TempVertex {
 			TempVertex() {}
@@ -40,9 +40,6 @@ namespace Dynamik
 			0, 1, 2
 		};
 
-		component.indexBuffer = indexes;
-		component.indexCount = indexes.size();
-
 		DMKVertexLayout vertexLayout;
 		DMKVertexAttribute vertexAttribute;
 		vertexAttribute.dataCount = 1;
@@ -57,35 +54,29 @@ namespace Dynamik
 		component.vertexBuffer.initialize(vertexes.size(), vertexLayout);
 		component.vertexBuffer.setData(vertexes.data());
 
-		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/triangle-vert-3D.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
-		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/triangle-frag-3D.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
-
 		return component;
 	}
 
-	DMKStaticMeshComponent DMKMeshFactory::loadFromFile(const STRING& file, const DMKVertexLayout& vertexLayout)
+	DMKMeshObject DMKMeshFactory::loadFromFile(const STRING& file, const DMKVertexLayout& vertexLayout)
 	{
 		return DMKMeshImporter::loadMeshes(file, vertexLayout)[0];
 	}
 
-	DMKStaticMeshComponent DMKMeshFactory::createDefault(const STRING& path)
+	DMKMeshObject DMKMeshFactory::createDefault(const STRING& path)
 	{
-		DMKStaticMeshComponent component = DMKMeshImporter::loadMeshes(path, DMKVertexLayout::createBasicIBL())[0];
-
-		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/3D/vert.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
-		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/3D/frag.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+		DMKMeshObject component = DMKMeshImporter::loadMeshes(path, DMKVertexLayout::createBasicIBL())[0];
 
 		return component;
 	}
 
-	DMKStaticMeshComponent DMKMeshFactory::createCube()
+	DMKMeshObject DMKMeshFactory::createCube()
 	{
-		DMKStaticMeshComponent component = DMKMeshImporter::loadMeshes(instance.workingDirectory + "/Runtime/Assets/Models/Cube/Cube.obj", DMKVertexLayout::createBasic())[0];
+		DMKMeshObject component = DMKMeshImporter::loadMeshes(instance.workingDirectory + "/Runtime/Assets/Models/Cube/Cube.obj", DMKVertexLayout::createBasic())[0];
 
 		return component;
 	}
 
-	DMKStaticMeshComponent DMKMeshFactory::createSkyBox(ARRAY<STRING> textureFiles)
+	DMKMeshObject DMKMeshFactory::createSkyBox(ARRAY<STRING> textureFiles)
 	{
 		DMKVertexLayout layout;
 		DMKVertexAttribute attribute;
@@ -94,40 +85,31 @@ namespace Dynamik
 		attribute.dataFormat = DMKFormat::DMK_FORMAT_RGBA_32_SF32;
 		layout.attributes.pushBack(attribute);
 
-		DMKStaticMeshComponent component = DMKMeshImporter::loadMeshes(instance.workingDirectory + "/Runtime/Assets/Models/SkyBox/SkySphere.obj", layout)[0];
+		DMKMeshObject component = DMKMeshImporter::loadMeshes(instance.workingDirectory + "/Runtime/Assets/Models/SkyBox/SkySphere.obj", layout)[0];
 
-		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/SkyBox/vert.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
-		component.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/SkyBox/frag.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
-
-		component.addTextureModule(DMKTextureFactory::createCubeMap(textureFiles));
+		component.getMaterial().addTexture(DMKTextureFactory::createCubeMap(textureFiles), MaterialTextureType::MATERIAL_TEXTURE_TYPE_DEFAULT);
 
 		return component;
 	}
 
-	DMKAnimatedMeshComponent DMKMeshFactory::loadAnimatedMesh(const STRING& file)
+	DMKMeshObject DMKMeshFactory::loadAnimatedMesh(const STRING& file)
 	{
-		return DMKAnimationImporter::loadAnimation(file);
+		return DMKMeshObject();
 	}
 
-	DMKStaticModel DMKMeshFactory::loadStaticModel(const STRING& file, Vector3F position, Vector3F scale)
+	DMKMeshObject DMKMeshFactory::loadStaticModel(const STRING& file, Vector3F position, Vector3F scale)
 	{
 		auto meshes = DMKMeshImporter::loadMeshes(file, DMKVertexLayout::createBasic());
-		DMKStaticModel newModel;
+		DMKMeshObject newModel;
 
 		for (auto mesh : meshes)
 		{
-			mesh.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/3D/vert.spv", DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
-			mesh.addShaderModule(DMKShaderFactory::createModule(instance.workingDirectory + "/Runtime/Assets/Shaders/3D/frag.spv", DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
-			mesh.setPosition(position);
-			mesh.setScale(scale);
-			
-			newModel.addMesh(mesh);
 		}
 
 		return newModel;
 	}
 	
-	ARRAY<DMKStaticMeshComponent> DMKMeshFactory::loadMeshes(const STRING& file, DMKVertexLayout vertexLayout)
+	ARRAY<DMKMeshObject> DMKMeshFactory::loadMeshes(const STRING& file, DMKVertexLayout vertexLayout)
 	{
 		return  DMKMeshImporter::loadMeshes(file, vertexLayout);
 	}
