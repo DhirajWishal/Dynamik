@@ -33,7 +33,6 @@
     <ClInclude Include="Entities\StaticModelEntity.h">
       <Filter>Entities</Filter>
     </ClInclude>
-    <ClInclude Include="EnvironmentEntity.h" />
     <ClInclude Include="GameMechanics.h" />
     <ClInclude Include="GameModule.h" />
     <ClInclude Include="GameWorld.h" />
@@ -52,6 +51,7 @@
     <ClInclude Include="Utilities\MeshFactory.h">
       <Filter>Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Entities\SkyBoxEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp">
@@ -74,6 +74,7 @@
     <ClCompile Include="Utilities\MeshFactory.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\SkyBoxEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameLibrary.lua" />

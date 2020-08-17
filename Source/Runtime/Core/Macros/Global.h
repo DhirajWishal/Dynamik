@@ -43,4 +43,6 @@
 
 #endif
 
+#define DMK_SETUP_GETTER(className) className* get##className() const { return this; }
+
 #endif // !_DYNAMIK_GLOBAL_MACROS_H

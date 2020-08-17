@@ -127,9 +127,6 @@ namespace Dynamik
 
 	void DMKGameServer::execute()
 	{
-		/* Submit data */
-		submitGameWorldData();
-
 		/* Initialize the finals */
 		getRenderer()->initializeFinalsCMD();
 
@@ -266,10 +263,6 @@ namespace Dynamik
 		return nullptr;
 	}
 
-	void DMKGameServer::submitGameWorldData()
-	{
-	}
-
 	void DMKGameServer::initializeGameWorld()
 	{
 		if (!getActiveGameModule()->pCurrentGameWorld)
@@ -277,6 +270,7 @@ namespace Dynamik
 			DMK_WARN("A game world has not been set!");
 			return;
 		}
+
 		getActiveGameModule()->getCurrentGameWorld()->initialize();
 		getActiveGameModule()->getCurrentGameWorld()->onInitializeEntities();
 	}

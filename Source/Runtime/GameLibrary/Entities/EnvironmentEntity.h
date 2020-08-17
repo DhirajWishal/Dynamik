@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_ENVIRONMENT_MAP_H
-#define _DYNAMIK_ENVIRONMENT_MAP_H
+#ifndef _DYNAMIK_ENVIRONMENT_ENTITY_H
+#define _DYNAMIK_ENVIRONMENT_ENTITY_H
 
 #include "GameLibrary/Entities/StaticModelEntity.h"
 
@@ -21,6 +21,21 @@ namespace Dynamik
 	public:
 		DMKEnvironmentEntity() = default;
 		virtual ~DMKEnvironmentEntity() = default;
+
+		/*
+		 On initialize environment method.
+		*/
+		virtual void onInitializeEnvironment() {}
+
+		/*
+		 On update environment method.
+		*/
+		virtual void onUpdateEnvironment() {}
+
+		/*
+		 On terminate environment method.
+		*/
+		virtual void onTerminateEnvironment() {}
 
 		/*
 		 Add a shader module.

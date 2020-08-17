@@ -364,12 +364,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationServer.h" />
+    <ClInclude Include="Assets\Entities\OceanEnv.h" />
     <ClInclude Include="Assets\Entities\Player.h" />
     <ClInclude Include="Assets\Modules\Module00\Module00.h" />
     <ClInclude Include="Assets\Worlds\DefaultWorld.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ApplicationServer.cpp" />
+    <ClCompile Include="Assets\Entities\OceanEnv.cpp" />
     <ClCompile Include="Assets\Entities\Player.cpp" />
     <ClCompile Include="Assets\Modules\Module00\Module00.cpp" />
     <ClCompile Include="Assets\Worlds\DefaultWorld.cpp" />

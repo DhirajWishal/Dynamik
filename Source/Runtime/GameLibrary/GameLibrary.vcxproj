@@ -367,8 +367,8 @@
     <ClInclude Include="Entities\AnimatedModelEntity.h" />
     <ClInclude Include="Entities\EnvironmentEntity.h" />
     <ClInclude Include="Entities\PlayerEntity.h" />
+    <ClInclude Include="Entities\SkyBoxEntity.h" />
     <ClInclude Include="Entities\StaticModelEntity.h" />
-    <ClInclude Include="EnvironmentEntity.h" />
     <ClInclude Include="GameMechanics.h" />
     <ClInclude Include="GameModule.h" />
     <ClInclude Include="GameWorld.h" />
@@ -382,6 +382,7 @@
     <ClCompile Include="Camera\CameraModule.cpp" />
     <ClCompile Include="Entities\EnvironmentEntity.cpp" />
     <ClCompile Include="Entities\PlayerEntity.cpp" />
+    <ClCompile Include="Entities\SkyBoxEntity.cpp" />
     <ClCompile Include="Entities\StaticModelEntity.cpp" />
     <ClCompile Include="GameModule.cpp" />
     <ClCompile Include="GameWorld.cpp" />

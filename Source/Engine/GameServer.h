@@ -193,11 +193,6 @@ namespace Dynamik
 		DMKWindowHandle* createWindow(UI64 width, UI64 height, const STRING& title);
 
 		/*
-		 Submit all the game world data.
-		*/
-		void submitGameWorldData();
-
-		/*
 		 Initialize the game world.
 		*/
 		void initializeGameWorld();

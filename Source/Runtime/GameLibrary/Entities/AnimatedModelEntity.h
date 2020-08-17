@@ -27,7 +27,7 @@ namespace Dynamik
 		 @param rotation: The rotation of the instance.
 		 @param scale: The scale of the instance.
 		*/
-		void addAnimationInstance(const STRING& name, const Vector3F& position, const Quaternion& rotation, const Vector3F& scale) { addStaticInstance(name, position, rotation, scale); }
+		void addInstance(const STRING& name, const Vector3F& position, const Quaternion& rotation, const Vector3F& scale) { DMKStaticModelEntity::addInstance(name, position, rotation, scale); }
 	
 		/* Animations of the animated model */
 		ARRAY<DMKAnimation> animations;

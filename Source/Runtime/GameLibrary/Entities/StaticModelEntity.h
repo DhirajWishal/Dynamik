@@ -36,7 +36,7 @@ namespace Dynamik
 		 @param rotation: The rotation of the instance.
 		 @param scale: The scale of the instance.
 		*/
-		void addStaticInstance(const STRING& name, const Vector3F& position, const Quaternion& rotation, const Vector3F& scale) {}
+		void addInstance(const STRING& name, const Vector3F& position, const Quaternion& rotation, const Vector3F& scale) {}
 
 		/* The mesh objects. */
 		ARRAY<DMKMeshObject> meshObjects;

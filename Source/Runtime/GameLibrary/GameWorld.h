@@ -8,7 +8,7 @@
 #include "Core/Types/ComplexTypes.h"
 #include "Core/Types/Utilities.h"
 #include "Core/FileSystem/FileSystem.h"
-#include "EnvironmentEntity.h"
+#include "Entities/EnvironmentEntity.h"
 #include "Services/SystemLocator.h"
 
 #include "Renderer/Renderer.h"
@@ -246,6 +246,23 @@ namespace Dynamik
 			DMKSystemLocator::getSystem<DMKRenderer>()->submitAnimatedModelEntityCMD(pEntity);
 		}
 
+		/*
+		 Submit the environment to the renderer.
+
+		 @param index: The index of the entity.
+		 @tparam ENTITY: The entity type.
+		*/
+		template<class ENTITY>
+		DMK_FORCEINLINE void submitEnvironmentToRenderer(I32 index = 0)
+		{
+			auto pEntity = getEntity<ENTITY>(index);
+
+			if (!isInheritedFrom<DMKEnvironmentEntity>(pEntity))
+				return;
+
+			DMKSystemLocator::getSystem<DMKRenderer>()->initializeEnvironmentEntityCMD(pEntity);
+		}
+
 	private:
 		/*
 		 Internal method to check if an object is inherited from another. 
@@ -259,14 +276,17 @@ namespace Dynamik
 		{
 			if (!IsInheritedFrom_C<BASE>(*pEntity))
 			{
-				DMK_ERROR("The submitted entity is not inherited from " + STRING(typeid(BASE).name()) + "! All player entities are required to be inherited from the " + typeid(BASE).name() + " object.");
+				DMK_ERROR("The submitted entity is not inherited from " + STRING(typeid(BASE).name()) + "! All player entities are required to be inherited from the " + STRING(typeid(BASE).name()) + " object.");
 				return false;
 			}
 
 			return true;
 		}
 
+		/* Entity map */
 		std::unordered_map<STRING, IEntityArray*> entityMap;
+
+		/* Registered entity type names */
 		ARRAY<STRING> registeredEntities;
 
 	public:		/* Light Component */
