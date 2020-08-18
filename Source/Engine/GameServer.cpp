@@ -99,6 +99,9 @@ namespace Dynamik
 
 	void DMKGameServer::initialize()
 	{
+		/* Call on statup method. */
+		onStartup();
+
 		/* Initialize the runtime systems. */
 		initializeRuntimeSystems();
 

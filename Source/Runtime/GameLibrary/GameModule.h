@@ -115,6 +115,7 @@ namespace Dynamik
 		*/
 		const F32 getScore() const { score; }
 
+		/* The currently active game server pointer. */
 		DMKGameServer* pServer = nullptr;
 	};
 }
