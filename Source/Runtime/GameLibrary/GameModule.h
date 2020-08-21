@@ -32,9 +32,30 @@ namespace Dynamik
 		DMKGameModule();
 		virtual ~DMKGameModule() {}
 
+		/*
+		 On load method. 
+		 This method is called once the module is loaded.
+		*/
 		virtual void onLoad() {}
+
+		/*
+		 On initialize method. 
+		*/
 		virtual void onInitialize() {}
-		virtual void onUpdate(const DMKEventPool* pEventPool) {}
+
+		/*
+		 On tick method. 
+		*/
+		virtual void onTick(const F32 tick) {}
+
+		/*
+		 On update method. 
+		*/
+		virtual void onUpdate(const F32 timeStep) {}
+
+		/*
+		 On unload method.
+		*/
 		virtual void onUnoad() {}
 
 		/* 
@@ -51,7 +72,8 @@ namespace Dynamik
 		*/
 		virtual void onSubmitDataToSystems() {}
 
-	public:		/* Level Data Store */
+		/* Game world utilities and data */
+	public:
 		/*
 		 Pointer to the current (active) game world.
 		 A level can cycle through multiple game worlds at times.
@@ -83,6 +105,12 @@ namespace Dynamik
 			pCurrentGameWorld->initialize();
 		}
 
+		/*
+		 Initialize the game world entities.
+		*/
+		void initializeGameWorldEntities();
+
+	public:
 		/* Game Mechanics */
 		ARRAY<DMKGameMechanics*> gameMechanics;
 

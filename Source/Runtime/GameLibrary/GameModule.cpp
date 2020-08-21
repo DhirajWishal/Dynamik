@@ -15,6 +15,13 @@ namespace Dynamik
 
 	void DMKGameModule::updateEntities(F32 timeStep)
 	{
-		pCurrentGameWorld->onUpdate(timeStep);
+		if (pCurrentGameWorld)
+			pCurrentGameWorld->onUpdate(timeStep);
+	}
+
+	void DMKGameModule::initializeGameWorldEntities()
+	{
+		if (pCurrentGameWorld)
+			pCurrentGameWorld->onInitializeEntities();
 	}
 }

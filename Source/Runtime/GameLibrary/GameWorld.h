@@ -89,7 +89,8 @@ namespace Dynamik
 		*/
 		virtual void onMainWindowResize(DMKExtent2D newSize) {}
 
-	public:		/* Entity Management */
+		/* Entity Management */
+	public:		
 		/*
 		 Check if an entity is registered.
 
@@ -140,15 +141,16 @@ namespace Dynamik
 		}
 
 		/*
-		 Add an entity to the entity array.
+		 Add an entity to the entity array. 
 
 		 @param constructor: The value to be constructed with.
 		 @tparam ENTITY: The entity type.
 		*/
 		template<class ENTITY>
-		DMK_FORCEINLINE void addEntity(const ENTITY& constructor = ENTITY())
+		DMK_FORCEINLINE ENTITY* addEntity(const ENTITY& constructor = ENTITY())
 		{
 			getEntities<ENTITY>()->pushBack(constructor);
+			return getEntities<ENTITY>()->location(-1);
 		}
 
 		/*
@@ -158,9 +160,10 @@ namespace Dynamik
 		 @tparam ENTITY: The entity type.
 		*/
 		template<class ENTITY>
-		DMK_FORCEINLINE void addEntity(ENTITY&& constructor)
+		DMK_FORCEINLINE ENTITY* addEntity(ENTITY&& constructor)
 		{
 			getEntities()->pushBack(std::move(constructor));
+			return getEntities<ENTITY>()->location(-1);
 		}
 
 		/*
@@ -206,6 +209,7 @@ namespace Dynamik
 		{
 			auto pEntity = getEntity<ENTITY>(index);
 
+			/* Check if the entity is valid. */
 			if (!isInheritedFrom<DMKPlayerEntity>(pEntity))
 				return;
 
@@ -223,6 +227,7 @@ namespace Dynamik
 		{
 			auto pEntity = getEntity<ENTITY>(index);
 
+			/* Check if the entity is valid. */
 			if (!isInheritedFrom<DMKStaticModelEntity>(pEntity))
 				return;
 
@@ -240,6 +245,7 @@ namespace Dynamik
 		{
 			auto pEntity = getEntity<ENTITY>(index);
 
+			/* Check if the entity is valid. */
 			if (!isInheritedFrom<DMKAnimatedModelEntity>(pEntity))
 				return;
 
@@ -257,6 +263,7 @@ namespace Dynamik
 		{
 			auto pEntity = getEntity<ENTITY>(index);
 
+			/* Check if the entity is valid. */
 			if (!isInheritedFrom<DMKEnvironmentEntity>(pEntity))
 				return;
 
@@ -293,6 +300,11 @@ namespace Dynamik
 		/* Global Light Components */
 		ARRAY<DMKGameWorldLightComponent> globalLightComponents;
 
+		/*
+		 Add a light component to the world. 
+
+		 @component: The light component.
+		*/
 		void addLightComponent(DMKGameWorldLightComponent component);
 	};
 

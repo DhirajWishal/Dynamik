@@ -99,7 +99,7 @@ namespace Dynamik
 
 	void DMKGameServer::initialize()
 	{
-		/* Call on statup method. */
+		/* Call on startup method. */
 		onStartup();
 
 		/* Initialize the runtime systems. */
@@ -144,6 +144,7 @@ namespace Dynamik
 			/* Poll events. */
 			getCurrentWindowHandle()->pollEvents();
 
+			/* Handle frame buffer resize. */
 			if (eventPool.FrameBufferResizeEvent)
 			{
 				auto _extent = getCurrentWindowHandle()->getWindowExtent();
@@ -170,6 +171,9 @@ namespace Dynamik
 
 			/* Call the on update method. */
 			onUpdate(1.0f);
+
+			/* Call on update in the active game module.*/
+			getActiveGameModule()->onUpdate(1.0f);
 
 			/* Update entities */
 			getActiveGameModule()->updateEntities(1.0f);
@@ -274,7 +278,6 @@ namespace Dynamik
 			return;
 		}
 
-		getActiveGameModule()->getCurrentGameWorld()->initialize();
-		getActiveGameModule()->getCurrentGameWorld()->onInitializeEntities();
+		getActiveGameModule()->initializeGameWorldEntities();
 	}
 }

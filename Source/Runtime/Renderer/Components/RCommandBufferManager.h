@@ -23,7 +23,17 @@ namespace Dynamik
 		virtual void resetBuffers(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) = 0;
 		virtual void terminateBuffers(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) = 0;
 		virtual void terminate(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) = 0;
+
+		virtual void beginSecondaryCommandBuffers() = 0;
+		/* Swap the currently active command buffer with a specified buffer. */
+		virtual void swapCommandBuffers(RCommandBuffer* pMainCommandBuffer, RCommandBuffer* pReturnCommandBuffer = nullptr) = 0;
 	};
+
+	/* TODO (Vulkan)
+	 Once the user submits render data to the rendering engine, the engine first runs them on secondary command buffers. 
+	 If a data is not removed for a certain period of time, it will be baked into a primary command buffer and will be 
+	 executed.
+	*/
 }
 
 #endif // !_DYNAMIK_RENDERER_COMMAND_BUFFER_MANAGER_H

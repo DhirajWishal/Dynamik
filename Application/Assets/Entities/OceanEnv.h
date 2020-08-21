@@ -6,6 +6,8 @@
 #define _APPLICATION_OCEAN_ENVIRONMENT_H
 
 #include "GameLibrary/Entities/EnvironmentEntity.h"
+#include "GameLibrary/Camera/CameraModule.h"
+#include "Core/Types/StaticArray.h"
 using namespace Dynamik;
 
 class OceanEnv final : public DMKEnvironmentEntity {
@@ -13,7 +15,18 @@ public:
 	OceanEnv() {}
 	~OceanEnv() {}
 
+	void setCameraModule(DMKCameraModule* pCameraModule);
+
 	virtual void onInitializeEnvironment() override final;
+	virtual void onUpdateEnvironment() override final;
+
+	struct UniformFS {
+		StaticArray<Vector4F, 4> lights;
+		F32 exposure = 4.5f;
+		F32 gamma = 2.2f;
+	} fsUBO;
+
+	DMKCameraModule* pCameraModule = nullptr;
 };
 
 #endif // !_APPLICATION_OCEAN_ENVIRONMENT_H
