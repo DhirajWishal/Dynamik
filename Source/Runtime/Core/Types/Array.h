@@ -484,10 +484,12 @@ namespace Dynamik
 		 */
 		TYPE& at(I64 index = 0)
 		{
-			if (index >= (I64)_getSizeOfThis() || (index <= (I64)(0 - _getSizeOfThis())))
+			index = _getProcessedIndex(index);
+
+			if (index > Cast<I64>(capacity()) || index < 0)
 				DMKErrorManager::logError("Invalid array index!");
 
-			return myBeginPtr[_getProcessedIndex(index)];
+			return myBeginPtr[Cast<UI64>(index)];
 		}
 
 		/* FUNCTION
@@ -498,10 +500,12 @@ namespace Dynamik
 		 */
 		const TYPE& at(I64 index = 0) const
 		{
-			if (index >= (I64)_getSizeOfThis() || (index <= (I64)(0 - _getSizeOfThis())))
+			index = _getProcessedIndex(index);
+
+			if (index > Cast<I64>(capacity()) || index < 0)
 				DMKErrorManager::logError("Invalid array index!");
 
-			return myBeginPtr[_getProcessedIndex(index)];
+			return myBeginPtr[Cast<UI64>(index)];
 		}
 
 		/* FUNCTION
@@ -511,7 +515,9 @@ namespace Dynamik
 		 */
 		TYPE* location(I64 index)
 		{
-			if (index >= (I64)_getSizeOfThis() || (index <= (I64)(0 - _getSizeOfThis())))
+			index = _getProcessedIndex(index);
+
+			if (index > (I64)capacity() || index < 0)
 			{
 				DMKErrorManager::logError("Invalid array index!");
 				return nullptr;
@@ -527,7 +533,9 @@ namespace Dynamik
 		 */
 		const TYPE* location(I64 index) const
 		{
-			if (index >= (I64)_getSizeOfThis() || (index <= (I64)(0 - _getSizeOfThis())))
+			index = _getProcessedIndex(index);
+
+			if (index > (I64)capacity() || index < 0)
 			{
 				DMKErrorManager::logError("Invalid array index!");
 				return nullptr;
@@ -587,6 +595,7 @@ namespace Dynamik
 			_fillWithData(capacity(), (TYPE&&)value);
 
 			_setValue(value, capacity());
+			myDataCount = size;
 		}
 
 		/* FUNCTION

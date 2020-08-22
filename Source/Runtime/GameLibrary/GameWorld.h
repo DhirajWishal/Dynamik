@@ -10,39 +10,20 @@
 #include "Core/FileSystem/FileSystem.h"
 #include "Entities/EnvironmentEntity.h"
 #include "Services/SystemLocator.h"
+#include "Utilities/Utilities.h"
 
 #include "Renderer/Renderer.h"
+
+#include "Entities/AnimatedModelEntity.h"
+#include "Entities/EnvironmentEntity.h"
+#include "Entities/PlayerEntity.h"
+#include "Entities/StaticModelEntity.h"
 
 namespace Dynamik
 {
 	class DMK_API DMKGameModule;
-
-	/*
-	 Interface Entity Array
-	*/
-	class DMK_API IEntityArray {
-	public:
-		IEntityArray() {}
-		virtual ~IEntityArray() {}
-	};
-
-	/*
-	 Type Entity Array
-	 This object stores all the entities of a given type.
-	*/
-	template<class OBJECT>
-	class DMK_API TEntityArray : public IEntityArray, public ARRAY<OBJECT> {
-	public:
-		TEntityArray() : ARRAY<OBJECT>() {}
-		TEntityArray(UI64 size) : ARRAY<OBJECT>(size) {}
-		TEntityArray(UI64 size, const OBJECT& value) : ARRAY<OBJECT>(size, value) {}
-		TEntityArray(const OBJECT* arr) : ARRAY<OBJECT>(arr) {}
-		TEntityArray(std::initializer_list<OBJECT> list, UI64 size = 1) : ARRAY<OBJECT>(list, size) {}
-		TEntityArray(const ARRAY<OBJECT>& arr) : ARRAY<OBJECT>(arr) {}
-		TEntityArray(ARRAY<OBJECT>&& arr) : ARRAY<OBJECT>(std::move(arr)) {}
-		TEntityArray(std::vector<OBJECT> vector) : ARRAY<OBJECT>(vector) {}
-		~TEntityArray() {}
-	};
+	class DMK_API IEntityArray;
+	template<class OBJECT> class DMK_API TEntityArray;
 
 	/*
 	 Dynamik Game World Light Component
@@ -71,12 +52,6 @@ namespace Dynamik
 		virtual void initialize() {}
 
 		/*
-		 On initialize entities method.
-		 Users are to initialize all the entities and submit them to the relevant systems in this method.
-		*/
-		virtual void onInitializeEntities() {}
-
-		/*
 		 On update method.
 
 		 @param timeStep: The amount of time elapsed from the last iteration.
@@ -90,7 +65,7 @@ namespace Dynamik
 		virtual void onMainWindowResize(DMKExtent2D newSize) {}
 
 		/* Entity Management */
-	public:		
+	public:
 		/*
 		 Check if an entity is registered.
 
@@ -132,10 +107,7 @@ namespace Dynamik
 		DMK_FORCEINLINE TEntityArray<ENTITY>* getEntities()
 		{
 			if (!isEntityRegistered<ENTITY>())
-			{
-				DMK_WARN("The entity is not registered! Creating a new array. Entity Name: " + STRING(typeid(ENTITY).name()));
 				registerEntity<ENTITY>();
-			}
 
 			return Cast<TEntityArray<ENTITY>*>(entityMap[typeid(ENTITY).name()]);
 		}
@@ -150,7 +122,7 @@ namespace Dynamik
 		DMK_FORCEINLINE ENTITY* addEntity(const ENTITY& constructor = ENTITY())
 		{
 			getEntities<ENTITY>()->pushBack(constructor);
-			return getEntities<ENTITY>()->location(-1);
+			return getEntity<ENTITY>(-1);
 		}
 
 		/*
@@ -202,94 +174,31 @@ namespace Dynamik
 		 method. Since multiple player entities can be stored, the index of the required entity is needed.
 
 		 @param index: The index of the player entity. Default is 0.
-		 @tparam ENTITY: The entity type.
 		*/
-		template<class ENTITY>
-		DMK_FORCEINLINE void setupPlayerConstrols(I64 index = 0)
-		{
-			auto pEntity = getEntity<ENTITY>(index);
-
-			/* Check if the entity is valid. */
-			if (!isInheritedFrom<DMKPlayerEntity>(pEntity))
-				return;
-
-			pEntity->setupPlayerControls(DMKSystemLocator::getSystem<DMKPlayerController>());
-		}
-
-		/*
-		 Submit the static model to the renderer. 
-
-		 @param index: The index of the entity.
-		 @tparam ENTITY: The entity type.
-		*/
-		template<class ENTITY>
-		DMK_FORCEINLINE void submitStaticModelToRenderer(I32 index = 0)
-		{
-			auto pEntity = getEntity<ENTITY>(index);
-
-			/* Check if the entity is valid. */
-			if (!isInheritedFrom<DMKStaticModelEntity>(pEntity))
-				return;
-
-			DMKSystemLocator::getSystem<DMKRenderer>()->submitStaticModelEntityCMD(pEntity);
-		}
+		void setupPlayerConstrols(DMKPlayerEntity* pPlayerEntity);
 
 		/*
 		 Submit the static model to the renderer.
 
 		 @param index: The index of the entity.
-		 @tparam ENTITY: The entity type.
 		*/
-		template<class ENTITY>
-		DMK_FORCEINLINE void submitAnimatedModelToRenderer(I32 index = 0)
-		{
-			auto pEntity = getEntity<ENTITY>(index);
+		void submitStaticModelToRenderer(DMKStaticModelEntity* pStaticModel);
 
-			/* Check if the entity is valid. */
-			if (!isInheritedFrom<DMKAnimatedModelEntity>(pEntity))
-				return;
+		/*
+		 Submit the static model to the renderer.
 
-			DMKSystemLocator::getSystem<DMKRenderer>()->submitAnimatedModelEntityCMD(pEntity);
-		}
+		 @param index: The index of the entity.
+		*/
+		void submitAnimatedModelToRenderer(DMKAnimatedModelEntity* pAnimatedModel);
 
 		/*
 		 Submit the environment to the renderer.
 
 		 @param index: The index of the entity.
-		 @tparam ENTITY: The entity type.
 		*/
-		template<class ENTITY>
-		DMK_FORCEINLINE void submitEnvironmentToRenderer(I32 index = 0)
-		{
-			auto pEntity = getEntity<ENTITY>(index);
-
-			/* Check if the entity is valid. */
-			if (!isInheritedFrom<DMKEnvironmentEntity>(pEntity))
-				return;
-
-			DMKSystemLocator::getSystem<DMKRenderer>()->initializeEnvironmentEntityCMD(pEntity);
-		}
+		void submitEnvironmentToRenderer(DMKEnvironmentEntity* pEnvironment);
 
 	private:
-		/*
-		 Internal method to check if an object is inherited from another. 
-
-		 @param pEntity: The entity.
-		 @tparam BASE: The base class to check from.
-		 @tparam DERIVED: The class to be checked from.
-		*/
-		template<class BASE, class DERIVED>
-		DMK_FORCEINLINE constexpr B1 isInheritedFrom(DERIVED* pEntity)
-		{
-			if (!IsInheritedFrom_C<BASE>(*pEntity))
-			{
-				DMK_ERROR("The submitted entity is not inherited from " + STRING(typeid(BASE).name()) + "! All player entities are required to be inherited from the " + STRING(typeid(BASE).name()) + " object.");
-				return false;
-			}
-
-			return true;
-		}
-
 		/* Entity map */
 		std::unordered_map<STRING, IEntityArray*> entityMap;
 
@@ -301,11 +210,38 @@ namespace Dynamik
 		ARRAY<DMKGameWorldLightComponent> globalLightComponents;
 
 		/*
-		 Add a light component to the world. 
+		 Add a light component to the world.
 
 		 @component: The light component.
 		*/
 		void addLightComponent(DMKGameWorldLightComponent component);
+	};
+
+	/*
+	 Interface Entity Array
+	*/
+	class DMK_API IEntityArray {
+	public:
+		IEntityArray() {}
+		virtual ~IEntityArray() {}
+	};
+
+	/*
+	 Type Entity Array
+	 This object stores all the entities of a given type.
+	*/
+	template<class OBJECT>
+	class DMK_API TEntityArray : public IEntityArray, public ARRAY<OBJECT> {
+	public:
+		TEntityArray() : ARRAY<OBJECT>() {}
+		TEntityArray(UI64 size) : ARRAY<OBJECT>(size) {}
+		TEntityArray(UI64 size, const OBJECT& value) : ARRAY<OBJECT>(size, value) {}
+		TEntityArray(const OBJECT* arr) : ARRAY<OBJECT>(arr) {}
+		TEntityArray(std::initializer_list<OBJECT> list, UI64 size = 1) : ARRAY<OBJECT>(list, size) {}
+		TEntityArray(const ARRAY<OBJECT>& arr) : ARRAY<OBJECT>(arr) {}
+		TEntityArray(ARRAY<OBJECT>&& arr) : ARRAY<OBJECT>(std::move(arr)) {}
+		TEntityArray(std::vector<OBJECT> vector) : ARRAY<OBJECT>(vector) {}
+		~TEntityArray() {}
 	};
 
 	/*

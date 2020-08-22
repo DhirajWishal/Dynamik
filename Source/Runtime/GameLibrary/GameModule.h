@@ -105,11 +105,6 @@ namespace Dynamik
 			pCurrentGameWorld->initialize();
 		}
 
-		/*
-		 Initialize the game world entities.
-		*/
-		void initializeGameWorldEntities();
-
 	public:
 		/* Game Mechanics */
 		ARRAY<DMKGameMechanics*> gameMechanics;

@@ -15,19 +15,21 @@ void DefaultWorld::initialize()
 	oceanEntity->setCameraModule(getEntity<Player>()->getCameraModule());
 }
 
-void DefaultWorld::onInitializeEntities()
-{
-	/* Initialize the player entity */
-	getEntity<Player>()->onInitializePlayer();
-
-	/* Setup player controls */
-	setupPlayerConstrols<Player>();
-
-	submitStaticModelToRenderer<Player>(0);
-}
-
 void DefaultWorld::onUpdate(const F32 timeStep)
 {
+	if (!areEntitiesInitialized)
+	{
+		/* Initialize the player entity */
+		getEntity<Player>()->onInitializePlayer();
+
+		/* Setup player controls */
+		setupPlayerConstrols(getEntity<Player>());
+
+		/* Submit the environment map entity. */
+		submitEnvironmentToRenderer(getEntity<OceanEnv>());
+
+		areEntitiesInitialized = true;
+	}
 }
 
 void DefaultWorld::onMainWindowResize(DMKExtent2D newSize)

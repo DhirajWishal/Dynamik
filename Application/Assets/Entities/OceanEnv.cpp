@@ -26,7 +26,7 @@ void OceanEnv::onInitializeEnvironment()
 	skyboxTexturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/front.jpg");
 	skyboxTexturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/back.jpg");
 
-	skyBoxMesh = DMKMeshFactory::loadFromFile(TEXT("E:\\Projects\\Dynamik Engine\\Game Repository\\assets\\assets\\Skybox\\SkySphere.obj"), DMKVertexLayout::createBasicIBL());
+	skyBoxMesh = DMKMeshFactory::loadFromFile(DMKAssetRegistry::getAsset(TEXT("MODEL_SKYBOX_OBJ")), DMKVertexLayout::createBasicIBL());
 	skyBoxMesh.getMaterial().addTexture(DMKTextureFactory::createCubeMap(skyboxTexturePaths), MaterialTextureType::MATERIAL_TEXTURE_TYPE_DEFAULT);
 
 	auto shaderVS = DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_SKYBOX_CINEMATIC_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);

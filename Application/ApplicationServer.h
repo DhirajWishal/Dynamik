@@ -13,6 +13,7 @@ public:
 	ApplicationServer() {}
 	~ApplicationServer() {}
 
+protected:
 	virtual void onInitializeStageOne() override final;
 	virtual void onUpdate(const F32 frameTime) override final;
 	virtual void onTerminate() override final;

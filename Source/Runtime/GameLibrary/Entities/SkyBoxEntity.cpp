@@ -33,6 +33,6 @@ namespace Dynamik
 
 	DMKMeshObject* DMKSkyBoxEntity::getMeshObject() const
 	{
-		return &meshObject;
+		return Cast<DMKMeshObject*>(&meshObject);
 	}
 }

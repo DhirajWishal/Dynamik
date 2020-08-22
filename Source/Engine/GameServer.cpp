@@ -39,12 +39,6 @@ namespace Dynamik
 	DMKGameServer::DMKGameServer()
 	{
 		DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
-
-		/* Initialize the engine. */
-		initialize();
-
-		/* Execute the engine. */
-		execute();
 	}
 
 	DMKGameServer::~DMKGameServer()
@@ -108,17 +102,11 @@ namespace Dynamik
 		/* Call stage one initializer. */
 		onInitializeStageOne();
 
-		/* Initialize the event pool. */
-		eventPool.initialize();
-
 		/* Initialize services. */
 		initializeServices();
 
 		/* Call stage two initializer. */
 		onInitializeStageTwo();
-
-		/* Initialize window handle */
-		initializeWindowHandle();
 
 		/* Issue final commands */
 		getRenderer()->initializeCMD();
@@ -136,7 +124,7 @@ namespace Dynamik
 		/* Let the game module submit its data to the required systems. */
 		getActiveGameModule()->onSubmitDataToSystems();
 
-		while (!eventPool.WindowCloseEvent)
+		while (!DMKSystemLocator::getSystem<DMKEventPool>()->WindowCloseEvent)
 		{
 			/* Call the stage one update. */
 			onBeginUpdate();
@@ -145,10 +133,10 @@ namespace Dynamik
 			getCurrentWindowHandle()->pollEvents();
 
 			/* Handle frame buffer resize. */
-			if (eventPool.FrameBufferResizeEvent)
+			if (DMKSystemLocator::getSystem<DMKEventPool>()->FrameBufferResizeEvent)
 			{
 				auto _extent = getCurrentWindowHandle()->getWindowExtent();
-				eventPool.FrameBufferResizeEvent = false;
+				DMKSystemLocator::getSystem<DMKEventPool>()->FrameBufferResizeEvent = false;
 
 				/* Check if the extent is valid */
 				if ((_extent.width > 0) || (_extent.height > 0))
@@ -206,14 +194,21 @@ namespace Dynamik
 
 	void DMKGameServer::initializeRuntimeSystems()
 	{
-		/* Initialize the camera controller */
+		/* Initialize the event pool. */
+		DMKSystemLocator::createSystem<DMKEventPool>();
+		DMKSystemLocator::getSystem<DMKEventPool>()->initialize();
+
+		/* Initialize the camera controller. */
 		DMKSystemLocator::createSystem<DMKPlayerController>();
 
-		/* Initialize the renderer */
+		/* Initialize the renderer. */
 		{
 			DMKSystemLocator::createSystem<DMKRenderer>();
 			getRenderer()->initializeThread();
 		}
+
+		/* Initialize the window. */
+		initializeWindowHandle();
 	}
 
 	void DMKGameServer::initializeServices()
@@ -257,9 +252,9 @@ namespace Dynamik
 	DMKWindowHandle* DMKGameServer::createWindow(UI64 width, UI64 height, const STRING& title)
 	{
 #ifdef DMK_PLATFORM_WINDOWS
-		DMKWindowHandle* pHandle = StaticAllocator<WindowsWindow>::allocateInit(WindowsWindow(title, Cast<I32>(width), Cast<I32>(height)));
+		WindowsWindow* pHandle = StaticAllocator<WindowsWindow>::allocateInit(WindowsWindow(title, Cast<I32>(width), Cast<I32>(height)));
 		pHandle->initialize();
-		pHandle->setEventBoard(&eventPool);
+		pHandle->setEventBoard(DMKSystemLocator::getSystem<DMKEventPool>());
 		pHandle->initializeKeyBindings();
 		pHandle->setEventCallbacks();
 
@@ -277,7 +272,5 @@ namespace Dynamik
 			DMK_WARN("A game world has not been set!");
 			return;
 		}
-
-		getActiveGameModule()->initializeGameWorldEntities();
 	}
 }

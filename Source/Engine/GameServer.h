@@ -149,19 +149,22 @@ namespace Dynamik
 		/* The active game module */
 		DMKGameModule* pActiveGameModule = nullptr;
 
-		/* Main internal methods */
-	private:
-		/* INTERNAL
+		/* 
+		 Main public methods 
+		 These methods are not intended to be used by the user but to be used by the engine instance.
+		*/
+	public:
+		/* PUBLIC  
 		 Initialize the engine.
 		*/
 		void initialize();
 
-		/* INTERNAL
+		/* PUBLIC
 		 The main loop of the engine.
 		*/
 		void execute();
 
-		/* INTERNAL
+		/* PUBLIC
 		 Terminate the engine.
 		*/
 		void terminate();
@@ -202,9 +205,6 @@ namespace Dynamik
 		/* Internal clock */
 		DMKClock clock;
 
-		/* Internal event pool */
-		DMKEventPool eventPool;
-
 		/* Internal active window handle */
 		DMKWindowHandle* pActiveWindowHandle = nullptr;
 	};
@@ -216,7 +216,13 @@ namespace Dynamik
 	{																			\
 		try																		\
 		{																		\
-			GameServer gameServer = {};											\
+			GameServer gameServer;												\
+																				\
+			/* Initialize the engine. */										\
+			gameServer.initialize();											\
+																				\
+			/* Execute the engine. */											\
+			gameServer.execute();												\
 		}																		\
 		catch (const std::exception& e)											\
 		{																		\

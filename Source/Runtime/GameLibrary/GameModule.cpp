@@ -18,10 +18,4 @@ namespace Dynamik
 		if (pCurrentGameWorld)
 			pCurrentGameWorld->onUpdate(timeStep);
 	}
-
-	void DMKGameModule::initializeGameWorldEntities()
-	{
-		if (pCurrentGameWorld)
-			pCurrentGameWorld->onInitializeEntities();
-	}
 }

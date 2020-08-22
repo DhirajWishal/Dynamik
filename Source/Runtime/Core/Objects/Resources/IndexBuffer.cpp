@@ -104,28 +104,31 @@ namespace Dynamik
 
 	VPTR DMKIndexBuffer::at(I64 index)
 	{
-		if ((index >= indexCount) || (index < (indexCount - 1)))
+		if (index < 0 && indexCount == 0)
+			return pDataStore;
+
+		if (index < 0)
+			index = indexCount + index;
+
+		if (index > Cast<I64>(indexCount) || index < 0)
 		{
 			DMK_ERROR("Invalid index buffer index!");
 			return nullptr;
 		}
-
-		if (index < 0)
-			index = indexCount - index;
 
 		return IncrementPointer(pDataStore, indexSize * index);
 	}
 
 	const VPTR DMKIndexBuffer::at(I64 index) const
 	{
-		if ((index >= indexCount) || (index < (indexCount - 1)))
+		if (index < 0)
+			index = indexCount - index;
+
+		if (index > Cast<I64>(indexCount))
 		{
 			DMK_ERROR("Invalid index buffer index!");
 			return nullptr;
 		}
-
-		if (index < 0)
-			index = indexCount - index;
 
 		return IncrementPointer(pDataStore, indexSize * index);
 	}

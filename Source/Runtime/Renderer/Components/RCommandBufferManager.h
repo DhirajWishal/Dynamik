@@ -24,9 +24,9 @@ namespace Dynamik
 		virtual void terminateBuffers(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) = 0;
 		virtual void terminate(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) = 0;
 
-		virtual void beginSecondaryCommandBuffers() = 0;
+		virtual void beginSecondaryCommandBuffers() {}
 		/* Swap the currently active command buffer with a specified buffer. */
-		virtual void swapCommandBuffers(RCommandBuffer* pMainCommandBuffer, RCommandBuffer* pReturnCommandBuffer = nullptr) = 0;
+		virtual void swapCommandBuffers(RCommandBuffer* pMainCommandBuffer, RCommandBuffer* pReturnCommandBuffer = nullptr) {}
 	};
 
 	/* TODO (Vulkan)
