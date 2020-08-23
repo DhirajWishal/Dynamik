@@ -38,7 +38,7 @@ namespace Dynamik
 
 		this->indexCount = indexCount;
 
-		pDataStore = StaticAllocator<BYTE>::allocate(size());
+		pDataStore = StaticAllocator<BYTE>::allocate(byteSize());
 		lastAllocationSize = size();
 	}
 

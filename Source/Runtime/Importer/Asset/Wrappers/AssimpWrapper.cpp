@@ -103,7 +103,6 @@ namespace Dynamik
 		}
 
 		pMeshObject->vertexBuffer.initialize(_mesh->mNumVertices, vertexLayout);
-		pMeshObject->indexBuffer.setIndexSize(sizeof(UI32));
 		UI64 vertexOffset = 0;
 		UI64 dataSize = 0;
 
@@ -264,12 +263,17 @@ namespace Dynamik
 		}
 
 		aiFace face;
+		ARRAY<UI32> indexBuffer;
 		for (UI32 index = 0; index < _mesh->mNumFaces; index++)
 		{
 			face = _mesh->mFaces[index];
 			for (UI32 itr = 0; itr < face.mNumIndices; itr++)
-				pMeshObject->indexBuffer.add(face.mIndices[itr]);
+				indexBuffer.pushBack(face.mIndices[itr]);
 		}
+
+		pMeshObject->indexBuffer.setIndexSize(sizeof(UI32));
+		pMeshObject->indexBuffer.initialize(indexBuffer.size());
+		pMeshObject->indexBuffer.set(indexBuffer.data(), indexBuffer.typeSize()* indexBuffer.size(), 0);
 
 #ifdef DMK_DEBUG
 		DMK_INFO("Vertex count: " + std::to_string(pMeshObject->vertexBuffer.size()));
