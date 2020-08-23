@@ -90,10 +90,30 @@ namespace Dynamik
 		void setSamplesCMD(DMKSampleCount samples);
 		void setWindowHandleCMD(DMKWindowHandle* pWindowHandle);
 		void createContextCMD(DMKViewport viewPort, DMKRenderContextType contextType);
+		
+		/*
+		 Initialize the environment entity command. 
 
-		void initializeEnvironmentEntityCMD(DMKEnvironmentEntity* pEnvironmentEntity);
-		void submitStaticModelEntityCMD(DMKStaticModelEntity* pStaticModelEntity);
-		void submitAnimatedModelEntityCMD(DMKAnimatedModelEntity* pAnimatedModelEntity);
+		 @param pEnvironmentEntity: The pointer to the environment entity.
+		 @param pProgressMeter: The progress meter variable pointer. Default is nullptr. Maximum is 12.
+		*/
+		void initializeEnvironmentEntityCMD(DMKEnvironmentEntity* pEnvironmentEntity, UI32* pProgressMeter = nullptr);
+		
+		/*
+		 Submit the static model entity to the renderer command. 
+
+		 @param pEntity: The static model entity pointer.
+		 @param pProgressMeter: The progress meter variable pointer. Default is nullptr. Maximum is 5 + (4 * mesh object count).
+		*/
+		void submitStaticModelEntityCMD(DMKStaticModelEntity* pStaticModelEntity, UI32* pProgressMeter = nullptr);
+
+		/*
+		 Submit the animated model entity to the renderer command. 
+
+		 @param pEntity: The animated model entity pointer.
+		 @param pProgressMeter: The progress meter variable pointer. Default is nullptr.
+		*/
+		void submitAnimatedModelEntityCMD(DMKAnimatedModelEntity* pAnimatedModelEntity, UI32* pProgressMeter = nullptr);
 
 		void setFrameBufferResizeCMD(DMKExtent2D newExtent);
 		void createImGuiClientCMD(DMKImGuiBackendHandle** returnAddressSpace);
@@ -131,9 +151,15 @@ namespace Dynamik
 
 		RImGuiBackend* allocateImGuiClient();
 
-		void initializeEnvironmentEntity(DMKEnvironmentEntity* pEnvironmentEntity);
-		void createStaticModelEntityResources(DMKStaticModelEntity* pEntity);
-		void createAnimatedModelEntityResources(DMKAnimatedModelEntity* pEntity);
+		/*
+		 Max progress: 12
+		*/
+		void initializeEnvironmentEntity(DMKEnvironmentEntity* pEnvironmentEntity, UI32* pProgressMeter = nullptr);
+		/*
+		 Max progress: 5 + (4 * meshCount)
+		*/
+		void createStaticModelEntityResources(DMKStaticModelEntity* pEntity, UI32* pProgressMeter = nullptr);
+		void createAnimatedModelEntityResources(DMKAnimatedModelEntity* pEntity, UI32* pProgressMeter = nullptr);
 
 	private:    /* Finals */
 		void updateResources();
@@ -157,7 +183,8 @@ namespace Dynamik
 		void terminateEntities();
 
 	private:    /* Utility Methods */
-		RMeshObject createMeshObject(DMKStaticModelEntity* pStaticModel, DMKMeshObject* pMeshObject, RPipelineResource* pResource, RPipelineObject* pParentPipeline, ARRAY<RBuffer*> pUniformBuffers);
+		/* Max progress: 4 */
+		RMeshObject createMeshObject(DMKStaticModelEntity* pStaticModel, DMKMeshObject* pMeshObject, RPipelineResource* pResource, RPipelineObject* pParentPipeline, ARRAY<RBuffer*> pUniformBuffers, UI32* pProgressMeter = nullptr);
 
 	private:    /* Internal */
 		DMKRendererCompatibility myCompatibility;

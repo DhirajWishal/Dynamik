@@ -15,22 +15,22 @@ namespace Dynamik
 		pPlayerEntity->setupPlayerControls(DMKSystemLocator::getSystem<DMKPlayerController>());
 	}
 
-	void DMKGameWorld::submitStaticModelToRenderer(DMKStaticModelEntity* pStaticModel)
+	void DMKGameWorld::submitStaticModelToRenderer(DMKStaticModelEntity* pStaticModel, UI32* pProgressMeter)
 	{
-		DMKSystemLocator::getSystem<DMKRenderer>()->submitStaticModelEntityCMD(pStaticModel);
+		DMKSystemLocator::getSystem<DMKRenderer>()->submitStaticModelEntityCMD(pStaticModel, pProgressMeter);
 	}
 
-	void DMKGameWorld::submitAnimatedModelToRenderer(DMKAnimatedModelEntity* pAnimatedModel)
+	void DMKGameWorld::submitAnimatedModelToRenderer(DMKAnimatedModelEntity* pAnimatedModel, UI32* pProgressMeter)
 	{
-		DMKSystemLocator::getSystem<DMKRenderer>()->submitAnimatedModelEntityCMD(pAnimatedModel);
+		DMKSystemLocator::getSystem<DMKRenderer>()->submitAnimatedModelEntityCMD(pAnimatedModel, pProgressMeter);
 	}
 
-	void DMKGameWorld::submitEnvironmentToRenderer(DMKEnvironmentEntity* pEnvironment)
+	void DMKGameWorld::submitEnvironmentToRenderer(DMKEnvironmentEntity* pEnvironment, UI32* pProgressMeter)
 	{
 		if (!pEnvironment->skyBoxMesh.vertexBuffer.byteSize() || !pEnvironment->skyBoxMesh.indexBuffer.byteSize())
 			pEnvironment->onInitializeEnvironment();
 
-		DMKSystemLocator::getSystem<DMKRenderer>()->initializeEnvironmentEntityCMD(pEnvironment);
+		DMKSystemLocator::getSystem<DMKRenderer>()->initializeEnvironmentEntityCMD(pEnvironment, pProgressMeter);
 	}
 	
 	void DMKGameWorld::addLightComponent(DMKGameWorldLightComponent component)

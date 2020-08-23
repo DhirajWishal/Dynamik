@@ -96,6 +96,7 @@ namespace Dynamik
 		~RendererInitializeEnvironmentEntity() {}
 
 		DMKEnvironmentEntity* pEnvironmentEntity = nullptr;
+		UI32* pProgressMeter = nullptr;
 	};
 
 	/* Submit static entity */
@@ -105,6 +106,7 @@ namespace Dynamik
 		~RendererSubmitStaticEntity() {}
 
 		DMKStaticModelEntity* pEntity = nullptr;
+		UI32* pProgressMeter = nullptr;
 	};
 
 	/* Submit animated entity */
@@ -114,6 +116,7 @@ namespace Dynamik
 		~RendererSubmitAnimatedEntity() {}
 
 		DMKAnimatedModelEntity* pEntity = nullptr;
+		UI32* pProgressMeter = nullptr;
 	};
 
 	/* Resize Frame Buffer */

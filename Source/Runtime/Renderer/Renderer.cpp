@@ -128,13 +128,22 @@ namespace Dynamik
 		}
 
 		else if (commandName == typeid(RendererInitializeEnvironmentEntity).name())
-			initializeEnvironmentEntity(pCommandService->getCommand<RendererInitializeEnvironmentEntity>().pEnvironmentEntity);
+		{
+			auto command = pCommandService->getCommand<RendererInitializeEnvironmentEntity>();
+			initializeEnvironmentEntity(command.pEnvironmentEntity, command.pProgressMeter);
+		}
 
 		else if (commandName == typeid(RendererSubmitStaticEntity).name())
-			createStaticModelEntityResources(pCommandService->getCommand<RendererSubmitStaticEntity>().pEntity);
+		{
+			auto command = pCommandService->getCommand<RendererSubmitStaticEntity>();
+			createStaticModelEntityResources(command.pEntity, command.pProgressMeter);
+		}
 
 		else if (commandName == typeid(RendererSubmitAnimatedEntity).name())
-			createAnimatedModelEntityResources(pCommandService->getCommand<RendererSubmitAnimatedEntity>().pEntity);
+		{
+			auto command = pCommandService->getCommand<RendererSubmitAnimatedEntity>();
+			createAnimatedModelEntityResources(command.pEntity, command.pProgressMeter);
+		}
 
 		else if (commandName == typeid(RendererResizeFrameBuffer).name())
 			resizeFrameBuffer(pCommandService->getCommand<RendererResizeFrameBuffer>().windowExtent);
@@ -230,26 +239,29 @@ namespace Dynamik
 		pCommandService->issueCommand<RendererCreateContextCommand>(_command);
 	}
 
-	void DMKRenderer::initializeEnvironmentEntityCMD(DMKEnvironmentEntity* pEnvironmentEntity)
+	void DMKRenderer::initializeEnvironmentEntityCMD(DMKEnvironmentEntity* pEnvironmentEntity, UI32* pProgressMeter)
 	{
 		RendererInitializeEnvironmentEntity _command;
 		_command.pEnvironmentEntity = pEnvironmentEntity;
+		_command.pProgressMeter = pProgressMeter;
 
 		pCommandService->issueCommand<RendererInitializeEnvironmentEntity>(_command);
 	}
 
-	void DMKRenderer::submitStaticModelEntityCMD(DMKStaticModelEntity* pStaticModelEntity)
+	void DMKRenderer::submitStaticModelEntityCMD(DMKStaticModelEntity* pStaticModelEntity, UI32* pProgressMeter)
 	{
 		RendererSubmitStaticEntity _command;
 		_command.pEntity = pStaticModelEntity;
+		_command.pProgressMeter = pProgressMeter;
 
 		pCommandService->issueCommand<RendererSubmitStaticEntity>(_command);
 	}
 
-	void DMKRenderer::submitAnimatedModelEntityCMD(DMKAnimatedModelEntity* pAnimatedModelEntity)
+	void DMKRenderer::submitAnimatedModelEntityCMD(DMKAnimatedModelEntity* pAnimatedModelEntity, UI32* pProgressMeter)
 	{
 		RendererSubmitAnimatedEntity _command;
 		_command.pEntity = pAnimatedModelEntity;
+		_command.pProgressMeter = pProgressMeter;
 
 		pCommandService->issueCommand<RendererSubmitAnimatedEntity>(_command);
 	}
@@ -583,10 +595,14 @@ namespace Dynamik
 		return nullptr;
 	}
 
-	void DMKRenderer::initializeEnvironmentEntity(DMKEnvironmentEntity* pEnvironmentEntity)
+	void DMKRenderer::initializeEnvironmentEntity(DMKEnvironmentEntity* pEnvironmentEntity, UI32* pProgressMeter)
 	{
+#define INC_PROGRESS if(pProgressMeter) (*pProgressMeter)++
+
 		if (!pEnvironmentEntity)
 			return;
+
+		INC_PROGRESS;
 
 		RMeshObject renderMesh = {};
 
@@ -597,20 +613,24 @@ namespace Dynamik
 		{
 			if (pEnvironmentEntity->skyBoxMesh.getMaterial().textureContainers.size() > 1)
 				DMK_WARN("Environment Maps only allow one material!");
+			INC_PROGRESS;
 
 			for (auto texture : pEnvironmentEntity->skyBoxMesh.getMaterial().textureContainers)
 				myCurrentEnvironment.pTexture = createTexture(texture.pTexture);
+			INC_PROGRESS;
 		}
 
 		/* Initialize Vertex Buffer */
 		myCurrentEnvironment.renderEntity.pVertexBuffer = createVertexBuffer(pEnvironmentEntity->skyBoxMesh.getVertexBuffer().byteSize());
 		myCurrentEnvironment.renderEntity.pVertexBuffer->setData(myCoreObject, pEnvironmentEntity->skyBoxMesh.getVertexBuffer().byteSize(), 0, pEnvironmentEntity->skyBoxMesh.getVertexBuffer().data());
 		renderMesh.vertexCount = pEnvironmentEntity->skyBoxMesh.vertexBuffer.size();
+		INC_PROGRESS;
 
 		/* Initialize Index Buffer */
 		myCurrentEnvironment.renderEntity.pIndexBuffer = createIndexBuffer(pEnvironmentEntity->skyBoxMesh.getIndexBuffer().byteSize());
 		myCurrentEnvironment.renderEntity.pIndexBuffer->setData(myCoreObject, pEnvironmentEntity->skyBoxMesh.getIndexBuffer().byteSize(), 0, pEnvironmentEntity->skyBoxMesh.getIndexBuffer().data());
 		renderMesh.indexCount = pEnvironmentEntity->skyBoxMesh.indexBuffer.size();
+		INC_PROGRESS;
 
 		/* Initialize Uniforms */
 		ARRAY<RBuffer*> uniformBuffers;
@@ -625,6 +645,8 @@ namespace Dynamik
 
 				uniformBuffers.pushBack(_container.pUniformBuffer);
 				myCurrentEnvironment.uniformBuffers.pushBack(_container);
+
+				INC_PROGRESS;
 			}
 		}
 
@@ -639,6 +661,7 @@ namespace Dynamik
 		pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
 		pipelineCreateInfo.rasterizerInfo.frontFace = RFrontFace::FRONT_FACE_CLOCKWISE;
 		myCurrentEnvironment.renderEntity.pPipelineObject->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &myRenderTarget, mySwapChain->viewPort);
+		INC_PROGRESS;
 
 		/* Initialize Resources */
 		{
@@ -647,15 +670,18 @@ namespace Dynamik
 			/* Initialize the BRDF table */
 			myCurrentEnvironment.pBRDFTable = createBRDFTable();
 			myCurrentEnvironment.pBRDFTable->initialize(myCoreObject, dim);
+			INC_PROGRESS;
 
 			/* Initialize the irradiance cube */
 			myCurrentEnvironment.pIrradianceCube = createIrradianceCube();
 			myCurrentEnvironment.pIrradianceCube->initialize(myCoreObject, &myCurrentEnvironment, dim);
+			INC_PROGRESS;
 
 			/* Initialize the pre filtered cube */
 			myCurrentEnvironment.pPreFilteredCube = createPreFilteredCube();
 			myCurrentEnvironment.pPreFilteredCube->initialize(myCoreObject, &myCurrentEnvironment, dim);
 		}
+		INC_PROGRESS;
 
 		/* Initialize Texture Resources */
 		ARRAY<RTexture*> textures = { myCurrentEnvironment.pTexture };
@@ -663,6 +689,7 @@ namespace Dynamik
 		/* Initialize Pipeline Resources */
 		renderMesh.pResourceObject = myCurrentEnvironment.renderEntity.pPipelineObject->allocateResources(myCoreObject)[0];
 		renderMesh.pResourceObject->update(myCoreObject, uniformBuffers, textures);
+		INC_PROGRESS;
 
 		myCurrentEnvironment.renderEntity.meshObjects.pushBack(renderMesh);
 
@@ -670,10 +697,13 @@ namespace Dynamik
 		myDrawCallManager.addRenderEntity(&myCurrentEnvironment.renderEntity);
 		pEnvironmentEntity->skyBoxMesh.vertexBuffer.clear();
 		pEnvironmentEntity->skyBoxMesh.indexBuffer.clear();
+		INC_PROGRESS;
 	}
 
-	void DMKRenderer::createStaticModelEntityResources(DMKStaticModelEntity* pEntity)
+	void DMKRenderer::createStaticModelEntityResources(DMKStaticModelEntity* pEntity, UI32* pProgressMeter)
 	{
+#define INC_PROGRESS if(pProgressMeter) (*pProgressMeter)++
+
 		REntity entity;
 
 		entity.pPipelineObject = RUtilities::allocatePipeline(myAPI);
@@ -686,6 +716,7 @@ namespace Dynamik
 		pipelineCreateInfo.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
 		pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
 		entity.pPipelineObject->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &myRenderTarget, mySwapChain->viewPort);
+		INC_PROGRESS;
 
 		auto resources = entity.pPipelineObject->allocateResources(myCoreObject);
 
@@ -702,8 +733,9 @@ namespace Dynamik
 
 					_container.pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, _container.pParent->byteSize());
 					_container.pUniformBuffer->setData(myCoreObject, _container.pParent->byteSize(), 0, _container.pParent->data());
-
 					pUniformBuffers.pushBack(_container.pUniformBuffer);
+
+					INC_PROGRESS;
 				}
 			}
 		}
@@ -739,6 +771,7 @@ namespace Dynamik
 
 				entity.pVertexBuffer->flushMemory(myCoreObject);
 			}
+			INC_PROGRESS;
 
 			/* initialize index buffer */
 			{
@@ -753,12 +786,15 @@ namespace Dynamik
 
 				entity.pIndexBuffer->flushMemory(myCoreObject);
 			}
+			INC_PROGRESS;
 		}
 
 		myEntities.pushBack(entity);
+
+		INC_PROGRESS;
 	}
 
-	void DMKRenderer::createAnimatedModelEntityResources(DMKAnimatedModelEntity* pEntity)
+	void DMKRenderer::createAnimatedModelEntityResources(DMKAnimatedModelEntity* pEntity, UI32* pProgressMeter)
 	{
 	}
 
@@ -1019,14 +1055,17 @@ namespace Dynamik
 		myBoundingBoxes.clear();
 	}
 
-	RMeshObject DMKRenderer::createMeshObject(DMKStaticModelEntity* pStaticModel, DMKMeshObject* pMeshObject, RPipelineResource* pResource, RPipelineObject* pParentPipeline, ARRAY<RBuffer*> pUniformBuffers)
+	RMeshObject DMKRenderer::createMeshObject(DMKStaticModelEntity* pStaticModel, DMKMeshObject* pMeshObject, RPipelineResource* pResource, RPipelineObject* pParentPipeline, ARRAY<RBuffer*> pUniformBuffers, UI32* pProgressMeter)
 	{
+#define INC_PROGRESS if(pProgressMeter) (*pProgressMeter)++
+
 		RMeshObject meshComponent;
 		meshComponent.pParentObject = pMeshObject;
 
 		/* Initialize Textures */
 		for (auto texture : meshComponent.pParentObject->getMaterial().textureContainers)
 			meshComponent.pTextures.pushBack(createTexture(texture.pTexture));
+		INC_PROGRESS;
 
 		/* Initialize Pipeline Resources */
 		{
@@ -1064,6 +1103,7 @@ namespace Dynamik
 					break;
 				}
 			}
+			INC_PROGRESS;
 
 			pResource->update(myCoreObject, pUniformBuffers, textures);
 			meshComponent.pResourceObject = pResource;
@@ -1077,11 +1117,14 @@ namespace Dynamik
 			//		StaticAllocator<DMKMaterial::MaterialPushBlock>::allocateInit(material.generatePushBlock()),
 			//		itr);
 			//}
+
+			INC_PROGRESS;
 		}
 
 		meshComponent.vertexCount = pMeshObject->getVertexBuffer().size();
 		meshComponent.indexCount = pMeshObject->getIndexBuffer().size();
 
+		INC_PROGRESS;
 		return meshComponent;
 	}
 }

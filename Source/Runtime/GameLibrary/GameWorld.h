@@ -181,22 +181,25 @@ namespace Dynamik
 		 Submit the static model to the renderer.
 
 		 @param index: The index of the entity.
+		 @param pProgressMeter: The progress meter variable pointer. Default is nullptr. Maximum is 5 + (4 * mesh object count).
 		*/
-		void submitStaticModelToRenderer(DMKStaticModelEntity* pStaticModel);
+		void submitStaticModelToRenderer(DMKStaticModelEntity* pStaticModel, UI32* pProgressMeter = nullptr);
 
 		/*
 		 Submit the static model to the renderer.
 
 		 @param index: The index of the entity.
+		 @param pProgressMeter: The progress meter variable pointer. Default is nullptr.
 		*/
-		void submitAnimatedModelToRenderer(DMKAnimatedModelEntity* pAnimatedModel);
+		void submitAnimatedModelToRenderer(DMKAnimatedModelEntity* pAnimatedModel, UI32* pProgressMeter = nullptr);
 
 		/*
 		 Submit the environment to the renderer.
 
 		 @param index: The index of the entity.
+         @param pProgressMeter: The progress meter variable pointer. Default is nullptr. Maximum is 12.
 		*/
-		void submitEnvironmentToRenderer(DMKEnvironmentEntity* pEnvironment);
+		void submitEnvironmentToRenderer(DMKEnvironmentEntity* pEnvironment, UI32* pProgressMeter = nullptr);
 
 	private:
 		/* Entity map */
