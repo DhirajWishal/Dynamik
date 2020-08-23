@@ -56,8 +56,8 @@ void OceanEnv::onUpdateEnvironment()
 {
 	Matrix4F mat = Matrix4F::Identity;
 	
-	getShaderModule(0)->getUniform(0).setData(TEXT("projection"), &pCameraModule->matrix.projection);
-	getShaderModule(0)->getUniform(0).setData(TEXT("view"), &pCameraModule->matrix.view);
 	getShaderModule(0)->getUniform(0).setData(TEXT("model"), &mat);
+	getShaderModule(0)->getUniform(0).setData(TEXT("view"), &pCameraModule->matrix.view);
+	getShaderModule(0)->getUniform(0).setData(TEXT("projection"), &pCameraModule->matrix.projection);
 	getShaderModule(1)->getUniform(0).setData(&fsUBO);
 }

@@ -175,8 +175,6 @@ namespace Dynamik
 		RRenderTarget myRenderTarget = {};
 		DMKRenderContextType myCurrentContextType = DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT;
 
-		RCommandBufferManager* myCommandBufferManager = nullptr;
-		ARRAY<RCommandBuffer*> myCommandBuffers;
 		B1 isReadyToRun = false;
 
 		RCameraComponent* myCameraComponent = nullptr;

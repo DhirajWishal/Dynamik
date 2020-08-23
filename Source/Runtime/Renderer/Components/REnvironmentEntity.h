@@ -26,16 +26,11 @@ namespace Dynamik
 		REnvironmentEntity() = default;
 		virtual ~REnvironmentEntity() = default;
 
-	public:		/* Vertex and Index Data */
-		RBuffer* pVertexBuffer = nullptr;
-		RBuffer* pIndexBuffer = nullptr;
-
-		ARRAY<RMeshObject> meshObjects;
+	public:		/* Render data */
+		REntity renderEntity = {};
 
 	public:		/* Resource Data */
 		RTexture* pTexture = nullptr;
-		RPipelineObject* pPipeline = nullptr;
-		RPipelineResource* pPipelineResource = nullptr;
 		ARRAY<RUniformContainer> uniformBuffers;
 
 		RBRDFTable* pBRDFTable = nullptr;

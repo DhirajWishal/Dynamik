@@ -13,3 +13,31 @@ void Player::onInitializePlayer()
 	this->getCameraModule()->setExposure(1.0f);
 	this->getCameraModule()->setGamma(1.0f);
 }
+
+void Player::setupPlayerControls(DMKPlayerController* pPlayerController)
+{
+	pPlayerController->bindMovementControl(DMKMovementControlInstruction::DMK_MOVEMENT_CONTROL_INSTRUCTION_MOVE_FORWARD, TEXT("KeyW"), this, (DMKEventType)(DMK_EVENT_TYPE_REPEAT | DMK_EVENT_TYPE_PRESS));
+	pPlayerController->bindMovementControl(DMKMovementControlInstruction::DMK_MOVEMENT_CONTROL_INSTRUCTION_MOVE_BACKWARD, TEXT("KeyS"), this, (DMKEventType)(DMK_EVENT_TYPE_REPEAT | DMK_EVENT_TYPE_PRESS));
+	pPlayerController->bindMovementControl(DMKMovementControlInstruction::DMK_MOVEMENT_CONTROL_INSTRUCTION_MOVE_LEFT, TEXT("KeyA"), this, (DMKEventType)(DMK_EVENT_TYPE_REPEAT | DMK_EVENT_TYPE_PRESS));
+	pPlayerController->bindMovementControl(DMKMovementControlInstruction::DMK_MOVEMENT_CONTROL_INSTRUCTION_MOVE_RIGHT, TEXT("KeyD"), this, (DMKEventType)(DMK_EVENT_TYPE_REPEAT | DMK_EVENT_TYPE_PRESS));
+}
+
+void Player::onMoveForward()
+{
+	addForwardVector(0.001f);
+}
+
+void Player::onMoveBackward()
+{
+	addBackwardVector(0.001f);
+}
+
+void Player::onMoveLeft()
+{
+	addRightVector(0.001f);
+}
+
+void Player::onMoveRight()
+{
+	addLeftVector(0.001f);
+}

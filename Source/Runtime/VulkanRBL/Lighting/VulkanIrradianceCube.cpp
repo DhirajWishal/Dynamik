@@ -268,12 +268,12 @@ namespace Dynamik
 						vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline, 0, 1, &pipelineResource.set, 0, VK_NULL_HANDLE);
 
 					VkDeviceSize offsets[1] = { 0 };
-					vkCmdBindVertexBuffers(buffer, 0, 1, &Inherit<VulkanBuffer>(pParent->pVertexBuffer)->buffer, offsets);
+					vkCmdBindVertexBuffers(buffer, 0, 1, &Inherit<VulkanBuffer>(pParent->renderEntity.pVertexBuffer)->buffer, offsets);
 
-					if (pParent->pIndexBuffer)
+					if (pParent->renderEntity.pIndexBuffer)
 					{
-						vkCmdBindIndexBuffer(buffer, Inherit<VulkanBuffer>(pParent->pIndexBuffer)->buffer, 0, VK_INDEX_TYPE_UINT32);
-						vkCmdDrawIndexed(buffer, Cast<UI32>(pParent->pIndexBuffer->getSize() / sizeof(UI32)), 1, 0, 0, 0);
+						vkCmdBindIndexBuffer(buffer, Inherit<VulkanBuffer>(pParent->renderEntity.pIndexBuffer)->buffer, 0, VK_INDEX_TYPE_UINT32);
+						vkCmdDrawIndexed(buffer, Cast<UI32>(pParent->renderEntity.pIndexBuffer->getSize() / sizeof(UI32)), 1, 0, 0, 0);
 					}
 					else
 					{

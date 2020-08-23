@@ -23,6 +23,13 @@ namespace Dynamik
 		COMMAND_BUFFEER_LEVEL_SECONDARY,
 	};
 
+	/* Renderer Command Buffer Usage */
+	enum DMK_API RCommandBufferUsage {
+		COMMAND_BUFFER_USAGE_ONE_TIME = BIT_SHIFT(0),
+		COMMAND_BUFFER_USAGE_RENDER_TARGET_CONTINUE = BIT_SHIFT(1),
+		COMMAND_BUFFER_USAGE_SIMULTANEOUS = BIT_SHIFT(2),
+	};
+
 	/*
 	 Renderer Command Buffer
 	*/
@@ -31,7 +38,9 @@ namespace Dynamik
 		RCommandBuffer() {}
 		virtual ~RCommandBuffer() {}
 
-		virtual void begin() = 0;
+		virtual void begin(RCommandBufferUsage bufferUsage = RCommandBufferUsage::COMMAND_BUFFER_USAGE_SIMULTANEOUS) = 0;
+		virtual void beginParent() = 0;
+		virtual void beginInherited(RRenderTarget* pRenderTarget, UI64 frameIndex) = 0;
 
 		virtual void bindRenderTarget(RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, UI32 bufferIndex, RSubpassContentType contentType = RSubpassContentType::SUBPASS_CONTENT_TYPE_INLINE) = 0;
 
@@ -47,6 +56,7 @@ namespace Dynamik
 
 		virtual void unbindRenderTarget() = 0;
 		virtual void end() = 0;
+		virtual void executeSecondaryCommands(RCommandBuffer* pParentCommandBuffer) = 0;
 	};
 }
 

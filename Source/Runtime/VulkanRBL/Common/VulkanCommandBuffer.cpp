@@ -41,11 +41,32 @@ namespace Dynamik
 			vkCmdBeginRenderPass(buffer, &renderPassInfo, Cast<VkSubpassContents>(contentType));
 		}
 
-		void VulkanCommandBuffer::begin()
+		void VulkanCommandBuffer::begin(RCommandBufferUsage bufferUsage)
 		{
 			VkCommandBufferBeginInfo beginInfo = {};
 			beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-			beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+			beginInfo.flags = Cast<VkCommandBufferUsageFlagBits>(bufferUsage);
+
+			DMK_VULKAN_ASSERT(vkBeginCommandBuffer(buffer, &beginInfo), "Failed to begin recording of command buffer!");
+		}
+
+		void VulkanCommandBuffer::beginParent()
+		{
+			begin(Cast<RCommandBufferUsage>(0));
+		}
+
+		void VulkanCommandBuffer::beginInherited(RRenderTarget* pRenderTarget, UI64 frameIndex)
+		{
+			VkCommandBufferInheritanceInfo inheritanceInfo = {};
+			inheritanceInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO;
+			inheritanceInfo.pNext = VK_NULL_HANDLE;
+			inheritanceInfo.renderPass = Inherit<VulkanRenderPass>(pRenderTarget->pRenderPass)->renderPass;
+			inheritanceInfo.framebuffer = Inherit<VulkanFrameBuffer>(pRenderTarget->pFrameBuffer)->buffers[frameIndex];
+
+			VkCommandBufferBeginInfo beginInfo = {};
+			beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+			beginInfo.flags = VK_COMMAND_BUFFER_USAGE_RENDER_PASS_CONTINUE_BIT | VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+			beginInfo.pInheritanceInfo = &inheritanceInfo;
 
 			DMK_VULKAN_ASSERT(vkBeginCommandBuffer(buffer, &beginInfo), "Failed to begin recording of command buffer!");
 		}
@@ -92,6 +113,11 @@ namespace Dynamik
 		void VulkanCommandBuffer::end()
 		{
 			DMK_VULKAN_ASSERT(vkEndCommandBuffer(buffer), "Failed to record command buffer!");
+		}
+
+		void VulkanCommandBuffer::executeSecondaryCommands(RCommandBuffer* pParentCommandBuffer)
+		{
+			vkCmdExecuteCommands(*Inherit<VulkanCommandBuffer>(pParentCommandBuffer), 1, &buffer);
 		}
 
 		VulkanCommandBuffer::operator VkCommandBuffer() const

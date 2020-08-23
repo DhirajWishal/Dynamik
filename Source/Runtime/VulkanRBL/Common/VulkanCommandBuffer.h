@@ -25,8 +25,10 @@ namespace Dynamik
 			VulkanCommandBuffer() {}
 			~VulkanCommandBuffer() {}
 
+			virtual void begin(RCommandBufferUsage bufferUsage = RCommandBufferUsage::COMMAND_BUFFER_USAGE_SIMULTANEOUS) override final;
+			virtual void beginParent() override final;
+			virtual void beginInherited(RRenderTarget* pRenderTarget, UI64 frameIndex) override final;
 			virtual void bindRenderTarget(RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, UI32 bufferIndex, RSubpassContentType contentType = RSubpassContentType::SUBPASS_CONTENT_TYPE_INLINE) override final;
-			virtual void begin() override final;
 			virtual void bindVertexBuffer(RBuffer* pBuffer, UI64 firstBinding) override final;
 			virtual void bindIndexBuffer(RBuffer* pBuffer) override final;
 			virtual void bindGraphicsPipeline(RPipelineObject* pPipelineObject, RPipelineResource* pPipelineResource) override final;
@@ -34,6 +36,7 @@ namespace Dynamik
 			virtual void drawVertexes(UI64 vertexIndex, UI64 vertexCount, UI64 instanceCount) override final;
 			virtual void unbindRenderTarget() override final;
 			virtual void end() override final;
+			virtual void executeSecondaryCommands(RCommandBuffer* pParentCommandBuffer) override final;
 
 			operator VkCommandBuffer() const;
 

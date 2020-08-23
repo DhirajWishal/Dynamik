@@ -76,7 +76,7 @@ namespace Dynamik
 		F32 fieldOfView = 45.0f;
 		F32 farRender = 1024.0f;
 		F32 nearRender = 0.001f;
-		F32 aspectRatio = 0.5f;
+		F32 aspectRatio = 1.77779f;
 
 		F32 pitch = 0.0f;
 		F32 roll = 0.0f;

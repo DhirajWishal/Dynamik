@@ -7,298 +7,128 @@
 #include "VulkanRBL/Primitives/VulkanBuffer.h"
 #include "../RUtilities.h"
 
+#include "VulkanRBL/Common/VulkanCommandBufferManager.h"
+
 namespace Dynamik
 {
-	UI64 RDrawCallManager::addDrawEntry(DMKVertexBuffer vertexBuffer, DMKIndexBuffer* indexBuffer, RPipelineObject* pPipelineObject, RPipelineResource* pPipelineResource)
+	using namespace Backend;
+
+	void RDrawCallManager::terminateAll(RCoreObject* pCoreObject)
 	{
-		entryMap[vertexBuffer.layout].drawEntries.pushBack(
-			DrawEntry(entryMap[vertexBuffer.layout].vertexCount, vertexBuffer, totalIndexCount, indexBuffer->size(), pPipelineObject, pPipelineResource));
-		entryMap[vertexBuffer.layout].vertexCount += vertexBuffer.size();
-
-		IndexBufferEntry _entry;
-		_entry.firstIndex = totalIndexCount;
-		_entry.pIndexBuffer = indexBuffer;
-		indexBufferEntries.pushBack(_entry);
-
-		totalIndexCount += indexBuffer->size();
-
-		return entryMap[vertexBuffer.layout].drawEntries.size() - 1;
+		pCommandBufferManager->terminateBuffers(pCoreObject, pCommandBuffers);
+		pCommandBufferManager->terminateBuffers(pCoreObject, pSecondaryCommandBuffers);
+		pCommandBufferManager->terminate(pCoreObject, {});
 	}
 
-	UI64 RDrawCallManager::addEmptyEntry(RPipelineObject* pPipelineObject)
+	void RDrawCallManager::addRenderEntity(REntity* pRenderEntity)
 	{
-		emptyDraws.pushBack(EmptyDraw(pPipelineObject));
-
-		return emptyDraws.size() - 1;
+		secondaryCommandBindings.pushBack(pRenderEntity);
 	}
 
-	void RDrawCallManager::setEnvironment(RPipelineObject* pPipeline, RPipelineResource* pPipelineResource, RBuffer* pVertexBuffer, UI64 vertexCount, RBuffer* pIndexBuffer, UI64 indexCount)
+	void RDrawCallManager::initializeCommandBuffers(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, DMKRenderingAPI API)
 	{
-		myEnvironment.pPipeline = pPipeline;
-		myEnvironment.pVertexBuffer = pVertexBuffer;
-		myEnvironment.vertexCount = vertexCount;
-		myEnvironment.pIndexBuffer = pIndexBuffer;
-		myEnvironment.indexCount = indexCount;
-		myEnvironment.pPipelineResource = pPipelineResource;
-	}
+		if (isCommandBuffersInitialized)
+			return;
 
-	RDrawCallManager::EnvironmentDraw& RDrawCallManager::getEnvironmentData()
-	{
-		return myEnvironment;
-	}
+		isCommandBuffersInitialized = true;
 
-	UI64 RDrawCallManager::addDebugEntry(DMKVertexBuffer vertexBuffer, DMKIndexBuffer* indexBuffer, RPipelineObject* pPipelineObject, RPipelineResource* pPipelineResource)
-	{
-		DebugDraw entry;
-		entry.indexCount = indexBuffer->size();
-		entry.rawVertexBuffer = vertexBuffer;
-		entry.vertexCount = vertexBuffer.size();
-		entry.pRawIndexBuffer = indexBuffer;
-		entry.pPipeline = pPipelineObject;
-		entry.pPipelineResource = pPipelineResource;
-		debugEntries.pushBack(entry);
-
-		return debugEntries.size() - 1;
-	}
-
-	void RDrawCallManager::initializeBuffers(RCoreObject* pCoreObject)
-	{
-		/* Initialize Vertex Buffers */
-		for (auto entry : entryMap)
+		switch (API)
 		{
-			UI64 bufferSize = entry.first.getVertexSize() * entry.second.vertexCount;
-
-			VertexBufferContainer _container;
-			_container.entries = entry.second.drawEntries;
-
-			RBuffer* staggingBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-			staggingBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, bufferSize);
-			POINTER<BYTE> vertexPointer = staggingBuffer->getData(pCoreObject, bufferSize, 0);
-
-			for (auto drawEntry : entry.second.drawEntries)
-			{
-				DMKMemoryFunctions::moveData(vertexPointer.get(), drawEntry.vertexBuffer.data(), drawEntry.vertexBuffer.byteSize());
-				vertexPointer += drawEntry.vertexBuffer.byteSize();
-
-				drawEntry.vertexBuffer.clear();
-			}
-			staggingBuffer->unmapMemory(pCoreObject);
-
-			_container.vertexBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-			_container.vertexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_VERTEX, bufferSize, RResourceMemoryType(RESOURCE_MEMORY_TYPE_DEVICE_LOCAL | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
-			_container.vertexBuffer->copy(pCoreObject, staggingBuffer, bufferSize, 0, 0);
-
-			vertexBuffers.pushBack(_container);
-
-			staggingBuffer->terminate(pCoreObject);
-			StaticAllocator<RBuffer>::rawDeallocate(staggingBuffer, 0);
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
+		{
+			pCommandBufferManager = StaticAllocator<VulkanCommandBufferManager>::allocate();
+		}
+		break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
+			break;
+		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
+			break;
 		}
 
-		entryMap.clear();
+		pCommandBufferManager->initialize(pCoreObject);
+		pCommandBuffers = pCommandBufferManager->allocateCommandBuffers(pCoreObject, pSwapChain->bufferCount, RCommandBufferLevel::COMMAND_BUFFEER_LEVEL_PRIMARY);
+		pSecondaryCommandBuffers = pCommandBufferManager->allocateCommandBuffers(pCoreObject, pSwapChain->bufferCount, RCommandBufferLevel::COMMAND_BUFFEER_LEVEL_SECONDARY);
 
-		if (totalIndexCount)
+		/* Initialize the primary command buffer */
 		{
-			/* Initialize Index Buffer */
-			UI64 bufferSize = totalIndexCount * sizeof(UI32);
-
-			/* Check if we have data to allocate an index buffer */
-			if (bufferSize == 0)
-				return;
-
-			RBuffer* staggingBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-			staggingBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, bufferSize);
-			POINTER<BYTE> indexPointer = staggingBuffer->getData(pCoreObject, bufferSize, 0);
-
-			for (auto entry : indexBufferEntries)
+			for (UI32 itr = 0; itr < pCommandBuffers.size(); itr++)
 			{
-				DMKMemoryFunctions::moveData(indexPointer.get(), entry.pIndexBuffer->data(), entry.pIndexBuffer->size() * entry.pIndexBuffer->typeSize());
-				indexPointer += entry.pIndexBuffer->size() * entry.pIndexBuffer->typeSize();
-				entry.pIndexBuffer->clear();
-			}
-			staggingBuffer->unmapMemory(pCoreObject);
-
-			indexBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-			indexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_INDEX, bufferSize, RResourceMemoryType(RESOURCE_MEMORY_TYPE_DEVICE_LOCAL | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
-			indexBuffer->copy(pCoreObject, staggingBuffer, bufferSize, 0, 0);
-
-			staggingBuffer->terminate(pCoreObject);
-			StaticAllocator<RBuffer>::rawDeallocate(staggingBuffer, 0);
-
-			indexBufferEntries.clear();
-
-			/* Initialize Debug Entries */
-			for (UI64 index = 0; index < debugEntries.size(); index++)
-			{
-				auto& entry = debugEntries[index];
-
-				/* Initialize Vertex Buffer */
-				{
-					RBuffer* pStaggingBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-					pStaggingBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, entry.rawVertexBuffer.byteSize());
-					pStaggingBuffer->setData(pCoreObject, entry.rawVertexBuffer.byteSize(), 0, entry.rawVertexBuffer.data());
-
-					entry.pVertexBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-					entry.pVertexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_VERTEX, entry.rawVertexBuffer.byteSize());
-					entry.pVertexBuffer->copy(pCoreObject, pStaggingBuffer, entry.rawVertexBuffer.byteSize());
-					entry.rawVertexBuffer.clear();
-
-					pStaggingBuffer->terminate(pCoreObject);
-					StaticAllocator<RBuffer>::rawDeallocate(pStaggingBuffer, 0);
-				}
-
-				/* Initialize Index Buffer */
-				{
-					RBuffer* pStaggingBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-					pStaggingBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, entry.pRawIndexBuffer->size() * entry.pRawIndexBuffer->typeSize());
-					pStaggingBuffer->setData(pCoreObject, entry.pRawIndexBuffer->size() * entry.pRawIndexBuffer->typeSize(), 0, entry.pRawIndexBuffer->data());
-
-					entry.pIndexBuffer = StaticAllocator<Backend::VulkanBuffer>::rawAllocate();
-					entry.pIndexBuffer->initialize(pCoreObject, RBufferType::BUFFER_TYPE_INDEX, entry.pRawIndexBuffer->size() * entry.pRawIndexBuffer->typeSize());
-					entry.pIndexBuffer->copy(pCoreObject, pStaggingBuffer, entry.pRawIndexBuffer->size() * entry.pRawIndexBuffer->typeSize());
-					entry.pRawIndexBuffer->clear();
-
-					pStaggingBuffer->terminate(pCoreObject);
-					StaticAllocator<RBuffer>::rawDeallocate(pStaggingBuffer, 0);
-				}
-			}
-		}
-
-#ifdef DMK_DEBUG
-		DMK_INFO("Number of individual vertex buffers: " + std::to_string(vertexBuffers.size()));
-
-#endif // DMK_DEBUG
-	}
-
-	void RDrawCallManager::setCommandBuffer(RCommandBuffer* pCommandBuffer)
-	{
-		this->pCommandBuffer = pCommandBuffer;
-	}
-
-	void RDrawCallManager::beginCommand()
-	{
-		bIsInitialized = false;
-		pCommandBuffer->begin();
-	}
-
-	void RDrawCallManager::bindRenderTarget(RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, UI32 frameIndex)
-	{
-		pCommandBuffer->bindRenderTarget(pRenderTarget, pSwapChain, frameIndex);
-	}
-
-	void RDrawCallManager::bindDrawCalls(RDrawCallType callType)
-	{
-		/* Bind Environment */
-		if (myEnvironment.pVertexBuffer)
-		{
-			pCommandBuffer->bindVertexBuffer(myEnvironment.pVertexBuffer, 0);
-			pCommandBuffer->bindIndexBuffer(myEnvironment.pIndexBuffer);
-			pCommandBuffer->bindGraphicsPipeline(myEnvironment.pPipeline, myEnvironment.pPipelineResource);
-			if (callType == RDrawCallType::DRAW_CALL_TYPE_INDEX)
-				pCommandBuffer->drawIndexed(0, 0, myEnvironment.indexCount, 1);
-			else if (callType == RDrawCallType::DRAW_CALL_TYPE_VERTEX)
-				pCommandBuffer->drawVertexes(0, myEnvironment.vertexCount, 1);
-		}
-
-		if (indexBuffer)
-			pCommandBuffer->bindIndexBuffer(indexBuffer);
-
-		for (auto container : vertexBuffers)
-		{
-			pCommandBuffer->bindVertexBuffer(container.vertexBuffer, 0);
-
-			for (auto entry : container.entries)
-			{
-				pCommandBuffer->bindGraphicsPipeline(entry.pPipelineObject, entry.pPipelineResource);
-
-				if (callType == RDrawCallType::DRAW_CALL_TYPE_INDEX)
-					pCommandBuffer->drawIndexed(entry.firstIndex, entry.firstVertex, entry.indexCount, 1);
-				else if (callType == RDrawCallType::DRAW_CALL_TYPE_VERTEX)
-					pCommandBuffer->drawVertexes(entry.firstVertex, entry.vertexBuffer.size(), 1);
-			}
-		}
-
-		/* Bind empty draws */
-		for (auto draw : emptyDraws)
-		{
-			pCommandBuffer->bindGraphicsPipeline(draw.pPipeline, draw.pPipelineResource);
-			pCommandBuffer->drawVertexes(0, 3, 1);
-		}
-
-		/* Bind debug entries */
-		for (auto entry : debugEntries)
-		{
-			if (entry.pVertexBuffer)
-			{
-				pCommandBuffer->bindVertexBuffer(entry.pVertexBuffer, 0);
-				pCommandBuffer->bindIndexBuffer(entry.pIndexBuffer);
-				pCommandBuffer->bindGraphicsPipeline(entry.pPipeline, entry.pPipelineResource);
-				pCommandBuffer->drawIndexed(0, 0, entry.indexCount, 1);
+				RCommandBuffer* pBuffer = pCommandBuffers[itr];
+				pBuffer->begin();
+				pBuffer->bindRenderTarget(pRenderTarget, pSwapChain, itr);
+				pBuffer->unbindRenderTarget();
+				pBuffer->end();
 			}
 		}
 	}
 
-	void RDrawCallManager::unbindRenderTarget()
+	void RDrawCallManager::update(RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, const UI64 frameIndex)
 	{
-		pCommandBuffer->unbindRenderTarget();
+		RCommandBuffer* pParentCommandBuffer = getPrimaryCommandBuffer(frameIndex);
+		RCommandBuffer* pSecondaryCommandBuffer = getSecondaryCommandBuffer(frameIndex);
+
+		/* Begin the parent command buffer. */
+		pParentCommandBuffer->beginParent();
+
+		/* Bind a render target to the parent command buffer. */
+		pParentCommandBuffer->bindRenderTarget(pRenderTarget, pSwapChain, Cast<UI32>(frameIndex), RSubpassContentType::SUBPASS_CONTENT_TYPE_SECONDARY_COMMAND_BUFFER);
+
+		/* Begin the inherited secondary command buffer. */
+		pSecondaryCommandBuffer->beginInherited(pRenderTarget, frameIndex);
+
+		/* Bind the secondary commands. */
+		bindSecondaryCommands(pSecondaryCommandBuffer);
+
+		/* End the secondary command buffers. */
+		pSecondaryCommandBuffer->end();
+
+		/* Execute the secondary command buffer calls. */
+		pSecondaryCommandBuffer->executeSecondaryCommands(pParentCommandBuffer);
+
+		/* Unbind the render target from the primary command buffer. */
+		pParentCommandBuffer->unbindRenderTarget();
+
+		/* End the primary command buffer. */
+		pParentCommandBuffer->end();
 	}
 
-	void RDrawCallManager::endCommand()
+	RCommandBuffer* RDrawCallManager::getPrimaryCommandBuffer(UI64 frameIndex)
 	{
-		pCommandBuffer->end();
-		bIsInitialized = true;
+		return pCommandBuffers[frameIndex];
 	}
 
-	void RDrawCallManager::terminate(RCoreObject* pCoreObject)
+	RCommandBuffer* RDrawCallManager::getSecondaryCommandBuffer(UI64 frameIndex)
 	{
-		/* Terminate Environment */
-		if (myEnvironment.pVertexBuffer)
-		{
-			myEnvironment.pVertexBuffer->terminate(pCoreObject);
-			StaticAllocator<RBuffer>::rawDeallocate(myEnvironment.pVertexBuffer, 0);
-		}
+		return pSecondaryCommandBuffers[frameIndex];
+	}
 
-		if (myEnvironment.pIndexBuffer)
+	void RDrawCallManager::bindSecondaryCommands(RCommandBuffer* pCommandBuffer)
+	{
+		for (UI32 index = 0; index < secondaryCommandBindings.size(); index++)
 		{
-			myEnvironment.pIndexBuffer->terminate(pCoreObject);
-			StaticAllocator<RBuffer>::rawDeallocate(myEnvironment.pIndexBuffer, 0);
-		}
+			auto& binding = secondaryCommandBindings[index];
 
-		for (auto buffer : vertexBuffers)
-		{
-			buffer.vertexBuffer->terminate(pCoreObject);
-			StaticAllocator<RBuffer>::rawDeallocate(buffer.vertexBuffer, 0);
-		}
+			pCommandBuffer->bindVertexBuffer(binding.pRenderEntity->pVertexBuffer, 0);
+			pCommandBuffer->bindIndexBuffer(binding.pRenderEntity->pIndexBuffer);
 
-		if (indexBuffer)
-		{
-			indexBuffer->terminate(pCoreObject);
-			StaticAllocator<RBuffer>::rawDeallocate(indexBuffer, 0);
-		}
-
-		/* Terminate Debug Entries */
-		for (auto entry : debugEntries)
-		{
-			if (entry.pVertexBuffer)
+			for (auto renderMesh : binding.pRenderEntity->meshObjects)
 			{
-				entry.pVertexBuffer->terminate(pCoreObject);
-				StaticAllocator<RBuffer>::rawDeallocate(entry.pVertexBuffer, 0);
+				pCommandBuffer->bindGraphicsPipeline(binding.pRenderEntity->pPipelineObject, renderMesh.pResourceObject);
+
+				pCommandBuffer->drawIndexed(0, renderMesh.vertexOffset, renderMesh.indexCount, 1);
 			}
 
-			if (entry.pIndexBuffer)
-			{
-				entry.pIndexBuffer->terminate(pCoreObject);
-				StaticAllocator<RBuffer>::rawDeallocate(entry.pIndexBuffer, 0);
-			}
+			binding.runTime += 1.0f;
 		}
-	}
-
-	RDrawCallManager::DebugDraw& RDrawCallManager::getDebugEntry(I64 index)
-	{
-		return debugEntries[index];
 	}
 	
-	const B1 RDrawCallManager::isInitialized() const
+	void RDrawCallManager::resetPrimaryCommandBuffers(RCoreObject* pCoreObject)
 	{
-		return bIsInitialized;
+		pCommandBufferManager->resetBuffers(pCoreObject, pCommandBuffers);
+	}
+	
+	void RDrawCallManager::resetSecondaryCommandBuffers(RCoreObject* pCoreObject)
+	{
+		pCommandBufferManager->resetBuffers(pCoreObject, pSecondaryCommandBuffers);
 	}
 }

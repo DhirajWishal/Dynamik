@@ -94,20 +94,20 @@ namespace Dynamik
 			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_UPDATE_OBJECTS:
 				break;
 			case Dynamik::RendererInstruction::RENDERER_SUBMIT_IM_GUI_DRAW_DATA:
-				if (myImGuiBackend && myCommandBufferManager)
-				{
-					myCoreObject->idleCall();
-
-					myImGuiBackend->update(Inherit<RendererSubmitImGuiDrawData>(myCommand)->pDrawData);
-
-					if (myDrawCallManager.isInitialized())
-					{
-						isReadyToRun = false;
-
-						myCommandBufferManager->resetBuffers(myCoreObject, myCommandBuffers);
-						initializeCommandBuffers();
-					}
-				}
+				//if (myImGuiBackend && myCommandBufferManager)
+				//{
+				//	myCoreObject->idleCall();
+				//
+				//	myImGuiBackend->update(Inherit<RendererSubmitImGuiDrawData>(myCommand)->pDrawData);
+				//
+				//	if (myDrawCallManager.isInitialized())
+				//	{
+				//		isReadyToRun = false;
+				//
+				//		myCommandBufferManager->resetBuffers(myCoreObject, myCommandBuffers);
+				//		initializeCommandBuffers();
+				//	}
+				//}
 				break;
 			default:
 				DMK_ERROR("Unsupported command!");
@@ -159,6 +159,7 @@ namespace Dynamik
 			return;
 
 		beginFrameInstruction();
+		myDrawCallManager.update(&myRenderTarget, mySwapChain, currentImageIndex);
 		endFrameInstruction();
 	}
 
@@ -587,6 +588,8 @@ namespace Dynamik
 		if (!pEnvironmentEntity)
 			return;
 
+		RMeshObject renderMesh = {};
+
 		/* Initialize Sky Box */
 		myCurrentEnvironment.pParentEntity = pEnvironmentEntity;
 
@@ -600,12 +603,14 @@ namespace Dynamik
 		}
 
 		/* Initialize Vertex Buffer */
-		myCurrentEnvironment.pVertexBuffer = createVertexBuffer(pEnvironmentEntity->skyBoxMesh.vertexBuffer.byteSize());
-		myCurrentEnvironment.pVertexBuffer->setData(myCoreObject, pEnvironmentEntity->skyBoxMesh.vertexBuffer.byteSize(), 0, pEnvironmentEntity->skyBoxMesh.vertexBuffer.data());
+		myCurrentEnvironment.renderEntity.pVertexBuffer = createVertexBuffer(pEnvironmentEntity->skyBoxMesh.getVertexBuffer().byteSize());
+		myCurrentEnvironment.renderEntity.pVertexBuffer->setData(myCoreObject, pEnvironmentEntity->skyBoxMesh.getVertexBuffer().byteSize(), 0, pEnvironmentEntity->skyBoxMesh.getVertexBuffer().data());
+		renderMesh.vertexCount = pEnvironmentEntity->skyBoxMesh.vertexBuffer.size();
 
 		/* Initialize Index Buffer */
-		myCurrentEnvironment.pIndexBuffer = createIndexBuffer(pEnvironmentEntity->skyBoxMesh.getIndexBuffer().byteSize());
-		myCurrentEnvironment.pIndexBuffer->setData(myCoreObject, pEnvironmentEntity->skyBoxMesh.getIndexBuffer().byteSize(), 0, pEnvironmentEntity->skyBoxMesh.indexBuffer.data());
+		myCurrentEnvironment.renderEntity.pIndexBuffer = createIndexBuffer(pEnvironmentEntity->skyBoxMesh.getIndexBuffer().byteSize());
+		myCurrentEnvironment.renderEntity.pIndexBuffer->setData(myCoreObject, pEnvironmentEntity->skyBoxMesh.getIndexBuffer().byteSize(), 0, pEnvironmentEntity->skyBoxMesh.getIndexBuffer().data());
+		renderMesh.indexCount = pEnvironmentEntity->skyBoxMesh.indexBuffer.size();
 
 		/* Initialize Uniforms */
 		ARRAY<RBuffer*> uniformBuffers;
@@ -624,7 +629,7 @@ namespace Dynamik
 		}
 
 		/* Initialize Pipeline */
-		myCurrentEnvironment.pPipeline = RUtilities::allocatePipeline(myAPI);
+		myCurrentEnvironment.renderEntity.pPipelineObject = RUtilities::allocatePipeline(myAPI);
 
 		RPipelineSpecification pipelineCreateInfo = {};
 		pipelineCreateInfo.resourceCount = 1;
@@ -633,7 +638,7 @@ namespace Dynamik
 		pipelineCreateInfo.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
 		pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
 		pipelineCreateInfo.rasterizerInfo.frontFace = RFrontFace::FRONT_FACE_CLOCKWISE;
-		myCurrentEnvironment.pPipeline->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &myRenderTarget, mySwapChain->viewPort);
+		myCurrentEnvironment.renderEntity.pPipelineObject->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &myRenderTarget, mySwapChain->viewPort);
 
 		/* Initialize Resources */
 		{
@@ -656,11 +661,13 @@ namespace Dynamik
 		ARRAY<RTexture*> textures = { myCurrentEnvironment.pTexture };
 
 		/* Initialize Pipeline Resources */
-		myCurrentEnvironment.pPipelineResource = myCurrentEnvironment.pPipeline->allocateResources(myCoreObject)[0];
-		myCurrentEnvironment.pPipelineResource->update(myCoreObject, uniformBuffers, textures);
+		renderMesh.pResourceObject = myCurrentEnvironment.renderEntity.pPipelineObject->allocateResources(myCoreObject)[0];
+		renderMesh.pResourceObject->update(myCoreObject, uniformBuffers, textures);
+
+		myCurrentEnvironment.renderEntity.meshObjects.pushBack(renderMesh);
 
 		/* Initialize Vertex and Index Buffers */
-		myDrawCallManager.setEnvironment(myCurrentEnvironment.pPipeline, myCurrentEnvironment.pPipelineResource, myCurrentEnvironment.pVertexBuffer, pEnvironmentEntity->skyBoxMesh.vertexBuffer.size(), myCurrentEnvironment.pIndexBuffer, pEnvironmentEntity->skyBoxMesh.indexBuffer.size());
+		myDrawCallManager.addRenderEntity(&myCurrentEnvironment.renderEntity);
 		pEnvironmentEntity->skyBoxMesh.vertexBuffer.clear();
 		pEnvironmentEntity->skyBoxMesh.indexBuffer.clear();
 	}
@@ -701,8 +708,52 @@ namespace Dynamik
 			}
 		}
 
+		UI64 vertexBufferSize = 0;
+		UI64 indexBufferSize = 0;
+
 		for (UI64 index = 0; index < pEntity->meshObjects.size(); index++)
-			entity.meshObjects.pushBack(createMeshObject(pEntity, pEntity->meshObjects.location(index), resources[index], entity.pPipelineObject, pUniformBuffers));
+		{
+			auto pMeshObject = pEntity->meshObjects.location(index);
+			auto rMeshObject = createMeshObject(pEntity, pMeshObject, resources[index], entity.pPipelineObject, pUniformBuffers);
+			rMeshObject.vertexOffset = vertexBufferSize / pMeshObject->getVertexBuffer().getLayout().getVertexSize();
+			rMeshObject.indexOffset = indexBufferSize / pMeshObject->getIndexBuffer().getIndexSize();
+
+			entity.meshObjects.pushBack(rMeshObject);
+
+			vertexBufferSize += pMeshObject->getVertexBuffer().byteSize();
+			indexBufferSize += pMeshObject->getIndexBuffer().byteSize();
+		}
+
+		/* Initialize Vertex and Index buffers */
+		{
+			/* Initialize vertex buffer */
+			{
+				entity.pVertexBuffer = createVertexBuffer(vertexBufferSize);
+				POINTER<BYTE> vertexPtr = entity.pVertexBuffer->getData(myCoreObject, vertexBufferSize, 0);
+
+				for (auto rMeshObject : entity.meshObjects)
+				{
+					DMKMemoryFunctions::copyData(vertexPtr.get(), rMeshObject.pParentObject->getVertexBuffer().data(), rMeshObject.pParentObject->getVertexBuffer().byteSize());
+					vertexPtr += rMeshObject.pParentObject->getVertexBuffer().byteSize();
+				}
+
+				entity.pVertexBuffer->flushMemory(myCoreObject);
+			}
+
+			/* initialize index buffer */
+			{
+				entity.pIndexBuffer = createIndexBuffer(indexBufferSize);
+				POINTER<BYTE> indexPtr = entity.pIndexBuffer->getData(myCoreObject, indexBufferSize, 0);
+
+				for (auto rMeshObject : entity.meshObjects)
+				{
+					DMKMemoryFunctions::copyData(indexPtr.get(), rMeshObject.pParentObject->getIndexBuffer().data(), rMeshObject.pParentObject->getIndexBuffer().byteSize());
+					indexPtr += rMeshObject.pParentObject->getIndexBuffer().byteSize();
+				}
+
+				entity.pIndexBuffer->flushMemory(myCoreObject);
+			}
+		}
 
 		myEntities.pushBack(entity);
 	}
@@ -724,33 +775,12 @@ namespace Dynamik
 
 	void DMKRenderer::initializeCommandBuffers()
 	{
-		if (!myCommandBuffers.size())
-			myCommandBuffers = myCommandBufferManager->allocateCommandBuffers(myCoreObject, mySwapChain->bufferCount);
-		else
-			myCommandBufferManager->resetBuffers(myCoreObject, myCommandBuffers);
-
-		for (UI32 itr = 0; itr < myCommandBuffers.size(); itr++)
-		{
-			myDrawCallManager.setCommandBuffer(myCommandBuffers[itr]);
-			myDrawCallManager.beginCommand();
-			myDrawCallManager.bindRenderTarget(&myRenderTarget, mySwapChain, itr);
-
-			myDrawCallManager.bindDrawCalls(RDrawCallType::DRAW_CALL_TYPE_INDEX);
-
-			myDrawCallManager.unbindRenderTarget();
-			myDrawCallManager.endCommand();
-		}
-
+		myDrawCallManager.initializeCommandBuffers(myCoreObject, &myRenderTarget, mySwapChain, myAPI);
 		isReadyToRun = true;
 	}
 
 	void DMKRenderer::initializeFinals()
 	{
-		myDrawCallManager.initializeBuffers(myCoreObject);
-
-		myCommandBufferManager = Inherit<RCommandBufferManager>(StaticAllocator<VulkanCommandBufferManager>::rawAllocate().get());
-		myCommandBufferManager->initialize(myCoreObject);
-
 		initializeCommandBuffers();
 	}
 
@@ -760,7 +790,7 @@ namespace Dynamik
 
 		/* Reset Command Buffers */
 		myCoreObject->idleCall();
-		myCommandBufferManager->resetBuffers(myCoreObject, myCommandBuffers);
+		myDrawCallManager.resetPrimaryCommandBuffers(myCoreObject);
 
 		/* Terminate The Current Context */
 		{
@@ -795,8 +825,8 @@ namespace Dynamik
 		/* Initialize Pipelines */
 		{
 			/* Initialize Environment Map Pipeline */
-			if (myCurrentEnvironment.pPipeline)
-				myCurrentEnvironment.pPipeline->reCreate(myCoreObject, &myRenderTarget, mySwapChain->viewPort);
+			if (myCurrentEnvironment.renderEntity.pPipelineObject)
+				myCurrentEnvironment.renderEntity.pPipelineObject->reCreate(myCoreObject, &myRenderTarget, mySwapChain->viewPort);
 
 			/* Initialize Entity Pipelines */
 			for (auto entity : myEntities)
@@ -864,11 +894,11 @@ namespace Dynamik
 	{
 #ifdef DMK_BUILD_STUDIO
 		if (myImGuiBackend)
-			myImGuiBackend->onRendererUpdate(currentImageIndex, mySwapChain, myCommandBuffers[currentImageIndex]);
+			myImGuiBackend->onRendererUpdate(currentImageIndex, mySwapChain, myDrawCallManager.getPrimaryCommandBuffer(currentImageIndex));
 
 #endif
 
-		myCoreObject->submitCommand(myCommandBuffers[currentImageIndex], mySwapChain);
+		myCoreObject->submitCommand(myDrawCallManager.getPrimaryCommandBuffer(currentImageIndex), mySwapChain);
 		isPresenting = false;
 	}
 
@@ -900,12 +930,8 @@ namespace Dynamik
 
 	void DMKRenderer::terminateComponents()
 	{
-		/* Terminate Vertex and Index Buffers */
-		myDrawCallManager.terminate(myCoreObject);
-
-		/* Terminate Command Buffers */
-		myCommandBufferManager->terminate(myCoreObject, myCommandBuffers);
-		StaticAllocator<RCommandBufferManager>::rawDeallocate(myCommandBufferManager, 0);
+		/* Terminate draw call manager */
+		myDrawCallManager.terminateAll(myCoreObject);
 
 		/* Terminate Core Object */
 		myCoreObject->terminate();
@@ -916,10 +942,10 @@ namespace Dynamik
 	{
 		/* Terminate Environment Map */
 		{
-			if (myCurrentEnvironment.pPipeline)
+			if (myCurrentEnvironment.renderEntity.pPipelineObject)
 			{
-				myCurrentEnvironment.pPipeline->terminate(myCoreObject);
-				StaticAllocator<RPipelineObject>::rawDeallocate(myCurrentEnvironment.pPipeline, 0);
+				myCurrentEnvironment.renderEntity.pPipelineObject->terminate(myCoreObject);
+				StaticAllocator<RPipelineObject>::rawDeallocate(myCurrentEnvironment.renderEntity.pPipelineObject, 0);
 			}
 
 			if (myCurrentEnvironment.pTexture)
@@ -1040,7 +1066,7 @@ namespace Dynamik
 			}
 
 			pResource->update(myCoreObject, pUniformBuffers, textures);
-			meshComponent.pPipelineResource = pResource;
+			meshComponent.pResourceObject = pResource;
 
 			/* Initialize Constant Blocks */
 			//for (UI64 itr = 0; itr < meshComponent.pMeshComponent->materials.size(); itr++)
@@ -1051,13 +1077,10 @@ namespace Dynamik
 			//		StaticAllocator<DMKMaterial::MaterialPushBlock>::allocateInit(material.generatePushBlock()),
 			//		itr);
 			//}
-
-					/* Initialize Vertex and Index Buffers */
-			if (meshComponent.pParentObject->vertexBuffer.size() || meshComponent.pParentObject->indexBuffer.size())
-				meshComponent.resourceIndex = myDrawCallManager.addDrawEntry(meshComponent.pParentObject->vertexBuffer, &meshComponent.pParentObject->indexBuffer, pParentPipeline, meshComponent.pPipelineResource);
-			else
-				meshComponent.resourceIndex = myDrawCallManager.addEmptyEntry(pParentPipeline);
 		}
+
+		meshComponent.vertexCount = pMeshObject->getVertexBuffer().size();
+		meshComponent.indexCount = pMeshObject->getIndexBuffer().size();
 
 		return meshComponent;
 	}

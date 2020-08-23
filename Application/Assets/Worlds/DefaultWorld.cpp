@@ -17,10 +17,12 @@ void DefaultWorld::initialize()
 
 void DefaultWorld::onUpdate(const F32 timeStep)
 {
+	auto playerObject = getEntity<Player>();
+
 	if (!areEntitiesInitialized)
 	{
 		/* Initialize the player entity */
-		getEntity<Player>()->onInitializePlayer();
+		playerObject->onInitializePlayer();
 
 		/* Setup player controls */
 		setupPlayerConstrols(getEntity<Player>());
@@ -30,8 +32,30 @@ void DefaultWorld::onUpdate(const F32 timeStep)
 
 		areEntitiesInitialized = true;
 	}
+
+	static B1 refresh = false;
+
+	if (DMKEventPool::MouseButtonLeft.isPressed())
+	{
+		playerObject->processMouseControl(DMKEventPool::getMousePosition(), 0.1f, refresh, true);
+		refresh = false;
+	}
+
+	if (DMKEventPool::MouseButtonLeft.isReleased())
+		refresh = true;
+
+	if (DMKEventPool::KeyUp.isPressed() || DMKEventPool::KeyUp.isOnRepeat())
+		playerObject->addUpVector(0.0001f);
+
+	if (DMKEventPool::KeyDown.isPressed() || DMKEventPool::KeyDown.isOnRepeat())
+		playerObject->addDownVector(0.0001f);
+
+	playerObject->updateCamera();
+
+	getEntity<OceanEnv>()->onUpdateEnvironment();
 }
 
 void DefaultWorld::onMainWindowResize(DMKExtent2D newSize)
 {
+	getEntity<Player>()->setCameraViewPort(newSize);
 }

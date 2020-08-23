@@ -200,6 +200,7 @@ namespace Dynamik
 
 		/* Initialize the camera controller. */
 		DMKSystemLocator::createSystem<DMKPlayerController>();
+		DMKSystemLocator::getSystem<DMKPlayerController>()->setEventPool(DMKSystemLocator::getSystem<DMKEventPool>());
 
 		/* Initialize the renderer. */
 		{

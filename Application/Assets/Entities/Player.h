@@ -14,6 +14,12 @@ public:
 	~Player() {}
 
 	virtual void onInitializePlayer() override final;
+	virtual void setupPlayerControls(DMKPlayerController* pPlayerController) override final;
+
+	virtual void onMoveForward() override final;
+	virtual void onMoveBackward() override final;
+	virtual void onMoveLeft() override final;
+	virtual void onMoveRight() override final;
 };
 
 #endif // !_APPLICATION_PLAYER_H

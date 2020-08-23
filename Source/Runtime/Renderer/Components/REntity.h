@@ -22,6 +22,8 @@ namespace Dynamik
 
 		/* TODO */
 		RPipelineObject* pPipelineObject = nullptr;
+		RBuffer* pVertexBuffer = nullptr;
+		RBuffer* pIndexBuffer = nullptr;
 	};
 }
 

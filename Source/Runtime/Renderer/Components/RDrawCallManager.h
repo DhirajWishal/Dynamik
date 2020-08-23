@@ -9,6 +9,9 @@
 #include "Core/Objects/Resources/IndexBuffer.h"
 #include "Core/Objects/Resources/VertexBuffer.h"
 
+#include "REntity.h"
+#include "RCommandBufferManager.h"
+
 /* Hash function for the Dynamik Vertex Layout structure */
 namespace std
 {
@@ -42,128 +45,56 @@ namespace Dynamik
 	 This object manages all the draw instructions.
 	*/
 	class DMK_API RDrawCallManager {
+		struct DMK_API RSecondaryCommandBinding {
+			RSecondaryCommandBinding(REntity* pEntity = nullptr) : pRenderEntity(pEntity) {}
+
+			REntity* pRenderEntity = nullptr;
+			F32 runTime = 0.0f;
+		};
+
 	public:
-
-		struct DMK_API DrawEntry {
-			DrawEntry() {}
-			DrawEntry(
-				UI64 fVertex, DMKVertexBuffer vertexBuffer,
-				UI64 firstIndex, UI64 indexCount,
-				RPipelineObject* pPipelineObj,
-				RPipelineResource* pPipelineResource) :
-				firstVertex(fVertex), vertexBuffer(vertexBuffer),
-				firstIndex(firstIndex), indexCount(indexCount),
-				pPipelineObject(pPipelineObj),
-				pPipelineResource(pPipelineResource) {}
-			~DrawEntry() {}
-
-			UI64 firstVertex = 0;
-			UI64 firstIndex = 0;
-			UI64 indexCount = 0;
-
-			RPipelineObject* pPipelineObject = nullptr;
-			RPipelineResource* pPipelineResource = nullptr;
-			DMKVertexBuffer vertexBuffer;
-		};
-
-		struct DMK_API IndexBufferEntry {
-			UI64 firstIndex = 0;
-			DMKIndexBuffer* pIndexBuffer = nullptr;
-		};
-
-		struct DMK_API VertexBufferEntry {
-			ARRAY<DrawEntry> drawEntries;
-			UI64 vertexCount = 0;
-		};
-
-		struct DMK_API VertexBufferContainer {
-			ARRAY<DrawEntry> entries;
-			RBuffer* vertexBuffer = nullptr;
-		};
-
-		struct DMK_API EmptyDraw {
-			EmptyDraw() {}
-			EmptyDraw(RPipelineObject* pPipeline) : pPipeline(pPipeline) {}
-			~EmptyDraw() {}
-
-			RPipelineObject* pPipeline = nullptr;
-			RPipelineResource* pPipelineResource = nullptr;
-		};
-
-		struct DMK_API DebugDraw {
-			DMKVertexBuffer rawVertexBuffer;
-			DMKIndexBuffer* pRawIndexBuffer;
-			RPipelineObject* pPipeline = nullptr;
-			RPipelineResource* pPipelineResource = nullptr;
-			RBuffer* pVertexBuffer = nullptr;
-			UI64 vertexCount = 0;
-			RBuffer* pIndexBuffer = nullptr;
-			UI64 indexCount = 0;
-		};
-
-		struct DMK_API EnvironmentDraw {
-			RPipelineObject* pPipeline = nullptr;
-			RPipelineResource* pPipelineResource = nullptr;
-			RBuffer* pVertexBuffer = nullptr;
-			UI64 vertexCount = 0;
-			RBuffer* pIndexBuffer = nullptr;
-			UI64 indexCount = 0;
-		};
-
-		RDrawCallManager() {}
+		RDrawCallManager() : isCommandBuffersInitialized(false) { }
 		~RDrawCallManager() {}
 
-		UI64 addDrawEntry(
-			DMKVertexBuffer vertexBuffer,
-			DMKIndexBuffer* indexBuffer,
-			RPipelineObject* pPipelineObject,
-			RPipelineResource* pPipelineResource);
+		void terminateAll(RCoreObject* pCoreObject);
 
-		UI64 addEmptyEntry(RPipelineObject* pPipelineObject);
-
-		void setEnvironment(RPipelineObject* pPipeline, RPipelineResource* pPipelineResource, RBuffer* pVertexBuffer, UI64 vertexCount, RBuffer* pIndexBuffer, UI64 indexCount);
-		EnvironmentDraw& getEnvironmentData();
-
-		UI64 addDebugEntry(
-			DMKVertexBuffer vertexBuffer,
-			DMKIndexBuffer* indexBuffer,
-			RPipelineObject* pPipelineObject,
-			RPipelineResource* pPipelineResource);
-
-		void initializeBuffers(RCoreObject* pCoreObject);
-
-		void setCommandBuffer(RCommandBuffer* pCommandBuffer);
-
-		void beginCommand();
-		void bindRenderTarget(RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, UI32 frameIndex);
-		void bindDrawCalls(RDrawCallType callType = RDrawCallType::DRAW_CALL_TYPE_INDEX);
-		void unbindRenderTarget();
-		void endCommand();
-
-		void terminate(RCoreObject* pCoreObject);
-
-		DebugDraw& getDebugEntry(I64 index);
-
-		const B1 isInitialized() const;
-
-	private:
-		std::unordered_map<DMKVertexLayout, VertexBufferEntry> entryMap;
-		ARRAY<VertexBufferContainer> vertexBuffers;
-		ARRAY<IndexBufferEntry> indexBufferEntries;
-		ARRAY<EmptyDraw> emptyDraws;
-		ARRAY<DebugDraw> debugEntries;
-		EnvironmentDraw myEnvironment;
+		void addRenderEntity(REntity* pRenderEntity);
 
 		/*
-		 Index Buffer
-		 One index buffer would be enough because all the indexes are given as unsigned 32 bit integers.
+		 Initialize the primary command buffers.
 		*/
-		RBuffer* indexBuffer = nullptr;
-		UI64 totalIndexCount = 0;
+		void initializeCommandBuffers(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, DMKRenderingAPI API);
 
-		RCommandBuffer* pCommandBuffer = nullptr;
+		/*
+		 This method updates the secondary command buffers and increments the run time of secondary commands. 
+		*/
+		void update(RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, const UI64 frameIndex);
 
-		B1 bIsInitialized = false;
+		RCommandBuffer* getPrimaryCommandBuffer(UI64 frameIndex);
+		RCommandBuffer* getSecondaryCommandBuffer(UI64 frameIndex);
+
+		void bindSecondaryCommands(RCommandBuffer* pCommandBuffer);
+
+		void resetPrimaryCommandBuffers(RCoreObject* pCoreObject);
+		void resetSecondaryCommandBuffers(RCoreObject* pCoreObject);
+
+	private:
+		/*
+		 Secondary command bindings.
+		 These bindings are actively used in the secondary command buffers.
+		*/
+		ARRAY<RSecondaryCommandBinding> secondaryCommandBindings;
+
+		/* The local command buffer manager pointer. */
+		RCommandBufferManager* pCommandBufferManager = nullptr;
+
+		/* Pointer to command buffers. */
+		ARRAY<RCommandBuffer*> pCommandBuffers;
+
+		/* Secondary command buffers */
+		ARRAY<RCommandBuffer*> pSecondaryCommandBuffers;
+
+		UI8 isCommandBuffersInitialized : 1;
 	};
 }
 
