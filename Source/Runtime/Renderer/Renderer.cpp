@@ -910,6 +910,14 @@ namespace Dynamik
 
 	void DMKRenderer::updateEntities()
 	{
+		/* Update static entities. */
+		for (auto pEntity : pStaticEntities)
+			pEntity->onStaticEntityUpdate();
+
+		/* Update animated entities. */
+		for (auto pEntity : pAnimatedEntities)
+			pEntity->onAnimatedEntityUpdate();
+
 		for (auto entity : myEntities)
 			for (auto meshComponent : entity.meshObjects)
 				for (auto pUniform : meshComponent.uniformBuffers)

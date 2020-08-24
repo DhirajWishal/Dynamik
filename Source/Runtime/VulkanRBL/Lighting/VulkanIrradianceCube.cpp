@@ -13,7 +13,6 @@
 
 #include "Renderer/RUtilities.h"
 #include "Renderer/Components/REnvironmentEntity.h"
-#include "Tools/Shader/GLSL/Compiler.h"
 #include "Services/RuntimeSystems/AssetRegistry.h"
 #include "Core/Math/MathFunctions.h"
 #include "Core/Types/StaticArray.h"
@@ -142,17 +141,15 @@ namespace Dynamik
 
 		void VulkanIrradianceCube::_initializePipelines(RCoreObject* pCoreObject)
 		{
-			Tools::GLSLCompiler compiler;
-
 			ARRAY<DMKShaderModule> shaders;
 
-			auto shaderVS = compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_FILTER_CUBE_VERT")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX);
+			auto shaderVS = DMKShaderModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_FILTER_CUBE_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
 			shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKFormat::DMK_FORMAT_RGBA_32_SF32, 1));
 			shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKFormat::DMK_FORMAT_RGBA_32_SF32, 1));
 			shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKFormat::DMK_FORMAT_RG_32_SF32, 1));
 
 			shaders.pushBack(shaderVS);
-			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_IRRADIANCE_CUBE_FRAG")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT));
+			shaders.pushBack(DMKShaderModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_IRRADIANCE_CUBE_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 
 			DMKViewport _viewport;
 			_viewport.width = Cast<I32>(dimentions.width);

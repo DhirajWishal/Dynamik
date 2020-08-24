@@ -381,6 +381,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp" />
+    <ClCompile Include="Entities\AnimatedModelEntity.cpp" />
     <ClCompile Include="Entities\EnvironmentEntity.cpp" />
     <ClCompile Include="Entities\PlayerEntity.cpp" />
     <ClCompile Include="Entities\SkyBoxEntity.cpp" />

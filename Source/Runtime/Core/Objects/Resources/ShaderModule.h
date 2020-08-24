@@ -62,6 +62,7 @@ namespace Dynamik
     public:
 		DMKShaderModule() = default;
         DMKShaderModule(const DMKShaderLocation& sLocation, const DMKShaderCodeType& sType) : location(sLocation), codeType(sType) {}
+		DMKShaderModule(const STRING& path, const DMKShaderLocation& sLocation, const DMKShaderCodeType& sType);
         ~DMKShaderModule() = default;
 
 		/*

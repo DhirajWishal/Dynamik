@@ -8,6 +8,12 @@
 
 namespace Dynamik
 {
+	DMKShaderModule::DMKShaderModule(const STRING& path, const DMKShaderLocation& sLocation, const DMKShaderCodeType& sType)
+		: location(sLocation), codeType(sType) 
+	{
+		loadCode(path);
+	}
+	
 	void DMKShaderModule::loadCode(const STRING& path)
 	{
 		std::ifstream file(path, std::ios::ate | std::ios::binary);

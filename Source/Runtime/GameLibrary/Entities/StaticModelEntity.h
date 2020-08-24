@@ -28,6 +28,9 @@ namespace Dynamik
 		DMKStaticModelEntity() {}
 		virtual ~DMKStaticModelEntity() {}
 
+		virtual void onStaticEntityUpdate() {}
+
+	public:
 		/*
 		 Add an instance to the static model. 
 

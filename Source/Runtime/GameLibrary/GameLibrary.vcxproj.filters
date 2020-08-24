@@ -52,6 +52,7 @@
       <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Entities\SkyBoxEntity.h" />
+    <ClInclude Include="Utilities\Utilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp">
@@ -75,6 +76,8 @@
       <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Entities\SkyBoxEntity.cpp" />
+    <ClCompile Include="Utilities\Utilities.cpp" />
+    <ClCompile Include="Entities\AnimatedModelEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameLibrary.lua" />

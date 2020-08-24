@@ -210,6 +210,9 @@ namespace Dynamik
 		ARRAY<REntity> myEntities;
 		ARRAY<RBoundingBox> myBoundingBoxes;
 
+		ARRAY<DMKStaticModelEntity*> pStaticEntities;
+		ARRAY<DMKAnimatedModelEntity*> pAnimatedEntities;
+
 		UI32 currentImageIndex = 0;
 		B1 isPresenting = false;
 

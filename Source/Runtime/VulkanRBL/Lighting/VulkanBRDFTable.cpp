@@ -9,7 +9,6 @@
 #include "Services/RuntimeSystems/AssetRegistry.h"
 #include "Core/Utilities/ShaderFactory.h"
 #include "Core/Types/StaticArray.h"
-#include "Tools/Shader/GLSL/Compiler.h"
 #include "Renderer/RUtilities.h"
 
 namespace Dynamik
@@ -122,11 +121,9 @@ namespace Dynamik
 
 		void VulkanBRDFTable::_initializePipelines(RCoreObject* pCoreObject)
 		{
-			Tools::GLSLCompiler compiler;
-
 			ARRAY<DMKShaderModule> shaders;
-			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_BRDF_TABLE_VERT")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX));
-			shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_BRDF_TABLE_FRAG")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT));
+			shaders.pushBack(DMKShaderModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_BRDF_TABLE_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+			shaders.pushBack(DMKShaderModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_BRDF_TABLE_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 
 			DMKViewport _viewport;
 			_viewport.width = Cast<I32>(dimentions.width);
