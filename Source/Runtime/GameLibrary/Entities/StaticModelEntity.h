@@ -141,6 +141,11 @@ namespace Dynamik
 		ARRAY<DMKResourceRequest> resourceRequests;
 
 	public:
+		/*
+		 Clear all the data in the static model (only from the mesh objects). 
+		*/
+		void clearStaticModel();
+
 		B1 isInitializedStaticModel = false;
 	};
 }

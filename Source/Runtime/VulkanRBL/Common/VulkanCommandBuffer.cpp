@@ -17,8 +17,8 @@ namespace Dynamik
 		{
 			VkRenderPassBeginInfo renderPassInfo = {};
 			renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-			renderPassInfo.renderPass = InheritCast<VulkanRenderPass>(pRenderTarget->pRenderPass);
-			renderPassInfo.framebuffer = InheritCast<VulkanFrameBuffer>(pRenderTarget->pFrameBuffer)[bufferIndex];
+			renderPassInfo.renderPass = Inherit<VulkanRenderPass>(pRenderTarget->pRenderPass)->renderPass;
+			renderPassInfo.framebuffer = Inherit<VulkanFrameBuffer>(pRenderTarget->pFrameBuffer)->buffers[bufferIndex];
 			renderPassInfo.renderArea.offset.x = pSwapChain->viewPort.xOffset;
 			renderPassInfo.renderArea.offset.y = pSwapChain->viewPort.yOffset;
 			renderPassInfo.renderArea.extent.width = (UI32)pRenderTarget->pFrameBuffer->width;
@@ -85,14 +85,14 @@ namespace Dynamik
 
 		void VulkanCommandBuffer::bindGraphicsPipeline(RPipelineObject* pPipelineObject, RPipelineResource* pPipelineResource)
 		{
-			VulkanGraphicsPipeline pipeline = InheritCast<VulkanGraphicsPipeline>(pPipelineObject);
-			vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
+			VulkanGraphicsPipeline* pPipeline = Inherit<VulkanGraphicsPipeline>(pPipelineObject);
+			vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pPipeline->pipeline);
 
-			if (pipeline.isResourceAvailable)
-				vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline, 0, 1, &Inherit<VulkanGraphicsPipelineResource>(pPipelineResource)->set, 0, VK_NULL_HANDLE);
+			if (pPipeline->isResourceAvailable)
+				vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pPipeline->layout, 0, 1, &Inherit<VulkanGraphicsPipelineResource>(pPipelineResource)->set, 0, VK_NULL_HANDLE);
 
-			for (auto block : pipeline.constantBlocks)
-				vkCmdPushConstants(buffer, pipeline, VulkanUtilities::getShaderStage(block.location), Cast<UI32>(block.offset), Cast<UI32>(block.byteSize), block.data);
+			for (UI32 index = 0; index < pPipeline->constantBlocks.size(); index++)
+				vkCmdPushConstants(buffer, pPipeline->layout, VulkanUtilities::getShaderStage(pPipeline->constantBlocks[index].location), Cast<UI32>(pPipeline->constantBlocks[index].offset), Cast<UI32>(pPipeline->constantBlocks[index].byteSize), pPipeline->constantBlocks[index].data);
 		}
 
 		void VulkanCommandBuffer::drawIndexed(UI64 firstIndex, UI64 vertexOffset, UI64 indexCount, UI64 instanceCount)

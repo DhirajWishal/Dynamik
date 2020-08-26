@@ -190,7 +190,7 @@ namespace Dynamik
 		/* OPERATOR
 		 * Return the dereferenced pointer.
 		 */
-		DMK_FORCEINLINE TYPE operator*() const { return *this->myPointer; }
+		DMK_FORCEINLINE TYPE& operator*() const { return *this->myPointer; }
 
 		/* OPERATOR
 		 * Return the dereferenced pointer.

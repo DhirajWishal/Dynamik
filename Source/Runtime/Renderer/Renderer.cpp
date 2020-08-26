@@ -709,8 +709,6 @@ namespace Dynamik
 
 		/* Initialize Vertex and Index Buffers */
 		myDrawCallManager.addRenderEntity(&myCurrentEnvironment.renderEntity);
-		pEnvironmentEntity->skyBoxMesh.vertexBuffer.clear();
-		pEnvironmentEntity->skyBoxMesh.indexBuffer.clear();
 		INC_PROGRESS;
 	}
 
@@ -979,9 +977,9 @@ namespace Dynamik
 
 	void DMKRenderer::submitUniformData()
 	{
-		for (auto entity : myEntities)
-			for (auto uniform : entity.uniformContainers)
-				uniform.pUniformBuffer->setData(myCoreObject, uniform.pParent->byteSize(), 0, uniform.pParent->data());
+		for (UI64 index = 0; index < myEntities.size(); index++)
+			for (UI32 itr = 0; itr < myEntities[index].uniformContainers.size(); itr++)
+				myEntities[index].uniformContainers[itr].pUniformBuffer->setData(myCoreObject, myEntities[index].uniformContainers[itr].pParent->byteSize(), 0, myEntities[index].uniformContainers[itr].pParent->data());
 	}
 
 	void DMKRenderer::terminateContext()

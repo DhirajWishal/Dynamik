@@ -65,4 +65,12 @@ namespace Dynamik
 	{
 		return resourceRequests;
 	}
+	
+	void DMKStaticModelEntity::clearStaticModel()
+	{
+		for (auto mesh : meshObjects)
+			mesh.clearVertexAndIndexBuffers();
+
+		meshObjects.clear();
+	}
 }

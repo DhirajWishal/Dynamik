@@ -111,11 +111,11 @@ namespace Dynamik
 			pCommandBuffer->bindVertexBuffer(binding.pRenderEntity->pVertexBuffer, 0);
 			pCommandBuffer->bindIndexBuffer(binding.pRenderEntity->pIndexBuffer);
 
-			for (auto renderMesh : binding.pRenderEntity->meshObjects)
+			for (UI32 itr = 0; itr < binding.pRenderEntity->meshObjects.size(); itr++)
 			{
-				pCommandBuffer->bindGraphicsPipeline(binding.pRenderEntity->pPipelineObject, renderMesh.pResourceObject);
+				pCommandBuffer->bindGraphicsPipeline(binding.pRenderEntity->pPipelineObject, binding.pRenderEntity->meshObjects[itr].pResourceObject);
 
-				pCommandBuffer->drawIndexed(0, renderMesh.vertexOffset, renderMesh.indexCount, 1);
+				pCommandBuffer->drawIndexed(0, binding.pRenderEntity->meshObjects[itr].vertexOffset, binding.pRenderEntity->meshObjects[itr].indexCount, 1);
 			}
 
 			binding.runTime += 1.0f;
