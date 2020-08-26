@@ -31,6 +31,7 @@
     <ClInclude Include="Assets\Entities\OceanEnv.h" />
     <ClInclude Include="Assets\Entities\Moon.h" />
     <ClInclude Include="Assets\Entities\VenusModel.h" />
+    <ClInclude Include="Assets\Entities\CerberusModel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ApplicationServer.cpp" />
@@ -46,6 +47,7 @@
     <ClCompile Include="Assets\Entities\OceanEnv.cpp" />
     <ClCompile Include="Assets\Entities\Moon.cpp" />
     <ClCompile Include="Assets\Entities\VenusModel.cpp" />
+    <ClCompile Include="Assets\Entities\CerberusModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Application.lua" />

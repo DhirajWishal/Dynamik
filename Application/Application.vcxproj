@@ -364,6 +364,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationServer.h" />
+    <ClInclude Include="Assets\Entities\CerberusModel.h" />
     <ClInclude Include="Assets\Entities\Moon.h" />
     <ClInclude Include="Assets\Entities\OceanEnv.h" />
     <ClInclude Include="Assets\Entities\Player.h" />
@@ -373,6 +374,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ApplicationServer.cpp" />
+    <ClCompile Include="Assets\Entities\CerberusModel.cpp" />
     <ClCompile Include="Assets\Entities\Moon.cpp" />
     <ClCompile Include="Assets\Entities\OceanEnv.cpp" />
     <ClCompile Include="Assets\Entities\Player.cpp" />

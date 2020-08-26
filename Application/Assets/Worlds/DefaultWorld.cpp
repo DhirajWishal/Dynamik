@@ -6,6 +6,7 @@
 #include "../Entities/Player.h"
 #include "../Entities/OceanEnv.h"
 #include "../Entities/VenusModel.h"
+#include "../Entities/CerberusModel.h"
 
 void DefaultWorld::initialize()
 {
@@ -19,6 +20,10 @@ void DefaultWorld::initialize()
 	/* Add the venus model entity */
 	auto venusModel = addEntity<VenusModel>();
 	venusModel->setCameraModule(player->getCameraModule());
+
+	/* Add the cerberus model entity */
+	auto cerberusModel = addEntity<CerberusModel>();
+	cerberusModel->setCameraModule(player->getCameraModule());
 }
 
 void DefaultWorld::onUpdate(const F32 timeStep)
@@ -37,7 +42,10 @@ void DefaultWorld::onUpdate(const F32 timeStep)
 		submitEnvironmentToRenderer(getEntity<OceanEnv>());
 
 		/* Submit the venus model to the renderer. */
-		submitStaticModelToRenderer(getEntity<VenusModel>());
+		//submitStaticModelToRenderer(getEntity<VenusModel>());
+
+		/* submit the cerberus model to the renderer. */
+		submitStaticModelToRenderer(getEntity<CerberusModel>());
 
 		areEntitiesInitialized = true;
 	}
