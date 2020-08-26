@@ -93,21 +93,10 @@ namespace Dynamik
 				break;
 			case Dynamik::RendererInstruction::RENDERER_INSTRUCTION_UPDATE_OBJECTS:
 				break;
-			case Dynamik::RendererInstruction::RENDERER_SUBMIT_IM_GUI_DRAW_DATA:
-				//if (myImGuiBackend && myCommandBufferManager)
-				//{
-				//	myCoreObject->idleCall();
-				//
-				//	myImGuiBackend->update(Inherit<RendererSubmitImGuiDrawData>(myCommand)->pDrawData);
-				//
-				//	if (myDrawCallManager.isInitialized())
-				//	{
-				//		isReadyToRun = false;
-				//
-				//		myCommandBufferManager->resetBuffers(myCoreObject, myCommandBuffers);
-				//		initializeCommandBuffers();
-				//	}
-				//}
+			case Dynamik::RendererInstruction::RENDERER_SET_IM_GUI_CONTEXT:
+				break;
+			case Dynamik::RendererInstruction::RENDERER_UPDATE_IM_GUI:
+				myImGuiBackend->updateResources();
 				break;
 			default:
 				DMK_ERROR("Unsupported command!");
@@ -151,14 +140,10 @@ namespace Dynamik
 		else if (commandName == typeid(RendererCreateImGuiClient).name())
 			initializeImGuiClient(pCommandService->getCommand<RendererCreateImGuiClient>().pReturnAddressSpace);
 
-		else if (commandName == typeid(RendererSubmitImGuiDrawData).name())
+		else if (commandName == typeid(RendererSetImGuiContext).name())
 		{
 			if (myImGuiBackend)
-			{
-				//myCoreObject->idleCall();
-				//
-				//myImGuiBackend->update(pCommandService->getCommand<RendererSubmitImGuiDrawData>().pDrawData);
-			}
+				myImGuiBackend->setContext(pCommandService->getCommand<RendererSetImGuiContext>().pContext);
 		}
 	}
 
@@ -169,12 +154,23 @@ namespace Dynamik
 
 		beginFrameInstruction();
 		myDrawCallManager.update(&myRenderTarget, mySwapChain, currentImageIndex);
+
+		/* Update the Im Gui client */
+		if (myImGuiBackend)
+			myImGuiBackend->onRendererUpdate(currentImageIndex, mySwapChain, myDrawCallManager.getPrimaryCommandBuffer(currentImageIndex));
+
 		endFrameInstruction();
 	}
 
 	void DMKRenderer::onTermination()
 	{
 		DMK_INFO("Terminated the renderer thread!");
+
+		myCoreObject->idleCall();
+
+		terminateEntities();
+		terminateContext();
+		terminateComponents();
 	}
 
 	void DMKRenderer::terminateThread()
@@ -239,6 +235,14 @@ namespace Dynamik
 		pCommandService->issueCommand<RendererCreateContextCommand>(_command);
 	}
 
+	void DMKRenderer::setImGuiContextCMD(ImGuiContext* pContext)
+	{
+		RendererSetImGuiContext _command;
+		_command.pContext = pContext;
+
+		pCommandService->issueCommand<RendererSetImGuiContext>(_command);
+	}
+
 	void DMKRenderer::initializeEnvironmentEntityCMD(DMKEnvironmentEntity* pEnvironmentEntity, UI32* pProgressMeter)
 	{
 		if (!pEnvironmentEntity->isInitializedEnvironmentEntity)
@@ -298,14 +302,6 @@ namespace Dynamik
 		_command.pReturnAddressSpace = returnAddressSpace;
 
 		pCommandService->issueCommand<RendererCreateImGuiClient>(_command);
-	}
-
-	void DMKRenderer::submitImGuiDrawData(ImDrawData* pDrawData)
-	{
-		RendererSubmitImGuiDrawData _command;
-		_command.pDrawData = pDrawData;
-
-		pCommandService->issueCommand<RendererSubmitImGuiDrawData>(_command);
 	}
 
 	void DMKRenderer::submitPrimitiveCMD(DMKMeshObject* pMeshObject)
@@ -933,7 +929,8 @@ namespace Dynamik
 	void DMKRenderer::updateEntities()
 	{
 		/* Update the current environment map */
-		myCurrentEnvironment.pParentEntity->onUpdateEnvironment();
+		if (myCurrentEnvironment.pParentEntity)
+			myCurrentEnvironment.pParentEntity->onUpdateEnvironment();
 
 		/* Update static entities. */
 		for (auto pEntity : pStaticEntities)
@@ -1085,6 +1082,12 @@ namespace Dynamik
 			boundingBox.terminate(myCoreObject);
 
 		myBoundingBoxes.clear();
+
+		if (myImGuiBackend)
+		{
+			myImGuiBackend->terminate();
+			StaticAllocator<RImGuiBackend>::rawDeallocate(myImGuiBackend);
+		}
 	}
 
 	RMeshObject DMKRenderer::createMeshObject(DMKStaticModelEntity* pStaticModel, DMKMeshObject* pMeshObject, RPipelineResource* pResource, RPipelineObject* pParentPipeline, ARRAY<RBuffer*> pUniformBuffers, UI32 meshIndex, UI32* pProgressMeter)

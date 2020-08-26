@@ -23,6 +23,8 @@ namespace Dynamik
 		RImGuiBackend() = default;
 		virtual ~RImGuiBackend() = default;
 
+		virtual void setContext(ImGuiContext* pContext) = 0;
+
 		virtual void setCoreObject(RCoreObject* pCoreObject) { this->pCoreObject = pCoreObject; }
 		virtual void setRenderTarget(RRenderTarget* pRenderTarget) { this->pRenderTarget = pRenderTarget; }
 		virtual void bindCommands(RCommandBuffer* pCommandBuffer) = 0;
@@ -30,6 +32,8 @@ namespace Dynamik
 
 		virtual void updateResources() = 0;
 		virtual void onRendererUpdate(const UI64 activeFrameIndex, RSwapChain* pSwapChain, RCommandBuffer* pActiveCommandBuffer) = 0;
+
+		virtual void update() = 0;
 
 	protected:
 		ARRAY<DMKShaderModule> shaders;

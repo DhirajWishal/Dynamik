@@ -20,7 +20,10 @@ namespace Dynamik
 {
 	namespace Backend
 	{
-		std::mutex __globalLock;
+		void VulkanImGuiBackend::setContext(ImGuiContext* pContext)
+		{
+			ImGui::SetCurrentContext(pContext);
+		}
 
 		void VulkanImGuiBackend::initialize()
 		{
@@ -38,8 +41,11 @@ namespace Dynamik
 			pIndexBuffer = StaticAllocator<VulkanBuffer>::rawAllocate();
 		}
 
-		void VulkanImGuiBackend::update(ImDrawData* pDrawData)
+		void VulkanImGuiBackend::update()
 		{
+			if (!pDrawData)
+				return;
+
 			/* Check if the vertex buffer is already allocated. */
 			if (!pVertexBuffer)
 			{
@@ -159,13 +165,14 @@ namespace Dynamik
 		void VulkanImGuiBackend::bindCommands(RCommandBuffer* pCommandBuffer)
 		{
 			/* Wait till pDrawData is submitted with draw data. */
-			while (pDrawData == nullptr);
+			while (pDrawData == nullptr) pDrawData = ImGui::GetDrawData();;
 			while (pDrawData->CmdListsCount < 1);
+			while (!pDrawData->Valid);
 
 			__globalLock.lock();
 
 			pCoreObject->idleCall();
-			update(pDrawData);
+			update();
 
 			ImGuiIO& io = ImGui::GetIO();
 
@@ -232,13 +239,11 @@ namespace Dynamik
 
 		void VulkanImGuiBackend::updateResources()
 		{
+			ImGui::Render();
 		}
 
 		void VulkanImGuiBackend::onRendererUpdate(const UI64 activeFrameIndex, RSwapChain* pSwapChain, RCommandBuffer* pActiveCommandBuffer)
 		{
-			/* Update resources prior to drawing. */
-			updateResources();
-
 			/* Bind draw calls */
 			VkCommandBufferBeginInfo cmdBufferBeginInfo = {};
 			cmdBufferBeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;

@@ -68,6 +68,7 @@ namespace Dynamik
 	{
 		/* Issue the pre draw call command to initialize all the rendering objects */
 		DMKSystemLocator::getSystem<DMKRenderer>()->initializeFinalsCMD();
+		DMKSystemLocator::getSystem<DMKRenderer>()->setImGuiContextCMD(ImGui::GetCurrentContext());
 
 		while (!myEventPool.WindowCloseEvent)
 		{
@@ -81,7 +82,7 @@ namespace Dynamik
 				imGuiWrapper.draw();
 
 				imGuiWrapper.update();
-				DMKSystemLocator::getSystem<DMKRenderer>()->submitImGuiDrawData(ImGui::GetDrawData());
+				DMKSystemLocator::getSystem<DMKRenderer>()->issueRawCommand(RendererInstruction::RENDERER_UPDATE_IM_GUI);
 			}
 
 			DMKSystemLocator::getSystem<DMKRenderer>()->issueRawCommand(RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE);
@@ -92,6 +93,8 @@ namespace Dynamik
 
 	void DMKStudio::terminate()
 	{
+		/* Terminate the renderer. */
+		DMKSystemLocator::getSystem<DMKRenderer>()->terminateThread();
 	}
 
 	void DMKStudio::initializeRuntimeSystems()

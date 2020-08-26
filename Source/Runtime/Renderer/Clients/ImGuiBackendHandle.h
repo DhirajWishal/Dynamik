@@ -10,6 +10,9 @@
 
 namespace Dynamik
 {
+	/* Global mutex to lock render data from being updated while rendering. */
+	static std::mutex __globalLock;
+
 	/*
 	 Dynamik Im Gui Backend Handle
 	 This object is the base class for all the Im Gui backend implementations and is user accessible.
@@ -20,7 +23,6 @@ namespace Dynamik
 		virtual ~DMKImGuiBackendHandle() {}
 
 		virtual void initialize() = 0;
-		virtual void update(ImDrawData* pDrawData) = 0;
 		virtual void drawFrame() = 0;
 		virtual void terminate() = 0;
 

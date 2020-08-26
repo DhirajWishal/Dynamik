@@ -19,8 +19,10 @@ namespace Dynamik
 			VulkanImGuiBackend() {}
 			~VulkanImGuiBackend() {}
 
+			virtual void setContext(ImGuiContext* pContext) override final;
+
 			virtual void initialize() override final;
-			virtual void update(ImDrawData* pDrawData) override final;
+			virtual void update() override final;
 			virtual void drawFrame() override final;
 			virtual void terminate() override final;
 

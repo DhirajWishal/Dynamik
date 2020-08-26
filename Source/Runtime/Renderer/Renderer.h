@@ -90,6 +90,8 @@ namespace Dynamik
 		void setSamplesCMD(DMKSampleCount samples);
 		void setWindowHandleCMD(DMKWindowHandle* pWindowHandle);
 		void createContextCMD(DMKViewport viewPort, DMKRenderContextType contextType);
+
+		void setImGuiContextCMD(ImGuiContext* pContext);
 		
 		/*
 		 Initialize the environment entity command. 
@@ -117,7 +119,6 @@ namespace Dynamik
 
 		void setFrameBufferResizeCMD(DMKExtent2D newExtent);
 		void createImGuiClientCMD(DMKImGuiBackendHandle** returnAddressSpace);
-		void submitImGuiDrawData(ImDrawData* pDrawData);
 
 		void submitPrimitiveCMD(DMKMeshObject* pMeshObject);
 		void submitPrimitivesCMD(ARRAY<DMKMeshObject*> pMeshObjects);
