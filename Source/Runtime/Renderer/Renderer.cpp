@@ -164,13 +164,13 @@ namespace Dynamik
 
 	void DMKRenderer::onTermination()
 	{
-		DMK_INFO("Terminated the renderer thread!");
-
 		myCoreObject->idleCall();
 
 		terminateEntities();
 		terminateContext();
 		terminateComponents();
+
+		DMK_INFO("Terminated the renderer thread!");
 	}
 
 	void DMKRenderer::terminateThread()
@@ -1048,11 +1048,29 @@ namespace Dynamik
 				myCurrentEnvironment.pPreFilteredCube->terminate(myCoreObject);
 				StaticAllocator<RIrradianceCube>::rawDeallocate(myCurrentEnvironment.pPreFilteredCube, 0);
 			}
+
+			if (myCurrentEnvironment.renderEntity.pVertexBuffer)
+			{
+				myCurrentEnvironment.renderEntity.pVertexBuffer->terminate(myCoreObject);
+				StaticAllocator<RBuffer>::rawDeallocate(myCurrentEnvironment.renderEntity.pVertexBuffer, 0);
+			}
+
+			if (myCurrentEnvironment.renderEntity.pIndexBuffer)
+			{
+				myCurrentEnvironment.renderEntity.pIndexBuffer->terminate(myCoreObject);
+				StaticAllocator<RBuffer>::rawDeallocate(myCurrentEnvironment.renderEntity.pIndexBuffer, 0);
+			}
 		}
 
 		/* Terminate Entities */
 		for (auto entity : myEntities)
 		{
+			for (auto uniform : entity.uniformContainers)
+			{
+				uniform.pUniformBuffer->terminate(myCoreObject);
+				StaticAllocator<RBuffer>::rawDeallocate(uniform.pUniformBuffer, 0);
+			}
+
 			for (auto mesh : entity.meshObjects)
 			{
 				for (auto texture : mesh.pTextures)
@@ -1072,6 +1090,12 @@ namespace Dynamik
 				StaticAllocator<RPipelineObject>::rawDeallocate(entity.pPipelineObject, 0);
 			}
 
+			entity.pVertexBuffer->terminate(myCoreObject);
+			StaticAllocator<RBuffer>::rawDeallocate(entity.pVertexBuffer, 0);
+
+			entity.pIndexBuffer->terminate(myCoreObject);
+			StaticAllocator<RBuffer>::rawDeallocate(entity.pIndexBuffer, 0);
+
 			entity.meshObjects.clear();
 		}
 
@@ -1086,7 +1110,7 @@ namespace Dynamik
 		if (myImGuiBackend)
 		{
 			myImGuiBackend->terminate();
-			StaticAllocator<RImGuiBackend>::rawDeallocate(myImGuiBackend);
+			StaticAllocator<RImGuiBackend>::rawDeallocate(myImGuiBackend, 0);
 		}
 	}
 
