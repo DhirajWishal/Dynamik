@@ -27,9 +27,6 @@ namespace Dynamik
 
 	void DMKGameWorld::submitEnvironmentToRenderer(DMKEnvironmentEntity* pEnvironment, UI32* pProgressMeter)
 	{
-		if (!pEnvironment->skyBoxMesh.vertexBuffer.byteSize() || !pEnvironment->skyBoxMesh.indexBuffer.byteSize())
-			pEnvironment->onInitializeEnvironment();
-
 		DMKSystemLocator::getSystem<DMKRenderer>()->initializeEnvironmentEntityCMD(pEnvironment, pProgressMeter);
 	}
 	

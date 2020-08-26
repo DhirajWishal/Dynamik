@@ -2,17 +2,23 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "DefaultWorld.h"
+
 #include "../Entities/Player.h"
 #include "../Entities/OceanEnv.h"
+#include "../Entities/VenusModel.h"
 
 void DefaultWorld::initialize()
 {
 	/* Add the player entity. */
-	addEntity<Player>();
+	auto player = addEntity<Player>();
 
 	/* Add the ocean environment entity. */
 	auto oceanEntity = addEntity<OceanEnv>();
-	oceanEntity->setCameraModule(getEntity<Player>()->getCameraModule());
+	oceanEntity->setCameraModule(player->getCameraModule());
+
+	/* Add the venus model entity */
+	auto venusModel = addEntity<VenusModel>();
+	venusModel->setCameraModule(player->getCameraModule());
 }
 
 void DefaultWorld::onUpdate(const F32 timeStep)
@@ -29,6 +35,9 @@ void DefaultWorld::onUpdate(const F32 timeStep)
 
 		/* Submit the environment map entity. */
 		submitEnvironmentToRenderer(getEntity<OceanEnv>());
+
+		/* Submit the venus model to the renderer. */
+		submitStaticModelToRenderer(getEntity<VenusModel>());
 
 		areEntitiesInitialized = true;
 	}
@@ -51,8 +60,6 @@ void DefaultWorld::onUpdate(const F32 timeStep)
 		playerObject->addDownVector(0.0001f);
 
 	playerObject->updateCamera();
-
-	getEntity<OceanEnv>()->onUpdateEnvironment();
 }
 
 void DefaultWorld::onMainWindowResize(DMKExtent2D newSize)

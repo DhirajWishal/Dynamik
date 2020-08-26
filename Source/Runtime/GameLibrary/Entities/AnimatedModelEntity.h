@@ -19,7 +19,17 @@ namespace Dynamik
 		DMKAnimatedModelEntity() {}
 		virtual ~DMKAnimatedModelEntity() {}
 
-		virtual void onAnimatedEntityUpdate() {}
+		/*
+		 On initialize animated entity method. 
+		 This method is called once the entity is submitted to the rendering engine. 
+		*/
+		virtual void onInitializeAnimatedEntity() {}
+
+		/*
+		 On update animated entity method. 
+		 This method is called by the rendering engine.
+		*/
+		virtual void onUpdateAnimatedEntity() {}
 
 	public:
 		/*
@@ -97,6 +107,9 @@ namespace Dynamik
 
 		/* Animations of the animated model */
 		ARRAY<DMKAnimation> animations;
+
+	public:
+		B1 isInitializedAnimatedEntity = false;
 	};
 }
 

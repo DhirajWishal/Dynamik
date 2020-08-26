@@ -177,6 +177,8 @@ namespace Dynamik
 		void endFrameInstruction();
 		void initializeImGuiClient(DMKImGuiBackendHandle** pAddressStore);
 
+		void submitUniformData();
+
 	private:    /* Internal Methods */
 		void terminateContext();
 		void terminateComponents();
@@ -184,7 +186,14 @@ namespace Dynamik
 
 	private:    /* Utility Methods */
 		/* Max progress: 4 */
-		RMeshObject createMeshObject(DMKStaticModelEntity* pStaticModel, DMKMeshObject* pMeshObject, RPipelineResource* pResource, RPipelineObject* pParentPipeline, ARRAY<RBuffer*> pUniformBuffers, UI32* pProgressMeter = nullptr);
+		RMeshObject createMeshObject(
+			DMKStaticModelEntity* pStaticModel,
+			DMKMeshObject* pMeshObject,
+			RPipelineResource* pResource,
+			RPipelineObject* pParentPipeline,
+			ARRAY<RBuffer*> pUniformBuffers,
+			UI32 meshIndex,
+			UI32* pProgressMeter = nullptr);
 
 	private:    /* Internal */
 		DMKRendererCompatibility myCompatibility;

@@ -23,12 +23,14 @@ namespace Dynamik
 		virtual ~DMKEnvironmentEntity() = default;
 
 		/*
-		 On initialize environment method.
+		 On initialize environment method. 
+		 This method is called once the entity is submitted to the rendering engine.
 		*/
 		virtual void onInitializeEnvironment() {}
 
 		/*
 		 On update environment method.
+		 This method is called by the rendering engine.
 		*/
 		virtual void onUpdateEnvironment() {}
 
@@ -68,6 +70,9 @@ namespace Dynamik
 
 		/* The sky box mesh */
 		DMKMeshObject skyBoxMesh;
+
+	public:
+		B1 isInitializedEnvironmentEntity = false;
 	};
 }
 

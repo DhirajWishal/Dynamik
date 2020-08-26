@@ -36,7 +36,6 @@ namespace Dynamik
 
 	public:		/* Resource Data */
 		ARRAY<RTexture*> pTextures;
-		ARRAY<RUniformContainer> uniformBuffers;
 		UI64 resourceIndex = 0;
 
 		UI64 vertexCount = 0;

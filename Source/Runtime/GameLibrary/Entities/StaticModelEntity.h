@@ -20,7 +20,7 @@ namespace Dynamik
 
 	/*
 	 Dynamik Static Model Entity
-	 This entity contains all the information for a static model. Basically this entity contains an array of mesh 
+	 This entity contains all the information for a static model. Basically this entity contains an array of mesh
 	 objects and is allowed to contain multiple instances.
 	*/
 	class DMK_API DMKStaticModelEntity {
@@ -28,11 +28,21 @@ namespace Dynamik
 		DMKStaticModelEntity() {}
 		virtual ~DMKStaticModelEntity() {}
 
-		virtual void onStaticEntityUpdate() {}
+		/*
+		 On initialize static entity method. 
+		 This method is called once the entity is submitted to the renderer. 
+		*/
+		virtual void onInitializeStaticEntity() {}
+
+		/*
+		 On update static entity method. 
+		 This method is called by the rendering engine.
+		*/
+		virtual void onUpdateStaticEntity() {}
 
 	public:
 		/*
-		 Add an instance to the static model. 
+		 Add an instance to the static model.
 
 		 @param name: The name of the instance.
 		 @param position: The position of the instance.
@@ -41,26 +51,52 @@ namespace Dynamik
 		*/
 		void addInstance(const STRING& name, const Vector3F& position, const Quaternion& rotation, const Vector3F& scale) {}
 
+		/*
+		 Add a mesh object to the model.
+
+		 @param meshObject: The mesh object to be added.
+		*/
+		void addMeshObject(const DMKMeshObject& meshObject);
+
+		/*
+		 Set the mesh objects of the model.
+
+		 @param meshObjects: The mesh objects to be set.
+		*/
+		void setMeshObjects(ARRAY<DMKMeshObject> meshObjects);
+
+		/*
+		 Get the pointer to a mesh object using its index.
+
+		 @param index: The index of the mesh object to be accessed.
+		*/
+		DMKMeshObject* getMeshObject(I64 index);
+
+		/*
+		 Get the pointer to the mesh objects.
+		*/
+		ARRAY<DMKMeshObject>* getMeshObjects();
+
 		/* The mesh objects. */
 		ARRAY<DMKMeshObject> meshObjects;
 
 	public:
 		/*
-		 Add a shader module. 
+		 Add a shader module.
 
 		 @param sModule: The shader module.
 		*/
 		void addShaderModule(const DMKShaderModule& sModule);
 
 		/*
-		 Set the shader modules. 
+		 Set the shader modules.
 
 		 @param sModules: The shader modules to be set.
 		*/
 		void setShaderModules(ARRAY<DMKShaderModule> sModules);
 
 		/*
-		 Get a shader module stored in this object. 
+		 Get a shader module stored in this object.
 
 		 @param index: The index of the shader module.
 		*/
@@ -76,21 +112,21 @@ namespace Dynamik
 
 	public:
 		/*
-		 Add a resource request to the object. 
+		 Add a resource request to the object.
 
 		 @param request: The request to be added.
 		*/
 		void addResourceRequest(const DMKResourceRequest& request);
 
 		/*
-		 Set the resource requests of the object. 
+		 Set the resource requests of the object.
 
 		 @param requests: The requests to be set.
 		*/
 		void setResourceRequests(ARRAY<DMKResourceRequest> requests);
 
 		/*
-		 Get a resource request from the array. 
+		 Get a resource request from the array.
 
 		 @param index: The index of the request.
 		*/
@@ -103,6 +139,9 @@ namespace Dynamik
 
 		/* Resource Requests */
 		ARRAY<DMKResourceRequest> resourceRequests;
+
+	public:
+		B1 isInitializedStaticModel = false;
 	};
 }
 

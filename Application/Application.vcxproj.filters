@@ -28,6 +28,9 @@
     <ClInclude Include="Assets\Worlds\DefaultWorld.h">
       <Filter>Assets\Worlds</Filter>
     </ClInclude>
+    <ClInclude Include="Assets\Entities\OceanEnv.h" />
+    <ClInclude Include="Assets\Entities\Moon.h" />
+    <ClInclude Include="Assets\Entities\VenusModel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ApplicationServer.cpp" />
@@ -40,6 +43,9 @@
     <ClCompile Include="Assets\Worlds\DefaultWorld.cpp">
       <Filter>Assets\Worlds</Filter>
     </ClCompile>
+    <ClCompile Include="Assets\Entities\OceanEnv.cpp" />
+    <ClCompile Include="Assets\Entities\Moon.cpp" />
+    <ClCompile Include="Assets\Entities\VenusModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Application.lua" />

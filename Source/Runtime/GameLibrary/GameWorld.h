@@ -30,7 +30,7 @@ namespace Dynamik
 	 This structure defines a global light component.
 	*/
 	struct DMK_API DMKGameWorldLightComponent {
-		DMKColorComponent colorValue;
+		DMKColorComponent colorValue = DMKColorComponent(0.0f);
 		Vector3F position = Vector3F(0.0f);
 		Vector3F direction = Vector3F(0.0f);
 	};
