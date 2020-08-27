@@ -375,9 +375,6 @@
     <ProjectReference Include="..\Runtime\Animation\Animation.vcxproj">
       <Project>{859E00A2-F108-B518-3A47-66BEA6F0926D}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Runtime\ComponentSystem\ComponentSystem.vcxproj">
-      <Project>{9D238DF0-09AF-FAB4-12C0-7DA97ECA56B5}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Runtime\Core\Core.vcxproj">
       <Project>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</Project>
     </ProjectReference>
@@ -401,6 +398,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Runtime\Tools\Tools.vcxproj">
       <Project>{16CF2D0E-82E3-55BF-4B65-F91EB73852F0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\UserInterface\UserInterface.vcxproj">
+      <Project>{B5552FC0-2116-ABF6-EA50-F47356D0EFD2}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Runtime\Window\Window.vcxproj">
       <Project>{3DEA79DA-298C-A4B0-1247-B804FE872B01}</Project>

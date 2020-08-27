@@ -49,7 +49,6 @@ project "DynamikEngine"
 
 	links { 
 		"Animation",
-		"ComponentSystem",
 		"Core",
 		"Events",
 		"GameLibrary",
@@ -58,6 +57,7 @@ project "DynamikEngine"
 		"Renderer",
 		"Services",
 		"Tools",
+		"UserInterface",
 		"Window",
 	}
 

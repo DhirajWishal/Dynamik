@@ -160,6 +160,9 @@ namespace Dynamik
 			/* Terminate command buffers */
 			pCommandBufferManager->terminate(pCoreObject, pCommandBuffers);
 			StaticAllocator<VulkanCommandBufferManager>::rawDeallocate(pCommandBufferManager);
+
+			/* Destroy the current Im Gui context. */
+			ImGui::DestroyContext();
 		}
 
 		void VulkanImGuiBackend::bindCommands(RCommandBuffer* pCommandBuffer)

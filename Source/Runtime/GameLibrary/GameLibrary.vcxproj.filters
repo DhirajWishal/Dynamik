@@ -30,6 +30,9 @@
     <ClInclude Include="Entities\PlayerEntity.h">
       <Filter>Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Entities\SkyBoxEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
     <ClInclude Include="Entities\StaticModelEntity.h">
       <Filter>Entities</Filter>
     </ClInclude>
@@ -51,17 +54,25 @@
     <ClInclude Include="Utilities\MeshFactory.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\SkyBoxEntity.h" />
-    <ClInclude Include="Utilities\Utilities.h" />
+    <ClInclude Include="Utilities\Utilities.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\CanvasEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\AnimatedModelEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
     <ClCompile Include="Entities\EnvironmentEntity.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
     <ClCompile Include="Entities\PlayerEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\SkyBoxEntity.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
     <ClCompile Include="Entities\StaticModelEntity.cpp">
@@ -75,9 +86,10 @@
     <ClCompile Include="Utilities\MeshFactory.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Entities\SkyBoxEntity.cpp" />
-    <ClCompile Include="Utilities\Utilities.cpp" />
-    <ClCompile Include="Entities\AnimatedModelEntity.cpp" />
+    <ClCompile Include="Utilities\Utilities.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\CanvasEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameLibrary.lua" />

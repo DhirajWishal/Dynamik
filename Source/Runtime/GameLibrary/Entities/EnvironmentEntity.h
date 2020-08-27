@@ -72,6 +72,11 @@ namespace Dynamik
 		DMKMeshObject skyBoxMesh;
 
 	public:
+		/*
+		 Clear all the data of the environment map. (Only cleans the mesh object).
+		*/
+		void clearEnvironmentMap();
+
 		B1 isInitializedEnvironmentEntity = false;
 	};
 }

@@ -43,7 +43,7 @@ void DefaultWorld::onUpdate(const F32 timeStep)
 		/* Submit the environment map entity. */
 		submitEnvironmentToRenderer(getEntity<OceanEnv>(), &progress);
 		while (progress != 12);
-		getEntity<OceanEnv>()->skyBoxMesh.clearVertexAndIndexBuffers();
+		getEntity<OceanEnv>()->clearEnvironmentMap();
 		progress = 0;
 
 		/* Submit the venus model to the renderer. */

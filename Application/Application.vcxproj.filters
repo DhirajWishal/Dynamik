@@ -19,7 +19,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationServer.h" />
+    <ClInclude Include="Assets\Entities\CerberusModel.h">
+      <Filter>Assets\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Assets\Entities\Moon.h">
+      <Filter>Assets\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Assets\Entities\OceanEnv.h">
+      <Filter>Assets\Entities</Filter>
+    </ClInclude>
     <ClInclude Include="Assets\Entities\Player.h">
+      <Filter>Assets\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Assets\Entities\VenusModel.h">
       <Filter>Assets\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Assets\Modules\Module00\Module00.h">
@@ -28,14 +40,22 @@
     <ClInclude Include="Assets\Worlds\DefaultWorld.h">
       <Filter>Assets\Worlds</Filter>
     </ClInclude>
-    <ClInclude Include="Assets\Entities\OceanEnv.h" />
-    <ClInclude Include="Assets\Entities\Moon.h" />
-    <ClInclude Include="Assets\Entities\VenusModel.h" />
-    <ClInclude Include="Assets\Entities\CerberusModel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ApplicationServer.cpp" />
+    <ClCompile Include="Assets\Entities\CerberusModel.cpp">
+      <Filter>Assets\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Assets\Entities\Moon.cpp">
+      <Filter>Assets\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Assets\Entities\OceanEnv.cpp">
+      <Filter>Assets\Entities</Filter>
+    </ClCompile>
     <ClCompile Include="Assets\Entities\Player.cpp">
+      <Filter>Assets\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Assets\Entities\VenusModel.cpp">
       <Filter>Assets\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Assets\Modules\Module00\Module00.cpp">
@@ -44,10 +64,6 @@
     <ClCompile Include="Assets\Worlds\DefaultWorld.cpp">
       <Filter>Assets\Worlds</Filter>
     </ClCompile>
-    <ClCompile Include="Assets\Entities\OceanEnv.cpp" />
-    <ClCompile Include="Assets\Entities\Moon.cpp" />
-    <ClCompile Include="Assets\Entities\VenusModel.cpp" />
-    <ClCompile Include="Assets\Entities\CerberusModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Application.lua" />

@@ -894,7 +894,9 @@ namespace Dynamik
 			myImGuiBackend->reCreatePipeline(&myRenderTarget, mySwapChain->viewPort);
 
 		/* Initialize Buffers */
-		initializeCommandBuffers();
+		myDrawCallManager.reCreateBuffers(myCoreObject, &myRenderTarget, mySwapChain, myAPI);
+
+		isReadyToRun = true;
 	}
 
 	void DMKRenderer::beginFrameInstruction()

@@ -8,6 +8,7 @@
 /*
  This file contains all the necessry macros for the Vulkan RBL.
 */
+#define VK_ENABLE_BETA_EXTENSIONS
 #include <vulkan/vulkan.h>
 #include "Core/Error/ErrorManager.h"
 

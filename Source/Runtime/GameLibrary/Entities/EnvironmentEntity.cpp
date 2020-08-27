@@ -27,4 +27,17 @@ namespace Dynamik
 	{
 		return shaders;
 	}
+	
+	void DMKEnvironmentEntity::clearEnvironmentMap()
+	{
+		skyBoxMesh.clearVertexAndIndexBuffers();
+
+		for (UI32 index = 0; index < skyBoxMesh.getMaterial().textureContainers.size(); index++)
+		{
+			skyBoxMesh.getMaterial().textureContainers[index].pTexture->clear();
+			StaticAllocator<DMKTexture>::deallocate(skyBoxMesh.getMaterial().textureContainers[index].pTexture, 0);
+		}
+
+		skyBoxMesh.getMaterial().textureContainers.clear();
+	}
 }

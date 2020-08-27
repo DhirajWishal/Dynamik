@@ -365,6 +365,7 @@
   <ItemGroup>
     <ClInclude Include="Camera\CameraModule.h" />
     <ClInclude Include="Entities\AnimatedModelEntity.h" />
+    <ClInclude Include="Entities\CanvasEntity.h" />
     <ClInclude Include="Entities\EnvironmentEntity.h" />
     <ClInclude Include="Entities\PlayerEntity.h" />
     <ClInclude Include="Entities\SkyBoxEntity.h" />
@@ -382,6 +383,7 @@
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp" />
     <ClCompile Include="Entities\AnimatedModelEntity.cpp" />
+    <ClCompile Include="Entities\CanvasEntity.cpp" />
     <ClCompile Include="Entities\EnvironmentEntity.cpp" />
     <ClCompile Include="Entities\PlayerEntity.cpp" />
     <ClCompile Include="Entities\SkyBoxEntity.cpp" />

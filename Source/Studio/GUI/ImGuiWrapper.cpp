@@ -99,11 +99,13 @@ namespace Dynamik
 			// Render to generate draw buffers
 			ImGui::Render();
 		}
+
+		ImGui::Image();
 	}
 
 	void DMKImGuiWrapper::terminate()
 	{
-		ImGui::DestroyContext();
+		//ImGui::DestroyContext();
 	}
 
 	void DMKImGuiWrapper::update()

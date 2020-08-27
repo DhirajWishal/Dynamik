@@ -15,6 +15,13 @@ namespace Dynamik
 		void VulkanDevice::initialize(VulkanInstance vInstance, VulkanSurface vSurface)
 		{
 			extentions.pushBack(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+			//extentions.pushBack(VK_KHR_MAINTENANCE3_EXTENSION_NAME);
+			//extentions.pushBack(VK_KHR_GET_MEMORY_REQUIREMENTS_2_EXTENSION_NAME);
+			//extentions.pushBack(VK_KHR_RAY_TRACING_EXTENSION_NAME);
+			//extentions.pushBack(VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME);
+			//extentions.pushBack(VK_KHR_DEFERRED_HOST_OPERATIONS_EXTENSION_NAME);
+			//extentions.pushBack(VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME);
+			//extentions.pushBack(VK_KHR_PIPELINE_LIBRARY_EXTENSION_NAME);
 
 			initializePhysicalDevice(vInstance, vSurface);
 			initializeLogicalDevice(vInstance, vSurface);

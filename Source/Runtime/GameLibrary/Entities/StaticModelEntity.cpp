@@ -65,11 +65,21 @@ namespace Dynamik
 	{
 		return resourceRequests;
 	}
-	
+
 	void DMKStaticModelEntity::clearStaticModel()
 	{
 		for (auto mesh : meshObjects)
+		{
 			mesh.clearVertexAndIndexBuffers();
+
+			for (UI32 index = 0; index < mesh.getMaterial().textureContainers.size(); index++)
+			{
+				mesh.getMaterial().textureContainers[index].pTexture->clear();
+				StaticAllocator<DMKTexture>::deallocate(mesh.getMaterial().textureContainers[index].pTexture, 0);
+			}
+
+			mesh.getMaterial().textureContainers.clear();
+		}
 
 		meshObjects.clear();
 	}

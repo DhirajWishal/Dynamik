@@ -18,6 +18,8 @@ namespace Dynamik
 		pCommandBufferManager->terminateBuffers(pCoreObject, pCommandBuffers);
 		pCommandBufferManager->terminateBuffers(pCoreObject, pSecondaryCommandBuffers);
 		pCommandBufferManager->terminate(pCoreObject, {});
+
+		StaticAllocator<RCommandBufferManager>::rawDeallocate(pCommandBufferManager, 0);
 	}
 
 	void RDrawCallManager::addRenderEntity(REntity* pRenderEntity)
@@ -28,26 +30,45 @@ namespace Dynamik
 	void RDrawCallManager::initializeCommandBuffers(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, DMKRenderingAPI API)
 	{
 		if (isCommandBuffersInitialized)
+		{
+			pCommandBufferManager->resetBuffers(pCoreObject, pCommandBuffers);
+			pCommandBufferManager->resetBuffers(pCoreObject, pSecondaryCommandBuffers);
 			return;
+		}
 
 		isCommandBuffersInitialized = true;
 
-		switch (API)
+		reCreateBuffers(pCoreObject, pRenderTarget, pSwapChain, API);
+	}
+
+	void RDrawCallManager::reCreateBuffers(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, DMKRenderingAPI API)
+	{
+		if (!pCommandBufferManager)
 		{
-		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
-		{
-			pCommandBufferManager = StaticAllocator<VulkanCommandBufferManager>::allocate();
-		}
-		break;
-		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
+			switch (API)
+			{
+			case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
+			{
+				pCommandBufferManager = StaticAllocator<VulkanCommandBufferManager>::rawAllocate();
+			}
 			break;
-		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
-			break;
+			case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
+				break;
+			case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
+				break;
+			}
 		}
 
 		pCommandBufferManager->initialize(pCoreObject);
-		pCommandBuffers = pCommandBufferManager->allocateCommandBuffers(pCoreObject, pSwapChain->bufferCount, RCommandBufferLevel::COMMAND_BUFFEER_LEVEL_PRIMARY);
-		pSecondaryCommandBuffers = pCommandBufferManager->allocateCommandBuffers(pCoreObject, pSwapChain->bufferCount, RCommandBufferLevel::COMMAND_BUFFEER_LEVEL_SECONDARY);
+		if (!pCommandBuffers.size())
+			pCommandBuffers = pCommandBufferManager->allocateCommandBuffers(pCoreObject, pSwapChain->bufferCount, RCommandBufferLevel::COMMAND_BUFFEER_LEVEL_PRIMARY);
+		else
+			pCommandBufferManager->resetBuffers(pCoreObject, pCommandBuffers);
+
+		if (!pSecondaryCommandBuffers.size())
+			pSecondaryCommandBuffers = pCommandBufferManager->allocateCommandBuffers(pCoreObject, pSwapChain->bufferCount, RCommandBufferLevel::COMMAND_BUFFEER_LEVEL_SECONDARY);
+		else
+			pCommandBufferManager->resetBuffers(pCoreObject, pSecondaryCommandBuffers);
 
 		/* Initialize the primary command buffer */
 		{
@@ -121,12 +142,12 @@ namespace Dynamik
 			binding.runTime += 1.0f;
 		}
 	}
-	
+
 	void RDrawCallManager::resetPrimaryCommandBuffers(RCoreObject* pCoreObject)
 	{
 		pCommandBufferManager->resetBuffers(pCoreObject, pCommandBuffers);
 	}
-	
+
 	void RDrawCallManager::resetSecondaryCommandBuffers(RCoreObject* pCoreObject)
 	{
 		pCommandBufferManager->resetBuffers(pCoreObject, pSecondaryCommandBuffers);

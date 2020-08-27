@@ -65,6 +65,8 @@ namespace Dynamik
 		*/
 		void initializeCommandBuffers(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, DMKRenderingAPI API);
 
+		void reCreateBuffers(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, DMKRenderingAPI API);
+
 		/*
 		 This method updates the secondary command buffers and increments the run time of secondary commands. 
 		*/

@@ -95,6 +95,9 @@ namespace Dynamik
 	{
 		/* Terminate the renderer. */
 		DMKSystemLocator::getSystem<DMKRenderer>()->terminateThread();
+
+		/* Terminate the im gui wrapper. */
+		imGuiWrapper.terminate();
 	}
 
 	void DMKStudio::initializeRuntimeSystems()
