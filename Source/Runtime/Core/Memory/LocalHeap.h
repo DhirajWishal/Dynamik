@@ -12,82 +12,79 @@
 #include "Core/Macros/MemoryMacro.h"
 #include "Core/Macros/Global.h"
 
-namespace Dynamik
-{
+/*
+ The local heap is used to allocate a block of memory for an object, preferably for a manager to store its
+ data on the heap.
+ This automatically deallocates its memory block when destroyed.
+*/
+class DMK_API LocalHeap {
+public:
+	LocalHeap();
+	~LocalHeap();
+
 	/*
-	 The local heap is used to allocate a block of memory for an object, preferably for a manager to store its
-	 data on the heap.
-	 This automatically deallocates its memory block when destroyed.
+	 Allocate a new memory pool.
+
+	 @param byteSize: Size of the allocation in bytes.
+
+	 @warn: Reallocating or recalling this function while the a memory buffer is already allocated
+			will result in an override allocation.
 	*/
-	class DMK_API LocalHeap {
-	public:
-		LocalHeap();
-		~LocalHeap();
+	void allocate(UI32 byteSize);
 
-		/*
-		 Allocate a new memory pool.
+	/*
+	 Allocate the requested data type in heap.
+	 This allocates a memory buffer sing the size of the requested data type. This actually extends the
+	 internal size to currentSize + requestedTypeSize.
 
-		 @param byteSize: Size of the allocation in bytes.
+	 @param size: Size of the required allocation. By default it is set to the size of the type.
+	*/
+	template<class TYPE>
+	TYPE* allocate(UI32 size = sizeof(TYPE))
+	{
+		TYPE _instance;
+		return (TYPE*)addToStore(&_instance, size);
+	}
 
-		 @warn: Reallocating or recalling this function while the a memory buffer is already allocated
-				will result in an override allocation.
-		*/
-		void allocate(UI32 byteSize);
+	/*
+	 Extend the memory buffer.
 
-		/*
-		 Allocate the requested data type in heap.
-		 This allocates a memory buffer sing the size of the requested data type. This actually extends the 
-		 internal size to currentSize + requestedTypeSize.
+	 @param newByteSize: The total size to be extended.
+	*/
+	void extend(UI32 additionalSize);
 
-		 @param size: Size of the required allocation. By default it is set to the size of the type.
-		*/
-		template<class TYPE>
-		TYPE* allocate(UI32 size = sizeof(TYPE))
-		{
-			TYPE _instance;
-			return (TYPE*)addToStore(&_instance, size);
-		}
+	/*
+	 Clear all the values stored in the memory buffer to be 0.
+	*/
+	void clearPool();
 
-		/*
-		 Extend the memory buffer.
+	/*
+	 Adds data to the memory buffer and return its address.
 
-		 @param newByteSize: The total size to be extended.
-		*/
-		void extend(UI32 additionalSize);
+	 @param data: Data to be stored.
+	 @param byteSize: Size of the storing data.
 
-		/*
-		 Clear all the values stored in the memory buffer to be 0.
-		*/
-		void clearPool();
+	 @warn: Extends the memory buffer and adds the new data to it. The extended size will be equal to
+			the pre allocated size plus the size of the adding data.
+	*/
+	VPTR addToStore(VPTR data, UI32 byteSize);
 
-		/*
-		 Adds data to the memory buffer and return its address.
+	/*
+	 Delete a value from the memory buffer.
 
-		 @param data: Data to be stored.
-		 @param byteSize: Size of the storing data.
+	 @param data: Data location of the variable.
+	 @param byteSize: Size of the stored data.
+	*/
+	void deleteFromStore(VPTR data, UI32 byteSize);
 
-		 @warn: Extends the memory buffer and adds the new data to it. The extended size will be equal to
-				the pre allocated size plus the size of the adding data.
-		*/
-		VPTR addToStore(VPTR data, UI32 byteSize);
+	UI32 getAllocationSize() { return myAllocationSize; }
 
-		/*
-		 Delete a value from the memory buffer.
+private:
+	void _terminateLocalBlock();
 
-		 @param data: Data location of the variable.
-		 @param byteSize: Size of the stored data.
-		*/
-		void deleteFromStore(VPTR data, UI32 byteSize);
-
-		UI32 getAllocationSize() { return myAllocationSize; }
-
-	private:
-		void _terminateLocalBlock();
-
-		POINTER<UI32> myMemoryBlock;
-		POINTER<UI32> myNextPtr = myMemoryBlock;
-		UI32 myAllocationSize = 0;
-	};
-}
+	POINTER<UI32> myMemoryBlock;
+	POINTER<UI32> myNextPtr = myMemoryBlock;
+	UI32 myAllocationSize = 0;
+};
 
 #endif // !_DYNAMIK_LOCAL_HEAP_H

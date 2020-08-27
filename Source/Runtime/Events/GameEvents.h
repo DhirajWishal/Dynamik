@@ -8,27 +8,24 @@
 #include "Core/Macros/Global.h"
 #include "Core/Types/DataTypes.h"
 
-namespace Dynamik
-{
-	/*
-	 Game Event: Load next level
-	*/
-	struct DMK_API GELoadNextLevel {
-		UI32 nextLevel = 0;
-		B1 isActive = false;
-	};
+/*
+ Game Event: Load next level
+*/
+struct DMK_API GELoadNextLevel {
+	UI32 nextLevel = 0;
+	B1 isActive = false;
+};
 
-	/*
-	 Dynamik Game Events
-	 This object propagates all the game events which are required to be propagated to the engine.
-	*/
-	class DMK_API DMKGameEvents {
-	public:
-		DMKGameEvents() = default;
-		~DMKGameEvents() = default;
+/*
+ Dynamik Game Events
+ This object propagates all the game events which are required to be propagated to the engine.
+*/
+class DMK_API DMKGameEvents {
+public:
+	DMKGameEvents() = default;
+	~DMKGameEvents() = default;
 
-		static GELoadNextLevel loadLevel;
-	};
-}
+	static GELoadNextLevel loadLevel;
+};
 
 #endif // !_DYNAMIK_GAME_EVENTS_H

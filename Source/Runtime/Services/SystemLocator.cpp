@@ -4,7 +4,4 @@
 #include "dmkafx.h"
 #include "SystemLocator.h"
 
-namespace Dynamik
-{
-	DMKSystemLocator DMKSystemLocator::instance;
-}
+DMKSystemLocator DMKSystemLocator::instance;

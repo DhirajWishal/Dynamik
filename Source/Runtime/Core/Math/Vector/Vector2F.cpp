@@ -4,8 +4,6 @@
 #include "dmkafx.h"
 #include "Vector2F.h"
 
-namespace Dynamik
-{
 	Vector2F::Vector2F(std::initializer_list<F32> list) 
 	{
 		if ((list.size() > 2) || (list.size() < 2))
@@ -123,4 +121,3 @@ namespace Dynamik
 	{
 		return (rhs.x != 0) && (rhs.y != 0);
 	}
-}

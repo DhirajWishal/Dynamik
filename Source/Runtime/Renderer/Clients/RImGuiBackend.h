@@ -11,49 +11,46 @@
 #include "../Components/Primitives/RTexture.h"
 #include "../Components/RCommandBufferManager.h"
 
-namespace Dynamik
-{
-	/*
-	 Renderer Im Gui Backend
-	 This object is the main Im Gui backend for the Dynamik Engine.
-	 Each RBL will contain an object which allows Im Gui to render its components through the active RBL.
-	*/
-	class DMK_API RImGuiBackend : public DMKImGuiBackendHandle {
-	public:
-		RImGuiBackend() = default;
-		virtual ~RImGuiBackend() = default;
+/*
+ Renderer Im Gui Backend
+ This object is the main Im Gui backend for the Dynamik Engine.
+ Each RBL will contain an object which allows Im Gui to render its components through the active RBL.
+*/
+class DMK_API RImGuiBackend : public DMKImGuiBackendHandle {
+public:
+	RImGuiBackend() = default;
+	virtual ~RImGuiBackend() = default;
 
-		virtual void setContext(ImGuiContext* pContext) = 0;
+	virtual void setContext(ImGuiContext* pContext) = 0;
 
-		virtual void setCoreObject(RCoreObject* pCoreObject) { this->pCoreObject = pCoreObject; }
-		virtual void setRenderTarget(RRenderTarget* pRenderTarget) { this->pRenderTarget = pRenderTarget; }
-		virtual void bindCommands(RCommandBuffer* pCommandBuffer) = 0;
-		virtual void reCreatePipeline(RRenderTarget* pRenderTarget, DMKViewport viewport) = 0;
+	virtual void setCoreObject(RCoreObject* pCoreObject) { this->pCoreObject = pCoreObject; }
+	virtual void setRenderTarget(RRenderTarget* pRenderTarget) { this->pRenderTarget = pRenderTarget; }
+	virtual void bindCommands(RCommandBuffer* pCommandBuffer) = 0;
+	virtual void reCreatePipeline(RRenderTarget* pRenderTarget, DMKViewport viewport) = 0;
 
-		virtual void updateResources() = 0;
-		virtual void onRendererUpdate(const UI64 activeFrameIndex, RSwapChain* pSwapChain, RCommandBuffer* pActiveCommandBuffer) = 0;
+	virtual void updateResources() = 0;
+	virtual void onRendererUpdate(const UI64 activeFrameIndex, RSwapChain* pSwapChain, RCommandBuffer* pActiveCommandBuffer) = 0;
 
-		virtual void update() = 0;
+	virtual void update() = 0;
 
-	protected:
-		ARRAY<DMKShaderModule> shaders;
-		ARRAY<RCommandBuffer*> pCommandBuffers;
+protected:
+	ARRAY<DMKShaderModule> shaders;
+	ARRAY<RCommandBuffer*> pCommandBuffers;
 
-		RCoreObject* pCoreObject = nullptr;
-		RRenderTarget* pRenderTarget = nullptr;
+	RCoreObject* pCoreObject = nullptr;
+	RRenderTarget* pRenderTarget = nullptr;
 
-		RPipelineObject* pPipelineObject = nullptr;
-		RPipelineResource* pPipelineResource = nullptr;
-		RTexture* pFontTexture = nullptr;
+	RPipelineObject* pPipelineObject = nullptr;
+	RPipelineResource* pPipelineResource = nullptr;
+	RTexture* pFontTexture = nullptr;
 
-		RBuffer* pVertexBuffer = nullptr;
-		UI64 vertexCount = 0;
+	RBuffer* pVertexBuffer = nullptr;
+	UI64 vertexCount = 0;
 
-		RBuffer* pIndexBuffer = nullptr;
-		UI64 indexCount = 0;
+	RBuffer* pIndexBuffer = nullptr;
+	UI64 indexCount = 0;
 
-		RCommandBufferManager* pCommandBufferManager = nullptr;
-	};
-}
+	RCommandBufferManager* pCommandBufferManager = nullptr;
+};
 
 #endif // !_DYNAMIK_IM_GUI_CLIENT_H

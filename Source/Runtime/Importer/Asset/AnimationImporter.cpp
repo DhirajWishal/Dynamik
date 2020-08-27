@@ -6,11 +6,8 @@
 
 #include "Wrappers/AssimpWrapper.h"
 
-namespace Dynamik
+DMKAnimatedModelEntity DMKAnimationImporter::loadAnimation(const STRING& path)
 {
-	DMKAnimatedModelEntity DMKAnimationImporter::loadAnimation(const STRING& path)
-	{
-		AssimpWrapper _wrapper;
-		return _wrapper.loadAnimatedModelEntity(path, DMKVertexLayout::createAnimated());
-	}
+	AssimpWrapper _wrapper;
+	return _wrapper.loadAnimatedModelEntity(path, DMKVertexLayout::createAnimated());
 }

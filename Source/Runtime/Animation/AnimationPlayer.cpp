@@ -4,22 +4,19 @@
 #include "dmkafx.h"
 #include "AnimationPlayer.h"
 
-namespace Dynamik
+void DMKAnimationPlayer::beginPlay(DMKAnimatedModelEntity* pAnimatedMesh, UI64 animationIndex)
 {
-	void DMKAnimationPlayer::beginPlay(DMKAnimatedModelEntity* pAnimatedMesh, UI64 animationIndex)
-	{
-		pCurrentAnimation = pAnimatedMesh;
-		this->animationIndex = animationIndex;
-		pAnimation = &pAnimatedMesh->animations[animationIndex];
-		myTicker.start();
-	}
+	pCurrentAnimation = pAnimatedMesh;
+	this->animationIndex = animationIndex;
+	pAnimation = &pAnimatedMesh->animations[animationIndex];
+	myTicker.start();
+}
 
-	void DMKAnimationPlayer::updatePlay()
-	{
-	}
+void DMKAnimationPlayer::updatePlay()
+{
+}
 
-	void DMKAnimationPlayer::endPlay()
-	{
-		myTicker.end();
-	}
+void DMKAnimationPlayer::endPlay()
+{
+	myTicker.end();
 }

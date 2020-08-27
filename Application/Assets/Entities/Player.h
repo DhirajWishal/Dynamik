@@ -6,7 +6,6 @@
 #define _APPLICATION_PLAYER_H
 
 #include "GameLibrary/Entities/PlayerEntity.h"
-using namespace Dynamik;
 
 class Player final : public DMKPlayerEntity {
 public:

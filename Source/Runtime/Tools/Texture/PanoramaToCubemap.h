@@ -9,23 +9,20 @@
 #include "Core/Types/DataTypes.h"
 #include "Core/Objects/Resources/Textures/TextureCube.h"
 
-namespace Dynamik
+namespace Tools
 {
-	namespace Tools
-	{
-		/*
-		 Convert panoramic images to cube maps.
-		*/
-		class PanoramaToCubemap {
-		public:
-			PanoramaToCubemap(const STRING& file = TEXT("")) : imageFile(file) {}
-			~PanoramaToCubemap() {}
+	/*
+	 Convert panoramic images to cube maps.
+	*/
+	class PanoramaToCubemap {
+	public:
+		PanoramaToCubemap(const STRING& file = TEXT("")) : imageFile(file) {}
+		~PanoramaToCubemap() {}
 
-			DMKTextureCube create();
+		DMKTextureCube create();
 
-			STRING imageFile = TEXT("");
-		};
-	}
+		STRING imageFile = TEXT("");
+	};
 }
 
 #endif // !_DYNAMIK_TOOLS_PANORAMA_TO_CUBEMAP_H

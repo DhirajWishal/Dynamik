@@ -9,28 +9,25 @@
 #include "../RPipelineObject.h"
 #include "../Primitives/RBuffer.h"
 
-namespace Dynamik
-{
-	/*
-	 Renderer Bounding Box
-	*/
-	class DMK_API RBoundingBox {
-	public:
-		RBoundingBox() : renderingAPI(DMKRenderingAPI::DMK_RENDERING_API_VULKAN){}
-		RBoundingBox(DMKRenderingAPI renderingAPI) : renderingAPI(renderingAPI) {}
-		virtual ~RBoundingBox() {}
+/*
+ Renderer Bounding Box
+*/
+class DMK_API RBoundingBox {
+public:
+	RBoundingBox() : renderingAPI(DMKRenderingAPI::DMK_RENDERING_API_VULKAN) {}
+	RBoundingBox(DMKRenderingAPI renderingAPI) : renderingAPI(renderingAPI) {}
+	virtual ~RBoundingBox() {}
 
-		virtual void initialize(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, RBuffer* pCameraUniform);
-		virtual void terminate(RCoreObject* pCoreObject);
+	virtual void initialize(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, RBuffer* pCameraUniform);
+	virtual void terminate(RCoreObject* pCoreObject);
 
-		ARRAY<DMKShaderModule> shaders;
-		RPipelineObject* pPipeline = nullptr;
-		RPipelineResource* pPipelineResource = nullptr;
-		RBuffer* pUniformBuffer = nullptr;
+	ARRAY<DMKShaderModule> shaders;
+	RPipelineObject* pPipeline = nullptr;
+	RPipelineResource* pPipelineResource = nullptr;
+	RBuffer* pUniformBuffer = nullptr;
 
-	protected:
-		DMKRenderingAPI renderingAPI = DMKRenderingAPI::DMK_RENDERING_API_VULKAN;
-	};
-}
+protected:
+	DMKRenderingAPI renderingAPI = DMKRenderingAPI::DMK_RENDERING_API_VULKAN;
+};
 
 #endif // !_DYNAMIK_RENDERER_BOUNDING_BOX_ATTACHMENT_H

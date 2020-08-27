@@ -8,7 +8,6 @@
 #include "GameLibrary/Entities/StaticModelEntity.h"
 #include "GameLibrary/Camera/CameraModule.h"
 #include "Core/Types/StaticArray.h"
-using namespace Dynamik;
 
 class VenusModel final : public DMKStaticModelEntity {
 public:

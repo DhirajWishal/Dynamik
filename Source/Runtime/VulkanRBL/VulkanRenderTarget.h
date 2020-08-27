@@ -7,16 +7,13 @@
 
 #include "Renderer/Components/RRenderTarget.h"
 
-namespace Dynamik
-{
-	/*
-	 Vulkan Render Target
-	*/
-	class DMK_API VulkanRenderTarget : public RRenderTarget {
-	public:
-		VulkanRenderTarget() {}
-		virtual ~VulkanRenderTarget() {}
-	};
-}
+/*
+ Vulkan Render Target
+*/
+class DMK_API VulkanRenderTarget : public RRenderTarget {
+public:
+	VulkanRenderTarget() {}
+	virtual ~VulkanRenderTarget() {}
+};
 
 #endif // !_DYNAMIK_VULKAN_RENDER_TARGET_H

@@ -4,28 +4,25 @@
 #include "dmkafx.h"
 #include "AnimNodeGraph.h"
 
-namespace Dynamik
+void DMKAnimNodeGraph::addNode(const DMKAnimNode& node)
 {
-	void DMKAnimNodeGraph::addNode(const DMKAnimNode& node)
-	{
-		nodes.pushBack(node);
-	}
+	nodes.pushBack(node);
+}
 
-	DMKAnimNode DMKAnimNodeGraph::getNode(const STRING& name)
-	{
-		for (auto node : nodes)
-			if (node.name == name)
-				return node;
+DMKAnimNode DMKAnimNodeGraph::getNode(const STRING& name)
+{
+	for (auto node : nodes)
+		if (node.name == name)
+			return node;
 
-		return DMKAnimNode();
-	}
-	
-	UI64 DMKAnimNodeGraph::getNodeIndex(const STRING& name)
-	{
-		for (UI64 index = 0; index < nodes.size(); index++)
-			if (nodes[index].name == name)
-				return index;
+	return DMKAnimNode();
+}
 
-		return UI64();
-	}
+UI64 DMKAnimNodeGraph::getNodeIndex(const STRING& name)
+{
+	for (UI64 index = 0; index < nodes.size(); index++)
+		if (nodes[index].name == name)
+			return index;
+
+	return UI64();
 }

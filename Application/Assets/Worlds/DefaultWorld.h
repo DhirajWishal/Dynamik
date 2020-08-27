@@ -6,7 +6,6 @@
 #define _APPLICATION_DEFAULT_WORLD_H
 
 #include "GameLibrary/GameWorld.h"
-using namespace Dynamik;
 
 class DefaultWorld final : public DMKGameWorld {
 public:

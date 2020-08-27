@@ -7,8 +7,6 @@
 #include "../VulkanUtilities.h"
 #include "Tools/Shader/SPIR-V/Disassembler.h"
 
-namespace Dynamik
-{
 	namespace Backend
 	{
 		void VulkanShader::initialize(const VulkanDevice& vDevice, const DMKShaderModule& shader)
@@ -45,4 +43,3 @@ namespace Dynamik
 			return this->shaderModule;
 		}
 	}
-}

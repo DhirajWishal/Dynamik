@@ -4,35 +4,32 @@
 #include "dmkafx.h"
 #include "CanvasEntity.h"
 
-namespace Dynamik
+void DMKCanvasEntity::addShaderModule(const DMKShaderModule& sModule)
 {
-	void DMKCanvasEntity::addShaderModule(const DMKShaderModule& sModule)
-	{
-		shaders.pushBack(sModule);
-	}
+	shaders.pushBack(sModule);
+}
 
-	void DMKCanvasEntity::setShaderModules(ARRAY<DMKShaderModule> sModules)
-	{
-		shaders = std::move(sModules);
-	}
+void DMKCanvasEntity::setShaderModules(ARRAY<DMKShaderModule> sModules)
+{
+	shaders = std::move(sModules);
+}
 
-	DMKShaderModule* DMKCanvasEntity::getShaderModule(I32 index)
-	{
-		return shaders.location(index);
-	}
+DMKShaderModule* DMKCanvasEntity::getShaderModule(I32 index)
+{
+	return shaders.location(index);
+}
 
-	ARRAY<DMKShaderModule> DMKCanvasEntity::getShaders()
-	{
-		return shaders;
-	}
+ARRAY<DMKShaderModule> DMKCanvasEntity::getShaders()
+{
+	return shaders;
+}
 
-	void DMKCanvasEntity::setFrameMesh(const DMKMeshObject& meshObject)
-	{
-		frameMesh = meshObject;
-	}
+void DMKCanvasEntity::setFrameMesh(const DMKMeshObject& meshObject)
+{
+	frameMesh = meshObject;
+}
 
-	DMKMeshObject* DMKCanvasEntity::getFrameMesh() const
-	{
-		return Cast<DMKMeshObject*>(&frameMesh);
-	}
+DMKMeshObject* DMKCanvasEntity::getFrameMesh() const
+{
+	return Cast<DMKMeshObject*>(&frameMesh);
 }

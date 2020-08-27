@@ -8,43 +8,40 @@
 
 #include "Importer/Asset/ImageImporter.h"
 
-namespace Dynamik
+DMKTexture* DMKTextureFactory::create(const DMKTextureType& type, const STRING& path)
 {
-	DMKTexture* DMKTextureFactory::create(const DMKTextureType& type, const STRING& path)
+	DMKImageImporter importer;
+
+	switch (type)
 	{
-		DMKImageImporter importer;
-
-		switch (type)
-		{
-		case Dynamik::DMKTextureType::TEXTURE_TYPE_2D:
-			return importer.loadTexture2D(path);
-		case Dynamik::DMKTextureType::TEXTURE_TYPE_3D:
-			break;
-		case Dynamik::DMKTextureType::TEXTURE_TYPE_SPRITE:
-			break;
-		case Dynamik::DMKTextureType::TEXTURE_TYPE_CUBEMAP:
-			break;
-		default:
-			DMK_ERROR_BOX("Requested texture cannot be created! Use create(DMKTextureType, ARRAY<STRING>) method instead.");
-			break;
-		}
-
-		return nullptr;
+	case DMKTextureType::TEXTURE_TYPE_2D:
+		return importer.loadTexture2D(path);
+	case DMKTextureType::TEXTURE_TYPE_3D:
+		break;
+	case DMKTextureType::TEXTURE_TYPE_SPRITE:
+		break;
+	case DMKTextureType::TEXTURE_TYPE_CUBEMAP:
+		break;
+	default:
+		DMK_ERROR_BOX("Requested texture cannot be created! Use create(DMKTextureType, ARRAY<STRING>) method instead.");
+		break;
 	}
 
-	DMKTexture* DMKTextureFactory::createCubeMap(const ARRAY<STRING>& paths)
-	{
-		DMKImageImporter importer;
-		return importer.loadCube(paths);
-	}
+	return nullptr;
+}
 
-	DMKTexture* DMKTextureFactory::createCubeMapFromPanorama(const STRING& file)
-	{
-		return nullptr;
-	}
-	
-	void DMKTextureFactory::destroy(DMKTexture* texture)
-	{
-		StaticAllocator<DMKTexture>::deallocate(texture, 0);
-	}
+DMKTexture* DMKTextureFactory::createCubeMap(const ARRAY<STRING>& paths)
+{
+	DMKImageImporter importer;
+	return importer.loadCube(paths);
+}
+
+DMKTexture* DMKTextureFactory::createCubeMapFromPanorama(const STRING& file)
+{
+	return nullptr;
+}
+
+void DMKTextureFactory::destroy(DMKTexture* texture)
+{
+	StaticAllocator<DMKTexture>::deallocate(texture, 0);
 }

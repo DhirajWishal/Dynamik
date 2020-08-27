@@ -10,78 +10,75 @@
 #include "Core/Objects/Resources/UniformBuffer.h"
 #include "Core/Types/ComplexTypes.h"
 
-namespace Dynamik
-{
-	/* Camera matrix */
-	struct DMK_API DMKCameraMatrix {
-		MAT4 view = MAT4(1.0f);
-		MAT4 projection = MAT4(1.0f);
-	};
+/* Camera matrix */
+struct DMK_API DMKCameraMatrix {
+	MAT4 view = MAT4(1.0f);
+	MAT4 projection = MAT4(1.0f);
+};
 
-	/* A ray shot by the camera. Used for mouse picking. */
-	struct DMK_API DMKCameraRay {
-		Vector3F origin;
-		Vector3F direction;
-	};
+/* A ray shot by the camera. Used for mouse picking. */
+struct DMK_API DMKCameraRay {
+	Vector3F origin;
+	Vector3F direction;
+};
 
-	/* Camera view params */
-	struct DMK_API DMKCameraViewParams {
-		F32 exposure = 1.0f;
-		F32 gamma = 1.0f;
-	};
+/* Camera view params */
+struct DMK_API DMKCameraViewParams {
+	F32 exposure = 1.0f;
+	F32 gamma = 1.0f;
+};
+
+/*
+ Camera module for the Dynamik Engine.
+
+ By default this object is bound to binding 1 in the vertex shader.
+*/
+class DMK_API DMKCameraModule {
+public:
+	DMKCameraModule();
+	virtual ~DMKCameraModule() {}
 
 	/*
-	 Camera module for the Dynamik Engine.
+	 Set the camera view port extent.
 
-	 By default this object is bound to binding 1 in the vertex shader.
+	 @param extent: Extent of the view port.
 	*/
-	class DMK_API DMKCameraModule {
-	public:
-		DMKCameraModule();
-		virtual ~DMKCameraModule() {}
+	void setViewPortExtent(DMKExtent2D extent);
 
-		/*
-		 Set the camera view port extent.
+	virtual void update();
 
-		 @param extent: Extent of the view port.
-		*/
-		void setViewPortExtent(DMKExtent2D extent);
+	void updateVectors();
+	virtual void updateMatrix();
 
-		virtual void update();
+	virtual DMKCameraRay generateRay(DMKExtent2D mousePosition);
 
-		void updateVectors();
-		virtual void updateMatrix();
+	virtual void setParams(const DMKCameraViewParams& params);
+	virtual DMKCameraViewParams getViewParams() const;
+	virtual void setExposure(const F32& exposure);
+	virtual void setGamma(const F32& gamma);
+	virtual F32 getExposure() const;
+	virtual F32 getGamma() const;
 
-		virtual DMKCameraRay generateRay(DMKExtent2D mousePosition);
+	DMKCameraMatrix matrix;
 
-		virtual void setParams(const DMKCameraViewParams& params);
-		virtual DMKCameraViewParams getViewParams() const;
-		virtual void setExposure(const F32& exposure);
-		virtual void setGamma(const F32& gamma);
-		virtual F32 getExposure() const;
-		virtual F32 getGamma() const;
+	VEC3 position = { 0.0f, 0.0f, 0.0f };
+	VEC3 front = { 0.0f, 0.0f, -1.0f };
+	VEC3 right = { 1.0f, 0.0f, 0.0f };
+	VEC3 cameraUp = { 0.0f, 1.0f, 0.0f };
+	VEC3 worldUp = { 0.0f, 1.0f, 0.0f };
 
-		DMKCameraMatrix matrix;
+	DMKExtent2D viewPortExtent;
 
-		VEC3 position = { 0.0f, 0.0f, 0.0f };
-		VEC3 front = { 0.0f, 0.0f, -1.0f };
-		VEC3 right = { 1.0f, 0.0f, 0.0f };
-		VEC3 cameraUp = { 0.0f, 1.0f, 0.0f };
-		VEC3 worldUp = { 0.0f, 1.0f, 0.0f };
+	DMKCameraViewParams params = {};
 
-		DMKExtent2D viewPortExtent;
+	F32 fieldOfView = 45.0f;
+	F32 farRender = 1024.0f;
+	F32 nearRender = 0.001f;
+	F32 aspectRatio = 1.77779f;
 
-		DMKCameraViewParams params = {};
-
-		F32 fieldOfView = 45.0f;
-		F32 farRender = 1024.0f;
-		F32 nearRender = 0.001f;
-		F32 aspectRatio = 1.77779f;
-
-		F32 pitch = 0.0f;
-		F32 roll = 0.0f;
-		F32 yaw = 0.0f;
-	};
-}
+	F32 pitch = 0.0f;
+	F32 roll = 0.0f;
+	F32 yaw = 0.0f;
+};
 
 #endif // !_DYNAMIK_CAMERA_H

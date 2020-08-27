@@ -8,18 +8,15 @@
 #include "../Texture.h"
 #include "Core/Types/Array.h"
 
-namespace Dynamik
-{
-	/*
-	 Dynamik Texture Cube
-	*/
-	class DMK_API DMKTextureCube : public DMKTexture {
-	public:
-		DMKTextureCube() : DMKTexture(DMKTextureType::TEXTURE_TYPE_CUBEMAP) {}
-		~DMKTextureCube() {}
+/*
+ Dynamik Texture Cube
+*/
+class DMK_API DMKTextureCube : public DMKTexture {
+public:
+	DMKTextureCube() : DMKTexture(DMKTextureType::TEXTURE_TYPE_CUBEMAP) {}
+	~DMKTextureCube() {}
 
-		virtual void clear() override final;
-	};
-}
+	virtual void clear() override final;
+};
 
 #endif // !_DYNAMIK_TEXTURE_CUBE_H

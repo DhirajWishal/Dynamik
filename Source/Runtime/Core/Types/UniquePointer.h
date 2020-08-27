@@ -7,149 +7,146 @@
 
 #include "Core/Memory/StaticAllocator.h"
 
-namespace Dynamik
-{
-	/*
-	 Unique Pointer for the Dynamik Engine.
-	 Unique pointers will only have one instance of itself and cannot be copies but moved.
+/*
+ Unique Pointer for the Dynamik Engine.
+ Unique pointers will only have one instance of itself and cannot be copies but moved.
+*/
+template<class TYPE>
+class DMK_API UniquePointer {
+public:
+	/* CONSTRUCTOR
+	 Default constructor.
 	*/
-	template<class TYPE>
-	class DMK_API UniquePointer {
-	public:
-		/* CONSTRUCTOR
-		 Default constructor.
-		*/
-		UniquePointer() : pMyData(nullptr) {}
+	UniquePointer() : pMyData(nullptr) {}
 
-		/* CONSTRUCTOR
- 		 Assigns a value to the internally stored pointer.
-		*/
-		UniquePointer(const TYPE* pointer)
+	/* CONSTRUCTOR
+	 Assigns a value to the internally stored pointer.
+	*/
+	UniquePointer(const TYPE* pointer)
+	{
+		if (!isNull())
 		{
-			if (!isNull())
-			{
-				DMK_ERROR("The object aready contains a value!");
-				return;
-			}
-
-			pMyData = Cast<TYPE*>(pointer);
+			DMK_ERROR("The object aready contains a value!");
+			return;
 		}
 
-		/* CONSTRUCTOR
-		 Move constructor of the unique pointer.
+		pMyData = Cast<TYPE*>(pointer);
+	}
 
-		 @param other: The other pointer to be assigned.
-		*/
-		UniquePointer(UniquePointer<TYPE>&& other)
+	/* CONSTRUCTOR
+	 Move constructor of the unique pointer.
+
+	 @param other: The other pointer to be assigned.
+	*/
+	UniquePointer(UniquePointer<TYPE>&& other)
+	{
+		if (!isNull())
 		{
-			if (!isNull())
-			{
-				DMK_ERROR("The object aready contains a value!");
-				return;
-			}
-
-			this->pMyData = other.pMyData;
-			other.pMyData;
+			DMK_ERROR("The object aready contains a value!");
+			return;
 		}
 
-		/* CONSTRUCTOR
-		 The copy constructor of unique pointer is deleted.
-		*/
-		UniquePointer(const UniquePointer<TYPE>&) = delete;
+		this->pMyData = other.pMyData;
+		other.pMyData;
+	}
 
-		/* DESTRUCTOR
-		 Default destructor.
-		*/
-		~UniquePointer()
-		{
-			terminate();
-		}
+	/* CONSTRUCTOR
+	 The copy constructor of unique pointer is deleted.
+	*/
+	UniquePointer(const UniquePointer<TYPE>&) = delete;
 
-		/*
-		 Create a new unique pointer.
+	/* DESTRUCTOR
+	 Default destructor.
+	*/
+	~UniquePointer()
+	{
+		terminate();
+	}
 
-		 @param initialization: The values to which the object to be initialized. The default is the default constructor.
-		*/
-		static UniquePointer<TYPE> create(const TYPE& initialization = Type())
-		{
-			return StaticAllocator<TYPE>::allocateInit(initialization);
-		}
+	/*
+	 Create a new unique pointer.
 
-	public:
-		/*
-		 Get the stored pointer.
+	 @param initialization: The values to which the object to be initialized. The default is the default constructor.
+	*/
+	static UniquePointer<TYPE> create(const TYPE& initialization = Type())
+	{
+		return StaticAllocator<TYPE>::allocateInit(initialization);
+	}
 
-		 @warn: Value cannot be modified.
-		*/
-		const TYPE* get() const { return pMyData; }
+public:
+	/*
+	 Get the stored pointer.
 
-		/*
-		 Get the stored pointer.
-		*/
-		TYPE* get() { return pMyData; }
+	 @warn: Value cannot be modified.
+	*/
+	const TYPE* get() const { return pMyData; }
 
-		/*
-		 Check if the stored pointer is null.
-		*/
-		const B1 isNull() const { return pMyData == nullptr; }
+	/*
+	 Get the stored pointer.
+	*/
+	TYPE* get() { return pMyData; }
 
-		/*
-		 Terminate the stored memory buffer.
-		*/
-		void terminate()
-		{
-			if (pMyData)
-				StaticAllocator<TYPE>::rawDeallocate(pMyData, sizeof(TYPE));
-		}
+	/*
+	 Check if the stored pointer is null.
+	*/
+	const B1 isNull() const { return pMyData == nullptr; }
 
-	public:
-		/* OPERATOR
-		 Move operator of the unique pointer.
+	/*
+	 Terminate the stored memory buffer.
+	*/
+	void terminate()
+	{
+		if (pMyData)
+			StaticAllocator<TYPE>::rawDeallocate(pMyData, sizeof(TYPE));
+	}
 
-		 @param other: The other pointer.
-		*/
-		UniquePointer<TYPE>& operator=(UniquePointer<TYPE>&& other) noexcept
-		{
-			pMyData = other.pMyData;
-			other.pMyData = nullptr;
+public:
+	/* OPERATOR
+	 Move operator of the unique pointer.
 
-			return *this;
-		}
+	 @param other: The other pointer.
+	*/
+	UniquePointer<TYPE>& operator=(UniquePointer<TYPE>&& other) noexcept
+	{
+		pMyData = other.pMyData;
+		other.pMyData = nullptr;
 
-		UniquePointer<TYPE>& operator=(const UniquePointer<TYPE>& other) = delete;
+		return *this;
+	}
 
-		/* OPERATOR
-		 Is Equal To operator.
+	UniquePointer<TYPE>& operator=(const UniquePointer<TYPE>& other) = delete;
 
-		 @param other: The other pointer.
-		*/
-		UniquePointer<TYPE>& operator==(UniquePointer<TYPE>&& other)
-		{
-			return this->pMyData == other.pMyData;
-		}
+	/* OPERATOR
+	 Is Equal To operator.
 
-		/* OPERATOR
-		 The arrow operator.
-		*/
-		TYPE* operator->()
-		{
-			return pMyData;
-		}
-		
-		/* OPERATOR
-		 Cast this object to another object.
-		*/
-		template<class OTHER>
-		operator UniquePointer<OTHER>()
-		{
-			UniquePointer<OTHER> uniquePtr = Cast<OTHER*>(pMyData);
-			pMyData = nullptr;
-			return uniquePtr;
-		}
+	 @param other: The other pointer.
+	*/
+	UniquePointer<TYPE>& operator==(UniquePointer<TYPE>&& other)
+	{
+		return this->pMyData == other.pMyData;
+	}
 
-	private:
-		TYPE* pMyData = nullptr;	/* The data pointer. */
-	};
-}
+	/* OPERATOR
+	 The arrow operator.
+	*/
+	TYPE* operator->()
+	{
+		return pMyData;
+	}
+
+	/* OPERATOR
+	 Cast this object to another object.
+	*/
+	template<class OTHER>
+	operator UniquePointer<OTHER>()
+	{
+		UniquePointer<OTHER> uniquePtr = Cast<OTHER*>(pMyData);
+		pMyData = nullptr;
+		return uniquePtr;
+	}
+
+private:
+	TYPE* pMyData = nullptr;	/* The data pointer. */
+};
 
 #endif // !_DYNAMIK_UNIQUE_POINTER_H

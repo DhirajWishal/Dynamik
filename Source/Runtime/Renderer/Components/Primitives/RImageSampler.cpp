@@ -1,8 +1,9 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "RImageSampler.h"
 
-namespace Dynamik
-{
 	RImageSamplerCreateInfo RImageSamplerCreateInfo::createDefaultSampler(F32 levelOfDetail)
 	{
 		RImageSamplerCreateInfo sampler;
@@ -20,4 +21,3 @@ namespace Dynamik
 
 		return sampler;
 	}
-}

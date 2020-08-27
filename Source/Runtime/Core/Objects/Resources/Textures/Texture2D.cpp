@@ -7,6 +7,3 @@
 #include <stb_image.h>
 #include <gli/gli.hpp>
 
-namespace Dynamik
-{
-}

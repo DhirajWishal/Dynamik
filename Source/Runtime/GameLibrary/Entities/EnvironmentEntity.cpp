@@ -6,38 +6,35 @@
 
 #include "../Utilities/MeshFactory.h"
 
-namespace Dynamik
+void DMKEnvironmentEntity::addShaderModule(const DMKShaderModule& sModule)
 {
-	void DMKEnvironmentEntity::addShaderModule(const DMKShaderModule& sModule)
+	shaders.pushBack(sModule);
+}
+
+void DMKEnvironmentEntity::setShaderModules(ARRAY<DMKShaderModule> sModules)
+{
+	shaders = std::move(sModules);
+}
+
+DMKShaderModule* DMKEnvironmentEntity::getShaderModule(I32 index)
+{
+	return shaders.location(index);
+}
+
+ARRAY<DMKShaderModule> DMKEnvironmentEntity::getShaders()
+{
+	return shaders;
+}
+
+void DMKEnvironmentEntity::clearEnvironmentMap()
+{
+	skyBoxMesh.clearVertexAndIndexBuffers();
+
+	for (UI32 index = 0; index < skyBoxMesh.getMaterial().textureContainers.size(); index++)
 	{
-		shaders.pushBack(sModule);
+		skyBoxMesh.getMaterial().textureContainers[index].pTexture->clear();
+		StaticAllocator<DMKTexture>::deallocate(skyBoxMesh.getMaterial().textureContainers[index].pTexture, 0);
 	}
 
-	void DMKEnvironmentEntity::setShaderModules(ARRAY<DMKShaderModule> sModules)
-	{
-		shaders = std::move(sModules);
-	}
-
-	DMKShaderModule* DMKEnvironmentEntity::getShaderModule(I32 index)
-	{
-		return shaders.location(index);
-	}
-	
-	ARRAY<DMKShaderModule> DMKEnvironmentEntity::getShaders()
-	{
-		return shaders;
-	}
-	
-	void DMKEnvironmentEntity::clearEnvironmentMap()
-	{
-		skyBoxMesh.clearVertexAndIndexBuffers();
-
-		for (UI32 index = 0; index < skyBoxMesh.getMaterial().textureContainers.size(); index++)
-		{
-			skyBoxMesh.getMaterial().textureContainers[index].pTexture->clear();
-			StaticAllocator<DMKTexture>::deallocate(skyBoxMesh.getMaterial().textureContainers[index].pTexture, 0);
-		}
-
-		skyBoxMesh.getMaterial().textureContainers.clear();
-	}
+	skyBoxMesh.getMaterial().textureContainers.clear();
 }

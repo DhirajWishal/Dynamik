@@ -3,8 +3,3 @@
 
 #include "dmkafx.h"
 #include "Panel2D.h"
-
-namespace Dynamik
-{
-
-}

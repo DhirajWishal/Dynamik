@@ -8,38 +8,35 @@
 #include "GameLibrary/Entities/AnimatedModelEntity.h"
 #include "Core/Utilities/Ticker.h"
 
-namespace Dynamik
-{
+/*
+ Dynamik Animation Player
+ This object plays a provided animation.
+*/
+class DMKAnimationPlayer {
+public:
+	DMKAnimationPlayer() {}
+	~DMKAnimationPlayer() {}
+
 	/*
-	 Dynamik Animation Player
-	 This object plays a provided animation.
+	 Begin playing the animation.
 	*/
-	class DMKAnimationPlayer {
-	public:
-		DMKAnimationPlayer() {}
-		~DMKAnimationPlayer() {}
+	void beginPlay(DMKAnimatedModelEntity* pAnimatedMesh, UI64 animationIndex);
 
-		/*
-		 Begin playing the animation.
-		*/
-		void beginPlay(DMKAnimatedModelEntity* pAnimatedMesh, UI64 animationIndex);
+	/*
+	 Update the animation.
+	*/
+	void updatePlay();
 
-		/*
-		 Update the animation.
-		*/
-		void updatePlay();
+	/*
+	 End playing the animation.
+	*/
+	void endPlay();
 
-		/*
-		 End playing the animation.
-		*/
-		void endPlay();
-
-	public:	
-		DMKTicker myTicker;
-		DMKAnimatedModelEntity* pCurrentAnimation = nullptr;
-		DMKAnimation* pAnimation = nullptr;
-		UI64 animationIndex = 0;
-	};
-}
+public:
+	DMKTicker myTicker;
+	DMKAnimatedModelEntity* pCurrentAnimation = nullptr;
+	DMKAnimation* pAnimation = nullptr;
+	UI64 animationIndex = 0;
+};
 
 #endif // !_DYNAMIK_ANIMATION_PLAYER_H

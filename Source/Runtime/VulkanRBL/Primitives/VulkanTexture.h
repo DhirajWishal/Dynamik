@@ -15,29 +15,26 @@
 #include "VulkanImageSampler.h"
 #include "VulkanImageView.h"
 
-namespace Dynamik
+namespace Backend
 {
-    namespace Backend
-    {
-        /*
-         Vulkan Texture object for the Dynamik RBL
-        */
-        class DMK_API VulkanTexture : public RTexture {
-        public:
-            VulkanTexture() {}
-            ~VulkanTexture() {}
+	/*
+	 Vulkan Texture object for the Dynamik RBL
+	*/
+	class DMK_API VulkanTexture : public RTexture {
+	public:
+		VulkanTexture() {}
+		~VulkanTexture() {}
 
-            virtual void initialize(RCoreObject* pCoreObject, DMKTexture* pTextureObject) override final;
-            virtual void createView(RCoreObject* pCoreObject, I32 mipLevel = 1) override final;
-            virtual void createSampler(RCoreObject* pCoreObject, RImageSamplerCreateInfo createInfo) override final;
-            virtual void makeRenderable(RCoreObject* pCoreObject) override final;
-            virtual void terminate(RCoreObject* pCoreObject) override final;
+		virtual void initialize(RCoreObject* pCoreObject, DMKTexture* pTextureObject) override final;
+		virtual void createView(RCoreObject* pCoreObject, I32 mipLevel = 1) override final;
+		virtual void createSampler(RCoreObject* pCoreObject, RImageSamplerCreateInfo createInfo) override final;
+		virtual void makeRenderable(RCoreObject* pCoreObject) override final;
+		virtual void terminate(RCoreObject* pCoreObject) override final;
 
-            operator VulkanImage() const;
-            operator VulkanImageView() const;
-            operator VulkanImageSampler() const;
-        };
-    }
+		operator VulkanImage() const;
+		operator VulkanImageView() const;
+		operator VulkanImageSampler() const;
+	};
 }
 
 #endif // !_DYNAMIK_VULKAN_TEXTURE_H

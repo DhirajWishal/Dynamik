@@ -7,16 +7,13 @@
 
 #include "Core/Macros/Global.h"
 
-namespace Dynamik
-{
-    /*
-     File compressor for the Dynamik Engine
-    */
-    class DMK_API DMKFileCompressor {
-    public:
-        DMKFileCompressor() {}
-        ~DMKFileCompressor() {}
-    };
-}
+/*
+ File compressor for the Dynamik Engine
+*/
+class DMK_API DMKFileCompressor {
+public:
+	DMKFileCompressor() {}
+	~DMKFileCompressor() {}
+};
 
 #endif // !_DYNAMIK_COMPRESS_H

@@ -14,8 +14,6 @@
 
 #include "../Primitives/VulkanImageView.h"
 
-namespace Dynamik
-{
     namespace Backend
     {
         /*
@@ -45,6 +43,5 @@ namespace Dynamik
             VkSwapchainKHR swapChain = VK_NULL_HANDLE;
         };
     }
-}
 
 #endif // !_DYNAMIK_VULKAN_SWAP_CHAIN_H

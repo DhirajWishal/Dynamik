@@ -3,7 +3,3 @@
 
 #include "dmkafx.h"
 #include "ListenerServices.h"
-
-namespace Dynamik
-{
-}

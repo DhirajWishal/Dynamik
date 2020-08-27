@@ -5,16 +5,13 @@
 #ifndef _DYNAMIK_ASSET_FILE_H
 #define _DYNAMIK_ASSET_FILE_H
 
-namespace Dynamik
-{
-    /*
-     Dynamik Asset file
+/*
+ Dynamik Asset file
 
-    */
-    class DMK_API DMKAsset {
-    public:
+*/
+class DMK_API DMKAsset {
+public:
 
-    };
-}
+};
 
 #endif // !_DYNAMIK_ASSET_FILE_H

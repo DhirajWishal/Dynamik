@@ -6,7 +6,6 @@
 #define _APPLICATION_MOON_ENTITY_H
 
 #include "GameLibrary/Entities/StaticModelEntity.h"
-using namespace Dynamik;
 
 class Moon final : public DMKStaticModelEntity {
 public:

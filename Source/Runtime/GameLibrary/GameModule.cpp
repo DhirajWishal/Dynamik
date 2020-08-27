@@ -6,16 +6,13 @@
 
 #include "Importer/Asset/MeshImporter.h"
 
-namespace Dynamik
+DMKGameModule::DMKGameModule()
 {
-	DMKGameModule::DMKGameModule()
-	{
-		pCurrentGameWorld = nullptr;
-	}
+	pCurrentGameWorld = nullptr;
+}
 
-	void DMKGameModule::updateEntities(F32 timeStep)
-	{
-		if (pCurrentGameWorld)
-			pCurrentGameWorld->onUpdate(timeStep);
-	}
+void DMKGameModule::updateEntities(F32 timeStep)
+{
+	if (pCurrentGameWorld)
+		pCurrentGameWorld->onUpdate(timeStep);
 }

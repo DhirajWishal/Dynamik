@@ -6,7 +6,6 @@
 #define _APPLICATION_SERVER_H
 
 #include "GameServer.h"
-using namespace Dynamik;
 
 class ApplicationServer final : public DMKGameServer {
 public:

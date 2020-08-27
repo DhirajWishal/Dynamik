@@ -9,8 +9,6 @@
 #include "Core/Objects/Resources/UniformBuffer.h"
 #include "Services/RuntimeSystems/AssetRegistry.h"
 
-using namespace Dynamik;
-
 void OceanEnv::setCameraModule(DMKCameraModule* pCameraModule)
 {
 	this->pCameraModule = pCameraModule;

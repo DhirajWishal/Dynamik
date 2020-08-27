@@ -9,8 +9,6 @@
 
 #include "Core/Objects/Resources/ShaderModule.h"
 
-namespace Dynamik
-{
     namespace Backend
     {
         /*
@@ -33,6 +31,5 @@ namespace Dynamik
             VkShaderStageFlagBits stageFlag = VkShaderStageFlagBits::VK_SHADER_STAGE_ALL;
         };
     }
-}
 
 #endif // !_DYNAMIK_VULKAN_SHADER_H

@@ -6,46 +6,43 @@
 
 #include "Core/Math/MathFunctions.h"
 
-namespace Dynamik
+void DMKAnimNode::setOffsetMatrix(const Matrix4F& mat)
 {
-	void DMKAnimNode::setOffsetMatrix(const Matrix4F& mat)
-	{
-		offsetMatrix = mat;
-	}
+	offsetMatrix = mat;
+}
 
-	Matrix4F DMKAnimNode::getOffsetMatrix()
-	{
-		return offsetMatrix;
-	}
+Matrix4F DMKAnimNode::getOffsetMatrix()
+{
+	return offsetMatrix;
+}
 
-	void DMKAnimNode::setNodeMatrix(const Matrix4F& mat)
-	{
-		nodeMatrix = mat;
-	}
+void DMKAnimNode::setNodeMatrix(const Matrix4F& mat)
+{
+	nodeMatrix = mat;
+}
 
-	Matrix4F DMKAnimNode::getNodeMatrix()
-	{
-		return nodeMatrix;
-	}
+Matrix4F DMKAnimNode::getNodeMatrix()
+{
+	return nodeMatrix;
+}
 
-	void DMKAnimNode::setWorldTransform(const Matrix4F& mat)
-	{
-		worldTransform = mat;
-	}
+void DMKAnimNode::setWorldTransform(const Matrix4F& mat)
+{
+	worldTransform = mat;
+}
 
-	Matrix4F DMKAnimNode::getWorldTransform()
-	{
-		return worldTransform;
-	}
-	
-	void DMKAnimNode::addChildNodeIndex(const UI64& index)
-	{
-		childNodeIndexes.pushBack(index);
-	}
+Matrix4F DMKAnimNode::getWorldTransform()
+{
+	return worldTransform;
+}
 
-	void DMKAnimNode::addVertexData(const UI32& vertexID, const F32& weight)
-	{
-		vertexIDs.pushBack(vertexID);
-		weights.pushBack(weight);
-	}
+void DMKAnimNode::addChildNodeIndex(const UI64& index)
+{
+	childNodeIndexes.pushBack(index);
+}
+
+void DMKAnimNode::addVertexData(const UI32& vertexID, const F32& weight)
+{
+	vertexIDs.pushBack(vertexID);
+	weights.pushBack(weight);
 }

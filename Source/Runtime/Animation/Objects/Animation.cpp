@@ -4,33 +4,30 @@
 #include "dmkafx.h"
 #include "Animation.h"
 
-namespace Dynamik
+void DMKAnimation::bake(DMKAnimNodeGraph nodeGraph, std::unordered_map<STRING, UI64> nodeMap)
 {
-	void DMKAnimation::bake(DMKAnimNodeGraph nodeGraph, std::unordered_map<STRING, UI64> nodeMap)
+	for (auto node : nodeGraph.nodes)
 	{
-		for (auto node : nodeGraph.nodes)
+		ANodeFrames frames;
+
+		if (nodePoseMap.find(node.name) != nodePoseMap.end())
 		{
-			ANodeFrames frames;
-
-			if (nodePoseMap.find(node.name) != nodePoseMap.end())
-			{
-				for (auto pose : nodePoseMap[node.name])
-					frames.transforms.pushBack(pose.getMatrix());
-			}
-			else
-				frames.transforms.resize(Cast<UI32>(std::ceilf(framesPerSecond * duration)), node.worldTransform);
-
-			nodeFrames.pushBack(frames);
+			for (auto pose : nodePoseMap[node.name])
+				frames.transforms.pushBack(pose.getMatrix());
 		}
+		else
+			frames.transforms.resize(Cast<UI32>(std::ceilf(framesPerSecond * duration)), node.worldTransform);
+
+		nodeFrames.pushBack(frames);
 	}
+}
 
-	ARRAY<Matrix4F> DMKAnimation::getMatrices(F32 timeStep)
-	{
-		ARRAY<Matrix4F> matrices;
+ARRAY<Matrix4F> DMKAnimation::getMatrices(F32 timeStep)
+{
+	ARRAY<Matrix4F> matrices;
 
-		for (auto frame : nodeFrames)
-			matrices.pushBack(frame.transforms[Cast<UI32>(timeStep)]);
+	for (auto frame : nodeFrames)
+		matrices.pushBack(frame.transforms[Cast<UI32>(timeStep)]);
 
-		return matrices;
-	}
+	return matrices;
 }

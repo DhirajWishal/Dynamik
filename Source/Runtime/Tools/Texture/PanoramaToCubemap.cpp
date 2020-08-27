@@ -147,47 +147,44 @@ Vec3uc interpolateXYZtoColor(Vec3fa xyz, CImg<unsigned char>& imgIn) {
 	return Vec3uc{ value };
 }
 
-namespace Dynamik
+namespace Tools
 {
-	namespace Tools
+	DMK_FORCEINLINE Vector3F getXYZ(I32 i, I32 j, I32 face, I32 edge)
 	{
-		DMK_FORCEINLINE Vector3F getXYZ(I32 i, I32 j, I32 face, I32 edge)
-		{
-			auto a = (2.0f * i) / edge;
-			auto b = (2.0f * j) / edge;
+		auto a = (2.0f * i) / edge;
+		auto b = (2.0f * j) / edge;
 
-			if (face == 0)
-				return { -1.0f, 1.0f - a, 3.0f - b };
-			else if (face == 1)
-				return { a - 3.0f, -1.0f, 3.0f - b };
-			else if (face == 2)
-				return { 1.0f, a - 5.0f, 3.0f - b };
-			else if (face == 3)
-				return { 7.0f - a, 1.0f - a, 3.0f - b };
-			else if (face == 4)
-				return { b - 1.0f, a - 5.0f - a, 1.0f };
-			else if (face == 5)
-				return { 5.0f - b, a - 5.0f, -1.0f };
+		if (face == 0)
+			return { -1.0f, 1.0f - a, 3.0f - b };
+		else if (face == 1)
+			return { a - 3.0f, -1.0f, 3.0f - b };
+		else if (face == 2)
+			return { 1.0f, a - 5.0f, 3.0f - b };
+		else if (face == 3)
+			return { 7.0f - a, 1.0f - a, 3.0f - b };
+		else if (face == 4)
+			return { b - 1.0f, a - 5.0f - a, 1.0f };
+		else if (face == 5)
+			return { 5.0f - b, a - 5.0f, -1.0f };
 
-			return Vector3F();
-		}
+		return Vector3F();
+	}
 
-		DMKTextureCube PanoramaToCubemap::create()
-		{
-			I32 width = 0, height = 0, channels = 0;
-			UCPTR image = stbi_load(imageFile.c_str(), &width, &height, &channels, NULL);
-			rvalue = width / M_PI;
+	DMKTextureCube PanoramaToCubemap::create()
+	{
+		I32 width = 0, height = 0, channels = 0;
+		UCPTR image = stbi_load(imageFile.c_str(), &width, &height, &channels, NULL);
+		rvalue = width / Cast<I32>(M_PI);
 
-			CImg<unsigned char> imageC = CImg<unsigned char>(image, width, height);
+		CImg<unsigned char> imageC = CImg<unsigned char>(image, width, height);
 
-			CImg<unsigned char>* imgOut[6];
-			for (int i = 0; i < 6; ++i)
-				imgOut[i] = new CImg<unsigned char>(rvalue, rvalue, 1, 4, 255);
+		CImg<unsigned char>* imgOut[6];
+		for (int i = 0; i < 6; ++i)
+			imgOut[i] = new CImg<unsigned char>(rvalue, rvalue, 1, 4, 255);
 
-			// Convert panorama
-			convertBack(imageC, imgOut);
+		// Convert panorama
+		convertBack(imageC, imgOut);
 
-			return DMKTextureCube();
-		}
+		return DMKTextureCube();
 	}
 }

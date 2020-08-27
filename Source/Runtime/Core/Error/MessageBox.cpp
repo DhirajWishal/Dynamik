@@ -9,8 +9,6 @@
 
 #endif
 
-namespace Dynamik
-{
 	DMKMessageBox::DMKMessageBox(STRING title, STRING message, DMKMessageBoxType ty)
 		: title(title), message(message), type(ty)
 	{
@@ -26,16 +24,16 @@ namespace Dynamik
 
 		switch (type)
 		{
-		case Dynamik::DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_INFO:
+		case DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_INFO:
 			_flags = MB_ICONINFORMATION | MB_OK;
 			break;
-		case Dynamik::DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_WARN:
+		case DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_WARN:
 			_flags = MB_ICONWARNING | MB_OKCANCEL;
 			break;
-		case Dynamik::DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_QUESTION:
+		case DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_QUESTION:
 			_flags = MB_ICONQUESTION | MB_OKCANCEL;
 			break;
-		case Dynamik::DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_ERROR:
+		case DMKMessageBoxType::DMK_MESSAGE_BOX_TYPE_ERROR:
 			_flags = MB_ICONERROR | MB_CANCELTRYCONTINUE;
 			break;
 		default:
@@ -90,4 +88,3 @@ namespace Dynamik
 
 		return UserOption::USER_OPTION_OK;
 	}
-}

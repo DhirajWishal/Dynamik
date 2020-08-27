@@ -9,93 +9,90 @@
 
 #include <cmath>
 
-namespace Dynamik
+namespace Backend
 {
-	namespace Backend
+	void VulkanTexture::initialize(RCoreObject* pCoreObject, DMKTexture* pTextureObject)
 	{
-		void VulkanTexture::initialize(RCoreObject* pCoreObject, DMKTexture* pTextureObject)
+		RImageCreateInfo initInfo;
+		initInfo.vDimentions.width = (F32)pTextureObject->width;
+		initInfo.vDimentions.height = (F32)pTextureObject->height;
+		initInfo.vDimentions.depth = (F32)pTextureObject->depth;
+		initInfo.imageType = pTextureObject->type;
+		initInfo.imageUsage = (RImageUsage)(RImageUsage::IMAGE_USAGE_RENDER | RImageUsage::IMAGE_USAGE_TRANSFER_SRC | RImageUsage::IMAGE_USAGE_TRANSFER_DST);
+		initInfo.layers = pTextureObject->layerCount;
+		initInfo.mipLevels = pTextureObject->mipLevels;
+		initInfo.sampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
+		initInfo.imageFormat = pTextureObject->format;
+
+		pImage = (RImage*)StaticAllocator<VulkanImage>::rawAllocate();
+		pImage->initialize(pCoreObject, initInfo);
+
+		if (pImage->format != pTextureObject->format)
 		{
-			RImageCreateInfo initInfo;
-			initInfo.vDimentions.width = (F32)pTextureObject->width;
-			initInfo.vDimentions.height = (F32)pTextureObject->height;
-			initInfo.vDimentions.depth = (F32)pTextureObject->depth;
-			initInfo.imageType = pTextureObject->type;
-			initInfo.imageUsage = (RImageUsage)(RImageUsage::IMAGE_USAGE_RENDER | RImageUsage::IMAGE_USAGE_TRANSFER_SRC | RImageUsage::IMAGE_USAGE_TRANSFER_DST);
-			initInfo.layers = pTextureObject->layerCount;
-			initInfo.mipLevels = pTextureObject->mipLevels;
-			initInfo.sampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_1_BIT;
-			initInfo.imageFormat = pTextureObject->format;
-
-			pImage = (RImage*)StaticAllocator<VulkanImage>::rawAllocate();
-			pImage->initialize(pCoreObject, initInfo);
-
-			if (pImage->format != pTextureObject->format)
-			{
-				DMK_WARN("The specified texture format was not supported! The format was updated internally!");
-				pTextureObject->format = pImage->format;
-				pTextureObject->channels = 4;	/* TODO */
-			}
-
-			pTexture = pTextureObject;
-
-			VulkanBuffer staggingBuffer;
-			staggingBuffer.initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, pTextureObject->size() * pTextureObject->layerCount);
-			staggingBuffer.setData(pCoreObject, pTextureObject->size() * pTextureObject->layerCount, 0, pTextureObject->image);
-
-			pImage->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_TRANSFER_DST);
-			pImage->copyBuffer(pCoreObject, &staggingBuffer);
-
-			pImage->generateMipMaps(pCoreObject);
-
-			staggingBuffer.terminate(pCoreObject);
+			DMK_WARN("The specified texture format was not supported! The format was updated internally!");
+			pTextureObject->format = pImage->format;
+			pTextureObject->channels = 4;	/* TODO */
 		}
 
-		void VulkanTexture::createView(RCoreObject* pCoreObject, I32 mipLevel)
+		pTexture = pTextureObject;
+
+		VulkanBuffer staggingBuffer;
+		staggingBuffer.initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, pTextureObject->size() * pTextureObject->layerCount);
+		staggingBuffer.setData(pCoreObject, pTextureObject->size() * pTextureObject->layerCount, 0, pTextureObject->image);
+
+		pImage->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_TRANSFER_DST);
+		pImage->copyBuffer(pCoreObject, &staggingBuffer);
+
+		pImage->generateMipMaps(pCoreObject);
+
+		staggingBuffer.terminate(pCoreObject);
+	}
+
+	void VulkanTexture::createView(RCoreObject* pCoreObject, I32 mipLevel)
+	{
+		pImage->createImageView(pCoreObject, pTexture->swizzles);
+	}
+
+	void VulkanTexture::createSampler(RCoreObject* pCoreObject, RImageSamplerCreateInfo createInfo)
+	{
+		pSampler = (RImageSampler*)StaticAllocator<VulkanImageSampler>::rawAllocate();
+
+		createInfo.maxLOD = Cast<F32>(pImage->mipLevel);
+		pSampler->initialize(pCoreObject, createInfo);
+	}
+
+	void VulkanTexture::makeRenderable(RCoreObject* pCoreObject)
+	{
+		pImage->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY);
+	}
+
+	void VulkanTexture::terminate(RCoreObject* pCoreObject)
+	{
+		if (pImage)
 		{
-			pImage->createImageView(pCoreObject, pTexture->swizzles);
+			pImage->terminate(pCoreObject);
+			StaticAllocator<VulkanImage>::rawDeallocate(pImage);
 		}
 
-		void VulkanTexture::createSampler(RCoreObject* pCoreObject, RImageSamplerCreateInfo createInfo)
+		if (pSampler)
 		{
-			pSampler = (RImageSampler*)StaticAllocator<VulkanImageSampler>::rawAllocate();
-
-			createInfo.maxLOD = Cast<F32>(pImage->mipLevel);
-			pSampler->initialize(pCoreObject, createInfo);
+			pSampler->terminate(pCoreObject);
+			StaticAllocator<VulkanImageSampler>::rawDeallocate(pSampler);
 		}
+	}
 
-		void VulkanTexture::makeRenderable(RCoreObject* pCoreObject)
-		{
-			pImage->setLayout(pCoreObject, RImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY);
-		}
+	VulkanTexture::operator VulkanImage() const
+	{
+		return InheritCast<VulkanImage>(this->pImage);
+	}
 
-		void VulkanTexture::terminate(RCoreObject* pCoreObject)
-		{
-			if (pImage)
-			{
-				pImage->terminate(pCoreObject);
-				StaticAllocator<VulkanImage>::rawDeallocate(pImage);
-			}
+	VulkanTexture::operator VulkanImageView() const
+	{
+		return InheritCast<VulkanImageView>(this->pImage->pImageView);
+	}
 
-			if (pSampler)
-			{
-				pSampler->terminate(pCoreObject);
-				StaticAllocator<VulkanImageSampler>::rawDeallocate(pSampler);
-			}
-		}
-
-		VulkanTexture::operator VulkanImage() const
-		{
-			return InheritCast<VulkanImage>(this->pImage);
-		}
-
-		VulkanTexture::operator VulkanImageView() const
-		{
-			return InheritCast<VulkanImageView>(this->pImage->pImageView);
-		}
-
-		VulkanTexture::operator VulkanImageSampler() const
-		{
-			return InheritCast<VulkanImageSampler>(this->pSampler);
-		}
+	VulkanTexture::operator VulkanImageSampler() const
+	{
+		return InheritCast<VulkanImageSampler>(this->pSampler);
 	}
 }

@@ -6,30 +6,27 @@
 
 #include <chrono>
 
-namespace Dynamik
+void DMKTicker::setTickSize(DMKTickSize tickSize)
 {
-	void DMKTicker::setTickSize(DMKTickSize tickSize)
-	{
-		this->tickSize = tickSize;
-	}
+	this->tickSize = tickSize;
+}
 
-	DMKTickSize DMKTicker::getTickSize() const
-	{
-		return tickSize;
-	}
+DMKTickSize DMKTicker::getTickSize() const
+{
+	return tickSize;
+}
 
-	void DMKTicker::start()
-	{
-		startTime = Cast<D64>(std::chrono::high_resolution_clock::now().time_since_epoch().count());
-	}
+void DMKTicker::start()
+{
+	startTime = Cast<D64>(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+}
 
-	UI64 DMKTicker::getTicks()
-	{
-		return Cast<UI64>(std::chrono::high_resolution_clock::now().time_since_epoch().count()) - Cast<UI64>(startTime);
-	}
+UI64 DMKTicker::getTicks()
+{
+	return Cast<UI64>(std::chrono::high_resolution_clock::now().time_since_epoch().count()) - Cast<UI64>(startTime);
+}
 
-	void DMKTicker::end()
-	{
-		startTime = 0.0;
-	}
+void DMKTicker::end()
+{
+	startTime = 0.0;
 }

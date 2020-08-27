@@ -6,7 +6,6 @@
 #include "Services/RuntimeSystems/AssetRegistry.h"
 #include "Core/Math/MathFunctions.h"
 #include "Core/Utilities/ShaderFactory.h"
-using namespace Dynamik;
 
 void VenusModel::setCameraModule(DMKCameraModule* pCameraModule)
 {

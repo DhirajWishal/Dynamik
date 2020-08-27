@@ -12,43 +12,40 @@
 #include "../Types/DataTypes.h"
 #include "MessageBox.h"
 
-namespace Dynamik
-{
-	/*
-	 This is a functional class that has two basic ways of flagging errors to the user.
-	 * Message box.
-	 * Console logging.
-	*/
-	class DMK_API DMKErrorManager {
-	public:
-		/* Issue an information box to the user */
-		static UserOption issueInfoBox(STRING message);
+/*
+ This is a functional class that has two basic ways of flagging errors to the user.
+ * Message box.
+ * Console logging.
+*/
+class DMK_API DMKErrorManager {
+public:
+	/* Issue an information box to the user */
+	static UserOption issueInfoBox(STRING message);
 
-		/* Issue a warning box to the user */
-		static UserOption issueWarnBox(STRING message);
+	/* Issue a warning box to the user */
+	static UserOption issueWarnBox(STRING message);
 
-		/* Issue a question box to the user */
-		static UserOption issueQuestionBox(STRING message);
+	/* Issue a question box to the user */
+	static UserOption issueQuestionBox(STRING message);
 
-		/* Issue an error box to the user */
-		static UserOption issueErrorBox(STRING message);
+	/* Issue an error box to the user */
+	static UserOption issueErrorBox(STRING message);
 
-		/* Print an information log to the console */
-		static void logInfo(STRING message);
+	/* Print an information log to the console */
+	static void logInfo(STRING message);
 
-		/* Print a warning log to the console */
-		static void logWarn(STRING message);
+	/* Print a warning log to the console */
+	static void logWarn(STRING message);
 
-		/* Print an error log to the console */
-		static void logError(STRING message);
+	/* Print an error log to the console */
+	static void logError(STRING message);
 
-		/* Print a fatal error to the console. This by default results in a debug breakpoint*/
-		static void logFatal(STRING message, STRING file, UI32 line);
+	/* Print a fatal error to the console. This by default results in a debug breakpoint*/
+	static void logFatal(STRING message, STRING file, UI32 line);
 
-		/* Print a debug log to the console */
-		static void logDebug(STRING message);
-	};
-}
+	/* Print a debug log to the console */
+	static void logDebug(STRING message);
+};
 
 #ifdef DMK_DEBUG
 /* GLOBAL INIT LOG MACRO */
@@ -56,11 +53,11 @@ namespace Dynamik
 /* CLIENT LOG MACROS */
 #define DMK_FATAL_FORMAT()
 
-#define DMK_INFO(...)	::Dynamik::DMKErrorManager::logInfo(TEXT(##__VA_ARGS__))
-#define DMK_WARN(...)	::Dynamik::DMKErrorManager::logWarn(TEXT(##__VA_ARGS__))
-#define DMK_ERROR(...)	::Dynamik::DMKErrorManager::logError(TEXT(##__VA_ARGS__))
+#define DMK_INFO(...)	::DMKErrorManager::logInfo(TEXT(##__VA_ARGS__))
+#define DMK_WARN(...)	::DMKErrorManager::logWarn(TEXT(##__VA_ARGS__))
+#define DMK_ERROR(...)	::DMKErrorManager::logError(TEXT(##__VA_ARGS__))
 #define DMK_FATAL(...)	{																				\
-							::Dynamik::DMKErrorManager::logFatal(TEXT(##__VA_ARGS__), __FILE__, __LINE__);	\
+							::DMKErrorManager::logFatal(TEXT(##__VA_ARGS__), __FILE__, __LINE__);	\
 							__debugbreak();																\
 						}
 
@@ -75,7 +72,7 @@ namespace Dynamik
 									}
 
 #define DMK_ERROR_BOX(msg)	{																				\
-								::Dynamik::DMKErrorManager::issueErrorBox(TEXT(msg));					\
+								::DMKErrorManager::issueErrorBox(TEXT(msg));					\
 								__debugbreak();																\
 							}																				\
 

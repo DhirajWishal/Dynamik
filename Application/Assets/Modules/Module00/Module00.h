@@ -6,7 +6,6 @@
 #define _APPLICATION_MODULE_00_H
 
 #include "GameLibrary/GameModule.h"
-using namespace Dynamik;
 
 class Module00 final : public DMKGameModule {
 public:

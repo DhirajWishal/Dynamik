@@ -6,10 +6,7 @@
 
 #include "stb_image.h"
 
-namespace Dynamik
+void DMKTextureCube::clear()
 {
-	void DMKTextureCube::clear()
-	{
-		StaticAllocator<UCHR>::deallocate(image, size() * 6);
-	}
+	StaticAllocator<UCHR>::deallocate(image, size() * 6);
 }

@@ -9,48 +9,45 @@
 #include "Window/WindowHandle.h"
 #include "Events/EventPool.h"
 
-namespace Dynamik
-{
+/*
+ Main Dynamik Studio class
+*/
+class DMKStudio {
+public:
 	/*
-	 Main Dynamik Studio class
+	 Default constructor.
 	*/
-	class DMKStudio {
-	public:
-		/*
-		 Default constructor.
-		*/
-		DMKStudio();
+	DMKStudio();
 
-		/*
-		 Default destructor.
-		*/
-		~DMKStudio();
+	/*
+	 Default destructor.
+	*/
+	~DMKStudio();
 
-		/*
-		 Initialize the studio.
-		*/
-		void initialize();
+	/*
+	 Initialize the studio.
+	*/
+	void initialize();
 
-		/*
-		 Execute the studio.
-		*/
-		void execute();
+	/*
+	 Execute the studio.
+	*/
+	void execute();
 
-		/*
-		 Terminate the studio.
-		*/
-		void terminate();
+	/*
+	 Terminate the studio.
+	*/
+	void terminate();
 
-	private:
-		DMKImGuiWrapper imGuiWrapper;
-		DMKEventPool myEventPool;
-		DMKWindowHandle* pActiveWindow = nullptr;
+private:
+	DMKImGuiWrapper imGuiWrapper;
+	DMKEventPool myEventPool;
+	DMKWindowHandle* pActiveWindow = nullptr;
 
-	private:
-		void initializeRuntimeSystems();
+private:
+	void initializeRuntimeSystems();
 
-		DMKWindowHandle* createWindowHandle(I32 width, I32 height, STRING title);
-	};
-}
+	DMKWindowHandle* createWindowHandle(I32 width, I32 height, STRING title);
+};
 
 #endif // !_DYNAMIK_STUDIO_H

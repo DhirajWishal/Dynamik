@@ -5,14 +5,11 @@
 #ifndef _DYNAMIK_ENTITY_FACTORY_H
 #define _DYNAMIK_ENTITY_FACTORY_H
 
-#include "../GameEntity.h"
+#include "Core/Macros/Global.h"
 
-namespace Dynamik
-{
-	class DMK_API DMKEntityFactory {
-	public:
+class DMK_API DMKEntityFactory {
+public:
 
-	};
-}
+};
 
 #endif // !_DYNAMIK_ENTITY_FACTORY_H

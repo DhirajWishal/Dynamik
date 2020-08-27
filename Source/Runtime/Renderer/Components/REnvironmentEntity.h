@@ -12,34 +12,31 @@
 #include "Lighting/RIrradianceCube.h"
 #include "GameLibrary/Entities/EnvironmentEntity.h"
 
-namespace Dynamik
-{
-	class DMK_API DMKEnvironmentEntity;
+class DMK_API DMKEnvironmentEntity;
 
-	/*
-	 Renderer Environment Map
-	 This object contains all the necessary information needed to render the environment map provided by
-	 the client application. 
-	*/
-	class DMK_API REnvironmentEntity {
-	public:
-		REnvironmentEntity() = default;
-		virtual ~REnvironmentEntity() = default;
+/*
+ Renderer Environment Map
+ This object contains all the necessary information needed to render the environment map provided by
+ the client application.
+*/
+class DMK_API REnvironmentEntity {
+public:
+	REnvironmentEntity() = default;
+	virtual ~REnvironmentEntity() = default;
 
-	public:		/* Render data */
-		REntity renderEntity = {};
+public:		/* Render data */
+	REntity renderEntity = {};
 
-	public:		/* Resource Data */
-		RTexture* pTexture = nullptr;
-		ARRAY<RUniformContainer> uniformBuffers;
+public:		/* Resource Data */
+	RTexture* pTexture = nullptr;
+	ARRAY<RUniformContainer> uniformBuffers;
 
-		RBRDFTable* pBRDFTable = nullptr;
-		RPreFilteredCube* pPreFilteredCube = nullptr;
-		RIrradianceCube* pIrradianceCube = nullptr;
+	RBRDFTable* pBRDFTable = nullptr;
+	RPreFilteredCube* pPreFilteredCube = nullptr;
+	RIrradianceCube* pIrradianceCube = nullptr;
 
-	public:		/* Parent Mesh Component*/
-		DMKEnvironmentEntity* pParentEntity = nullptr;
-	};
-}
+public:		/* Parent Mesh Component*/
+	DMKEnvironmentEntity* pParentEntity = nullptr;
+};
 
 #endif // !_DYNAMIK_RENDERER_ENVIRONMENT_MAP_H

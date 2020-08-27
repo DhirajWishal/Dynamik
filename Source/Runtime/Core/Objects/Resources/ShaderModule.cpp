@@ -6,66 +6,63 @@
 
 #include <fstream>
 
-namespace Dynamik
+DMKShaderModule::DMKShaderModule(const STRING& path, const DMKShaderLocation& sLocation, const DMKShaderCodeType& sType)
+	: location(sLocation), codeType(sType)
 {
-	DMKShaderModule::DMKShaderModule(const STRING& path, const DMKShaderLocation& sLocation, const DMKShaderCodeType& sType)
-		: location(sLocation), codeType(sType) 
-	{
-		loadCode(path);
-	}
-	
-	void DMKShaderModule::loadCode(const STRING& path)
-	{
-		std::ifstream file(path, std::ios::ate | std::ios::binary);
+	loadCode(path);
+}
 
-		if (!file.is_open())
-			DMK_ERROR_BOX("Failed to load the specified shader at location (" + path + ")!");
+void DMKShaderModule::loadCode(const STRING& path)
+{
+	std::ifstream file(path, std::ios::ate | std::ios::binary);
 
-		I64 fileSize = (I64)file.tellg();
-		shaderCode.resize(fileSize);
-		file.seekg(0);
-		file.read((CPTR)shaderCode.data(), fileSize);
+	if (!file.is_open())
+		DMK_ERROR_BOX("Failed to load the specified shader at location (" + path + ")!");
 
-		file.close();
-	}
+	I64 fileSize = (I64)file.tellg();
+	shaderCode.resize(fileSize);
+	file.seekg(0);
+	file.read((CPTR)shaderCode.data(), fileSize);
 
-	void DMKShaderModule::setLocation(const DMKShaderLocation& location)
-	{
-		this->location = location;
-	}
+	file.close();
+}
 
-	void DMKShaderModule::addUniform(const DMKUniformBuffer& uniform)
-	{
-		uniforms.pushBack(uniform);
-	}
+void DMKShaderModule::setLocation(const DMKShaderLocation& location)
+{
+	this->location = location;
+}
 
-	DMKUniformBuffer& DMKShaderModule::getUniform(I64 index)
-	{
-		return uniforms[index];
-	}
+void DMKShaderModule::addUniform(const DMKUniformBuffer& uniform)
+{
+	uniforms.pushBack(uniform);
+}
 
-	ARRAY<DMKUniformBuffer>& DMKShaderModule::getUniforms()
-	{
-		return uniforms;
-	}
+DMKUniformBuffer& DMKShaderModule::getUniform(I64 index)
+{
+	return uniforms[index];
+}
 
-	void DMKShaderModule::addInputAttribute(const DMKShaderInputAttribute& attribute)
-	{
-		inputAttributes.pushBack(attribute);
-	}
+ARRAY<DMKUniformBuffer>& DMKShaderModule::getUniforms()
+{
+	return uniforms;
+}
 
-	void DMKShaderModule::setInputAttributes(ARRAY<DMKShaderInputAttribute> attributes)
-	{
-		this->inputAttributes = attributes;
-	}
+void DMKShaderModule::addInputAttribute(const DMKShaderInputAttribute& attribute)
+{
+	inputAttributes.pushBack(attribute);
+}
 
-	DMKShaderInputAttribute DMKShaderModule::getAttribute(I64 index) const
-	{
-		return inputAttributes[index];
-	}
+void DMKShaderModule::setInputAttributes(ARRAY<DMKShaderInputAttribute> attributes)
+{
+	this->inputAttributes = attributes;
+}
 
-	ARRAY<DMKShaderInputAttribute>& DMKShaderModule::getAttributes()
-	{
-		return inputAttributes;
-	}
+DMKShaderInputAttribute DMKShaderModule::getAttribute(I64 index) const
+{
+	return inputAttributes[index];
+}
+
+ARRAY<DMKShaderInputAttribute>& DMKShaderModule::getAttributes()
+{
+	return inputAttributes;
 }

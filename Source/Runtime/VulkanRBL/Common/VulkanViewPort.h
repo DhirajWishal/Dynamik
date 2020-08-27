@@ -8,26 +8,23 @@
 #include "VulkanSurface.h"
 #include "Window/WindowHandle.h"
 
-namespace Dynamik
+namespace Backend
 {
-	namespace Backend
-	{
-		class DMK_API VulkanSurface;
+	class DMK_API VulkanSurface;
 
-		/*
-		 Vulkan Viewport class
-		*/
-		class DMK_API VulkanViewport : public DMKViewport {
-		public:
-			VulkanViewport() {}
-			~VulkanViewport() {}
+	/*
+	 Vulkan Viewport class
+	*/
+	class DMK_API VulkanViewport : public DMKViewport {
+	public:
+		VulkanViewport() {}
+		~VulkanViewport() {}
 
-			void initialize();
+		void initialize();
 
-			VulkanSurface* surfacePtr;
-			VkViewport vkViewport = {};
-		};
-	}
+		VulkanSurface* surfacePtr;
+		VkViewport vkViewport = {};
+	};
 }
 
 #endif // !_DYNAMIK_VULKAN_VIEWPORT_H

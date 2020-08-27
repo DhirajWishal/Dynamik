@@ -7,87 +7,84 @@
 
 #include "Core/FileSystem/FileSystem.h"
 
-namespace Dynamik
-{
+/*
+ Dynamik Asset Registry
+ This singleton contains all the runtime assets of the engine. Clients are allowed to import and store
+ their own assets to this.
+
+ Default registry path is
+	 $(SolutionDir)Source/Assets
+
+ Asset naming convention:
+   "TYPE_SUBTYPE_USAGE1_USAGE2_..._EXTENSION"
+   eg:
+	 "SHADER_3D_VERT_SPV"
+*/
+class DMKAssetRegistry {
+	DMKAssetRegistry() {}
+	~DMKAssetRegistry() {}
+
+	static DMKAssetRegistry instance;
+public:
+	DMKAssetRegistry(const DMKAssetRegistry&) = delete;
+	DMKAssetRegistry(DMKAssetRegistry&&) = delete;
+	DMKAssetRegistry& operator=(const DMKAssetRegistry&) = delete;
+	DMKAssetRegistry& operator=(DMKAssetRegistry&&) = delete;
+
 	/*
-	 Dynamik Asset Registry
-	 This singleton contains all the runtime assets of the engine. Clients are allowed to import and store
-	 their own assets to this.
+	 This function is handled by the engine!
+	 Set the base path of the engine asset files. These files are provided with the engine and are used
+	 by the engine runtime.
 
-	 Default registry path is
-	     $(SolutionDir)Source/Assets
-
-	 Asset naming convention:
-	   "TYPE_SUBTYPE_USAGE1_USAGE2_..._EXTENSION"
-	   eg:
-	     "SHADER_3D_VERT_SPV"
+	 @param path: Asset base path.
 	*/
-	class DMKAssetRegistry {
-		DMKAssetRegistry() {}
-		~DMKAssetRegistry() {}
+	static void setDefaultAssetBasePath(const STRING& path);
 
-		static DMKAssetRegistry instance;
-	public:
-		DMKAssetRegistry(const DMKAssetRegistry&) = delete;
-		DMKAssetRegistry(DMKAssetRegistry&&) = delete;
-		DMKAssetRegistry& operator=(const DMKAssetRegistry&) = delete;
-		DMKAssetRegistry& operator=(DMKAssetRegistry&&) = delete;
+	/*
+	 Get the default asset base path.
+	*/
+	static STRING getDefaultAssetBasePath();
 
-		/*
-		 This function is handled by the engine!
-		 Set the base path of the engine asset files. These files are provided with the engine and are used
-		 by the engine runtime.
+	/*
+	 Initialize the default assets.
 
-		 @param path: Asset base path.
-		*/
-		static void setDefaultAssetBasePath(const STRING& path);
+	 @warn: This function must be called after setting the default asset base path.
+	*/
+	static void initializeDefaultAssets();
 
-		/*
-		 Get the default asset base path.
-		*/
-		static STRING getDefaultAssetBasePath();
+	/*
+	 Get an asset by its name.
 
-		/*
-		 Initialize the default assets.
+	 @param assetName: Name of the asset.
+	*/
+	static STRING getAsset(const STRING& assetName);
 
-		 @warn: This function must be called after setting the default asset base path.
-		*/
-		static void initializeDefaultAssets();
+	/*
+	 Add an asset to the registry.
 
-		/*
-		 Get an asset by its name.
+	 @param assetName: Name of the asset.
+	 @param assetPath: Path of the asset.
+	*/
+	static void addAsset(const STRING& assetName, const STRING& assetPath);
 
-		 @param assetName: Name of the asset.
-		*/
-		static STRING getAsset(const STRING& assetName);
+	/*
+	 Get the number of registered assets in the registry.
+	*/
+	static UI64 getNumberOfRegisteredAssets();
 
-		/*
-		 Add an asset to the registry.
+	/*
+	 Get all the registered asset names.
+	*/
+	static ARRAY<STRING> getAllRegisteredAssetNames();
 
-		 @param assetName: Name of the asset.
-		 @param assetPath: Path of the asset.
-		*/
-		static void addAsset(const STRING& assetName, const STRING& assetPath);
+	/*
+	 Get the asset map of the registry.
+	*/
+	static std::unordered_map<STRING, STRING> getAssetMap();
 
-		/*
-		 Get the number of registered assets in the registry.
-		*/
-		static UI64 getNumberOfRegisteredAssets();
-
-		/*
-		 Get all the registered asset names.
-		*/
-		static ARRAY<STRING> getAllRegisteredAssetNames();
-
-		/*
-		 Get the asset map of the registry.
-		*/
-		static std::unordered_map<STRING, STRING> getAssetMap();
-
-	private:
-		std::unordered_map<STRING, STRING> assetMap;
-		STRING defaultAssetBasePath = TEXT("");
-	};
-}
+private:
+	std::unordered_map<STRING, STRING> assetMap;
+	STRING defaultAssetBasePath = TEXT("");
+};
 
 #endif // !_DYNAMIK_ASSET_REGISTRY_H

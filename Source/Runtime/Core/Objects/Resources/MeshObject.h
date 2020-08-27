@@ -10,121 +10,118 @@
 #include "VertexBuffer.h"
 #include "UniformBuffer.h"
 
-namespace Dynamik
-{
+/*
+ Dynamik Mesh Object
+ This object stores data of a single mesh.
+*/
+class DMK_API DMKMeshObject {
+public:
+	DMKMeshObject() = default;
+	~DMKMeshObject() = default;
+
+public:
 	/*
-	 Dynamik Mesh Object
-	 This object stores data of a single mesh.
+	 Set the name of the mesh object.
+
+	 @param name: The name of the mesh.
 	*/
-	class DMK_API DMKMeshObject {
-	public:
-		DMKMeshObject() = default;
-		~DMKMeshObject() = default;
+	void setName(const STRING& name);
 
-	public:
-		/*
-		 Set the name of the mesh object.
+	/*
+	 Get the name of the mesh object.
+	*/
+	const STRING& getName() const;
 
-		 @param name: The name of the mesh.
-		*/
-		void setName(const STRING& name);
+	/* The name of the mesh object. */
+	STRING name = TEXT("");
 
-		/*
-		 Get the name of the mesh object.
-		*/
-		const STRING& getName() const;
+public:
+	/*
+	 Unload/ clear all the data stored in the vertex and index buffers. This helps in reducing memory usage.
+	 This function must be called after submitting all the required data to the GPU.
+	*/
+	void clearVertexAndIndexBuffers();
 
-		/* The name of the mesh object. */
-		STRING name = TEXT("");
+	/*
+	 Load vertex data from an address.
+	 This method will only work if the vertex buffer is already initialized with the right allocation. This method
+	 is used to load data back from the GPU.
 
-	public:
-		/*
-		 Unload/ clear all the data stored in the vertex and index buffers. This helps in reducing memory usage.
-		 This function must be called after submitting all the required data to the GPU.
-		*/
-		void clearVertexAndIndexBuffers();
+	 @param address: The address of the data block.
+	*/
+	void loadVertexDataFromPointer(const VPTR address);
 
-		/*
-		 Load vertex data from an address.
-		 This method will only work if the vertex buffer is already initialized with the right allocation. This method
-		 is used to load data back from the GPU.
+	/*
+	 Load index data from an address.
+	 This method will only work if the index buffer is already initialized with the right allocation. This method
+	 is used to load data back from the GPU.
 
-		 @param address: The address of the data block.
-		*/
-		void loadVertexDataFromPointer(const VPTR address);
+	 @param address: The address of the data block.
+	*/
+	void loadIndexDataFromPointer(const VPTR address);
 
-		/*
-		 Load index data from an address.
-		 This method will only work if the index buffer is already initialized with the right allocation. This method
-		 is used to load data back from the GPU.
+public:
+	/*
+	 Set a the vertex buffer of the current mesh object.
 
-		 @param address: The address of the data block.
-		*/
-		void loadIndexDataFromPointer(const VPTR address);
+	 @param vertexBuffer: The vertex buffer to be set.
+	*/
+	void setVertexBuffer(const DMKVertexBuffer& vertexBuffer);
 
-	public:
-		/*
-		 Set a the vertex buffer of the current mesh object.
+	/*
+	 Set the vertex layout of the current vertex buffer.
+	 A vertex layout needs to be set before loading data to the vertex buffer.
 
-		 @param vertexBuffer: The vertex buffer to be set.
-		*/
-		void setVertexBuffer(const DMKVertexBuffer& vertexBuffer);
+	 @param layout: The vertex layout.
+	*/
+	void setVertexLayout(const DMKVertexLayout& layout);
 
-		/*
-		 Set the vertex layout of the current vertex buffer.
-		 A vertex layout needs to be set before loading data to the vertex buffer.
+	/*
+	 Get the vertex buffer stored in the current mesh object.
+	*/
+	DMKVertexBuffer& getVertexBuffer();
 
-		 @param layout: The vertex layout.
-		*/
-		void setVertexLayout(const DMKVertexLayout& layout);
+	/* Vertex Buffer */
+	DMKVertexBuffer vertexBuffer = {};
 
-		/*
-		 Get the vertex buffer stored in the current mesh object.
-		*/
-		DMKVertexBuffer& getVertexBuffer();
+public:
+	/*
+	 Set an index buffer to the mesh object.
 
-		/* Vertex Buffer */
-		DMKVertexBuffer vertexBuffer = {};
+	 @param indexBuffer: The index buffer to be set.
+	*/
+	void setIndexBuffer(const DMKIndexBuffer& indexBuffer);
 
-	public:
-		/*
-		 Set an index buffer to the mesh object.
+	/*
+	 Add an index to the index buffer.
 
-		 @param indexBuffer: The index buffer to be set.
-		*/
-		void setIndexBuffer(const DMKIndexBuffer& indexBuffer);
+	 @param index: The index to be added.
+	*/
+	void addIndex(const UI32& index);
 
-		/*
-		 Add an index to the index buffer.
+	/*
+	 Get the current index buffer.
+	*/
+	DMKIndexBuffer& getIndexBuffer();
 
-		 @param index: The index to be added.
-		*/
-		void addIndex(const UI32& index);
+	/* Index Buffer */
+	DMKIndexBuffer indexBuffer = {};
 
-		/*
-		 Get the current index buffer.
-		*/
-		DMKIndexBuffer& getIndexBuffer();
+public:
+	/*
+	 Set a material to the current mesh object.
 
-		/* Index Buffer */
-		DMKIndexBuffer indexBuffer = {};
+	 @param material: The material to be set.
+	*/
+	void setMaterial(const DMKMaterial& material);
 
-	public:
-		/*
-		 Set a material to the current mesh object.
+	/*
+	 Get the current material.
+	*/
+	DMKMaterial& getMaterial();
 
-		 @param material: The material to be set.
-		*/
-		void setMaterial(const DMKMaterial & material);
-
-		/*
-		 Get the current material.
-		*/
-		DMKMaterial& getMaterial();
-
-		/* Material */
-		DMKMaterial material = {};
-	};
-}
+	/* Material */
+	DMKMaterial material = {};
+};
 
 #endif // !_DYNAMIK_MESH_OBJECT_H

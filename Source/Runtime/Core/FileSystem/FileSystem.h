@@ -7,34 +7,31 @@
 
 #include "Core/Types/DataTypes.h"
 
-namespace Dynamik
-{
-	/*
-	 File System based functions for the Dynamik Engine
-	*/
-	class DMK_API DMKFileSystem {
-		DMKFileSystem() = default;
-		~DMKFileSystem() = default;
+/*
+ File System based functions for the Dynamik Engine
+*/
+class DMK_API DMKFileSystem {
+	DMKFileSystem() = default;
+	~DMKFileSystem() = default;
 
-		static DMKFileSystem instance;
+	static DMKFileSystem instance;
 
-	public:
-		DMKFileSystem(const DMKFileSystem&) = delete;
-		DMKFileSystem(DMKFileSystem&&) = delete;
-		DMKFileSystem& operator=(const DMKFileSystem&) = delete;
-		DMKFileSystem& operator=(DMKFileSystem&&) = delete;
+public:
+	DMKFileSystem(const DMKFileSystem&) = delete;
+	DMKFileSystem(DMKFileSystem&&) = delete;
+	DMKFileSystem& operator=(const DMKFileSystem&) = delete;
+	DMKFileSystem& operator=(DMKFileSystem&&) = delete;
 
-	public:
-		/* Get the path of the executable */
-		static STRING getExecutablePath();
+public:
+	/* Get the path of the executable */
+	static STRING getExecutablePath();
 
-		/* Get the current working directory */
-		static STRING getWorkingDirectory();
+	/* Get the current working directory */
+	static STRING getWorkingDirectory();
 
-	private:
-		STRING myExecutablePath = TEXT("");
-		STRING myWorkingDirectory = TEXT("");
-	};
-}
+private:
+	STRING myExecutablePath = TEXT("");
+	STRING myWorkingDirectory = TEXT("");
+};
 
 #endif // !_DYNAMIK_FILE_SYSTEM_H

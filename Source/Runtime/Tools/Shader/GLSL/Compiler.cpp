@@ -9,55 +9,52 @@
 #include <sstream>
 #include <Windows.h>
 
-namespace Dynamik
+namespace Tools
 {
-	namespace Tools
+	DMKShaderModule GLSLCompiler::getSPIRV(const STRING& file, DMKShaderLocation location)
 	{
-		DMKShaderModule GLSLCompiler::getSPIRV(const STRING& file, DMKShaderLocation location)
+		std::stringstream stream;
+
+		STRING fileCommand = "\"";
+		fileCommand.append(file);
+		fileCommand.append("\"");
+
+		STRING outputCommand = "\"";
+		outputCommand.append(file + ".spv\"");
+
+		stream << " -V " << fileCommand << " -o " << outputCommand;
+
+		/* Create the process */
 		{
-			std::stringstream stream;
+			STARTUPINFOA si;
+			PROCESS_INFORMATION pi;
 
-			STRING fileCommand = "\"";
-			fileCommand.append(file);
-			fileCommand.append("\"");
+			ZeroMemory(&si, sizeof(si));
+			si.cb = sizeof(si);
+			ZeroMemory(&pi, sizeof(pi));
 
-			STRING outputCommand = "\"";
-			outputCommand.append(file + ".spv\"");
+			// start the program up
+			auto check = CreateProcessA
+			(
+				DMKToolsRegistry::getTool("GLSL_VALIDATOR_EXE").c_str(),
+				(CPTR)stream.str().c_str(),
+				NULL,
+				NULL,
+				FALSE,
+				NULL,
+				NULL,
+				NULL,
+				&si,
+				&pi
+			);
 
-			stream << " -V " << fileCommand << " -o " << outputCommand;
+			CloseHandle(pi.hProcess);
+			CloseHandle(pi.hThread);
 
-			/* Create the process */
-			{
-				STARTUPINFOA si;
-				PROCESS_INFORMATION pi;
-
-				ZeroMemory(&si, sizeof(si));
-				si.cb = sizeof(si);
-				ZeroMemory(&pi, sizeof(pi));
-
-				// start the program up
-				auto check = CreateProcessA
-				(
-					DMKToolsRegistry::getTool("GLSL_VALIDATOR_EXE").c_str(),
-					(CPTR)stream.str().c_str(),
-					NULL,
-					NULL,
-					FALSE,
-					NULL,
-					NULL,
-					NULL,
-					&si,
-					&pi
-				);
-
-				CloseHandle(pi.hProcess);
-				CloseHandle(pi.hThread);
-
-				/* Wait for a second till the shader is compiled. */
-				Sleep(500);
-			}
-
-			return DMKShaderFactory::createModule(file + STRING(".spv"), location, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
+			/* Wait for a second till the shader is compiled. */
+			Sleep(500);
 		}
+
+		return DMKShaderFactory::createModule(file + STRING(".spv"), location, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
 	}
 }

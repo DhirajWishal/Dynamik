@@ -1,45 +1,45 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "dmkafx.h"
 #include "PipelineFactory.h"
 
-namespace Dynamik
+void DMKPipelineFactory::setDefaults(DMKRenderingAPI api, RCoreObject* pCoreObject)
 {
-	void DMKPipelineFactory::setDefaults(DMKRenderingAPI api, RCoreObject* pCoreObject)
+	myRenderingAPI = api;
+	myCoreObject = pCoreObject;
+}
+
+RPipelineObject* DMKPipelineFactory::createGraphicsPipeline(RPipelineSpecification createInfo)
+{
+	switch (myRenderingAPI)
 	{
-		myRenderingAPI = api;
-		myCoreObject = pCoreObject;
+	case DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
+		break;
+	case DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
+		break;
+	case DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
+		break;
+	default:
+		break;
 	}
 
-	RPipelineObject* DMKPipelineFactory::createGraphicsPipeline(RPipelineSpecification createInfo)
-	{
-		switch (myRenderingAPI)
-		{
-		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
-			break;
-		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
-			break;
-		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
-			break;
-		default:
-			break;
-		}
+	return nullptr;
+}
 
-		return nullptr;
+RPipelineObject* DMKPipelineFactory::createComputePipeline(RPipelineSpecification createInfo)
+{
+	switch (myRenderingAPI)
+	{
+	case DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
+		break;
+	case DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
+		break;
+	case DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
+		break;
+	default:
+		break;
 	}
 
-	RPipelineObject* DMKPipelineFactory::createComputePipeline(RPipelineSpecification createInfo)
-	{
-		switch (myRenderingAPI)
-		{
-		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
-			break;
-		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
-			break;
-		case Dynamik::DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
-			break;
-		default:
-			break;
-		}
-		
-		return nullptr;
-	}
+	return nullptr;
 }

@@ -7,21 +7,18 @@
 
 #include "GameLibrary/Entities/AnimatedModelEntity.h"
 
-namespace Dynamik
-{
-	/*
-	 Dynamik Animation Importer
-	*/
-	class DMK_API DMKAnimationImporter {
-	public:
-		DMKAnimationImporter() {}
-		~DMKAnimationImporter() {}
+/*
+ Dynamik Animation Importer
+*/
+class DMK_API DMKAnimationImporter {
+public:
+	DMKAnimationImporter() {}
+	~DMKAnimationImporter() {}
 
-		/*
-		 Load animation from an asset file.
-		*/
-		static DMKAnimatedModelEntity loadAnimation(const STRING& path);
-	};
-}
+	/*
+	 Load animation from an asset file.
+	*/
+	static DMKAnimatedModelEntity loadAnimation(const STRING& path);
+};
 
 #endif // !_DYNAMIK_ANIMATION_IMPORTER_H

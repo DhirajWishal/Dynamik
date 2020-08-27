@@ -9,19 +9,16 @@
 
 #define MAX_FRAMES_IN_FLIGHT 2
 
-namespace Dynamik
+namespace Backend
 {
-    namespace Backend 
-	{
-		static B1 pushDescriptorsSupported = false;
-		static B1 checkpointsSupported = false;
-		static B1 meshShadingSupported = false;
+	static B1 pushDescriptorsSupported = false;
+	static B1 checkpointsSupported = false;
+	static B1 meshShadingSupported = false;
 
-		inline B1 VSYNC = true;
+	inline B1 VSYNC = true;
 
-		//#define USE_SHADER_TESSELLATION
-		//#define USE_SHADER_GEOMETRY
-    }
+	//#define USE_SHADER_TESSELLATION
+	//#define USE_SHADER_GEOMETRY
 }
 
 #endif // !_DYNAMIK_VULKAN_CONTROL_HEADER_H

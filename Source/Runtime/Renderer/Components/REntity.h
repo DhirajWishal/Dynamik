@@ -7,25 +7,22 @@
 
 #include "RMeshObject.h"
 
-namespace Dynamik
-{
-	/*
-	 Renderer Entity
-	*/
-	class DMK_API REntity {
-	public:
-		REntity() = default;
-		virtual ~REntity() = default;
+/*
+ Renderer Entity
+*/
+class DMK_API REntity {
+public:
+	REntity() = default;
+	virtual ~REntity() = default;
 
-		ARRAY<RMeshObject> meshObjects;
-		ARRAY<RUniformContainer> uniformContainers;
-		VPTR pipelineCache = nullptr;
+	ARRAY<RMeshObject> meshObjects;
+	ARRAY<RUniformContainer> uniformContainers;
+	VPTR pipelineCache = nullptr;
 
-		/* TODO */
-		RPipelineObject* pPipelineObject = nullptr;
-		RBuffer* pVertexBuffer = nullptr;
-		RBuffer* pIndexBuffer = nullptr;
-	};
-}
+	/* TODO */
+	RPipelineObject* pPipelineObject = nullptr;
+	RBuffer* pVertexBuffer = nullptr;
+	RBuffer* pIndexBuffer = nullptr;
+};
 
 #endif // !_DYNAMIK_RENDERER_ENTITY_H

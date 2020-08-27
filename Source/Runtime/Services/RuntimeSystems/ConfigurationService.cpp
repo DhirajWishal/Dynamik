@@ -4,70 +4,67 @@
 #include "dmkafx.h"
 #include "ConfigurationService.h"
 
-namespace Dynamik
+DMKConfigurationService DMKConfigurationService::instance;
+
+DMKConfigurationService::DMKConfigurationService()
 {
-	DMKConfigurationService DMKConfigurationService::instance;
+	pFile = StaticAllocator<std::fstream>::rawAllocate();
+}
 
-	DMKConfigurationService::DMKConfigurationService()
+DMKConfigurationService::~DMKConfigurationService()
+{
+	StaticAllocator<std::fstream>::rawDeallocate(pFile);
+}
+
+void DMKConfigurationService::openConfigFile(const STRING& path)
+{
+	instance.path = path;
+	instance.pFile->open(path);
+
+	if (!instance.pFile->is_open())
 	{
-		pFile = StaticAllocator<std::fstream>::rawAllocate();
+		DMK_WARN("The Engine Configuration file at location (" + path + ") does not exist. Creating a new file!");
+
+		std::ofstream _newFile(path);
+		_newFile << "VERSION: " << DMK_ENGINE_VERSION << "\n";
+		_newFile.close();
 	}
 
-	DMKConfigurationService::~DMKConfigurationService()
+	instance.pFile->open(path);
+}
+
+void DMKConfigurationService::closeConfigFile()
+{
+	instance.pFile->close();
+}
+
+void DMKConfigurationService::writeMessage(const STRING& message)
+{
+	*instance.pFile << message;
+}
+
+void DMKConfigurationService::writeEntry(const Token& token, const STRING& message)
+{
+	writeMessage(instance._getTokenString(token) + message);
+}
+
+void DMKConfigurationService::writeWindowSize(F32 width, F32 height)
+{
+	writeEntry(Token::TOKEN_WINDOW_SIZE, std::to_string(width) + " " + std::to_string(height));
+}
+
+STRING DMKConfigurationService::_getTokenString(Token token)
+{
+	switch (token)
 	{
-		StaticAllocator<std::fstream>::rawDeallocate(pFile);
+	case DMKConfigurationService::Token::TOKEN_VERSION:
+		return "VERSION: ";
+	case DMKConfigurationService::Token::TOKEN_WINDOW_SIZE:
+		return "WINDOW_SIZE: ";
+	default:
+		DMK_ERROR("Invalid Configuration Token!");
+		break;
 	}
 
-	void DMKConfigurationService::openConfigFile(const STRING& path)
-	{
-		instance.path = path;
-		instance.pFile->open(path);
-
-		if (!instance.pFile->is_open())
-		{
-			DMK_WARN("The Engine Configuration file at location (" + path + ") does not exist. Creating a new file!");
-
-			std::ofstream _newFile(path);
-			_newFile << "VERSION: " << DMK_ENGINE_VERSION << "\n";
-			_newFile.close();
-		}
-
-		instance.pFile->open(path);
-	}
-
-	void DMKConfigurationService::closeConfigFile()
-	{
-		instance.pFile->close();
-	}
-
-	void DMKConfigurationService::writeMessage(const STRING& message)
-	{
-		*instance.pFile << message;
-	}
-
-	void DMKConfigurationService::writeEntry(const Token& token, const STRING& message)
-	{
-		writeMessage(instance._getTokenString(token) + message);
-	}
-
-	void DMKConfigurationService::writeWindowSize(F32 width, F32 height)
-	{
-		writeEntry(Token::TOKEN_WINDOW_SIZE, std::to_string(width) + " " + std::to_string(height));
-	}
-
-	STRING DMKConfigurationService::_getTokenString(Token token)
-	{
-		switch (token)
-		{
-		case Dynamik::DMKConfigurationService::Token::TOKEN_VERSION:
-			return "VERSION: ";
-		case Dynamik::DMKConfigurationService::Token::TOKEN_WINDOW_SIZE:
-			return "WINDOW_SIZE: ";
-		default:
-			DMK_ERROR("Invalid Configuration Token!");
-			break;
-		}
-
-		return STRING();
-	}
+	return STRING();
 }

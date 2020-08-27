@@ -10,42 +10,39 @@
 #include <functional>
 #include <unordered_map>
 
-namespace Dynamik
-{
-	/* Dynamik Animation Control Instruction */
-	enum class DMK_API DMKAnimationControlInstruction {
-		DMK_ANIMATION_CONTROL_INSTRUCTION_PLAY,
-		DMK_ANIMATION_CONTROL_INSTRUCTION_PAUSE,
-		DMK_ANIMATION_CONTROL_INSTRUCTION_REPEAT,
-		DMK_ANIMATION_CONTROL_INSTRUCTION_RESTART,
+/* Dynamik Animation Control Instruction */
+enum class DMK_API DMKAnimationControlInstruction {
+	DMK_ANIMATION_CONTROL_INSTRUCTION_PLAY,
+	DMK_ANIMATION_CONTROL_INSTRUCTION_PAUSE,
+	DMK_ANIMATION_CONTROL_INSTRUCTION_REPEAT,
+	DMK_ANIMATION_CONTROL_INSTRUCTION_RESTART,
+};
+
+/*
+ Dynamik Animation Controller
+*/
+class DMK_API DMKAnimationController {
+	using TFunc = std::function<void()>;
+
+	/* Animation Control Instruction */
+	struct DMK_API AnimationControlInstruction {
+		// DMKAnimationComponent component;
+		DMKAnimationControlInstruction instruction = DMKAnimationControlInstruction::DMK_ANIMATION_CONTROL_INSTRUCTION_PAUSE;
+		TFunc pfInvoke;
 	};
 
-	/*
-	 Dynamik Animation Controller
-	*/
-	class DMK_API DMKAnimationController {
-		using TFunc = std::function<void()>;
+public:
+	DMKAnimationController() {}
+	~DMKAnimationController() {}
 
-		/* Animation Control Instruction */
-		struct DMK_API AnimationControlInstruction {
-			// DMKAnimationComponent component;
-			DMKAnimationControlInstruction instruction = DMKAnimationControlInstruction::DMK_ANIMATION_CONTROL_INSTRUCTION_PAUSE;
-			TFunc pfInvoke;
-		};
+	void initialize();
+	void update();
 
-	public:
-		DMKAnimationController() {}
-		~DMKAnimationController() {}
+	void bindInstruction(STRING sEvent, DMKAnimationControlInstruction instruction, DMKGameModule* pGameModule, DMKEventType eventType);
 
-		void initialize();
-		void update();
-
-		void bindInstruction(STRING sEvent, DMKAnimationControlInstruction instruction, DMKGameModule* pGameModule, DMKEventType eventType);
-
-	private:
-		std::unordered_map<STRING, AnimationControlInstruction> instructionMap;
-		ARRAY<STRING> eventList;
-	};
-}
+private:
+	std::unordered_map<STRING, AnimationControlInstruction> instructionMap;
+	ARRAY<STRING> eventList;
+};
 
 #endif // !_DYNAMIK_ANIMATION_CONTROLLER_H

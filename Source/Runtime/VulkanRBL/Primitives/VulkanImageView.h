@@ -7,26 +7,23 @@
 
 #include "VulkanImage.h"
 
-namespace Dynamik
+namespace Backend
 {
-	namespace Backend
-	{
-		/*
-		 Vulkan Image View object for the Dynamik RBL
-		*/
-		class DMK_API VulkanImageView : public RImageView {
-		public:
-			VulkanImageView() {}
-			~VulkanImageView() {}
+	/*
+	 Vulkan Image View object for the Dynamik RBL
+	*/
+	class DMK_API VulkanImageView : public RImageView {
+	public:
+		VulkanImageView() {}
+		~VulkanImageView() {}
 
-			virtual void initialize(RCoreObject* pCoreObject, RImage* pImage, DMKTexture::TextureSwizzles swizzles) override final;
-			virtual void terminate(RCoreObject* pCoreObject) override final;
+		virtual void initialize(RCoreObject* pCoreObject, RImage* pImage, DMKTexture::TextureSwizzles swizzles) override final;
+		virtual void terminate(RCoreObject* pCoreObject) override final;
 
-			operator VkImageView() const;
+		operator VkImageView() const;
 
-			VkImageView imageView = VK_NULL_HANDLE;
-		};
-	}
+		VkImageView imageView = VK_NULL_HANDLE;
+	};
 }
 
 #endif // !_DYNAMIK_VULKAN_IMAGE_VIEW_H

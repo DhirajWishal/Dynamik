@@ -3,11 +3,10 @@
 
 #include "dmkafx.h"
 #include "Studio.h"
-using namespace Dynamik;
 
 int main()
 {
-	try 
+	try
 	{
 		/* Instantiate the studio */
 		DMKStudio studio;

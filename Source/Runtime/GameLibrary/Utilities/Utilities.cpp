@@ -4,15 +4,12 @@
 #include "dmkafx.h"
 #include "Utilities.h"
 
-namespace Dynamik
+DMKRenderer* GetRenderer()
 {
-	DMKRenderer* GetRenderer()
-	{
-		return DMKSystemLocator::getSystem<DMKRenderer>();
-	}
-	
-	DMKPlayerController* GetPlayerController()
-	{
-		return DMKSystemLocator::getSystem<DMKPlayerController>();
-	}
+	return DMKSystemLocator::getSystem<DMKRenderer>();
+}
+
+DMKPlayerController* GetPlayerController()
+{
+	return DMKSystemLocator::getSystem<DMKPlayerController>();
 }

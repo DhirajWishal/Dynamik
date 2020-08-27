@@ -21,217 +21,214 @@
 #include "Components/Attachments/RBoundingBox.h"
 #include "Clients/RImGuiBackend.h"
 
-namespace Dynamik
-{
-	class DMK_API DMKGameWorld;
+class DMK_API DMKGameWorld;
+
+/*
+ Dynamik Renderer Compatibility structure
+*/
+struct DMK_API DMKRendererCompatibility {
+	B1 isVulkanAvailable = false;
+};
+
+/*
+ Renderer thread for the Dynamik Engine
+ This is the base rendering API.
+ This unit is executed on a single thread which manages all of its rendering commands sent via the thread
+ commands.
+*/
+class DMK_API DMKRenderer : public DMKSystem, public DMKThread {
+public:
+	DMKRenderer() {}
+	~DMKRenderer() {}
 
 	/*
-	 Dynamik Renderer Compatibility structure
+	 Initialize the thread.
 	*/
-	struct DMK_API DMKRendererCompatibility {
-		B1 isVulkanAvailable = false;
-	};
+	virtual void initializeThread() override final;
 
 	/*
-	 Renderer thread for the Dynamik Engine
-	 This is the base rendering API.
-	 This unit is executed on a single thread which manages all of its rendering commands sent via the thread
-	 commands.
+	 On Initialize call in the thread function.
 	*/
-	class DMK_API DMKRenderer : public DMKSystem, public DMKThread {
-	public:
-		DMKRenderer() {}
-		~DMKRenderer() {}
+	virtual void onInitialize() override final;
 
-		/*
-		 Initialize the thread.
-		*/
-		virtual void initializeThread() override final;
+	/*
+	 Process commands using its name.
+	*/
+	virtual void processCommand(STRING commandName) override final;
 
-		/*
-		 On Initialize call in the thread function.
-		*/
-		virtual void onInitialize() override final;
+	/*
+	 Execute the three steps of draw call.
+	*/
+	virtual void onLoop() override final;
 
-		/*
-		 Process commands using its name.
-		*/
-		virtual void processCommand(STRING commandName) override final;
+	/*
+	 Terminate the backend.
+	*/
+	virtual void onTermination() override final;
 
-		/*
-		 Execute the three steps of draw call.
-		*/
-		virtual void onLoop() override final;
+	/*
+	 Terminate the thread.
+	*/
+	virtual void terminateThread() override final;
 
-		/*
-		 Terminate the backend.
-		*/
-		virtual void onTermination() override final;
+	/*
+	 Initialize the internal components.
+	*/
+	virtual void initializeInternals() override final;
 
-		/*
-		 Terminate the thread.
-		*/
-		virtual void terminateThread() override final;
+	/*
+	 Terminate internal components.
+	*/
+	virtual void terminateInternals() override final;
 
-		/*
-		 Initialize the internal components.
-		*/
-		virtual void initializeInternals() override final;
+public:		/* Command Interface */
+	void issueRawCommand(RendererInstruction instruction);
+	void initializeCMD();
+	void initializeFinalsCMD();
+	void setSamplesCMD(DMKSampleCount samples);
+	void setWindowHandleCMD(DMKWindowHandle* pWindowHandle);
+	void createContextCMD(DMKViewport viewPort, DMKRenderContextType contextType);
 
-		/*
-		 Terminate internal components.
-		*/
-		virtual void terminateInternals() override final;
+	void setImGuiContextCMD(ImGuiContext* pContext);
 
-	public:		/* Command Interface */
-		void issueRawCommand(RendererInstruction instruction);
-		void initializeCMD();
-		void initializeFinalsCMD();
-		void setSamplesCMD(DMKSampleCount samples);
-		void setWindowHandleCMD(DMKWindowHandle* pWindowHandle);
-		void createContextCMD(DMKViewport viewPort, DMKRenderContextType contextType);
+	/*
+	 Initialize the environment entity command.
 
-		void setImGuiContextCMD(ImGuiContext* pContext);
-		
-		/*
-		 Initialize the environment entity command. 
+	 @param pEnvironmentEntity: The pointer to the environment entity.
+	 @param pProgressMeter: The progress meter variable pointer. Default is nullptr. Maximum is 12.
+	*/
+	void initializeEnvironmentEntityCMD(DMKEnvironmentEntity* pEnvironmentEntity, UI32* pProgressMeter = nullptr);
 
-		 @param pEnvironmentEntity: The pointer to the environment entity.
-		 @param pProgressMeter: The progress meter variable pointer. Default is nullptr. Maximum is 12.
-		*/
-		void initializeEnvironmentEntityCMD(DMKEnvironmentEntity* pEnvironmentEntity, UI32* pProgressMeter = nullptr);
-		
-		/*
-		 Submit the static model entity to the renderer command. 
+	/*
+	 Submit the static model entity to the renderer command.
 
-		 @param pEntity: The static model entity pointer.
-		 @param pProgressMeter: The progress meter variable pointer. Default is nullptr. Maximum is 5 + (4 * mesh object count).
-		*/
-		void submitStaticModelEntityCMD(DMKStaticModelEntity* pStaticModelEntity, UI32* pProgressMeter = nullptr);
+	 @param pEntity: The static model entity pointer.
+	 @param pProgressMeter: The progress meter variable pointer. Default is nullptr. Maximum is 5 + (4 * mesh object count).
+	*/
+	void submitStaticModelEntityCMD(DMKStaticModelEntity* pStaticModelEntity, UI32* pProgressMeter = nullptr);
 
-		/*
-		 Submit the animated model entity to the renderer command. 
+	/*
+	 Submit the animated model entity to the renderer command.
 
-		 @param pEntity: The animated model entity pointer.
-		 @param pProgressMeter: The progress meter variable pointer. Default is nullptr.
-		*/
-		void submitAnimatedModelEntityCMD(DMKAnimatedModelEntity* pAnimatedModelEntity, UI32* pProgressMeter = nullptr);
+	 @param pEntity: The animated model entity pointer.
+	 @param pProgressMeter: The progress meter variable pointer. Default is nullptr.
+	*/
+	void submitAnimatedModelEntityCMD(DMKAnimatedModelEntity* pAnimatedModelEntity, UI32* pProgressMeter = nullptr);
 
-		void setFrameBufferResizeCMD(DMKExtent2D newExtent);
-		void createImGuiClientCMD(DMKImGuiBackendHandle** returnAddressSpace);
+	void setFrameBufferResizeCMD(DMKExtent2D newExtent);
+	void createImGuiClientCMD(DMKImGuiBackendHandle** returnAddressSpace);
 
-		void submitPrimitiveCMD(DMKMeshObject* pMeshObject);
-		void submitPrimitivesCMD(ARRAY<DMKMeshObject*> pMeshObjects);
+	void submitPrimitiveCMD(DMKMeshObject* pMeshObject);
+	void submitPrimitivesCMD(ARRAY<DMKMeshObject*> pMeshObjects);
 
-	private:    /* Core */
-		void setSamples(const DMKSampleCount& samples);
-		void setWindowHandle(const DMKWindowHandle* windowHandle);
+private:    /* Core */
+	void setSamples(const DMKSampleCount& samples);
+	void setWindowHandle(const DMKWindowHandle* windowHandle);
 
-		RCoreObject* createCore(B1 bEnableValidation);
+	RCoreObject* createCore(B1 bEnableValidation);
 
-	private:    /* Context */
-		RSwapChain* createSwapChain(DMKViewport viewport, RSwapChainPresentMode presentMode);
-		RRenderPass* createRenderPass(ARRAY<RSubpassAttachment> subPasses);
-		RFrameBuffer* createFrameBuffer();
+private:    /* Context */
+	RSwapChain* createSwapChain(DMKViewport viewport, RSwapChainPresentMode presentMode);
+	RRenderPass* createRenderPass(ARRAY<RSubpassAttachment> subPasses);
+	RFrameBuffer* createFrameBuffer();
 
-		void createContext(DMKRenderContextType type, DMKViewport viewport);
+	void createContext(DMKRenderContextType type, DMKViewport viewport);
 
-	private:    /* Resource */
-		RBuffer* createBuffer(const RBufferType& type, UI64 size, RResourceMemoryType memoryType = (RResourceMemoryType)
-			(RESOURCE_MEMORY_TYPE_HOST_VISIBLE | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
-		RBuffer* createVertexBuffer(UI64 size);
-		RBuffer* createIndexBuffer(UI64 size);
-		void copyBuffer(RBuffer* pSrcBuffer, RBuffer* pDstBuffer, UI64 size);
-		void copyDataToBuffer(RBuffer* pDstBuffer, VPTR data, UI64 size, UI64 offset);
+private:    /* Resource */
+	RBuffer* createBuffer(const RBufferType& type, UI64 size, RResourceMemoryType memoryType = (RResourceMemoryType)
+		(RESOURCE_MEMORY_TYPE_HOST_VISIBLE | RESOURCE_MEMORY_TYPE_HOST_COHERENT));
+	RBuffer* createVertexBuffer(UI64 size);
+	RBuffer* createIndexBuffer(UI64 size);
+	void copyBuffer(RBuffer* pSrcBuffer, RBuffer* pDstBuffer, UI64 size);
+	void copyDataToBuffer(RBuffer* pDstBuffer, VPTR data, UI64 size, UI64 offset);
 
-		RTexture* createTexture(const DMKTexture* pTexture);
+	RTexture* createTexture(const DMKTexture* pTexture);
 
-		RBRDFTable* createBRDFTable();
-		RIrradianceCube* createIrradianceCube();
-		RPreFilteredCube* createPreFilteredCube();
+	RBRDFTable* createBRDFTable();
+	RIrradianceCube* createIrradianceCube();
+	RPreFilteredCube* createPreFilteredCube();
 
-		RImGuiBackend* allocateImGuiClient();
+	RImGuiBackend* allocateImGuiClient();
 
-		/*
-		 Max progress: 12
-		*/
-		void initializeEnvironmentEntity(DMKEnvironmentEntity* pEnvironmentEntity, UI32* pProgressMeter = nullptr);
-		/*
-		 Max progress: 5 + (4 * meshCount)
-		*/
-		void createStaticModelEntityResources(DMKStaticModelEntity* pEntity, UI32* pProgressMeter = nullptr);
-		void createAnimatedModelEntityResources(DMKAnimatedModelEntity* pEntity, UI32* pProgressMeter = nullptr);
+	/*
+	 Max progress: 12
+	*/
+	void initializeEnvironmentEntity(DMKEnvironmentEntity* pEnvironmentEntity, UI32* pProgressMeter = nullptr);
+	/*
+	 Max progress: 5 + (4 * meshCount)
+	*/
+	void createStaticModelEntityResources(DMKStaticModelEntity* pEntity, UI32* pProgressMeter = nullptr);
+	void createAnimatedModelEntityResources(DMKAnimatedModelEntity* pEntity, UI32* pProgressMeter = nullptr);
 
-	private:    /* Finals */
-		void updateResources();
-		void initializeCommandBuffers();
-		void initializeFinals();
+private:    /* Finals */
+	void updateResources();
+	void initializeCommandBuffers();
+	void initializeFinals();
 
-	private:    /* Instructions */
-		void resizeFrameBuffer(DMKExtent2D windowExtent);
-		void beginFrameInstruction();
-		void updateInstruction();
-		void updateEnvironment();
-		void updateEntities();
-		void updateBoundingBoxes();
-		void updateDebugObjects();
-		void endFrameInstruction();
-		void initializeImGuiClient(DMKImGuiBackendHandle** pAddressStore);
+private:    /* Instructions */
+	void resizeFrameBuffer(DMKExtent2D windowExtent);
+	void beginFrameInstruction();
+	void updateInstruction();
+	void updateEnvironment();
+	void updateEntities();
+	void updateBoundingBoxes();
+	void updateDebugObjects();
+	void endFrameInstruction();
+	void initializeImGuiClient(DMKImGuiBackendHandle** pAddressStore);
 
-		void submitUniformData();
+	void submitUniformData();
 
-	private:    /* Internal Methods */
-		void terminateContext();
-		void terminateComponents();
-		void terminateEntities();
+private:    /* Internal Methods */
+	void terminateContext();
+	void terminateComponents();
+	void terminateEntities();
 
-	private:    /* Utility Methods */
-		/* Max progress: 4 */
-		RMeshObject createMeshObject(
-			DMKStaticModelEntity* pStaticModel,
-			DMKMeshObject* pMeshObject,
-			RPipelineResource* pResource,
-			RPipelineObject* pParentPipeline,
-			ARRAY<RBuffer*> pUniformBuffers,
-			UI32 meshIndex,
-			UI32* pProgressMeter = nullptr);
+private:    /* Utility Methods */
+	/* Max progress: 4 */
+	RMeshObject createMeshObject(
+		DMKStaticModelEntity* pStaticModel,
+		DMKMeshObject* pMeshObject,
+		RPipelineResource* pResource,
+		RPipelineObject* pParentPipeline,
+		ARRAY<RBuffer*> pUniformBuffers,
+		UI32 meshIndex,
+		UI32* pProgressMeter = nullptr);
 
-	private:    /* Internal */
-		DMKRendererCompatibility myCompatibility;
+private:    /* Internal */
+	DMKRendererCompatibility myCompatibility;
 
-		DMKRendererCommand* myCommand = nullptr;
+	DMKRendererCommand* myCommand = nullptr;
 
-		DMKRenderingAPI myAPI;
-		DMKSampleCount mySampleCount;
-		DMKWindowHandle* myWindowHandle = nullptr;
+	DMKRenderingAPI myAPI;
+	DMKSampleCount mySampleCount;
+	DMKWindowHandle* myWindowHandle = nullptr;
 
-		RCoreObject* myCoreObject = nullptr;
-		RDrawCallManager myDrawCallManager;
+	RCoreObject* myCoreObject = nullptr;
+	RDrawCallManager myDrawCallManager;
 
-		RSwapChain* mySwapChain = nullptr;
-		RRenderTarget myRenderTarget = {};
-		DMKRenderContextType myCurrentContextType = DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT;
+	RSwapChain* mySwapChain = nullptr;
+	RRenderTarget myRenderTarget = {};
+	DMKRenderContextType myCurrentContextType = DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT;
 
-		B1 isReadyToRun = false;
+	B1 isReadyToRun = false;
 
-		RCameraComponent* myCameraComponent = nullptr;
-		REnvironmentEntity myCurrentEnvironment;
+	RCameraComponent* myCameraComponent = nullptr;
+	REnvironmentEntity myCurrentEnvironment;
 
-		ARRAY<REntity> myEntities;
-		ARRAY<RBoundingBox> myBoundingBoxes;
+	ARRAY<REntity> myEntities;
+	ARRAY<RBoundingBox> myBoundingBoxes;
 
-		ARRAY<DMKStaticModelEntity*> pStaticEntities;
-		ARRAY<DMKAnimatedModelEntity*> pAnimatedEntities;
+	ARRAY<DMKStaticModelEntity*> pStaticEntities;
+	ARRAY<DMKAnimatedModelEntity*> pAnimatedEntities;
 
-		UI32 currentImageIndex = 0;
-		B1 isPresenting = false;
+	UI32 currentImageIndex = 0;
+	B1 isPresenting = false;
 
-	private:    /* Factories */
-		DMKBufferFactory myBufferFactory;
+private:    /* Factories */
+	DMKBufferFactory myBufferFactory;
 
-	private:
-		RImGuiBackend* myImGuiBackend = nullptr;
-	};
-}
+private:
+	RImGuiBackend* myImGuiBackend = nullptr;
+};
 
 #endif // !_DYNAMIK_RENDERER_THREAD_H

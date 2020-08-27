@@ -8,7 +8,6 @@
 #include "GameLibrary/Entities/EnvironmentEntity.h"
 #include "GameLibrary/Camera/CameraModule.h"
 #include "Core/Types/StaticArray.h"
-using namespace Dynamik;
 
 class OceanEnv final : public DMKEnvironmentEntity {
 public:

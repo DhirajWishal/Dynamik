@@ -7,79 +7,76 @@
 
 #include "Core/FileSystem/FileSystem.h"
 
-namespace Dynamik
-{
+/*
+ Dynamik Tools Registry
+ This singleton stores information about external tools used by the engine.
+
+ The default registry path is:
+	 $(SolutionDir)Dependencies/ThirdParty/Binaries/
+*/
+class DMKToolsRegistry {
+	DMKToolsRegistry() {}
+	~DMKToolsRegistry() {}
+
+	static DMKToolsRegistry instance;
+public:
+	DMKToolsRegistry(const DMKToolsRegistry&) = delete;
+	DMKToolsRegistry(DMKToolsRegistry&&) = delete;
+	DMKToolsRegistry& operator=(const DMKToolsRegistry&) = delete;
+	DMKToolsRegistry& operator=(DMKToolsRegistry&&) = delete;
+
 	/*
-	 Dynamik Tools Registry
-	 This singleton stores information about external tools used by the engine.
+	 This function is handled by the engine!
+	 Set the default tools path. These files are provided by the engine and are used by the engine
+	 runtime.
 
-	 The default registry path is:
-	     $(SolutionDir)Dependencies/ThirdParty/Binaries/
+	 @param path: The default path.
 	*/
-	class DMKToolsRegistry {
-		DMKToolsRegistry() {}
-		~DMKToolsRegistry() {}
+	static void setDefaultToolsBasePath(const STRING& path);
 
-		static DMKToolsRegistry instance;
-	public:
-		DMKToolsRegistry(const DMKToolsRegistry&) = delete;
-		DMKToolsRegistry(DMKToolsRegistry&&) = delete;
-		DMKToolsRegistry& operator=(const DMKToolsRegistry&) = delete;
-		DMKToolsRegistry& operator=(DMKToolsRegistry&&) = delete;
+	/*
+	 Get the default tools path.
+	*/
+	static STRING getDefaultToolsBasePath();
 
-		/*
-		 This function is handled by the engine!
-		 Set the default tools path. These files are provided by the engine and are used by the engine 
-		 runtime.
+	/*
+	 Initialize the default tools.
+	*/
+	static void initializeDefaultTools();
 
-		 @param path: The default path.
-		*/
-		static void setDefaultToolsBasePath(const STRING& path);
+	/*
+	 Add a tool to the registry.
 
-		/*
-		 Get the default tools path.
-		*/
-		static STRING getDefaultToolsBasePath();
+	 @param name: The name of the tool.
+	 @param tool: The path to the tool.
+	*/
+	static void addTool(const STRING& name, const STRING& tool);
 
-		/*
-		 Initialize the default tools.
-		*/
-		static void initializeDefaultTools();
+	/*
+	 Get a tool which is registered in the registry.
 
-		/*
-		 Add a tool to the registry.
+	 @param name: The name of the tool.
+	*/
+	static STRING getTool(const STRING& name);
 
-		 @param name: The name of the tool.
-		 @param tool: The path to the tool.
-		*/
-		static void addTool(const STRING& name, const STRING& tool);
+	/*
+	 Get the total number of registered tools.
+	*/
+	static UI64 getNumberOfRegisteredTools();
 
-		/*
-		 Get a tool which is registered in the registry.
+	/*
+	 Get all the registered tool names.
+	*/
+	static ARRAY<STRING> getAllRegisteredToolNames();
 
-		 @param name: The name of the tool.
-		*/
-		static STRING getTool(const STRING& name);
+	/*
+	 Get the tool map of the registry.
+	*/
+	static std::unordered_map<STRING, STRING> getToolMap();
 
-		/*
-		 Get the total number of registered tools.
-		*/
-		static UI64 getNumberOfRegisteredTools();
-
-		/*
-		 Get all the registered tool names.
-		*/
-		static ARRAY<STRING> getAllRegisteredToolNames();
-
-		/*
-		 Get the tool map of the registry.
-		*/
-		static std::unordered_map<STRING, STRING> getToolMap();
-
-	private:
-		std::unordered_map<STRING, STRING> toolMap;
-		STRING defaultToolsBasePath = TEXT("");
-	};
-}
+private:
+	std::unordered_map<STRING, STRING> toolMap;
+	STRING defaultToolsBasePath = TEXT("");
+};
 
 #endif // !_DYNAMIK_TOOLS_REGISTRY_H

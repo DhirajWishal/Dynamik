@@ -7,78 +7,75 @@
 
 #include "GameLibrary/Entities/StaticModelEntity.h"
 
-namespace Dynamik
-{
+/*
+ Dynamik Environment Map
+ This contains all the necessary details of the game environment.
+
+ Users are allowed to load multiple sky box objects at a time and will be cycled either by using a
+ user defined method or will use the internal clock to cycle
+ (allocated time slot per sky box = clock cycle time / total number of sky boxes).
+*/
+class DMK_API DMKEnvironmentEntity {
+public:
+	DMKEnvironmentEntity() = default;
+	virtual ~DMKEnvironmentEntity() = default;
+
 	/*
-	 Dynamik Environment Map
-	 This contains all the necessary details of the game environment.
-
-	 Users are allowed to load multiple sky box objects at a time and will be cycled either by using a 
-	 user defined method or will use the internal clock to cycle 
-	 (allocated time slot per sky box = clock cycle time / total number of sky boxes).
+	 On initialize environment method.
+	 This method is called once the entity is submitted to the rendering engine.
 	*/
-	class DMK_API DMKEnvironmentEntity {
-	public:
-		DMKEnvironmentEntity() = default;
-		virtual ~DMKEnvironmentEntity() = default;
+	virtual void onInitializeEnvironment() {}
 
-		/*
-		 On initialize environment method. 
-		 This method is called once the entity is submitted to the rendering engine.
-		*/
-		virtual void onInitializeEnvironment() {}
+	/*
+	 On update environment method.
+	 This method is called by the rendering engine.
+	*/
+	virtual void onUpdateEnvironment() {}
 
-		/*
-		 On update environment method.
-		 This method is called by the rendering engine.
-		*/
-		virtual void onUpdateEnvironment() {}
+	/*
+	 On terminate environment method.
+	*/
+	virtual void onTerminateEnvironment() {}
 
-		/*
-		 On terminate environment method.
-		*/
-		virtual void onTerminateEnvironment() {}
+	/*
+	 Add a shader module.
 
-		/*
-		 Add a shader module.
+	 @param sModule: The shader module.
+	*/
+	void addShaderModule(const DMKShaderModule& sModule);
 
-		 @param sModule: The shader module.
-		*/
-		void addShaderModule(const DMKShaderModule& sModule);
+	/*
+	 Set the shader modules.
 
-		/*
-		 Set the shader modules.
+	 @param sModules: The shader modules to be set.
+	*/
+	void setShaderModules(ARRAY<DMKShaderModule> sModules);
 
-		 @param sModules: The shader modules to be set.
-		*/
-		void setShaderModules(ARRAY<DMKShaderModule> sModules);
+	/*
+	 Get a shader module stored in this object.
 
-		/*
-		 Get a shader module stored in this object.
+	 @param index: The index of the shader module.
+	*/
+	DMKShaderModule* getShaderModule(I32 index);
 
-		 @param index: The index of the shader module.
-		*/
-		DMKShaderModule* getShaderModule(I32 index);
+	/*
+	 Get all the shaders stored in the object.
+	*/
+	ARRAY<DMKShaderModule> getShaders();
 
-		/*
-		 Get all the shaders stored in the object.
-		*/
-		ARRAY<DMKShaderModule> getShaders();
+	/* The shader modules */
+	ARRAY<DMKShaderModule> shaders;
 
-		/* The shader modules */
-		ARRAY<DMKShaderModule> shaders;
+	/* The sky box mesh */
+	DMKMeshObject skyBoxMesh;
 
-		/* The sky box mesh */
-		DMKMeshObject skyBoxMesh;
+public:
+	/*
+	 Clear all the data of the environment map. (Only cleans the mesh object).
+	*/
+	void clearEnvironmentMap();
 
-	public:
-		/*
-		 Clear all the data of the environment map. (Only cleans the mesh object).
-		*/
-		void clearEnvironmentMap();
-
-		B1 isInitializedEnvironmentEntity = false;
-	};
-}
+	B1 isInitializedEnvironmentEntity = false;
+};
 
 #endif // !_DYNAMIK_ENVIRONMENT_MAP_H
