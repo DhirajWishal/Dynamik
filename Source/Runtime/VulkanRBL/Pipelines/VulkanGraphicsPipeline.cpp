@@ -729,6 +729,12 @@ namespace Backend
 		return resources;
 	}
 
+	void VulkanGraphicsPipeline::deallocateResources(ARRAY<RPipelineResource*> resources)
+	{
+		for (UI32 index = 0; index < resources.size(); index++)
+			StaticAllocator<VulkanGraphicsPipelineResource>::deallocate(resources[index]);
+	}
+
 	VulkanGraphicsPipeline::operator VkPipelineLayout() const
 	{
 		return this->layout;

@@ -24,6 +24,9 @@
     <ClInclude Include="Entities\AnimatedModelEntity.h">
       <Filter>Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Entities\CanvasEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
     <ClInclude Include="Entities\EnvironmentEntity.h">
       <Filter>Entities</Filter>
     </ClInclude>
@@ -57,13 +60,17 @@
     <ClInclude Include="Utilities\Utilities.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\CanvasEntity.h" />
+    <ClInclude Include="Entities\TriggerEntity2D.h" />
+    <ClInclude Include="Entities\Complex\Button2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
     <ClCompile Include="Entities\AnimatedModelEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\CanvasEntity.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
     <ClCompile Include="Entities\EnvironmentEntity.cpp">
@@ -89,7 +96,7 @@
     <ClCompile Include="Utilities\Utilities.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Entities\CanvasEntity.cpp" />
+    <ClCompile Include="Entities\TriggerEntity2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameLibrary.lua" />

@@ -12,9 +12,9 @@
 #include <assimp/postprocess.h>
 #include <future>
 
-	/*
-	 Return the correct readable size of a given container.
-	*/
+/*
+ Return the correct readable size of a given container.
+*/
 template<class TYPE>
 DMK_FORCEINLINE UI64 getCorrectSize(const UI64 size)
 {

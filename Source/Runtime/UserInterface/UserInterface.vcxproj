@@ -363,13 +363,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="UserInterface.lua" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="PanelFactory.h" />
     <ClInclude Include="Panel2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Panel2D.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UserInterface.lua" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

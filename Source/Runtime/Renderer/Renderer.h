@@ -115,6 +115,27 @@ public:		/* Command Interface */
 	*/
 	void submitAnimatedModelEntityCMD(DMKAnimatedModelEntity* pAnimatedModelEntity, UI32* pProgressMeter = nullptr);
 
+	/*
+	 Remove a given static model from rendering.
+
+	 @param pStaticModelEntity: The static model to be removed.
+	*/
+	void removeStaticModelEntityCMD(DMKStaticModelEntity* pStaticModelEntity);
+
+	/*
+	 Remove a given animated model from rendering.
+
+	 @param pAnimatedModelEntity: The animated model to be removed.
+	*/
+	void removeAnimatedModelEntityCMD(DMKAnimatedModelEntity* pAnimatedModelEntity);
+
+	/*
+	 Remove the environment map from rendering.
+
+	 @param pEnvironmentMapEntity: The environment map to be removed.
+	*/
+	void removeEnvironmentMapEntityCMD(DMKEnvironmentEntity* pEnvironmentMapEntity);
+
 	void setFrameBufferResizeCMD(DMKExtent2D newExtent);
 	void createImGuiClientCMD(DMKImGuiBackendHandle** returnAddressSpace);
 
@@ -160,6 +181,10 @@ private:    /* Resource */
 	void createStaticModelEntityResources(DMKStaticModelEntity* pEntity, UI32* pProgressMeter = nullptr);
 	void createAnimatedModelEntityResources(DMKAnimatedModelEntity* pEntity, UI32* pProgressMeter = nullptr);
 
+	void removeStaticModelEntityResources(DMKStaticModelEntity* pStaticModelEntity);
+	void removeAnimatedModelEntityResources(DMKAnimatedModelEntity* pStaticModelEntity);
+	void removeEnvironmentMapEntityResources(DMKEnvironmentEntity* pStaticModelEntity);
+
 private:    /* Finals */
 	void updateResources();
 	void initializeCommandBuffers();
@@ -181,6 +206,8 @@ private:    /* Instructions */
 private:    /* Internal Methods */
 	void terminateContext();
 	void terminateComponents();
+	void terminateEnvironmentMap(REnvironmentEntity* pEnvironmentMap);
+	void terminateEntity(REntity* pEntity);
 	void terminateEntities();
 
 private:    /* Utility Methods */
@@ -215,7 +242,7 @@ private:    /* Internal */
 	RCameraComponent* myCameraComponent = nullptr;
 	REnvironmentEntity myCurrentEnvironment;
 
-	ARRAY<REntity> myEntities;
+	ARRAY<REntity*> myEntities;
 	ARRAY<RBoundingBox> myBoundingBoxes;
 
 	ARRAY<DMKStaticModelEntity*> pStaticEntities;

@@ -118,6 +118,15 @@ public:
 	UI32* pProgressMeter = nullptr;
 };
 
+/* Remove a static model from memory. */
+class DMK_API RendererRemoveStaticModelEntity {
+public:
+	RendererRemoveStaticModelEntity() {}
+	~RendererRemoveStaticModelEntity() {}
+
+	DMKStaticModelEntity* pStaticModelEntity = nullptr;
+};
+
 /* Resize Frame Buffer */
 class DMK_API RendererResizeFrameBuffer : public DMKRendererCommand {
 public:

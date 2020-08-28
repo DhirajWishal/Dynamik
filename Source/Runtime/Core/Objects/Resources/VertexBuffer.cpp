@@ -4,6 +4,11 @@
 #include "dmkafx.h"
 #include "VertexBuffer.h"
 
+void DMKVertexLayout::addAttribute(const DMKVertexAttribute& attribute)
+{
+	attributes.pushBack(attribute);
+}
+
 const UI64 DMKVertexLayout::getVertexSize() const
 {
 	UI64 _size = 0;

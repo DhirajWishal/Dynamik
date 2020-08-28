@@ -98,7 +98,7 @@ void DMKImGuiWrapper::draw()
 		ImGui::Render();
 	}
 
-	ImGui::Image();
+	//ImGui::Image();
 }
 
 void DMKImGuiWrapper::terminate()

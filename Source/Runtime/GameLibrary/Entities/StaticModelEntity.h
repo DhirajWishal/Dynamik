@@ -38,6 +38,12 @@ public:
 	*/
 	virtual void onUpdateStaticEntity() {}
 
+	/*
+	 On terminate static entity method. 
+	 This method is called when the entity is being removed from the renderer. 
+	*/
+	virtual void onTerminateStaticEntity() {}
+
 public:
 	/*
 	 Add an instance to the static model.
@@ -143,6 +149,9 @@ public:
 	 Clear all the data in the static model (only from the mesh objects).
 	*/
 	void clearStaticModel();
+
+	/* Render Data ID */
+	UI64 renderDataID = 0;
 
 	B1 isInitializedStaticModel = false;
 };

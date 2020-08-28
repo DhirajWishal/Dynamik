@@ -132,6 +132,9 @@ void DMKRenderer::processCommand(STRING commandName)
 		createAnimatedModelEntityResources(command.pEntity, command.pProgressMeter);
 	}
 
+	else if (commandName == typeid(RendererRemoveStaticModelEntity).name())
+		removeStaticModelEntityResources(pCommandService->getCommand<RendererRemoveStaticModelEntity>().pStaticModelEntity);
+
 	else if (commandName == typeid(RendererResizeFrameBuffer).name())
 		resizeFrameBuffer(pCommandService->getCommand<RendererResizeFrameBuffer>().windowExtent);
 
@@ -284,6 +287,22 @@ void DMKRenderer::submitAnimatedModelEntityCMD(DMKAnimatedModelEntity* pAnimated
 	_command.pProgressMeter = pProgressMeter;
 
 	pCommandService->issueCommand<RendererSubmitAnimatedEntity>(_command);
+}
+
+void DMKRenderer::removeStaticModelEntityCMD(DMKStaticModelEntity* pStaticModelEntity)
+{
+	RendererRemoveStaticModelEntity _command;
+	_command.pStaticModelEntity = pStaticModelEntity;
+
+	pCommandService->issueCommand<RendererRemoveStaticModelEntity>(_command);
+}
+
+void DMKRenderer::removeAnimatedModelEntityCMD(DMKAnimatedModelEntity* pAnimatedModelEntity)
+{
+}
+
+void DMKRenderer::removeEnvironmentMapEntityCMD(DMKEnvironmentEntity* pEnvironmentMapEntity)
+{
 }
 
 void DMKRenderer::setFrameBufferResizeCMD(DMKExtent2D newExtent)
@@ -714,21 +733,21 @@ void DMKRenderer::createStaticModelEntityResources(DMKStaticModelEntity* pEntity
 {
 #define INC_PROGRESS if(pProgressMeter) (*pProgressMeter)++
 
-	REntity entity;
+	REntity* pRenderEntity = StaticAllocator<REntity>::rawAllocate();
 
-	entity.pPipelineObject = RUtilities::allocatePipeline(myAPI);
+	pRenderEntity->pPipelineObject = RUtilities::allocatePipeline(myAPI);
 
 	RPipelineSpecification pipelineCreateInfo = {};
 	pipelineCreateInfo.resourceCount = pEntity->meshObjects.size();
-	pipelineCreateInfo.pPipelineCache = &entity.pipelineCache;
+	pipelineCreateInfo.pPipelineCache = &pRenderEntity->pipelineCache;
 	pipelineCreateInfo.shaders = pEntity->shaders;
 	pipelineCreateInfo.scissorInfos.resize(1);
 	pipelineCreateInfo.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
 	pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
-	entity.pPipelineObject->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &myRenderTarget, mySwapChain->viewPort);
+	pRenderEntity->pPipelineObject->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &myRenderTarget, mySwapChain->viewPort);
 	INC_PROGRESS;
 
-	auto resources = entity.pPipelineObject->allocateResources(myCoreObject);
+	auto resources = pRenderEntity->pPipelineObject->allocateResources(myCoreObject);
 
 	ARRAY<RBuffer*> pUniformBuffers;
 	{
@@ -743,7 +762,7 @@ void DMKRenderer::createStaticModelEntityResources(DMKStaticModelEntity* pEntity
 				_container.pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, _container.pParent->byteSize());
 				_container.pUniformBuffer->setData(myCoreObject, _container.pParent->byteSize(), 0, _container.pParent->data());
 
-				entity.uniformContainers.pushBack(_container);
+				pRenderEntity->uniformContainers.pushBack(_container);
 				pUniformBuffers.pushBack(_container.pUniformBuffer);
 
 				INC_PROGRESS;
@@ -757,11 +776,11 @@ void DMKRenderer::createStaticModelEntityResources(DMKStaticModelEntity* pEntity
 	for (UI32 index = 0; index < pEntity->meshObjects.size(); index++)
 	{
 		auto pMeshObject = pEntity->meshObjects.location(index);
-		auto rMeshObject = createMeshObject(pEntity, pMeshObject, resources[index], entity.pPipelineObject, pUniformBuffers, index);
+		auto rMeshObject = createMeshObject(pEntity, pMeshObject, resources[index], pRenderEntity->pPipelineObject, pUniformBuffers, index);
 		rMeshObject.vertexOffset = vertexBufferSize / pMeshObject->getVertexBuffer().getLayout().getVertexSize();
 		rMeshObject.indexOffset = indexBufferSize / pMeshObject->getIndexBuffer().getIndexSize();
 
-		entity.meshObjects.pushBack(rMeshObject);
+		pRenderEntity->meshObjects.pushBack(rMeshObject);
 
 		vertexBufferSize += pMeshObject->getVertexBuffer().byteSize();
 		indexBufferSize += pMeshObject->getIndexBuffer().byteSize();
@@ -771,39 +790,41 @@ void DMKRenderer::createStaticModelEntityResources(DMKStaticModelEntity* pEntity
 	{
 		/* Initialize vertex buffer */
 		{
-			entity.pVertexBuffer = createVertexBuffer(vertexBufferSize);
-			POINTER<BYTE> vertexPtr = entity.pVertexBuffer->getData(myCoreObject, vertexBufferSize, 0);
+			pRenderEntity->pVertexBuffer = createVertexBuffer(vertexBufferSize);
+			POINTER<BYTE> vertexPtr = pRenderEntity->pVertexBuffer->getData(myCoreObject, vertexBufferSize, 0);
 
-			for (auto rMeshObject : entity.meshObjects)
+			for (auto rMeshObject : pRenderEntity->meshObjects)
 			{
 				DMKMemoryFunctions::copyData(vertexPtr.get(), rMeshObject.pParentObject->getVertexBuffer().data(), rMeshObject.pParentObject->getVertexBuffer().byteSize());
 				vertexPtr += rMeshObject.pParentObject->getVertexBuffer().byteSize();
 			}
 
-			entity.pVertexBuffer->flushMemory(myCoreObject);
+			pRenderEntity->pVertexBuffer->flushMemory(myCoreObject);
 		}
 		INC_PROGRESS;
 
 		/* initialize index buffer */
 		{
-			entity.pIndexBuffer = createIndexBuffer(indexBufferSize);
-			POINTER<BYTE> indexPtr = entity.pIndexBuffer->getData(myCoreObject, indexBufferSize, 0);
+			pRenderEntity->pIndexBuffer = createIndexBuffer(indexBufferSize);
+			POINTER<BYTE> indexPtr = pRenderEntity->pIndexBuffer->getData(myCoreObject, indexBufferSize, 0);
 
-			for (auto rMeshObject : entity.meshObjects)
+			for (auto rMeshObject : pRenderEntity->meshObjects)
 			{
 				DMKMemoryFunctions::copyData(indexPtr.get(), rMeshObject.pParentObject->getIndexBuffer().data(), rMeshObject.pParentObject->getIndexBuffer().byteSize());
 				indexPtr += rMeshObject.pParentObject->getIndexBuffer().byteSize();
 			}
 
-			entity.pIndexBuffer->flushMemory(myCoreObject);
+			pRenderEntity->pIndexBuffer->flushMemory(myCoreObject);
 		}
 		INC_PROGRESS;
 	}
 
-	myEntities.pushBack(entity);
-	myDrawCallManager.addRenderEntity(myEntities.location(-1));
+	myEntities.pushBack(pRenderEntity);
+	myDrawCallManager.addRenderEntity(pRenderEntity);
 
 	pStaticEntities.pushBack(pEntity);
+
+	pEntity->renderDataID = GetPointerAsInteger(pRenderEntity);
 
 	INC_PROGRESS;
 }
@@ -812,11 +833,53 @@ void DMKRenderer::createAnimatedModelEntityResources(DMKAnimatedModelEntity* pEn
 {
 }
 
+void DMKRenderer::removeStaticModelEntityResources(DMKStaticModelEntity* pStaticModelEntity)
+{
+	myCoreObject->idleCall();
+
+	/* Find the required static model from the array and remove it. */
+	for (UI64 index = 0; index < pStaticEntities.size(); index++)
+	{
+		if (pStaticEntities[index] == pStaticModelEntity)
+		{
+			pStaticModelEntity->onTerminateStaticEntity();
+			pStaticEntities.remove(index);
+			break;
+		}
+	}
+
+	/* Find the entity resources from the created entities to terminate and deallocate. */
+	for (UI64 index = 0; index < myEntities.size(); index++)
+	{
+		if (myEntities[index] == ((VPTR)pStaticModelEntity->renderDataID))
+		{
+			myDrawCallManager.removeRenderEntity(myEntities[index]);
+			terminateEntity(myEntities[index]);
+			myEntities.remove(index);
+			break;
+		}
+	}
+
+	/* Reset command buffers */
+	myDrawCallManager.resetPrimaryCommandBuffers(myCoreObject);
+	myDrawCallManager.resetSecondaryCommandBuffers(myCoreObject);
+
+	myDrawCallManager.reCreateBuffers(myCoreObject, &myRenderTarget, mySwapChain, myAPI);
+}
+
+void DMKRenderer::removeAnimatedModelEntityResources(DMKAnimatedModelEntity* pAnimatedModelEntity)
+{
+}
+
+void DMKRenderer::removeEnvironmentMapEntityResources(DMKEnvironmentEntity* pEnvironmentEntity)
+{
+}
+
 void DMKRenderer::updateResources()
 {
 	for (UI64 entityIndex = 0; entityIndex < myEntities.size(); entityIndex++)
 	{
-		for (UI64 meshIndex = 0; meshIndex < myEntities[entityIndex].meshObjects.size(); meshIndex++)
+		for (UI64 meshIndex = 0; meshIndex < myEntities[entityIndex]->meshObjects.size(); meshIndex++)
 		{
 
 		}
@@ -880,7 +943,7 @@ void DMKRenderer::resizeFrameBuffer(DMKExtent2D windowExtent)
 
 		/* Initialize Entity Pipelines */
 		for (auto entity : myEntities)
-			entity.pPipelineObject->reCreate(myCoreObject, &myRenderTarget, mySwapChain->viewPort);
+			entity->pPipelineObject->reCreate(myCoreObject, &myRenderTarget, mySwapChain->viewPort);
 
 		/* Initialize Bounding Boxes */
 		for (auto box : myBoundingBoxes)
@@ -931,12 +994,12 @@ void DMKRenderer::updateEntities()
 		myCurrentEnvironment.pParentEntity->onUpdateEnvironment();
 
 	/* Update static entities. */
-	for (auto pEntity : pStaticEntities)
-		pEntity->onUpdateStaticEntity();
+	for (UI64 index = 0; index < pStaticEntities.size(); index++)
+		pStaticEntities[index]->onUpdateStaticEntity();
 
 	/* Update animated entities. */
-	for (auto pEntity : pAnimatedEntities)
-		pEntity->onUpdateAnimatedEntity();
+	for (UI64 index = 0; index < pAnimatedEntities.size(); index++)
+		pAnimatedEntities[index]->onUpdateAnimatedEntity();
 
 	/* Submit uniform data */
 	submitUniformData();
@@ -978,8 +1041,8 @@ void DMKRenderer::initializeImGuiClient(DMKImGuiBackendHandle** pAddressStore)
 void DMKRenderer::submitUniformData()
 {
 	for (UI64 index = 0; index < myEntities.size(); index++)
-		for (UI32 itr = 0; itr < myEntities[index].uniformContainers.size(); itr++)
-			myEntities[index].uniformContainers[itr].pUniformBuffer->setData(myCoreObject, myEntities[index].uniformContainers[itr].pParent->byteSize(), 0, myEntities[index].uniformContainers[itr].pParent->data());
+		for (UI32 itr = 0; itr < myEntities[index]->uniformContainers.size(); itr++)
+			myEntities[index]->uniformContainers[itr].pUniformBuffer->setData(myCoreObject, myEntities[index]->uniformContainers[itr].pParent->byteSize(), 0, myEntities[index]->uniformContainers[itr].pParent->data());
 }
 
 void DMKRenderer::terminateContext()
@@ -1007,95 +1070,102 @@ void DMKRenderer::terminateComponents()
 	StaticAllocator<RCoreObject>::rawDeallocate(myCoreObject, 0);
 }
 
+void DMKRenderer::terminateEnvironmentMap(REnvironmentEntity* pEnvironmentMap)
+{
+	if (pEnvironmentMap->renderEntity.pPipelineObject)
+	{
+		pEnvironmentMap->renderEntity.pPipelineObject->terminate(myCoreObject);
+		StaticAllocator<RPipelineObject>::rawDeallocate(pEnvironmentMap->renderEntity.pPipelineObject, 0);
+	}
+
+	if (pEnvironmentMap->pTexture)
+	{
+		pEnvironmentMap->pTexture->terminate(myCoreObject);
+		StaticAllocator<RTexture>::rawDeallocate(pEnvironmentMap->pTexture, 0);
+	}
+
+	for (auto pUniform : pEnvironmentMap->uniformBuffers)
+	{
+		pUniform.pUniformBuffer->terminate(myCoreObject);
+		StaticAllocator<RBuffer>::rawDeallocate(pUniform.pUniformBuffer, 0);
+	}
+
+	if (pEnvironmentMap->pBRDFTable)
+	{
+		pEnvironmentMap->pBRDFTable->terminate(myCoreObject);
+		StaticAllocator<RBRDFTable>::rawDeallocate(pEnvironmentMap->pBRDFTable, 0);
+	}
+
+	if (pEnvironmentMap->pIrradianceCube)
+	{
+		pEnvironmentMap->pIrradianceCube->terminate(myCoreObject);
+		StaticAllocator<RIrradianceCube>::rawDeallocate(pEnvironmentMap->pIrradianceCube, 0);
+	}
+
+	if (pEnvironmentMap->pPreFilteredCube)
+	{
+		pEnvironmentMap->pPreFilteredCube->terminate(myCoreObject);
+		StaticAllocator<RIrradianceCube>::rawDeallocate(pEnvironmentMap->pPreFilteredCube, 0);
+	}
+
+	if (pEnvironmentMap->renderEntity.pVertexBuffer)
+	{
+		pEnvironmentMap->renderEntity.pVertexBuffer->terminate(myCoreObject);
+		StaticAllocator<RBuffer>::rawDeallocate(pEnvironmentMap->renderEntity.pVertexBuffer, 0);
+	}
+
+	if (pEnvironmentMap->renderEntity.pIndexBuffer)
+	{
+		pEnvironmentMap->renderEntity.pIndexBuffer->terminate(myCoreObject);
+		StaticAllocator<RBuffer>::rawDeallocate(pEnvironmentMap->renderEntity.pIndexBuffer, 0);
+	}
+}
+
+void DMKRenderer::terminateEntity(REntity* pEntity)
+{
+	for (auto uniform : pEntity->uniformContainers)
+	{
+		uniform.pUniformBuffer->terminate(myCoreObject);
+		StaticAllocator<RBuffer>::rawDeallocate(uniform.pUniformBuffer, 0);
+	}
+
+	for (auto mesh : pEntity->meshObjects)
+	{
+		for (auto texture : mesh.pTextures)
+		{
+			texture->terminate(myCoreObject);
+			StaticAllocator<RTexture>::rawDeallocate(texture, 0);
+		}
+	}
+	pEntity->meshObjects.clear();
+
+	if (pEntity->pPipelineObject)
+	{
+		pEntity->pPipelineObject->terminate(myCoreObject);
+
+		for (auto block : pEntity->pPipelineObject->constantBlocks)
+			StaticAllocator<BYTE>::rawDeallocate(block.data, block.byteSize);
+
+		StaticAllocator<RPipelineObject>::rawDeallocate(pEntity->pPipelineObject, 0);
+	}
+
+	pEntity->pVertexBuffer->terminate(myCoreObject);
+	StaticAllocator<RBuffer>::rawDeallocate(pEntity->pVertexBuffer, 0);
+
+	pEntity->pIndexBuffer->terminate(myCoreObject);
+	StaticAllocator<RBuffer>::rawDeallocate(pEntity->pIndexBuffer, 0);
+
+	StaticAllocator<REntity>::rawDeallocate(pEntity);
+}
+
 void DMKRenderer::terminateEntities()
 {
 	/* Terminate Environment Map */
-	{
-		if (myCurrentEnvironment.renderEntity.pPipelineObject)
-		{
-			myCurrentEnvironment.renderEntity.pPipelineObject->terminate(myCoreObject);
-			StaticAllocator<RPipelineObject>::rawDeallocate(myCurrentEnvironment.renderEntity.pPipelineObject, 0);
-		}
-
-		if (myCurrentEnvironment.pTexture)
-		{
-			myCurrentEnvironment.pTexture->terminate(myCoreObject);
-			StaticAllocator<RTexture>::rawDeallocate(myCurrentEnvironment.pTexture, 0);
-		}
-
-		for (auto pUniform : myCurrentEnvironment.uniformBuffers)
-		{
-			pUniform.pUniformBuffer->terminate(myCoreObject);
-			StaticAllocator<RBuffer>::rawDeallocate(pUniform.pUniformBuffer, 0);
-		}
-
-		if (myCurrentEnvironment.pBRDFTable)
-		{
-			myCurrentEnvironment.pBRDFTable->terminate(myCoreObject);
-			StaticAllocator<RBRDFTable>::rawDeallocate(myCurrentEnvironment.pBRDFTable, 0);
-		}
-
-		if (myCurrentEnvironment.pIrradianceCube)
-		{
-			myCurrentEnvironment.pIrradianceCube->terminate(myCoreObject);
-			StaticAllocator<RIrradianceCube>::rawDeallocate(myCurrentEnvironment.pIrradianceCube, 0);
-		}
-
-		if (myCurrentEnvironment.pPreFilteredCube)
-		{
-			myCurrentEnvironment.pPreFilteredCube->terminate(myCoreObject);
-			StaticAllocator<RIrradianceCube>::rawDeallocate(myCurrentEnvironment.pPreFilteredCube, 0);
-		}
-
-		if (myCurrentEnvironment.renderEntity.pVertexBuffer)
-		{
-			myCurrentEnvironment.renderEntity.pVertexBuffer->terminate(myCoreObject);
-			StaticAllocator<RBuffer>::rawDeallocate(myCurrentEnvironment.renderEntity.pVertexBuffer, 0);
-		}
-
-		if (myCurrentEnvironment.renderEntity.pIndexBuffer)
-		{
-			myCurrentEnvironment.renderEntity.pIndexBuffer->terminate(myCoreObject);
-			StaticAllocator<RBuffer>::rawDeallocate(myCurrentEnvironment.renderEntity.pIndexBuffer, 0);
-		}
-	}
+	terminateEnvironmentMap(&myCurrentEnvironment);
 
 	/* Terminate Entities */
 	for (auto entity : myEntities)
-	{
-		for (auto uniform : entity.uniformContainers)
-		{
-			uniform.pUniformBuffer->terminate(myCoreObject);
-			StaticAllocator<RBuffer>::rawDeallocate(uniform.pUniformBuffer, 0);
-		}
-
-		for (auto mesh : entity.meshObjects)
-		{
-			for (auto texture : mesh.pTextures)
-			{
-				texture->terminate(myCoreObject);
-				StaticAllocator<RTexture>::rawDeallocate(texture, 0);
-			}
-		}
-
-		if (entity.pPipelineObject)
-		{
-			entity.pPipelineObject->terminate(myCoreObject);
-
-			for (auto block : entity.pPipelineObject->constantBlocks)
-				StaticAllocator<BYTE>::rawDeallocate(block.data, block.byteSize);
-
-			StaticAllocator<RPipelineObject>::rawDeallocate(entity.pPipelineObject, 0);
-		}
-
-		entity.pVertexBuffer->terminate(myCoreObject);
-		StaticAllocator<RBuffer>::rawDeallocate(entity.pVertexBuffer, 0);
-
-		entity.pIndexBuffer->terminate(myCoreObject);
-		StaticAllocator<RBuffer>::rawDeallocate(entity.pIndexBuffer, 0);
-
-		entity.meshObjects.clear();
-	}
+		terminateEntity(entity);
 
 	myEntities.clear();
 

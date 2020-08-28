@@ -55,6 +55,7 @@ public:
 	void terminateAll(RCoreObject* pCoreObject);
 
 	void addRenderEntity(REntity* pRenderEntity);
+	void removeRenderEntity(REntity* pRenderEntity);
 
 	/*
 	 Initialize the primary command buffers.

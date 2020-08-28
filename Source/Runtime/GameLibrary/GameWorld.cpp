@@ -18,14 +18,29 @@ void DMKGameWorld::submitStaticModelToRenderer(DMKStaticModelEntity* pStaticMode
 	DMKSystemLocator::getSystem<DMKRenderer>()->submitStaticModelEntityCMD(pStaticModel, pProgressMeter);
 }
 
+void DMKGameWorld::removeStaticModelFromRenderer(DMKStaticModelEntity* pStaticModel)
+{
+	DMKSystemLocator::getSystem<DMKRenderer>()->removeStaticModelEntityCMD(pStaticModel);
+}
+
 void DMKGameWorld::submitAnimatedModelToRenderer(DMKAnimatedModelEntity* pAnimatedModel, UI32* pProgressMeter)
 {
 	DMKSystemLocator::getSystem<DMKRenderer>()->submitAnimatedModelEntityCMD(pAnimatedModel, pProgressMeter);
 }
 
+void DMKGameWorld::removeAnimatedModelFromRenderer(DMKAnimatedModelEntity* pAnimatedModel)
+{
+	DMKSystemLocator::getSystem<DMKRenderer>()->removeAnimatedModelEntityCMD(pAnimatedModel);
+}
+
 void DMKGameWorld::submitEnvironmentToRenderer(DMKEnvironmentEntity* pEnvironment, UI32* pProgressMeter)
 {
 	DMKSystemLocator::getSystem<DMKRenderer>()->initializeEnvironmentEntityCMD(pEnvironment, pProgressMeter);
+}
+
+void DMKGameWorld::removeEnvironmentFromRenderer(DMKEnvironmentEntity* pEnvironment)
+{
+	DMKSystemLocator::getSystem<DMKRenderer>()->removeEnvironmentMapEntityCMD(pEnvironment);
 }
 
 void DMKGameWorld::addLightComponent(DMKGameWorldLightComponent component)

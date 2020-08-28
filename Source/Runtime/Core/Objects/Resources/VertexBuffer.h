@@ -49,6 +49,13 @@ public:
 	DMKVertexLayout() {}
 	~DMKVertexLayout() {}
 
+	/*
+	 Add an attribute to the layout. 
+
+	 @param attribute: The attribute to be added.
+	*/
+	void addAttribute(const DMKVertexAttribute& attribute);
+
 	/* Get the size of the vertex using the attributes */
 	const UI64 getVertexSize() const;
 

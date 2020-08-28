@@ -80,4 +80,6 @@ void DMKStaticModelEntity::clearStaticModel()
 	}
 
 	meshObjects.clear();
+
+	isInitializedStaticModel = false;
 }

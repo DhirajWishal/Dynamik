@@ -88,6 +88,7 @@ public:
 
 	virtual void createPipelineCache(RCoreObject* pCoreObject, UI64 byteSize, VPTR pData) = 0;
 	virtual ARRAY<RPipelineResource*> allocateResources(RCoreObject* pCoreObject) = 0;
+	virtual void deallocateResources(ARRAY<RPipelineResource*> resources) = 0;
 
 	RPipelineSpecification mySpecification = {};
 	RPipelineUsage myUsage = RPipelineUsage::PIPELINE_USAGE_GRAPHICS;

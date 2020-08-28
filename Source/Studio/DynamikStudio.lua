@@ -39,7 +39,6 @@ project "DynamikStudio"
 
 	links {
 		"Animation",
-		"ComponentSystem",
 		"Core",
 		"Events",
 		"GameLibrary",
@@ -48,6 +47,7 @@ project "DynamikStudio"
 		"Renderer",
 		"Services",
 		"Tools",
+		"UserInterface",
 		"Window",
 
 		"ImGui",

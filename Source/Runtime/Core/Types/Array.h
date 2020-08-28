@@ -431,7 +431,9 @@ public:
 
 		myBeginPtr[_getProcessedIndex(index)] = TYPE();
 		_compactAfterRemove(index);
+
 		myDataCount--;
+		myNextPtr--;
 	}
 
 	/* FUNCTION
@@ -1426,8 +1428,15 @@ private:
 	DMK_FORCEINLINE void _compactAfterRemove(UI64 removedIndex)
 	{
 		PTR _newArr = _allocateBuffer(_getAllocationSize());
-		DMKMemoryFunctions::moveData(_newArr, (PTR)&myBeginPtr[removedIndex - 1], removedIndex);
-		DMKMemoryFunctions::moveData((PTR)&_newArr[removedIndex], (PTR)&myBeginPtr[removedIndex + 1], myEndPtr - (PTR)&myBeginPtr[removedIndex + 1]);
+
+		for (UI64 index = 0; index < size(); index++)
+		{
+			if (index > removedIndex)
+				_newArr[index - 1] = myBeginPtr[index];
+			else
+				_newArr[index] = myBeginPtr[index];
+
+		}
 
 		try
 		{

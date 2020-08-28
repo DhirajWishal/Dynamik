@@ -184,6 +184,13 @@ protected:
 	void submitStaticModelToRenderer(DMKStaticModelEntity* pStaticModel, UI32* pProgressMeter = nullptr);
 
 	/*
+	 Remove a static model from the renderer. 
+
+	 @param pStaticModel: The static model entity to be removed.
+	*/
+	void removeStaticModelFromRenderer(DMKStaticModelEntity* pStaticModel);
+
+	/*
 	 Submit the static model to the renderer.
 
 	 @param index: The index of the entity.
@@ -192,12 +199,26 @@ protected:
 	void submitAnimatedModelToRenderer(DMKAnimatedModelEntity* pAnimatedModel, UI32* pProgressMeter = nullptr);
 
 	/*
+	 Remove an animated model from the renderer. 
+
+	 @param pAnimatedModel: The animated model to be removed.
+	*/
+	void removeAnimatedModelFromRenderer(DMKAnimatedModelEntity* pAnimatedModel);
+
+	/*
 	 Submit the environment to the renderer.
 
 	 @param index: The index of the entity.
 	 @param pProgressMeter: The progress meter variable pointer. Default is nullptr. Maximum is 12.
 	*/
 	void submitEnvironmentToRenderer(DMKEnvironmentEntity* pEnvironment, UI32* pProgressMeter = nullptr);
+
+	/*
+	 Remove the environment map from the renderer.
+
+	 @param pEnvironment: The environment map tp be removed.
+	*/
+	void removeEnvironmentFromRenderer(DMKEnvironmentEntity* pEnvironment);
 
 private:
 	/* Entity map */

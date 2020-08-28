@@ -40,6 +40,7 @@ namespace Backend
 
 		virtual void createPipelineCache(RCoreObject* pCoreObject, UI64 byteSize, VPTR pData) override final;
 		virtual ARRAY<RPipelineResource*> allocateResources(RCoreObject* pCoreObject) override final;
+		virtual void deallocateResources(ARRAY<RPipelineResource*> resources) override final;
 
 		operator VkPipelineLayout() const;
 		operator VkPipeline() const;

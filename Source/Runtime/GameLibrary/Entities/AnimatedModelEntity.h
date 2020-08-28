@@ -29,6 +29,12 @@ public:
 	*/
 	virtual void onUpdateAnimatedEntity() {}
 
+	/*
+	 On terminate animated entity method. 
+	 This method is called when the entity is being removed from the rendering engine.
+	*/
+	virtual void onTerminateAnimatedEntity() {}
+
 public:
 	/*
 	 Add an instance to the static model.

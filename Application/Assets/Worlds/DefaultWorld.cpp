@@ -74,6 +74,12 @@ void DefaultWorld::onUpdate(const F32 timeStep)
 	if (DMKEventPool::KeyDown.isPressed() || DMKEventPool::KeyDown.isOnRepeat())
 		playerObject->addDownVector(0.0001f);
 
+	if (DMKEventPool::KeyX.isPressed())
+		removeStaticModelFromRenderer(getEntity<CerberusModel>());
+
+	if (DMKEventPool::KeyY.isPressed())
+		submitStaticModelToRenderer(getEntity<CerberusModel>());
+
 	playerObject->updateCamera();
 }
 

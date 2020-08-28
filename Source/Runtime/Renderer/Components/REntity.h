@@ -8,7 +8,7 @@
 #include "RMeshObject.h"
 
 /*
- Renderer Entity
+ Renderer Entity 
 */
 class DMK_API REntity {
 public:

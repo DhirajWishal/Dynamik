@@ -368,8 +368,10 @@
     <ClInclude Include="Entities\CanvasEntity.h" />
     <ClInclude Include="Entities\EnvironmentEntity.h" />
     <ClInclude Include="Entities\PlayerEntity.h" />
+    <ClInclude Include="Entities\Complex\Button2D.h" />
     <ClInclude Include="Entities\SkyBoxEntity.h" />
     <ClInclude Include="Entities\StaticModelEntity.h" />
+    <ClInclude Include="Entities\TriggerEntity2D.h" />
     <ClInclude Include="GameMechanics.h" />
     <ClInclude Include="GameModule.h" />
     <ClInclude Include="GameWorld.h" />
@@ -388,6 +390,7 @@
     <ClCompile Include="Entities\PlayerEntity.cpp" />
     <ClCompile Include="Entities\SkyBoxEntity.cpp" />
     <ClCompile Include="Entities\StaticModelEntity.cpp" />
+    <ClCompile Include="Entities\TriggerEntity2D.cpp" />
     <ClCompile Include="GameModule.cpp" />
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Mechanics\PlayerController.cpp" />
