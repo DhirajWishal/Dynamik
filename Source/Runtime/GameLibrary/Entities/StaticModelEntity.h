@@ -30,19 +30,19 @@ public:
 	 On initialize static entity method.
 	 This method is called once the entity is submitted to the renderer.
 	*/
-	virtual void onInitializeStaticEntity() {}
+	virtual void onInitializeStaticEntity();
 
 	/*
 	 On update static entity method.
 	 This method is called by the rendering engine.
 	*/
-	virtual void onUpdateStaticEntity() {}
+	virtual void onUpdateStaticEntity();
 
 	/*
-	 On terminate static entity method. 
-	 This method is called when the entity is being removed from the renderer. 
+	 On terminate static entity method.
+	 This method is called when the entity is being removed from the renderer.
 	*/
-	virtual void onTerminateStaticEntity() {}
+	virtual void onTerminateStaticEntity();
 
 public:
 	/*
@@ -155,5 +155,15 @@ public:
 
 	B1 isInitializedStaticModel = false;
 };
+
+class DMK_API DMKCameraModule;
+
+namespace _Helpers
+{
+	/*
+	 Helper to set the default camera entity of the static model entity.
+	*/
+	void _SetDefaultStaticModelCameraModule(DMKCameraModule* pCameraModule);
+}
 
 #endif // !_DYNAMIK_STATIC_MODEL_ENTITY_H

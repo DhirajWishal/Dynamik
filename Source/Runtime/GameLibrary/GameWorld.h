@@ -10,7 +10,6 @@
 #include "Core/FileSystem/FileSystem.h"
 #include "Entities/EnvironmentEntity.h"
 #include "Services/SystemLocator.h"
-#include "Utilities/Utilities.h"
 
 #include "Renderer/Renderer.h"
 

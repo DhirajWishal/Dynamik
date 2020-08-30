@@ -236,6 +236,11 @@ void DMKRenderer::createContextCMD(DMKViewport viewPort, DMKRenderContextType co
 	pCommandService->issueCommand<RendererCreateContextCommand>(_command);
 }
 
+void DMKRenderer::update()
+{
+	issueRawCommand(RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE);
+}
+
 void DMKRenderer::setImGuiContextCMD(ImGuiContext* pContext)
 {
 	RendererSetImGuiContext _command;

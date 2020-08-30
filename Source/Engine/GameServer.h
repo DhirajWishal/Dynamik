@@ -34,14 +34,10 @@ struct DMK_API DMKGameData {
 
  Dynamik is composed of multiple servers/ systems. Basically this means that each of these systems run on its own
  thread and handles its own data much like a server. The engine is the main system which also acts as a server just
- like the other systems which initialize, manage, update and terminates these systems. The engine is built on the
- game server which means that the game itself is the engine. Much of the internal methods used by the engine runtime
- is abstracted out and is unavailable to the user but some methods are exposed to help the user in some tasks.
- The thread running the game code is also known as the parent thread or the game thread.
+ like the other systems. The engine is built on the game server which means that the game itself is the engine.
 
- Basically, the internal methods are responsible of initializing, managing, updating and terminating all the
- runtime systems. Users are required to initialize their own application, submit resources, update resources and
- program the logic.
+ Users are needed to initialize the required systems which the game requires. This means that initializing, updating 
+ and terminating systems are done by the user.
 */
 class DMK_API DMKGameServer {
 public:
@@ -51,27 +47,30 @@ public:
 	/* User defined methods */
 protected:
 	/* USER DEFINED
-	 On startup method.
+	 On initialize systems method. 
+	 This is the first method to be called and user is expected to initialize all the runtime systems (renderer, 
+	 audio engine, physics engine, window handle, etc...) in this method. 
 	*/
-	virtual void onStartup() {}
+	virtual void onInitializeSystems() {}
 
 	/* USER DEFINED
-	 On initialize stage one method.
-	 This method is called after initializing all the runtime systems.
+	 On initialize services method. 
+	 This method is used to initialize the services required by the game. 
 	*/
-	virtual void onInitializeStageOne() {}
+	virtual void onInitializeServices() {}
 
 	/* USER DEFINED
-	 On initialize stage two method.
-	 This method is called right after initializing the services.
+	 On initialize game method. 
+	 This method is called right after calling the onInitializeSystems() method. User can use this method to initialize 
+	 the game and even to load a game module. 
 	*/
-	virtual void onInitializeStageTwo() {}
+	virtual void onInitializeGame() {}
 
-	/* USEER DEFINED
-	 On initialize stage three.
-	 This method is called right before entering the main loop.
+	/* USER DEFINED
+	 On initialize final method. 
+	 This method is called prior to entering the main execution loop. 
 	*/
-	virtual void onInitializeStageThree() {}
+	virtual void onInitializeFinal() {}
 
 	/* USER DEFINED
 	 On begin update method.
@@ -80,10 +79,17 @@ protected:
 	virtual void onBeginUpdate() {}
 
 	/* USER DEFINED
-	 On update method.
-	 This method is called right before updating the currently loaded module.
+	 On update game method. 
+	 This method is called right after calling the onBeginUpdate() method. User is expected to update the game using 
+	 this method (the game code and calling the updateCurrentGameModule() method). 
 	*/
-	virtual void onUpdate(const F32 frameTime) {}
+	virtual void onUpdateGame() {}
+
+	/* USER DEFINED
+	 On update systems method. 
+	 User is required to update the relevant systems explicitly using this method. 
+	*/
+	virtual void onUpdateSystems() {}
 
 	/* USER DEFINED
 	 On end update method.
@@ -92,9 +98,29 @@ protected:
 	virtual void onEndUpdate() {}
 
 	/* USER DEFINED
-	 On terminate method. This method is called right after termination the runtime systems.
+	 On terminate game method. 
+	 This method is called right after exiting the main execution loop. The game is expected to be terminated using
+	 this method.
 	*/
-	virtual void onTerminate() {}
+	virtual void onTerminateGame() {}
+
+	/* USER DEFINED
+	 On terminate systems method. 
+	 The user is expected to terminate all the initialized and/ or used systems in this method. 
+	*/
+	virtual void onTerminateSystems() {}
+
+	/* USER DEFINED 
+	 On terminate services method. 
+	 User is expected to terminate the relevant services using this method. 
+	*/
+	virtual void onTerminateServices() {}
+
+	/* USER DEFINED
+	 On terminate final method. 
+	 This method is called prior to shutting down the server completely. 
+	*/
+	virtual void onTerminateFinal() {}
 
 	/* Helper methods */
 protected:
@@ -128,6 +154,11 @@ protected:
 	 Returns the currently active rendering engine.
 	*/
 	DMKRenderer* getRenderer() const;
+
+	/* HELPER 
+	 Get the currently active player controller. 
+	*/
+	DMKPlayerController* getPlayerController() const;
 
 	/* HELPER
 	 Get the active clock.
@@ -167,23 +198,61 @@ public:
 	*/
 	void terminate();
 
-	/* Internal helper methods */
-private:
+	/* Internal protected methods */
+protected:
 	/*
-	 Initialize the runtime systems of the engine.
+	 Initialize the event pool. 
 	*/
-	void initializeRuntimeSystems();
+	void initializeEventPool();
 
 	/*
-	 Initialize the services of the engine.
+	 Initialize the player controller. 
 	*/
-	void initializeServices();
+	void initializePlayerController();
+
+	/*
+	 Initialize the rendering engine. 
+	*/
+	void initializeRenderingEngine();
+
+	/*
+	 Terminate the rendering engine.
+	*/
+	void terminateRenderingEngine();
 
 	/*
 	 Initialize the window handle.
 	*/
 	void initializeWindowHandle();
 
+	/*
+	 Terminate the window handle. 
+	*/
+	void terminateWindowHandle();
+
+	/*
+	 Initialize the basic services of the engine. 
+	 These include factories, utilities, etc..
+	*/
+	void initializeBasicServices();
+
+	/*
+	 Terminate the basic services. 
+	*/
+	void terminateBasicServices();
+
+	/*
+	 Initialize the asset registry. 
+	*/
+	void initializeAssetRegistry();
+
+	/*
+	 Initialize the tools registry. 
+	*/
+	void initializeToolsRegistry();
+
+	/* Internal helper methods */
+private:
 	/*
 	 Create a window.
 
@@ -220,6 +289,9 @@ private:
 																				\
 			/* Execute the engine. */											\
 			gameServer.execute();												\
+																				\
+			/* Terminate the engine. */											\
+			gameServer.terminate();												\
 		}																		\
 		catch (const std::exception& e)											\
 		{																		\

@@ -36,7 +36,7 @@ public:
 	~DMKClock() {}
 
 	/*
-	 Start the clock. Users are not reuired to start the clock explicitly because it is
+	 Start the clock. Users are not required to start the clock explicitly because it is
 	 automatically started by the engine.
 	*/
 	void start();

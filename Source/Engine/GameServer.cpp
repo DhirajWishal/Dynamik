@@ -36,13 +36,16 @@
 
 DMKGameServer::DMKGameServer()
 {
+	/* Start the internal clock. */
+	clock.start();
+
 	DMKErrorManager::logInfo("Welcome to the Dynamik Engine!");
 }
 
 DMKGameServer::~DMKGameServer()
 {
-	/* Terminate the engine. */
-	terminate();
+	/* End the internal clock. */
+	clock.end();
 }
 
 void DMKGameServer::setGameData(const DMKGameData& gameData)
@@ -79,6 +82,11 @@ DMKRenderer* DMKGameServer::getRenderer() const
 	return DMKSystemLocator::getSystem<DMKRenderer>();
 }
 
+DMKPlayerController* DMKGameServer::getPlayerController() const
+{
+	return DMKSystemLocator::getSystem<DMKPlayerController>();
+}
+
 DMKClock& DMKGameServer::getClock() const
 {
 	return Cast<DMKClock&>(clock);
@@ -91,37 +99,21 @@ DMKWindowHandle* DMKGameServer::getCurrentWindowHandle() const
 
 void DMKGameServer::initialize()
 {
-	/* Call on startup method. */
-	onStartup();
-
-	/* Initialize the runtime systems. */
-	initializeRuntimeSystems();
-
-	/* Call stage one initializer. */
-	onInitializeStageOne();
+	/* Initialize the systems required by the game. */
+	onInitializeSystems();
 
 	/* Initialize services. */
-	initializeServices();
+	onInitializeServices();
 
-	/* Call stage two initializer. */
-	onInitializeStageTwo();
+	/* Call stage one initializer. */
+	onInitializeGame();
 
-	/* Issue final commands */
-	getRenderer()->initializeCMD();
-	getRenderer()->createContextCMD(pActiveWindowHandle->createViewport(512, 512, 0, 0), DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT);
-
-	/* Call the stage three initializer */
-	onInitializeStageThree();
+	/* Initialize the finals. */
+	onInitializeFinal();
 }
 
 void DMKGameServer::execute()
 {
-	/* Initialize the finals */
-	getRenderer()->initializeFinalsCMD();
-
-	/* Let the game module submit its data to the required systems. */
-	getActiveGameModule()->onSubmitDataToSystems();
-
 	while (!DMKSystemLocator::getSystem<DMKEventPool>()->WindowCloseEvent)
 	{
 		/* Call the stage one update. */
@@ -152,23 +144,11 @@ void DMKGameServer::execute()
 			}
 		}
 
-		/* Execute the player controller */
-		DMKSystemLocator::getSystem<DMKPlayerController>()->executeAll();
+		/* Call the on update game method. */
+		onUpdateGame();
 
-		/* Call the on update method. */
-		onUpdate(1.0f);
-
-		/* Call on update in the active game module.*/
-		getActiveGameModule()->onUpdate(1.0f);
-
-		/* Update entities */
-		getActiveGameModule()->updateEntities(1.0f);
-
-		/* Update the rendering engine */
-		getRenderer()->issueRawCommand(RendererInstruction::RENDERER_INSTRUCTION_DRAW_UPDATE);
-
-		/* Clear all events */
-		getCurrentWindowHandle()->clean();
+		/* Call the on update systems method. */
+		onUpdateSystems();
 
 		/* Call the end update method. */
 		onEndUpdate();
@@ -177,40 +157,61 @@ void DMKGameServer::execute()
 
 void DMKGameServer::terminate()
 {
-	/* Call the onTerminate method. */
-	onTerminate();
+	/* Call the on terminate game method. */
+	onTerminateGame();
 
-	/* Terminate the rendering engine */
-	getRenderer()->terminateThread();
+	/* Call the on terminate systems method. */
+	onTerminateSystems();
 
-	DMKConfigurationService::writeWindowSize(Cast<F32>(getCurrentWindowHandle()->windowWidth), Cast<F32>(getCurrentWindowHandle()->windowHeight));
-	getCurrentWindowHandle()->terminate();
+	/* Call the on terminate services method. */
+	onTerminateServices();
 
-	DMKConfigurationService::closeConfigFile();
-	clock.end();
+	/* Call the on terminate final method. */
+	onTerminateFinal();
 }
 
-void DMKGameServer::initializeRuntimeSystems()
+void DMKGameServer::initializeEventPool()
 {
-	/* Initialize the event pool. */
 	DMKSystemLocator::createSystem<DMKEventPool>();
 	DMKSystemLocator::getSystem<DMKEventPool>()->initialize();
-
-	/* Initialize the camera controller. */
-	DMKSystemLocator::createSystem<DMKPlayerController>();
-	DMKSystemLocator::getSystem<DMKPlayerController>()->setEventPool(DMKSystemLocator::getSystem<DMKEventPool>());
-
-	/* Initialize the renderer. */
-	{
-		DMKSystemLocator::createSystem<DMKRenderer>();
-		getRenderer()->initializeThread();
-	}
-
-	/* Initialize the window. */
-	initializeWindowHandle();
 }
 
-void DMKGameServer::initializeServices()
+void DMKGameServer::initializePlayerController()
+{
+	DMKSystemLocator::createSystem<DMKPlayerController>();
+	DMKSystemLocator::getSystem<DMKPlayerController>()->setEventPool(DMKSystemLocator::getSystem<DMKEventPool>());
+}
+
+void DMKGameServer::initializeRenderingEngine()
+{
+	DMKSystemLocator::createSystem<DMKRenderer>();
+	getRenderer()->initializeThread();
+
+	/* Issue the newly created window handle to the rendering engine. */
+	getRenderer()->setWindowHandleCMD(getCurrentWindowHandle());
+
+	/* Submit the initialize command. */
+	getRenderer()->initializeCMD();
+}
+
+void DMKGameServer::terminateRenderingEngine()
+{
+	getRenderer()->terminateThread();
+}
+
+void DMKGameServer::initializeWindowHandle()
+{
+	/* Create a window handle. */
+	pActiveWindowHandle = createWindow(1280, 720, getGameData().gameName);
+}
+
+void DMKGameServer::terminateWindowHandle()
+{
+	getCurrentWindowHandle()->terminate();
+	StaticAllocator<DMKWindowHandle>::deallocate(getCurrentWindowHandle(), 0);
+}
+
+void DMKGameServer::initializeBasicServices()
 {
 	auto _localPath = DMKFileSystem::getExecutablePath();
 	auto _workingDirectory = DMKFileSystem::getWorkingDirectory();
@@ -218,34 +219,31 @@ void DMKGameServer::initializeServices()
 
 	DMKMeshFactory::setWorkingDirectory(_workingDirectory);
 	DMKShaderFactory::setWorkingDirectory(_workingDirectory);
-
-	/* Set the default asset registry path */
-	{
-		STRING _thisFilePath = __FILE__;
-		_thisFilePath = _thisFilePath.substr(0, _thisFilePath.find_last_of("\\"));
-		_thisFilePath = _thisFilePath.substr(0, _thisFilePath.find_last_of("\\"));
-		DMKAssetRegistry::setDefaultAssetBasePath(_thisFilePath + TEXT("\\Assets"));
-		DMKAssetRegistry::initializeDefaultAssets();
-	}
-
-	/* Set the default tool registry path */
-	{
-		STRING _thisFilePath = __FILE__;
-		_thisFilePath = _thisFilePath.substr(0, _thisFilePath.find_last_of("\\"));
-		_thisFilePath = _thisFilePath.substr(0, _thisFilePath.find_last_of("\\"));
-		_thisFilePath = _thisFilePath.substr(0, _thisFilePath.find_last_of("\\"));
-		DMKToolsRegistry::setDefaultToolsBasePath(_thisFilePath + TEXT("\\Dependencies\\ThirdParty\\Binaries"));
-		DMKToolsRegistry::initializeDefaultTools();
-	}
 }
 
-void DMKGameServer::initializeWindowHandle()
+void DMKGameServer::terminateBasicServices()
 {
-	/* Create a window handle. */
-	pActiveWindowHandle = createWindow(1280, 720, getGameData().gameName);
+	DMKConfigurationService::writeWindowSize(Cast<F32>(getCurrentWindowHandle()->windowWidth), Cast<F32>(getCurrentWindowHandle()->windowHeight));
+	DMKConfigurationService::closeConfigFile();
+}
 
-	/* Issue the newly created window handle to the required systems. */
-	getRenderer()->setWindowHandleCMD(pActiveWindowHandle);
+void DMKGameServer::initializeAssetRegistry()
+{
+	STRING _thisFilePath = __FILE__;
+	_thisFilePath = _thisFilePath.substr(0, _thisFilePath.find_last_of("\\"));
+	_thisFilePath = _thisFilePath.substr(0, _thisFilePath.find_last_of("\\"));
+	DMKAssetRegistry::setDefaultAssetBasePath(_thisFilePath + TEXT("\\Assets"));
+	DMKAssetRegistry::initializeDefaultAssets();
+}
+
+void DMKGameServer::initializeToolsRegistry()
+{
+	STRING _thisFilePath = __FILE__;
+	_thisFilePath = _thisFilePath.substr(0, _thisFilePath.find_last_of("\\"));
+	_thisFilePath = _thisFilePath.substr(0, _thisFilePath.find_last_of("\\"));
+	_thisFilePath = _thisFilePath.substr(0, _thisFilePath.find_last_of("\\"));
+	DMKToolsRegistry::setDefaultToolsBasePath(_thisFilePath + TEXT("\\Dependencies\\ThirdParty\\Binaries"));
+	DMKToolsRegistry::initializeDefaultTools();
 }
 
 DMKWindowHandle* DMKGameServer::createWindow(UI64 width, UI64 height, const STRING& title)

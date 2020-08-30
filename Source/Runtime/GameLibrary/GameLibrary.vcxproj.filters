@@ -57,9 +57,6 @@
     <ClInclude Include="Utilities\MeshFactory.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Utilities\Utilities.h">
-      <Filter>Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="Entities\TriggerEntity2D.h" />
     <ClInclude Include="Entities\Complex\Button2D.h" />
   </ItemGroup>
@@ -93,10 +90,8 @@
     <ClCompile Include="Utilities\MeshFactory.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\Utilities.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="Entities\TriggerEntity2D.cpp" />
+    <ClCompile Include="Utilities\EntityFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameLibrary.lua" />

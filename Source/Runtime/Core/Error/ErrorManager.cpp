@@ -72,7 +72,7 @@ void LOG(int severity, STRING msg) {
 	changeToColor(severity);
 
 	_strtime_s(tmpBuff, 128);
-	printf("\n[%s] %s%s%s\n", tmpBuff, LOG_INFO[severity].c_str(), msg.c_str(), normal);
+	printf("[%s] %s%s%s\n", tmpBuff, LOG_INFO[severity].c_str(), msg.c_str(), normal);
 }
 
 void DMKErrorManager::logInfo(STRING message)
@@ -96,7 +96,7 @@ void DMKErrorManager::logError(STRING message)
 void DMKErrorManager::logFatal(STRING message, STRING file, UI32 line)
 {
 	changeToColor(3);
-	printf("\n[%s:%u] %s%s%s\n", file.c_str(), line, LOG_INFO[3].c_str(), message.c_str(), normal);
+	printf("[%s:%u] %s%s%s\n", file.c_str(), line, LOG_INFO[3].c_str(), message.c_str(), normal);
 }
 
 void DMKErrorManager::logDebug(STRING message)

@@ -88,6 +88,7 @@ public:		/* Command Interface */
 	void setSamplesCMD(DMKSampleCount samples);
 	void setWindowHandleCMD(DMKWindowHandle* pWindowHandle);
 	void createContextCMD(DMKViewport viewPort, DMKRenderContextType contextType);
+	void update();
 
 	void setImGuiContextCMD(ImGuiContext* pContext);
 

@@ -13,9 +13,20 @@ public:
 	~ApplicationServer() {}
 
 protected:
-	virtual void onInitializeStageOne() override final;
-	virtual void onUpdate(const F32 frameTime) override final;
-	virtual void onTerminate() override final;
+	void onInitializeSystems() override final;
+	void onInitializeServices() override final;
+	void onInitializeGame() override final;
+	void onInitializeFinal() override final;
+
+	void onBeginUpdate() override final;
+	void onUpdateGame() override final;
+	void onUpdateSystems() override final;
+	void onEndUpdate() override final;
+
+	void onTerminateGame() override final;
+	void onTerminateSystems() override final;
+	void onTerminateServices() override final;
+	void onTerminateFinal() override final;
 };
 
 #endif // !_APPLICATION_SERVER_H

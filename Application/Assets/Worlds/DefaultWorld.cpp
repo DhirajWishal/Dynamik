@@ -8,6 +8,8 @@
 #include "../Entities/VenusModel.h"
 #include "../Entities/CerberusModel.h"
 
+#include "GameLibrary/Utilities/EntityFactory.h"
+
 void DefaultWorld::initialize()
 {
 	/* Add the player entity. */
@@ -24,6 +26,9 @@ void DefaultWorld::initialize()
 	/* Add the cerberus model entity */
 	auto cerberusModel = addEntity<CerberusModel>();
 	cerberusModel->setCameraModule(player->getCameraModule());
+	
+	/* Load a pure static entity. */
+	addEntity<DMKStaticModelEntity>(Cast<const DMKStaticModelEntity&>(EntityFactory::CreateStaticEntity(TEXT("E:\\Dynamik\\Game Repository\\assets\\assets\\moon\\Moon 2K.fbx"),{ "E:\\Dynamik\\Game Repository\\assets\\assets\\moon\\Diffuse_2K.png" }, player->getCameraModule())));
 }
 
 void DefaultWorld::onUpdate(const F32 timeStep)
@@ -54,6 +59,9 @@ void DefaultWorld::onUpdate(const F32 timeStep)
 		while (progress != 7);
 		getEntity<CerberusModel>()->clearStaticModel();
 
+		/* load the pure static entity. */
+		submitStaticModelToRenderer(getEntity<DMKStaticModelEntity>());
+
 		areEntitiesInitialized = true;
 	}
 
@@ -69,10 +77,10 @@ void DefaultWorld::onUpdate(const F32 timeStep)
 		refresh = true;
 
 	if (DMKEventPool::KeyUp.isPressed() || DMKEventPool::KeyUp.isOnRepeat())
-		playerObject->addUpVector(0.0001f);
+		playerObject->addUpVector(0.001f);
 
 	if (DMKEventPool::KeyDown.isPressed() || DMKEventPool::KeyDown.isOnRepeat())
-		playerObject->addDownVector(0.0001f);
+		playerObject->addDownVector(0.001f);
 
 	if (DMKEventPool::KeyX.isPressed())
 		removeStaticModelFromRenderer(getEntity<CerberusModel>());
