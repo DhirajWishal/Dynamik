@@ -85,7 +85,7 @@ public:
 
 public:		/* Command Interface */
 	void issueRawCommand(RendererInstruction instruction);
-	void initializeCMD();
+	void initializeCMD(DMKRendererDescription description);
 	void initializeFinalsCMD();
 	void setSamplesCMD(DMKSampleCount samples);
 	void setWindowHandleCMD(DMKWindowHandle* pWindowHandle);
@@ -161,10 +161,6 @@ private:    /* Resource */
 	void copyDataToBuffer(RBuffer* pDstBuffer, VPTR data, UI64 size, UI64 offset);
 
 	RTexture* createTexture(const DMKTexture* pTexture);
-
-	RBRDFTable* createBRDFTable();
-	RIrradianceCube* createIrradianceCube();
-	RPreFilteredCube* createPreFilteredCube();
 
 	RImGuiBackend* allocateImGuiClient();
 

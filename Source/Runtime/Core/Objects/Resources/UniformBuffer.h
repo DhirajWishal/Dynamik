@@ -47,7 +47,7 @@ class DMK_API DMKUniformBuffer {
 	};
 
 public:
-	DMKUniformBuffer(UI32 binding = 0) : bindingLocation(binding) {}
+	DMKUniformBuffer(UI32 binding = 0, const DMKUniformType& type = DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER) : bindingLocation(binding), type(type) {}
 	~DMKUniformBuffer() = default;
 
 	/*

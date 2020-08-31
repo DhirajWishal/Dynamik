@@ -133,6 +133,7 @@
       <Filter>ThirdParty</Filter>
     </ClInclude>
     <ClInclude Include="RendererBackendLayer.h" />
+    <ClInclude Include="Components\Primitives\RAccelerationStructure.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\Attachments\RBoundingBox.cpp">

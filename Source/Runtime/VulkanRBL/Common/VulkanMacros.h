@@ -6,7 +6,7 @@
 #define _DYNAMIK_VULKAN_MACROS_H
 
 /*
- This file contains all the necessry macros for the Vulkan RBL.
+ This file contains all the necessary macros for the Vulkan RBL.
 */
 #define VK_ENABLE_BETA_EXTENSIONS
 #include <vulkan/vulkan.h>

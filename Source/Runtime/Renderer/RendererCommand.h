@@ -6,6 +6,7 @@
 #define _DYNAMIK_RENDERER_COMMANDS_H
 
 #include "Core/Types/DataTypes.h"
+#include "Core/Globals/RenderSettings.h"
 #include "Window/WindowHandle.h"
 #include "Components/ContextTypeDefs.h"
 #include "Components/CoreTypeDefs.h"
@@ -58,6 +59,15 @@ public:
 	virtual ~DMKRendererCommand() {}
 
 	RendererInstruction instruction = RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE;
+};
+
+/* Initialize the renderer */
+class DMK_API RendererInitialize : public DMKRendererCommand {
+public:
+	RendererInitialize() : DMKRendererCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE) {}
+	~RendererInitialize() {}
+
+	DMKRendererDescription description = {};
 };
 
 /* Samples command */

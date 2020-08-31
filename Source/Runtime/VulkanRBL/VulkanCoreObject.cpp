@@ -9,10 +9,24 @@
 #include "Common/VulkanControlHeader.h"
 #include "VulkanUtilities.h"
 
-void VulkanCoreObject::initialize(DMKWindowHandle* pWindow, DMKSampleCount eSamples, B1 bEnableValidation)
+
+void VulkanCoreObject::initialize(DMKRendererDescription description, DMKWindowHandle* pWindow)
 {
+	if (description.enableRayTracing)
+	{
+		instance.addExtension(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
+
+		device.addExtension(VK_KHR_MAINTENANCE3_EXTENSION_NAME);
+		device.addExtension(VK_KHR_GET_MEMORY_REQUIREMENTS_2_EXTENSION_NAME);
+		device.addExtension(VK_KHR_RAY_TRACING_EXTENSION_NAME);
+		device.addExtension(VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME);
+		device.addExtension(VK_KHR_DEFERRED_HOST_OPERATIONS_EXTENSION_NAME);
+		device.addExtension(VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME);
+		device.addExtension(VK_KHR_PIPELINE_LIBRARY_EXTENSION_NAME);
+	}
+
 	/* Initialize the Vulkan Instance */
-	instance.initialize(bEnableValidation);
+	instance.initialize(description.enableValidation);
 
 	/* Initialize the Vulkan Surface */
 	surface.initialize(instance, pWindow);
@@ -20,8 +34,8 @@ void VulkanCoreObject::initialize(DMKWindowHandle* pWindow, DMKSampleCount eSamp
 	/* Initialize the Vulkan Device */
 	device.initialize(instance, surface);
 
-	sampleCount = eSamples;
-	if ((UI32)eSamples > (UI32)device.getMaxUsableSampleCount())
+	sampleCount = description.msaaSampleCount;
+	if ((UI32)description.msaaSampleCount > (UI32)device.getMaxUsableSampleCount())
 	{
 		DMKErrorManager::logWarn(TEXT("Pre defined samples are not supported by the GPU. Setting the default to the maximum usable count."));
 		sampleCount = (DMKSampleCount)device.getMaxUsableSampleCount();

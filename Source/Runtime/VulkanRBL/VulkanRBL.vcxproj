@@ -421,6 +421,8 @@
     <ClInclude Include="Lighting\VulkanIrradianceCube.h" />
     <ClInclude Include="Lighting\VulkanPreFilteredCube.h" />
     <ClInclude Include="Pipelines\VulkanGraphicsPipeline.h" />
+    <ClInclude Include="Pipelines\VulkanRayTracingPipeline.h" />
+    <ClInclude Include="Primitives\VulkanAccelerationStructure.h" />
     <ClInclude Include="Primitives\VulkanBuffer.h" />
     <ClInclude Include="Primitives\VulkanImage.h" />
     <ClInclude Include="Primitives\VulkanImageSampler.h" />
@@ -452,6 +454,8 @@
     <ClCompile Include="Lighting\VulkanIrradianceCube.cpp" />
     <ClCompile Include="Lighting\VulkanPreFilteredCube.cpp" />
     <ClCompile Include="Pipelines\VulkanGraphicsPipeline.cpp" />
+    <ClCompile Include="Pipelines\VulkanRayTracingPipeline.cpp" />
+    <ClCompile Include="Primitives\VulkanAccelerationStructure.cpp" />
     <ClCompile Include="Primitives\VulkanBuffer.cpp" />
     <ClCompile Include="Primitives\VulkanImage.cpp" />
     <ClCompile Include="Primitives\VulkanImageSampler.cpp" />

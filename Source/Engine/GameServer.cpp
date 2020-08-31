@@ -182,7 +182,7 @@ void DMKGameServer::initializePlayerController()
 	DMKSystemLocator::getSystem<DMKPlayerController>()->setEventPool(DMKSystemLocator::getSystem<DMKEventPool>());
 }
 
-void DMKGameServer::initializeRenderingEngine()
+void DMKGameServer::initializeRenderingEngine(const DMKRendererDescription& description)
 {
 	DMKSystemLocator::createSystem<DMKRenderer>();
 	getRenderer()->initializeThread();
@@ -191,7 +191,7 @@ void DMKGameServer::initializeRenderingEngine()
 	getRenderer()->setWindowHandleCMD(getCurrentWindowHandle());
 
 	/* Submit the initialize command. */
-	getRenderer()->initializeCMD();
+	getRenderer()->initializeCMD(description);
 }
 
 void DMKGameServer::terminateRenderingEngine()

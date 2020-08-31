@@ -23,16 +23,10 @@
 
 namespace Backend
 {
-	void VulkanRBL::initializeCoreObject()
+	void VulkanRBL::initializeCoreObject(DMKRendererDescription description)
 	{
 		pCoreObject = StaticAllocator<VulkanCoreObject>::rawAllocate();
-#ifdef DMK_DEBUG
-
-		pCoreObject->initialize(getWindowHandle(), getSampleCount(), true);
-#else // DMK_DEBUG
-
-		pCoreObject->initialize(getWindowHandle(), getSampleCount(), false);
-#endif
+		pCoreObject->initialize(description, getWindowHandle());
 	}
 
 	RCoreObject* VulkanRBL::getCoreObject() const
@@ -294,6 +288,12 @@ namespace Backend
 
 	RIrradianceCube* VulkanRBL::createIrradianceCube(REnvironmentEntity* pEnvironmentEntity, Vector2F dimentions, DMKFormat format)
 	{
+		if (!pEnvironmentEntity)
+		{
+			DMK_ERROR("Environment entity is invalid!");
+			return nullptr;
+		}
+
 		VulkanIrradianceCube* pIrradianceCube = StaticAllocator<VulkanIrradianceCube>::rawAllocate();
 		pIrradianceCube->initialize(getCoreObject(), pEnvironmentEntity, dimentions, format);
 
@@ -314,6 +314,12 @@ namespace Backend
 
 	RPreFilteredCube* VulkanRBL::createPreFilteredCube(REnvironmentEntity* pEnvironmentEntity, Vector2F dimentions, DMKFormat format)
 	{
+		if (!pEnvironmentEntity)
+		{
+			DMK_ERROR("Environment entity is invalid!");
+			return nullptr;
+		}
+
 		VulkanPreFilteredCube* pPreFilteredCube = StaticAllocator<VulkanPreFilteredCube>::rawAllocate();
 		pPreFilteredCube->initialize(getCoreObject(), pEnvironmentEntity, dimentions, format);
 
@@ -330,5 +336,27 @@ namespace Backend
 
 		pPreFilteredCube->terminate(getCoreObject());
 		StaticAllocator<VulkanPreFilteredCube>::rawDeallocate(pPreFilteredCube);
+	}
+
+	RImage* VulkanRBL::createStorageImage(DMKFormat format, Vector3F dimentions)
+	{
+		RImageCreateInfo createInfo = {};
+		createInfo.imageFormat = format;
+		createInfo.vDimentions = dimentions;
+		createInfo.layers = 1;
+		createInfo.mipLevels = 1;
+		createInfo.sampleCount = DMK_SAMPLE_COUNT_1_BIT;
+		createInfo.imageUsage = RImageUsage(RImageUsage::IMAGE_USAGE_TRANSFER_SRC | RImageUsage::IMAGE_USAGE_STORAGE);
+
+		VulkanImage* pImage = StaticAllocator<VulkanImage>::rawAllocate();
+		pImage->initialize(getCoreObject(), createInfo);
+
+		pImage->createImageView(getCoreObject(), DMKTexture::TextureSwizzles());
+
+		return pImage;
+	}
+
+	void VulkanRBL::terminateImage(RImage* pImage)
+	{
 	}
 }

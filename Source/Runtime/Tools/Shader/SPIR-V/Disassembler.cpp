@@ -224,7 +224,7 @@ namespace Tools
 			_poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 			poolSizes.pushBack(_poolSize);
 
-			DMKUniformBuffer _uniformBuffer(binding);
+			DMKUniformBuffer _uniformBuffer(binding, DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER);
 
 			//for (auto ID : _glslCompiler.get_type(resource.base_type_id).member_types)
 			for (UI32 index = 0; index < _glslCompiler.get_type(resource.base_type_id).member_types.size(); index++)

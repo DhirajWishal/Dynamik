@@ -2,22 +2,22 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _VULKAN_RENDERER_BACKEND_LAYER_H
-#define _VULKAN_RENDERER_BACKEND_LAYER_H
+#ifndef _DYNAMIK_VULKAN_RENDERER_BACKEND_LAYER_H
+#define _DYNAMIK_VULKAN_RENDERER_BACKEND_LAYER_H
 
 #include "Renderer/RendererBackendLayer.h"
 
 namespace Backend
 {
 	/*
-	 Vulkan Renderer Backend Layer
+	 Vulkan Renderer Backend Layer 
 	*/
 	class DMK_API VulkanRBL : public DMKRendererBackendLayer {
 	public:
 		VulkanRBL() {}
 		~VulkanRBL() {}
 
-		virtual void initializeCoreObject() override final;
+		virtual void initializeCoreObject(DMKRendererDescription description) override final;
 		virtual RCoreObject* getCoreObject()const override final;
 		virtual void terminateCoreObject() override final;
 
@@ -54,6 +54,9 @@ namespace Backend
 
 		virtual RPreFilteredCube* createPreFilteredCube(REnvironmentEntity* pEnvironmentEntity, Vector2F dimentions, DMKFormat format = DMKFormat::DMK_FORMAT_RGBA_16_SF32) override final;
 		virtual void terminatePreFilteredCube(RPreFilteredCube* pPreFilteredCube) override final;
+
+		virtual RImage* createStorageImage(DMKFormat format, Vector3F dimentions) override final;
+		virtual void terminateImage(RImage* pImage) override final;
 	};
 }
 

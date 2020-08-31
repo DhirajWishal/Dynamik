@@ -378,6 +378,7 @@
     <ClInclude Include="Components\Lighting\RIrradianceCube.h" />
     <ClInclude Include="Components\Lighting\RPreFilteredCube.h" />
     <ClInclude Include="Components\PipelineTypeDefs.h" />
+    <ClInclude Include="Components\Primitives\RAccelerationStructure.h" />
     <ClInclude Include="Components\PrimitiveTypeDefs.h" />
     <ClInclude Include="Components\Primitives\RBuffer.h" />
     <ClInclude Include="Components\Primitives\RImage.h" />

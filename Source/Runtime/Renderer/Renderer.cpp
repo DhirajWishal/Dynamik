@@ -10,24 +10,9 @@
 #include "Services/RuntimeSystems/AssetRegistry.h"
 
 /* Vulkan headers */
-#include "VulkanRBL/VulkanCoreObject.h"
-#include "VulkanRBL/Common/VulkanInstance.h"
-#include "VulkanRBL/Common/VulkanSurface.h"
-#include "VulkanRBL/Common/VulkanDevice.h"
-#include "VulkanRBL/Common/VulkanQueue.h"
-#include "VulkanRBL/Common/VulkanCommandBuffer.h"
-#include "VulkanRBL/Common/VulkanCommandBufferManager.h"
-#include "VulkanRBL/Common/VulkanDescriptorSetManager.h"
-#include "VulkanRBL/Context/VulkanSwapChain.h"
-#include "VulkanRBL/Context/VulkanRenderPass.h"
-#include "VulkanRBL/Context/VulkanFrameBuffer.h"
-#include "VulkanRBL/Pipelines/VulkanGraphicsPipeline.h"
-#include "VulkanRBL/Lighting/VulkanBRDFTable.h"
-#include "VulkanRBL/Lighting/VulkanPreFilteredCube.h"
-#include "VulkanRBL/Lighting/VulkanIrradianceCube.h"
-#include "VulkanRBL/Clients/VulkanImGuiBackend.h"
-
 #include "VulkanRBL/VulkanRBL.h"
+#include "VulkanRBL/Clients/VulkanImGuiBackend.h"
+#include <GLFW/glfw3.h>
 
 #include "Managers/Thread/ThreadFunction.inl"
 
@@ -44,10 +29,6 @@ void DMKRenderer::processCommand(STRING commandName)
 
 		switch (instruction)
 		{
-		case RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE:
-			getBackend()->initializeCoreObject();
-
-			break;
 		case RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_FINALS:
 			initializeFinals();
 			break;
@@ -97,6 +78,9 @@ void DMKRenderer::processCommand(STRING commandName)
 			break;
 		}
 	}
+
+	else if (commandName == typeid(RendererInitialize).name())
+		getBackend()->initializeCoreObject(pCommandService->getCommand<RendererInitialize>().description);
 
 	else if (commandName == typeid(RendererSetSamplesCommand).name())
 		setSamples(pCommandService->getCommand<RendererSetSamplesCommand>().samples);
@@ -198,9 +182,12 @@ void DMKRenderer::issueRawCommand(RendererInstruction instruction)
 	pCommandService->issueCommand<DMKRendererCommand>(DMKRendererCommand(instruction));
 }
 
-void DMKRenderer::initializeCMD()
+void DMKRenderer::initializeCMD(DMKRendererDescription description)
 {
-	issueRawCommand(RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE);
+	RendererInitialize _command;
+	_command.description = description;
+
+	pCommandService->issueCommand<RendererInitialize>(_command);
 }
 
 void DMKRenderer::initializeFinalsCMD()
@@ -400,66 +387,6 @@ void DMKRenderer::copyDataToBuffer(RBuffer* pDstBuffer, VPTR data, UI64 size, UI
 RTexture* DMKRenderer::createTexture(const DMKTexture* pTexture)
 {
 	return getBackend()->createTexture(Cast<DMKTexture*>(pTexture));
-}
-
-RBRDFTable* DMKRenderer::createBRDFTable()
-{
-	switch (myAPI)
-	{
-	case DMKRenderingAPI::DMK_RENDERING_API_NONE:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
-		return StaticAllocator<VulkanBRDFTable>::rawAllocate();
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
-		break;
-	default:
-		break;
-	}
-
-	return nullptr;
-}
-
-RIrradianceCube* DMKRenderer::createIrradianceCube()
-{
-	switch (myAPI)
-	{
-	case DMKRenderingAPI::DMK_RENDERING_API_NONE:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
-		return StaticAllocator<VulkanIrradianceCube>::rawAllocate();
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
-		break;
-	default:
-		break;
-	}
-
-	return nullptr;
-}
-
-RPreFilteredCube* DMKRenderer::createPreFilteredCube()
-{
-	switch (myAPI)
-	{
-	case DMKRenderingAPI::DMK_RENDERING_API_NONE:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
-		return StaticAllocator<VulkanPreFilteredCube>::rawAllocate();
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
-		break;
-	default:
-		break;
-	}
-
-	return nullptr;
 }
 
 RImGuiBackend* DMKRenderer::allocateImGuiClient()

@@ -29,7 +29,7 @@ public:
 	RCoreObject() {}
 	virtual ~RCoreObject() {}
 
-	virtual void initialize(DMKWindowHandle* pWindow, DMKSampleCount eSamples, B1 bEnableValidation) = 0;
+	virtual void initialize(DMKRendererDescription description, DMKWindowHandle* pWindow) = 0;
 	virtual void terminate() = 0;
 
 	virtual void idleCall() = 0;

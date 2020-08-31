@@ -74,6 +74,11 @@ namespace Backend
 			func(instance, debugMessenger, pAllocator);
 	}
 
+	void VulkanInstance::addExtension(const STRING& extension)
+	{
+		extentions.pushBack(extension.c_str());
+	}
+
 	void VulkanInstance::initialize(B1 enableValidation, ARRAY<CCPTR> layers)
 	{
 		isValidationEnabled = enableValidation;
@@ -95,7 +100,7 @@ namespace Backend
 		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 		createInfo.pApplicationInfo = &appInfo;
 
-		extentions = _getRequiredExtensions();
+		extentions.insert(_getRequiredExtensions());
 		createInfo.enabledExtensionCount = static_cast<UI32>(extentions.size());
 		createInfo.ppEnabledExtensionNames = extentions.data();
 

@@ -82,7 +82,15 @@ public:
 	RPipelineObject() {}
 	virtual ~RPipelineObject() {}
 
-	virtual void initialize(RCoreObject* pCoreObject, RPipelineSpecification createInfo, RPipelineUsage usage, RRenderTarget* pRenderTarget, DMKViewport viewport) = 0;
+	/*
+	 For graphics pipeline creation. 
+	*/
+	virtual void initialize(RCoreObject* pCoreObject, RPipelineSpecification createInfo, RPipelineUsage usage, RRenderTarget* pRenderTarget, DMKViewport viewport) {}
+	
+	/*
+	 For ray tracing pipeline creation.
+	*/
+	virtual void initialize(RCoreObject* pCoreObject) {}
 	virtual void reCreate(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, DMKViewport viewport) = 0;
 	virtual void terminate(RCoreObject* pCoreObject) = 0;
 

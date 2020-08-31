@@ -26,7 +26,7 @@ public:
 	VulkanCoreObject() {}
 	~VulkanCoreObject() {}
 
-	virtual void initialize(DMKWindowHandle* pWindow, DMKSampleCount eSamples, B1 bEnableValidation) override final;
+	virtual void initialize(DMKRendererDescription description, DMKWindowHandle* pWindow) override final;
 	virtual void terminate() override final;
 
 	virtual void idleCall() override final;

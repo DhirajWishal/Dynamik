@@ -212,8 +212,10 @@ protected:
 
 	/*
 	 Initialize the rendering engine. 
+
+	 @param description: The renderer description to initialize the rendering engine. 
 	*/
-	void initializeRenderingEngine();
+	void initializeRenderingEngine(const DMKRendererDescription& description = DMKRendererDescription());
 
 	/*
 	 Terminate the rendering engine.

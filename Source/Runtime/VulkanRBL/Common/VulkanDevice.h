@@ -8,6 +8,8 @@
 #include "VulkanInstance.h"
 #include "VulkanSurface.h"
 
+#include <vulkan/vulkan_beta.h>
+
 namespace Backend
 {
 	/*
@@ -19,12 +21,16 @@ namespace Backend
 		VulkanDevice() {}
 		~VulkanDevice() {}
 
+		void addExtension(const STRING& extension);
 		void initialize(VulkanInstance vInstance, VulkanSurface vSurface);
 		void initializePhysicalDevice(VulkanInstance vInstance, VulkanSurface vSurface);
 		void initializeLogicalDevice(VulkanInstance vInstance, VulkanSurface vSurface);
 		void terminate(VulkanInstance vInstance);
 
 		VkSampleCountFlagBits getMaxUsableSampleCount();
+
+		VkPhysicalDeviceRayTracingFeaturesKHR getRayTracingFeatures();
+		VkPhysicalDeviceRayTracingPropertiesKHR getRayTracingProperties();
 
 		operator VkPhysicalDevice() const;
 		operator VkDevice() const;
@@ -34,8 +40,10 @@ namespace Backend
 		VkDevice logicalDevice = VK_NULL_HANDLE;
 
 		VkPhysicalDeviceProperties physicalDeviceProperties = {};
+		VkPhysicalDeviceRayTracingFeaturesKHR rayTracingFeatures = {};
+		VkPhysicalDeviceRayTracingPropertiesKHR rayTracingProperties = {};
 
-		ARRAY<CCPTR> extentions;
+		ARRAY<CCPTR> extensions;
 	};
 }
 

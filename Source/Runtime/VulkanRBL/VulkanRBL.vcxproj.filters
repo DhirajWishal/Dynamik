@@ -112,6 +112,8 @@
     <ClInclude Include="VulkanRenderTarget.h" />
     <ClInclude Include="VulkanUtilities.h" />
     <ClInclude Include="VulkanRBL.h" />
+    <ClInclude Include="Primitives\VulkanAccelerationStructure.h" />
+    <ClInclude Include="Pipelines\VulkanRayTracingPipeline.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Clients\VulkanImGuiBackend.cpp">
@@ -192,6 +194,8 @@
     <ClCompile Include="VulkanCoreObject.cpp" />
     <ClCompile Include="VulkanUtilities.cpp" />
     <ClCompile Include="VulkanRBL.cpp" />
+    <ClCompile Include="Primitives\VulkanAccelerationStructure.cpp" />
+    <ClCompile Include="Pipelines\VulkanRayTracingPipeline.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="VulkanRBL.lua" />

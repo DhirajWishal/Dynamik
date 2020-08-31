@@ -5,13 +5,13 @@
 #ifndef _DYNAMIK_VULKAN_IMAGE_H
 #define _DYNAMIK_VULKAN_IMAGE_H
 
-#include "Renderer/Components/Primitives/RImage.h"
-#include "Core/Objects/Resources/Texture.h"
-#include "../Common/VulkanDevice.h"
-#include "../Common/VulkanQueue.h"
 #include "VulkanBuffer.h"
-#include "Renderer/Components/PrimitiveTypeDefs.h"
+#include "../Common/VulkanQueue.h"
+#include "../Common/VulkanDevice.h"
+#include "Core/Objects/Resources/Texture.h"
 #include "Renderer/Components/CoreTypeDefs.h"
+#include "Renderer/Components/Primitives/RImage.h"
+#include "Renderer/Components/PrimitiveTypeDefs.h"
 
 namespace Backend
 {

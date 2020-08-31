@@ -36,7 +36,11 @@ namespace Backend
 			bufferInfo.usage = VK_BUFFER_USAGE_INDIRECT_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
 			break;
 		case RBufferType::BUFFER_TYPE_RAY_TRACING:
-			bufferInfo.usage = VK_BUFFER_USAGE_RAY_TRACING_BIT_NV | VK_BUFFER_USAGE_TRANSFER_DST_BIT;
+			bufferInfo.usage = VK_BUFFER_USAGE_RAY_TRACING_BIT_KHR | VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT;
+			break;
+
+		case RBufferType::BUFFER_TYPE_SHADER_DEVICE:
+			bufferInfo.usage = VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT;
 			break;
 		default:
 			DMK_ERROR_BOX("Invalid buffer type!");
@@ -47,7 +51,7 @@ namespace Backend
 
 		DMK_VULKAN_ASSERT(vkCreateBuffer(Inherit<VulkanCoreObject>(pCoreObject)->device, &bufferInfo, nullptr, &buffer), "Failed to create buffer!");
 
-		VkMemoryRequirements memRequirements;
+		VkMemoryRequirements memRequirements = {};
 		vkGetBufferMemoryRequirements(Inherit<VulkanCoreObject>(pCoreObject)->device, buffer, &memRequirements);
 
 		VkMemoryAllocateInfo allocInfo = {};

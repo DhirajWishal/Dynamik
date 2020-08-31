@@ -28,7 +28,7 @@ public:
 	void setWindowHandle(DMKWindowHandle* pWindowHandle) { this->pWindowHandle = pWindowHandle; }
 	DMKWindowHandle* getWindowHandle() const { return this->pWindowHandle; }
 
-	virtual void initializeCoreObject() {}
+	virtual void initializeCoreObject(DMKRendererDescription description) {}
 	virtual RCoreObject* getCoreObject() const { return pCoreObject; }
 	virtual void terminateCoreObject() {}
 
@@ -62,10 +62,12 @@ public:
 
 	virtual RIrradianceCube* createIrradianceCube(REnvironmentEntity* pEnvironmentEntity, Vector2F dimentions, DMKFormat format = DMKFormat::DMK_FORMAT_RGBA_32_SF32) { return nullptr; }
 	virtual void terminateIrradianceCube(RIrradianceCube* pIrradianceCube) {}
-	
+
 	virtual RPreFilteredCube* createPreFilteredCube(REnvironmentEntity* pEnvironmentEntity, Vector2F dimentions, DMKFormat format = DMKFormat::DMK_FORMAT_RGBA_16_SF32) { return nullptr; }
 	virtual void terminatePreFilteredCube(RPreFilteredCube* pPreFilteredCube) {}
 
+	virtual RImage* createStorageImage(DMKFormat format, Vector3F dimentions) { return nullptr; }
+	virtual void terminateImage(RImage* pImage) {}
 protected:
 	RCoreObject* pCoreObject = nullptr;
 	DMKWindowHandle* pWindowHandle = nullptr;

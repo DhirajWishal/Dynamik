@@ -8,21 +8,49 @@
 
 #include <set>
 
+//#ifdef VK_ENABLE_BETA_EXTENSIONS
+//PFN_vkGetBufferDeviceAddressKHR vkGetBufferDeviceAddressKHR;
+//PFN_vkBindAccelerationStructureMemoryKHR vkBindAccelerationStructureMemoryKHR;
+//PFN_vkCreateAccelerationStructureKHR vkCreateAccelerationStructureKHR;
+//PFN_vkDestroyAccelerationStructureKHR vkDestroyAccelerationStructureKHR;
+//PFN_vkGetAccelerationStructureMemoryRequirementsKHR vkGetAccelerationStructureMemoryRequirementsKHR;
+//PFN_vkCmdBuildAccelerationStructureKHR vkCmdBuildAccelerationStructureKHR;
+//PFN_vkBuildAccelerationStructureKHR vkBuildAccelerationStructureKHR;
+//PFN_vkGetAccelerationStructureDeviceAddressKHR vkGetAccelerationStructureDeviceAddressKHR;
+//PFN_vkCmdTraceRaysKHR vkCmdTraceRaysKHR;
+//PFN_vkGetRayTracingShaderGroupHandlesKHR vkGetRayTracingShaderGroupHandlesKHR;
+//PFN_vkCreateRayTracingPipelinesKHR vkCreateRayTracingPipelinesKHR;
+//
+//#endif // VK_ENABLE_BETA_EXTENSIONS
+
 namespace Backend
 {
+	void VulkanDevice::addExtension(const STRING& extension)
+	{
+		extensions.pushBack(extension.c_str());
+	}
+
 	void VulkanDevice::initialize(VulkanInstance vInstance, VulkanSurface vSurface)
 	{
-		extentions.pushBack(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
-		//extentions.pushBack(VK_KHR_MAINTENANCE3_EXTENSION_NAME);
-		//extentions.pushBack(VK_KHR_GET_MEMORY_REQUIREMENTS_2_EXTENSION_NAME);
-		//extentions.pushBack(VK_KHR_RAY_TRACING_EXTENSION_NAME);
-		//extentions.pushBack(VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME);
-		//extentions.pushBack(VK_KHR_DEFERRED_HOST_OPERATIONS_EXTENSION_NAME);
-		//extentions.pushBack(VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME);
-		//extentions.pushBack(VK_KHR_PIPELINE_LIBRARY_EXTENSION_NAME);
+		extensions.pushBack(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 
 		initializePhysicalDevice(vInstance, vSurface);
 		initializeLogicalDevice(vInstance, vSurface);
+
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+		//vkGetBufferDeviceAddressKHR = reinterpret_cast<PFN_vkGetBufferDeviceAddressKHR>(vkGetDeviceProcAddr(logicalDevice, "vkGetBufferDeviceAddressKHR"));
+		//vkBindAccelerationStructureMemoryKHR = reinterpret_cast<PFN_vkBindAccelerationStructureMemoryKHR>(vkGetDeviceProcAddr(logicalDevice, "vkBindAccelerationStructureMemoryKHR"));
+		//vkCreateAccelerationStructureKHR = reinterpret_cast<PFN_vkCreateAccelerationStructureKHR>(vkGetDeviceProcAddr(logicalDevice, "vkCreateAccelerationStructureKHR"));
+		//vkDestroyAccelerationStructureKHR = reinterpret_cast<PFN_vkDestroyAccelerationStructureKHR>(vkGetDeviceProcAddr(logicalDevice, "vkDestroyAccelerationStructureKHR"));
+		//vkGetAccelerationStructureMemoryRequirementsKHR = reinterpret_cast<PFN_vkGetAccelerationStructureMemoryRequirementsKHR>(vkGetDeviceProcAddr(logicalDevice, "vkGetAccelerationStructureMemoryRequirementsKHR"));
+		//vkCmdBuildAccelerationStructureKHR = reinterpret_cast<PFN_vkCmdBuildAccelerationStructureKHR>(vkGetDeviceProcAddr(logicalDevice, "vkCmdBuildAccelerationStructureKHR"));
+		//vkBuildAccelerationStructureKHR = reinterpret_cast<PFN_vkBuildAccelerationStructureKHR>(vkGetDeviceProcAddr(logicalDevice, "vkBuildAccelerationStructureKHR"));
+		//vkGetAccelerationStructureDeviceAddressKHR = reinterpret_cast<PFN_vkGetAccelerationStructureDeviceAddressKHR>(vkGetDeviceProcAddr(logicalDevice, "vkGetAccelerationStructureDeviceAddressKHR"));
+		//vkCmdTraceRaysKHR = reinterpret_cast<PFN_vkCmdTraceRaysKHR>(vkGetDeviceProcAddr(logicalDevice, "vkCmdTraceRaysKHR"));
+		//vkGetRayTracingShaderGroupHandlesKHR = reinterpret_cast<PFN_vkGetRayTracingShaderGroupHandlesKHR>(vkGetDeviceProcAddr(logicalDevice, "vkGetRayTracingShaderGroupHandlesKHR"));
+		//vkCreateRayTracingPipelinesKHR = reinterpret_cast<PFN_vkCreateRayTracingPipelinesKHR>(vkGetDeviceProcAddr(logicalDevice, "vkCreateRayTracingPipelinesKHR"));
+
+#endif // VK_ENABLE_BETA_EXTENSIONS
 	}
 
 	void VulkanDevice::initializePhysicalDevice(VulkanInstance vInstance, VulkanSurface vSurface)
@@ -125,8 +153,8 @@ namespace Backend
 		createInfo.queueCreateInfoCount = static_cast<UI32>(queueCreateInfos.size());
 		createInfo.pQueueCreateInfos = queueCreateInfos.data();
 		createInfo.pEnabledFeatures = &deviceFeatures;
-		createInfo.enabledExtensionCount = static_cast<UI32>(extentions.size());
-		createInfo.ppEnabledExtensionNames = extentions.data();
+		createInfo.enabledExtensionCount = static_cast<UI32>(extensions.size());
+		createInfo.ppEnabledExtensionNames = extensions.data();
 
 		if (vInstance.isValidationEnabled)
 		{
@@ -160,6 +188,30 @@ namespace Backend
 		if (counts & VK_SAMPLE_COUNT_2_BIT)  return VK_SAMPLE_COUNT_2_BIT;
 
 		return VK_SAMPLE_COUNT_1_BIT;
+	}
+
+	VkPhysicalDeviceRayTracingFeaturesKHR VulkanDevice::getRayTracingFeatures()
+	{
+		rayTracingFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_FEATURES_KHR;
+
+		VkPhysicalDeviceFeatures2 deviceFeatures2 = {};
+		deviceFeatures2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
+		deviceFeatures2.pNext = &rayTracingFeatures;
+		vkGetPhysicalDeviceFeatures2(physicalDevice, &deviceFeatures2);
+
+		return rayTracingFeatures;
+	}
+
+	VkPhysicalDeviceRayTracingPropertiesKHR VulkanDevice::getRayTracingProperties()
+	{
+		rayTracingProperties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PROPERTIES_KHR;
+		VkPhysicalDeviceProperties2 deviceProps2 = {};
+
+		deviceProps2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2;
+		deviceProps2.pNext = &rayTracingProperties;
+		vkGetPhysicalDeviceProperties2(physicalDevice, &deviceProps2);
+
+		return rayTracingProperties;
 	}
 
 	VulkanDevice::operator VkPhysicalDevice() const
