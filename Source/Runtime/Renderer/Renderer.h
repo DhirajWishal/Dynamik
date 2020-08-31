@@ -10,6 +10,8 @@
 #include "Managers/Thread/Thread.h"
 #include "Managers/Thread/ThreadCommand.h"
 
+#include "RendererBackendLayer.h"
+
 #include "Components/RCoreObject.h"
 #include "Components/Context/RFrameBuffer.h"
 #include "Components/RCommandBufferManager.h"
@@ -147,13 +149,7 @@ private:    /* Core */
 	void setSamples(const DMKSampleCount& samples);
 	void setWindowHandle(const DMKWindowHandle* windowHandle);
 
-	RCoreObject* createCore(B1 bEnableValidation);
-
 private:    /* Context */
-	RSwapChain* createSwapChain(DMKViewport viewport, RSwapChainPresentMode presentMode);
-	RRenderPass* createRenderPass(ARRAY<RSubpassAttachment> subPasses);
-	RFrameBuffer* createFrameBuffer();
-
 	void createContext(DMKRenderContextType type, DMKViewport viewport);
 
 private:    /* Resource */
@@ -222,20 +218,20 @@ private:    /* Utility Methods */
 		UI32 meshIndex,
 		UI32* pProgressMeter = nullptr);
 
+	void createBackend();
+	DMKRendererBackendLayer* getBackend() const;
+	void terminateBackend();
+
 private:    /* Internal */
 	DMKRendererCompatibility myCompatibility;
 
 	DMKRendererCommand* myCommand = nullptr;
 
 	DMKRenderingAPI myAPI;
-	DMKSampleCount mySampleCount;
-	DMKWindowHandle* myWindowHandle = nullptr;
-
-	RCoreObject* myCoreObject = nullptr;
 	RDrawCallManager myDrawCallManager;
 
 	RSwapChain* mySwapChain = nullptr;
-	RRenderTarget myRenderTarget = {};
+	RRenderTarget* myRenderTarget = nullptr;
 	DMKRenderContextType myCurrentContextType = DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT;
 
 	B1 isReadyToRun = false;
@@ -250,6 +246,9 @@ private:    /* Internal */
 	ARRAY<DMKAnimatedModelEntity*> pAnimatedEntities;
 
 	UI32 currentImageIndex = 0;
+
+	DMKRendererBackendLayer* pCurrentBackendLayer = nullptr;
+
 	B1 isPresenting = false;
 
 private:    /* Factories */

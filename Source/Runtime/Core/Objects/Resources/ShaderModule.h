@@ -69,6 +69,11 @@ public:
 	void loadCode(const STRING& path);
 
 	/*
+	 Generate resources by parsing in the shader code. 
+	*/
+	void generateResources();
+
+	/*
 	 Set shader location.
 
 	 @param location: Shader location.
@@ -81,6 +86,13 @@ public:
 	 @param uniform: The uniform buffer object.
 	*/
 	void addUniform(const DMKUniformBuffer& uniform);
+
+	/*
+	 Set the uniforms in this shader. 
+
+	 @param uniforms: The uniforms to be set.
+	*/
+	void setUniforms(ARRAY<DMKUniformBuffer> uniforms);
 
 	/*
 	 Get a uniform buffer object at a given index.

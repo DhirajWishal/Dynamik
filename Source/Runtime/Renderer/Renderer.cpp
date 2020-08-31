@@ -27,6 +27,8 @@
 #include "VulkanRBL/Lighting/VulkanIrradianceCube.h"
 #include "VulkanRBL/Clients/VulkanImGuiBackend.h"
 
+#include "VulkanRBL/VulkanRBL.h"
+
 #include "Managers/Thread/ThreadFunction.inl"
 
 #define DMK_BUILD_STUDIO
@@ -43,14 +45,8 @@ void DMKRenderer::processCommand(STRING commandName)
 		switch (instruction)
 		{
 		case RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE:
+			getBackend()->initializeCoreObject();
 
-#ifdef DMK_DEBUG
-			myCoreObject = createCore(true);
-
-#else
-			myCoreObject = createCore(false);
-
-#endif // DMK_DEBUG
 			break;
 		case RendererInstruction::RENDERER_INSTRUCTION_INITIALIZE_FINALS:
 			initializeFinals();
@@ -79,7 +75,7 @@ void DMKRenderer::processCommand(STRING commandName)
 		case RendererInstruction::RENDERER_INSTRUCTION_DRAW_SUBMIT:
 			break;
 		case RendererInstruction::RENDERER_INSTRUCTION_TERMINATE_FRAME:
-			myCoreObject->idleCall();
+			getBackend()->getCoreObject()->idleCall();
 			isReadyToRun = false;
 			break;
 		case RendererInstruction::RENDERER_INSTRUCTION_TERMINATE_OBJECTS:
@@ -154,7 +150,7 @@ void DMKRenderer::onLoop()
 		return;
 
 	beginFrameInstruction();
-	myDrawCallManager.update(&myRenderTarget, mySwapChain, currentImageIndex);
+	myDrawCallManager.update(myRenderTarget, mySwapChain, currentImageIndex);
 
 	/* Update the Im Gui client */
 	if (myImGuiBackend)
@@ -165,7 +161,7 @@ void DMKRenderer::onLoop()
 
 void DMKRenderer::onTermination()
 {
-	myCoreObject->idleCall();
+	getBackend()->getCoreObject()->idleCall();
 
 	terminateEntities();
 	terminateContext();
@@ -184,6 +180,7 @@ void DMKRenderer::initializeInternals()
 	myCompatibility.isVulkanAvailable = glfwVulkanSupported();
 
 	myAPI = DMKRenderingAPI::DMK_RENDERING_API_VULKAN;
+	createBackend();
 
 #ifdef DMK_DEBUG
 	DMK_INFO("Entered the renderer thread!");
@@ -350,112 +347,12 @@ void DMKRenderer::onInitialize()
 /* ---------- INTERNAL METHODS ---------- */
 void DMKRenderer::setSamples(const DMKSampleCount& samples)
 {
-	mySampleCount = samples;
+	getBackend()->setSampleCount(samples);
 }
 
 void DMKRenderer::setWindowHandle(const DMKWindowHandle* windowHandle)
 {
-	myWindowHandle = Cast<DMKWindowHandle*>(windowHandle);
-}
-
-RCoreObject* DMKRenderer::createCore(B1 bEnableValidation)
-{
-	switch (myAPI)
-	{
-	case DMKRenderingAPI::DMK_RENDERING_API_NONE:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
-	{
-		myCoreObject = Inherit<RCoreObject>(StaticAllocator<VulkanCoreObject>::rawAllocate().get());
-		myCoreObject->initialize(myWindowHandle, mySampleCount, bEnableValidation);
-	}
-	break;
-	case DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
-		break;
-	default:
-		DMK_ERROR_BOX("Invalid rendering API!");
-		break;
-	}
-
-	myBufferFactory.setDefaults(myAPI, myCoreObject);
-
-	return myCoreObject;
-}
-
-RSwapChain* DMKRenderer::createSwapChain(DMKViewport viewport, RSwapChainPresentMode presentMode)
-{
-	switch (myAPI)
-	{
-	case DMKRenderingAPI::DMK_RENDERING_API_NONE:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
-	{
-		mySwapChain = Inherit<RSwapChain>(StaticAllocator<VulkanSwapChain>::rawAllocate().get());
-		mySwapChain->initialize(myCoreObject, viewport, presentMode);
-	}
-	break;
-	case DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
-		break;
-	default:
-		DMK_ERROR_BOX("Invalid rendering API!");
-		break;
-	}
-
-	return mySwapChain;
-}
-
-RRenderPass* DMKRenderer::createRenderPass(ARRAY<RSubpassAttachment> subPasses)
-{
-	switch (myAPI)
-	{
-	case DMKRenderingAPI::DMK_RENDERING_API_NONE:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
-	{
-		myRenderTarget.pRenderPass = Inherit<RRenderPass>(StaticAllocator<VulkanRenderPass>::rawAllocate().get());
-
-		/* Attachments: Color, Depth, Swap Chain */
-		myRenderTarget.pRenderPass->initialize(myCoreObject, subPasses, { RSubpassDependency() }, mySwapChain);
-	}
-	break;
-	case DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
-		break;
-	default:
-		DMK_ERROR_BOX("Invalid rendering API!");
-		break;
-	}
-
-	return myRenderTarget.pRenderPass;
-}
-
-RFrameBuffer* DMKRenderer::createFrameBuffer()
-{
-	switch (myAPI)
-	{
-	case DMKRenderingAPI::DMK_RENDERING_API_NONE:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
-	{
-		myRenderTarget.pFrameBuffer = Inherit<RFrameBuffer>(StaticAllocator<VulkanFrameBuffer>::rawAllocate().get());
-		myRenderTarget.pFrameBuffer->initialize(myCoreObject, myRenderTarget.pRenderPass, mySwapChain->extent, mySwapChain->bufferCount, RUtilities::getFrameBufferAttachments(myAPI, myRenderTarget.pRenderPass->subPasses, myCoreObject, mySwapChain, mySwapChain->extent));
-	}
-	break;
-	case DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
-		break;
-	default:
-		DMK_ERROR_BOX("Invalid rendering API!");
-		break;
-	}
-
-	return myRenderTarget.pFrameBuffer;
+	getBackend()->setWindowHandle(Cast<DMKWindowHandle*>(windowHandle));
 }
 
 void DMKRenderer::createContext(DMKRenderContextType type, DMKViewport viewport)
@@ -463,37 +360,15 @@ void DMKRenderer::createContext(DMKRenderContextType type, DMKViewport viewport)
 	myCurrentContextType = type;
 
 	/* Initialize Swap chain */
-	createSwapChain(viewport, RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_FIFO);
+	mySwapChain = getBackend()->createSwapChain(viewport, RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_FIFO);
 
 	/* Initialize Render pass */
-	createRenderPass(RUtilities::createSubPasses(myCurrentContextType, myCoreObject, mySwapChain));
-
-	/* Initialize Frame buffer */
-	createFrameBuffer();
+	myRenderTarget = getBackend()->createRenderTarget(mySwapChain, RUtilities::createSubPasses(myCurrentContextType, getBackend()->getCoreObject(), mySwapChain), { RSubpassDependency() });
 }
 
 RBuffer* DMKRenderer::createBuffer(const RBufferType& type, UI64 size, RResourceMemoryType memoryType)
 {
-	switch (myAPI)
-	{
-	case DMKRenderingAPI::DMK_RENDERING_API_NONE:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
-	{
-		RBuffer* pBuffer = StaticAllocator<VulkanBuffer>::rawAllocate();
-		pBuffer->initialize(myCoreObject, type, size, memoryType);
-
-		return pBuffer;
-	}
-	case DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
-		break;
-	default:
-		break;
-	}
-
-	return nullptr;
+	return getBackend()->createBuffer(type, size, memoryType);
 }
 
 RBuffer* DMKRenderer::createVertexBuffer(UI64 size)
@@ -508,47 +383,23 @@ RBuffer* DMKRenderer::createIndexBuffer(UI64 size)
 
 void DMKRenderer::copyBuffer(RBuffer* pSrcBuffer, RBuffer* pDstBuffer, UI64 size)
 {
-	pDstBuffer->copy(myCoreObject, pSrcBuffer, size, 0, 0);
+	pDstBuffer->copy(getBackend()->getCoreObject(), pSrcBuffer, size, 0, 0);
 }
 
 void DMKRenderer::copyDataToBuffer(RBuffer* pDstBuffer, VPTR data, UI64 size, UI64 offset)
 {
 	auto staggingBuffer = createBuffer(RBufferType::BUFFER_TYPE_STAGGING, size);
-	staggingBuffer->setData(myCoreObject, size, offset, data);
+	staggingBuffer->setData(getBackend()->getCoreObject(), size, offset, data);
 
 	copyBuffer(staggingBuffer, pDstBuffer, size);
 
-	staggingBuffer->terminate(myCoreObject);
+	staggingBuffer->terminate(getBackend()->getCoreObject());
 	StaticAllocator<RBuffer>::rawDeallocate(staggingBuffer, 0);
 }
 
 RTexture* DMKRenderer::createTexture(const DMKTexture* pTexture)
 {
-	switch (myAPI)
-	{
-	case DMKRenderingAPI::DMK_RENDERING_API_NONE:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
-	{
-		RTexture* texture = Inherit<RTexture>(StaticAllocator<VulkanTexture>::rawAllocate().get());
-		texture->initialize(myCoreObject, Cast<DMKTexture*>(pTexture));
-		texture->createView(myCoreObject);
-
-		if ((pTexture->type == DMKTextureType::TEXTURE_TYPE_CUBEMAP) || (pTexture->type == DMKTextureType::TEXTURE_TYPE_CUBEMAP_ARRAY)) /* TODO */
-			texture->createSampler(myCoreObject, RImageSamplerCreateInfo::createCubeMapSampler(0.0f));
-		else
-			texture->createSampler(myCoreObject, RImageSamplerCreateInfo::createDefaultSampler(0.0f));
-		return texture;
-	}
-	case DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
-		break;
-	case DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
-		break;
-	default:
-		break;
-	}
-
-	return nullptr;
+	return getBackend()->createTexture(Cast<DMKTexture*>(pTexture));
 }
 
 RBRDFTable* DMKRenderer::createBRDFTable()
@@ -658,13 +509,13 @@ void DMKRenderer::initializeEnvironmentEntity(DMKEnvironmentEntity* pEnvironment
 
 	/* Initialize Vertex Buffer */
 	myCurrentEnvironment.renderEntity.pVertexBuffer = createVertexBuffer(pEnvironmentEntity->skyBoxMesh.getVertexBuffer().byteSize());
-	myCurrentEnvironment.renderEntity.pVertexBuffer->setData(myCoreObject, pEnvironmentEntity->skyBoxMesh.getVertexBuffer().byteSize(), 0, pEnvironmentEntity->skyBoxMesh.getVertexBuffer().data());
+	myCurrentEnvironment.renderEntity.pVertexBuffer->setData(getBackend()->getCoreObject(), pEnvironmentEntity->skyBoxMesh.getVertexBuffer().byteSize(), 0, pEnvironmentEntity->skyBoxMesh.getVertexBuffer().data());
 	renderMesh.vertexCount = pEnvironmentEntity->skyBoxMesh.vertexBuffer.size();
 	INC_PROGRESS;
 
 	/* Initialize Index Buffer */
 	myCurrentEnvironment.renderEntity.pIndexBuffer = createIndexBuffer(pEnvironmentEntity->skyBoxMesh.getIndexBuffer().byteSize());
-	myCurrentEnvironment.renderEntity.pIndexBuffer->setData(myCoreObject, pEnvironmentEntity->skyBoxMesh.getIndexBuffer().byteSize(), 0, pEnvironmentEntity->skyBoxMesh.getIndexBuffer().data());
+	myCurrentEnvironment.renderEntity.pIndexBuffer->setData(getBackend()->getCoreObject(), pEnvironmentEntity->skyBoxMesh.getIndexBuffer().byteSize(), 0, pEnvironmentEntity->skyBoxMesh.getIndexBuffer().data());
 	renderMesh.indexCount = pEnvironmentEntity->skyBoxMesh.indexBuffer.size();
 	INC_PROGRESS;
 
@@ -677,7 +528,7 @@ void DMKRenderer::initializeEnvironmentEntity(DMKEnvironmentEntity* pEnvironment
 			RUniformContainer _container;
 			_container.pParent = &shaders.getUniform(index);
 			_container.pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, _container.pParent->byteSize());
-			_container.pUniformBuffer->setData(myCoreObject, _container.pParent->byteSize(), 0, _container.pParent->data());
+			_container.pUniformBuffer->setData(getBackend()->getCoreObject(), _container.pParent->byteSize(), 0, _container.pParent->data());
 
 			uniformBuffers.pushBack(_container.pUniformBuffer);
 			myCurrentEnvironment.uniformBuffers.pushBack(_container);
@@ -687,16 +538,15 @@ void DMKRenderer::initializeEnvironmentEntity(DMKEnvironmentEntity* pEnvironment
 	}
 
 	/* Initialize Pipeline */
-	myCurrentEnvironment.renderEntity.pPipelineObject = RUtilities::allocatePipeline(myAPI);
-
 	RPipelineSpecification pipelineCreateInfo = {};
 	pipelineCreateInfo.resourceCount = 1;
 	pipelineCreateInfo.shaders = pEnvironmentEntity->shaders;
 	pipelineCreateInfo.scissorInfos.resize(1);
 	pipelineCreateInfo.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
-	pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
+	pipelineCreateInfo.multiSamplingInfo.sampleCount = getBackend()->getCoreObject()->sampleCount;
 	pipelineCreateInfo.rasterizerInfo.frontFace = RFrontFace::FRONT_FACE_CLOCKWISE;
-	myCurrentEnvironment.renderEntity.pPipelineObject->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &myRenderTarget, mySwapChain->viewPort);
+
+	myCurrentEnvironment.renderEntity.pPipelineObject = getBackend()->createPipeline(pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, myRenderTarget, mySwapChain->viewPort);
 	INC_PROGRESS;
 
 	/* Initialize Resources */
@@ -704,18 +554,15 @@ void DMKRenderer::initializeEnvironmentEntity(DMKEnvironmentEntity* pEnvironment
 		Vector2F dim = { 512.0f, 512.0f };
 
 		/* Initialize the BRDF table */
-		myCurrentEnvironment.pBRDFTable = createBRDFTable();
-		myCurrentEnvironment.pBRDFTable->initialize(myCoreObject, dim);
+		myCurrentEnvironment.pBRDFTable = getBackend()->createBRDFTable(dim);
 		INC_PROGRESS;
 
 		/* Initialize the irradiance cube */
-		myCurrentEnvironment.pIrradianceCube = createIrradianceCube();
-		myCurrentEnvironment.pIrradianceCube->initialize(myCoreObject, &myCurrentEnvironment, dim);
+		myCurrentEnvironment.pIrradianceCube = getBackend()->createIrradianceCube(&myCurrentEnvironment, dim);
 		INC_PROGRESS;
 
 		/* Initialize the pre filtered cube */
-		myCurrentEnvironment.pPreFilteredCube = createPreFilteredCube();
-		myCurrentEnvironment.pPreFilteredCube->initialize(myCoreObject, &myCurrentEnvironment, dim);
+		myCurrentEnvironment.pPreFilteredCube = getBackend()->createPreFilteredCube(&myCurrentEnvironment, dim);
 	}
 	INC_PROGRESS;
 
@@ -723,8 +570,8 @@ void DMKRenderer::initializeEnvironmentEntity(DMKEnvironmentEntity* pEnvironment
 	ARRAY<RTexture*> textures = { myCurrentEnvironment.pTexture };
 
 	/* Initialize Pipeline Resources */
-	renderMesh.pResourceObject = myCurrentEnvironment.renderEntity.pPipelineObject->allocateResources(myCoreObject)[0];
-	renderMesh.pResourceObject->update(myCoreObject, uniformBuffers, textures);
+	renderMesh.pResourceObject = myCurrentEnvironment.renderEntity.pPipelineObject->allocateResources(getBackend()->getCoreObject())[0];
+	renderMesh.pResourceObject->update(getBackend()->getCoreObject(), uniformBuffers, textures);
 	INC_PROGRESS;
 
 	myCurrentEnvironment.renderEntity.meshObjects.pushBack(renderMesh);
@@ -748,11 +595,11 @@ void DMKRenderer::createStaticModelEntityResources(DMKStaticModelEntity* pEntity
 	pipelineCreateInfo.shaders = pEntity->shaders;
 	pipelineCreateInfo.scissorInfos.resize(1);
 	pipelineCreateInfo.colorBlendInfo.blendStates = RUtilities::createBasicColorBlendStates();
-	pipelineCreateInfo.multiSamplingInfo.sampleCount = myCoreObject->sampleCount;
-	pRenderEntity->pPipelineObject->initialize(myCoreObject, pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &myRenderTarget, mySwapChain->viewPort);
+	pipelineCreateInfo.multiSamplingInfo.sampleCount = getBackend()->getCoreObject()->sampleCount;
+	pRenderEntity->pPipelineObject = getBackend()->createPipeline(pipelineCreateInfo, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, myRenderTarget, mySwapChain->viewPort);
 	INC_PROGRESS;
 
-	auto resources = pRenderEntity->pPipelineObject->allocateResources(myCoreObject);
+	auto resources = pRenderEntity->pPipelineObject->allocateResources(getBackend()->getCoreObject());
 
 	ARRAY<RBuffer*> pUniformBuffers;
 	{
@@ -765,7 +612,7 @@ void DMKRenderer::createStaticModelEntityResources(DMKStaticModelEntity* pEntity
 				RUniformContainer _container;
 				_container.pParent = Cast<DMKUniformBuffer*>(shader.getUniforms().location(index));
 				_container.pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, _container.pParent->byteSize());
-				_container.pUniformBuffer->setData(myCoreObject, _container.pParent->byteSize(), 0, _container.pParent->data());
+				_container.pUniformBuffer->setData(getBackend()->getCoreObject(), _container.pParent->byteSize(), 0, _container.pParent->data());
 
 				pRenderEntity->uniformContainers.pushBack(_container);
 				pUniformBuffers.pushBack(_container.pUniformBuffer);
@@ -796,7 +643,7 @@ void DMKRenderer::createStaticModelEntityResources(DMKStaticModelEntity* pEntity
 		/* Initialize vertex buffer */
 		{
 			pRenderEntity->pVertexBuffer = createVertexBuffer(vertexBufferSize);
-			POINTER<BYTE> vertexPtr = pRenderEntity->pVertexBuffer->getData(myCoreObject, vertexBufferSize, 0);
+			POINTER<BYTE> vertexPtr = pRenderEntity->pVertexBuffer->getData(getBackend()->getCoreObject(), vertexBufferSize, 0);
 
 			for (auto rMeshObject : pRenderEntity->meshObjects)
 			{
@@ -804,14 +651,14 @@ void DMKRenderer::createStaticModelEntityResources(DMKStaticModelEntity* pEntity
 				vertexPtr += rMeshObject.pParentObject->getVertexBuffer().byteSize();
 			}
 
-			pRenderEntity->pVertexBuffer->flushMemory(myCoreObject);
+			pRenderEntity->pVertexBuffer->flushMemory(getBackend()->getCoreObject());
 		}
 		INC_PROGRESS;
 
 		/* initialize index buffer */
 		{
 			pRenderEntity->pIndexBuffer = createIndexBuffer(indexBufferSize);
-			POINTER<BYTE> indexPtr = pRenderEntity->pIndexBuffer->getData(myCoreObject, indexBufferSize, 0);
+			POINTER<BYTE> indexPtr = pRenderEntity->pIndexBuffer->getData(getBackend()->getCoreObject(), indexBufferSize, 0);
 
 			for (auto rMeshObject : pRenderEntity->meshObjects)
 			{
@@ -819,7 +666,7 @@ void DMKRenderer::createStaticModelEntityResources(DMKStaticModelEntity* pEntity
 				indexPtr += rMeshObject.pParentObject->getIndexBuffer().byteSize();
 			}
 
-			pRenderEntity->pIndexBuffer->flushMemory(myCoreObject);
+			pRenderEntity->pIndexBuffer->flushMemory(getBackend()->getCoreObject());
 		}
 		INC_PROGRESS;
 	}
@@ -840,7 +687,7 @@ void DMKRenderer::createAnimatedModelEntityResources(DMKAnimatedModelEntity* pEn
 
 void DMKRenderer::removeStaticModelEntityResources(DMKStaticModelEntity* pStaticModelEntity)
 {
-	myCoreObject->idleCall();
+	getBackend()->getCoreObject()->idleCall();
 
 	/* Find the required static model from the array and remove it. */
 	for (UI64 index = 0; index < pStaticEntities.size(); index++)
@@ -866,10 +713,10 @@ void DMKRenderer::removeStaticModelEntityResources(DMKStaticModelEntity* pStatic
 	}
 
 	/* Reset command buffers */
-	myDrawCallManager.resetPrimaryCommandBuffers(myCoreObject);
-	myDrawCallManager.resetSecondaryCommandBuffers(myCoreObject);
+	myDrawCallManager.resetPrimaryCommandBuffers(getBackend()->getCoreObject());
+	myDrawCallManager.resetSecondaryCommandBuffers(getBackend()->getCoreObject());
 
-	myDrawCallManager.reCreateBuffers(myCoreObject, &myRenderTarget, mySwapChain, myAPI);
+	myDrawCallManager.reCreateBuffers(getBackend()->getCoreObject(), myRenderTarget, mySwapChain, myAPI);
 }
 
 void DMKRenderer::removeAnimatedModelEntityResources(DMKAnimatedModelEntity* pAnimatedModelEntity)
@@ -893,7 +740,7 @@ void DMKRenderer::updateResources()
 
 void DMKRenderer::initializeCommandBuffers()
 {
-	myDrawCallManager.initializeCommandBuffers(myCoreObject, &myRenderTarget, mySwapChain, myAPI);
+	myDrawCallManager.initializeCommandBuffers(getBackend()->getCoreObject(), myRenderTarget, mySwapChain, myAPI);
 	isReadyToRun = true;
 }
 
@@ -907,60 +754,60 @@ void DMKRenderer::resizeFrameBuffer(DMKExtent2D windowExtent)
 	isReadyToRun = false;
 
 	/* Reset Command Buffers */
-	myCoreObject->idleCall();
-	myDrawCallManager.resetPrimaryCommandBuffers(myCoreObject);
+	getBackend()->getCoreObject()->idleCall();
+	myDrawCallManager.resetPrimaryCommandBuffers(getBackend()->getCoreObject());
 
 	/* Terminate The Current Context */
 	{
 		/* Terminate Frame Buffer */
-		myRenderTarget.pFrameBuffer->terminate(myCoreObject);
+		myRenderTarget->pFrameBuffer->terminate(getBackend()->getCoreObject());
 
 		/* Terminate Render Pass */
-		myRenderTarget.pRenderPass->terminate(myCoreObject);
+		myRenderTarget->pRenderPass->terminate(getBackend()->getCoreObject());
 
 		/* Terminate Swap Chain */
-		mySwapChain->terminate(myCoreObject);
+		mySwapChain->terminate(getBackend()->getCoreObject());
 	}
 
 	/* Create New Context */
 	{
 		/* Initialize View port */
 		DMKViewport newViewPort;
-		newViewPort.windowHandle = myWindowHandle;
+		newViewPort.windowHandle = getBackend()->getWindowHandle();
 		newViewPort.width = (I32)windowExtent.width;
 		newViewPort.height = (I32)windowExtent.height;
 
 		/* Initialize Swap Chain */
-		mySwapChain->initialize(myCoreObject, newViewPort, RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_FIFO);
+		mySwapChain->initialize(getBackend()->getCoreObject(), newViewPort, RSwapChainPresentMode::SWAPCHAIN_PRESENT_MODE_FIFO);
 
 		/* Initialize Render Pass */
-		myRenderTarget.pRenderPass->initialize(myCoreObject, RUtilities::createSubPasses(myCurrentContextType, myCoreObject, mySwapChain), { RSubpassDependency() }, mySwapChain);
+		myRenderTarget->pRenderPass->initialize(getBackend()->getCoreObject(), RUtilities::createSubPasses(myCurrentContextType, getBackend()->getCoreObject(), mySwapChain), { RSubpassDependency() }, mySwapChain);
 
 		/* Initialize Frame Buffer */
-		myRenderTarget.pFrameBuffer->initialize(myCoreObject, myRenderTarget.pRenderPass, mySwapChain->extent, mySwapChain->bufferCount, RUtilities::getFrameBufferAttachments(myAPI, myRenderTarget.pRenderPass->subPasses, myCoreObject, mySwapChain, mySwapChain->extent));
+		myRenderTarget->pFrameBuffer->initialize(getBackend()->getCoreObject(), myRenderTarget->pRenderPass, mySwapChain->extent, mySwapChain->bufferCount, RUtilities::getFrameBufferAttachments(myAPI, myRenderTarget->pRenderPass->subPasses, getBackend()->getCoreObject(), mySwapChain, mySwapChain->extent));
 	}
 
 	/* Initialize Pipelines */
 	{
 		/* Initialize Environment Map Pipeline */
 		if (myCurrentEnvironment.renderEntity.pPipelineObject)
-			myCurrentEnvironment.renderEntity.pPipelineObject->reCreate(myCoreObject, &myRenderTarget, mySwapChain->viewPort);
+			myCurrentEnvironment.renderEntity.pPipelineObject->reCreate(getBackend()->getCoreObject(), myRenderTarget, mySwapChain->viewPort);
 
 		/* Initialize Entity Pipelines */
 		for (auto entity : myEntities)
-			entity->pPipelineObject->reCreate(myCoreObject, &myRenderTarget, mySwapChain->viewPort);
+			entity->pPipelineObject->reCreate(getBackend()->getCoreObject(), myRenderTarget, mySwapChain->viewPort);
 
 		/* Initialize Bounding Boxes */
 		for (auto box : myBoundingBoxes)
-			box.pPipeline->reCreate(myCoreObject, &myRenderTarget, mySwapChain->viewPort);
+			box.pPipeline->reCreate(getBackend()->getCoreObject(), myRenderTarget, mySwapChain->viewPort);
 	}
 
 	/* Recreate Im Gui Backend Pipeline. */
 	if (myImGuiBackend)
-		myImGuiBackend->reCreatePipeline(&myRenderTarget, mySwapChain->viewPort);
+		myImGuiBackend->reCreatePipeline(myRenderTarget, mySwapChain->viewPort);
 
 	/* Initialize Buffers */
-	myDrawCallManager.reCreateBuffers(myCoreObject, &myRenderTarget, mySwapChain, myAPI);
+	myDrawCallManager.reCreateBuffers(getBackend()->getCoreObject(), myRenderTarget, mySwapChain, myAPI);
 
 	isReadyToRun = true;
 }
@@ -969,7 +816,7 @@ void DMKRenderer::beginFrameInstruction()
 {
 	isPresenting = true;
 
-	currentImageIndex = myCoreObject->prepareFrame(mySwapChain);
+	currentImageIndex = getBackend()->getCoreObject()->prepareFrame(mySwapChain);
 
 	if (currentImageIndex == -1)
 	{
@@ -989,7 +836,7 @@ void DMKRenderer::updateInstruction()
 void DMKRenderer::updateEnvironment()
 {
 	for (auto pUniform : myCurrentEnvironment.uniformBuffers)
-		pUniform.pUniformBuffer->setData(myCoreObject, pUniform.pParent->byteSize(), 0, pUniform.pParent->data());
+		pUniform.pUniformBuffer->setData(getBackend()->getCoreObject(), pUniform.pParent->byteSize(), 0, pUniform.pParent->data());
 }
 
 void DMKRenderer::updateEntities()
@@ -1013,7 +860,7 @@ void DMKRenderer::updateEntities()
 void DMKRenderer::updateBoundingBoxes()
 {
 	//for (auto boundingBox : myBoundingBoxes)
-	//	boundingBox.pUniformBuffer->setData(myCoreObject, boundingBox.pBoundingBox->getUniform().byteSize(), 0, boundingBox.pBoundingBox->getUniform().data());
+	//	boundingBox.pUniformBuffer->setData(getBackend()->getCoreObject(), boundingBox.pBoundingBox->getUniform().byteSize(), 0, boundingBox.pBoundingBox->getUniform().data());
 }
 
 void DMKRenderer::updateDebugObjects()
@@ -1028,15 +875,15 @@ void DMKRenderer::endFrameInstruction()
 
 #endif
 
-	myCoreObject->submitCommand(myDrawCallManager.getPrimaryCommandBuffer(currentImageIndex), mySwapChain);
+	getBackend()->getCoreObject()->submitCommand(myDrawCallManager.getPrimaryCommandBuffer(currentImageIndex), mySwapChain);
 	isPresenting = false;
 }
 
 void DMKRenderer::initializeImGuiClient(DMKImGuiBackendHandle** pAddressStore)
 {
 	myImGuiBackend = allocateImGuiClient();
-	myImGuiBackend->setCoreObject(myCoreObject);
-	myImGuiBackend->setRenderTarget(&myRenderTarget);
+	myImGuiBackend->setCoreObject(getBackend()->getCoreObject());
+	myImGuiBackend->setRenderTarget(myRenderTarget);
 
 	myImGuiBackend->initialize();
 
@@ -1047,118 +894,73 @@ void DMKRenderer::submitUniformData()
 {
 	for (UI64 index = 0; index < myEntities.size(); index++)
 		for (UI32 itr = 0; itr < myEntities[index]->uniformContainers.size(); itr++)
-			myEntities[index]->uniformContainers[itr].pUniformBuffer->setData(myCoreObject, myEntities[index]->uniformContainers[itr].pParent->byteSize(), 0, myEntities[index]->uniformContainers[itr].pParent->data());
+			myEntities[index]->uniformContainers[itr].pUniformBuffer->setData(getBackend()->getCoreObject(), myEntities[index]->uniformContainers[itr].pParent->byteSize(), 0, myEntities[index]->uniformContainers[itr].pParent->data());
 }
 
 void DMKRenderer::terminateContext()
 {
-	/* Terminate Frame Buffer */
-	myRenderTarget.pFrameBuffer->terminate(myCoreObject);
-	StaticAllocator<RFrameBuffer>::rawDeallocate(myRenderTarget.pFrameBuffer, 0);
-
-	/* Terminate Render Pass */
-	myRenderTarget.pRenderPass->terminate(myCoreObject);
-	StaticAllocator<RRenderPass>::rawDeallocate(myRenderTarget.pRenderPass, 0);
+	/* Terminate Render Target */
+	getBackend()->terminateRenderTarget(myRenderTarget);
 
 	/* Terminate Swap Chain */
-	mySwapChain->terminate(myCoreObject);
-	StaticAllocator<RSwapChain>::rawDeallocate(mySwapChain, 0);
+	getBackend()->terminateSwapChain(mySwapChain);
 }
 
 void DMKRenderer::terminateComponents()
 {
 	/* Terminate draw call manager */
-	myDrawCallManager.terminateAll(myCoreObject);
+	myDrawCallManager.terminateAll(getBackend()->getCoreObject());
 
 	/* Terminate Core Object */
-	myCoreObject->terminate();
-	StaticAllocator<RCoreObject>::rawDeallocate(myCoreObject, 0);
+	getBackend()->terminateCoreObject();
+
+	/* Terminate Backend */
+	terminateBackend();
 }
 
 void DMKRenderer::terminateEnvironmentMap(REnvironmentEntity* pEnvironmentMap)
 {
 	if (pEnvironmentMap->renderEntity.pPipelineObject)
-	{
-		pEnvironmentMap->renderEntity.pPipelineObject->terminate(myCoreObject);
-		StaticAllocator<RPipelineObject>::rawDeallocate(pEnvironmentMap->renderEntity.pPipelineObject, 0);
-	}
+		getBackend()->terminatePipeline(pEnvironmentMap->renderEntity.pPipelineObject);
 
 	if (pEnvironmentMap->pTexture)
-	{
-		pEnvironmentMap->pTexture->terminate(myCoreObject);
-		StaticAllocator<RTexture>::rawDeallocate(pEnvironmentMap->pTexture, 0);
-	}
+		getBackend()->terminateTexture(pEnvironmentMap->pTexture);
 
 	for (auto pUniform : pEnvironmentMap->uniformBuffers)
-	{
-		pUniform.pUniformBuffer->terminate(myCoreObject);
-		StaticAllocator<RBuffer>::rawDeallocate(pUniform.pUniformBuffer, 0);
-	}
+		getBackend()->terminateBuffer(pUniform.pUniformBuffer);
 
 	if (pEnvironmentMap->pBRDFTable)
-	{
-		pEnvironmentMap->pBRDFTable->terminate(myCoreObject);
-		StaticAllocator<RBRDFTable>::rawDeallocate(pEnvironmentMap->pBRDFTable, 0);
-	}
+		getBackend()->terminateBRDFTable(pEnvironmentMap->pBRDFTable);
 
 	if (pEnvironmentMap->pIrradianceCube)
-	{
-		pEnvironmentMap->pIrradianceCube->terminate(myCoreObject);
-		StaticAllocator<RIrradianceCube>::rawDeallocate(pEnvironmentMap->pIrradianceCube, 0);
-	}
+		getBackend()->terminateIrradianceCube(pEnvironmentMap->pIrradianceCube);
 
 	if (pEnvironmentMap->pPreFilteredCube)
-	{
-		pEnvironmentMap->pPreFilteredCube->terminate(myCoreObject);
-		StaticAllocator<RIrradianceCube>::rawDeallocate(pEnvironmentMap->pPreFilteredCube, 0);
-	}
+		getBackend()->terminatePreFilteredCube(pEnvironmentMap->pPreFilteredCube);
 
 	if (pEnvironmentMap->renderEntity.pVertexBuffer)
-	{
-		pEnvironmentMap->renderEntity.pVertexBuffer->terminate(myCoreObject);
-		StaticAllocator<RBuffer>::rawDeallocate(pEnvironmentMap->renderEntity.pVertexBuffer, 0);
-	}
+		getBackend()->terminateBuffer(pEnvironmentMap->renderEntity.pVertexBuffer);
 
 	if (pEnvironmentMap->renderEntity.pIndexBuffer)
-	{
-		pEnvironmentMap->renderEntity.pIndexBuffer->terminate(myCoreObject);
-		StaticAllocator<RBuffer>::rawDeallocate(pEnvironmentMap->renderEntity.pIndexBuffer, 0);
-	}
+		getBackend()->terminateBuffer(pEnvironmentMap->renderEntity.pIndexBuffer);
 }
 
 void DMKRenderer::terminateEntity(REntity* pEntity)
 {
 	for (auto uniform : pEntity->uniformContainers)
-	{
-		uniform.pUniformBuffer->terminate(myCoreObject);
-		StaticAllocator<RBuffer>::rawDeallocate(uniform.pUniformBuffer, 0);
-	}
+		getBackend()->terminateBuffer(uniform.pUniformBuffer);
 
 	for (auto mesh : pEntity->meshObjects)
-	{
 		for (auto texture : mesh.pTextures)
-		{
-			texture->terminate(myCoreObject);
-			StaticAllocator<RTexture>::rawDeallocate(texture, 0);
-		}
-	}
+			getBackend()->terminateTexture(texture);
+
 	pEntity->meshObjects.clear();
 
 	if (pEntity->pPipelineObject)
-	{
-		pEntity->pPipelineObject->terminate(myCoreObject);
+		getBackend()->terminatePipeline(pEntity->pPipelineObject);
 
-		for (auto block : pEntity->pPipelineObject->constantBlocks)
-			StaticAllocator<BYTE>::rawDeallocate(block.data, block.byteSize);
-
-		StaticAllocator<RPipelineObject>::rawDeallocate(pEntity->pPipelineObject, 0);
-	}
-
-	pEntity->pVertexBuffer->terminate(myCoreObject);
-	StaticAllocator<RBuffer>::rawDeallocate(pEntity->pVertexBuffer, 0);
-
-	pEntity->pIndexBuffer->terminate(myCoreObject);
-	StaticAllocator<RBuffer>::rawDeallocate(pEntity->pIndexBuffer, 0);
+	getBackend()->terminateBuffer(pEntity->pVertexBuffer);
+	getBackend()->terminateBuffer(pEntity->pIndexBuffer);
 
 	StaticAllocator<REntity>::rawDeallocate(pEntity);
 }
@@ -1176,7 +978,7 @@ void DMKRenderer::terminateEntities()
 
 	/* Terminate Bounding Boxes */
 	for (auto boundingBox : myBoundingBoxes)
-		boundingBox.terminate(myCoreObject);
+		boundingBox.terminate(getBackend()->getCoreObject());
 
 	myBoundingBoxes.clear();
 
@@ -1237,7 +1039,7 @@ RMeshObject DMKRenderer::createMeshObject(DMKStaticModelEntity* pStaticModel, DM
 		}
 		INC_PROGRESS;
 
-		pResource->update(myCoreObject, pUniformBuffers, textures);
+		pResource->update(getBackend()->getCoreObject(), pUniformBuffers, textures);
 		meshComponent.pResourceObject = pResource;
 
 		/* Initialize Constant Blocks */
@@ -1252,4 +1054,47 @@ RMeshObject DMKRenderer::createMeshObject(DMKStaticModelEntity* pStaticModel, DM
 
 	INC_PROGRESS;
 	return meshComponent;
+}
+
+void DMKRenderer::createBackend()
+{
+	switch (myAPI)
+	{
+	case DMKRenderingAPI::DMK_RENDERING_API_NONE:
+		break;
+	case DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
+		pCurrentBackendLayer = StaticAllocator<VulkanRBL>::allocate();
+		break;
+	case DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
+		break;
+	case DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
+		break;
+	default:
+		DMK_ERROR("Invalid rendering API!");
+		break;
+	}
+}
+
+DMKRendererBackendLayer* DMKRenderer::getBackend() const
+{
+	return pCurrentBackendLayer;
+}
+
+void DMKRenderer::terminateBackend()
+{
+	switch (myAPI)
+	{
+	case DMKRenderingAPI::DMK_RENDERING_API_NONE:
+		break;
+	case DMKRenderingAPI::DMK_RENDERING_API_VULKAN:
+		StaticAllocator<VulkanRBL>::deallocate(pCurrentBackendLayer);
+		break;
+	case DMKRenderingAPI::DMK_RENDERING_API_DIRECTX:
+		break;
+	case DMKRenderingAPI::DMK_RENDERING_API_OPENGL:
+		break;
+	default:
+		DMK_ERROR("Invalid rendering API!");
+		break;
+	}
 }

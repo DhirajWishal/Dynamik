@@ -52,6 +52,16 @@ namespace Tools
 		ARRAY<VkVertexInputBindingDescription> getVertexBindingDescriptions();
 
 		/*
+		 Get the uniform buffers in the shader. 
+		*/
+		ARRAY<DMKUniformBuffer> getUniformBuffers();
+
+		/*
+		 Get the input attributes in this shader.
+		*/
+		ARRAY<DMKShaderInputAttribute> getInputAttributes();
+
+		/*
 		 Set the shader module
 		*/
 		void setShaderModule(const DMKShaderModule& sModule);
@@ -77,6 +87,9 @@ namespace Tools
 		ARRAY<VkPushConstantRange> pushConstantRanges;
 		ARRAY<VkVertexInputBindingDescription> bindingDescriptions;
 		B1 isParsed = false;
+
+		ARRAY<DMKUniformBuffer> uniformBuffers;
+		ARRAY<DMKShaderInputAttribute> inputAttributes;
 	};
 }
 

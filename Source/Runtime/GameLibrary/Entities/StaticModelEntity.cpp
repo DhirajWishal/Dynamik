@@ -18,27 +18,16 @@ void DMKStaticModelEntity::onInitializeStaticEntity()
 	addShaderModule(DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_3D_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 	addShaderModule(DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_3D_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 
-	/* Initialize Uniform Buffers */
-	DMKUniformBuffer uniformBuffer(0);
-	uniformBuffer.addAttribute(TEXT("Model"), sizeof(Matrix4F));
-	uniformBuffer.addAttribute(TEXT("View"), sizeof(Matrix4F));
-	uniformBuffer.addAttribute(TEXT("Projection"), sizeof(Matrix4F));
-
-	uniformBuffer.initialize();
-
-	/* Upload Uniform to shaders */
-	getShaderModule(0)->addUniform(uniformBuffer);
-
-	/* Set shader input attributes */
-	getShaderModule(0)->setInputAttributes(DMKVertexLayout::createBasic().getInputAttributes());
+	/* Generate Resources */
+	getShaderModule(0)->generateResources();
 }
 
 void DMKStaticModelEntity::onUpdateStaticEntity()
 {
 	Matrix4F model = Matrix4F::Identity;
-	getShaderModule(0)->getUniform(0).setData(TEXT("Model"), &model);
-	getShaderModule(0)->getUniform(0).setData(TEXT("View"), &_pCameraModule->matrix.view);
-	getShaderModule(0)->getUniform(0).setData(TEXT("Projection"), &_pCameraModule->matrix.projection);
+	getShaderModule(0)->getUniform(0).setData(TEXT("model"), &model);
+	getShaderModule(0)->getUniform(0).setData(TEXT("view"), &_pCameraModule->matrix.view);
+	getShaderModule(0)->getUniform(0).setData(TEXT("proj"), &_pCameraModule->matrix.projection);
 }
 
 void DMKStaticModelEntity::onTerminateStaticEntity()

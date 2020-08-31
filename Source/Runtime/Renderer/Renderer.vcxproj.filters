@@ -132,6 +132,7 @@
     <ClInclude Include="ThirdParty\stb_font_consolas_24_latin1.inl">
       <Filter>ThirdParty</Filter>
     </ClInclude>
+    <ClInclude Include="RendererBackendLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\Attachments\RBoundingBox.cpp">

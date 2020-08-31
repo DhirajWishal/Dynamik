@@ -396,6 +396,7 @@
     <ClInclude Include="Components\ROverlay.h" />
     <ClInclude Include="Components\RPipelineObject.h" />
     <ClInclude Include="Components\RRenderTarget.h" />
+    <ClInclude Include="RendererBackendLayer.h" />
     <ClInclude Include="RUtilities.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RendererCommand.h" />

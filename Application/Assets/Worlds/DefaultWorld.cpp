@@ -19,16 +19,23 @@ void DefaultWorld::initialize()
 	auto oceanEntity = addEntity<OceanEnv>();
 	oceanEntity->setCameraModule(player->getCameraModule());
 
-	/* Add the venus model entity */
+	/* Add the Venus model entity */
 	auto venusModel = addEntity<VenusModel>();
 	venusModel->setCameraModule(player->getCameraModule());
 
-	/* Add the cerberus model entity */
+	/* Add the Cerberus model entity */
 	auto cerberusModel = addEntity<CerberusModel>();
 	cerberusModel->setCameraModule(player->getCameraModule());
-	
+
 	/* Load a pure static entity. */
-	addEntity<DMKStaticModelEntity>(Cast<const DMKStaticModelEntity&>(EntityFactory::CreateStaticEntity(TEXT("E:\\Dynamik\\Game Repository\\assets\\assets\\moon\\Moon 2K.fbx"),{ "E:\\Dynamik\\Game Repository\\assets\\assets\\moon\\Diffuse_2K.png" }, player->getCameraModule())));
+	addEntity<DMKStaticModelEntity>(
+		Cast<const DMKStaticModelEntity&>(
+			EntityFactory::CreateStaticEntity(
+				TEXT("E:\\Dynamik\\Game Repository\\assets\\assets\\moon\\Moon 2K.fbx"),
+				{ "E:\\Dynamik\\Game Repository\\assets\\assets\\moon\\Diffuse_2K.png" },
+				player->getCameraModule())
+			)
+		);
 }
 
 void DefaultWorld::onUpdate(const F32 timeStep)

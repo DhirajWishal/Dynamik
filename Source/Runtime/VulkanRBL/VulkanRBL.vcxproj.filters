@@ -111,6 +111,7 @@
     <ClInclude Include="VulkanCoreObject.h" />
     <ClInclude Include="VulkanRenderTarget.h" />
     <ClInclude Include="VulkanUtilities.h" />
+    <ClInclude Include="VulkanRBL.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Clients\VulkanImGuiBackend.cpp">
@@ -190,6 +191,7 @@
     </ClCompile>
     <ClCompile Include="VulkanCoreObject.cpp" />
     <ClCompile Include="VulkanUtilities.cpp" />
+    <ClCompile Include="VulkanRBL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="VulkanRBL.lua" />

@@ -149,6 +149,22 @@ namespace Tools
 		return bindingDescriptions;
 	}
 
+	ARRAY<DMKUniformBuffer> SPIRVDisassembler::getUniformBuffers()
+	{
+		if (!isParsed)
+			_parseModule();
+
+		return uniformBuffers;
+	}
+
+	ARRAY<DMKShaderInputAttribute> SPIRVDisassembler::getInputAttributes()
+	{
+		if (!isParsed)
+			_parseModule();
+
+		return inputAttributes;
+	}
+
 	void SPIRVDisassembler::setShaderModule(const DMKShaderModule& sModule)
 	{
 		shaderModule = sModule;
@@ -189,6 +205,7 @@ namespace Tools
 		{
 			unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
 			unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
+
 #ifdef DMK_DEBUG
 			printf("Set: %u\t Binding: %u\t Type: %s\n", set, binding, resource.name.c_str());
 
@@ -207,14 +224,22 @@ namespace Tools
 			_poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
 			poolSizes.pushBack(_poolSize);
 
-			for (auto ID : _glslCompiler.get_type(resource.base_type_id).member_types)
+			DMKUniformBuffer _uniformBuffer(binding);
+
+			//for (auto ID : _glslCompiler.get_type(resource.base_type_id).member_types)
+			for (UI32 index = 0; index < _glslCompiler.get_type(resource.base_type_id).member_types.size(); index++)
 			{
-				auto Ty = _glslCompiler.get_type(ID);
-				UI32 byteSize = (Ty.width / sizeof(F32)) * Ty.vecsize * Ty.columns;
+				auto Ty = _glslCompiler.get_type(_glslCompiler.get_type(resource.base_type_id).member_types[index]);
+				UI32 byteSize = (Ty.width / 8) * Ty.vecsize * Ty.columns;
 				offsetCount += byteSize;
+
+				_uniformBuffer.addAttribute(STRING(_glslCompiler.get_member_name(resource.base_type_id, index)), byteSize);
 
 				/* Check if the member is a matrix */
 			}
+
+			_uniformBuffer.initialize();
+			uniformBuffers.pushBack(_uniformBuffer);
 		}
 
 		/* Storage buffers */
@@ -266,6 +291,11 @@ namespace Tools
 			_attributeDescription.location = _glslCompiler.get_decoration(resource.id, spv::DecorationLocation);
 			_attributeDescription.format = getFormat(_type.vecsize);
 			vertexAttributes.pushBack(_attributeDescription);
+
+			DMKShaderInputAttribute _inputAttribute;
+			_inputAttribute.dataCount = _type.columns;
+			_inputAttribute.dataFormat = Cast<DMKFormat>(getFormat(_type.vecsize));
+			inputAttributes.pushBack(_inputAttribute);
 
 			_attributeDescription.offset += (_type.width / sizeof(D64)) * ((_type.vecsize == 3) ? 4 : _type.vecsize);
 		}
