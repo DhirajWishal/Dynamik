@@ -18,33 +18,8 @@ void VenusModel::onInitializeStaticEntity()
 	setMeshObjects(DMKMeshFactory::loadMeshes(TEXT("E:\\Dynamik\\Game Repository\\assets\\venus.fbx"), vLayout));
 
 	/* Setup shader modules */
-	auto shaderVS = DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
-	DMKUniformBuffer ubo1(0);
-	ubo1.addAttribute(TEXT("projection"), sizeof(Matrix4F));
-	ubo1.addAttribute(TEXT("model"), sizeof(Matrix4F));
-	ubo1.addAttribute(TEXT("view"), sizeof(Matrix4F));
-	ubo1.addAttribute(TEXT("camPos"), sizeof(Vector3F));
-	ubo1.initialize();
-	shaderVS.addUniform(ubo1);
-	shaderVS.setInputAttributes(vLayout.getInputAttributes());
-	addShaderModule(shaderVS);
-
-	auto shaderFS = DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
-	DMKUniformBuffer ubo2(1);
-	ubo2.addAttribute(TEXT("projection"), sizeof(Matrix4F));
-	ubo2.addAttribute(TEXT("model"), sizeof(Matrix4F));
-	ubo2.addAttribute(TEXT("view"), sizeof(Matrix4F));
-	ubo2.addAttribute(TEXT("camPos"), sizeof(Vector3F));
-	ubo2.initialize();
-	shaderFS.addUniform(ubo2);
-
-	DMKUniformBuffer ubo3(2);
-	ubo3.addAttribute(TEXT("lights"), sizeof(Vector4F) * 4);
-	ubo3.addAttribute(TEXT("exposure"), sizeof(F32));
-	ubo3.addAttribute(TEXT("gamma"), sizeof(F32));
-	ubo3.initialize();
-	shaderFS.addUniform(ubo3);
-	addShaderModule(shaderFS);
+	addShaderModule(DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+	addShaderModule(DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 
 	/* Set resource requests */
 	setResourceRequests({ DMKResourceRequest::DMK_RESOURCE_REQUEST_BRDF_TABLE, DMKResourceRequest::DMK_RESOURCE_REQUEST_IRRADIANCE_CUBE, DMKResourceRequest::DMK_RESOURCE_REQUEST_PRE_FILTERED_CUBE });

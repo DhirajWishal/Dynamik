@@ -187,8 +187,7 @@ namespace Tools
 
 				_uniformBuffer.addAttribute(STRING(_glslCompiler.get_member_name(resource.base_type_id, index)), byteSize);
 			}
-
-			_uniformBuffer.initialize();
+			
 			uniformBuffers.pushBack(_uniformBuffer);
 		}
 
@@ -209,7 +208,6 @@ namespace Tools
 				_uniformBuffer.addAttribute(STRING(_glslCompiler.get_member_name(resource.base_type_id, index)), byteSize);
 			}
 
-			_uniformBuffer.initialize();
 			uniformBuffers.pushBack(_uniformBuffer);
 		}
 
@@ -284,7 +282,6 @@ namespace Tools
 				_uniformBuffer.addAttribute(STRING(_glslCompiler.get_member_name(resource.base_type_id, index)), byteSize);
 			}
 
-			_uniformBuffer.initialize();
 			uniformBuffers.pushBack(_uniformBuffer);
 		}
 

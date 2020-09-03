@@ -43,7 +43,7 @@ namespace Backend
 			return VkDescriptorType::VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
 
 		case DMKUniformType::DMK_UNIFORM_TYPE_CONSTANT:
-			break;	/* Doesnt have to do anything here. */
+			break;	/* Doesn't have to do anything here. */
 
 		case DMKUniformType::DMK_UNIFORM_TYPE_SAMPLER_2D:
 			return VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
@@ -123,7 +123,7 @@ namespace Backend
 
 		for (UI32 index = 0; index < uniforms.size(); index++)
 		{
-			if(uniforms[index].type != DMKUniformType::DMK_UNIFORM_TYPE_CONSTANT)
+			if (uniforms[index].type != DMKUniformType::DMK_UNIFORM_TYPE_CONSTANT)
 				continue;
 
 			range.size = Cast<UI32>(uniforms[index].byteSize());
@@ -137,6 +137,26 @@ namespace Backend
 
 	void VulkanGraphicsPipelineResource::update(RCoreObject* pCoreObject, ARRAY<RBuffer*> pBuffers, ARRAY<RTexture*> pTextures)
 	{
+		/* Re order the resource bindings or else resources will be mapped to the wrong shader resource */
+		if (resourceBindings.size())
+		{
+			UI64 minimumBinding = resourceBindings[0].binding;
+			for (UI64 index = 0; index < resourceBindings.size(); index++)
+				if (minimumBinding > resourceBindings[index].binding)
+					minimumBinding = resourceBindings[index].binding;
+
+			ARRAY<VkDescriptorSetLayoutBinding> bindings(resourceBindings.size());
+			for (UI64 index = 0; index < resourceBindings.size(); index++)
+				bindings[resourceBindings[index].binding - minimumBinding] = resourceBindings[index];
+
+			resourceBindings = std::move(bindings);
+		}
+		else
+		{
+			/* If resources are unavailable, we don't need to do any processing. */
+			return;
+		}
+
 		ARRAY<VkWriteDescriptorSet> descriptorWrites;
 
 		VkWriteDescriptorSet descriptorWrite = {};
