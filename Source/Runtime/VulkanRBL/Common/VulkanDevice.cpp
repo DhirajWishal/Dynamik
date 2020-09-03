@@ -120,6 +120,20 @@ namespace Backend
 
 		// ----------
 #endif
+
+		rayTracingFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_FEATURES_KHR;
+
+		VkPhysicalDeviceFeatures2 deviceFeatures2 = {};
+		deviceFeatures2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
+		deviceFeatures2.pNext = &rayTracingFeatures;
+		vkGetPhysicalDeviceFeatures2(physicalDevice, &deviceFeatures2);
+
+		rayTracingProperties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PROPERTIES_KHR;
+		VkPhysicalDeviceProperties2 deviceProps2 = {};
+
+		deviceProps2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2;
+		deviceProps2.pNext = &rayTracingProperties;
+		vkGetPhysicalDeviceProperties2(physicalDevice, &deviceProps2);
 	}
 
 	void VulkanDevice::initializeLogicalDevice(VulkanInstance vInstance, VulkanSurface vSurface)
@@ -192,25 +206,11 @@ namespace Backend
 
 	VkPhysicalDeviceRayTracingFeaturesKHR VulkanDevice::getRayTracingFeatures()
 	{
-		rayTracingFeatures.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_FEATURES_KHR;
-
-		VkPhysicalDeviceFeatures2 deviceFeatures2 = {};
-		deviceFeatures2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2;
-		deviceFeatures2.pNext = &rayTracingFeatures;
-		vkGetPhysicalDeviceFeatures2(physicalDevice, &deviceFeatures2);
-
 		return rayTracingFeatures;
 	}
 
 	VkPhysicalDeviceRayTracingPropertiesKHR VulkanDevice::getRayTracingProperties()
 	{
-		rayTracingProperties.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_PROPERTIES_KHR;
-		VkPhysicalDeviceProperties2 deviceProps2 = {};
-
-		deviceProps2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2;
-		deviceProps2.pNext = &rayTracingProperties;
-		vkGetPhysicalDeviceProperties2(physicalDevice, &deviceProps2);
-
 		return rayTracingProperties;
 	}
 

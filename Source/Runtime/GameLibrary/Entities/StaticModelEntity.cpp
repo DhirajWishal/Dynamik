@@ -17,9 +17,6 @@ void DMKStaticModelEntity::onInitializeStaticEntity()
 	/* Initialize Shaders */
 	addShaderModule(DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_3D_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 	addShaderModule(DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_3D_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
-
-	/* Generate Resources */
-	getShaderModule(0)->generateResources();
 }
 
 void DMKStaticModelEntity::onUpdateStaticEntity()

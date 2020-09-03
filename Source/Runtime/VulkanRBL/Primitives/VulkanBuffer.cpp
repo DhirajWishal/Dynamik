@@ -104,7 +104,7 @@ namespace Backend
 
 	VPTR VulkanBuffer::getData(RCoreObject* pCoreObject, UI64 size, UI64 offset)
 	{
-		if (size > this->size)
+		if (size > this->size || size == 0)
 		{
 			DMK_ERROR("The size submitted to map the buffer is larger than the allocated size!");
 			return nullptr;

@@ -21,8 +21,6 @@ workspace "Dynamik"
 	filter "platforms:Mac"
 		system "macosx"
 
-	filter {}
-
 	filter "configurations:Debug"
 		defines { "DMK_DEBUG" }
 		symbols "On"
@@ -34,8 +32,6 @@ workspace "Dynamik"
 	filter "configurations:Distribution"
 		defines { "DMK_DISTRIBUTION" }
 		optimize "On"
-
-	filter {}
 
 outputDir = "$(Configuration)-$(Platform)"
 solutionDir = "$(SolutionDir)"

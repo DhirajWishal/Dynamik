@@ -357,7 +357,7 @@ DMKTexture* DMKImageImporter::loadCube(ARRAY<STRING> files, DMKFormat requiredFo
 
 	for (UI8 index = 0; index < 6; index++)
 	{
-		textures[index] = (UCPTR)stbi_load(files[index].c_str(), (I32*)&pTexture->width, (I32*)&pTexture->height, (I32*)&pTexture->channels, STBI_rgb_alpha);
+		textures[index] = Cast<UCPTR>(stbi_load(files[index].c_str(), (I32*)&pTexture->width, (I32*)&pTexture->height, (I32*)&pTexture->channels, STBI_rgb_alpha));
 
 		if (!textures[index])
 			DMK_FATAL("Unable to load texture!");

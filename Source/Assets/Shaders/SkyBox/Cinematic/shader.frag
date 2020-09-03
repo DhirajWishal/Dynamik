@@ -7,7 +7,6 @@ layout (location = 0) out vec4 outColor;
 layout (binding = 1) uniform samplerCube samplerEnv;
 
 layout (binding = 2) uniform UBOParams {
-	vec4 lights[4];
 	float exposure;
 	float gamma;
 } uboParams;

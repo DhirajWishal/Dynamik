@@ -34,7 +34,7 @@ void DMKUniformBuffer::initialize()
 {
 	if (!uByteSize)
 	{
-		DMK_ERROR("The buffer is not initialized! Make sure to add all the attributes prior to calling this function!");
+		DMK_WARN("The buffer is not initialized! Make sure to add all the attributes prior to calling this function!");
 		return;
 	}
 

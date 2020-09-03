@@ -12,7 +12,10 @@ layout (binding = 1) uniform UBO {
 } ubo;
 
 layout (binding = 2) uniform UBOParams {
-	vec4 lights[4];
+	vec4 light1;	// Cannot use arrays since SPIRV Cross does not recognize static arrays properly.
+	vec4 light2;
+	vec4 light3;
+	vec4 light4;
 	float exposure;
 	float gamma;
 } uboParams;
@@ -143,10 +146,10 @@ void main()
 	F0 = mix(F0, ALBEDO, metallic);
 
 	vec3 Lo = vec3(0.0);
-	for(int i = 0; i < uboParams.lights[i].length(); i++) {
-		vec3 L = normalize(uboParams.lights[i].xyz - inWorldPos);
-		Lo += specularContribution(L, V, N, F0, metallic, roughness);
-	}   
+	Lo += specularContribution(normalize(uboParams.light1.xyz - inWorldPos), V, N, F0, metallic, roughness);
+	Lo += specularContribution(normalize(uboParams.light2.xyz - inWorldPos), V, N, F0, metallic, roughness);
+	Lo += specularContribution(normalize(uboParams.light3.xyz - inWorldPos), V, N, F0, metallic, roughness);
+	Lo += specularContribution(normalize(uboParams.light4.xyz - inWorldPos), V, N, F0, metallic, roughness);
 	
 	vec2 brdf = texture(samplerBRDFLUT, vec2(max(dot(N, V), 0.0), roughness)).rg;
 	vec3 reflection = prefilteredReflection(R, roughness).rgb;	

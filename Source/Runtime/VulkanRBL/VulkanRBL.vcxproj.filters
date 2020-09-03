@@ -90,6 +90,12 @@
     <ClInclude Include="Pipelines\VulkanGraphicsPipeline.h">
       <Filter>Pipelines</Filter>
     </ClInclude>
+    <ClInclude Include="Pipelines\VulkanRayTracingPipeline.h">
+      <Filter>Pipelines</Filter>
+    </ClInclude>
+    <ClInclude Include="Primitives\VulkanAccelerationStructure.h">
+      <Filter>Primitives</Filter>
+    </ClInclude>
     <ClInclude Include="Primitives\VulkanBuffer.h">
       <Filter>Primitives</Filter>
     </ClInclude>
@@ -109,11 +115,9 @@
       <Filter>Primitives</Filter>
     </ClInclude>
     <ClInclude Include="VulkanCoreObject.h" />
+    <ClInclude Include="VulkanRBL.h" />
     <ClInclude Include="VulkanRenderTarget.h" />
     <ClInclude Include="VulkanUtilities.h" />
-    <ClInclude Include="VulkanRBL.h" />
-    <ClInclude Include="Primitives\VulkanAccelerationStructure.h" />
-    <ClInclude Include="Pipelines\VulkanRayTracingPipeline.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Clients\VulkanImGuiBackend.cpp">
@@ -173,6 +177,12 @@
     <ClCompile Include="Pipelines\VulkanGraphicsPipeline.cpp">
       <Filter>Pipelines</Filter>
     </ClCompile>
+    <ClCompile Include="Pipelines\VulkanRayTracingPipeline.cpp">
+      <Filter>Pipelines</Filter>
+    </ClCompile>
+    <ClCompile Include="Primitives\VulkanAccelerationStructure.cpp">
+      <Filter>Primitives</Filter>
+    </ClCompile>
     <ClCompile Include="Primitives\VulkanBuffer.cpp">
       <Filter>Primitives</Filter>
     </ClCompile>
@@ -192,10 +202,8 @@
       <Filter>Primitives</Filter>
     </ClCompile>
     <ClCompile Include="VulkanCoreObject.cpp" />
-    <ClCompile Include="VulkanUtilities.cpp" />
     <ClCompile Include="VulkanRBL.cpp" />
-    <ClCompile Include="Primitives\VulkanAccelerationStructure.cpp" />
-    <ClCompile Include="Pipelines\VulkanRayTracingPipeline.cpp" />
+    <ClCompile Include="VulkanUtilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="VulkanRBL.lua" />

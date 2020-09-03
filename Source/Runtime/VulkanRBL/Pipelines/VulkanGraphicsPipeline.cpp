@@ -11,6 +11,130 @@
 
 namespace Backend
 {
+	/*
+	 Get the descriptor type using the uniform type.
+	*/
+	DMK_FORCEINLINE VkDescriptorType GetDescriptorType(DMKUniformType type)
+	{
+		switch (type)
+		{
+		case DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER:
+			return VkDescriptorType::VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+
+		case DMKUniformType::DMK_UNIFORM_TYPE_STORAGE_BUFFER:
+			return VkDescriptorType::VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+
+		case DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER_DYNAMIC:
+			return VkDescriptorType::VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
+
+		case DMKUniformType::DMK_UNIFORM_TYPE_STORAGE_BUFFER_DYNAMIC:
+			return VkDescriptorType::VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC;
+
+		case DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_TEXEL_BUFFER:
+			return VkDescriptorType::VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER;
+
+		case DMKUniformType::DMK_UNIFORM_TYPE_STORAGE_TEXEL_BUFFER:
+			return VkDescriptorType::VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER;
+
+		case DMKUniformType::DMK_UNIFORM_TYPE_INPUT_ATTACHMENT:
+			return VkDescriptorType::VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
+
+		case DMKUniformType::DMK_UNIFORM_TYPE_STORAGE_IMAGE:
+			return VkDescriptorType::VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+
+		case DMKUniformType::DMK_UNIFORM_TYPE_CONSTANT:
+			break;	/* Doesnt have to do anything here. */
+
+		case DMKUniformType::DMK_UNIFORM_TYPE_SAMPLER_2D:
+			return VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+
+		case DMKUniformType::DMK_UNIFORM_TYPE_SAMPLER_CUBE:
+			return VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+
+		case DMKUniformType::DMK_UNIFORM_TYPE_SAMPLER_2D_ARRAY:
+			return VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+
+		case DMKUniformType::DMK_UNIFORM_TYPE_SAMPLER_CUBE_ARRAY:
+			return VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+
+		case DMKUniformType::DMK_UNIFORM_TYPE_ACCELERATION_STRUCTURE:
+			return VkDescriptorType::VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_KHR;
+		default:
+			DMK_ERROR("Invalid or unknown uniform type!");
+			break;
+		}
+
+		return VkDescriptorType::VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+	}
+
+	/*
+	 Get descriptor set layout bindings using shader uniforms.
+	*/
+	DMK_FORCEINLINE ARRAY<VkDescriptorSetLayoutBinding> GetDescriptorSetLayoutBindings(ARRAY<DMKUniformBuffer> uniforms, DMKShaderLocation location)
+	{
+		ARRAY<VkDescriptorSetLayoutBinding> bindings;
+
+		VkDescriptorSetLayoutBinding binding = {};
+		binding.pImmutableSamplers = nullptr;
+		binding.descriptorCount = 0;
+		binding.stageFlags = VulkanUtilities::getShaderStage(location);
+
+		for (UI32 index = 0; index < uniforms.size(); index++)
+		{
+			if (uniforms[index].type == DMKUniformType::DMK_UNIFORM_TYPE_CONSTANT)
+				continue;	/* Skip if the type is DMK_UNIFORM_TYPE_CONSTANT */
+
+			binding.binding = Cast<UI32>(uniforms[index].getBindingLocation());
+			binding.descriptorType = GetDescriptorType(uniforms[index].type);
+
+			bindings.pushBack(binding);
+		}
+
+		return bindings;
+	}
+
+	/*
+	 Get descriptor pool sizes.
+	*/
+	DMK_FORCEINLINE ARRAY<VkDescriptorPoolSize> GetDescriptorPoolSizes(ARRAY<DMKUniformBuffer> uniforms, DMKShaderLocation location)
+	{
+		ARRAY<VkDescriptorPoolSize> sizes;
+		VkDescriptorPoolSize poolSize = {};
+		poolSize.descriptorCount = 0;
+
+		for (UI32 index = 0; index < uniforms.size(); index++)
+		{
+			poolSize.type = GetDescriptorType(uniforms[index].type);
+			sizes.pushBack(poolSize);
+		}
+
+		return sizes;
+	}
+
+	/*
+	 Get push constant ranges.
+	*/
+	DMK_FORCEINLINE ARRAY<VkPushConstantRange> GetPushConstantRanges(ARRAY<DMKUniformBuffer> uniforms, DMKShaderLocation location)
+	{
+		ARRAY<VkPushConstantRange> ranges;
+		VkPushConstantRange range = {};
+		range.stageFlags = VulkanUtilities::getShaderStage(location);
+		range.offset = 0;
+
+		for (UI32 index = 0; index < uniforms.size(); index++)
+		{
+			if(uniforms[index].type != DMKUniformType::DMK_UNIFORM_TYPE_CONSTANT)
+				continue;
+
+			range.size = Cast<UI32>(uniforms[index].byteSize());
+			ranges.pushBack(range);
+
+			range.offset += Cast<UI32>(uniforms[index].byteSize());
+		}
+
+		return ranges;
+	}
+
 	void VulkanGraphicsPipelineResource::update(RCoreObject* pCoreObject, ARRAY<RBuffer*> pBuffers, ARRAY<RTexture*> pTextures)
 	{
 		ARRAY<VkWriteDescriptorSet> descriptorWrites;
@@ -33,7 +157,7 @@ namespace Backend
 
 		for (UI64 index = 0; index < resourceBindings.size(); index++)
 		{
-			descriptorWrite.dstBinding = (UI32)index;
+			descriptorWrite.dstBinding = resourceBindings[index].binding;
 			descriptorWrite.descriptorType = resourceBindings[index].descriptorType;
 
 			switch (descriptorWrite.descriptorType)
@@ -225,12 +349,10 @@ namespace Backend
 			shaderStage.stage = VulkanUtilities::getShaderStage(createInfo.shaders[index].location);
 			shaderStages.pushBack(shaderStage);
 
-			Tools::SPIRVDisassembler dissassembler(createInfo.shaders[index]);
+			resourceBindings.insert(GetDescriptorSetLayoutBindings(createInfo.shaders[index].getUniforms(), createInfo.shaders[index].location));
+			descriptorPoolSizes.insert(GetDescriptorPoolSizes(createInfo.shaders[index].getUniforms(), createInfo.shaders[index].location));
 
-			resourceBindings.insert(dissassembler.getOrderedDescriptorSetLayoutBindings());
-			descriptorPoolSizes.insert(dissassembler.getDescriptorPoolSizes());
-
-			pushConstants.insert(dissassembler.getPushConstantRanges());
+			pushConstants.insert(GetPushConstantRanges(createInfo.shaders[index].getUniforms(), createInfo.shaders[index].location));
 
 			if (createInfo.shaders[index].location == DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
 			{
@@ -508,14 +630,12 @@ namespace Backend
 			shaderStage.stage = VulkanUtilities::getShaderStage(mySpecification.shaders[index].location);
 			shaderStages.pushBack(shaderStage);
 
-			Tools::SPIRVDisassembler dissassembler(mySpecification.shaders[index]);
-
-			resourceBindings.insert(dissassembler.getOrderedDescriptorSetLayoutBindings());
+			resourceBindings.insert(GetDescriptorSetLayoutBindings(mySpecification.shaders[index].getUniforms(), mySpecification.shaders[index].location));
 
 			if (mySpecification.shaders[index].location == DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
 			{
-				resourceLayouts[index].vertexInputBindings.insert(dissassembler.getVertexBindingDescriptions());
-				resourceLayouts[index].vertexInputAttributes = dissassembler.getVertexAttributeDescriptions();
+				resourceLayouts[index].vertexInputBindings.insert(VulkanUtilities::getVertexBindingDescriptions(mySpecification.shaders[index]));
+				resourceLayouts[index].vertexInputAttributes = VulkanUtilities::getVertexAttributeDescriptions(mySpecification.shaders[index]);
 
 				vertexInputInfo.vertexBindingDescriptionCount = Cast<UI32>(resourceLayouts[index].vertexInputBindings.size());
 				vertexInputInfo.pVertexBindingDescriptions = resourceLayouts[index].vertexInputBindings.data();

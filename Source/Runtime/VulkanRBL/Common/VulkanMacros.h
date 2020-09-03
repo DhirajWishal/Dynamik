@@ -12,6 +12,6 @@
 #include <vulkan/vulkan.h>
 #include "Core/Error/ErrorManager.h"
 
-#define DMK_VULKAN_ASSERT(exp, msg) if(exp != VK_SUCCESS) DMK_ERROR_BOX(msg)
+#define DMK_VULKAN_ASSERT(exp, msg) if(exp != VK_SUCCESS) DMKErrorManager::logError(TEXT(msg))
 
 #endif // !_DYNAMIK_VULKAN_MACROS_H

@@ -75,6 +75,9 @@
     <ClInclude Include="Components\PrimitiveTypeDefs.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Components\Primitives\RAccelerationStructure.h">
+      <Filter>Components\Primitives</Filter>
+    </ClInclude>
     <ClInclude Include="Components\Primitives\RBuffer.h">
       <Filter>Components\Primitives</Filter>
     </ClInclude>
@@ -128,12 +131,11 @@
     </ClInclude>
     <ClInclude Include="RUtilities.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RendererBackendLayer.h" />
     <ClInclude Include="RendererCommand.h" />
     <ClInclude Include="ThirdParty\stb_font_consolas_24_latin1.inl">
       <Filter>ThirdParty</Filter>
     </ClInclude>
-    <ClInclude Include="RendererBackendLayer.h" />
-    <ClInclude Include="Components\Primitives\RAccelerationStructure.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\Attachments\RBoundingBox.cpp">

@@ -31,13 +31,13 @@ namespace Backend
 			std::cerr << myMessageStatement << myMessagePreStatement << pCallbackData->pMessage << std::endl;
 			break;
 		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT:
-			DMK_INFO("" + (myMessageStatement + myMessagePreStatement + std::string(pCallbackData->pMessage)));
+			DMK_INFO("" + (myMessageStatement + myMessagePreStatement + std::string(pCallbackData->pMessage)) + "\n");
 			break;
 		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT:
-			DMK_WARN("" + (myMessageStatement + myMessagePreStatement + std::string(pCallbackData->pMessage)));
+			DMK_WARN("" + (myMessageStatement + myMessagePreStatement + std::string(pCallbackData->pMessage)) + "\n");
 			break;
 		case VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
-			DMK_ERROR("" + (myMessageStatement + myMessagePreStatement + std::string(pCallbackData->pMessage)));
+			DMK_ERROR("" + (myMessageStatement + myMessagePreStatement + std::string(pCallbackData->pMessage)) + "\n");
 			break;
 		default:
 			std::cerr << myMessageStatement << myMessagePreStatement << pCallbackData->pMessage << std::endl;

@@ -27,6 +27,8 @@ void DMKShaderModule::loadCode(const STRING& path)
 	file.read((CPTR)shaderCode.data(), fileSize);
 
 	file.close();
+
+	generateResources();
 }
 
 void DMKShaderModule::generateResources()

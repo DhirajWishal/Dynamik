@@ -39,7 +39,7 @@ F32& Vector3F::operator[](UI32 index) const
 
 Vector3F::operator F32* () const
 {
-	return (F32*)this;
+	return Cast<F32*>(&this->x);
 }
 
 Vector3F operator+(const Vector3F& lhs, const Vector3F& rhs)

@@ -13,6 +13,7 @@ layout(location = 2) in vec2 inTexCoord;
 
 layout(location = 0) out vec3 fragColor;
 layout(location = 1) out vec2 fragTexCoord;
+layout(location = 2) out vec3 position;
 
 const float mapSize = 10.0f;
 
@@ -21,5 +22,6 @@ void main() {
 
     fragColor = inColor;
     fragTexCoord = inTexCoord;
+    position = inPosition;
 }
 

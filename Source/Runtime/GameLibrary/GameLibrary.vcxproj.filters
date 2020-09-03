@@ -7,6 +7,9 @@
     <Filter Include="Entities">
       <UniqueIdentifier>{8AA33B53-7670-965E-9F89-84068BB5CBEC}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities\Complex">
+      <UniqueIdentifier>{71D9B7F5-5DD2-D647-8604-BCCC725CB653}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Mechanics">
       <UniqueIdentifier>{30EBFAEF-9C55-AF66-E593-600C513D8DBB}</UniqueIdentifier>
     </Filter>
@@ -27,6 +30,9 @@
     <ClInclude Include="Entities\CanvasEntity.h">
       <Filter>Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Entities\Complex\Button2D.h">
+      <Filter>Entities\Complex</Filter>
+    </ClInclude>
     <ClInclude Include="Entities\EnvironmentEntity.h">
       <Filter>Entities</Filter>
     </ClInclude>
@@ -37,6 +43,9 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="Entities\StaticModelEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\TriggerEntity2D.h">
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="GameMechanics.h" />
@@ -57,8 +66,6 @@
     <ClInclude Include="Utilities\MeshFactory.h">
       <Filter>Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Entities\TriggerEntity2D.h" />
-    <ClInclude Include="Entities\Complex\Button2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp">
@@ -82,16 +89,20 @@
     <ClCompile Include="Entities\StaticModelEntity.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Entities\TriggerEntity2D.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
     <ClCompile Include="GameModule.cpp" />
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Mechanics\PlayerController.cpp">
       <Filter>Mechanics</Filter>
     </ClCompile>
+    <ClCompile Include="Utilities\EntityFactory.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
     <ClCompile Include="Utilities\MeshFactory.cpp">
       <Filter>Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Entities\TriggerEntity2D.cpp" />
-    <ClCompile Include="Utilities\EntityFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GameLibrary.lua" />

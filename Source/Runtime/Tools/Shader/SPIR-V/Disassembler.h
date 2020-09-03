@@ -21,37 +21,6 @@ namespace Tools
 		~SPIRVDisassembler() {}
 
 		/*
-		 Get the descriptor set layout bindings of the current shader.
-		*/
-		ARRAY<VkDescriptorSetLayoutBinding> getDescriptorSetLayoutBindings();
-
-		/*
-		 Get ordered set layout bindings of the current shader.
-		*/
-		ARRAY<VkDescriptorSetLayoutBinding> getOrderedDescriptorSetLayoutBindings();
-
-		/*
-		 Get the descriptor pool sizes of the current shader.
-		*/
-		ARRAY<VkDescriptorPoolSize> getDescriptorPoolSizes();
-
-		/*
-		 Get the vertex input attributes of the current shader
-		*/
-		ARRAY<VkVertexInputAttributeDescription> getVertexAttributeDescriptions();
-
-		/*
-		 Get the push constant information in the current shader.
-		*/
-		ARRAY<VkPushConstantRange> getPushConstantRanges();
-
-		/*
-		 Get the binding description of the current shader.
-		 @warn: Only works with vertex shaders.
-		*/
-		ARRAY<VkVertexInputBindingDescription> getVertexBindingDescriptions();
-
-		/*
 		 Get the uniform buffers in the shader. 
 		*/
 		ARRAY<DMKUniformBuffer> getUniformBuffers();
@@ -81,15 +50,10 @@ namespace Tools
 
 	private:
 		DMKShaderModule shaderModule;
-		ARRAY<VkDescriptorSetLayoutBinding> layoutBindings;
-		ARRAY<VkDescriptorPoolSize> poolSizes;
-		ARRAY<VkVertexInputAttributeDescription> vertexAttributes;
-		ARRAY<VkPushConstantRange> pushConstantRanges;
-		ARRAY<VkVertexInputBindingDescription> bindingDescriptions;
-		B1 isParsed = false;
 
 		ARRAY<DMKUniformBuffer> uniformBuffers;
 		ARRAY<DMKShaderInputAttribute> inputAttributes;
+		B1 isParsed = false;
 	};
 }
 

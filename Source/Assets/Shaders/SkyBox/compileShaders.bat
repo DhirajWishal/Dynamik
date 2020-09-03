@@ -1,3 +1,3 @@
-"E:\Programming\SDKs\Vulkan\1.2.131.2\Bin\glslangValidator.exe" -V skybox.vert
-"E:\Programming\SDKs\Vulkan\1.2.131.2\Bin\glslangValidator.exe" -V skybox.frag
+"E:\Dynamik\Version\DynamikEngine\Dependencies\ThirdParty\Binaries\glslangValidator\glslangValidator.exe" -V skybox.vert
+"E:\Dynamik\Version\DynamikEngine\Dependencies\ThirdParty\Binaries\glslangValidator\glslangValidator.exe" -V skybox.frag
 PAUSE

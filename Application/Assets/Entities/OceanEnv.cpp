@@ -7,7 +7,7 @@
 #include "Core/Utilities/TextureFactory.h"
 #include "Core/Utilities/ShaderFactory.h"
 #include "Core/Objects/Resources/UniformBuffer.h"
-#include "Services/RuntimeSystems/AssetRegistry.h"
+#include "Services/RuntimeSystems/AssetRegistry.h" 
 
 void OceanEnv::setCameraModule(DMKCameraModule* pCameraModule)
 {
@@ -17,37 +17,18 @@ void OceanEnv::setCameraModule(DMKCameraModule* pCameraModule)
 void OceanEnv::onInitializeEnvironment()
 {
 	ARRAY<STRING> skyboxTexturePaths;
-	skyboxTexturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/right.jpg");
-	skyboxTexturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/left.jpg");
-	skyboxTexturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/top.jpg");
-	skyboxTexturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/bottom.jpg");
-	skyboxTexturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/front.jpg");
-	skyboxTexturePaths.pushBack(DMKFileSystem::getWorkingDirectory() + "/Runtime/Assets/Textures/SkyBox/back.jpg");
+	skyboxTexturePaths.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\right.jpg");
+	skyboxTexturePaths.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\left.jpg");
+	skyboxTexturePaths.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\top.jpg");
+	skyboxTexturePaths.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\bottom.jpg");
+	skyboxTexturePaths.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\front.jpg");
+	skyboxTexturePaths.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\back.jpg");
 
 	skyBoxMesh = DMKMeshFactory::loadFromFile(DMKAssetRegistry::getAsset(TEXT("MODEL_SKYBOX_OBJ")), DMKVertexLayout::createBasicIBL());
 	skyBoxMesh.getMaterial().addTexture(DMKTextureFactory::createCubeMap(skyboxTexturePaths), MaterialTextureType::MATERIAL_TEXTURE_TYPE_DEFAULT);
 
-	auto shaderVS = DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_SKYBOX_CINEMATIC_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
-	DMKUniformBuffer unifomVS(0);
-	unifomVS.addAttribute(TEXT("projection"), sizeof(Matrix4F));
-	unifomVS.addAttribute(TEXT("view"), sizeof(Matrix4F));
-	unifomVS.addAttribute(TEXT("model"), sizeof(Matrix4F));
-	unifomVS.initialize();
-	shaderVS.addUniform(unifomVS);
-	shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKFormat::DMK_FORMAT_RGBA_32_SF32, 1));
-	shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKFormat::DMK_FORMAT_RGBA_32_SF32, 1));
-	shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKFormat::DMK_FORMAT_RG_32_SF32, 1));
-
-	addShaderModule(shaderVS);
-
-	auto shaderFS = DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_SKYBOX_CINEMATIC_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV);
-	DMKUniformBuffer unifomFS(1);
-	unifomFS.addAttribute(TEXT("lights"), sizeof(Vector4F) * 4);
-	unifomFS.addAttribute(TEXT("exposure"), sizeof(F32));
-	unifomFS.addAttribute(TEXT("gamma"), sizeof(F32));
-	unifomFS.initialize();
-	shaderFS.addUniform(unifomFS);
-	addShaderModule(shaderFS);
+	addShaderModule(DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_SKYBOX_CINEMATIC_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+	addShaderModule(DMKShaderFactory::createModule(DMKAssetRegistry::getAsset(TEXT("SHADER_SKYBOX_CINEMATIC_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 }
 
 void OceanEnv::onUpdateEnvironment()

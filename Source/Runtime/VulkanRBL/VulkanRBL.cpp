@@ -358,5 +358,13 @@ namespace Backend
 
 	void VulkanRBL::terminateImage(RImage* pImage)
 	{
+		if (!pImage)
+		{
+			DMK_ERROR("Invalid image object!");
+			return;
+		}
+
+		pImage->terminate(getCoreObject());
+		StaticAllocator<VulkanImage>::rawDeallocate(pImage);
 	}
 }

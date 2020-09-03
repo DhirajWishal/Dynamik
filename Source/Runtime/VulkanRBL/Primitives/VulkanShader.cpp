@@ -31,13 +31,6 @@
 			vkDestroyShaderModule(vDevice, shaderModule, VK_NULL_HANDLE);
 		}
 
-		std::pair<ARRAY<VkDescriptorSetLayoutBinding>, ARRAY<VkDescriptorPoolSize>> VulkanShader::createDescriptorLayoutAndSizes(const VulkanDevice& vDevice)
-		{
-			Tools::SPIRVDisassembler _disassembler(parentModule);
-
-			return { _disassembler.getDescriptorSetLayoutBindings(), _disassembler.getDescriptorPoolSizes() };
-		}
-
 		VulkanShader::operator VkShaderModule() const
 		{
 			return this->shaderModule;
