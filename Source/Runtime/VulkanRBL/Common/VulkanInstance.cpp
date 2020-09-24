@@ -74,9 +74,9 @@ namespace Backend
 			func(instance, debugMessenger, pAllocator);
 	}
 
-	void VulkanInstance::addExtension(const STRING& extension)
+	void VulkanInstance::addExtension(const CCPTR& extension)
 	{
-		extentions.pushBack(extension.c_str());
+		extentions.pushBack(extension);
 	}
 
 	void VulkanInstance::initialize(B1 enableValidation, ARRAY<CCPTR> layers)

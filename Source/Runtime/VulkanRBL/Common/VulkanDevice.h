@@ -21,7 +21,7 @@ namespace Backend
 		VulkanDevice() {}
 		~VulkanDevice() {}
 
-		void addExtension(const STRING& extension);
+		void addExtension(const CCPTR& extension);
 		void initialize(VulkanInstance vInstance, VulkanSurface vSurface);
 		void initializePhysicalDevice(VulkanInstance vInstance, VulkanSurface vSurface);
 		void initializeLogicalDevice(VulkanInstance vInstance, VulkanSurface vSurface);

@@ -123,12 +123,12 @@ namespace Backend
 		createInfo.dependencyCount = Cast<UI32>(subpassDependencies.size());
 		createInfo.pDependencies = subpassDependencies.data();
 
-		DMK_VULKAN_ASSERT(vkCreateRenderPass(Inherit<VulkanCoreObject>(pCoreObject)->device, &createInfo, nullptr, &renderPass), "Failed to create the Render Pass!");
+		DMK_VULKAN_ASSERT(vkCreateRenderPass(pCoreObject->getAs<VulkanCoreObject>()->device, &createInfo, nullptr, &renderPass), "Failed to create the Render Pass!");
 	}
 
 	void VulkanRenderPass::terminate(RCoreObject* pCoreObject)
 	{
-		vkDestroyRenderPass(Inherit<VulkanCoreObject>(pCoreObject)->device, renderPass, nullptr);
+		vkDestroyRenderPass(pCoreObject->getAs<VulkanCoreObject>()->device, renderPass, nullptr);
 	}
 
 	VulkanRenderPass::operator VkRenderPass() const

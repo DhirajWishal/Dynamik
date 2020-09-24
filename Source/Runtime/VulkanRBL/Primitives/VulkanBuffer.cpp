@@ -49,26 +49,26 @@ namespace Backend
 
 		bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-		DMK_VULKAN_ASSERT(vkCreateBuffer(Inherit<VulkanCoreObject>(pCoreObject)->device, &bufferInfo, nullptr, &buffer), "Failed to create buffer!");
+		DMK_VULKAN_ASSERT(vkCreateBuffer(pCoreObject->getAs<VulkanCoreObject>()->device, &bufferInfo, nullptr, &buffer), "Failed to create buffer!");
 
 		VkMemoryRequirements memRequirements = {};
-		vkGetBufferMemoryRequirements(Inherit<VulkanCoreObject>(pCoreObject)->device, buffer, &memRequirements);
+		vkGetBufferMemoryRequirements(pCoreObject->getAs<VulkanCoreObject>()->device, buffer, &memRequirements);
 
 		VkMemoryAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 		allocInfo.allocationSize = memRequirements.size;
 		allocInfo.memoryTypeIndex = VulkanUtilities::findMemoryType(memRequirements.memoryTypeBits, (VkMemoryPropertyFlags)memoryType,
-			Inherit<VulkanCoreObject>(pCoreObject)->device);
+			pCoreObject->getAs<VulkanCoreObject>()->device);
 
-		DMK_VULKAN_ASSERT(vkAllocateMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, &allocInfo, nullptr, &bufferMemory), "Failed to allocate buffer memory!");
+		DMK_VULKAN_ASSERT(vkAllocateMemory(pCoreObject->getAs<VulkanCoreObject>()->device, &allocInfo, nullptr, &bufferMemory), "Failed to allocate buffer memory!");
 
-		vkBindBufferMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, buffer, bufferMemory, 0);
+		vkBindBufferMemory(pCoreObject->getAs<VulkanCoreObject>()->device, buffer, bufferMemory, 0);
 	}
 
 	void VulkanBuffer::terminate(RCoreObject* pCoreObject)
 	{
-		vkDestroyBuffer(Inherit<VulkanCoreObject>(pCoreObject)->device, buffer, nullptr);
-		vkFreeMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, bufferMemory, nullptr);
+		vkDestroyBuffer(pCoreObject->getAs<VulkanCoreObject>()->device, buffer, nullptr);
+		vkFreeMemory(pCoreObject->getAs<VulkanCoreObject>()->device, bufferMemory, nullptr);
 	}
 
 	void VulkanBuffer::copy(RCoreObject* pCoreObject, RBuffer* pSrcBuffer, UI64 size, UI64 srcOffset, UI64 dstOffset)
@@ -111,13 +111,13 @@ namespace Backend
 		}
 
 		VPTR data = nullptr;
-		DMK_VULKAN_ASSERT(vkMapMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, bufferMemory, offset, size, VK_NULL_HANDLE, &data), "Unable to map the buffer memory!");
+		DMK_VULKAN_ASSERT(vkMapMemory(pCoreObject->getAs<VulkanCoreObject>()->device, bufferMemory, offset, size, VK_NULL_HANDLE, &data), "Unable to map the buffer memory!");
 		return data;
 	}
 
 	void VulkanBuffer::unmapMemory(RCoreObject* pCoreObject)
 	{
-		vkUnmapMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, bufferMemory);
+		vkUnmapMemory(pCoreObject->getAs<VulkanCoreObject>()->device, bufferMemory);
 	}
 
 	void VulkanBuffer::flushMemory(RCoreObject* pCoreObject)
@@ -132,7 +132,7 @@ namespace Backend
 		range.offset = 0;
 		range.size = VK_WHOLE_SIZE;
 
-		vkFlushMappedMemoryRanges(Inherit<VulkanCoreObject>(pCoreObject)->device, 1, &range);
+		vkFlushMappedMemoryRanges(pCoreObject->getAs<VulkanCoreObject>()->device, 1, &range);
 	}
 
 	VkDescriptorBufferInfo VulkanBuffer::createDescriptorInfo(UI32 offset)

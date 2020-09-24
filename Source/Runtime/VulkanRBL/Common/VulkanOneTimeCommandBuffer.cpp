@@ -9,7 +9,7 @@
 namespace Backend
 {
 	VulkanOneTimeCommandBuffer::VulkanOneTimeCommandBuffer(RCoreObject* pCoreObject)
-		: myDevice(Inherit<VulkanCoreObject>(pCoreObject)->device), myQueues(Inherit<VulkanCoreObject>(pCoreObject)->queues)
+		: myDevice(pCoreObject->getAs<VulkanCoreObject>()->device), myQueues(pCoreObject->getAs<VulkanCoreObject>()->queues)
 	{
 		/* Create the command pool for the command buffer */
 		VkCommandPoolCreateInfo poolInfo = {};

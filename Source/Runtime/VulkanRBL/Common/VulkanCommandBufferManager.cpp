@@ -15,10 +15,10 @@ namespace Backend
 	{
 		VkCommandPoolCreateInfo poolInfo = {};
 		poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-		poolInfo.queueFamilyIndex = Inherit<VulkanCoreObject>(pCoreObject)->queues.processFamily.value();
+		poolInfo.queueFamilyIndex = pCoreObject->getAs<VulkanCoreObject>()->queues.processFamily.value();
 		poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 
-		DMK_VULKAN_ASSERT(vkCreateCommandPool(Inherit<VulkanCoreObject>(pCoreObject)->device, &poolInfo, nullptr, &pool), "Failed to create command pool!");
+		DMK_VULKAN_ASSERT(vkCreateCommandPool(pCoreObject->getAs<VulkanCoreObject>()->device, &poolInfo, nullptr, &pool), "Failed to create command pool!");
 	}
 
 	ARRAY<RCommandBuffer*> VulkanCommandBufferManager::allocateCommandBuffers(RCoreObject* pCoreObject, UI32 bufferCount, RCommandBufferLevel level)
@@ -30,7 +30,7 @@ namespace Backend
 		allocInfo.commandBufferCount = static_cast<UI32>(bufferCount);
 
 		ARRAY<VkCommandBuffer> _bufferArray(bufferCount);
-		DMK_VULKAN_ASSERT(vkAllocateCommandBuffers(Inherit<VulkanCoreObject>(pCoreObject)->device, &allocInfo, _bufferArray.data()), "Failed to allocate command buffers!");
+		DMK_VULKAN_ASSERT(vkAllocateCommandBuffers(pCoreObject->getAs<VulkanCoreObject>()->device, &allocInfo, _bufferArray.data()), "Failed to allocate command buffers!");
 
 		ARRAY<RCommandBuffer*> _buffers;
 		VulkanCommandBuffer* _buffer = nullptr;
@@ -55,7 +55,7 @@ namespace Backend
 	{
 		for (auto _buffer : commandBuffers)
 		{
-			vkFreeCommandBuffers(Inherit<VulkanCoreObject>(pCoreObject)->device, pool, 1, &Inherit<VulkanCommandBuffer>(_buffer)->buffer);
+			vkFreeCommandBuffers(pCoreObject->getAs<VulkanCoreObject>()->device, pool, 1, &Inherit<VulkanCommandBuffer>(_buffer)->buffer);
 			StaticAllocator<VulkanCommandBuffer>::rawDeallocate(_buffer);
 		}
 	}
@@ -64,6 +64,6 @@ namespace Backend
 	{
 		terminateBuffers(pCoreObject, commandBuffers);
 
-		vkDestroyCommandPool(Inherit<VulkanCoreObject>(pCoreObject)->device, pool, nullptr);
+		vkDestroyCommandPool(pCoreObject->getAs<VulkanCoreObject>()->device, pool, nullptr);
 	}
 }

@@ -40,7 +40,7 @@ namespace Backend
 			framebufferInfo.layers = 1;
 
 			VkFramebuffer _buffer = VK_NULL_HANDLE;
-			DMK_VULKAN_ASSERT(vkCreateFramebuffer(Inherit<VulkanCoreObject>(pCoreObject)->device, &framebufferInfo, nullptr, &_buffer), "Failed to create frame buffer!");
+			DMK_VULKAN_ASSERT(vkCreateFramebuffer(pCoreObject->getAs<VulkanCoreObject>()->device, &framebufferInfo, nullptr, &_buffer), "Failed to create frame buffer!");
 
 			buffers.pushBack(_buffer);
 		}
@@ -61,7 +61,7 @@ namespace Backend
 
 		/* Terminate frame buffers */
 		for (auto buffer : buffers)
-			vkDestroyFramebuffer(Inherit<VulkanCoreObject>(pCoreObject)->device, buffer, nullptr);
+			vkDestroyFramebuffer(pCoreObject->getAs<VulkanCoreObject>()->device, buffer, nullptr);
 		buffers.clear();
 	}
 

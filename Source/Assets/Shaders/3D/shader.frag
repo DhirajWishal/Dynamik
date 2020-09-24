@@ -11,11 +11,5 @@ layout(location = 0) out vec4 outColor;
 
 void main() {
     outColor = texture(texSampler, fragTexCoord);
-    //outColor = vec4(1.0f, 0.765557f, 0.336057f, 1.0f);
-
-    vec3 lightDir = vec3(-0.5f, 0.5f, -0.5f);
-    //float intensity = clamp(dot(lightDir, vec3(fragTexCoord.x, fragTexCoord.y, 1.0f)), 0.1f, 1.0f);
-    float intensity = clamp(dot(lightDir, position), 0.1f, 1.0f);
-
-    outColor.rgb *= intensity;
+    outColor.rgb *= clamp(dot(vec3(-0.5f, 0.5f, -0.5f), position), 0.1f, 1.0f);
 }

@@ -19,7 +19,7 @@ namespace Backend
 		VulkanInstance() {}
 		~VulkanInstance() {}
 
-		void addExtension(const STRING& extension);
+		void addExtension(const CCPTR& extension);
 		void initialize(B1 enableValidation, ARRAY<CCPTR> layers = { "VK_LAYER_KHRONOS_validation" });
 		void terminate();
 

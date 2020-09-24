@@ -11,7 +11,7 @@
 
 namespace Tools
 {
-	inline std::vector<UI32> convertToUI32Vector(const ARRAY<UI32>& code)
+	DMK_FORCEINLINE std::vector<UI32> ConvertToUI32Vector(const ARRAY<UI32>& code)
 	{
 		std::vector<UI32> _code((code.size() / 4));
 
@@ -21,7 +21,7 @@ namespace Tools
 		return _code;
 	}
 
-	inline VkFormat getFormat(UI32 count)
+	DMK_FORCEINLINE VkFormat GetFormat(UI32 count)
 	{
 		if (count == 1)
 			return VK_FORMAT_R32_SFLOAT;
@@ -35,7 +35,7 @@ namespace Tools
 		return VK_FORMAT_UNDEFINED;
 	}
 
-	inline UI64 getFormatToSize(VkFormat format)
+	DMK_FORCEINLINE UI64 GetFormatToSize(VkFormat format)
 	{
 		if (format == VK_FORMAT_R32_SFLOAT)
 			return sizeof(F32) * 1;
@@ -72,22 +72,22 @@ namespace Tools
 
 	STRING SPIRVDisassembler::toGLSL()
 	{
-		spirv_cross::CompilerGLSL _glslCompiler(std::move(convertToUI32Vector(shaderModule.shaderCode)));
+		spirv_cross::CompilerGLSL _glslCompiler(std::move(ConvertToUI32Vector(shaderModule.shaderCode)));
 
 		return _glslCompiler.compile();
 	}
 
 	STRING SPIRVDisassembler::toHLSL()
 	{
-		spirv_cross::CompilerHLSL _hlslCompiler(std::move(convertToUI32Vector(shaderModule.shaderCode)));
+		spirv_cross::CompilerHLSL _hlslCompiler(std::move(ConvertToUI32Vector(shaderModule.shaderCode)));
 
 		return _hlslCompiler.compile();
 	}
 
 	void SPIRVDisassembler::_parseModule()
 	{
-		spirv_cross::CompilerGLSL _glslCompiler(std::move(convertToUI32Vector(shaderModule.shaderCode)));
-		spirv_cross::ShaderResources resources = _glslCompiler.get_shader_resources();
+		spirv_cross::Compiler _compiler(std::move(ConvertToUI32Vector(shaderModule.shaderCode)));
+		spirv_cross::ShaderResources resources = _compiler.get_shader_resources();
 		spirv_cross::SPIRType _type;
 
 		UI64 offsetCount = 0;
@@ -95,18 +95,18 @@ namespace Tools
 		/* Uniform buffers */
 		for (auto& resource : resources.uniform_buffers)
 		{
-			unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
-			unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
+			unsigned set = _compiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
+			unsigned binding = _compiler.get_decoration(resource.id, spv::DecorationBinding);
 
 			DMKUniformBuffer _uniformBuffer(binding, DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER);
 
-			for (UI32 index = 0; index < _glslCompiler.get_type(resource.base_type_id).member_types.size(); index++)
+			for (UI32 index = 0; index < _compiler.get_type(resource.base_type_id).member_types.size(); index++)
 			{
-				auto Ty = _glslCompiler.get_type(_glslCompiler.get_type(resource.base_type_id).member_types[index]);
+				auto Ty = _compiler.get_type(_compiler.get_type(resource.base_type_id).member_types[index]);
 				UI32 byteSize = (Ty.width / 8) * Ty.vecsize * Ty.columns;
 				offsetCount += byteSize;
 
-				_uniformBuffer.addAttribute(STRING(_glslCompiler.get_member_name(resource.base_type_id, index)), byteSize);
+				_uniformBuffer.addAttribute(STRING(_compiler.get_member_name(resource.base_type_id, index)), byteSize);
 			}
 
 			_uniformBuffer.initialize();
@@ -116,25 +116,25 @@ namespace Tools
 		/* Storage buffers */
 		for (auto& resource : resources.storage_buffers)
 		{
-			unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
-			unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
+			unsigned set = _compiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
+			unsigned binding = _compiler.get_decoration(resource.id, spv::DecorationBinding);
 
-			for (auto ID : _glslCompiler.get_type(resource.base_type_id).member_types)
+			for (auto ID : _compiler.get_type(resource.base_type_id).member_types)
 			{
-				auto Ty = _glslCompiler.get_type(ID);
+				auto Ty = _compiler.get_type(ID);
 				UI32 byteSize = (Ty.width / sizeof(F32)) * Ty.vecsize * Ty.columns;
 				offsetCount += byteSize;
 			}
 
 			DMKUniformBuffer _uniformBuffer(binding, DMKUniformType::DMK_UNIFORM_TYPE_STORAGE_BUFFER);
 
-			for (UI32 index = 0; index < _glslCompiler.get_type(resource.base_type_id).member_types.size(); index++)
+			for (UI32 index = 0; index < _compiler.get_type(resource.base_type_id).member_types.size(); index++)
 			{
-				auto Ty = _glslCompiler.get_type(_glslCompiler.get_type(resource.base_type_id).member_types[index]);
+				auto Ty = _compiler.get_type(_compiler.get_type(resource.base_type_id).member_types[index]);
 				UI32 byteSize = (Ty.width / 8) * Ty.vecsize * Ty.columns;
 				offsetCount += byteSize;
 
-				_uniformBuffer.addAttribute(STRING(_glslCompiler.get_member_name(resource.base_type_id, index)), byteSize);
+				_uniformBuffer.addAttribute(STRING(_compiler.get_member_name(resource.base_type_id, index)), byteSize);
 			}
 
 			_uniformBuffer.initialize();
@@ -145,14 +145,14 @@ namespace Tools
 		DMKShaderInputAttribute inputAttribute;
 		for (auto& resource : resources.stage_inputs)
 		{
-			unsigned location = _glslCompiler.get_decoration(resource.id, spv::DecorationLocation);
-			unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
+			unsigned location = _compiler.get_decoration(resource.id, spv::DecorationLocation);
+			unsigned binding = _compiler.get_decoration(resource.id, spv::DecorationBinding);
 
-			_type = _glslCompiler.get_type(resource.base_type_id);
+			_type = _compiler.get_type(resource.base_type_id);
 
 			DMKShaderInputAttribute _inputAttribute;
 			_inputAttribute.dataCount = _type.columns;
-			_inputAttribute.dataFormat = Cast<DMKFormat>(getFormat(_type.vecsize));
+			_inputAttribute.dataFormat = Cast<DMKFormat>(GetFormat(_type.vecsize));
 			inputAttributes.pushBack(_inputAttribute);
 		}
 
@@ -160,32 +160,32 @@ namespace Tools
 		/* Shader outputs */
 		for (auto& resource : resources.stage_outputs)
 		{
-			unsigned location = _glslCompiler.get_decoration(resource.id, spv::DecorationLocation);
-			unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
+			unsigned location = _compiler.get_decoration(resource.id, spv::DecorationLocation);
+			unsigned binding = _compiler.get_decoration(resource.id, spv::DecorationBinding);
 		}
 
 		/* Shader subpass inputs */
 		for (auto& resource : resources.subpass_inputs)
 		{
-			unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
-			unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
+			unsigned set = _compiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
+			unsigned binding = _compiler.get_decoration(resource.id, spv::DecorationBinding);
 		}
 
 		/* Shader storage images */
 		for (auto& resource : resources.storage_images)
 		{
-			unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
-			unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
+			unsigned set = _compiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
+			unsigned binding = _compiler.get_decoration(resource.id, spv::DecorationBinding);
 
 			DMKUniformBuffer _uniformBuffer(binding, DMKUniformType::DMK_UNIFORM_TYPE_STORAGE_IMAGE);
 
-			for (UI32 index = 0; index < _glslCompiler.get_type(resource.base_type_id).member_types.size(); index++)
+			for (UI32 index = 0; index < _compiler.get_type(resource.base_type_id).member_types.size(); index++)
 			{
-				auto Ty = _glslCompiler.get_type(_glslCompiler.get_type(resource.base_type_id).member_types[index]);
+				auto Ty = _compiler.get_type(_compiler.get_type(resource.base_type_id).member_types[index]);
 				UI32 byteSize = (Ty.width / 8) * Ty.vecsize * Ty.columns;
 				offsetCount += byteSize;
 
-				_uniformBuffer.addAttribute(STRING(_glslCompiler.get_member_name(resource.base_type_id, index)), byteSize);
+				_uniformBuffer.addAttribute(STRING(_compiler.get_member_name(resource.base_type_id, index)), byteSize);
 			}
 			
 			uniformBuffers.pushBack(_uniformBuffer);
@@ -194,18 +194,18 @@ namespace Tools
 		/* Shader sampled images */
 		for (auto& resource : resources.sampled_images)
 		{
-			unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
-			unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
+			unsigned set = _compiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
+			unsigned binding = _compiler.get_decoration(resource.id, spv::DecorationBinding);
 
 			DMKUniformBuffer _uniformBuffer(binding, DMKUniformType::DMK_UNIFORM_TYPE_SAMPLER_2D);
 
-			for (UI32 index = 0; index < _glslCompiler.get_type(resource.base_type_id).member_types.size(); index++)
+			for (UI32 index = 0; index < _compiler.get_type(resource.base_type_id).member_types.size(); index++)
 			{
-				auto Ty = _glslCompiler.get_type(_glslCompiler.get_type(resource.base_type_id).member_types[index]);
+				auto Ty = _compiler.get_type(_compiler.get_type(resource.base_type_id).member_types[index]);
 				UI32 byteSize = (Ty.width / 8) * Ty.vecsize * Ty.columns;
 				offsetCount += byteSize;
 
-				_uniformBuffer.addAttribute(STRING(_glslCompiler.get_member_name(resource.base_type_id, index)), byteSize);
+				_uniformBuffer.addAttribute(STRING(_compiler.get_member_name(resource.base_type_id, index)), byteSize);
 			}
 
 			uniformBuffers.pushBack(_uniformBuffer);
@@ -214,25 +214,25 @@ namespace Tools
 		/* Shader atomic counters */
 		for (auto& resource : resources.atomic_counters)
 		{
-			unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
-			unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
+			unsigned set = _compiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
+			unsigned binding = _compiler.get_decoration(resource.id, spv::DecorationBinding);
 		}
 
 		/* Shader acceleration structures*/
 		for (auto& resource : resources.acceleration_structures)
 		{
-			unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
-			unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
+			unsigned set = _compiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
+			unsigned binding = _compiler.get_decoration(resource.id, spv::DecorationBinding);
 
 			DMKUniformBuffer _uniformBuffer(binding, DMKUniformType::DMK_UNIFORM_TYPE_ACCELERATION_STRUCTURE);
 
-			for (UI32 index = 0; index < _glslCompiler.get_type(resource.base_type_id).member_types.size(); index++)
+			for (UI32 index = 0; index < _compiler.get_type(resource.base_type_id).member_types.size(); index++)
 			{
-				auto Ty = _glslCompiler.get_type(_glslCompiler.get_type(resource.base_type_id).member_types[index]);
+				auto Ty = _compiler.get_type(_compiler.get_type(resource.base_type_id).member_types[index]);
 				UI32 byteSize = (Ty.width / 8) * Ty.vecsize * Ty.columns;
 				offsetCount += byteSize;
 
-				_uniformBuffer.addAttribute(STRING(_glslCompiler.get_member_name(resource.base_type_id, index)), byteSize);
+				_uniformBuffer.addAttribute(STRING(_compiler.get_member_name(resource.base_type_id, index)), byteSize);
 			}
 
 			_uniformBuffer.initialize();
@@ -242,23 +242,18 @@ namespace Tools
 		/* Shader push constant buffers */
 		for (auto& resource : resources.push_constant_buffers)
 		{
-			unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
-			unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
-
-			for (auto ID : _glslCompiler.get_type(resource.base_type_id).member_types)
-			{
-				auto Ty = _glslCompiler.get_type(ID);
-			}
+			unsigned set = _compiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
+			unsigned binding = _compiler.get_decoration(resource.id, spv::DecorationBinding);
 
 			DMKUniformBuffer _uniformBuffer(binding, DMKUniformType::DMK_UNIFORM_TYPE_CONSTANT);
 
-			for (UI32 index = 0; index < _glslCompiler.get_type(resource.base_type_id).member_types.size(); index++)
+			for (UI32 index = 0; index < _compiler.get_type(resource.base_type_id).member_types.size(); index++)
 			{
-				auto Ty = _glslCompiler.get_type(_glslCompiler.get_type(resource.base_type_id).member_types[index]);
+				auto Ty = _compiler.get_type(_compiler.get_type(resource.base_type_id).member_types[index]);
 				UI32 byteSize = (Ty.width / 8) * Ty.vecsize * Ty.columns;
 				offsetCount += byteSize;
 
-				_uniformBuffer.addAttribute(STRING(_glslCompiler.get_member_name(resource.base_type_id, index)), byteSize);
+				_uniformBuffer.addAttribute(STRING(_compiler.get_member_name(resource.base_type_id, index)), byteSize);
 			}
 
 			_uniformBuffer.initialize();
@@ -268,18 +263,18 @@ namespace Tools
 		/* Shader separate images */
 		for (auto& resource : resources.separate_images)
 		{
-			unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
-			unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
+			unsigned set = _compiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
+			unsigned binding = _compiler.get_decoration(resource.id, spv::DecorationBinding);
 
 			DMKUniformBuffer _uniformBuffer(binding, DMKUniformType::DMK_UNIFORM_TYPE_SAMPLER_2D);
 
-			for (UI32 index = 0; index < _glslCompiler.get_type(resource.base_type_id).member_types.size(); index++)
+			for (UI32 index = 0; index < _compiler.get_type(resource.base_type_id).member_types.size(); index++)
 			{
-				auto Ty = _glslCompiler.get_type(_glslCompiler.get_type(resource.base_type_id).member_types[index]);
+				auto Ty = _compiler.get_type(_compiler.get_type(resource.base_type_id).member_types[index]);
 				UI32 byteSize = (Ty.width / 8) * Ty.vecsize * Ty.columns;
 				offsetCount += byteSize;
 
-				_uniformBuffer.addAttribute(STRING(_glslCompiler.get_member_name(resource.base_type_id, index)), byteSize);
+				_uniformBuffer.addAttribute(STRING(_compiler.get_member_name(resource.base_type_id, index)), byteSize);
 			}
 
 			uniformBuffers.pushBack(_uniformBuffer);
@@ -288,8 +283,8 @@ namespace Tools
 		/* Shader samplers */
 		for (auto& resource : resources.separate_samplers)
 		{
-			unsigned set = _glslCompiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
-			unsigned binding = _glslCompiler.get_decoration(resource.id, spv::DecorationBinding);
+			unsigned set = _compiler.get_decoration(resource.id, spv::DecorationDescriptorSet);
+			unsigned binding = _compiler.get_decoration(resource.id, spv::DecorationBinding);
 		}
 
 		/* Check true if successfully parsed */

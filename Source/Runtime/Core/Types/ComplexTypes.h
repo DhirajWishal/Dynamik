@@ -9,6 +9,7 @@
  This file contains all the complex types used by the engine.
 */
 #include "../Math/Vector/Vector2F.h"
+#include "../Math/Vector/Vector3F.h"
 #include "../Math/Vector/Vector4F.h"
 
 /* Dynamik Color Component */

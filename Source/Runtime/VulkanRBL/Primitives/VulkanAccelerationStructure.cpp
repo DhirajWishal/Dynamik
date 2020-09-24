@@ -35,7 +35,7 @@ namespace Backend
 		accelerationCI.maxGeometryCount = 1;
 		accelerationCI.pGeometryInfos = &accelerationCreateGeometryInfo;
 
-		DMK_VULKAN_ASSERT(vkCreateAccelerationStructureKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, &accelerationCI, nullptr, &accelerationStructure), "Failed to create acceleration structure!");
+		DMK_VULKAN_ASSERT(vkCreateAccelerationStructureKHR(pCoreObject->getAs<VulkanCoreObject>()->device, &accelerationCI, nullptr, &accelerationStructure), "Failed to create acceleration structure!");
 
 		/* Create the object memory. */
 		createObjectMemory(pCoreObject);
@@ -45,7 +45,7 @@ namespace Backend
 		bindAccelerationMemoryInfo.accelerationStructure = accelerationStructure;
 		bindAccelerationMemoryInfo.memory = objectMemory;
 
-		DMK_VULKAN_ASSERT(vkBindAccelerationStructureMemoryKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, 1, &bindAccelerationMemoryInfo), "Failed to bind acceleration structure memory!");
+		DMK_VULKAN_ASSERT(vkBindAccelerationStructureMemoryKHR(pCoreObject->getAs<VulkanCoreObject>()->device, 1, &bindAccelerationMemoryInfo), "Failed to bind acceleration structure memory!");
 
 		VkAccelerationStructureGeometryKHR accelerationStructureGeometry = {};
 		accelerationStructureGeometry.sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_KHR;
@@ -83,10 +83,10 @@ namespace Backend
 
 		ARRAY<VkAccelerationStructureBuildOffsetInfoKHR*> accelerationBuildOffsets = { &accelerationBuildOffsetInfo };
 
-		if (Inherit<VulkanCoreObject>(pCoreObject)->device.getRayTracingFeatures().rayTracingHostAccelerationStructureCommands)
+		if (pCoreObject->getAs<VulkanCoreObject>()->device.getRayTracingFeatures().rayTracingHostAccelerationStructureCommands)
 		{
 			// Implementation supports building acceleration structure building on host
-			DMK_VULKAN_ASSERT(vkBuildAccelerationStructureKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, 1, &accelerationBuildGeometryInfo, accelerationBuildOffsets.data()), "Failed to build acceleration structure!");
+			DMK_VULKAN_ASSERT(vkBuildAccelerationStructureKHR(pCoreObject->getAs<VulkanCoreObject>()->device, 1, &accelerationBuildGeometryInfo, accelerationBuildOffsets.data()), "Failed to build acceleration structure!");
 		}
 		else
 		{
@@ -99,7 +99,7 @@ namespace Backend
 		accelerationDeviceAddressInfo.sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_DEVICE_ADDRESS_INFO_KHR;
 		accelerationDeviceAddressInfo.accelerationStructure = accelerationStructure;
 	
-		handle = vkGetAccelerationStructureDeviceAddressKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, &accelerationDeviceAddressInfo);
+		handle = vkGetAccelerationStructureDeviceAddressKHR(pCoreObject->getAs<VulkanCoreObject>()->device, &accelerationDeviceAddressInfo);
 	
 		terminateScratchBuffer(pCoreObject);
 	}
@@ -119,7 +119,7 @@ namespace Backend
 		accelerationCI.maxGeometryCount = 1;
 		accelerationCI.pGeometryInfos = &accelerationCreateGeometryInfo;
 
-		DMK_VULKAN_ASSERT(vkCreateAccelerationStructureKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, &accelerationCI, nullptr, &accelerationStructure), "Failed to create acceleration structure!");
+		DMK_VULKAN_ASSERT(vkCreateAccelerationStructureKHR(pCoreObject->getAs<VulkanCoreObject>()->device, &accelerationCI, nullptr, &accelerationStructure), "Failed to create acceleration structure!");
 
 		/* Create object memory. */
 		createObjectMemory(pCoreObject);
@@ -129,7 +129,7 @@ namespace Backend
 		bindAccelerationMemoryInfo.accelerationStructure = accelerationStructure;
 		bindAccelerationMemoryInfo.memory = objectMemory;
 
-		DMK_VULKAN_ASSERT(vkBindAccelerationStructureMemoryKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, 1, &bindAccelerationMemoryInfo), "Failed to bind acceleration structure memory!");
+		DMK_VULKAN_ASSERT(vkBindAccelerationStructureMemoryKHR(pCoreObject->getAs<VulkanCoreObject>()->device, 1, &bindAccelerationMemoryInfo), "Failed to bind acceleration structure memory!");
 
 		VkTransformMatrixKHR transform_matrix = {
 			1.0f, 0.0f, 0.0f, 0.0f,
@@ -184,10 +184,10 @@ namespace Backend
 		accelerationBuildOffsetInfo.transformOffset = 0x0;
 		ARRAY<VkAccelerationStructureBuildOffsetInfoKHR*> accelerationBuildOffsets = { &accelerationBuildOffsetInfo };
 	
-		if (Inherit<VulkanCoreObject>(pCoreObject)->device.getRayTracingFeatures().rayTracingHostAccelerationStructureCommands)
+		if (pCoreObject->getAs<VulkanCoreObject>()->device.getRayTracingFeatures().rayTracingHostAccelerationStructureCommands)
 		{
 			// Implementation supports building acceleration structure building on host
-			DMK_VULKAN_ASSERT(vkBuildAccelerationStructureKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, 1, &accelerationBuildGeometryInfo, accelerationBuildOffsets.data()), "Failed to build the acceleration structure!");
+			DMK_VULKAN_ASSERT(vkBuildAccelerationStructureKHR(pCoreObject->getAs<VulkanCoreObject>()->device, 1, &accelerationBuildGeometryInfo, accelerationBuildOffsets.data()), "Failed to build the acceleration structure!");
 		}
 		else
 		{
@@ -200,7 +200,7 @@ namespace Backend
 		accelerationDeviceAddressInfo.sType = VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_DEVICE_ADDRESS_INFO_KHR;
 		accelerationDeviceAddressInfo.accelerationStructure = accelerationStructure;
 
-		handle = vkGetAccelerationStructureDeviceAddressKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, &accelerationDeviceAddressInfo);
+		handle = vkGetAccelerationStructureDeviceAddressKHR(pCoreObject->getAs<VulkanCoreObject>()->device, &accelerationDeviceAddressInfo);
 	
 		instanceDataBuffer.terminate(pCoreObject);
 		terminateScratchBuffer(pCoreObject);
@@ -208,9 +208,9 @@ namespace Backend
 
 	void VulkanAccelerationStructure::terminate(RCoreObject* pCoreObject)
 	{
-		vkDestroyBuffer(Inherit<VulkanCoreObject>(pCoreObject)->device, buffer, nullptr);
-		vkFreeMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, bufferMemory, nullptr);
-		vkFreeMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, objectMemory, nullptr);
+		vkDestroyBuffer(pCoreObject->getAs<VulkanCoreObject>()->device, buffer, nullptr);
+		vkFreeMemory(pCoreObject->getAs<VulkanCoreObject>()->device, bufferMemory, nullptr);
+		vkFreeMemory(pCoreObject->getAs<VulkanCoreObject>()->device, objectMemory, nullptr);
 	}
 
 	UI64 VulkanAccelerationStructure::getDeviceAddress() const
@@ -233,17 +233,17 @@ namespace Backend
 
 		VkMemoryRequirements2 memoryRequirements2 = {};
 		memoryRequirements2.sType = VK_STRUCTURE_TYPE_MEMORY_REQUIREMENTS_2;
-		vkGetAccelerationStructureMemoryRequirementsKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, &accelerationStructureMemoryRequirements, &memoryRequirements2);
+		vkGetAccelerationStructureMemoryRequirementsKHR(pCoreObject->getAs<VulkanCoreObject>()->device, &accelerationStructureMemoryRequirements, &memoryRequirements2);
 
 		VkBufferCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 		createInfo.size = memoryRequirements2.memoryRequirements.size;
 		createInfo.usage = VK_BUFFER_USAGE_RAY_TRACING_BIT_KHR | VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT;
 		createInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-		DMK_VULKAN_ASSERT(vkCreateBuffer(Inherit<VulkanCoreObject>(pCoreObject)->device, &createInfo, nullptr, &buffer), "Failed to create buffer!");
+		DMK_VULKAN_ASSERT(vkCreateBuffer(pCoreObject->getAs<VulkanCoreObject>()->device, &createInfo, nullptr, &buffer), "Failed to create buffer!");
 
 		VkMemoryRequirements memRequirements = {};
-		vkGetBufferMemoryRequirements(Inherit<VulkanCoreObject>(pCoreObject)->device, buffer, &memRequirements);
+		vkGetBufferMemoryRequirements(pCoreObject->getAs<VulkanCoreObject>()->device, buffer, &memRequirements);
 
 		VkMemoryAllocateFlagsInfo memoryAllocateFlags{};
 		memoryAllocateFlags.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_FLAGS_INFO;
@@ -253,22 +253,22 @@ namespace Backend
 		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 		allocInfo.pNext = &memoryAllocateFlags;
 		allocInfo.allocationSize = memRequirements.size;
-		allocInfo.memoryTypeIndex = VulkanUtilities::findMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, Inherit<VulkanCoreObject>(pCoreObject)->device);
+		allocInfo.memoryTypeIndex = VulkanUtilities::findMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, pCoreObject->getAs<VulkanCoreObject>()->device);
 
-		DMK_VULKAN_ASSERT(vkAllocateMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, &allocInfo, nullptr, &bufferMemory), "Failed to allocate buffer memory!");
+		DMK_VULKAN_ASSERT(vkAllocateMemory(pCoreObject->getAs<VulkanCoreObject>()->device, &allocInfo, nullptr, &bufferMemory), "Failed to allocate buffer memory!");
 
-		vkBindBufferMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, buffer, bufferMemory, 0);
+		vkBindBufferMemory(pCoreObject->getAs<VulkanCoreObject>()->device, buffer, bufferMemory, 0);
 
 		VkBufferDeviceAddressInfoKHR bufferDeviceAddressInfo{};
 		bufferDeviceAddressInfo.sType = VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO;
 		bufferDeviceAddressInfo.buffer = buffer;
-		deviceAddress = vkGetBufferDeviceAddressKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, &bufferDeviceAddressInfo);
+		deviceAddress = vkGetBufferDeviceAddressKHR(pCoreObject->getAs<VulkanCoreObject>()->device, &bufferDeviceAddressInfo);
 	}
 
 	void VulkanAccelerationStructure::terminateScratchBuffer(RCoreObject* pCoreObject)
 	{
-		vkDestroyBuffer(Inherit<VulkanCoreObject>(pCoreObject)->device, buffer, nullptr);
-		vkFreeMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, bufferMemory, nullptr);
+		vkDestroyBuffer(pCoreObject->getAs<VulkanCoreObject>()->device, buffer, nullptr);
+		vkFreeMemory(pCoreObject->getAs<VulkanCoreObject>()->device, bufferMemory, nullptr);
 	}
 
 	void VulkanAccelerationStructure::createObjectMemory(RCoreObject* pCoreObject)
@@ -281,16 +281,16 @@ namespace Backend
 
 		VkMemoryRequirements2 memoryRequirements2 = {};
 		memoryRequirements2.sType = VK_STRUCTURE_TYPE_MEMORY_REQUIREMENTS_2;
-		vkGetAccelerationStructureMemoryRequirementsKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, &accelerationStructureMemoryRequirements, &memoryRequirements2);
+		vkGetAccelerationStructureMemoryRequirementsKHR(pCoreObject->getAs<VulkanCoreObject>()->device, &accelerationStructureMemoryRequirements, &memoryRequirements2);
 
 		VkMemoryRequirements memoryRequirements = memoryRequirements2.memoryRequirements;
 
 		VkMemoryAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 		allocInfo.allocationSize = memoryRequirements.size;
-		allocInfo.memoryTypeIndex = VulkanUtilities::findMemoryType(memoryRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, Inherit<VulkanCoreObject>(pCoreObject)->device);
+		allocInfo.memoryTypeIndex = VulkanUtilities::findMemoryType(memoryRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, pCoreObject->getAs<VulkanCoreObject>()->device);
 
-		DMK_VULKAN_ASSERT(vkAllocateMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, &allocInfo, nullptr, &objectMemory), "Failed to allocate object memory!");
+		DMK_VULKAN_ASSERT(vkAllocateMemory(pCoreObject->getAs<VulkanCoreObject>()->device, &allocInfo, nullptr, &objectMemory), "Failed to allocate object memory!");
 	}
 
 	UI64 VulkanAccelerationStructure::getBufferDeviceAddress(RCoreObject* pCoreObject, const VkBuffer& vBuffer)
@@ -298,7 +298,7 @@ namespace Backend
 		VkBufferDeviceAddressInfoKHR bufferDeviceAI = {};
 		bufferDeviceAI.sType = VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO;
 		bufferDeviceAI.buffer = vBuffer;
-		return vkGetBufferDeviceAddressKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, &bufferDeviceAI);
+		return vkGetBufferDeviceAddressKHR(pCoreObject->getAs<VulkanCoreObject>()->device, &bufferDeviceAI);
 	}
 
 	VkBuffer VulkanAccelerationStructure::getBuffer() const

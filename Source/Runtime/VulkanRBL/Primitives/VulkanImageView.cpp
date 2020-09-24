@@ -46,12 +46,12 @@ namespace Backend
 		createInfo.flags = VK_NULL_HANDLE;
 		// { VK_COMPONENT_SWIZZLE_R, VK_COMPONENT_SWIZZLE_G, VK_COMPONENT_SWIZZLE_B, VK_COMPONENT_SWIZZLE_A }
 
-		DMK_VULKAN_ASSERT(vkCreateImageView(Inherit<VulkanCoreObject>(pCoreObject)->device, &createInfo, nullptr, &imageView), "Failed to create texture image view!");
+		DMK_VULKAN_ASSERT(vkCreateImageView(pCoreObject->getAs<VulkanCoreObject>()->device, &createInfo, nullptr, &imageView), "Failed to create texture image view!");
 	}
 
 	void VulkanImageView::terminate(RCoreObject* pCoreObject)
 	{
-		vkDestroyImageView(Inherit<VulkanCoreObject>(pCoreObject)->device, imageView, nullptr);
+		vkDestroyImageView(pCoreObject->getAs<VulkanCoreObject>()->device, imageView, nullptr);
 	}
 
 	VulkanImageView::operator VkImageView() const

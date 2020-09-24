@@ -10,7 +10,6 @@
 */
 #include "Vector.h"
 
-class DMK_API Vector3F;
 class DMK_API Vector4F;
 
 /* Vector 4D type traits */

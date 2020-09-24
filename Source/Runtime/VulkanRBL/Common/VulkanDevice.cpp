@@ -25,9 +25,9 @@
 
 namespace Backend
 {
-	void VulkanDevice::addExtension(const STRING& extension)
+	void VulkanDevice::addExtension(const CCPTR& extension)
 	{
-		extensions.pushBack(extension.c_str());
+		extensions.pushBack(extension);
 	}
 
 	void VulkanDevice::initialize(VulkanInstance vInstance, VulkanSurface vSurface)

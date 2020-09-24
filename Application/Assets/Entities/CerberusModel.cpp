@@ -54,10 +54,10 @@ void CerberusModel::onInitializeStaticEntity()
 	dataVS.model = DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(90.0f), Vector3F(0.0f, 1.0f, 1.0f));
 
 	const F32 p = 15.0f;
-	camParamFS.light1 = Vector4F(-p, -p * 0.5f, -p, 1.0f);
-	camParamFS.light2 = Vector4F(-p, -p * 0.5f, p, 1.0f);
-	camParamFS.light3 = Vector4F(p, -p * 0.5f, p, 1.0f);
-	camParamFS.light4 = Vector4F(p, -p * 0.5f, -p, 1.0f);
+	camParamFS.light1 = Vector4F(-0.5f, 0.5f, 0.5f, 1.0f);
+	camParamFS.light2 = Vector4F(-0.5f, -0.5f, 0.5f, 1.0f);
+	camParamFS.light3 = Vector4F(0.5f, -0.5f, 0.5f, 1.0f);
+	camParamFS.light4 = Vector4F(0.5f, 0.5f, 0.5f, 1.0f);
 }
 
 void CerberusModel::onUpdateStaticEntity()

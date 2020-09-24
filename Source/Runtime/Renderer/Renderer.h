@@ -254,4 +254,27 @@ private:
 	RImGuiBackend* myImGuiBackend = nullptr;
 };
 
+/*
+ Renderer Backend Layer:
+ - Create Objects
+ - Terminate Objects
+
+ Render Objects:
+ - Update Resource
+ - Object Manipulation
+ - Get Resource Information
+
+ Renderer:
+ - Initialize Resources
+   - Initialize Environment Entity
+   - Initialize Static Entity
+   - Initialize Animated Entity
+   - Initialize Canvas Entity
+ - Create Rendering Objects
+   - Swap Chain
+   - Render Pass
+   - Frame Buffer
+ - Terminate Objects And Resources
+*/
+
 #endif // !_DYNAMIK_RENDERER_THREAD_H

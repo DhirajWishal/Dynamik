@@ -56,14 +56,14 @@ namespace Backend
 		layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
 		layoutInfo.bindingCount = static_cast<uint32_t>(bindings.size());
 		layoutInfo.pBindings = bindings.data();
-		DMK_VULKAN_ASSERT(vkCreateDescriptorSetLayout(Inherit<VulkanCoreObject>(pCoreObject)->device, &layoutInfo, nullptr, &descriptorSetLayout), "Failed to create descriptor set layout!");
+		DMK_VULKAN_ASSERT(vkCreateDescriptorSetLayout(pCoreObject->getAs<VulkanCoreObject>()->device, &layoutInfo, nullptr, &descriptorSetLayout), "Failed to create descriptor set layout!");
 
 		VkPipelineLayoutCreateInfo pipelineLayoutCreateInfo{};
 		pipelineLayoutCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 		pipelineLayoutCreateInfo.setLayoutCount = 1;
 		pipelineLayoutCreateInfo.pSetLayouts = &descriptorSetLayout;
 
-		DMK_VULKAN_ASSERT(vkCreatePipelineLayout(Inherit<VulkanCoreObject>(pCoreObject)->device, &pipelineLayoutCreateInfo, nullptr, &layout), "Failed to create pipeline layout!");
+		DMK_VULKAN_ASSERT(vkCreatePipelineLayout(pCoreObject->getAs<VulkanCoreObject>()->device, &pipelineLayoutCreateInfo, nullptr, &layout), "Failed to create pipeline layout!");
 
 		constexpr UI32 shaderIndexRaygen = 0;
 		constexpr UI32 shaderIndexMiss = 1;
@@ -140,31 +140,31 @@ namespace Backend
 		rayTracingPipelineCI.layout = layout;
 		rayTracingPipelineCI.libraries.sType = VK_STRUCTURE_TYPE_PIPELINE_LIBRARY_CREATE_INFO_KHR;
 
-		DMK_VULKAN_ASSERT(vkCreateRayTracingPipelinesKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, pipelineCache, 1, &rayTracingPipelineCI, nullptr, &pipeline), "Failed to create ray tracing pipeline!");
+		DMK_VULKAN_ASSERT(vkCreateRayTracingPipelinesKHR(pCoreObject->getAs<VulkanCoreObject>()->device, pipelineCache, 1, &rayTracingPipelineCI, nullptr, &pipeline), "Failed to create ray tracing pipeline!");
 
 		/* Terminate shaders */
-		vkDestroyShaderModule(Inherit<VulkanCoreObject>(pCoreObject)->device, shaderStages[shaderIndexRaygen].module, nullptr);
-		vkDestroyShaderModule(Inherit<VulkanCoreObject>(pCoreObject)->device, shaderStages[shaderIndexMiss].module, nullptr);
-		vkDestroyShaderModule(Inherit<VulkanCoreObject>(pCoreObject)->device, shaderStages[shaderIndexClosestHit].module, nullptr);
+		vkDestroyShaderModule(pCoreObject->getAs<VulkanCoreObject>()->device, shaderStages[shaderIndexRaygen].module, nullptr);
+		vkDestroyShaderModule(pCoreObject->getAs<VulkanCoreObject>()->device, shaderStages[shaderIndexMiss].module, nullptr);
+		vkDestroyShaderModule(pCoreObject->getAs<VulkanCoreObject>()->device, shaderStages[shaderIndexClosestHit].module, nullptr);
 	}
 
 	void VulkanRayTracingPipeline::terminate(RCoreObject* pCoreObject)
 	{
 		/* Terminate Descriptor Set Layout */
-		vkDestroyDescriptorSetLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, descriptorSetLayout, nullptr);
+		vkDestroyDescriptorSetLayout(pCoreObject->getAs<VulkanCoreObject>()->device, descriptorSetLayout, nullptr);
 
 		/* Terminate Pipeline */
-		vkDestroyPipeline(InheritCast<VulkanCoreObject>(pCoreObject).device, pipeline, nullptr);
-		vkDestroyPipelineLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, layout, nullptr);
+		vkDestroyPipeline(pCoreObject->getAs<VulkanCoreObject>()->device, pipeline, nullptr);
+		vkDestroyPipelineLayout(pCoreObject->getAs<VulkanCoreObject>()->device, layout, nullptr);
 
 		/* Terminate Pipeline Cache */
-		vkDestroyPipelineCache(InheritCast<VulkanCoreObject>(pCoreObject).device, pipelineCache, nullptr);
+		vkDestroyPipelineCache(pCoreObject->getAs<VulkanCoreObject>()->device, pipelineCache, nullptr);
 	}
 
 	void VulkanRayTracingPipeline::createShaderBindingTable(RCoreObject* pCoreObject)
 	{
 		const uint32_t groupCount = Cast<UI32>(shaderGroups.size());
-		auto properties = InheritCast<VulkanCoreObject>(pCoreObject).device.getRayTracingProperties();
+		auto properties = pCoreObject->getAs<VulkanCoreObject>()->device.getRayTracingProperties();
 
 		const uint32_t sbtSize = properties.shaderGroupBaseAlignment * groupCount;
 
@@ -172,7 +172,7 @@ namespace Backend
 
 		// Write the shader handles to the shader binding table
 		ARRAY<UI8> shaderHandleStorage(sbtSize);
-		DMK_VULKAN_ASSERT(vkGetRayTracingShaderGroupHandlesKHR(InheritCast<VulkanCoreObject>(pCoreObject).device, pipeline, 0, groupCount, sbtSize, shaderHandleStorage.data()), "Failed to get ray tracing shader groups!");
+		DMK_VULKAN_ASSERT(vkGetRayTracingShaderGroupHandlesKHR(pCoreObject->getAs<VulkanCoreObject>()->device, pipeline, 0, groupCount, sbtSize, shaderHandleStorage.data()), "Failed to get ray tracing shader groups!");
 
 		UI8* data = Cast<UI8*>(shaderBindingTable.getData(pCoreObject, sbtSize, 0));
 		// This part is required, as the alignment and handle size may differ

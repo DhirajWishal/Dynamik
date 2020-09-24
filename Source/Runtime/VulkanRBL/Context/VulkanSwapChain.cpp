@@ -90,7 +90,7 @@ namespace Backend
 	void VulkanSwapChain::initialize(RCoreObject* pCoreObject, DMKViewport viewport, RSwapChainPresentMode ePresentMode)
 	{
 		viewPort = viewport;
-		VulkanSwapChainSupportDetails swapChainSupport = querySwapChainSupport(Inherit<VulkanCoreObject>(pCoreObject)->device, Inherit<VulkanCoreObject>(pCoreObject)->surface);
+		VulkanSwapChainSupportDetails swapChainSupport = querySwapChainSupport(pCoreObject->getAs<VulkanCoreObject>()->device, pCoreObject->getAs<VulkanCoreObject>()->surface);
 
 		VkSurfaceFormatKHR surfaceFormat = chooseSwapSurfaceFormat(swapChainSupport.formats);
 		VkPresentModeKHR presentMode = chooseSwapPresentMode(swapChainSupport.presentModes, ePresentMode);
@@ -101,11 +101,11 @@ namespace Backend
 		viewPort.height = scExtent.height;
 
 		VkCompositeAlphaFlagBitsKHR surfaceComposite =
-			(Inherit<VulkanCoreObject>(pCoreObject)->surface.surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR)
+			(pCoreObject->getAs<VulkanCoreObject>()->surface.surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR)
 			? VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR
-			: (Inherit<VulkanCoreObject>(pCoreObject)->surface.surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR)
+			: (pCoreObject->getAs<VulkanCoreObject>()->surface.surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR)
 			? VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR
-			: (Inherit<VulkanCoreObject>(pCoreObject)->surface.surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR)
+			: (pCoreObject->getAs<VulkanCoreObject>()->surface.surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR)
 			? VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR
 			: VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR;
 
@@ -116,7 +116,7 @@ namespace Backend
 
 		VkSwapchainCreateInfoKHR createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-		createInfo.surface = Inherit<VulkanCoreObject>(pCoreObject)->surface;
+		createInfo.surface = pCoreObject->getAs<VulkanCoreObject>()->surface;
 		createInfo.minImageCount = bufferCount;
 		createInfo.imageFormat = surfaceFormat.format;
 		createInfo.imageColorSpace = surfaceFormat.colorSpace;
@@ -126,11 +126,11 @@ namespace Backend
 		//createInfo.imageUsage = VK_IMAGE_USAGE_TRANSFER_DST_BIT;
 
 		UI32 queueFamilyindices[] = {
-			Inherit<VulkanCoreObject>(pCoreObject)->queues.processFamily.value(),
-			Inherit<VulkanCoreObject>(pCoreObject)->queues.utilityFamily.value()
+			pCoreObject->getAs<VulkanCoreObject>()->queues.processFamily.value(),
+			pCoreObject->getAs<VulkanCoreObject>()->queues.utilityFamily.value()
 		};
 
-		if (Inherit<VulkanCoreObject>(pCoreObject)->queues.processFamily != Inherit<VulkanCoreObject>(pCoreObject)->queues.utilityFamily)
+		if (pCoreObject->getAs<VulkanCoreObject>()->queues.processFamily != pCoreObject->getAs<VulkanCoreObject>()->queues.utilityFamily)
 		{
 			createInfo.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
 			createInfo.queueFamilyIndexCount = 2;
@@ -149,12 +149,12 @@ namespace Backend
 		createInfo.clipped = VK_TRUE;
 		createInfo.oldSwapchain = VK_NULL_HANDLE;
 
-		if (vkCreateSwapchainKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, &createInfo, nullptr, &swapChain))
+		if (vkCreateSwapchainKHR(pCoreObject->getAs<VulkanCoreObject>()->device, &createInfo, nullptr, &swapChain))
 			DMK_ERROR_BOX("Failed to create Swap Chain!");
 
-		vkGetSwapchainImagesKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, swapChain, &bufferCount, nullptr);
+		vkGetSwapchainImagesKHR(pCoreObject->getAs<VulkanCoreObject>()->device, swapChain, &bufferCount, nullptr);
 		ARRAY<VkImage> _images(bufferCount);
-		vkGetSwapchainImagesKHR(Inherit<VulkanCoreObject>(pCoreObject)->device, swapChain, &bufferCount, _images.data());
+		vkGetSwapchainImagesKHR(pCoreObject->getAs<VulkanCoreObject>()->device, swapChain, &bufferCount, _images.data());
 
 		format = (DMKFormat)surfaceFormat.format;
 
@@ -189,7 +189,7 @@ namespace Backend
 		}
 		images.clear();
 
-		vkDestroySwapchainKHR(InheritCast<VulkanCoreObject>(pCoreObject).device, swapChain, nullptr);
+		vkDestroySwapchainKHR(pCoreObject->getAs<VulkanCoreObject>()->device, swapChain, nullptr);
 	}
 
 	VulkanSwapChain::operator VkSwapchainKHR() const

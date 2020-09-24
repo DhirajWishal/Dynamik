@@ -58,17 +58,17 @@ void DefaultWorld::onUpdate(const F32 timeStep)
 		getEntity<OceanEnv>()->clearEnvironmentMap();
 		progress = 0;
 
-		/* Submit the venus model to the renderer. */
+		/* Submit the Venus model to the renderer. */
 		//submitStaticModelToRenderer(getEntity<VenusModel>());
 
-		/* submit the cerberus model to the renderer. */
+		/* submit the Cerberus model to the renderer. */
 		submitStaticModelToRenderer(getEntity<CerberusModel>(), &progress);
 		while (progress != 7);
 		getEntity<CerberusModel>()->clearStaticModel();
 
 		/* load the pure static entity. */
-		submitStaticModelToRenderer(getEntity<DMKStaticModelEntity>());
-
+		//submitStaticModelToRenderer(getEntity<DMKStaticModelEntity>());
+		
 		areEntitiesInitialized = true;
 	}
 

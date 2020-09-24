@@ -84,8 +84,6 @@ DMK_FORCEINLINE void meshLoadFunction(VPTR pAiMeshObject, VPTR pAiScene, const D
 		{
 			_material = _scene->mMaterials[_mesh->mMaterialIndex];
 
-			_material->GetTexture(aiTextureType::aiTextureType_DIFFUSE, 0, &_texPath);
-
 			auto tCount0 = _material->GetTextureCount(aiTextureType::aiTextureType_DIFFUSE);
 			auto tCount1 = _material->GetTextureCount(aiTextureType::aiTextureType_SPECULAR);
 			auto tCount2 = _material->GetTextureCount(aiTextureType::aiTextureType_AMBIENT);
@@ -97,6 +95,25 @@ DMK_FORCEINLINE void meshLoadFunction(VPTR pAiMeshObject, VPTR pAiScene, const D
 			auto tCount8 = _material->GetTextureCount(aiTextureType::aiTextureType_DISPLACEMENT);
 			auto tCount9 = _material->GetTextureCount(aiTextureType::aiTextureType_LIGHTMAP);
 			auto tCount10 = _material->GetTextureCount(aiTextureType::aiTextureType_REFLECTION);
+
+			auto tCount11 = _material->GetTextureCount(aiTextureType::aiTextureType_BASE_COLOR);
+			auto tCount12 = _material->GetTextureCount(aiTextureType::aiTextureType_NORMAL_CAMERA);
+			auto tCount13 = _material->GetTextureCount(aiTextureType::aiTextureType_EMISSION_COLOR);
+			auto tCount14 = _material->GetTextureCount(aiTextureType::aiTextureType_METALNESS);
+			auto tCount15 = _material->GetTextureCount(aiTextureType::aiTextureType_DIFFUSE_ROUGHNESS);
+			auto tCount16 = _material->GetTextureCount(aiTextureType::aiTextureType_AMBIENT_OCCLUSION);
+			auto tCount17 = _material->GetTextureCount(aiTextureType::aiTextureType_REFLECTION);
+			auto tCount18 = _material->GetTextureCount(aiTextureType::aiTextureType_UNKNOWN);
+
+			aiColor3D _diff;
+			_material->Get(AI_MATKEY_COLOR_DIFFUSE, _diff);
+
+			aiString _code;
+			_material->Get(AI_MATKEY_NAME, _code);
+
+			tCount0 = tCount0;
+
+			_scene->mNumTextures;
 		}
 	}
 
@@ -348,7 +365,11 @@ DMKStaticModelEntity AssimpWrapper::loadStaticModelEntity(const STRING& file, co
 {
 	Assimp::Importer localImporter;
 
-	auto _scene = localImporter.ReadFile(file, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs);
+	auto _scene = localImporter.ReadFile(file, aiProcess_CalcTangentSpace |
+		aiProcess_Triangulate |
+		aiProcess_JoinIdenticalVertices |
+		aiProcess_SortByPType |
+		aiProcess_GenUVCoords);
 
 	if (!_scene)
 	{

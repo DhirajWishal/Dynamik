@@ -30,12 +30,12 @@ namespace Backend
 		sInfo.maxLod = createInfo.maxLOD;
 		sInfo.mipLodBias = createInfo.mipLODBias;
 
-		DMK_VULKAN_ASSERT(vkCreateSampler(Inherit<VulkanCoreObject>(pCoreObject)->device, &sInfo, nullptr, &sampler), "Failed to create texture sampler!");
+		DMK_VULKAN_ASSERT(vkCreateSampler(pCoreObject->getAs<VulkanCoreObject>()->device, &sInfo, nullptr, &sampler), "Failed to create texture sampler!");
 	}
 
 	void VulkanImageSampler::terminate(RCoreObject* pCoreObject)
 	{
-		vkDestroySampler(Inherit<VulkanCoreObject>(pCoreObject)->device, sampler, nullptr);
+		vkDestroySampler(pCoreObject->getAs<VulkanCoreObject>()->device, sampler, nullptr);
 	}
 
 	VulkanImageSampler::operator VkSampler()

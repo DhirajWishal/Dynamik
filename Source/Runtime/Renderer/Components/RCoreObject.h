@@ -9,6 +9,7 @@
 #include "CoreTypeDefs.h"
 #include "Window/WindowHandle.h"
 #include "RCommandBuffer.h"
+#include "Core/Types/Utilities.h"
 
 class DMK_API RSwapChain;
 class DMK_API RCommandBuffer;
@@ -40,6 +41,9 @@ public:
 	virtual DMKFormat getDepthFormat() = 0;
 
 	DMKSampleCount sampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_64_BIT;
+
+	template<class DERIVED>
+	DERIVED* getAs() { return Inherit<DERIVED>(this); }
 
 protected:
 	virtual void initializeSyncComponents() = 0;

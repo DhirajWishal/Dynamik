@@ -19,7 +19,7 @@ namespace Backend
 		extent = info.vDimentions;
 		format = info.imageFormat;
 
-		//vkGetImageMemoryRequirements(Inherit<VulkanCoreObject>(pCoreObject)->device, )
+		//vkGetImageMemoryRequirements(pCoreObject->getAs<VulkanCoreObject>()->device, )
 
 		VkImageCreateInfo imageInfo = {};
 		imageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
@@ -37,7 +37,7 @@ namespace Backend
 		imageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
 
 		VkImageFormatProperties _props = {};
-		while (vkGetPhysicalDeviceImageFormatProperties(Inherit<VulkanCoreObject>(pCoreObject)->device, imageInfo.format, imageInfo.imageType, imageInfo.tiling, imageInfo.usage, imageInfo.flags, &_props) == VK_ERROR_FORMAT_NOT_SUPPORTED)
+		while (vkGetPhysicalDeviceImageFormatProperties(pCoreObject->getAs<VulkanCoreObject>()->device, imageInfo.format, imageInfo.imageType, imageInfo.tiling, imageInfo.usage, imageInfo.flags, &_props) == VK_ERROR_FORMAT_NOT_SUPPORTED)
 		{
 			format = DMKFormat::DMK_FORMAT_RGBA_8_UNORMAL;
 			imageInfo.format = VulkanUtilities::getVulkanFormat(format);
@@ -46,19 +46,19 @@ namespace Backend
 		if (info.imageType == DMKTextureType::TEXTURE_TYPE_CUBEMAP || info.imageType == DMKTextureType::TEXTURE_TYPE_CUBEMAP_ARRAY)
 			imageInfo.flags = VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT;
 
-		DMK_VULKAN_ASSERT(vkCreateImage(Inherit<VulkanCoreObject>(pCoreObject)->device, &imageInfo, nullptr, &image), "Failed to create image!");
+		DMK_VULKAN_ASSERT(vkCreateImage(pCoreObject->getAs<VulkanCoreObject>()->device, &imageInfo, nullptr, &image), "Failed to create image!");
 
 		VkMemoryRequirements memRequirements;
-		vkGetImageMemoryRequirements(Inherit<VulkanCoreObject>(pCoreObject)->device, image, &memRequirements);
+		vkGetImageMemoryRequirements(pCoreObject->getAs<VulkanCoreObject>()->device, image, &memRequirements);
 
 		VkMemoryAllocateInfo allocInfo = {};
 		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 		allocInfo.allocationSize = memRequirements.size;
 		allocInfo.memoryTypeIndex = VulkanUtilities::findMemoryType(memRequirements.memoryTypeBits,
-			(VkMemoryPropertyFlagBits)info.memoryType, Inherit<VulkanCoreObject>(pCoreObject)->device);
+			(VkMemoryPropertyFlagBits)info.memoryType, pCoreObject->getAs<VulkanCoreObject>()->device);
 
-		DMK_VULKAN_ASSERT(vkAllocateMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, &allocInfo, nullptr, &imageMemory), "Failed to allocate image memory!");
-		DMK_VULKAN_ASSERT(vkBindImageMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, image, imageMemory, 0), "Failed to bind image memory!");
+		DMK_VULKAN_ASSERT(vkAllocateMemory(pCoreObject->getAs<VulkanCoreObject>()->device, &allocInfo, nullptr, &imageMemory), "Failed to allocate image memory!");
+		DMK_VULKAN_ASSERT(vkBindImageMemory(pCoreObject->getAs<VulkanCoreObject>()->device, image, imageMemory, 0), "Failed to bind image memory!");
 	}
 
 	void VulkanImage::copyBuffer(RCoreObject* pCoreObject, RBuffer* pBuffer)
@@ -98,7 +98,7 @@ namespace Backend
 		VulkanOneTimeCommandBuffer _buffer(pCoreObject);
 
 		VkFormatProperties formatProperties;
-		vkGetPhysicalDeviceFormatProperties(Inherit<VulkanCoreObject>(pCoreObject)->device, VulkanUtilities::getVulkanFormat(format), &formatProperties);
+		vkGetPhysicalDeviceFormatProperties(pCoreObject->getAs<VulkanCoreObject>()->device, VulkanUtilities::getVulkanFormat(format), &formatProperties);
 
 		if (!(formatProperties.optimalTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT))
 			DMK_ERROR_BOX("Texture image format does not support linear bitting!");
@@ -198,8 +198,8 @@ namespace Backend
 
 	void VulkanImage::terminate(RCoreObject* pCoreObject)
 	{
-		vkDestroyImage(Inherit<VulkanCoreObject>(pCoreObject)->device, image, nullptr);
-		vkFreeMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, imageMemory, nullptr);
+		vkDestroyImage(pCoreObject->getAs<VulkanCoreObject>()->device, image, nullptr);
+		vkFreeMemory(pCoreObject->getAs<VulkanCoreObject>()->device, imageMemory, nullptr);
 
 		if (pImageView)
 		{
@@ -218,13 +218,13 @@ namespace Backend
 	VPTR VulkanImage::getData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset)
 	{
 		VPTR data = nullptr;
-		DMK_VULKAN_ASSERT(vkMapMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, imageMemory, offset, size, 0, &data), "Unable to map image memory!");
+		DMK_VULKAN_ASSERT(vkMapMemory(pCoreObject->getAs<VulkanCoreObject>()->device, imageMemory, offset, size, 0, &data), "Unable to map image memory!");
 		return data;
 	}
 
 	void VulkanImage::unmapMemory(RCoreObject* pCoreObject)
 	{
-		vkUnmapMemory(Inherit<VulkanCoreObject>(pCoreObject)->device, imageMemory);
+		vkUnmapMemory(pCoreObject->getAs<VulkanCoreObject>()->device, imageMemory);
 	}
 
 	VulkanImage::operator VkImage() const

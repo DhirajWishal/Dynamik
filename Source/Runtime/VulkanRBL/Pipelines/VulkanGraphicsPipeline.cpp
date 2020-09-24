@@ -9,6 +9,8 @@
 #include "../VulkanCoreObject.h"
 #include "Tools/Shader/SPIR-V/Disassembler.h"
 
+#include <fstream>
+
 namespace Backend
 {
 	/*
@@ -140,6 +142,7 @@ namespace Backend
 		/* Re order the resource bindings or else resources will be mapped to the wrong shader resource */
 		if (resourceBindings.size())
 		{
+			/* We find the minimum binding as users might not always start with the index 0. */
 			UI64 minimumBinding = resourceBindings[0].binding;
 			for (UI64 index = 0; index < resourceBindings.size(); index++)
 				if (minimumBinding > resourceBindings[index].binding)
@@ -330,7 +333,7 @@ namespace Backend
 			descriptorWrites.pushBack(descriptorWrite);
 		}
 
-		vkUpdateDescriptorSets(InheritCast<VulkanCoreObject>(pCoreObject).device, Cast<UI32>(descriptorWrites.size()), descriptorWrites.data(), 0, VK_NULL_HANDLE);
+		vkUpdateDescriptorSets(pCoreObject->getAs<VulkanCoreObject>()->device, Cast<UI32>(descriptorWrites.size()), descriptorWrites.data(), 0, VK_NULL_HANDLE);
 	}
 
 	void VulkanGraphicsPipeline::initialize(RCoreObject* pCoreObject, RPipelineSpecification createInfo, RPipelineUsage usage, RRenderTarget* pRenderTarget, DMKViewport viewport)
@@ -435,7 +438,7 @@ namespace Backend
 			descriptorSetLayoutCreateInfo.bindingCount = Cast<UI32>(resourceBindings.size());
 			descriptorSetLayoutCreateInfo.pBindings = resourceBindings.data();
 
-			DMK_VULKAN_ASSERT(vkCreateDescriptorSetLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorSetLayoutCreateInfo, nullptr, &descriptor.layout), "Failed to create descriptor set layout!");
+			DMK_VULKAN_ASSERT(vkCreateDescriptorSetLayout(pCoreObject->getAs<VulkanCoreObject>()->device, &descriptorSetLayoutCreateInfo, nullptr, &descriptor.layout), "Failed to create descriptor set layout!");
 
 			/* Create descriptor pool */
 			VkDescriptorPoolCreateInfo descriptorPoolCreateInfo = {};
@@ -446,14 +449,14 @@ namespace Backend
 			descriptorPoolCreateInfo.poolSizeCount = Cast<UI32>(descriptorPoolSizes.size());
 			descriptorPoolCreateInfo.pPoolSizes = descriptorPoolSizes.data();
 
-			DMK_VULKAN_ASSERT(vkCreateDescriptorPool(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorPoolCreateInfo, VK_NULL_HANDLE, &descriptor.pool), "Failed to create descriptor pool!");
+			DMK_VULKAN_ASSERT(vkCreateDescriptorPool(pCoreObject->getAs<VulkanCoreObject>()->device, &descriptorPoolCreateInfo, VK_NULL_HANDLE, &descriptor.pool), "Failed to create descriptor pool!");
 
 			pipelineLayoutCreateInfo.setLayoutCount = 1;
 			pipelineLayoutCreateInfo.pSetLayouts = &descriptor.layout;
 			isResourceAvailable = true;
 		}
 
-		DMK_VULKAN_ASSERT(vkCreatePipelineLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, &pipelineLayoutCreateInfo, VK_NULL_HANDLE, &layout), "Failed to create pipeline layout!");
+		DMK_VULKAN_ASSERT(vkCreatePipelineLayout(pCoreObject->getAs<VulkanCoreObject>()->device, &pipelineLayoutCreateInfo, VK_NULL_HANDLE, &layout), "Failed to create pipeline layout!");
 
 		/* Initialize Primitive Assembly Info */
 		VkPipelineInputAssemblyStateCreateInfo inputAssembly = {};
@@ -603,7 +606,7 @@ namespace Backend
 					pipelineCache = Cast<VkPipelineCache>(*createInfo.pPipelineCache);
 				else
 				{
-					vkDestroyPipelineCache(InheritCast<VulkanCoreObject>(pCoreObject).device, pipelineCache, nullptr);
+					vkDestroyPipelineCache(pCoreObject->getAs<VulkanCoreObject>()->device, pipelineCache, nullptr);
 					pipelineCache = Cast<VkPipelineCache>(*createInfo.pPipelineCache);
 				}
 			}
@@ -619,11 +622,11 @@ namespace Backend
 			if (pipelineCache == VK_NULL_HANDLE)
 				createPipelineCache(pCoreObject, sizeof(pipelineInfo), &pipelineInfo);
 
-		DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(InheritCast<VulkanCoreObject>(pCoreObject).device, pipelineCache, 1, &pipelineInfo, VK_NULL_HANDLE, &pipeline), "Failed to create graphics pipeline!");
+		DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(pCoreObject->getAs<VulkanCoreObject>()->device, pipelineCache, 1, &pipelineInfo, VK_NULL_HANDLE, &pipeline), "Failed to create graphics pipeline!");
 
 		/* Terminate Shader Modules */
 		for (auto stage : shaderStages)
-			vkDestroyShaderModule(InheritCast<VulkanCoreObject>(pCoreObject).device, stage.module, nullptr);
+			vkDestroyShaderModule(pCoreObject->getAs<VulkanCoreObject>()->device, stage.module, nullptr);
 	}
 
 	void VulkanGraphicsPipeline::reCreate(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, DMKViewport viewport)
@@ -803,30 +806,30 @@ namespace Backend
 			pipelineInfo.renderPass = InheritCast<VulkanRenderPass>(pRenderTarget->pRenderPass).renderPass;
 
 		VkPipeline _newPipeline = VK_NULL_HANDLE;
-		DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(InheritCast<VulkanCoreObject>(pCoreObject).device, pipelineCache, 1, &pipelineInfo, VK_NULL_HANDLE, &_newPipeline), "Failed to create graphics pipeline!");
+		DMK_VULKAN_ASSERT(vkCreateGraphicsPipelines(pCoreObject->getAs<VulkanCoreObject>()->device, pipelineCache, 1, &pipelineInfo, VK_NULL_HANDLE, &_newPipeline), "Failed to create graphics pipeline!");
 
 		/* Destroy the old pipeline */
-		vkDestroyPipeline(InheritCast<VulkanCoreObject>(pCoreObject).device, pipeline, nullptr);
+		vkDestroyPipeline(pCoreObject->getAs<VulkanCoreObject>()->device, pipeline, nullptr);
 
 		pipeline = _newPipeline;
 
 		/* Terminate Shader Modules */
 		for (auto stage : shaderStages)
-			vkDestroyShaderModule(InheritCast<VulkanCoreObject>(pCoreObject).device, stage.module, nullptr);
+			vkDestroyShaderModule(pCoreObject->getAs<VulkanCoreObject>()->device, stage.module, nullptr);
 	}
 
 	void VulkanGraphicsPipeline::terminate(RCoreObject* pCoreObject)
 	{
 		/* Terminate Descriptor */
-		vkDestroyDescriptorPool(InheritCast<VulkanCoreObject>(pCoreObject).device, descriptor.pool, nullptr);
-		vkDestroyDescriptorSetLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, descriptor.layout, nullptr);
+		vkDestroyDescriptorPool(pCoreObject->getAs<VulkanCoreObject>()->device, descriptor.pool, nullptr);
+		vkDestroyDescriptorSetLayout(pCoreObject->getAs<VulkanCoreObject>()->device, descriptor.layout, nullptr);
 
 		/* Terminate Pipeline */
-		vkDestroyPipeline(InheritCast<VulkanCoreObject>(pCoreObject).device, pipeline, nullptr);
-		vkDestroyPipelineLayout(InheritCast<VulkanCoreObject>(pCoreObject).device, layout, nullptr);
+		vkDestroyPipeline(pCoreObject->getAs<VulkanCoreObject>()->device, pipeline, nullptr);
+		vkDestroyPipelineLayout(pCoreObject->getAs<VulkanCoreObject>()->device, layout, nullptr);
 
 		/* Terminate Pipeline Cache */
-		vkDestroyPipelineCache(InheritCast<VulkanCoreObject>(pCoreObject).device, pipelineCache, nullptr);
+		vkDestroyPipelineCache(pCoreObject->getAs<VulkanCoreObject>()->device, pipelineCache, nullptr);
 	}
 
 	void VulkanGraphicsPipeline::createPipelineCache(RCoreObject* pCoreObject, UI64 byteSize, VPTR pData)
@@ -838,7 +841,7 @@ namespace Backend
 		createInfo.initialDataSize = Cast<UI32>(byteSize);
 		createInfo.pInitialData = pData;
 
-		DMK_VULKAN_ASSERT(vkCreatePipelineCache(InheritCast<VulkanCoreObject>(pCoreObject).device, &createInfo, nullptr, &pipelineCache), "Failed to create pipeline cache!");
+		DMK_VULKAN_ASSERT(vkCreatePipelineCache(pCoreObject->getAs<VulkanCoreObject>()->device, &createInfo, nullptr, &pipelineCache), "Failed to create pipeline cache!");
 	}
 
 	ARRAY<RPipelineResource*> VulkanGraphicsPipeline::allocateResources(RCoreObject* pCoreObject)
@@ -853,7 +856,7 @@ namespace Backend
 		descriptorSetAllocateInfo.descriptorSetCount = Cast<UI32>(mySpecification.resourceCount);
 
 		ARRAY<VkDescriptorSet> _descriptors(mySpecification.resourceCount);
-		DMK_VULKAN_ASSERT(vkAllocateDescriptorSets(InheritCast<VulkanCoreObject>(pCoreObject).device, &descriptorSetAllocateInfo, _descriptors.data()), "Failed to allocate descriptor sets!");
+		DMK_VULKAN_ASSERT(vkAllocateDescriptorSets(pCoreObject->getAs<VulkanCoreObject>()->device, &descriptorSetAllocateInfo, _descriptors.data()), "Failed to allocate descriptor sets!");
 
 		ARRAY<RPipelineResource*> resources;
 
