@@ -80,6 +80,7 @@ IncludeLib["FreeImageR"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/FreeI
 group "Engine"
 include "Engine/Modules/Animation/Animation.lua"
 include "Engine/Modules/Core/Core.lua"
+include "Engine/Modules/Engine/Engine.lua"
 include "Engine/Modules/Events/Events.lua"
 include "Engine/Modules/GameLibrary/GameLibrary.lua"
 include "Engine/Modules/Importer/Importer.lua"
@@ -93,6 +94,9 @@ include "Engine/Modules/Window/Window.lua"
 
 group "Studio"
 include "Studio/Application/Application.lua"
+
+group "Tests"
+include "Tests/Benchmark/Benchmark.lua"
 
 group "Third Party"
 include "Dependencies/ThirdParty/imgui/imgui.lua"
