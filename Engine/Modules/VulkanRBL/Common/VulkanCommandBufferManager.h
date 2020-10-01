@@ -19,10 +19,10 @@ namespace Backend
 		~VulkanCommandBufferManager() {}
 
 		virtual void initialize(RCoreObject* pCoreObject) override final;
-		virtual ARRAY<RCommandBuffer*> allocateCommandBuffers(RCoreObject* pCoreObject, UI32 bufferCount, RCommandBufferLevel level = RCommandBufferLevel::COMMAND_BUFFEER_LEVEL_PRIMARY) override final;
-		virtual void resetBuffers(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) override final;
-		virtual void terminateBuffers(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) override final;
-		virtual void terminate(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) override final;
+		virtual std::vector<RCommandBuffer*> allocateCommandBuffers(RCoreObject* pCoreObject, UI32 bufferCount, RCommandBufferLevel level = RCommandBufferLevel::COMMAND_BUFFEER_LEVEL_PRIMARY) override final;
+		virtual void resetBuffers(RCoreObject* pCoreObject, std::vector<RCommandBuffer*> commandBuffers) override final;
+		virtual void terminateBuffers(RCoreObject* pCoreObject, std::vector<RCommandBuffer*> commandBuffers) override final;
+		virtual void terminate(RCoreObject* pCoreObject, std::vector<RCommandBuffer*> commandBuffers) override final;
 
 	private:
 		VkCommandPool pool = VK_NULL_HANDLE;

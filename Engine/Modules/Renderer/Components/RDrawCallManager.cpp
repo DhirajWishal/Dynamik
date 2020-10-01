@@ -22,19 +22,14 @@ void RDrawCallManager::terminateAll(RCoreObject* pCoreObject)
 
 void RDrawCallManager::addRenderEntity(REntity* pRenderEntity)
 {
-	secondaryCommandBindings.pushBack(pRenderEntity);
+	secondaryCommandBindings.push_back(pRenderEntity);
 }
 
 void RDrawCallManager::removeRenderEntity(REntity* pRenderEntity)
 {
-	for (UI32 index = 0; index < secondaryCommandBindings.size(); index++)
-	{
-		if (secondaryCommandBindings[index].pRenderEntity == pRenderEntity)
-		{
-			secondaryCommandBindings.remove(index);
-			return;
-		}
-	}
+	for (auto itr = secondaryCommandBindings.begin(); itr != secondaryCommandBindings.end(); itr++)
+		if (itr->pRenderEntity == pRenderEntity)
+			secondaryCommandBindings.erase(itr);
 }
 
 void RDrawCallManager::initializeCommandBuffers(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, DMKRenderingAPI API)

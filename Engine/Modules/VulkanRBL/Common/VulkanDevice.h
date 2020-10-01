@@ -43,7 +43,7 @@ namespace Backend
 		VkPhysicalDeviceRayTracingFeaturesKHR rayTracingFeatures = {};
 		VkPhysicalDeviceRayTracingPropertiesKHR rayTracingProperties = {};
 
-		ARRAY<CCPTR> extensions;
+		std::vector<CCPTR> extensions;
 	};
 }
 

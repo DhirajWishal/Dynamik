@@ -82,12 +82,12 @@ namespace Backend
 		return 0;
 	}
 
-	B1 VulkanUtilities::hasStencilComponent(const VkFormat& format)
+	bool VulkanUtilities::hasStencilComponent(const VkFormat& format)
 	{
 		return format == VK_FORMAT_D32_SFLOAT_S8_UINT || format == VK_FORMAT_D24_UNORM_S8_UINT;
 	}
 
-	VkFormat VulkanUtilities::findSupportedFormat(const ARRAY<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features, VkPhysicalDevice physicalDevice)
+	VkFormat VulkanUtilities::findSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features, VkPhysicalDevice physicalDevice)
 	{
 		for (VkFormat format : candidates) {
 			VkFormatProperties props;
@@ -323,9 +323,9 @@ namespace Backend
 		return ::DMKShaderLocation::DMK_SHADER_LOCATION_ALL;
 	}
 
-	ARRAY<VkVertexInputAttributeDescription> VulkanUtilities::getVertexAttributeDescriptions(DMKVertexLayout descriptor)
+	std::vector<VkVertexInputAttributeDescription> VulkanUtilities::getVertexAttributeDescriptions(DMKVertexLayout descriptor)
 	{
-		ARRAY<VkVertexInputAttributeDescription> attributeDescriptions;
+		std::vector<VkVertexInputAttributeDescription> attributeDescriptions;
 		UI64 _previousTypeSize = 0;
 
 		for (UI32 _index = 0; _index < descriptor.attributes.size(); _index++)
@@ -335,7 +335,7 @@ namespace Backend
 			_description.location = _index;
 			_description.format = getVulkanFormat(descriptor.attributes[_index].dataFormat);
 			_description.offset = Cast<UI32>(_previousTypeSize);
-			attributeDescriptions.pushBack(_description);
+			attributeDescriptions.push_back(_description);
 
 			_previousTypeSize += FormatSize(descriptor.attributes[_index].dataFormat);
 		}
@@ -343,12 +343,12 @@ namespace Backend
 		return attributeDescriptions;
 	}
 
-	ARRAY<VkVertexInputAttributeDescription> VulkanUtilities::getVertexAttributeDescriptions(DMKShaderModule shaderModule)
+	std::vector<VkVertexInputAttributeDescription> VulkanUtilities::getVertexAttributeDescriptions(DMKShaderModule shaderModule)
 	{
 		if (shaderModule.location != DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
 			DMK_WARN("The submitted shader module is not bound as a Vertex Shader!");
 
-		ARRAY<VkVertexInputAttributeDescription> attributeDescriptions;
+		std::vector<VkVertexInputAttributeDescription> attributeDescriptions;
 
 		VkVertexInputAttributeDescription _description = {};
 		_description.binding = 0;
@@ -358,7 +358,7 @@ namespace Backend
 		for (auto attribute : shaderModule.getAttributes())
 		{
 			_description.format = getVulkanFormat(attribute.dataFormat);
-			attributeDescriptions.pushBack(_description);
+			attributeDescriptions.push_back(_description);
 
 			_description.offset += Cast<UI32>(FormatSize(attribute.dataFormat) * attribute.dataCount);
 			_description.location++;
@@ -367,12 +367,12 @@ namespace Backend
 		return attributeDescriptions;
 	}
 
-	ARRAY<VkVertexInputBindingDescription> VulkanUtilities::getVertexBindingDescriptions(DMKShaderModule shaderModule)
+	std::vector<VkVertexInputBindingDescription> VulkanUtilities::getVertexBindingDescriptions(DMKShaderModule shaderModule)
 	{
 		if (shaderModule.location != DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
 			DMK_WARN("The submitted shader module is not bound as a Vertex Shader!");
 
-		ARRAY<VkVertexInputBindingDescription> descriptions;
+		std::vector<VkVertexInputBindingDescription> descriptions;
 
 		VkVertexInputBindingDescription bindingDescription = {};
 		bindingDescription.binding = 0;
@@ -385,7 +385,7 @@ namespace Backend
 		if (stride)
 		{
 			bindingDescription.stride = Cast<UI32>(stride);
-			descriptions.pushBack(bindingDescription);
+			descriptions.push_back(bindingDescription);
 		}
 		return descriptions;
 	}
@@ -394,18 +394,18 @@ namespace Backend
 	{
 		switch ((UI32)type)
 		{
-		case (sizeof(F32) * 1): return VkFormat::VK_FORMAT_R32_SFLOAT;
-		case (sizeof(F32) * 2): return VkFormat::VK_FORMAT_R32G32_SFLOAT;
-		case (sizeof(F32) * 3): return VkFormat::VK_FORMAT_R32G32B32_SFLOAT;
-		case (sizeof(F32) * 4): return VkFormat::VK_FORMAT_R32G32B32A32_SFLOAT;
-		case (sizeof(F32) * 9): return VkFormat::VK_FORMAT_R32_SFLOAT;
-		case (sizeof(F32) * 16): return VkFormat::VK_FORMAT_R32_SFLOAT;
+		case (sizeof(float) * 1): return VkFormat::VK_FORMAT_R32_SFLOAT;
+		case (sizeof(float) * 2): return VkFormat::VK_FORMAT_R32G32_SFLOAT;
+		case (sizeof(float) * 3): return VkFormat::VK_FORMAT_R32G32B32_SFLOAT;
+		case (sizeof(float) * 4): return VkFormat::VK_FORMAT_R32G32B32A32_SFLOAT;
+		case (sizeof(float) * 9): return VkFormat::VK_FORMAT_R32_SFLOAT;
+		case (sizeof(float) * 16): return VkFormat::VK_FORMAT_R32_SFLOAT;
 		}
 
 		return VkFormat::VK_FORMAT_UNDEFINED;
 	}
 
-	void VulkanUtilities::copyDataToImage(RCoreObject* pCoreObject, RImage* pImage, VPTR data, UI64 byteSize, UI64 dstOffset, UI64 srcOffset)
+	void VulkanUtilities::copyDataToImage(RCoreObject* pCoreObject, RImage* pImage, void* data, UI64 byteSize, UI64 dstOffset, UI64 srcOffset)
 	{
 		VulkanBuffer staggingBuffer;
 		staggingBuffer.initialize(pCoreObject, RBufferType::BUFFER_TYPE_STAGGING, byteSize);
@@ -466,9 +466,9 @@ namespace Backend
 		return state;
 	}
 
-	ARRAY<VkPipelineColorBlendAttachmentState> VulkanUtilities::getBlendStates(const ARRAY<RColorBlendState>& blendStates)
+	std::vector<VkPipelineColorBlendAttachmentState> VulkanUtilities::getBlendStates(const std::vector<RColorBlendState>& blendStates)
 	{
-		ARRAY<VkPipelineColorBlendAttachmentState> states;
+		std::vector<VkPipelineColorBlendAttachmentState> states;
 		VkPipelineColorBlendAttachmentState attachmentState;
 		for (auto state : blendStates)
 		{
@@ -481,18 +481,18 @@ namespace Backend
 			attachmentState.dstAlphaBlendFactor = (VkBlendFactor)state.dstAlphaBlendFactor;
 			attachmentState.srcColorBlendFactor = (VkBlendFactor)state.srcColorBlendFactor;
 			attachmentState.dstColorBlendFactor = (VkBlendFactor)state.dstColorBlendFactor;
-			states.pushBack(attachmentState);
+			states.push_back(attachmentState);
 		}
 
 		return states;
 	}
 
-	ARRAY<VkDynamicState> VulkanUtilities::getDynamicStates(const ARRAY<RDynamicState>& states)
+	std::vector<VkDynamicState> VulkanUtilities::getDynamicStates(const std::vector<RDynamicState>& states)
 	{
-		ARRAY<VkDynamicState> vStates;
+		std::vector<VkDynamicState> vStates;
 		for (auto state : states)
 		{
-			vStates.pushBack((VkDynamicState)state);
+			vStates.push_back((VkDynamicState)state);
 		}
 
 		return vStates;

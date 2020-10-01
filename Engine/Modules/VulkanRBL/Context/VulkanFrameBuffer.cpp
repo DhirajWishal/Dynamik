@@ -11,7 +11,7 @@
 
 namespace Backend
 {
-	void VulkanFrameBuffer::initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, DMKExtent2D frameExtent, UI32 bufferCount, ARRAY<ARRAY<RFrameBufferAttachment*>> pAttachments)
+	void VulkanFrameBuffer::initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, DMKExtent2D frameExtent, UI32 bufferCount, std::vector<std::vector<RFrameBufferAttachment*>> pAttachments)
 	{
 		width = Cast<UI32>(frameExtent.width);
 		height = Cast<UI32>(frameExtent.height);
@@ -25,10 +25,10 @@ namespace Backend
 
 		for (size_t i = 0; i < bufferCount; i++)
 		{
-			ARRAY<VkImageView> _attachments;
+			std::vector<VkImageView> _attachments;
 
 			for (auto pAttachment : pAttachments[i])
-				_attachments.pushBack(Inherit<VulkanImageView>(Inherit<VulkanImage>(pAttachment->pImageAttachment)->pImageView)->imageView);
+				_attachments.push_back(Inherit<VulkanImageView>(Inherit<VulkanImage>(pAttachment->pImageAttachment)->pImageView)->imageView);
 
 			VkFramebufferCreateInfo framebufferInfo = {};
 			framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
@@ -42,7 +42,7 @@ namespace Backend
 			VkFramebuffer _buffer = VK_NULL_HANDLE;
 			DMK_VULKAN_ASSERT(vkCreateFramebuffer(pCoreObject->getAs<VulkanCoreObject>()->device, &framebufferInfo, nullptr, &_buffer), "Failed to create frame buffer!");
 
-			buffers.pushBack(_buffer);
+			buffers.push_back(_buffer);
 		}
 	}
 

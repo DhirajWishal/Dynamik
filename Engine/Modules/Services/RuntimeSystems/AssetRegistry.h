@@ -75,7 +75,7 @@ public:
 	/*
 	 Get all the registered asset names.
 	*/
-	static ARRAY<STRING> getAllRegisteredAssetNames();
+	static std::vector<STRING> getAllRegisteredAssetNames();
 
 	/*
 	 Get the asset map of the registry.

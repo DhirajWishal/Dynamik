@@ -42,11 +42,11 @@ public:
 	virtual void createImageView(RCoreObject* pCoreObject, DMKTexture::TextureSwizzles swizzles) = 0;
 	virtual void terminate(RCoreObject* pCoreObject) = 0;
 
-	virtual void setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, VPTR data) = 0;
+	virtual void setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, void* data) = 0;
 	/*
 	 Automatically maps memory
 	*/
-	virtual VPTR getData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset) { return nullptr; }
+	virtual void* getData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset) { return nullptr; }
 	virtual void unmapMemory(RCoreObject* pCoreObject) = 0;
 
 	VEC3 extent = VEC3(0.0f);

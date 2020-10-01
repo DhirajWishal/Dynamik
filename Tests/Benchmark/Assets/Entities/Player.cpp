@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "Player.h"
+#include "Core/Memory/StaticAllocator.h"
 
 void Player::onInitializePlayer()
 {

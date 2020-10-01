@@ -6,20 +6,20 @@
 
 void DMKCanvasEntity::addShaderModule(const DMKShaderModule& sModule)
 {
-	shaders.pushBack(sModule);
+	shaders.push_back(sModule);
 }
 
-void DMKCanvasEntity::setShaderModules(ARRAY<DMKShaderModule> sModules)
+void DMKCanvasEntity::setShaderModules(std::vector<DMKShaderModule> sModules)
 {
 	shaders = std::move(sModules);
 }
 
 DMKShaderModule* DMKCanvasEntity::getShaderModule(I32 index)
 {
-	return shaders.location(index);
+	return &shaders.at(index);
 }
 
-ARRAY<DMKShaderModule> DMKCanvasEntity::getShaders()
+std::vector<DMKShaderModule> DMKCanvasEntity::getShaders()
 {
 	return shaders;
 }
@@ -35,14 +35,14 @@ void DMKCanvasEntity::createFrameMesh(const Vector3F& minimumBounds, const Vecto
 		Vector2F textureCoord = Vector2F(0.0f);
 	};
 
-	ARRAY<VertexCanvas> vertexes;
-	vertexes.pushBack(VertexCanvas(minimumBounds, Vector2F(0)));
-	vertexes.pushBack(VertexCanvas(Vector3F(maximumBounds.x, maximumBounds.y, (maximumBounds.z + minimumBounds.z) / 2.0f), Vector2F(0.0f, 1.0f)));
-	vertexes.pushBack(VertexCanvas(Vector3F(minimumBounds.x, minimumBounds.y, (maximumBounds.z + minimumBounds.z) / 2.0f), Vector2F(1.0f, 0.0f)));
-	vertexes.pushBack(VertexCanvas(maximumBounds, Vector2F(1)));
+	std::vector<VertexCanvas> vertexes;
+	vertexes.push_back(VertexCanvas(minimumBounds, Vector2F(0)));
+	vertexes.push_back(VertexCanvas(Vector3F(maximumBounds.x, maximumBounds.y, (maximumBounds.z + minimumBounds.z) / 2.0f), Vector2F(0.0f, 1.0f)));
+	vertexes.push_back(VertexCanvas(Vector3F(minimumBounds.x, minimumBounds.y, (maximumBounds.z + minimumBounds.z) / 2.0f), Vector2F(1.0f, 0.0f)));
+	vertexes.push_back(VertexCanvas(maximumBounds, Vector2F(1)));
 
 	/* Generate index data. */
-	ARRAY<UI32> indexes = { 0, 1, 2, 1, 3, 2 };
+	std::vector<UI32> indexes = { 0, 1, 2, 1, 3, 2 };
 
 	/* Generate vertex layout data. */
 	DMKVertexLayout vLayout;
@@ -57,9 +57,9 @@ void DMKCanvasEntity::createFrameMesh(const Vector3F& minimumBounds, const Vecto
 		frameMesh.getVertexBuffer().setData(vertexes.data());
 
 		/* Initialize index buffer. */
-		frameMesh.getIndexBuffer().setIndexSize(indexes.typeSize());
+		frameMesh.getIndexBuffer().setIndexSize(sizeof(UI32));
 		frameMesh.getIndexBuffer().initialize(indexes.size());
-		frameMesh.getIndexBuffer().set(indexes.data(), indexes.size() * indexes.typeSize(), 0);
+		frameMesh.getIndexBuffer().set(indexes.data(), indexes.size() * sizeof(UI32), 0);
 	}
 }
 

@@ -31,7 +31,7 @@ public:
 	void clean() override;
 	void terminate() override;
 
-	B1 isVulkanCompatible();
+	bool isVulkanCompatible();
 
 	GLFWwindow* getHandle();
 
@@ -47,9 +47,9 @@ private:
 
 		static void _keyCallback(GLFWwindow* window, I32 key, I32 scancode, I32 action, I32 mods);
 		static void _textCallback(GLFWwindow* window, UI32 codepoint);
-		static void _cursorPositionCallback(GLFWwindow* window, D64 xOffset, D64 yOffset);
+		static void _cursorPositionCallback(GLFWwindow* window, double xOffset, double yOffset);
 		static void _mouseButtonCallback(GLFWwindow* window, I32 button, I32 action, I32 mods);
-		static void _mouseScrollCallback(GLFWwindow* window, D64 xOffset, D64 yOffset);
+		static void _mouseScrollCallback(GLFWwindow* window, double xOffset, double yOffset);
 		static void _mouseCursorEnterCallback(GLFWwindow* window, I32 entered);
 		static void _applicationDropPathCallback(GLFWwindow* window, I32 count, const CHR** strings);
 		static void _applicationResizeCallback(GLFWwindow* window, I32 width, I32 height);

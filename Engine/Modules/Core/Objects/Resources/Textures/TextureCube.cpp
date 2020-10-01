@@ -8,5 +8,5 @@
 
 void DMKTextureCube::clear()
 {
-	StaticAllocator<UCHR>::deallocate(image, size() * 6);
+	StaticAllocator<unsigned char>::deallocate(image, size() * 6);
 }

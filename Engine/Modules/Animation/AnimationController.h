@@ -42,7 +42,7 @@ public:
 
 private:
 	std::unordered_map<STRING, AnimationControlInstruction> instructionMap;
-	ARRAY<STRING> eventList;
+	std::vector<STRING> eventList;
 };
 
 #endif // !_DYNAMIK_ANIMATION_CONTROLLER_H

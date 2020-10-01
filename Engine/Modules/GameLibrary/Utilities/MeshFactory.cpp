@@ -28,13 +28,13 @@ DMKMeshObject DMKMeshFactory::createBasicTriangle()
 		Vector3F color;
 	};
 
-	ARRAY<TempVertex> vertexes = {
+	std::vector<TempVertex> vertexes = {
 		TempVertex({ 0.0f,  0.5f, 0.0f }, { 1.0f, 0.0f, 0.0f }),
 		TempVertex({ 0.5f,  -0.5f, 0.0f }, { 0.0f, 1.0f, 0.0f }),
 		TempVertex({ -0.5f, -0.5f, 0.0f }, { 0.0f, 0.0f, 1.0f }),
 	};
 
-	ARRAY<UI32> indexes = {
+	std::vector<UI32> indexes = {
 		0, 1, 2
 	};
 
@@ -44,10 +44,10 @@ DMKMeshObject DMKMeshFactory::createBasicTriangle()
 	vertexAttribute.dataFormat = DMKFormat::DMK_FORMAT_RGBA_32_SF32;
 
 	vertexAttribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
-	vertexLayout.attributes.pushBack(vertexAttribute);
+	vertexLayout.attributes.push_back(vertexAttribute);
 
 	vertexAttribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_0;
-	vertexLayout.attributes.pushBack(vertexAttribute);
+	vertexLayout.attributes.push_back(vertexAttribute);
 
 	component.vertexBuffer.initialize(vertexes.size(), vertexLayout);
 	component.vertexBuffer.setData(vertexes.data());
@@ -74,14 +74,14 @@ DMKMeshObject DMKMeshFactory::createCube()
 	return component;
 }
 
-DMKMeshObject DMKMeshFactory::createSkyBox(ARRAY<STRING> textureFiles)
+DMKMeshObject DMKMeshFactory::createSkyBox(std::vector<STRING> textureFiles)
 {
 	DMKVertexLayout layout;
 	DMKVertexAttribute attribute;
 	attribute.dataCount = 1;
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
 	attribute.dataFormat = DMKFormat::DMK_FORMAT_RGBA_32_SF32;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	DMKMeshObject component = DMKMeshImporter::loadMeshes(instance.workingDirectory + "/Runtime/Assets/Models/SkyBox/SkySphere.obj", layout)[0];
 
@@ -107,7 +107,7 @@ DMKMeshObject DMKMeshFactory::loadStaticModel(const STRING& file, Vector3F posit
 	return newModel;
 }
 
-ARRAY<DMKMeshObject> DMKMeshFactory::loadMeshes(const STRING& file, DMKVertexLayout vertexLayout)
+std::vector<DMKMeshObject> DMKMeshFactory::loadMeshes(const STRING& file, DMKVertexLayout vertexLayout)
 {
 	return  DMKMeshImporter::loadMeshes(file, vertexLayout);
 }

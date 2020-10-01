@@ -23,14 +23,14 @@ DMKTexture* DMKTextureFactory::create(const DMKTextureType& type, const STRING& 
 	case DMKTextureType::TEXTURE_TYPE_CUBEMAP:
 		break;
 	default:
-		DMK_ERROR_BOX("Requested texture cannot be created! Use create(DMKTextureType, ARRAY<STRING>) method instead.");
+		DMK_ERROR_BOX("Requested texture cannot be created! Use create(DMKTextureType, std::vector<STRING>) method instead.");
 		break;
 	}
 
 	return nullptr;
 }
 
-DMKTexture* DMKTextureFactory::createCubeMap(const ARRAY<STRING>& paths)
+DMKTexture* DMKTextureFactory::createCubeMap(const std::vector<STRING>& paths)
 {
 	DMKImageImporter importer;
 	return importer.loadCube(paths);

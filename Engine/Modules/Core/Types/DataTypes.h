@@ -30,11 +30,6 @@ typedef short I16;					// 16 bit integer
 typedef int I32;					// 32 bit integer
 typedef long long I64;				// 64 bit integer
 
-typedef bool B1;					// bool
-typedef float F32;					// float
-typedef double D64;					// double
-typedef long double LD64;			// long double
-
 #ifdef DMK_USE_WIDE_CHAR
 #define TEXT(text)  Ltext# 
 typedef std::wstring STRING;
@@ -47,7 +42,6 @@ typedef char CHR;					// char (ASCII)
 
 #endif // DMK_USE_WIDE_CHR
 
-typedef void* VPTR;					// void pointer
 typedef CHR* CPTR;					// char pointer
 typedef const CHR* CCPTR;			// const char pointer
 typedef unsigned char* UCPTR;		// unsigned char pointer
@@ -55,8 +49,6 @@ typedef const wchar_t* CWCPTR;		// const char pointer
 
 typedef UI8 BYTE;					// byte of data
 typedef BYTE* BPTR;					// byte pointer
-
-typedef unsigned char UCHR;			// unsigned char 
 
 /*
  This contains all the virtual data types for the Dynamik Engine.

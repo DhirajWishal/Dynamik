@@ -68,7 +68,7 @@ DMK_FORCEINLINE Quaternion aiQuatKeyToQuaternion(const aiQuatKey& key)
  @param vertexLayout: The vertex layout to load the vertex data.
  @param pMeshObject: The mesh object pointer to load all the data to.
 */
-DMK_FORCEINLINE void meshLoadFunction(VPTR pAiMeshObject, VPTR pAiScene, const DMKVertexLayout& vertexLayout, DMKMeshObject* pMeshObject)
+DMK_FORCEINLINE void meshLoadFunction(void* pAiMeshObject, void* pAiScene, const DMKVertexLayout& vertexLayout, DMKMeshObject* pMeshObject)
 {
 	auto _mesh = Cast<aiMesh*>(pAiMeshObject);
 	auto _scene = Cast<aiScene*>(pAiScene);
@@ -278,17 +278,17 @@ DMK_FORCEINLINE void meshLoadFunction(VPTR pAiMeshObject, VPTR pAiScene, const D
 	}
 
 	aiFace face;
-	ARRAY<UI32> indexBuffer;
+	std::vector<UI32> indexBuffer;
 	for (UI32 index = 0; index < _mesh->mNumFaces; index++)
 	{
 		face = _mesh->mFaces[index];
 		for (UI32 itr = 0; itr < face.mNumIndices; itr++)
-			indexBuffer.pushBack(face.mIndices[itr]);
+			indexBuffer.push_back(face.mIndices[itr]);
 	}
 
 	pMeshObject->indexBuffer.setIndexSize(sizeof(UI32));
 	pMeshObject->indexBuffer.initialize(indexBuffer.size());
-	pMeshObject->indexBuffer.set(indexBuffer.data(), indexBuffer.typeSize() * indexBuffer.size(), 0);
+	pMeshObject->indexBuffer.set(indexBuffer.data(), sizeof(UI32)* indexBuffer.size(), 0);
 
 #ifdef DMK_DEBUG
 	DMK_INFO("Vertex count: " + std::to_string(pMeshObject->vertexBuffer.size()));
@@ -311,19 +311,19 @@ DMK_FORCEINLINE void loadAllNodes(aiNode* pNode, DMKAnimNodeGraph* pGraph, UI64*
 		loadAllNodes(pNode->mChildren[i], pGraph, pIndex, pNodeMap, node.getWorldTransform());
 }
 
-DMK_FORCEINLINE ARRAY<DMKAnimNodePose> loadPosees(aiNodeAnim* pNodeAnim, F32 numFramesToGenerate)
+DMK_FORCEINLINE std::vector<DMKAnimNodePose> loadPosees(aiNodeAnim* pNodeAnim, float numFramesToGenerate)
 {
-	ARRAY<DMKAnimNodePose> container;
+	std::vector<DMKAnimNodePose> container;
 
 	for (UI64 index = 0; index <= Cast<UI64>(numFramesToGenerate); index++)
 	{
 		DMKAnimNodePose pose(index,
-			Cast<F32>(pNodeAnim->mPositionKeys[index].mTime),
+			Cast<float>(pNodeAnim->mPositionKeys[index].mTime),
 			aiVectorKeyToVector3F(pNodeAnim->mPositionKeys[index]),
 			aiVectorKeyToVector3F(pNodeAnim->mScalingKeys[index]),
 			aiQuatKeyToQuaternion(pNodeAnim->mRotationKeys[index]));
 
-		container.pushBack(pose);
+		container.push_back(pose);
 	}
 
 	return container;
@@ -380,10 +380,10 @@ DMKStaticModelEntity AssimpWrapper::loadStaticModelEntity(const STRING& file, co
 	DMKStaticModelEntity model;
 	model.meshObjects.resize(_scene->mNumMeshes, DMKMeshObject());
 	{
-		ARRAY<std::future<void>, 1, DMKArrayDestructorCallMode::DMK_ARRAY_DESTRUCTOR_CALL_MODE_DESTRUCT_ALL> threads;
+		std::vector<std::future<void>> threads;
 
 		for (UI32 _itr = 0; _itr < _scene->mNumMeshes; _itr++)
-			threads.pushBack(std::async(std::launch::async, meshLoadFunction, _scene->mMeshes[_itr], Cast<VPTR>(_scene), vertexLayout, Cast<DMKMeshObject*>(model.meshObjects.location(_itr))));
+			threads.push_back(std::async(std::launch::async, meshLoadFunction, _scene->mMeshes[_itr], Cast<void*>(_scene), vertexLayout, Cast<DMKMeshObject*>(&model.meshObjects.at(_itr))));
 	}
 
 	return model;
@@ -393,10 +393,10 @@ DMKAnimatedModelEntity AssimpWrapper::loadAnimatedModelEntity(const STRING& file
 {
 	Assimp::Importer localImporter;
 
-	return loadAnimatedModelEntity((VPTR)localImporter.ReadFile(file, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs), vertexLayout, nodesPerVertex);
+	return loadAnimatedModelEntity((void*)localImporter.ReadFile(file, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs), vertexLayout, nodesPerVertex);
 }
 
-DMKMeshObject AssimpWrapper::loadMeshObject(VPTR pAiMeshObject, const DMKVertexLayout& vertexLayout)
+DMKMeshObject AssimpWrapper::loadMeshObject(void* pAiMeshObject, const DMKVertexLayout& vertexLayout)
 {
 	DMKMeshObject meshObject = {};
 	meshLoadFunction(pAiMeshObject, nullptr, vertexLayout, &meshObject);
@@ -404,7 +404,7 @@ DMKMeshObject AssimpWrapper::loadMeshObject(VPTR pAiMeshObject, const DMKVertexL
 	return meshObject;
 }
 
-DMKAnimation AssimpWrapper::loadAnimation(VPTR pAiAnimation, VPTR pAiRootNode)
+DMKAnimation AssimpWrapper::loadAnimation(void* pAiAnimation, void* pAiRootNode)
 {
 	if (!pAiAnimation)
 		return DMKAnimation();
@@ -412,8 +412,8 @@ DMKAnimation AssimpWrapper::loadAnimation(VPTR pAiAnimation, VPTR pAiRootNode)
 	auto pAnimation = Cast<aiAnimation*>(pAiAnimation);
 
 	DMKAnimation animation;
-	animation.duration = Cast<F32>(pAnimation->mDuration);
-	F32 numFramesToGenerate = std::ceilf(animation.duration * animation.framesPerSecond);
+	animation.duration = Cast<float>(pAnimation->mDuration);
+	float numFramesToGenerate = std::ceilf(animation.duration * animation.framesPerSecond);
 
 	/* Load pose containers */
 	for (UI32 index = 0; index < pAnimation->mNumChannels; index++)
@@ -422,7 +422,7 @@ DMKAnimation AssimpWrapper::loadAnimation(VPTR pAiAnimation, VPTR pAiRootNode)
 	return animation;
 }
 
-DMKAnimatedModelEntity AssimpWrapper::loadAnimatedModelEntity(VPTR pAiSceneObject, const DMKVertexLayout& vertexLayout, const UI32& nodesPerVertex)
+DMKAnimatedModelEntity AssimpWrapper::loadAnimatedModelEntity(void* pAiSceneObject, const DMKVertexLayout& vertexLayout, const UI32& nodesPerVertex)
 {
 	auto _scene = (aiScene*)pAiSceneObject;
 

@@ -80,7 +80,7 @@ namespace Backend
 	{
 		renderTarget.pRenderPass = StaticAllocator<VulkanRenderPass>::rawAllocate();
 
-		ARRAY<RSubpassAttachment> subpassAttachments(1);
+		std::vector<RSubpassAttachment> subpassAttachments(1);
 		subpassAttachments[0].subpass = RSubPasses::SUBPASSES_COLOR;
 		subpassAttachments[0].format = format;
 		subpassAttachments[0].samples = DMK_SAMPLE_COUNT_1_BIT;
@@ -91,7 +91,7 @@ namespace Backend
 		subpassAttachments[0].initialLayout = RImageLayout::IMAGE_LAYOUT_UNDEFINED;
 		subpassAttachments[0].finalLayout = RImageLayout::IMAGE_LAYOUT_COLOR_ATTACHMENT;
 
-		ARRAY<RSubpassDependency> subpassDependencies(2);
+		std::vector<RSubpassDependency> subpassDependencies(2);
 		RSubpassDependency subpassDependency;
 		subpassDependency.pipelineDependency = RPipelineDependency::DEPENDENCY_BY_REGION;
 
@@ -139,9 +139,9 @@ namespace Backend
 
 	void VulkanIrradianceCube::_initializePipelines(RCoreObject* pCoreObject)
 	{
-		ARRAY<DMKShaderModule> shaders;
-		shaders.pushBack(DMKShaderModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_FILTER_CUBE_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
-		shaders.pushBack(DMKShaderModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_IRRADIANCE_CUBE_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+		std::vector<DMKShaderModule> shaders;
+		shaders.push_back(DMKShaderModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_FILTER_CUBE_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+		shaders.push_back(DMKShaderModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_IRRADIANCE_CUBE_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 
 		DMKViewport _viewport;
 		_viewport.width = Cast<I32>(dimentions.width);
@@ -158,7 +158,7 @@ namespace Backend
 		pipeline.initialize(pCoreObject, pipelineSpec, RPipelineUsage::PIPELINE_USAGE_GRAPHICS, &renderTarget, _viewport);
 
 		pipelineResource = *Cast<VulkanGraphicsPipelineResource*>(pipeline.allocateResources(pCoreObject)[0]);
-		pipelineResource.update(pCoreObject, ARRAY<RBuffer*>(), { pParent->pTexture });
+		pipelineResource.update(pCoreObject, std::vector<RBuffer*>(), { pParent->pTexture });
 	}
 
 	void VulkanIrradianceCube::_process(RCoreObject* pCoreObject)
@@ -170,8 +170,8 @@ namespace Backend
 		} constantOne;
 
 		struct ConstantTwo {
-			F32 deltaPhi = (2.0f * Cast<F32>(M_PI)) / 180.0f;
-			F32 deltaTheta = (0.5f * Cast<F32>(M_PI)) / 64.0f;
+			float deltaPhi = (2.0f * Cast<float>(M_PI)) / 180.0f;
+			float deltaTheta = (0.5f * Cast<float>(M_PI)) / 64.0f;
 		} constantTwo;
 
 		/* Begin Render Pass */
@@ -189,13 +189,13 @@ namespace Backend
 		beginInfo.pClearValues = clearValues.data();
 
 		/* Matrices */
-		ARRAY<Matrix4F> matrices;
-		matrices.pushBack(DMathLib::rotate(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(90.0f), Vector3F(0.0f, 1.0f, 0.0f)), DMathLib::radians(180.0f), Vector3F(1.0f, 0.0f, 0.0f)));
-		matrices.pushBack(DMathLib::rotate(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(-90.0f), Vector3F(0.0f, 1.0f, 0.0f)), DMathLib::radians(180.0f), Vector3F(1.0f, 0.0f, 0.0f)));
-		matrices.pushBack(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(-90.0f), Vector3F(1.0f, 0.0f, 0.0f)));
-		matrices.pushBack(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(90.0f), Vector3F(1.0f, 0.0f, 0.0f)));
-		matrices.pushBack(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(180.0f), Vector3F(1.0f, 0.0f, 0.0f)));
-		matrices.pushBack(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(180.0f), Vector3F(0.0f, 0.0f, 1.0f)));
+		std::vector<Matrix4F> matrices;
+		matrices.push_back(DMathLib::rotate(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(90.0f), Vector3F(0.0f, 1.0f, 0.0f)), DMathLib::radians(180.0f), Vector3F(1.0f, 0.0f, 0.0f)));
+		matrices.push_back(DMathLib::rotate(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(-90.0f), Vector3F(0.0f, 1.0f, 0.0f)), DMathLib::radians(180.0f), Vector3F(1.0f, 0.0f, 0.0f)));
+		matrices.push_back(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(-90.0f), Vector3F(1.0f, 0.0f, 0.0f)));
+		matrices.push_back(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(90.0f), Vector3F(1.0f, 0.0f, 0.0f)));
+		matrices.push_back(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(180.0f), Vector3F(1.0f, 0.0f, 0.0f)));
+		matrices.push_back(DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(180.0f), Vector3F(0.0f, 0.0f, 1.0f)));
 
 		/* Bind Viewport */
 		VkViewport vViewport = {};
@@ -236,8 +236,8 @@ namespace Backend
 		{
 			for (UI32 j = 0; j < 6; j++)
 			{
-				vViewport.width = dimentions.width * Cast<F32>(std::pow(0.5f, i));
-				vViewport.height = dimentions.height * Cast<F32>(std::pow(0.5f, i));
+				vViewport.width = dimentions.width * Cast<float>(std::pow(0.5f, i));
+				vViewport.height = dimentions.height * Cast<float>(std::pow(0.5f, i));
 				vkCmdSetViewport(buffer, 0, 1, &vViewport);
 
 				VkRect2D vScissor = {};
@@ -249,7 +249,7 @@ namespace Backend
 
 				vkCmdBindPipeline(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline);
 
-				constantOne.matrix = DMathLib::perspective(Cast<F32>(M_PI) / 2.0f, 1.0f, 0.1f, 512.0f) * matrices[j];
+				constantOne.matrix = DMathLib::perspective(Cast<float>(M_PI) / 2.0f, 1.0f, 0.1f, 512.0f) * matrices[j];
 				vkCmdPushConstants(buffer, pipeline, VK_SHADER_STAGE_VERTEX_BIT, 0, sizeof(ConstantOne), &constantOne);
 				vkCmdPushConstants(buffer, pipeline, VK_SHADER_STAGE_FRAGMENT_BIT, sizeof(ConstantOne), sizeof(ConstantTwo), &constantTwo);
 

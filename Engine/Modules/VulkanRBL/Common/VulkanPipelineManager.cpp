@@ -20,7 +20,7 @@ namespace Backend
 		pipelineLayoutInfo.pSetLayouts = info.descriptorLayouts.data();
 
 		pipelineLayoutInfo.pushConstantRangeCount = (UI32)info.constantBlockDescriptions.size();
-		ARRAY<VkPushConstantRange> pushConstantRanges;
+		std::vector<VkPushConstantRange> pushConstantRanges;
 		for (auto _block : info.constantBlockDescriptions)
 		{
 			VkPushConstantRange _range;
@@ -28,7 +28,7 @@ namespace Backend
 			_range.offset = _block.offset;
 			_range.stageFlags = VulkanUtilities::getShaderStage(_block.location);
 
-			pushConstantRanges.pushBack(_range);
+			pushConstantRanges.push_back(_range);
 		}
 		pipelineLayoutInfo.pPushConstantRanges = pushConstantRanges.data();
 
@@ -54,29 +54,29 @@ namespace Backend
 		inputAssembly.topology = info.inputAssemblyTopology;
 		inputAssembly.primitiveRestartEnable = info.inputAssemblyPrimitiveRestartEnable;
 
-		ARRAY<VkViewport> viewports;
+		std::vector<VkViewport> viewports;
 		for (I32 i = 0; i < info.viewports.size(); i++) {
 			VkViewport viewport = {};
-			viewport.x = (F32)info.viewports[i].xOffset;
-			viewport.y = (F32)info.viewports[i].yOffset;
-			//viewport.width = (F32)info.viewports[i].width;
-			//viewport.height = (F32)info.viewports[i].height;
-			viewport.width = (F32)info.swapChainExtent.width;
-			viewport.height = (F32)info.swapChainExtent.height;
+			viewport.x = (float)info.viewports[i].xOffset;
+			viewport.y = (float)info.viewports[i].yOffset;
+			//viewport.width = (float)info.viewports[i].width;
+			//viewport.height = (float)info.viewports[i].height;
+			viewport.width = (float)info.swapChainExtent.width;
+			viewport.height = (float)info.swapChainExtent.height;
 			viewport.minDepth = 0.0f;
 			viewport.maxDepth = 1.0f;
 
-			viewports.pushBack(viewport);
+			viewports.push_back(viewport);
 		}
 
 		// initialize the scissor(s)
-		ARRAY<VkRect2D> scissors;
+		std::vector<VkRect2D> scissors;
 		for (UI32 i = 0; i < info.scissorCount; i++) {
 			VkRect2D scissor = {};
 			scissor.offset = info.offsets[i];
 			scissor.extent = info.swapChainExtent;
 
-			scissors.pushBack(scissor);
+			scissors.push_back(scissor);
 		}
 		// initialize the viewport state
 		VkPipelineViewportStateCreateInfo viewportState = {};
@@ -113,7 +113,7 @@ namespace Backend
 		depthStencil.depthBoundsTestEnable = info.depthStencilBoundsTestEnable;
 		depthStencil.stencilTestEnable = info.depthStencilTestEnable;
 
-		ARRAY<VkPipelineColorBlendAttachmentState> colorBlendAttachments;
+		std::vector<VkPipelineColorBlendAttachmentState> colorBlendAttachments;
 
 		// initialize the color blender(s)
 		for (UI32 i = 0; i < info.colorBlendingColorBlendCount; i++) {
@@ -121,11 +121,11 @@ namespace Backend
 			colorBlendAttachment.colorWriteMask = info.colorBlenderColorWriteMasks[i];
 			colorBlendAttachment.blendEnable = info.colorBlenderBlendEnables[i];
 
-			colorBlendAttachments.pushBack(colorBlendAttachment);
+			colorBlendAttachments.push_back(colorBlendAttachment);
 		}
 
 		for (VkPipelineColorBlendAttachmentState _state : info.additionalColorBlendStates)
-			colorBlendAttachments.pushBack(_state);
+			colorBlendAttachments.push_back(_state);
 
 		// initialize the color blender state
 		VkPipelineColorBlendStateCreateInfo colorBlending = {};
@@ -141,7 +141,7 @@ namespace Backend
 
 		// initialize dynamic state
 		VkPipelineDynamicStateCreateInfo dynamicStateInfo = {};
-		ARRAY<VkDynamicState> dynamicState = {
+		std::vector<VkDynamicState> dynamicState = {
 			VK_DYNAMIC_STATE_VIEWPORT,
 			VK_DYNAMIC_STATE_SCISSOR
 		};
@@ -152,7 +152,7 @@ namespace Backend
 			dynamicStateInfo.flags = info.dynamicStateFlags;
 		}
 
-		ARRAY<VkPipelineShaderStageCreateInfo> shaderStages;
+		std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
 		for (auto _shader : info.shaders)
 		{
 			VkPipelineShaderStageCreateInfo shaderStageInfo;
@@ -164,7 +164,7 @@ namespace Backend
 			shaderStageInfo.pSpecializationInfo = VK_NULL_HANDLE;
 			shaderStageInfo.stage = _shader.stageFlag;
 
-			shaderStages.pushBack(shaderStageInfo);
+			shaderStages.push_back(shaderStageInfo);
 		}
 
 		// initialize the pipeline
@@ -207,8 +207,8 @@ namespace Backend
 		//	_cache.basePipeline = _container.pipeline;
 		//	_cache.basePipelineLayout = _container.layout;
 		//	_cache.initInfo = info;
-		//	myGraphicsPipelineCache.pushBack(_cache);
-		//	myAllocatedInitInfos.pushBack(info);
+		//	myGraphicsPipelineCache.push_back(_cache);
+		//	myAllocatedInitInfos.push_back(info);
 		//}
 
 		return _container;

@@ -11,11 +11,11 @@
 
 namespace Backend
 {
-	static B1 pushDescriptorsSupported = false;
-	static B1 checkpointsSupported = false;
-	static B1 meshShadingSupported = false;
+	static bool pushDescriptorsSupported = false;
+	static bool checkpointsSupported = false;
+	static bool meshShadingSupported = false;
 
-	inline B1 VSYNC = true;
+	inline bool VSYNC = true;
 
 	//#define USE_SHADER_TESSELLATION
 	//#define USE_SHADER_GEOMETRY

@@ -47,7 +47,7 @@ public:
 	void addInstance(const STRING& name, const Vector3F& position, const Quaternion& rotation, const Vector3F& scale) {}
 
 	/* The mesh objects. */
-	ARRAY<DMKMeshObject> meshObjects;
+	std::vector<DMKMeshObject> meshObjects;
 
 public:
 	/*
@@ -62,7 +62,7 @@ public:
 
 	 @param sModules: The shader modules to be set.
 	*/
-	void setShaderModules(ARRAY<DMKShaderModule> sModules);
+	void setShaderModules(std::vector<DMKShaderModule> sModules);
 
 	/*
 	 Get a shader module stored in this object.
@@ -74,10 +74,10 @@ public:
 	/*
 	 Get all the shaders stored in the object.
 	*/
-	ARRAY<DMKShaderModule> getShaders();
+	std::vector<DMKShaderModule> getShaders();
 
 	/* The shader modules. */
-	ARRAY<DMKShaderModule> shaders;
+	std::vector<DMKShaderModule> shaders;
 
 public:
 	/*
@@ -92,7 +92,7 @@ public:
 
 	 @param requests: The requests to be set.
 	*/
-	void setResourceRequests(ARRAY<DMKResourceRequest> requests);
+	void setResourceRequests(std::vector<DMKResourceRequest> requests);
 
 	/*
 	 Get a resource request from the array.
@@ -104,16 +104,16 @@ public:
 	/*
 	 Get all the resource requests stored.
 	*/
-	ARRAY<DMKResourceRequest> getResourceRequests() const;
+	std::vector<DMKResourceRequest> getResourceRequests() const;
 
 	/* Resource Requests */
-	ARRAY<DMKResourceRequest> resourceRequests;
+	std::vector<DMKResourceRequest> resourceRequests;
 
 	/* Animations of the animated model */
-	ARRAY<DMKAnimation> animations;
+	std::vector<DMKAnimation> animations;
 
 public:
-	B1 isInitializedAnimatedEntity = false;
+	bool isInitializedAnimatedEntity = false;
 };
 
 

@@ -17,10 +17,10 @@ class DMK_API DMKMeshImporter {
 	~DMKMeshImporter() {}
 public:
 	/* Load a mesh component */
-	static ARRAY<DMKMeshObject> loadMeshes(const STRING& path, const DMKVertexLayout& vertexLayout);
+	static std::vector<DMKMeshObject> loadMeshes(const STRING& path, const DMKVertexLayout& vertexLayout);
 
 	/* Unload a loaded mesh component */
-	static void unloadMesh(const ARRAY<DMKMeshObject>& meshes);
+	static void unloadMesh(const std::vector<DMKMeshObject>& meshes);
 };
 
 #endif // !_DYNAMIK_MESH_IMPORTER_H.

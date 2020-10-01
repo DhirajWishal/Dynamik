@@ -13,21 +13,21 @@ void DMKAnimation::bake(DMKAnimNodeGraph nodeGraph, std::unordered_map<STRING, U
 		if (nodePoseMap.find(node.name) != nodePoseMap.end())
 		{
 			for (auto pose : nodePoseMap[node.name])
-				frames.transforms.pushBack(pose.getMatrix());
+				frames.transforms.push_back(pose.getMatrix());
 		}
 		else
 			frames.transforms.resize(Cast<UI32>(std::ceilf(framesPerSecond * duration)), node.worldTransform);
 
-		nodeFrames.pushBack(frames);
+		nodeFrames.push_back(frames);
 	}
 }
 
-ARRAY<Matrix4F> DMKAnimation::getMatrices(F32 timeStep)
+std::vector<Matrix4F> DMKAnimation::getMatrices(float timeStep)
 {
-	ARRAY<Matrix4F> matrices;
+	std::vector<Matrix4F> matrices;
 
 	for (auto frame : nodeFrames)
-		matrices.pushBack(frame.transforms[Cast<UI32>(timeStep)]);
+		matrices.push_back(frame.transforms[Cast<UI32>(timeStep)]);
 
 	return matrices;
 }

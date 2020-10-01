@@ -53,7 +53,7 @@ void LocalHeap::clearPool()
 	DMKMemoryFunctions::setData(myMemoryBlock.get(), 0, myAllocationSize);
 }
 
-VPTR LocalHeap::addToStore(VPTR data, UI32 byteSize)
+void* LocalHeap::addToStore(void* data, UI32 byteSize)
 {
 	if (myNextPtr == myMemoryBlock)
 	{
@@ -69,7 +69,7 @@ VPTR LocalHeap::addToStore(VPTR data, UI32 byteSize)
 	return _tmp.get();
 }
 
-void LocalHeap::deleteFromStore(VPTR data, UI32 byteSize)
+void LocalHeap::deleteFromStore(void* data, UI32 byteSize)
 {
 	DMKMemoryFunctions::setData(data, 0, byteSize);
 	myNextPtr -= byteSize;

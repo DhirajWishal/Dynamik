@@ -18,20 +18,20 @@ struct DMK_API RImageSamplerCreateInfo {
 	RImageSamplerAddressMode addressModeV = RImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
 	RImageSamplerAddressMode addressModeW = RImageSamplerAddressMode::IMAGE_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
 
-	F32 maxAntisotropy = 16.0f;
+	float maxAntisotropy = 16.0f;
 	RImageSamplerBorderColor borderColor = RImageSamplerBorderColor::IMAGE_SAMPLER_BORDER_COLOR_F32_OPAQUE_BLACK;
 	RStencilCompareOp compareOp = RStencilCompareOp::STENCIL_COMPARE_OP_NEVER;
 	RResourceMipMapMode mipmapMode = RResourceMipMapMode::RESOURCE_MIPMAP_MODE_LINEAR;
-	F32 minLOD = 0.0f;
-	F32 maxLOD = 1.0f;
-	F32 mipLODBias = 0.0f;
-	B1 unnormalizedCoordinates = false;
-	B1 compareEnable = false;
-	B1 enableAnisotropy = false;
+	float minLOD = 0.0f;
+	float maxLOD = 1.0f;
+	float mipLODBias = 0.0f;
+	bool unnormalizedCoordinates = false;
+	bool compareEnable = false;
+	bool enableAnisotropy = false;
 
 public:		/* Utility Methods */
-	static RImageSamplerCreateInfo createDefaultSampler(F32 levelOfDetail = 1.0f);
-	static RImageSamplerCreateInfo createCubeMapSampler(F32 levelOfDetail = 1.0f);
+	static RImageSamplerCreateInfo createDefaultSampler(float levelOfDetail = 1.0f);
+	static RImageSamplerCreateInfo createCubeMapSampler(float levelOfDetail = 1.0f);
 };
 
 /*

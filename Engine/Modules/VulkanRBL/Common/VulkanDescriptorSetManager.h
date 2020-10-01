@@ -34,8 +34,8 @@ namespace Backend
 	 Descriptor create info
 	*/
 	struct DMK_API VulkanDescriptorInitInfo {
-		ARRAY<VulkanTexture> textures;
-		ARRAY<VulkanBuffer> uniformBuffers;
+		std::vector<VulkanTexture> textures;
+		std::vector<VulkanBuffer> uniformBuffers;
 	};
 
 	/*
@@ -48,10 +48,10 @@ namespace Backend
 		VulkanDescriptorSetManager() {}
 		~VulkanDescriptorSetManager() {}
 
-		VulkanDescriptor createDescriptor(const VulkanDevice& vDevice, ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> layouts, ARRAY<ARRAY<VkDescriptorPoolSize>> poolSizes);
+		VulkanDescriptor createDescriptor(const VulkanDevice& vDevice, std::vector<std::vector<VkDescriptorSetLayoutBinding>> layouts, std::vector<std::vector<VkDescriptorPoolSize>> poolSizes);
 		void terminateDescriptor(const VulkanDevice& vDevice, const VulkanDescriptor& vDescriptor);
 
-		void updateDescriptor(const VulkanDevice& vDevice, const VkDescriptorSet vSet, ARRAY<std::pair<VkDescriptorBufferInfo, UI32>> bufferInfos, ARRAY<VkDescriptorImageInfo> imageInfos, ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> layouts);
+		void updateDescriptor(const VulkanDevice& vDevice, const VkDescriptorSet vSet, std::vector<std::pair<VkDescriptorBufferInfo, UI32>> bufferInfos, std::vector<VkDescriptorImageInfo> imageInfos, std::vector<std::vector<VkDescriptorSetLayoutBinding>> layouts);
 	};
 }
 

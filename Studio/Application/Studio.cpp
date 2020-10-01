@@ -76,7 +76,7 @@ void DMKStudio::execute()
 		/* TODO: Im gui commands. */
 		{
 			ImGuiIO& io = ImGui::GetIO();
-			io.DisplaySize = ImVec2(Cast<F32>(pActiveWindow->windowWidth), Cast<F32>(pActiveWindow->windowHeight));
+			io.DisplaySize = ImVec2(Cast<float>(pActiveWindow->windowWidth), Cast<float>(pActiveWindow->windowHeight));
 
 			imGuiWrapper.draw();
 

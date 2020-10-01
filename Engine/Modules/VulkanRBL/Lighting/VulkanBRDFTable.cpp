@@ -73,7 +73,7 @@ namespace Backend
 	{
 		renderTarget.pRenderPass = StaticAllocator<VulkanRenderPass>::rawAllocate();
 
-		ARRAY<RSubpassAttachment> subpassAttachments(1);
+		std::vector<RSubpassAttachment> subpassAttachments(1);
 		subpassAttachments[0].subpass = RSubPasses::SUBPASSES_COLOR;
 		subpassAttachments[0].format = format;
 		subpassAttachments[0].samples = DMK_SAMPLE_COUNT_1_BIT;
@@ -84,7 +84,7 @@ namespace Backend
 		subpassAttachments[0].initialLayout = RImageLayout::IMAGE_LAYOUT_UNDEFINED;
 		subpassAttachments[0].finalLayout = RImageLayout::IMAGE_LAYOUT_SHADER_READ_ONLY;
 
-		ARRAY<RSubpassDependency> subpassDependencies(2);
+		std::vector<RSubpassDependency> subpassDependencies(2);
 		RSubpassDependency subpassDependency;
 		subpassDependency.pipelineDependency = RPipelineDependency::DEPENDENCY_BY_REGION;
 
@@ -119,9 +119,9 @@ namespace Backend
 
 	void VulkanBRDFTable::_initializePipelines(RCoreObject* pCoreObject)
 	{
-		ARRAY<DMKShaderModule> shaders;
-		shaders.pushBack(DMKShaderModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_BRDF_TABLE_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
-		shaders.pushBack(DMKShaderModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_BRDF_TABLE_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+		std::vector<DMKShaderModule> shaders;
+		shaders.push_back(DMKShaderModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_BRDF_TABLE_VERT_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
+		shaders.push_back(DMKShaderModule(DMKAssetRegistry::getAsset(TEXT("SHADER_PBR_IBL_BRDF_TABLE_FRAG_SPV")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT, DMKShaderCodeType::DMK_SHADER_CODE_TYPE_SPIRV));
 
 		DMKViewport _viewport;
 		_viewport.width = Cast<I32>(dimentions.width);

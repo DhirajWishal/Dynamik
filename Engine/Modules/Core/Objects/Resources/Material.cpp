@@ -27,7 +27,7 @@ void DMKMaterialProperties::initialize()
 	pDataStore = StaticAllocator<BYTE>::allocate(allocationSize);
 }
 
-void DMKMaterialProperties::setData(const STRING& name, const VPTR data, UI64 size, UI64 offset)
+void DMKMaterialProperties::setData(const STRING& name, const void* data, UI64 size, UI64 offset)
 {
 	auto mProperty = propertyMap[name];
 
@@ -37,7 +37,7 @@ void DMKMaterialProperties::setData(const STRING& name, const VPTR data, UI64 si
 		DMKMemoryFunctions::copyData(IncrementPointer(pDataStore, mProperty.offset), data, mProperty.byteSize);
 }
 
-void DMKMaterialProperties::set(const VPTR data)
+void DMKMaterialProperties::set(const void* data)
 {
 	DMKMemoryFunctions::copyData(pDataStore, data, allocationSize);
 }
@@ -57,7 +57,7 @@ const UI64 DMKMaterialProperties::size() const
 	return allocationSize;
 }
 
-VPTR DMKMaterialProperties::data() const
+void* DMKMaterialProperties::data() const
 {
 	return pDataStore;
 }
@@ -76,7 +76,7 @@ void DMKMaterial::addTexture(DMKTexture* pTexture, MaterialTextureType textureTy
 	MTextureContainer container;
 	container.pTexture = pTexture;
 	container.type = textureType;
-	textureContainers.pushBack(container);
+	textureContainers.push_back(container);
 }
 
 DMKMaterial DMKMaterial::createMetalGold()

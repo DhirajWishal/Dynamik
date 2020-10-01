@@ -51,7 +51,7 @@ public:
 	 @param size: The size of the data. Default is 0.
 	 @param offset: The offset of the property in memory. Default is 0.
 	*/
-	void setData(const STRING& name, const VPTR data, UI64 size = 0, UI64 offset = 0);
+	void setData(const STRING& name, const void* data, UI64 size = 0, UI64 offset = 0);
 
 	/*
 	 Sets data to the whole property list.
@@ -59,7 +59,7 @@ public:
 
 	 @param data: The data to be set.
 	*/
-	void set(const VPTR data);
+	void set(const void* data);
 
 	/*
 	 Get the stored property byte size using its name.
@@ -83,7 +83,7 @@ public:
 	/*
 	 Get the data store pointer.
 	*/
-	VPTR data() const;
+	void* data() const;
 
 	/*
 	 Deallocates the property memory block.
@@ -93,7 +93,7 @@ public:
 private:
 	std::unordered_map<STRING, MProperty> propertyMap;
 	UI64 allocationSize = 0;
-	VPTR pDataStore = nullptr;
+	void* pDataStore = nullptr;
 };
 
 /*
@@ -123,7 +123,7 @@ class DMK_API DMKMaterial {
 
 public:
 	DMKMaterial() = default;
-	DMKMaterial(STRING name, DMKColorComponent surface, DMKColorComponent subSurface, F32 roughness, F32 metalic)
+	DMKMaterial(STRING name, DMKColorComponent surface, DMKColorComponent subSurface, float roughness, float metalic)
 		: name(name), surfaceColor(surface), subSurfaceColor(subSurface), roughness(roughness), metallicness(metalic) {}
 	~DMKMaterial() = default;
 
@@ -145,16 +145,16 @@ public:
 	DMKColorComponent subSurfaceColor;
 
 	/* Roughness */
-	F32 roughness = 0.0f;
+	float roughness = 0.0f;
 
 	/* Metallicness */
-	F32 metallicness = 0.0f;
+	float metallicness = 0.0f;
 
 	/* Specular */
-	F32 specular = 0.0f;
+	float specular = 0.0f;
 
 	/* Textures */
-	ARRAY<MTextureContainer> textureContainers;
+	std::vector<MTextureContainer> textureContainers;
 
 	DMKMaterialProperties properties = {};
 
@@ -180,15 +180,15 @@ public:		/* Push Block Utilities */
 	*/
 	struct DMK_API MaterialPushBlock {
 		MaterialPushBlock() = default;
-		MaterialPushBlock(DMKColorComponent surface, DMKColorComponent subSurface, F32 roughness, F32 metalic, F32 specular)
+		MaterialPushBlock(DMKColorComponent surface, DMKColorComponent subSurface, float roughness, float metalic, float specular)
 			: surfaceColor(surface), subSurfaceColor(subSurface), roughness(roughness), metallicness(metalic), specular(specular) {}
 		~MaterialPushBlock() = default;
 
 		DMKColorComponent surfaceColor;
 		DMKColorComponent subSurfaceColor;
-		F32 roughness = 0;
-		F32 metallicness = 0;
-		F32 specular = 0;
+		float roughness = 0;
+		float metallicness = 0;
+		float specular = 0;
 	};
 
 	/*

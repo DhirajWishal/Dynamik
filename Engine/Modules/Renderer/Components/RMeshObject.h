@@ -33,7 +33,7 @@ public:		/* Vertex and Index Data */
 	UI64 indexBufferOffset = 0;
 
 public:		/* Resource Data */
-	ARRAY<RTexture*> pTextures;
+	std::vector<RTexture*> pTextures;
 	UI64 resourceIndex = 0;
 
 	UI64 vertexCount = 0;

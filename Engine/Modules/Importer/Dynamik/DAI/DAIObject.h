@@ -36,12 +36,12 @@ public:
 
 	void load();
 
-	ARRAY<STRING> meshes;
-	ARRAY<STRING> textures;
-	ARRAY<STRING> vertexShaders;
-	ARRAY<STRING> tessellationShaders;
-	ARRAY<STRING> geometryShaders;
-	ARRAY<STRING> fragmentShaders;
+	std::vector<STRING> meshes;
+	std::vector<STRING> textures;
+	std::vector<STRING> vertexShaders;
+	std::vector<STRING> tessellationShaders;
+	std::vector<STRING> geometryShaders;
+	std::vector<STRING> fragmentShaders;
 
 private:
 	inline void _loadContent();

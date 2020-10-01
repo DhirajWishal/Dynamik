@@ -34,8 +34,8 @@ public:
 	virtual void update() = 0;
 
 protected:
-	ARRAY<DMKShaderModule> shaders;
-	ARRAY<RCommandBuffer*> pCommandBuffers;
+	std::vector<DMKShaderModule> shaders;
+	std::vector<RCommandBuffer*> pCommandBuffers;
 
 	RCoreObject* pCoreObject = nullptr;
 	RRenderTarget* pRenderTarget = nullptr;

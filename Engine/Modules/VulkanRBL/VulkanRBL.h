@@ -24,10 +24,10 @@ namespace Backend
 		virtual RSwapChain* createSwapChain(DMKViewport viewport, RSwapChainPresentMode presentMode) override final;
 		virtual void terminateSwapChain(RSwapChain* pSwapChain) override final;
 
-		virtual RRenderTarget* createRenderTarget(RSwapChain* pSwapChain, ARRAY<RSubpassAttachment> subPasses, ARRAY<RSubpassDependency> subPassDependencies) override final;
+		virtual RRenderTarget* createRenderTarget(RSwapChain* pSwapChain, std::vector<RSubpassAttachment> subPasses, std::vector<RSubpassDependency> subPassDependencies) override final;
 		virtual void terminateRenderTarget(RRenderTarget* pRenderTarget) override final;
 
-		virtual RRenderPass* createRenderPass(RSwapChain* pSwapChain, ARRAY<RSubpassAttachment> subPasses, ARRAY<RSubpassDependency> subPassDependencies) override final;
+		virtual RRenderPass* createRenderPass(RSwapChain* pSwapChain, std::vector<RSubpassAttachment> subPasses, std::vector<RSubpassDependency> subPassDependencies) override final;
 		virtual void terminateRenderPass(RRenderPass* pRenderPass) override final;
 
 		virtual RFrameBuffer* createFrameBuffer(RSwapChain* pSwapChain, RRenderPass* pRenderPass) override final;

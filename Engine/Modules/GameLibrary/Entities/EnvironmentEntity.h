@@ -49,7 +49,7 @@ public:
 
 	 @param sModules: The shader modules to be set.
 	*/
-	void setShaderModules(ARRAY<DMKShaderModule> sModules);
+	void setShaderModules(std::vector<DMKShaderModule> sModules);
 
 	/*
 	 Get a shader module stored in this object.
@@ -61,10 +61,10 @@ public:
 	/*
 	 Get all the shaders stored in the object.
 	*/
-	ARRAY<DMKShaderModule> getShaders();
+	std::vector<DMKShaderModule> getShaders();
 
 	/* The shader modules */
-	ARRAY<DMKShaderModule> shaders;
+	std::vector<DMKShaderModule> shaders;
 
 	/* The sky box mesh */
 	DMKMeshObject skyBoxMesh;
@@ -75,7 +75,7 @@ public:
 	*/
 	void clearEnvironmentMap();
 
-	B1 isInitializedEnvironmentEntity = false;
+	bool isInitializedEnvironmentEntity = false;
 };
 
 #endif // !_DYNAMIK_ENVIRONMENT_MAP_H

@@ -8,20 +8,20 @@
 
 void DMKEnvironmentEntity::addShaderModule(const DMKShaderModule& sModule)
 {
-	shaders.pushBack(sModule);
+	shaders.push_back(sModule);
 }
 
-void DMKEnvironmentEntity::setShaderModules(ARRAY<DMKShaderModule> sModules)
+void DMKEnvironmentEntity::setShaderModules(std::vector<DMKShaderModule> sModules)
 {
 	shaders = std::move(sModules);
 }
 
 DMKShaderModule* DMKEnvironmentEntity::getShaderModule(I32 index)
 {
-	return shaders.location(index);
+	return &shaders.at(index);
 }
 
-ARRAY<DMKShaderModule> DMKEnvironmentEntity::getShaders()
+std::vector<DMKShaderModule> DMKEnvironmentEntity::getShaders()
 {
 	return shaders;
 }

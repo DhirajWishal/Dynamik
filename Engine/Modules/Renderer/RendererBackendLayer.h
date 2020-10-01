@@ -35,10 +35,10 @@ public:
 	virtual RSwapChain* createSwapChain(DMKViewport viewport, RSwapChainPresentMode presentMode) { return nullptr; }
 	virtual void terminateSwapChain(RSwapChain* pSwapChain) {}
 
-	virtual RRenderTarget* createRenderTarget(RSwapChain* pSwapChain, ARRAY<RSubpassAttachment> subPasses, ARRAY<RSubpassDependency> subPassDependencies) { return nullptr; }
+	virtual RRenderTarget* createRenderTarget(RSwapChain* pSwapChain, std::vector<RSubpassAttachment> subPasses, std::vector<RSubpassDependency> subPassDependencies) { return nullptr; }
 	virtual void terminateRenderTarget(RRenderTarget* pRenderTarget) {}
 
-	virtual RRenderPass* createRenderPass(RSwapChain* pSwapChain, ARRAY<RSubpassAttachment> subPasses, ARRAY<RSubpassDependency> subPassDependencies) { return nullptr; }
+	virtual RRenderPass* createRenderPass(RSwapChain* pSwapChain, std::vector<RSubpassAttachment> subPasses, std::vector<RSubpassDependency> subPassDependencies) { return nullptr; }
 	virtual void terminateRenderPass(RRenderPass* pRenderPass) {}
 
 	virtual RFrameBuffer* createFrameBuffer(RSwapChain* pSwapChain, RRenderPass* pRenderPass) { return nullptr; }

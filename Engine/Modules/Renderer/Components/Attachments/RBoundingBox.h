@@ -21,7 +21,7 @@ public:
 	virtual void initialize(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, RSwapChain* pSwapChain, RBuffer* pCameraUniform);
 	virtual void terminate(RCoreObject* pCoreObject);
 
-	ARRAY<DMKShaderModule> shaders;
+	std::vector<DMKShaderModule> shaders;
 	RPipelineObject* pPipeline = nullptr;
 	RPipelineResource* pPipelineResource = nullptr;
 	RBuffer* pUniformBuffer = nullptr;

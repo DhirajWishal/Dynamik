@@ -21,8 +21,8 @@
         */
         struct DMK_API VulkanSwapChainSupportDetails {
             VkSurfaceCapabilitiesKHR capabilities = {};
-            ARRAY<VkSurfaceFormatKHR> formats = {};
-            ARRAY<VkPresentModeKHR> presentModes = {};
+            std::vector<VkSurfaceFormatKHR> formats = {};
+            std::vector<VkPresentModeKHR> presentModes = {};
         };
 
         /*

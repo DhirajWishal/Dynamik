@@ -49,7 +49,7 @@ public:
 
 	 @param address: The address of the data block.
 	*/
-	void loadVertexDataFromPointer(const VPTR address);
+	void loadVertexDataFromPointer(const void* address);
 
 	/*
 	 Load index data from an address.
@@ -58,7 +58,7 @@ public:
 
 	 @param address: The address of the data block.
 	*/
-	void loadIndexDataFromPointer(const VPTR address);
+	void loadIndexDataFromPointer(const void* address);
 
 public:
 	/*

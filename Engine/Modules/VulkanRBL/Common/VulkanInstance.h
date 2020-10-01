@@ -20,15 +20,15 @@ namespace Backend
 		~VulkanInstance() {}
 
 		void addExtension(const CCPTR& extension);
-		void initialize(B1 enableValidation, ARRAY<CCPTR> layers = { "VK_LAYER_KHRONOS_validation" });
+		void initialize(bool enableValidation, std::vector<CCPTR> layers = { "VK_LAYER_KHRONOS_validation" });
 		void terminate();
 
 		operator VkInstance() const;
 
-		ARRAY<CCPTR> validationLayers;
-		ARRAY<CCPTR> extentions;
+		std::vector<CCPTR> validationLayers;
+		std::vector<CCPTR> extentions;
 		VkInstance instance = VK_NULL_HANDLE;
-		B1 isValidationEnabled = false;
+		bool isValidationEnabled = false;
 
 	private:
 		VkDebugUtilsMessengerEXT _debugMessenger = VK_NULL_HANDLE;
@@ -36,8 +36,8 @@ namespace Backend
 		void _initializeDebugger();
 		void _populateDebugMessegerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT* createInfo);
 
-		B1 _checkValidationLayerSupport(ARRAY<CCPTR> layers);
-		ARRAY<CCPTR> _getRequiredExtensions(B1 pushDescriptorsSupported = false, B1 checkpointsSupported = false, B1 meshShadingSupported = false);
+		bool _checkValidationLayerSupport(std::vector<CCPTR> layers);
+		std::vector<CCPTR> _getRequiredExtensions(bool pushDescriptorsSupported = false, bool checkpointsSupported = false, bool meshShadingSupported = false);
 	};
 }
 

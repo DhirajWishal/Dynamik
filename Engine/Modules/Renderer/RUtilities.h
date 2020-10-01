@@ -15,13 +15,13 @@ class DMK_API RUtilities {
 public:
 	static RPipelineObject* allocatePipeline(DMKRenderingAPI API);
 	static RBuffer* allocateBuffer(DMKRenderingAPI API);
-	static ARRAY<RColorBlendState> createBasicColorBlendStates();
-	static ARRAY<RSubpassAttachment> createSubPasses(DMKRenderContextType contextType, RCoreObject* pCoreObject, RSwapChain* pSwapChain);
-	static ARRAY<RSubPasses> getSubpassNames(DMKRenderContextType contextType);
+	static std::vector<RColorBlendState> createBasicColorBlendStates();
+	static std::vector<RSubpassAttachment> createSubPasses(DMKRenderContextType contextType, RCoreObject* pCoreObject, RSwapChain* pSwapChain);
+	static std::vector<RSubPasses> getSubpassNames(DMKRenderContextType contextType);
 
-	static ARRAY<ARRAY<RFrameBufferAttachment*>> getFrameBufferAttachments(DMKRenderingAPI API, ARRAY<RSubpassAttachment> subPassAttachments, RCoreObject* pCoreObject, RSwapChain* pSwapChain, DMKExtent2D imageExtent);
+	static std::vector<std::vector<RFrameBufferAttachment*>> getFrameBufferAttachments(DMKRenderingAPI API, std::vector<RSubpassAttachment> subPassAttachments, RCoreObject* pCoreObject, RSwapChain* pSwapChain, DMKExtent2D imageExtent);
 
-	static RTexture* createBRDFTable(RCoreObject* pCoreObject, F32 dimentions);
+	static RTexture* createBRDFTable(RCoreObject* pCoreObject, float dimentions);
 };
 
 #endif // !_DYNAMIK_RENDERER_UTILITIES_H

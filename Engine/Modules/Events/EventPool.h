@@ -172,8 +172,8 @@ public:
 	static DMKKeyEventComponent KeyDivide;
 
 	/* Application Events */
-	static B1 WindowCloseEvent;
-	static B1 FrameBufferResizeEvent;
+	static bool WindowCloseEvent;
+	static bool FrameBufferResizeEvent;
 
 private:
 	std::unordered_map<STRING, DMKEventComponent*> componentMap;

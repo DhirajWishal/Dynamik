@@ -28,7 +28,7 @@ namespace Backend
 		operator VkPipelineLayout() const;
 		operator VkPipeline() const;
 
-		ARRAY<VkRayTracingShaderGroupCreateInfoKHR> shaderGroups;
+		std::vector<VkRayTracingShaderGroupCreateInfoKHR> shaderGroups;
 
 		VkDescriptorSetLayout descriptorSetLayout = VK_NULL_HANDLE;
 		VkPipelineLayout layout = VK_NULL_HANDLE;

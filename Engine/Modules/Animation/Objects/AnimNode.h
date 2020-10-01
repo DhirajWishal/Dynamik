@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_ANIMATION_NODE_H
 #define _DYNAMIK_ANIMATION_NODE_H
 
-#include "Core/Types/Array.h"
+#include <vector>
 #include "Core/Math/Matrix/Matrix4F.h"
 
 /*
@@ -61,7 +61,7 @@ public:
 	/*
 	 Add vertex ID and vertex weight of the node.
 	*/
-	void addVertexData(const UI32& vertexID, const F32& weight);
+	void addVertexData(const UI32& vertexID, const float& weight);
 
 	/* The offset matrix */
 	Matrix4F offsetMatrix = Matrix4F(1.0f);
@@ -73,13 +73,13 @@ public:
 	Matrix4F worldTransform = Matrix4F(1.0f);
 
 	/* Child node indexes */
-	ARRAY<UI64> childNodeIndexes;
+	std::vector<UI64> childNodeIndexes;
 
 	/* Vertex IDs */
-	ARRAY<UI32> vertexIDs;
+	std::vector<UI32> vertexIDs;
 
 	/* Weights */
-	ARRAY<F32> weights;
+	std::vector<float> weights;
 
 	/* Node name */
 	STRING name = TEXT("");

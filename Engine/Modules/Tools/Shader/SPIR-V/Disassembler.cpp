@@ -11,7 +11,7 @@
 
 namespace Tools
 {
-	DMK_FORCEINLINE std::vector<UI32> ConvertToUI32Vector(const ARRAY<UI32>& code)
+	DMK_FORCEINLINE std::vector<UI32> ConvertToUI32Vector(const std::vector<UI32>& code)
 	{
 		std::vector<UI32> _code((code.size() / 4));
 
@@ -38,18 +38,18 @@ namespace Tools
 	DMK_FORCEINLINE UI64 GetFormatToSize(VkFormat format)
 	{
 		if (format == VK_FORMAT_R32_SFLOAT)
-			return sizeof(F32) * 1;
+			return sizeof(float) * 1;
 		else if (format == VK_FORMAT_R32G32_SFLOAT)
-			return sizeof(F32) * 2;
+			return sizeof(float) * 2;
 		else if (format == VK_FORMAT_R32G32B32_SFLOAT)
-			return sizeof(F32) * 3;
+			return sizeof(float) * 3;
 		else if (format == VK_FORMAT_R32G32B32A32_SFLOAT)
-			return sizeof(F32) * 4;
+			return sizeof(float) * 4;
 
 		return 0;
 	}
 
-	ARRAY<DMKUniformBuffer> SPIRVDisassembler::getUniformBuffers()
+	std::vector<DMKUniformBuffer> SPIRVDisassembler::getUniformBuffers()
 	{
 		if (!isParsed)
 			_parseModule();
@@ -57,7 +57,7 @@ namespace Tools
 		return uniformBuffers;
 	}
 
-	ARRAY<DMKShaderInputAttribute> SPIRVDisassembler::getInputAttributes()
+	std::vector<DMKShaderInputAttribute> SPIRVDisassembler::getInputAttributes()
 	{
 		if (!isParsed)
 			_parseModule();
@@ -110,7 +110,7 @@ namespace Tools
 			}
 
 			_uniformBuffer.initialize();
-			uniformBuffers.pushBack(_uniformBuffer);
+			uniformBuffers.push_back(_uniformBuffer);
 		}
 
 		/* Storage buffers */
@@ -122,7 +122,7 @@ namespace Tools
 			for (auto ID : _compiler.get_type(resource.base_type_id).member_types)
 			{
 				auto Ty = _compiler.get_type(ID);
-				UI32 byteSize = (Ty.width / sizeof(F32)) * Ty.vecsize * Ty.columns;
+				UI32 byteSize = (Ty.width / sizeof(float)) * Ty.vecsize * Ty.columns;
 				offsetCount += byteSize;
 			}
 
@@ -138,7 +138,7 @@ namespace Tools
 			}
 
 			_uniformBuffer.initialize();
-			uniformBuffers.pushBack(_uniformBuffer);
+			uniformBuffers.push_back(_uniformBuffer);
 		}
 
 		/* Shader inputs */
@@ -153,7 +153,7 @@ namespace Tools
 			DMKShaderInputAttribute _inputAttribute;
 			_inputAttribute.dataCount = _type.columns;
 			_inputAttribute.dataFormat = Cast<DMKFormat>(GetFormat(_type.vecsize));
-			inputAttributes.pushBack(_inputAttribute);
+			inputAttributes.push_back(_inputAttribute);
 		}
 
 
@@ -188,7 +188,7 @@ namespace Tools
 				_uniformBuffer.addAttribute(STRING(_compiler.get_member_name(resource.base_type_id, index)), byteSize);
 			}
 			
-			uniformBuffers.pushBack(_uniformBuffer);
+			uniformBuffers.push_back(_uniformBuffer);
 		}
 
 		/* Shader sampled images */
@@ -208,7 +208,7 @@ namespace Tools
 				_uniformBuffer.addAttribute(STRING(_compiler.get_member_name(resource.base_type_id, index)), byteSize);
 			}
 
-			uniformBuffers.pushBack(_uniformBuffer);
+			uniformBuffers.push_back(_uniformBuffer);
 		}
 
 		/* Shader atomic counters */
@@ -236,7 +236,7 @@ namespace Tools
 			}
 
 			_uniformBuffer.initialize();
-			uniformBuffers.pushBack(_uniformBuffer);
+			uniformBuffers.push_back(_uniformBuffer);
 		}
 
 		/* Shader push constant buffers */
@@ -257,7 +257,7 @@ namespace Tools
 			}
 
 			_uniformBuffer.initialize();
-			uniformBuffers.pushBack(_uniformBuffer);
+			uniformBuffers.push_back(_uniformBuffer);
 		}
 
 		/* Shader separate images */
@@ -277,7 +277,7 @@ namespace Tools
 				_uniformBuffer.addAttribute(STRING(_compiler.get_member_name(resource.base_type_id, index)), byteSize);
 			}
 
-			uniformBuffers.pushBack(_uniformBuffer);
+			uniformBuffers.push_back(_uniformBuffer);
 		}
 
 		/* Shader samplers */

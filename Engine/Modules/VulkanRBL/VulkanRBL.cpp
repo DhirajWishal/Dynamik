@@ -59,7 +59,7 @@ namespace Backend
 		StaticAllocator<VulkanSwapChain>::rawDeallocate(pSwapChain);
 	}
 
-	RRenderTarget* VulkanRBL::createRenderTarget(RSwapChain* pSwapChain, ARRAY<RSubpassAttachment> subPasses, ARRAY<RSubpassDependency> subPassDependencies)
+	RRenderTarget* VulkanRBL::createRenderTarget(RSwapChain* pSwapChain, std::vector<RSubpassAttachment> subPasses, std::vector<RSubpassDependency> subPassDependencies)
 	{
 		if (!pSwapChain)
 		{
@@ -96,7 +96,7 @@ namespace Backend
 		StaticAllocator<RRenderTarget>::rawDeallocate(pRenderTarget);
 	}
 
-	RRenderPass* VulkanRBL::createRenderPass(RSwapChain* pSwapChain, ARRAY<RSubpassAttachment> subPasses, ARRAY<RSubpassDependency> subPassDependencies)
+	RRenderPass* VulkanRBL::createRenderPass(RSwapChain* pSwapChain, std::vector<RSubpassAttachment> subPasses, std::vector<RSubpassDependency> subPassDependencies)
 	{
 		if (!pSwapChain)
 		{

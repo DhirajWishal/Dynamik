@@ -49,9 +49,9 @@ public:
 private:
 	virtual void initializeSyncComponents() override final;
 
-	ARRAY<VkSemaphore> imageAvailables;
-	ARRAY<VkSemaphore> renderFinished;
-	ARRAY<VkFence> inFlightFences;
+	std::vector<VkSemaphore> imageAvailables;
+	std::vector<VkSemaphore> renderFinished;
+	std::vector<VkFence> inFlightFences;
 
 	UI32 currentFrameIndex = 0;
 	UI32 imageIndex = 0;

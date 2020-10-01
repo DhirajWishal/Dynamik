@@ -8,21 +8,21 @@
 
 namespace Backend
 {
-	VulkanDescriptor VulkanDescriptorSetManager::createDescriptor(const VulkanDevice& vDevice, ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> layouts, ARRAY<ARRAY<VkDescriptorPoolSize>> poolSizes)
+	VulkanDescriptor VulkanDescriptorSetManager::createDescriptor(const VulkanDevice& vDevice, std::vector<std::vector<VkDescriptorSetLayoutBinding>> layouts, std::vector<std::vector<VkDescriptorPoolSize>> poolSizes)
 	{
 		VulkanDescriptor _descriptor;
 
 		/* Initialize basic data */
-		ARRAY<VkDescriptorSetLayoutBinding> _finalBindings;
-		ARRAY<VkDescriptorPoolSize> _finalSizes;
+		std::vector<VkDescriptorSetLayoutBinding> _finalBindings;
+		std::vector<VkDescriptorPoolSize> _finalSizes;
 
 		for (auto _layout : layouts)
 			for (auto _binding : _layout)
-				_finalBindings.pushBack(_binding);
+				_finalBindings.push_back(_binding);
 
 		for (auto _pool : poolSizes)
 			for (auto _size : _pool)
-				_finalSizes.pushBack(_size);
+				_finalSizes.push_back(_size);
 
 		/* Initialize layout */
 		VkDescriptorSetLayoutCreateInfo layoutCrateInfo;
@@ -64,9 +64,9 @@ namespace Backend
 		vkDestroyDescriptorPool(vDevice, vDescriptor.pool, VK_NULL_HANDLE);
 	}
 
-	void VulkanDescriptorSetManager::updateDescriptor(const VulkanDevice& vDevice, const VkDescriptorSet vSet, ARRAY<std::pair<VkDescriptorBufferInfo, UI32>> bufferInfos, ARRAY<VkDescriptorImageInfo> imageInfos, ARRAY<ARRAY<VkDescriptorSetLayoutBinding>> layouts)
+	void VulkanDescriptorSetManager::updateDescriptor(const VulkanDevice& vDevice, const VkDescriptorSet vSet, std::vector<std::pair<VkDescriptorBufferInfo, UI32>> bufferInfos, std::vector<VkDescriptorImageInfo> imageInfos, std::vector<std::vector<VkDescriptorSetLayoutBinding>> layouts)
 	{
-		ARRAY<VkWriteDescriptorSet> descriptorWrites;
+		std::vector<VkWriteDescriptorSet> descriptorWrites;
 		UI64 bufferIndex = 0;
 		UI64 imageIndex = 0;
 
@@ -141,7 +141,7 @@ namespace Backend
 					break;
 				}
 
-				descriptorWrites.pushBack(_write);
+				descriptorWrites.push_back(_write);
 			}
 		}
 

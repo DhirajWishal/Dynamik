@@ -51,7 +51,7 @@ public:
 	void end();
 
 private:
-	D64 startTime = 0.0;
+	double startTime = 0.0;
 	DMKTickSize tickSize = DMKTickSize::DMK_TICK_SIZE_MILLISECOND;
 };
 

@@ -73,13 +73,13 @@ struct DMK_API RSubpassDependency {
 class DMK_API RRenderPass {
 public:
 	RRenderPass() {}
-	RRenderPass(ARRAY<RSubpassAttachment> aSubPasses) : subPasses(aSubPasses) {}
+	RRenderPass(std::vector<RSubpassAttachment> aSubPasses) : subPasses(aSubPasses) {}
 	virtual ~RRenderPass() {}
 
-	virtual void initialize(RCoreObject* pCoreObject, ARRAY<RSubpassAttachment> aSubPasses, ARRAY<RSubpassDependency> dependencies, RSwapChain* pSwapChain, DMKFormat overrideFormat = DMKFormat::DMK_FORMAT_UNDEFINED) = 0;
+	virtual void initialize(RCoreObject* pCoreObject, std::vector<RSubpassAttachment> aSubPasses, std::vector<RSubpassDependency> dependencies, RSwapChain* pSwapChain, DMKFormat overrideFormat = DMKFormat::DMK_FORMAT_UNDEFINED) = 0;
 	virtual void terminate(RCoreObject* pCoreObject) = 0;
 
-	ARRAY<RSubpassAttachment> subPasses;
+	std::vector<RSubpassAttachment> subPasses;
 };
 
 #endif // !_DYNAMIK_RENDERER_RENDER_PASS_H

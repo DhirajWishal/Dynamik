@@ -14,9 +14,9 @@ namespace Backend
 	void VulkanTexture::initialize(RCoreObject* pCoreObject, DMKTexture* pTextureObject)
 	{
 		RImageCreateInfo initInfo;
-		initInfo.vDimentions.width = (F32)pTextureObject->width;
-		initInfo.vDimentions.height = (F32)pTextureObject->height;
-		initInfo.vDimentions.depth = (F32)pTextureObject->depth;
+		initInfo.vDimentions.width = (float)pTextureObject->width;
+		initInfo.vDimentions.height = (float)pTextureObject->height;
+		initInfo.vDimentions.depth = (float)pTextureObject->depth;
 		initInfo.imageType = pTextureObject->type;
 		initInfo.imageUsage = (RImageUsage)(RImageUsage::IMAGE_USAGE_RENDER | RImageUsage::IMAGE_USAGE_TRANSFER_SRC | RImageUsage::IMAGE_USAGE_TRANSFER_DST);
 		initInfo.layers = pTextureObject->layerCount;
@@ -57,7 +57,7 @@ namespace Backend
 	{
 		pSampler = (RImageSampler*)StaticAllocator<VulkanImageSampler>::rawAllocate();
 
-		createInfo.maxLOD = Cast<F32>(pImage->mipLevel);
+		createInfo.maxLOD = Cast<float>(pImage->mipLevel);
 		pSampler->initialize(pCoreObject, createInfo);
 	}
 

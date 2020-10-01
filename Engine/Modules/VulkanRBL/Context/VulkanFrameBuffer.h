@@ -19,12 +19,12 @@ namespace Backend
 		VulkanFrameBuffer() {}
 		~VulkanFrameBuffer() {}
 
-		virtual void initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, DMKExtent2D frameExtent, UI32 bufferCount, ARRAY<ARRAY<RFrameBufferAttachment*>> pAttachments) override final;
+		virtual void initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, DMKExtent2D frameExtent, UI32 bufferCount, std::vector<std::vector<RFrameBufferAttachment*>> pAttachments) override final;
 		virtual void terminate(RCoreObject* pCoreObject) override final;
 
 		const VkFramebuffer operator[](UI32 index) const;
 
-		ARRAY<VkFramebuffer> buffers;
+		std::vector<VkFramebuffer> buffers;
 	};
 }
 

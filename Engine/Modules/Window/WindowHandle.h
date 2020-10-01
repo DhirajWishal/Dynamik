@@ -7,7 +7,7 @@
 
 #include "Events/EventPool.h"
 #include "Core/Types/DataTypes.h"
-#include "Core/Types/Array.h"
+#include <vector>
 #include "Core/Types/ComplexTypes.h"
 
 class DMK_API DMKWindowHandle;
@@ -55,9 +55,9 @@ public:
 	virtual void clean() {}
 	virtual void terminate() {}
 
-	DMKExtent2D getWindowExtent() { return { (F32)windowWidth, (F32)windowHeight }; }
+	DMKExtent2D getWindowExtent() { return { (float)windowWidth, (float)windowHeight }; }
 
-	virtual B1 isVulkanCompatible() { return false; }
+	virtual bool isVulkanCompatible() { return false; }
 
 	virtual DMKViewport createViewport(I32 width, I32 height, I32 xOffset, I32 yOffset) { return DMKViewport(); }
 
@@ -69,7 +69,7 @@ public:		/* Event Utilities */
 	virtual DMKExtent2D getCursorPosition() { return DMKExtent2D(); }
 
 protected:
-	ARRAY<DMKViewport> inUseViewports;
+	std::vector<DMKViewport> inUseViewports;
 	DMKEventPool* pEventPool = nullptr;
 };
 

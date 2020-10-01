@@ -29,7 +29,7 @@ class DMK_API DMKGameWorld;
  Dynamik Renderer Compatibility structure
 */
 struct DMK_API DMKRendererCompatibility {
-	B1 isVulkanAvailable = false;
+	bool isVulkanAvailable = false;
 };
 
 /*
@@ -143,7 +143,7 @@ public:		/* Command Interface */
 	void createImGuiClientCMD(DMKImGuiBackendHandle** returnAddressSpace);
 
 	void submitPrimitiveCMD(DMKMeshObject* pMeshObject);
-	void submitPrimitivesCMD(ARRAY<DMKMeshObject*> pMeshObjects);
+	void submitPrimitivesCMD(std::vector<DMKMeshObject*> pMeshObjects);
 
 private:    /* Core */
 	void setSamples(const DMKSampleCount& samples);
@@ -158,7 +158,7 @@ private:    /* Resource */
 	RBuffer* createVertexBuffer(UI64 size);
 	RBuffer* createIndexBuffer(UI64 size);
 	void copyBuffer(RBuffer* pSrcBuffer, RBuffer* pDstBuffer, UI64 size);
-	void copyDataToBuffer(RBuffer* pDstBuffer, VPTR data, UI64 size, UI64 offset);
+	void copyDataToBuffer(RBuffer* pDstBuffer, void* data, UI64 size, UI64 offset);
 
 	RTexture* createTexture(const DMKTexture* pTexture);
 
@@ -210,7 +210,7 @@ private:    /* Utility Methods */
 		DMKMeshObject* pMeshObject,
 		RPipelineResource* pResource,
 		RPipelineObject* pParentPipeline,
-		ARRAY<RBuffer*> pUniformBuffers,
+		std::vector<RBuffer*> pUniformBuffers,
 		UI32 meshIndex,
 		UI32* pProgressMeter = nullptr);
 
@@ -230,22 +230,22 @@ private:    /* Internal */
 	RRenderTarget* myRenderTarget = nullptr;
 	DMKRenderContextType myCurrentContextType = DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT;
 
-	B1 isReadyToRun = false;
+	bool isReadyToRun = false;
 
 	RCameraComponent* myCameraComponent = nullptr;
 	REnvironmentEntity myCurrentEnvironment;
 
-	ARRAY<REntity*> myEntities;
-	ARRAY<RBoundingBox> myBoundingBoxes;
+	std::vector<REntity*> myEntities;
+	std::vector<RBoundingBox> myBoundingBoxes;
 
-	ARRAY<DMKStaticModelEntity*> pStaticEntities;
-	ARRAY<DMKAnimatedModelEntity*> pAnimatedEntities;
+	std::vector<DMKStaticModelEntity*> pStaticEntities;
+	std::vector<DMKAnimatedModelEntity*> pAnimatedEntities;
 
 	UI32 currentImageIndex = 0;
 
 	DMKRendererBackendLayer* pCurrentBackendLayer = nullptr;
 
-	B1 isPresenting = false;
+	bool isPresenting = false;
 
 private:    /* Factories */
 	DMKBufferFactory myBufferFactory;

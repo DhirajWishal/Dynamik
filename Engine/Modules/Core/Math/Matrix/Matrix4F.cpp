@@ -9,7 +9,7 @@ Matrix4F::Matrix4F()
 {
 }
 
-Matrix4F::Matrix4F(F32 value)
+Matrix4F::Matrix4F(float value)
 	:
 	r(value, 0.0f, 0.0f, 0.0f),
 	g(0.0f, value, 0.0f, 0.0f),
@@ -24,10 +24,10 @@ Matrix4F::Matrix4F(Vector4F vec1, Vector4F vec2, Vector4F vec3, Vector4F vec4)
 }
 
 Matrix4F::Matrix4F(
-	F32 a, F32 b, F32 c, F32 d,
-	F32 e, F32 f, F32 g, F32 h,
-	F32 i, F32 j, F32 k, F32 l,
-	F32 m, F32 n, F32 o, F32 p)
+	float a, float b, float c, float d,
+	float e, float f, float g, float h,
+	float i, float j, float k, float l,
+	float m, float n, float o, float p)
 	: r(a, b, c, d), g(e, f, g, h), b(i, j, k, l), a(m, n, o, p)
 {
 }
@@ -37,12 +37,12 @@ Matrix4F::Matrix4F(const Matrix4F& other)
 {
 }
 
-Matrix4F::Matrix4F(std::initializer_list<F32> list)
+Matrix4F::Matrix4F(std::initializer_list<float> list)
 {
 	if ((list.size() > 16) || (list.size() < 16))
 		DMK_ERROR_BOX("The size of the provided list does not match the current Matrix size!");
 
-	DMKMemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
+	DMKMemoryFunctions::moveData(this, (void*)list.begin(), list.size() * sizeof(float));
 }
 
 Matrix4F Matrix4F::operator=(const Matrix4F& other)
@@ -60,7 +60,7 @@ Vector4F& Matrix4F::operator[](UI32 index) const
 	return ((Vector4F*)this)[index];
 }
 
-Matrix4F operator*(const Matrix4F& lhs, const F32& rhs)
+Matrix4F operator*(const Matrix4F& lhs, const float& rhs)
 {
 	return Matrix4F(lhs.x * rhs, lhs.y * rhs, lhs.z * rhs, lhs.w * rhs);
 }

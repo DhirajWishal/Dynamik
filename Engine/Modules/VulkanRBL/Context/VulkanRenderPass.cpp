@@ -10,17 +10,17 @@ namespace Backend
 {
 	/* Internal structure to contain all the references in a single subpass */
 	struct SubpassAttachmenReferences {
-		ARRAY<VkAttachmentReference> colorAttachmentRefs;
-		ARRAY<VkAttachmentReference> depthAttachmentRefs;
-		ARRAY<VkAttachmentReference> resolveAttachments;
-		ARRAY<VkAttachmentReference> inputAttachments;
+		std::vector<VkAttachmentReference> colorAttachmentRefs;
+		std::vector<VkAttachmentReference> depthAttachmentRefs;
+		std::vector<VkAttachmentReference> resolveAttachments;
+		std::vector<VkAttachmentReference> inputAttachments;
 	};
 
-	void VulkanRenderPass::initialize(RCoreObject* pCoreObject, ARRAY<RSubpassAttachment> aSubPasses, ARRAY<RSubpassDependency> dependencies, RSwapChain* pSwapChain, DMKFormat overrideFormat)
+	void VulkanRenderPass::initialize(RCoreObject* pCoreObject, std::vector<RSubpassAttachment> aSubPasses, std::vector<RSubpassDependency> dependencies, RSwapChain* pSwapChain, DMKFormat overrideFormat)
 	{
 		subPasses = aSubPasses;
 
-		ARRAY<VkAttachmentDescription> _attachmenDescriptions;
+		std::vector<VkAttachmentDescription> _attachmenDescriptions;
 		SubpassAttachmenReferences attachmentReferences;
 
 		VkSubpassDescription subpass = {};
@@ -51,28 +51,28 @@ namespace Backend
 				break;
 			case RSubPasses::SUBPASSES_SWAPCHAIN:
 			{
-				_attachmenDescriptions.pushBack(description);
+				_attachmenDescriptions.push_back(description);
 
 				attachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-				attachmentReferences.resolveAttachments.pushBack(attachmentReference);
+				attachmentReferences.resolveAttachments.push_back(attachmentReference);
 			}
 			break;
 
 			case RSubPasses::SUBPASSES_DEPTH:
 			{
-				_attachmenDescriptions.pushBack(description);
+				_attachmenDescriptions.push_back(description);
 
 				attachmentReference.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
-				attachmentReferences.depthAttachmentRefs.pushBack(attachmentReference);
+				attachmentReferences.depthAttachmentRefs.push_back(attachmentReference);
 			}
 			break;
 
 			case RSubPasses::SUBPASSES_COLOR:
 			{
-				_attachmenDescriptions.pushBack(description);
+				_attachmenDescriptions.push_back(description);
 
 				attachmentReference.layout = VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-				attachmentReferences.colorAttachmentRefs.pushBack(attachmentReference);
+				attachmentReferences.colorAttachmentRefs.push_back(attachmentReference);
 				subpass.colorAttachmentCount++;
 			}
 			break;
@@ -97,7 +97,7 @@ namespace Backend
 		subpass.pPreserveAttachments = VK_NULL_HANDLE;
 
 		/* Subpass Dependencies */
-		ARRAY<VkSubpassDependency> subpassDependencies;
+		std::vector<VkSubpassDependency> subpassDependencies;
 		VkSubpassDependency subpassDependency = {};
 		for (auto dependency : dependencies)
 		{
@@ -109,7 +109,7 @@ namespace Backend
 			subpassDependency.dstAccessMask = dependency.dstMemoryAccessType;
 			subpassDependency.dependencyFlags = dependency.pipelineDependency;
 
-			subpassDependencies.pushBack(subpassDependency);
+			subpassDependencies.push_back(subpassDependency);
 		}
 
 		VkRenderPassCreateInfo createInfo;

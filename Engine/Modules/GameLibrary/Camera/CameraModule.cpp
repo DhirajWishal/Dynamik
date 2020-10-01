@@ -68,22 +68,22 @@ DMKCameraViewParams DMKCameraModule::getViewParams() const
 	return params;
 }
 
-void DMKCameraModule::setExposure(const F32& exposure)
+void DMKCameraModule::setExposure(const float& exposure)
 {
 	params.exposure = exposure;
 }
 
-void DMKCameraModule::setGamma(const F32& gamma)
+void DMKCameraModule::setGamma(const float& gamma)
 {
 	params.gamma = gamma;
 }
 
-F32 DMKCameraModule::getExposure() const
+float DMKCameraModule::getExposure() const
 {
 	return params.exposure;
 }
 
-F32 DMKCameraModule::getGamma() const
+float DMKCameraModule::getGamma() const
 {
 	return params.gamma;
 }

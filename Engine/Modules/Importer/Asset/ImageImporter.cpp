@@ -342,13 +342,13 @@ DMKTexture* DMKImageImporter::loadKTX(const STRING& file, DMKFormat requiredForm
 	pTexture->layerCount = Cast<UI32>(texture.layers());
 	pTexture->resolveChannels();
 
-	pTexture->image = StaticAllocator<UCHR>::allocate(pTexture->size() * pTexture->layerCount);
+	pTexture->image = StaticAllocator<unsigned char>::allocate(pTexture->size() * pTexture->layerCount);
 	DMKMemoryFunctions::copyData(pTexture->image, texture.data(), pTexture->size() * pTexture->layerCount);
 
 	return pTexture;
 }
 
-DMKTexture* DMKImageImporter::loadCube(ARRAY<STRING> files, DMKFormat requiredFormat)
+DMKTexture* DMKImageImporter::loadCube(std::vector<STRING> files, DMKFormat requiredFormat)
 {
 	DMKTextureCube* pTexture = StaticAllocator<DMKTextureCube>::allocate();
 	pTexture->layerCount = 6;
@@ -364,7 +364,7 @@ DMKTexture* DMKImageImporter::loadCube(ARRAY<STRING> files, DMKFormat requiredFo
 	}
 
 	pTexture->channels = 4;
-	pTexture->image = StaticAllocator<UCHR>::allocate(pTexture->width * pTexture->height * pTexture->depth * pTexture->channels * 6);
+	pTexture->image = StaticAllocator<unsigned char>::allocate(pTexture->width * pTexture->height * pTexture->depth * pTexture->channels * 6);
 	POINTER<BYTE> _imgPtr = pTexture->image;
 
 	for (auto ptr : textures)

@@ -89,7 +89,7 @@ namespace Backend
 		vkCmdCopyBuffer(commandBuffer, InheritCast<VulkanBuffer>(pSrcBuffer), buffer, 1, &copyRegion);
 	}
 
-	void VulkanBuffer::setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, VPTR data)
+	void VulkanBuffer::setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, void* data)
 	{
 		if (uSize > size)
 		{
@@ -97,12 +97,12 @@ namespace Backend
 			return;
 		}
 
-		VPTR myData = getData(pCoreObject, uSize, offset);
+		void* myData = getData(pCoreObject, uSize, offset);
 		DMKMemoryFunctions::copyData(myData, data, uSize);
 		unmapMemory(pCoreObject);
 	}
 
-	VPTR VulkanBuffer::getData(RCoreObject* pCoreObject, UI64 size, UI64 offset)
+	void* VulkanBuffer::getData(RCoreObject* pCoreObject, UI64 size, UI64 offset)
 	{
 		if (size > this->size || size == 0)
 		{
@@ -110,7 +110,7 @@ namespace Backend
 			return nullptr;
 		}
 
-		VPTR data = nullptr;
+		void* data = nullptr;
 		DMK_VULKAN_ASSERT(vkMapMemory(pCoreObject->getAs<VulkanCoreObject>()->device, bufferMemory, offset, size, VK_NULL_HANDLE, &data), "Unable to map the buffer memory!");
 		return data;
 	}

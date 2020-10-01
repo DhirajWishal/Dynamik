@@ -15,7 +15,7 @@ struct DMK_API DMKConstantAttribute {
 
 /* Dynamik Constant Block Descriptor */
 struct DMK_API DMKConstantBlockDescription {
-	ARRAY<DMKConstantAttribute> attributes;
+	std::vector<DMKConstantAttribute> attributes;
 	DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX;
 	UI32 offset = 0;
 

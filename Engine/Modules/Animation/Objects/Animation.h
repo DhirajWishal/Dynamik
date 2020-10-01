@@ -10,7 +10,7 @@
 
 /* Animation Node Frames */
 struct DMK_API ANodeFrames {
-	ARRAY<Matrix4F> transforms;
+	std::vector<Matrix4F> transforms;
 };
 
 /*
@@ -43,22 +43,22 @@ public:
 	/*
 	 Get all matrices in a given time step.
 	*/
-	ARRAY<Matrix4F> getMatrices(F32 timeStep);
+	std::vector<Matrix4F> getMatrices(float timeStep);
 
 	/* All the node poses */
-	std::unordered_map<STRING, ARRAY<DMKAnimNodePose>> nodePoseMap;
+	std::unordered_map<STRING, std::vector<DMKAnimNodePose>> nodePoseMap;
 
 	/* All the node frames */
-	ARRAY<ANodeFrames> nodeFrames;
+	std::vector<ANodeFrames> nodeFrames;
 
 	/* Total duration of the animation. */
-	F32 duration = 0.0f;
+	float duration = 0.0f;
 
 	/*
 	 FPS rate which the animation gets played.
 	 Default is 30.
 	*/
-	F32 framesPerSecond = 30.0f;
+	float framesPerSecond = 30.0f;
 };
 
 #endif // !_DYNAMIK_ANIMATION_H

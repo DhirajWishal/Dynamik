@@ -15,7 +15,7 @@ I32 DMKWindowManager::createWindow(I32 width, I32 height, STRING title)
 	WindowsWindow* _window = StaticAllocator<WindowsWindow>::allocateInit(WindowsWindow(title, width, height));
 	_window->initialize();
 	_window->setEventCallbacks();
-	myWindowHandles.pushBack(_window);
+	myWindowHandles.push_back(_window);
 #endif
 
 	return Cast<I32>(windowIDs++);
@@ -29,7 +29,6 @@ DMKWindowHandle* DMKWindowManager::getWindowHandle(I32 windowID)
 void DMKWindowManager::terminateWindow(I32 windowIndex)
 {
 	myWindowHandles[windowIndex]->terminate();
-	myWindowHandles.remove(windowIndex);
 }
 
 void DMKWindowManager::terminateAll()

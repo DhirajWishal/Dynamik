@@ -51,7 +51,7 @@ DMK_FORCEINLINE constexpr DERIVED* Inherit(BASE* pBase)
 
  @param pointer: Pointer.
 */
-DMK_FORCEINLINE constexpr UI64 GetPointerAsInteger(const VPTR pointer)
+DMK_FORCEINLINE constexpr UI64 GetPointerAsInteger(const void* pointer)
 {
 	return (UI64)pointer;
 }
@@ -63,9 +63,9 @@ DMK_FORCEINLINE constexpr UI64 GetPointerAsInteger(const VPTR pointer)
  @param baseAddress: Base address to be offset.
  @param byteCount: Offset.
 */
-DMK_FORCEINLINE VPTR IncrementPointer(const VPTR pointer, UI64 byteCount)
+DMK_FORCEINLINE void* IncrementPointer(const void* pointer, UI64 byteCount)
 {
-	return (VPTR)(((UI64)pointer) + byteCount);
+	return (void*)(((UI64)pointer) + byteCount);
 }
 
 /*
@@ -75,9 +75,9 @@ DMK_FORCEINLINE VPTR IncrementPointer(const VPTR pointer, UI64 byteCount)
  @param baseAddress: Base address to be offset.
  @param byteCount: Offset.
 */
-DMK_FORCEINLINE VPTR DecrementPointer(const VPTR pointer, UI64 byteCount)
+DMK_FORCEINLINE void* DecrementPointer(const void* pointer, UI64 byteCount)
 {
-	return (VPTR)(((UI64)pointer) - byteCount);
+	return (void*)(((UI64)pointer) - byteCount);
 }
 
 /*
@@ -88,7 +88,7 @@ DMK_FORCEINLINE VPTR DecrementPointer(const VPTR pointer, UI64 byteCount)
  @tparam DERIVED: The class to test from.
 */
 template<class BASE, class DERIVED>
-DMK_FORCEINLINE constexpr B1 IsInheritedFrom_C(const DERIVED& v)
+DMK_FORCEINLINE constexpr bool IsInheritedFrom_C(const DERIVED& v)
 {
 	return std::is_base_of<BASE, DERIVED>::value;
 }
@@ -101,7 +101,7 @@ DMK_FORCEINLINE constexpr B1 IsInheritedFrom_C(const DERIVED& v)
  @tparam DERIVED: The class to test from.
 */
 template<class BASE, class DERIVED>
-DMK_FORCEINLINE B1 IsInheritedFrom_R(const DERIVED& v)
+DMK_FORCEINLINE bool IsInheritedFrom_R(const DERIVED& v)
 {
 	return dynamic_cast<BASE*>(&v) != nullptr;
 }

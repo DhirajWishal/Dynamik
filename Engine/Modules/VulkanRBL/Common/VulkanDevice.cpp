@@ -27,12 +27,12 @@ namespace Backend
 {
 	void VulkanDevice::addExtension(const CCPTR& extension)
 	{
-		extensions.pushBack(extension);
+		extensions.push_back(extension);
 	}
 
 	void VulkanDevice::initialize(VulkanInstance vInstance, VulkanSurface vSurface)
 	{
-		extensions.pushBack(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+		extensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 
 		initializePhysicalDevice(vInstance, vSurface);
 		initializeLogicalDevice(vInstance, vSurface);
@@ -61,7 +61,7 @@ namespace Backend
 		if (deviceCount == 0)
 			DMK_ERROR_BOX("Failed to find GPUs with Vulkan support!");
 
-		ARRAY<VkPhysicalDevice> devices(deviceCount);
+		std::vector<VkPhysicalDevice> devices(deviceCount);
 		vkEnumeratePhysicalDevices(vInstance, &deviceCount, devices.data());
 
 		//std::multimap<I32, VkPhysicalDevice> candidates;
@@ -141,13 +141,13 @@ namespace Backend
 		VulkanQueue indices;
 		indices.findQueueFamilies(physicalDevice, vSurface);
 
-		ARRAY<VkDeviceQueueCreateInfo> queueCreateInfos;
+		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
 		std::set<UI32> uniqueQueueFamilies = {
 			indices.processFamily.value(),
 			indices.utilityFamily.value()
 		};
 
-		F32 queuePriority = 1.0f;
+		float queuePriority = 1.0f;
 		for (UI32 queueFamily : uniqueQueueFamilies)
 		{
 			VkDeviceQueueCreateInfo queueCreateInfo = {};
@@ -155,7 +155,7 @@ namespace Backend
 			queueCreateInfo.queueFamilyIndex = queueFamily;
 			queueCreateInfo.queueCount = 1;
 			queueCreateInfo.pQueuePriorities = &queuePriority;
-			queueCreateInfos.pushBack(queueCreateInfo);
+			queueCreateInfos.push_back(queueCreateInfo);
 		}
 
 		VkPhysicalDeviceFeatures deviceFeatures = {};

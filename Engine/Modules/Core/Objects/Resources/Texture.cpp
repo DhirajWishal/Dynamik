@@ -8,7 +8,7 @@
 
 void DMKTexture::clear()
 {
-	StaticAllocator<UCHR>::deallocate(image, 0);
+	StaticAllocator<unsigned char>::deallocate(image, 0);
 }
 
 UI64 DMKTexture::size()

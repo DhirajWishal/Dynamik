@@ -170,7 +170,7 @@ public:
 	*/
 	static void set(PTR location, TYPE&& value)
 	{
-		new ((VPTR)location.get()) (TYPE)(removeReference<TYPE&&>(value));
+		new ((void*)location.get()) (TYPE)(removeReference<TYPE&&>(value));
 	}
 
 private:

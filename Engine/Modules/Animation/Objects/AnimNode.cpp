@@ -38,11 +38,11 @@ Matrix4F DMKAnimNode::getWorldTransform()
 
 void DMKAnimNode::addChildNodeIndex(const UI64& index)
 {
-	childNodeIndexes.pushBack(index);
+	childNodeIndexes.push_back(index);
 }
 
-void DMKAnimNode::addVertexData(const UI32& vertexID, const F32& weight)
+void DMKAnimNode::addVertexData(const UI32& vertexID, const float& weight)
 {
-	vertexIDs.pushBack(vertexID);
-	weights.pushBack(weight);
+	vertexIDs.push_back(vertexID);
+	weights.push_back(weight);
 }

@@ -45,54 +45,54 @@ RBuffer* RUtilities::allocateBuffer(DMKRenderingAPI API)
 	return nullptr;
 }
 
-ARRAY<RColorBlendState> RUtilities::createBasicColorBlendStates()
+std::vector<RColorBlendState> RUtilities::createBasicColorBlendStates()
 {
-	ARRAY<RColorBlendState> blendStates;
+	std::vector<RColorBlendState> blendStates;
 	RColorBlendState state;
 	for (UI32 index = 0; index < 1; index++)
 	{
 		state.colorWriteMask = RColorComponent(RColorComponent::COLOR_COMPONENT_R_BIT | RColorComponent::COLOR_COMPONENT_G_BIT | RColorComponent::COLOR_COMPONENT_B_BIT | RColorComponent::COLOR_COMPONENT_A_BIT);
 		state.enable = false;
 
-		blendStates.pushBack(state);
+		blendStates.push_back(state);
 	}
 
 	return blendStates;
 }
 
-ARRAY<RSubpassAttachment> RUtilities::createSubPasses(DMKRenderContextType contextType, RCoreObject* pCoreObject, RSwapChain* pSwapChain)
+std::vector<RSubpassAttachment> RUtilities::createSubPasses(DMKRenderContextType contextType, RCoreObject* pCoreObject, RSwapChain* pSwapChain)
 {
-	ARRAY<RSubpassAttachment> subpasses;
+	std::vector<RSubpassAttachment> subpasses;
 	switch (contextType)
 	{
 	case DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT:
-		subpasses.pushBack(RSubpassAttachment::createColor(pSwapChain->format, pCoreObject->sampleCount));
-		subpasses.pushBack(RSubpassAttachment::createDepth(pCoreObject));
-		subpasses.pushBack(RSubpassAttachment::createSwapChain(pSwapChain));
+		subpasses.push_back(RSubpassAttachment::createColor(pSwapChain->format, pCoreObject->sampleCount));
+		subpasses.push_back(RSubpassAttachment::createDepth(pCoreObject));
+		subpasses.push_back(RSubpassAttachment::createSwapChain(pSwapChain));
 		break;
 	case DMKRenderContextType::DMK_RENDER_CONTEXT_DEFAULT_VR:
-		subpasses.pushBack(RSubpassAttachment::createColor(pSwapChain->format, pCoreObject->sampleCount));
-		subpasses.pushBack(RSubpassAttachment::createDepth(pCoreObject));
-		subpasses.pushBack(RSubpassAttachment::createSwapChain(pSwapChain));
+		subpasses.push_back(RSubpassAttachment::createColor(pSwapChain->format, pCoreObject->sampleCount));
+		subpasses.push_back(RSubpassAttachment::createDepth(pCoreObject));
+		subpasses.push_back(RSubpassAttachment::createSwapChain(pSwapChain));
 		break;
 	case DMKRenderContextType::DMK_RENDER_CONTEXT_2D:
-		subpasses.pushBack(RSubpassAttachment::createColor(pSwapChain->format, pCoreObject->sampleCount));
-		subpasses.pushBack(RSubpassAttachment::createSwapChain(pSwapChain));
+		subpasses.push_back(RSubpassAttachment::createColor(pSwapChain->format, pCoreObject->sampleCount));
+		subpasses.push_back(RSubpassAttachment::createSwapChain(pSwapChain));
 		break;
 	case DMKRenderContextType::DMK_RENDER_CONTEXT_3D:
-		subpasses.pushBack(RSubpassAttachment::createColor(pSwapChain->format, pCoreObject->sampleCount));
-		subpasses.pushBack(RSubpassAttachment::createDepth(pCoreObject));
-		subpasses.pushBack(RSubpassAttachment::createSwapChain(pSwapChain));
+		subpasses.push_back(RSubpassAttachment::createColor(pSwapChain->format, pCoreObject->sampleCount));
+		subpasses.push_back(RSubpassAttachment::createDepth(pCoreObject));
+		subpasses.push_back(RSubpassAttachment::createSwapChain(pSwapChain));
 		break;
 	case DMKRenderContextType::DMK_RENDER_CONTEXT_DEBUG:
-		subpasses.pushBack(RSubpassAttachment::createColor(pSwapChain->format, pCoreObject->sampleCount));
-		subpasses.pushBack(RSubpassAttachment::createDepth(pCoreObject));
-		subpasses.pushBack(RSubpassAttachment::createSwapChain(pSwapChain));
+		subpasses.push_back(RSubpassAttachment::createColor(pSwapChain->format, pCoreObject->sampleCount));
+		subpasses.push_back(RSubpassAttachment::createDepth(pCoreObject));
+		subpasses.push_back(RSubpassAttachment::createSwapChain(pSwapChain));
 		break;
 	case DMKRenderContextType::DMK_RENDER_CONTEXT_DEBUG_VR:
-		subpasses.pushBack(RSubpassAttachment::createColor(pSwapChain->format, pCoreObject->sampleCount));
-		subpasses.pushBack(RSubpassAttachment::createDepth(pCoreObject));
-		subpasses.pushBack(RSubpassAttachment::createSwapChain(pSwapChain));
+		subpasses.push_back(RSubpassAttachment::createColor(pSwapChain->format, pCoreObject->sampleCount));
+		subpasses.push_back(RSubpassAttachment::createDepth(pCoreObject));
+		subpasses.push_back(RSubpassAttachment::createSwapChain(pSwapChain));
 		break;
 	default:
 		DMK_ERROR_BOX("Invalid context type!");
@@ -102,7 +102,7 @@ ARRAY<RSubpassAttachment> RUtilities::createSubPasses(DMKRenderContextType conte
 	return subpasses;
 }
 
-ARRAY<RSubPasses> RUtilities::getSubpassNames(DMKRenderContextType contextType)
+std::vector<RSubPasses> RUtilities::getSubpassNames(DMKRenderContextType contextType)
 {
 	switch (contextType)
 	{
@@ -123,7 +123,7 @@ ARRAY<RSubPasses> RUtilities::getSubpassNames(DMKRenderContextType contextType)
 		break;
 	}
 
-	return ARRAY<RSubPasses>();
+	return std::vector<RSubPasses>();
 }
 
 DMK_FORCEINLINE RFrameBufferAttachment* allocateColorAttachment(DMKRenderingAPI API)
@@ -171,17 +171,17 @@ DMK_FORCEINLINE RFrameBufferAttachment* allocateSwapChainAttachment(DMKRendering
 	return StaticAllocator<RFrameBufferAttachment>::rawAllocate();
 }
 
-ARRAY<ARRAY<RFrameBufferAttachment*>> RUtilities::getFrameBufferAttachments(DMKRenderingAPI API, ARRAY<RSubpassAttachment> subPassAttachments, RCoreObject* pCoreObject, RSwapChain* pSwapChain, DMKExtent2D imageExtent)
+std::vector<std::vector<RFrameBufferAttachment*>> RUtilities::getFrameBufferAttachments(DMKRenderingAPI API, std::vector<RSubpassAttachment> subPassAttachments, RCoreObject* pCoreObject, RSwapChain* pSwapChain, DMKExtent2D imageExtent)
 {
 	UI32 bufferCount = pSwapChain->bufferCount;
-	ARRAY<ARRAY<RFrameBufferAttachment*>> attachments;
+	std::vector<std::vector<RFrameBufferAttachment*>> attachments;
 
 	if (pSwapChain->bufferCount != bufferCount)
 		DMK_FATAL("Invalid buffer count or swap chain image count!");
 
 	for (UI32 index = 0; index < bufferCount; index++)
 	{
-		ARRAY<RFrameBufferAttachment*> attachment;
+		std::vector<RFrameBufferAttachment*> attachment;
 		for (auto subPass : subPassAttachments)
 		{
 			RFrameBufferAttachmentInfo initInfo;
@@ -215,16 +215,16 @@ ARRAY<ARRAY<RFrameBufferAttachment*>> RUtilities::getFrameBufferAttachments(DMKR
 				break;
 			}
 
-			attachment.pushBack(pAttachment);
+			attachment.push_back(pAttachment);
 		}
 
-		attachments.pushBack(attachment);
+		attachments.push_back(attachment);
 	}
 
 	return attachments;
 }
 
-RTexture* RUtilities::createBRDFTable(RCoreObject* pCoreObject, F32 dimentions)
+RTexture* RUtilities::createBRDFTable(RCoreObject* pCoreObject, float dimentions)
 {
 	return nullptr;
 }

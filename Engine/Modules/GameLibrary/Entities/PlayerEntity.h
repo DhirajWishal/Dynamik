@@ -84,24 +84,24 @@ public:		/* Player Data Store */
 	*/
 	void setPosition(const Vector3F& position);
 
-	void addForwardVector(const F32& rate = 1.0f);
-	void addBackwardVector(const F32& rate = 1.0f);
-	void addLeftVector(const F32& rate = 1.0f);
-	void addRightVector(const F32& rate = 1.0f);
-	void addUpVector(const F32& rate = 1.0f);
-	void addDownVector(const F32& rate = 1.0f);
+	void addForwardVector(const float& rate = 1.0f);
+	void addBackwardVector(const float& rate = 1.0f);
+	void addLeftVector(const float& rate = 1.0f);
+	void addRightVector(const float& rate = 1.0f);
+	void addUpVector(const float& rate = 1.0f);
+	void addDownVector(const float& rate = 1.0f);
 
-	void addRotationX(F32 pitch);
-	void addRotationY(F32 yaw);
-	void addRotationZ(F32 roll);
+	void addRotationX(float pitch);
+	void addRotationY(float yaw);
+	void addRotationZ(float roll);
 
-	void processMouseControl(DMKExtent2D position, F32 sensitivity = 0.1f, B1 refresh = false, B1 flipAxises = false);
+	void processMouseControl(DMKExtent2D position, float sensitivity = 0.1f, bool refresh = false, bool flipAxises = false);
 
 	void setCameraViewPort(DMKExtent2D extent);
 
 public:		/* Camera Module */
 	DMKCameraModule cameraModule;
-	B1 isCameraRelative = false;
+	bool isCameraRelative = false;
 
 	/*
 	 Set the camera position.
@@ -109,8 +109,8 @@ public:		/* Camera Module */
 	void setCameraPosition(const VEC3& position);
 	void setCameraAndWorldUp(const VEC3& cameraUp, const VEC3& worldUp);
 
-	void setCameraParams(F32 FOV, F32 aspect, F32 fNear, F32 fFar);
-	void setAspectRatio(F32 fAspect);
+	void setCameraParams(float FOV, float aspect, float fNear, float fFar);
+	void setAspectRatio(float fAspect);
 
 	void makeCameraRelative();
 	void makeCameraStationary();
@@ -122,7 +122,7 @@ public:		/* Camera Module */
 
 private:
 	DMKExtent2D lastPosition;
-	F32 firstInput = true;
+	float firstInput = true;
 };
 
 #endif // !_DYNAMIK_PLAYER_ENTITY_H

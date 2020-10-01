@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_SHADER_MODULE_H
 #define _DYNAMIK_SHADER_MODULE_H
 
-#include "Core/Types/Array.h"
+#include <vector>
 #include "UniformBuffer.h"
 
 /* Dynamik Shader Locations */
@@ -92,7 +92,7 @@ public:
 
 	 @param uniforms: The uniforms to be set.
 	*/
-	void setUniforms(ARRAY<DMKUniformBuffer> uniforms);
+	void setUniforms(std::vector<DMKUniformBuffer> uniforms);
 
 	/*
 	 Get a uniform buffer object at a given index.
@@ -104,7 +104,7 @@ public:
 	/*
 	 Get all the uniforms of the current shader.
 	*/
-	ARRAY<DMKUniformBuffer>& getUniforms();
+	std::vector<DMKUniformBuffer>& getUniforms();
 
 	/*
 	 This defines the inputs which the shader requires.
@@ -119,7 +119,7 @@ public:
 
 	 @param attributes: All the input attributes..
 	*/
-	void setInputAttributes(ARRAY<DMKShaderInputAttribute> attributes);
+	void setInputAttributes(std::vector<DMKShaderInputAttribute> attributes);
 
 	/*
 	 Get a stored shader attribute.
@@ -131,12 +131,12 @@ public:
 	/*
 	 Get the whole attribute array.
 	*/
-	ARRAY<DMKShaderInputAttribute>& getAttributes();
+	std::vector<DMKShaderInputAttribute>& getAttributes();
 
 public:
-	ARRAY<DMKUniformBuffer> uniforms;
-	ARRAY<DMKShaderInputAttribute> inputAttributes;
-	ARRAY<UI32> shaderCode;
+	std::vector<DMKUniformBuffer> uniforms;
+	std::vector<DMKShaderInputAttribute> inputAttributes;
+	std::vector<UI32> shaderCode;
 	DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_ALL;
 	DMKShaderCodeType codeType = DMKShaderCodeType::DMK_SHADER_CODE_TYPE_GLSL;
 };

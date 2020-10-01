@@ -57,7 +57,7 @@ void changeToColor(int severity) {
 	}
 }
 
-ARRAY<STRING> LOG_INFO = {
+std::vector<STRING> LOG_INFO = {
 	TEXT("INFO-> "),
 	TEXT("WARN-> "),
 	TEXT("ERROR-> "),

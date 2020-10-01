@@ -9,7 +9,7 @@ Matrix2F::Matrix2F()
 {
 }
 
-Matrix2F::Matrix2F(F32 value)
+Matrix2F::Matrix2F(float value)
 	:
 	x(value, 0.0f),
 	y(0.0f, value)
@@ -22,8 +22,8 @@ Matrix2F::Matrix2F(Vector2F vec1, Vector2F vec2)
 }
 
 Matrix2F::Matrix2F(
-	F32 a, F32 b,
-	F32 c, F32 d)
+	float a, float b,
+	float c, float d)
 	:
 	x(a, b), y(c, d)
 {
@@ -34,12 +34,12 @@ Matrix2F::Matrix2F(const Matrix2F& other)
 {
 }
 
-Matrix2F::Matrix2F(std::initializer_list<F32> list)
+Matrix2F::Matrix2F(std::initializer_list<float> list)
 {
 	if ((list.size() > 4) || (list.size() < 4))
 		DMK_ERROR_BOX("The size of the provided list does not match the current Matrix size!");
 
-	DMKMemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
+	DMKMemoryFunctions::moveData(this, (void*)list.begin(), list.size() * sizeof(float));
 }
 
 Matrix2F Matrix2F::operator=(const Matrix2F& other)

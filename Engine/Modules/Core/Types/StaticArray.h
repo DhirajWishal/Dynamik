@@ -52,7 +52,7 @@ public:
 		if (list.size() > Size)
 			DMK_ERROR("The initializer list submitted to the Static Array contains elements which are out of bound!");
 
-		DMKMemoryFunctions::copyData(myData, Cast<VPTR>(list.begin()), typeSize() * Size);
+		DMKMemoryFunctions::copyData(myData, Cast<void*>(list.begin()), typeSize() * Size);
 	}
 
 	/* DESTRUCTOR
@@ -175,7 +175,7 @@ public:
 
 	 @param other: The other array.
 	*/
-	B1 operator==(const StaticArray<TYPE, Size>& other) const
+	bool operator==(const StaticArray<TYPE, Size>& other) const
 	{
 		for (UI64 index = 0; index < other.size(); index++)
 			if (myData[index] != other[index])
@@ -189,7 +189,7 @@ public:
 
 	 @param other: The other array.
 	*/
-	B1 operator<(const StaticArray<TYPE, Size>& other) const
+	bool operator<(const StaticArray<TYPE, Size>& other) const
 	{
 		for (UI64 index = 0; index < other.size(); index++)
 			if (myData[index] < other[index])
@@ -203,7 +203,7 @@ public:
 
 	 @param other: The other array.
 	*/
-	B1 operator<=(const StaticArray<TYPE, Size>& other) const
+	bool operator<=(const StaticArray<TYPE, Size>& other) const
 	{
 		for (UI64 index = 0; index < other.size(); index++)
 			if (myData[index] <= other[index])
@@ -217,7 +217,7 @@ public:
 
 	 @param other: The other array.
 	*/
-	B1 operator>(const StaticArray<TYPE, Size>& other) const
+	bool operator>(const StaticArray<TYPE, Size>& other) const
 	{
 		for (UI64 index = 0; index < other.size(); index++)
 			if (myData[index] > other[index])
@@ -231,7 +231,7 @@ public:
 
 	 @param other: The other array.
 	*/
-	B1 operator>=(const StaticArray<TYPE, Size>& other) const
+	bool operator>=(const StaticArray<TYPE, Size>& other) const
 	{
 		for (UI64 index = 0; index < other.size(); index++)
 			if (myData[index] >= other[index])

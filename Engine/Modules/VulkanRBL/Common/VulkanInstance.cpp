@@ -76,10 +76,10 @@ namespace Backend
 
 	void VulkanInstance::addExtension(const CCPTR& extension)
 	{
-		extentions.pushBack(extension);
+		extentions.push_back(extension);
 	}
 
-	void VulkanInstance::initialize(B1 enableValidation, ARRAY<CCPTR> layers)
+	void VulkanInstance::initialize(bool enableValidation, std::vector<CCPTR> layers)
 	{
 		isValidationEnabled = enableValidation;
 		validationLayers = layers;
@@ -100,7 +100,9 @@ namespace Backend
 		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 		createInfo.pApplicationInfo = &appInfo;
 
-		extentions.insert(_getRequiredExtensions());
+		auto extensions_t = _getRequiredExtensions();
+		extentions.insert(extentions.end(), extensions_t.begin(), extensions_t.end());
+
 		createInfo.enabledExtensionCount = static_cast<UI32>(extentions.size());
 		createInfo.ppEnabledExtensionNames = extentions.data();
 
@@ -161,16 +163,16 @@ namespace Backend
 		createInfo->flags = VK_NULL_HANDLE;
 	}
 
-	B1 VulkanInstance::_checkValidationLayerSupport(ARRAY<CCPTR> layers)
+	bool VulkanInstance::_checkValidationLayerSupport(std::vector<CCPTR> layers)
 	{
 		UI32 layerCount = 0;
 		vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 
-		ARRAY<VkLayerProperties> availableLayers(layerCount);
+		std::vector<VkLayerProperties> availableLayers(layerCount);
 		vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
 		for (const char* layerName : layers) {
-			B1 layerFound = false;
+			bool layerFound = false;
 
 			for (auto layerProperties : availableLayers) {
 				if (strcmp(layerName, layerProperties.layerName) == 0) {
@@ -186,7 +188,7 @@ namespace Backend
 		return true;
 	}
 
-	ARRAY<CCPTR> VulkanInstance::_getRequiredExtensions(B1 pushDescriptorsSupported, B1 checkpointsSupported, B1 meshShadingSupported)
+	std::vector<CCPTR> VulkanInstance::_getRequiredExtensions(bool pushDescriptorsSupported, bool checkpointsSupported, bool meshShadingSupported)
 	{
 		UI32 glfwExtentionCount = 0;
 		const char** glfwExtentions;

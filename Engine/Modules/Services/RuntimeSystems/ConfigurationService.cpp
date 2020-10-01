@@ -48,7 +48,7 @@ void DMKConfigurationService::writeEntry(const Token& token, const STRING& messa
 	writeMessage(instance._getTokenString(token) + message);
 }
 
-void DMKConfigurationService::writeWindowSize(F32 width, F32 height)
+void DMKConfigurationService::writeWindowSize(float width, float height)
 {
 	writeEntry(Token::TOKEN_WINDOW_SIZE, std::to_string(width) + " " + std::to_string(height));
 }

@@ -6,7 +6,7 @@
 #define _DYNAMIK_VULKAN_GRAPHICS_PIPELINE_H
 
 #include "Renderer/Components/RPipelineObject.h"
-#include "Core/Types/Array.h"
+#include <vector>
 #include <vulkan/vulkan.h>
 
 namespace Backend
@@ -15,9 +15,9 @@ namespace Backend
 	 Vulkan Graphics Pipeline Resource
 	*/
 	struct DMK_API VulkanGraphicsPipelineResource : public RPipelineResource {
-		virtual void update(RCoreObject* pCoreObject, ARRAY<RBuffer*> pBuffers, ARRAY<RTexture*> pTextures) override final;
+		virtual void update(RCoreObject* pCoreObject, std::vector<RBuffer*> pBuffers, std::vector<RTexture*> pTextures) override final;
 
-		ARRAY<VkDescriptorSetLayoutBinding> resourceBindings;
+		std::vector<VkDescriptorSetLayoutBinding> resourceBindings;
 		VkDescriptorSet set = VK_NULL_HANDLE;
 	};
 
@@ -38,9 +38,9 @@ namespace Backend
 		virtual void reCreate(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, DMKViewport viewport) override final;
 		virtual void terminate(RCoreObject* pCoreObject) override final;
 
-		virtual void createPipelineCache(RCoreObject* pCoreObject, UI64 byteSize, VPTR pData) override final;
-		virtual ARRAY<RPipelineResource*> allocateResources(RCoreObject* pCoreObject) override final;
-		virtual void deallocateResources(ARRAY<RPipelineResource*> resources) override final;
+		virtual void createPipelineCache(RCoreObject* pCoreObject, UI64 byteSize, void* pData) override final;
+		virtual std::vector<RPipelineResource*> allocateResources(RCoreObject* pCoreObject) override final;
+		virtual void deallocateResources(std::vector<RPipelineResource*> resources) override final;
 
 		operator VkPipelineLayout() const;
 		operator VkPipeline() const;
@@ -52,7 +52,7 @@ namespace Backend
 		VkPipelineCache pipelineCache = VK_NULL_HANDLE;
 
 	private:
-		ARRAY<VkDescriptorSetLayoutBinding> resourceBindings;
+		std::vector<VkDescriptorSetLayoutBinding> resourceBindings;
 	};
 }
 

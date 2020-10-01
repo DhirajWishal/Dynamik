@@ -40,12 +40,12 @@ UI64 DMKToolsRegistry::getNumberOfRegisteredTools()
 	return instance.toolMap.size();
 }
 
-ARRAY<STRING> DMKToolsRegistry::getAllRegisteredToolNames()
+std::vector<STRING> DMKToolsRegistry::getAllRegisteredToolNames()
 {
-	ARRAY<STRING> names;
+	std::vector<STRING> names;
 
 	for (auto asset : instance.toolMap)
-		names.pushBack(asset.first);
+		names.push_back(asset.first);
 
 	return names;
 }

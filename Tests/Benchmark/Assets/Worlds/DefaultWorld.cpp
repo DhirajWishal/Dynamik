@@ -38,7 +38,7 @@ void DefaultWorld::initialize()
 		);
 }
 
-void DefaultWorld::onUpdate(const F32 timeStep)
+void DefaultWorld::onUpdate(const float timeStep)
 {
 	auto playerObject = getEntity<Player>();
 
@@ -72,7 +72,7 @@ void DefaultWorld::onUpdate(const F32 timeStep)
 		areEntitiesInitialized = true;
 	}
 
-	static B1 refresh = false;
+	static bool refresh = false;
 
 	if (DMKEventPool::MouseButtonLeft.isPressed())
 	{

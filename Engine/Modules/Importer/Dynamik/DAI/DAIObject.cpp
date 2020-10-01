@@ -46,16 +46,16 @@ inline void DAIObject::_loadContent()
 		if (_line[0] == '#') continue;
 		else if (_line.size() < 2) continue;
 		else if (_line[0] == 'M')	/* A model element has been found. Load that data to the store */
-			meshes.pushBack(myBasePath + GET_SUB_STR);
+			meshes.push_back(myBasePath + GET_SUB_STR);
 		else if (_line[0] == 'I')	/* A texture element has been found */
-			textures.pushBack(myBasePath + GET_SUB_STR);
+			textures.push_back(myBasePath + GET_SUB_STR);
 		else if (_line[0] == 'V')	/* A vertex shader path has been found*/
-			vertexShaders.pushBack(myBasePath + GET_SUB_STR);
+			vertexShaders.push_back(myBasePath + GET_SUB_STR);
 		else if (_line[0] == 'T')	/* A tessellation shader path has been found */
-			tessellationShaders.pushBack(myBasePath + GET_SUB_STR);
+			tessellationShaders.push_back(myBasePath + GET_SUB_STR);
 		else if (_line[0] == 'G')	/* A geometry shader path has been found */
-			geometryShaders.pushBack(myBasePath + GET_SUB_STR);
+			geometryShaders.push_back(myBasePath + GET_SUB_STR);
 		else if (_line[0] == 'F')	/* A fragment shader path has been found */
-			fragmentShaders.pushBack(myBasePath + GET_SUB_STR);
+			fragmentShaders.push_back(myBasePath + GET_SUB_STR);
 	}
 }

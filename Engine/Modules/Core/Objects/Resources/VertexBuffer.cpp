@@ -6,7 +6,7 @@
 
 void DMKVertexLayout::addAttribute(const DMKVertexAttribute& attribute)
 {
-	attributes.pushBack(attribute);
+	attributes.push_back(attribute);
 }
 
 const UI64 DMKVertexLayout::getVertexSize() const
@@ -18,12 +18,12 @@ const UI64 DMKVertexLayout::getVertexSize() const
 	return _size;
 }
 
-ARRAY<DMKShaderInputAttribute> DMKVertexLayout::getInputAttributes() const
+std::vector<DMKShaderInputAttribute> DMKVertexLayout::getInputAttributes() const
 {
-	ARRAY<DMKShaderInputAttribute> inputAttributes;
+	std::vector<DMKShaderInputAttribute> inputAttributes;
 
 	for (auto attribute : attributes)
-		inputAttributes.pushBack(DMKShaderInputAttribute(attribute.dataFormat, attribute.dataCount));
+		inputAttributes.push_back(DMKShaderInputAttribute(attribute.dataFormat, attribute.dataCount));
 
 	return inputAttributes;
 }
@@ -36,14 +36,14 @@ DMKVertexLayout DMKVertexLayout::createBasic()
 	attribute.dataCount = 1;
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_0;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_TEXTURE_COORDINATES_0;
 	attribute.dataFormat = DMKFormat::DMK_FORMAT_RG_32_SF32;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	return layout;
 }
@@ -56,14 +56,14 @@ DMKVertexLayout DMKVertexLayout::createBasicIBL()
 	attribute.dataCount = 1;
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES;
 	attribute.dataFormat = DMKFormat::DMK_FORMAT_RG_32_SF32;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	return layout;
 }
@@ -76,27 +76,27 @@ DMKVertexLayout DMKVertexLayout::createAnimated()
 	attribute.dataCount = 1;
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES;
 	attribute.dataFormat = DMKFormat::DMK_FORMAT_RG_32_SF32;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_0;
 	attribute.dataFormat = DMKFormat::DMK_FORMAT_RGBA_32_SF32;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	attribute.dataCount = 4;
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_WEIGHT;
 	attribute.dataFormat = DMKFormat::DMK_FORMAT_R_32_SF32;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_BONE_ID;
 	attribute.dataFormat = DMKFormat::DMK_FORMAT_R_32_SF32;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	return layout;
 }
@@ -109,10 +109,10 @@ DMKVertexLayout DMKVertexLayout::createBoundingBox()
 	attribute.dataCount = 1;
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_COLOR_0;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	return layout;
 }
@@ -124,12 +124,12 @@ DMKVertexLayout DMKVertexLayout::createBasicSkybox()
 	attribute.dataCount = 1;
 	attribute.dataFormat = DMKFormat::DMK_FORMAT_RGBA_32_SF32;
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	return layout;
 }
 
-B1 DMKVertexLayout::operator==(const DMKVertexLayout& other) const
+bool DMKVertexLayout::operator==(const DMKVertexLayout& other) const
 {
 	if (this->attributes.size() != other.attributes.size())
 		return false;
@@ -198,17 +198,17 @@ void DMKVertexBuffer::clear()
 	_allocationSize = 0;
 }
 
-VPTR DMKVertexBuffer::data() const
+void* DMKVertexBuffer::data() const
 {
 	return pDataStore;
 }
 
-void DMKVertexBuffer::addData(const VPTR source, const UI64& byteCount, const UI64& offset)
+void DMKVertexBuffer::addData(const void* source, const UI64& byteCount, const UI64& offset)
 {
 	DMKMemoryFunctions::moveData(IncrementPointer(pDataStore, offset), source, byteCount);
 }
 
-void DMKVertexBuffer::setData(const VPTR source)
+void DMKVertexBuffer::setData(const void* source)
 {
 	DMKMemoryFunctions::moveData(pDataStore, source, _allocationSize);
 }
@@ -218,14 +218,14 @@ void DMKVertexBuffer::setNull(const UI64& byteSize, const UI64& offset)
 	DMKMemoryFunctions::setData(IncrementPointer(pDataStore, offset), 0, byteSize);
 }
 
-void DMKVertexBuffer::updateVertex(const UI64& index, const VPTR data)
+void DMKVertexBuffer::updateVertex(const UI64& index, const void* data)
 {
 	UI64 offset = layout.getVertexSize() * index;
 
 	DMKMemoryFunctions::moveData(IncrementPointer(pDataStore, offset), data, stride());
 }
 
-void DMKVertexBuffer::updateVertexAttribute(const UI64& index, const VPTR data, const DMKVertexAttributeType& attribute)
+void DMKVertexBuffer::updateVertexAttribute(const UI64& index, const void* data, const DMKVertexAttributeType& attribute)
 {
 	UI64 offset = layout.getVertexSize() * index;
 	offset += _findAttributeOffset(attribute);

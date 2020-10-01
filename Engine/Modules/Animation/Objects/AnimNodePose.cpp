@@ -6,10 +6,10 @@
 
 #include "Core/Math/MathFunctions.h"
 
-Matrix4F DMKAnimNodePose::interpolate(DMKAnimNodePose oldPose, F32 frameTime)
+Matrix4F DMKAnimNodePose::interpolate(DMKAnimNodePose oldPose, float frameTime)
 {
 	Matrix4F matrix = Matrix4F(1.0f);
-	F32 delta = (frameTime - oldPose.duration) / (this->duration - oldPose.duration);
+	float delta = (frameTime - oldPose.duration) / (this->duration - oldPose.duration);
 
 	/* Calculate Rotation Matrix */
 	matrix = matrix * DMathLib::toRotationalMatrix(DMathLib::interpolate(this->rotation, oldPose.rotation, delta));

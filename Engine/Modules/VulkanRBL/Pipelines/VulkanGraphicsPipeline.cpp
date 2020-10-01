@@ -14,6 +14,14 @@
 namespace Backend
 {
 	/*
+	 Check if a given index is valid.
+	*/
+	bool IsValidIndex(UI64 size, I64 index)
+	{
+		return size > Cast<UI64>(index);
+	}
+
+	/*
 	 Get the descriptor type using the uniform type.
 	*/
 	DMK_FORCEINLINE VkDescriptorType GetDescriptorType(DMKUniformType type)
@@ -72,9 +80,9 @@ namespace Backend
 	/*
 	 Get descriptor set layout bindings using shader uniforms.
 	*/
-	DMK_FORCEINLINE ARRAY<VkDescriptorSetLayoutBinding> GetDescriptorSetLayoutBindings(ARRAY<DMKUniformBuffer> uniforms, DMKShaderLocation location)
+	DMK_FORCEINLINE std::vector<VkDescriptorSetLayoutBinding> GetDescriptorSetLayoutBindings(std::vector<DMKUniformBuffer> uniforms, DMKShaderLocation location)
 	{
-		ARRAY<VkDescriptorSetLayoutBinding> bindings;
+		std::vector<VkDescriptorSetLayoutBinding> bindings;
 
 		VkDescriptorSetLayoutBinding binding = {};
 		binding.pImmutableSamplers = nullptr;
@@ -89,7 +97,7 @@ namespace Backend
 			binding.binding = Cast<UI32>(uniforms[index].getBindingLocation());
 			binding.descriptorType = GetDescriptorType(uniforms[index].type);
 
-			bindings.pushBack(binding);
+			bindings.push_back(binding);
 		}
 
 		return bindings;
@@ -98,16 +106,16 @@ namespace Backend
 	/*
 	 Get descriptor pool sizes.
 	*/
-	DMK_FORCEINLINE ARRAY<VkDescriptorPoolSize> GetDescriptorPoolSizes(ARRAY<DMKUniformBuffer> uniforms, DMKShaderLocation location)
+	DMK_FORCEINLINE std::vector<VkDescriptorPoolSize> GetDescriptorPoolSizes(std::vector<DMKUniformBuffer> uniforms, DMKShaderLocation location)
 	{
-		ARRAY<VkDescriptorPoolSize> sizes;
+		std::vector<VkDescriptorPoolSize> sizes;
 		VkDescriptorPoolSize poolSize = {};
 		poolSize.descriptorCount = 0;
 
 		for (UI32 index = 0; index < uniforms.size(); index++)
 		{
 			poolSize.type = GetDescriptorType(uniforms[index].type);
-			sizes.pushBack(poolSize);
+			sizes.push_back(poolSize);
 		}
 
 		return sizes;
@@ -116,9 +124,9 @@ namespace Backend
 	/*
 	 Get push constant ranges.
 	*/
-	DMK_FORCEINLINE ARRAY<VkPushConstantRange> GetPushConstantRanges(ARRAY<DMKUniformBuffer> uniforms, DMKShaderLocation location)
+	DMK_FORCEINLINE std::vector<VkPushConstantRange> GetPushConstantRanges(std::vector<DMKUniformBuffer> uniforms, DMKShaderLocation location)
 	{
-		ARRAY<VkPushConstantRange> ranges;
+		std::vector<VkPushConstantRange> ranges;
 		VkPushConstantRange range = {};
 		range.stageFlags = VulkanUtilities::getShaderStage(location);
 		range.offset = 0;
@@ -129,7 +137,7 @@ namespace Backend
 				continue;
 
 			range.size = Cast<UI32>(uniforms[index].byteSize());
-			ranges.pushBack(range);
+			ranges.push_back(range);
 
 			range.offset += Cast<UI32>(uniforms[index].byteSize());
 		}
@@ -137,7 +145,7 @@ namespace Backend
 		return ranges;
 	}
 
-	void VulkanGraphicsPipelineResource::update(RCoreObject* pCoreObject, ARRAY<RBuffer*> pBuffers, ARRAY<RTexture*> pTextures)
+	void VulkanGraphicsPipelineResource::update(RCoreObject* pCoreObject, std::vector<RBuffer*> pBuffers, std::vector<RTexture*> pTextures)
 	{
 		/* Re order the resource bindings or else resources will be mapped to the wrong shader resource */
 		if (resourceBindings.size())
@@ -148,7 +156,7 @@ namespace Backend
 				if (minimumBinding > resourceBindings[index].binding)
 					minimumBinding = resourceBindings[index].binding;
 
-			ARRAY<VkDescriptorSetLayoutBinding> bindings(resourceBindings.size());
+			std::vector<VkDescriptorSetLayoutBinding> bindings(resourceBindings.size());
 			for (UI64 index = 0; index < resourceBindings.size(); index++)
 				bindings[resourceBindings[index].binding - minimumBinding] = resourceBindings[index];
 
@@ -160,7 +168,7 @@ namespace Backend
 			return;
 		}
 
-		ARRAY<VkWriteDescriptorSet> descriptorWrites;
+		std::vector<VkWriteDescriptorSet> descriptorWrites;
 
 		VkWriteDescriptorSet descriptorWrite = {};
 		descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -173,10 +181,10 @@ namespace Backend
 		descriptorWrite.pTexelBufferView = VK_NULL_HANDLE;
 
 		UI64 bufferIndex = 0;
-		ARRAY<VkDescriptorBufferInfo> bufferInfos(pBuffers.size());
+		std::vector<VkDescriptorBufferInfo> bufferInfos(pBuffers.size());
 
 		UI64 textureIndex = 0;
-		ARRAY<VkDescriptorImageInfo> imageInfos(pTextures.size());
+		std::vector<VkDescriptorImageInfo> imageInfos(pTextures.size());
 
 		for (UI64 index = 0; index < resourceBindings.size(); index++)
 		{
@@ -186,7 +194,7 @@ namespace Backend
 			switch (descriptorWrite.descriptorType)
 			{
 			case VK_DESCRIPTOR_TYPE_SAMPLER:
-				if (!pTextures.isValidIndex(textureIndex))
+				if (!IsValidIndex(pTextures.size(), textureIndex))
 				{
 					DMK_ERROR("A texture entry is not supplied!");
 					textureIndex++;
@@ -196,12 +204,12 @@ namespace Backend
 				imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
 				imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
 				imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
-				descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
+				descriptorWrite.pImageInfo = &imageInfos.at(textureIndex);
 				textureIndex++;
 				break;
 
 			case VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER:
-				if (!pTextures.isValidIndex(textureIndex))
+				if (!IsValidIndex(pTextures.size(), textureIndex))
 				{
 					DMK_ERROR("A texture entry is not supplied!");
 					textureIndex++;
@@ -211,12 +219,12 @@ namespace Backend
 				imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
 				imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
 				imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
-				descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
+				descriptorWrite.pImageInfo = &imageInfos.at(textureIndex);
 				textureIndex++;
 				break;
 
 			case VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE:
-				if (!pTextures.isValidIndex(textureIndex))
+				if (!IsValidIndex(pTextures.size(), textureIndex))
 				{
 					DMK_ERROR("A texture entry is not supplied!");
 					textureIndex++;
@@ -226,12 +234,12 @@ namespace Backend
 				imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
 				imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
 				imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
-				descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
+				descriptorWrite.pImageInfo = &imageInfos.at(textureIndex);
 				textureIndex++;
 				break;
 
 			case VK_DESCRIPTOR_TYPE_STORAGE_IMAGE:
-				if (!pTextures.isValidIndex(textureIndex))
+				if (!IsValidIndex(pTextures.size(), textureIndex))
 				{
 					DMK_ERROR("A texture entry is not supplied!");
 					textureIndex++;
@@ -241,7 +249,7 @@ namespace Backend
 				imageInfos[textureIndex].imageLayout = VulkanUtilities::getVulkanLayout(pTextures[textureIndex]->pImage->layout);
 				imageInfos[textureIndex].imageView = InheritCast<VulkanImageView>(pTextures[textureIndex]->pImage->pImageView);
 				imageInfos[textureIndex].sampler = InheritCast<VulkanImageSampler>(pTextures[textureIndex]->pSampler);
-				descriptorWrite.pImageInfo = imageInfos.location(textureIndex);
+				descriptorWrite.pImageInfo = &imageInfos.at(textureIndex);
 				textureIndex++;
 				break;
 
@@ -254,7 +262,7 @@ namespace Backend
 				break;
 
 			case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER:
-				if (!pBuffers.isValidIndex(bufferIndex))
+				if (!IsValidIndex(pBuffers.size(), bufferIndex))
 				{
 					DMK_ERROR("A uniform entry is not supplied!");
 					bufferIndex++;
@@ -264,12 +272,12 @@ namespace Backend
 				bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
 				bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
 				bufferInfos[bufferIndex].offset = 0;	/* TODO */
-				descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
+				descriptorWrite.pBufferInfo = &bufferInfos.at(bufferIndex);
 				bufferIndex++;
 				break;
 
 			case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER:
-				if (!pBuffers.isValidIndex(bufferIndex))
+				if (!IsValidIndex(pBuffers.size(), bufferIndex))
 				{
 					DMK_ERROR("A uniform entry is not supplied!");
 					bufferIndex++;
@@ -279,12 +287,12 @@ namespace Backend
 				bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
 				bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
 				bufferInfos[bufferIndex].offset = 0;	/* TODO */
-				descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
+				descriptorWrite.pBufferInfo = &bufferInfos.at(bufferIndex);
 				bufferIndex++;
 				break;
 
 			case VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC:
-				if (!pBuffers.isValidIndex(bufferIndex))
+				if (!IsValidIndex(pBuffers.size(), bufferIndex))
 				{
 					DMK_ERROR("A uniform entry is not supplied!");
 					bufferIndex++;
@@ -294,12 +302,12 @@ namespace Backend
 				bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
 				bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
 				bufferInfos[bufferIndex].offset = 0;	/* TODO */
-				descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
+				descriptorWrite.pBufferInfo = &bufferInfos.at(bufferIndex);
 				bufferIndex++;
 				break;
 
 			case VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC:
-				if (!pBuffers.isValidIndex(bufferIndex))
+				if (!IsValidIndex(pBuffers.size(), bufferIndex))
 				{
 					DMK_ERROR("A uniform entry is not supplied!");
 					bufferIndex++;
@@ -309,7 +317,7 @@ namespace Backend
 				bufferInfos[bufferIndex].buffer = InheritCast<VulkanBuffer>(pBuffers[bufferIndex]);
 				bufferInfos[bufferIndex].range = pBuffers[bufferIndex]->getSize();
 				bufferInfos[bufferIndex].offset = 0;	/* TODO */
-				descriptorWrite.pBufferInfo = bufferInfos.location(bufferIndex);
+				descriptorWrite.pBufferInfo = &bufferInfos.at(bufferIndex);
 				bufferIndex++;
 				break;
 
@@ -330,7 +338,7 @@ namespace Backend
 				break;
 			}
 
-			descriptorWrites.pushBack(descriptorWrite);
+			descriptorWrites.push_back(descriptorWrite);
 		}
 
 		vkUpdateDescriptorSets(pCoreObject->getAs<VulkanCoreObject>()->device, Cast<UI32>(descriptorWrites.size()), descriptorWrites.data(), 0, VK_NULL_HANDLE);
@@ -346,9 +354,9 @@ namespace Backend
 
 		mySpecification = createInfo;
 
-		ARRAY<VulkanResourceLayout> resourceLayouts;
-		ARRAY<VkDescriptorPoolSize> descriptorPoolSizes;
-		ARRAY<VkPushConstantRange> pushConstants;
+		std::vector<VulkanResourceLayout> resourceLayouts;
+		std::vector<VkDescriptorPoolSize> descriptorPoolSizes;
+		std::vector<VkPushConstantRange> pushConstants;
 
 		/* Initialize Vertex Input Info */
 		VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
@@ -357,7 +365,7 @@ namespace Backend
 		vertexInputInfo.pNext = VK_NULL_HANDLE;
 
 		/* Resolve Shaders */
-		ARRAY<VkPipelineShaderStageCreateInfo> shaderStages;
+		std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
 		VkPipelineShaderStageCreateInfo shaderStage = {};
 		shaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		shaderStage.flags = VK_NULL_HANDLE;
@@ -370,16 +378,21 @@ namespace Backend
 			shaderStage.pName = "main";
 			shaderStage.module = VulkanUtilities::createShaderModule(pCoreObject, createInfo.shaders[index]);
 			shaderStage.stage = VulkanUtilities::getShaderStage(createInfo.shaders[index].location);
-			shaderStages.pushBack(shaderStage);
+			shaderStages.push_back(shaderStage);
 
-			resourceBindings.insert(GetDescriptorSetLayoutBindings(createInfo.shaders[index].getUniforms(), createInfo.shaders[index].location));
-			descriptorPoolSizes.insert(GetDescriptorPoolSizes(createInfo.shaders[index].getUniforms(), createInfo.shaders[index].location));
+			auto resourceBindings_t = GetDescriptorSetLayoutBindings(createInfo.shaders[index].getUniforms(), createInfo.shaders[index].location);
+			resourceBindings.insert(resourceBindings.end(), resourceBindings_t.begin(), resourceBindings_t.end());
+			
+			auto descriptorPoolSizes_t = GetDescriptorPoolSizes(createInfo.shaders[index].getUniforms(), createInfo.shaders[index].location);
+			descriptorPoolSizes.insert(descriptorPoolSizes.end(), descriptorPoolSizes_t.begin(), descriptorPoolSizes_t.end());
 
-			pushConstants.insert(GetPushConstantRanges(createInfo.shaders[index].getUniforms(), createInfo.shaders[index].location));
+			auto pushConstants_t = GetPushConstantRanges(createInfo.shaders[index].getUniforms(), createInfo.shaders[index].location);
+			pushConstants.insert(pushConstants.end(), pushConstants_t.begin(), pushConstants_t.end());
 
 			if (createInfo.shaders[index].location == DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
 			{
-				resourceLayouts[index].vertexInputBindings.insert(VulkanUtilities::getVertexBindingDescriptions(createInfo.shaders[index]));
+				auto vertexInputBindings_t = VulkanUtilities::getVertexBindingDescriptions(createInfo.shaders[index]);
+				resourceLayouts[index].vertexInputBindings.insert(resourceLayouts[index].vertexInputBindings.end(), vertexInputBindings_t.begin(), vertexInputBindings_t.end());
 				resourceLayouts[index].vertexInputAttributes = VulkanUtilities::getVertexAttributeDescriptions(createInfo.shaders[index]);
 
 				vertexInputInfo.vertexBindingDescriptionCount = Cast<UI32>(resourceLayouts[index].vertexInputBindings.size());
@@ -414,7 +427,7 @@ namespace Backend
 			newBlock.byteSize = entry.size;
 			newBlock.location = VulkanUtilities::getShaderLocation(Cast<VkShaderStageFlagBits>(entry.stageFlags));
 			newBlock.offset = entry.offset;
-			constantBlocks.pushBack(newBlock);
+			constantBlocks.push_back(newBlock);
 		}
 
 		if ((resourceBindings.size() > 0) && (descriptorPoolSizes.size() > 0))
@@ -475,15 +488,15 @@ namespace Backend
 
 		/* Initialize View Port */
 		VkViewport vViewport = {};
-		vViewport.x = (F32)viewport.xOffset;
-		vViewport.y = (F32)viewport.yOffset;
-		vViewport.width = Cast<F32>(viewport.width);
-		vViewport.height = Cast<F32>(viewport.height);
+		vViewport.x = (float)viewport.xOffset;
+		vViewport.y = (float)viewport.yOffset;
+		vViewport.width = Cast<float>(viewport.width);
+		vViewport.height = Cast<float>(viewport.height);
 		vViewport.minDepth = 0.0f;
 		vViewport.maxDepth = 1.0f;
 
 		/* Initialize Scissors */
-		ARRAY<VkRect2D> scissors = {};
+		std::vector<VkRect2D> scissors = {};
 		for (auto scissor : createInfo.scissorInfos) {
 			VkRect2D vScissor = {};
 			vScissor.offset.x = (I32)scissor.offset.x;
@@ -491,7 +504,7 @@ namespace Backend
 			vScissor.extent.width = (UI32)viewport.width;
 			vScissor.extent.height = (UI32)viewport.height;
 
-			scissors.pushBack(vScissor);
+			scissors.push_back(vScissor);
 		}
 
 		/* Initialize View Port State */
@@ -615,7 +628,7 @@ namespace Backend
 				if (pipelineCache == VK_NULL_HANDLE)
 					createPipelineCache(pCoreObject, sizeof(pipelineInfo), &pipelineInfo);
 
-				*createInfo.pPipelineCache = Cast<VPTR>(pipelineCache);
+				*createInfo.pPipelineCache = Cast<void*>(pipelineCache);
 			}
 		}
 		else
@@ -638,26 +651,28 @@ namespace Backend
 		vertexInputInfo.pNext = VK_NULL_HANDLE;
 
 		/* Resolve Shaders */
-		ARRAY<VkPipelineShaderStageCreateInfo> shaderStages;
+		std::vector<VkPipelineShaderStageCreateInfo> shaderStages;
 		VkPipelineShaderStageCreateInfo shaderStage = {};
 		shaderStage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		shaderStage.flags = VK_NULL_HANDLE;
 		shaderStage.pNext = VK_NULL_HANDLE;
 		shaderStage.pSpecializationInfo = VK_NULL_HANDLE;
 
-		ARRAY<VulkanResourceLayout> resourceLayouts(mySpecification.shaders.size());
+		std::vector<VulkanResourceLayout> resourceLayouts(mySpecification.shaders.size());
 		for (UI32 index = 0; index < mySpecification.shaders.size(); index++)
 		{
 			shaderStage.pName = "main";
 			shaderStage.module = VulkanUtilities::createShaderModule(pCoreObject, mySpecification.shaders[index]);
 			shaderStage.stage = VulkanUtilities::getShaderStage(mySpecification.shaders[index].location);
-			shaderStages.pushBack(shaderStage);
+			shaderStages.push_back(shaderStage);
 
-			resourceBindings.insert(GetDescriptorSetLayoutBindings(mySpecification.shaders[index].getUniforms(), mySpecification.shaders[index].location));
+			auto resourceBindings_t = GetDescriptorSetLayoutBindings(mySpecification.shaders[index].getUniforms(), mySpecification.shaders[index].location);
+			resourceBindings.insert(resourceBindings.end(), resourceBindings_t.begin(), resourceBindings_t.end());
 
 			if (mySpecification.shaders[index].location == DMKShaderLocation::DMK_SHADER_LOCATION_VERTEX)
 			{
-				resourceLayouts[index].vertexInputBindings.insert(VulkanUtilities::getVertexBindingDescriptions(mySpecification.shaders[index]));
+				auto vertexInputBindings_t = VulkanUtilities::getVertexBindingDescriptions(mySpecification.shaders[index]);
+				resourceLayouts[index].vertexInputBindings.insert(resourceLayouts[index].vertexInputBindings.end(), vertexInputBindings_t.begin(), vertexInputBindings_t.end());
 				resourceLayouts[index].vertexInputAttributes = VulkanUtilities::getVertexAttributeDescriptions(mySpecification.shaders[index]);
 
 				vertexInputInfo.vertexBindingDescriptionCount = Cast<UI32>(resourceLayouts[index].vertexInputBindings.size());
@@ -684,15 +699,15 @@ namespace Backend
 
 		/* Initialize View Port */
 		VkViewport vViewport = {};
-		vViewport.x = (F32)viewport.xOffset;
-		vViewport.y = (F32)viewport.yOffset;
-		vViewport.width = Cast<F32>(viewport.width);
-		vViewport.height = Cast<F32>(viewport.height);
+		vViewport.x = (float)viewport.xOffset;
+		vViewport.y = (float)viewport.yOffset;
+		vViewport.width = Cast<float>(viewport.width);
+		vViewport.height = Cast<float>(viewport.height);
 		vViewport.minDepth = 0.0f;
 		vViewport.maxDepth = 1.0f;
 
 		/* Initialize Scissors */
-		ARRAY<VkRect2D> scissors = {};
+		std::vector<VkRect2D> scissors = {};
 		for (auto scissor : mySpecification.scissorInfos) {
 			VkRect2D vScissor = {};
 			vScissor.offset.x = (I32)scissor.offset.x;
@@ -700,7 +715,7 @@ namespace Backend
 			vScissor.extent.width = (UI32)viewport.width;
 			vScissor.extent.height = (UI32)viewport.height;
 
-			scissors.pushBack(vScissor);
+			scissors.push_back(vScissor);
 		}
 
 		/* Initialize View Port State */
@@ -832,7 +847,7 @@ namespace Backend
 		vkDestroyPipelineCache(pCoreObject->getAs<VulkanCoreObject>()->device, pipelineCache, nullptr);
 	}
 
-	void VulkanGraphicsPipeline::createPipelineCache(RCoreObject* pCoreObject, UI64 byteSize, VPTR pData)
+	void VulkanGraphicsPipeline::createPipelineCache(RCoreObject* pCoreObject, UI64 byteSize, void* pData)
 	{
 		VkPipelineCacheCreateInfo createInfo = {};
 		createInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO;
@@ -844,9 +859,9 @@ namespace Backend
 		DMK_VULKAN_ASSERT(vkCreatePipelineCache(pCoreObject->getAs<VulkanCoreObject>()->device, &createInfo, nullptr, &pipelineCache), "Failed to create pipeline cache!");
 	}
 
-	ARRAY<RPipelineResource*> VulkanGraphicsPipeline::allocateResources(RCoreObject* pCoreObject)
+	std::vector<RPipelineResource*> VulkanGraphicsPipeline::allocateResources(RCoreObject* pCoreObject)
 	{
-		ARRAY<VkDescriptorSetLayout> _descriptorLayouts(mySpecification.resourceCount, descriptor.layout);
+		std::vector<VkDescriptorSetLayout> _descriptorLayouts(mySpecification.resourceCount, descriptor.layout);
 
 		VkDescriptorSetAllocateInfo descriptorSetAllocateInfo = {};
 		descriptorSetAllocateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
@@ -855,10 +870,10 @@ namespace Backend
 		descriptorSetAllocateInfo.pSetLayouts = _descriptorLayouts.data();
 		descriptorSetAllocateInfo.descriptorSetCount = Cast<UI32>(mySpecification.resourceCount);
 
-		ARRAY<VkDescriptorSet> _descriptors(mySpecification.resourceCount);
+		std::vector<VkDescriptorSet> _descriptors(mySpecification.resourceCount);
 		DMK_VULKAN_ASSERT(vkAllocateDescriptorSets(pCoreObject->getAs<VulkanCoreObject>()->device, &descriptorSetAllocateInfo, _descriptors.data()), "Failed to allocate descriptor sets!");
 
-		ARRAY<RPipelineResource*> resources;
+		std::vector<RPipelineResource*> resources;
 
 		for (auto descriptor : _descriptors)
 		{
@@ -866,13 +881,13 @@ namespace Backend
 			pResource->resourceBindings = resourceBindings;
 			pResource->set = descriptor;
 
-			resources.pushBack(pResource);
+			resources.push_back(pResource);
 		}
 
 		return resources;
 	}
 
-	void VulkanGraphicsPipeline::deallocateResources(ARRAY<RPipelineResource*> resources)
+	void VulkanGraphicsPipeline::deallocateResources(std::vector<RPipelineResource*> resources)
 	{
 		for (UI32 index = 0; index < resources.size(); index++)
 			StaticAllocator<VulkanGraphicsPipelineResource>::deallocate(resources[index]);

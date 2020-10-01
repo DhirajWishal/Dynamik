@@ -6,20 +6,20 @@
 
 void DMKSkyBoxEntity::addShaderModule(const DMKShaderModule& sModule)
 {
-	shaders.pushBack(sModule);
+	shaders.push_back(sModule);
 }
 
-void DMKSkyBoxEntity::setShaderModules(ARRAY<DMKShaderModule> sModules)
+void DMKSkyBoxEntity::setShaderModules(std::vector<DMKShaderModule> sModules)
 {
 	shaders = std::move(sModules);
 }
 
 DMKShaderModule* DMKSkyBoxEntity::getShaderModule(I32 index)
 {
-	return shaders.location(index);
+	return &shaders.at(index);
 }
 
-ARRAY<DMKShaderModule> DMKSkyBoxEntity::getShaders()
+std::vector<DMKShaderModule> DMKSkyBoxEntity::getShaders()
 {
 	return shaders;
 }

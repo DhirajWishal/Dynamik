@@ -8,17 +8,17 @@
 
 namespace Backend
 {
-	VkSurfaceFormatKHR chooseSwapSurfaceFormat(const ARRAY<VkSurfaceFormatKHR>& availableFormats)
+	VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
 	{
 		for (const auto& availableFormat : availableFormats)
 			if (availableFormat.format == VK_FORMAT_B8G8R8A8_UNORM
 				&& availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
 				return availableFormat;
 
-		return ((ARRAY<VkSurfaceFormatKHR>)availableFormats)[0];
+		return ((std::vector<VkSurfaceFormatKHR>)availableFormats)[0];
 	}
 
-	VkPresentModeKHR chooseSwapPresentMode(const ARRAY<VkPresentModeKHR>& availablePresentModes, RSwapChainPresentMode presentMode)
+	VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes, RSwapChainPresentMode presentMode)
 	{
 		VkPresentModeKHR bestMode = VK_PRESENT_MODE_FIFO_KHR;
 
@@ -153,7 +153,7 @@ namespace Backend
 			DMK_ERROR_BOX("Failed to create Swap Chain!");
 
 		vkGetSwapchainImagesKHR(pCoreObject->getAs<VulkanCoreObject>()->device, swapChain, &bufferCount, nullptr);
-		ARRAY<VkImage> _images(bufferCount);
+		std::vector<VkImage> _images(bufferCount);
 		vkGetSwapchainImagesKHR(pCoreObject->getAs<VulkanCoreObject>()->device, swapChain, &bufferCount, _images.data());
 
 		format = (DMKFormat)surfaceFormat.format;
@@ -172,11 +172,11 @@ namespace Backend
 				DMKTextureSwizzle::TEXTURE_SWIZZLE_IDENTITY,
 				DMKTextureSwizzle::TEXTURE_SWIZZLE_IDENTITY };
 			_vImage->createImageView(pCoreObject, _swizzles);
-			images.pushBack(_vImage);
+			images.push_back(_vImage);
 		}
 
-		extent.width = Cast<F32>(scExtent.width);
-		extent.height = Cast<F32>(scExtent.height);
+		extent.width = Cast<float>(scExtent.width);
+		extent.height = Cast<float>(scExtent.height);
 	}
 
 	void VulkanSwapChain::terminate(RCoreObject* pCoreObject)

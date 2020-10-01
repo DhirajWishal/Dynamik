@@ -53,7 +53,7 @@ public:
 
 	 @param timeStep: The amount of time elapsed from the last iteration.
 	*/
-	virtual void onUpdate(const F32 timeStep) {}
+	virtual void onUpdate(const float timeStep) {}
 
 	/*
 	 On main window resize method.
@@ -69,9 +69,13 @@ public:
 	 @tparam ENTITY: The entity type.
 	*/
 	template<class ENTITY>
-	DMK_FORCEINLINE B1 isEntityRegistered()
+	DMK_FORCEINLINE bool isEntityRegistered()
 	{
-		return registeredEntities.getNumberOfInstances(typeid(ENTITY).name()) > 0;
+		for (auto itr = registeredEntities.begin(); itr != registeredEntities.end(); itr++)
+			if (*itr == typeid(ENTITY).name())
+				return true;
+
+		return false;
 	}
 
 	/*
@@ -91,7 +95,7 @@ public:
 
 		STRING name = typeid(ENTITY).name();
 		entityMap[name] = StaticAllocator<TEntityArray<ENTITY>>::allocate();
-		registeredEntities.pushBack(name);
+		registeredEntities.push_back(name);
 	}
 
 	/*
@@ -118,7 +122,7 @@ public:
 	template<class ENTITY>
 	DMK_FORCEINLINE ENTITY* addEntity(const ENTITY& constructor = ENTITY())
 	{
-		getEntities<ENTITY>()->pushBack(constructor);
+		getEntities<ENTITY>()->push_back(constructor);
 		return getEntity<ENTITY>(-1);
 	}
 
@@ -131,8 +135,8 @@ public:
 	template<class ENTITY>
 	DMK_FORCEINLINE ENTITY* addEntity(ENTITY&& constructor)
 	{
-		getEntities()->pushBack(std::move(constructor));
-		return getEntities<ENTITY>()->location(-1);
+		getEntities()->push_back(std::move(constructor));
+		return &getEntities<ENTITY>()->at(-1);
 	}
 
 	/*
@@ -144,7 +148,10 @@ public:
 	template<class ENTITY>
 	DMK_FORCEINLINE ENTITY* getEntity(I64 index = 0)
 	{
-		return Cast<ENTITY*>(getEntities<ENTITY>()->location(index));
+		if (index < 0)
+			index = getEntities<ENTITY>()->size() + index;
+
+		return Cast<ENTITY*>(&getEntities<ENTITY>()->at(index));
 	}
 
 	/*
@@ -161,7 +168,7 @@ public:
 	/*
 	 Get all of the registered entity names.
 	*/
-	DMK_FORCEINLINE ARRAY<STRING> getAllRegisteredEntityNames() const { return this->registeredEntities; }
+	DMK_FORCEINLINE std::vector<STRING> getAllRegisteredEntityNames() const { return this->registeredEntities; }
 
 	/* Helper methods to initialize entities */
 protected:
@@ -224,11 +231,11 @@ private:
 	std::unordered_map<STRING, IEntityArray*> entityMap;
 
 	/* Registered entity type names */
-	ARRAY<STRING> registeredEntities;
+	std::vector<STRING> registeredEntities;
 
 public:		/* Light Component */
 	/* Global Light Components */
-	ARRAY<DMKGameWorldLightComponent> globalLightComponents;
+	std::vector<DMKGameWorldLightComponent> globalLightComponents;
 
 	/*
 	 Add a light component to the world.
@@ -252,16 +259,16 @@ public:
  This object stores all the entities of a given type.
 */
 template<class OBJECT>
-class DMK_API TEntityArray : public IEntityArray, public ARRAY<OBJECT> {
+class DMK_API TEntityArray : public IEntityArray, public std::vector<OBJECT> {
 public:
-	TEntityArray() : ARRAY<OBJECT>() {}
-	TEntityArray(UI64 size) : ARRAY<OBJECT>(size) {}
-	TEntityArray(UI64 size, const OBJECT& value) : ARRAY<OBJECT>(size, value) {}
-	TEntityArray(const OBJECT* arr) : ARRAY<OBJECT>(arr) {}
-	TEntityArray(std::initializer_list<OBJECT> list, UI64 size = 1) : ARRAY<OBJECT>(list, size) {}
-	TEntityArray(const ARRAY<OBJECT>& arr) : ARRAY<OBJECT>(arr) {}
-	TEntityArray(ARRAY<OBJECT>&& arr) : ARRAY<OBJECT>(std::move(arr)) {}
-	TEntityArray(std::vector<OBJECT> vector) : ARRAY<OBJECT>(vector) {}
+	TEntityArray() : std::vector<OBJECT>() {}
+	TEntityArray(UI64 size) : std::vector<OBJECT>(size) {}
+	TEntityArray(UI64 size, const OBJECT& value) : std::vector<OBJECT>(size, value) {}
+	TEntityArray(const OBJECT* arr) : std::vector<OBJECT>(arr) {}
+	TEntityArray(std::initializer_list<OBJECT> list, UI64 size = 1) : std::vector<OBJECT>(list, size) {}
+	TEntityArray(const std::vector<OBJECT>& arr) : std::vector<OBJECT>(arr) {}
+	TEntityArray(std::vector<OBJECT>&& arr) : std::vector<OBJECT>(std::move(arr)) {}
+	TEntityArray(std::vector<OBJECT> vector) : std::vector<OBJECT>(vector) {}
 	~TEntityArray() {}
 };
 

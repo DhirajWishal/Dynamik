@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_GLSL_COMPILER_H
 #define _DYNAMIK_GLSL_COMPILER_H
 
-#include "Core/Types/Array.h"
+#include <vector>
 #include "Core/Objects/Resources/ShaderModule.h"
 
 namespace Tools

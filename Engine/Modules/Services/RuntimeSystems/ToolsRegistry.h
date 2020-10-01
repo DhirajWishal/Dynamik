@@ -67,7 +67,7 @@ public:
 	/*
 	 Get all the registered tool names.
 	*/
-	static ARRAY<STRING> getAllRegisteredToolNames();
+	static std::vector<STRING> getAllRegisteredToolNames();
 
 	/*
 	 Get the tool map of the registry.

@@ -67,7 +67,7 @@ public:
 
 	 @param meshObjects: The mesh objects to be set.
 	*/
-	void setMeshObjects(ARRAY<DMKMeshObject> meshObjects);
+	void setMeshObjects(std::vector<DMKMeshObject> meshObjects);
 
 	/*
 	 Get the pointer to a mesh object using its index.
@@ -79,10 +79,10 @@ public:
 	/*
 	 Get the pointer to the mesh objects.
 	*/
-	ARRAY<DMKMeshObject>* getMeshObjects();
+	std::vector<DMKMeshObject>* getMeshObjects();
 
 	/* The mesh objects. */
-	ARRAY<DMKMeshObject> meshObjects;
+	std::vector<DMKMeshObject> meshObjects;
 
 public:
 	/*
@@ -97,7 +97,7 @@ public:
 
 	 @param sModules: The shader modules to be set.
 	*/
-	void setShaderModules(ARRAY<DMKShaderModule> sModules);
+	void setShaderModules(std::vector<DMKShaderModule> sModules);
 
 	/*
 	 Get a shader module stored in this object.
@@ -109,10 +109,10 @@ public:
 	/*
 	 Get all the shaders stored in the object.
 	*/
-	ARRAY<DMKShaderModule> getShaders();
+	std::vector<DMKShaderModule> getShaders();
 
 	/* The shader modules. */
-	ARRAY<DMKShaderModule> shaders;
+	std::vector<DMKShaderModule> shaders;
 
 public:
 	/*
@@ -127,7 +127,7 @@ public:
 
 	 @param requests: The requests to be set.
 	*/
-	void setResourceRequests(ARRAY<DMKResourceRequest> requests);
+	void setResourceRequests(std::vector<DMKResourceRequest> requests);
 
 	/*
 	 Get a resource request from the array.
@@ -139,10 +139,10 @@ public:
 	/*
 	 Get all the resource requests stored.
 	*/
-	ARRAY<DMKResourceRequest> getResourceRequests() const;
+	std::vector<DMKResourceRequest> getResourceRequests() const;
 
 	/* Resource Requests */
-	ARRAY<DMKResourceRequest> resourceRequests;
+	std::vector<DMKResourceRequest> resourceRequests;
 
 public:
 	/*
@@ -153,7 +153,7 @@ public:
 	/* Render Data ID */
 	UI64 renderDataID = 0;
 
-	B1 isInitializedStaticModel = false;
+	bool isInitializedStaticModel = false;
 };
 
 class DMK_API DMKCameraModule;

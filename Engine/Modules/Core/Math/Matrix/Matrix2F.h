@@ -14,20 +14,20 @@ class DMK_API Matrix2F;
 template <>
 struct DMK_API MatrixTraits<Matrix2F>
 {
-	typedef F32 type;
+	typedef float type;
 };
 
 class DMK_API Matrix2F : public Matrix<Matrix2F>
 {
 public:
 	Matrix2F();
-	Matrix2F(F32 value);
+	Matrix2F(float value);
 	Matrix2F(Vector2F vec1, Vector2F vec2);
 	Matrix2F(
-		F32 a, F32 b,
-		F32 c, F32 d);
+		float a, float b,
+		float c, float d);
 	Matrix2F(const Matrix2F& other);
-	Matrix2F(std::initializer_list<F32> list);
+	Matrix2F(std::initializer_list<float> list);
 	~Matrix2F() {}
 
 	Matrix2F operator=(const Matrix2F& other);

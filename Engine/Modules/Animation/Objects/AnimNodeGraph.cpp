@@ -6,7 +6,7 @@
 
 void DMKAnimNodeGraph::addNode(const DMKAnimNode& node)
 {
-	nodes.pushBack(node);
+	nodes.push_back(node);
 }
 
 DMKAnimNode DMKAnimNodeGraph::getNode(const STRING& name)

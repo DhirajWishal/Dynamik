@@ -8,7 +8,7 @@
 #include "Window/WindowHandle.h"
 #include "Core/Macros/Global.h"
 #include "Core/Types/DataTypes.h"
-#include "Core/Types/Array.h"
+#include <vector>
 
 /*
  Dynamik Window Manager
@@ -30,7 +30,7 @@ public:
 	void clean();
 
 private:
-	ARRAY<DMKWindowHandle*> myWindowHandles;
+	std::vector<DMKWindowHandle*> myWindowHandles;
 	UI64 windowIDs = 0;
 };
 

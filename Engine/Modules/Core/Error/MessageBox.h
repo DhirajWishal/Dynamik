@@ -10,7 +10,7 @@
  This object is platform specific.
 */
 
-#include "../Types/Array.h"
+#include <vector>
 #include "ErrorDefines.h"
 
 /*

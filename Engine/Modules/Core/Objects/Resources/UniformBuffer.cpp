@@ -14,9 +14,9 @@ void DMKUniformBuffer::addAttribute(const STRING& name, const UI64& attribSize)
 	uByteSize += attribSize;
 }
 
-ARRAY<DMKUniformBuffer::UniformBufferAttribute> DMKUniformBuffer::getAttributes() const
+std::vector<DMKUniformBuffer::UniformBufferAttribute> DMKUniformBuffer::getAttributes() const
 {
-	ARRAY<DMKUniformBuffer::UniformBufferAttribute> attributes;
+	std::vector<DMKUniformBuffer::UniformBufferAttribute> attributes;
 	for (auto attribute : attributeMap)
 	{
 		DMKUniformBuffer::UniformBufferAttribute _attribute;
@@ -24,7 +24,7 @@ ARRAY<DMKUniformBuffer::UniformBufferAttribute> DMKUniformBuffer::getAttributes(
 		_attribute.offset = attribute.second.offset;
 		_attribute.name = attribute.first;
 
-		attributes.pushBack(_attribute);
+		attributes.push_back(_attribute);
 	}
 
 	return attributes;
@@ -43,25 +43,25 @@ void DMKUniformBuffer::initialize()
 		if (uByteSize)
 		{
 			DMK_WARN("The buffer is already allocated! Reallocating the buffer.");
-			StaticAllocator<VPTR>::deallocate(pUniformBufferStorage, uByteSize);
+			StaticAllocator<void*>::deallocate(pUniformBufferStorage, uByteSize);
 		}
 	}
 
 	pUniformBufferStorage = StaticAllocator<BYTE>::allocate(uByteSize);
 }
 
-void DMKUniformBuffer::setData(const STRING& name, VPTR data, const UI64& offset)
+void DMKUniformBuffer::setData(const STRING& name, void* data, const UI64& offset)
 {
 	auto attribute = attributeMap[name];
 	DMKMemoryFunctions::copyData(IncrementPointer(pUniformBufferStorage, attribute.offset + offset), data, attribute.byteSize);
 }
 
-void DMKUniformBuffer::setData(VPTR data)
+void DMKUniformBuffer::setData(void* data)
 {
 	DMKMemoryFunctions::copyData(pUniformBufferStorage, data, uByteSize);
 }
 
-VPTR DMKUniformBuffer::getData(const STRING& name, const UI64& offset)
+void* DMKUniformBuffer::getData(const STRING& name, const UI64& offset)
 {
 	auto attribute = attributeMap[name];
 	return IncrementPointer(pUniformBufferStorage, attribute.offset + offset);
@@ -74,14 +74,14 @@ void DMKUniformBuffer::setZero()
 
 void DMKUniformBuffer::clear()
 {
-	StaticAllocator<VPTR>::deallocate(pUniformBufferStorage, uByteSize);
+	StaticAllocator<void*>::deallocate(pUniformBufferStorage, uByteSize);
 
 	pUniformBufferStorage = nullptr;
 	uByteSize = 0;
 	attributeMap.clear();
 }
 
-VPTR DMKUniformBuffer::data() const
+void* DMKUniformBuffer::data() const
 {
 	return pUniformBufferStorage;
 }

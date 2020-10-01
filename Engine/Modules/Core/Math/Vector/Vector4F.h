@@ -16,7 +16,7 @@ class DMK_API Vector4F;
 template <>
 struct DMK_API VectorTraits<Vector4F>
 {
-	typedef F32 type;
+	typedef float type;
 };
 
 /*
@@ -26,23 +26,23 @@ struct DMK_API VectorTraits<Vector4F>
 class DMK_API Vector4F : public Vector<Vector4F> {
 public:
 	Vector4F() : r(0.0f), g(0.0f), b(0.0f), a(0.0f) {}
-	Vector4F(F32 value) : r(value), g(value), b(value), a(value) {}
-	Vector4F(F32 value1, F32 value2, F32 value3, F32 value4) : r(value1), g(value2), b(value3), a(value4) {}
+	Vector4F(float value) : r(value), g(value), b(value), a(value) {}
+	Vector4F(float value1, float value2, float value3, float value4) : r(value1), g(value2), b(value3), a(value4) {}
 	Vector4F(const Vector4F& other) : r(other.r), g(other.g), b(other.b), a(other.a) {}
-	Vector4F(std::initializer_list<F32> list);
-	Vector4F(const F32* ptr);
+	Vector4F(std::initializer_list<float> list);
+	Vector4F(const float* ptr);
 	~Vector4F() {}
 
-	Vector4F operator=(const std::initializer_list<F32>& list);
-	F32& operator[](UI32 index) const;
+	Vector4F operator=(const std::initializer_list<float>& list);
+	float& operator[](UI32 index) const;
 
-	operator F32* () const;
+	operator float* () const;
 
 	union
 	{
-		struct { F32 r, g, b, a; };
-		struct { F32 x, y, z, w; };
-		struct { F32 width, height, depth, zero; };
+		struct { float r, g, b, a; };
+		struct { float x, y, z, w; };
+		struct { float width, height, depth, zero; };
 	};
 };
 
@@ -51,22 +51,22 @@ Vector4F operator-(const Vector4F& lhs, const Vector4F& rhs);
 Vector4F operator*(const Vector4F& lhs, const Vector4F& rhs);
 Vector4F operator/(const Vector4F& lhs, const Vector4F& rhs);
 
-Vector4F operator+(const Vector4F& lhs, const F32& value);
-Vector4F operator-(const Vector4F& lhs, const F32& value);
-Vector4F operator*(const Vector4F& lhs, const F32& value);
-Vector4F operator/(const Vector4F& lhs, const F32& value);
+Vector4F operator+(const Vector4F& lhs, const float& value);
+Vector4F operator-(const Vector4F& lhs, const float& value);
+Vector4F operator*(const Vector4F& lhs, const float& value);
+Vector4F operator/(const Vector4F& lhs, const float& value);
 
-B1 operator==(const Vector4F& lhs, const Vector4F& rhs);
-B1 operator!=(const Vector4F& lhs, const Vector4F& rhs);
-B1 operator<(const Vector4F& lhs, const Vector4F& rhs);
-B1 operator<=(const Vector4F& lhs, const Vector4F& rhs);
-B1 operator>(const Vector4F& lhs, const Vector4F& rhs);
-B1 operator>=(const Vector4F& lhs, const Vector4F& rhs);
+bool operator==(const Vector4F& lhs, const Vector4F& rhs);
+bool operator!=(const Vector4F& lhs, const Vector4F& rhs);
+bool operator<(const Vector4F& lhs, const Vector4F& rhs);
+bool operator<=(const Vector4F& lhs, const Vector4F& rhs);
+bool operator>(const Vector4F& lhs, const Vector4F& rhs);
+bool operator>=(const Vector4F& lhs, const Vector4F& rhs);
 
-B1 operator&&(const Vector4F& lhs, const Vector4F& rhs);
-B1 operator||(const Vector4F& lhs, const Vector4F& rhs);
-B1 operator^(const Vector4F& lhs, const Vector4F& rhs);
-B1 operator~(const Vector4F& rhs);
-B1 operator!(const Vector4F& rhs);
+bool operator&&(const Vector4F& lhs, const Vector4F& rhs);
+bool operator||(const Vector4F& lhs, const Vector4F& rhs);
+bool operator^(const Vector4F& lhs, const Vector4F& rhs);
+bool operator~(const Vector4F& rhs);
+bool operator!(const Vector4F& rhs);
 
 #endif // !_DYNAMIK_MATH_VECTOR_4F_H

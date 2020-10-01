@@ -29,7 +29,7 @@ UI64 DMKAutomatedMemoryManager::getAllocationCount()
 	return instance.memoryMap.size();
 }
 
-void DMKAutomatedMemoryManager::deallocate(VPTR location, UI64 size, UI64 offset, UI64 alignment)
+void DMKAutomatedMemoryManager::deallocate(void* location, UI64 size, UI64 offset, UI64 alignment)
 {
 	StaticAllocator<BYTE>::rawDeallocate(location, size, alignment, offset);
 	instance.memoryMap.erase((UI64)location);

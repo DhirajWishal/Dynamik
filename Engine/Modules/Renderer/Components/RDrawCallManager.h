@@ -45,7 +45,7 @@ class DMK_API RDrawCallManager {
 		RSecondaryCommandBinding(REntity* pEntity = nullptr) : pRenderEntity(pEntity) {}
 
 		REntity* pRenderEntity = nullptr;
-		F32 runTime = 0.0f;
+		float runTime = 0.0f;
 	};
 
 public:
@@ -82,16 +82,16 @@ private:
 	 Secondary command bindings.
 	 These bindings are actively used in the secondary command buffers.
 	*/
-	ARRAY<RSecondaryCommandBinding> secondaryCommandBindings;
+	std::vector<RSecondaryCommandBinding> secondaryCommandBindings;
 
 	/* The local command buffer manager pointer. */
 	RCommandBufferManager* pCommandBufferManager = nullptr;
 
 	/* Pointer to command buffers. */
-	ARRAY<RCommandBuffer*> pCommandBuffers;
+	std::vector<RCommandBuffer*> pCommandBuffers;
 
 	/* Secondary command buffers */
-	ARRAY<RCommandBuffer*> pSecondaryCommandBuffers;
+	std::vector<RCommandBuffer*> pSecondaryCommandBuffers;
 
 	UI8 isCommandBuffersInitialized : 1;
 };

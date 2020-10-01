@@ -28,5 +28,5 @@ void DMKAnimationController::bindInstruction(STRING sEvent, DMKAnimationControlI
 		break;
 	}
 
-	eventList.pushBack(sEvent);
+	eventList.push_back(sEvent);
 }

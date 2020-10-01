@@ -21,10 +21,10 @@ public:
 	RFrameBuffer() {}
 	virtual ~RFrameBuffer() {}
 
-	virtual void initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, DMKExtent2D frameExtent, UI32 bufferCount, ARRAY<ARRAY<RFrameBufferAttachment*>> pAttachments) = 0;
+	virtual void initialize(RCoreObject* pCoreObject, RRenderPass* pRenderPass, DMKExtent2D frameExtent, UI32 bufferCount, std::vector<std::vector<RFrameBufferAttachment*>> pAttachments) = 0;
 	virtual void terminate(RCoreObject* pCoreObject) = 0;
 
-	ARRAY<ARRAY<RFrameBufferAttachment*>> pAttachments;
+	std::vector<std::vector<RFrameBufferAttachment*>> pAttachments;
 	UI32 width = 0;
 	UI32 height = 0;
 };

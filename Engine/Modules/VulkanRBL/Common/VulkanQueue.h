@@ -23,7 +23,7 @@ namespace Backend
 		void findQueueFamilies(const VkPhysicalDevice& physicalDevice, const VkSurfaceKHR& surface);
 		void initializeQueues(const VkDevice& logicalDevice);
 
-		B1 isComplete();
+		bool isComplete();
 
 		std::optional<UI32> processFamily;      /* Graphics Family */
 		std::optional<UI32> utilityFamily;      /* Present Family */

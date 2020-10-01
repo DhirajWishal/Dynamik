@@ -23,12 +23,12 @@ void DMKMeshObject::clearVertexAndIndexBuffers()
 	indexBuffer.clear();
 }
 
-void DMKMeshObject::loadVertexDataFromPointer(const VPTR address)
+void DMKMeshObject::loadVertexDataFromPointer(const void* address)
 {
 	vertexBuffer.addData(address, vertexBuffer.byteSize(), 0);
 }
 
-void DMKMeshObject::loadIndexDataFromPointer(const VPTR address)
+void DMKMeshObject::loadIndexDataFromPointer(const void* address)
 {
 	indexBuffer.set(address, indexBuffer.size(), 0);
 }

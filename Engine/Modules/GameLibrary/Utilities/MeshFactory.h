@@ -57,7 +57,7 @@ public:
 			+X, -X, +Y, -Y, +Z, -Z configuration.
 			(eg: { "right.jpg", "left.jpg", "top.jpg", "bottom.jpg", "front.jpg", "back.jpg" })
 	*/
-	static DMKMeshObject createSkyBox(ARRAY<STRING> textureFiles);
+	static DMKMeshObject createSkyBox(std::vector<STRING> textureFiles);
 
 	/*
 	 Load an animated mesh from an asset file.
@@ -78,7 +78,7 @@ public:
 
 	 @param asset: The asset path.
 	*/
-	static ARRAY<DMKMeshObject> loadMeshes(const STRING& file, DMKVertexLayout vertexLayout = DMKVertexLayout::createBasic());
+	static std::vector<DMKMeshObject> loadMeshes(const STRING& file, DMKVertexLayout vertexLayout = DMKVertexLayout::createBasic());
 
 private:
 	STRING workingDirectory = TEXT("");

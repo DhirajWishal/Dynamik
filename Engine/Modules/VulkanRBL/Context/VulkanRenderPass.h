@@ -21,7 +21,7 @@ namespace Backend
 		VulkanRenderPass() {}
 		~VulkanRenderPass() {}
 
-		virtual void initialize(RCoreObject* pCoreObject, ARRAY<RSubpassAttachment> aSubPasses, ARRAY<RSubpassDependency> dependencies, RSwapChain* pSwapChain, DMKFormat overrideFormat = DMKFormat::DMK_FORMAT_UNDEFINED) override final;
+		virtual void initialize(RCoreObject* pCoreObject, std::vector<RSubpassAttachment> aSubPasses, std::vector<RSubpassDependency> dependencies, RSwapChain* pSwapChain, DMKFormat overrideFormat = DMKFormat::DMK_FORMAT_UNDEFINED) override final;
 		virtual void terminate(RCoreObject* pCoreObject) override;
 
 		operator VkRenderPass() const;

@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_TEXTURE_FACTORY_H
 #define _DYNAMIK_TEXTURE_FACTORY_H
 
-#include "Core/Types/Array.h"
+#include <vector>
 #include "Core/Objects/Resources/Textures/Texture2D.h"
 
 /*
@@ -22,7 +22,7 @@ public:
 	DMKTextureFactory& operator=(DMKTextureFactory&&) = delete;
 
 	static DMKTexture* create(const DMKTextureType& type, const STRING& path);
-	static DMKTexture* createCubeMap(const ARRAY<STRING>& paths);
+	static DMKTexture* createCubeMap(const std::vector<STRING>& paths);
 	static DMKTexture* createCubeMapFromPanorama(const STRING& file);
 
 	static void destroy(DMKTexture* texture);

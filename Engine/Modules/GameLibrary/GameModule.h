@@ -11,7 +11,7 @@
 
 #include "Core/Macros/Global.h"
 #include "Core/Types/Utilities.h"
-#include "Core/Types/Array.h"
+#include <vector>
 #include "Core/FileSystem/FileSystem.h"
 #include "Events/EventPool.h"
 #include "Mechanics/PlayerController.h"
@@ -44,12 +44,12 @@ public:
 	/*
 	 On tick method.
 	*/
-	virtual void onTick(const F32 tick) {}
+	virtual void onTick(const float tick) {}
 
 	/*
 	 On update method.
 	*/
-	virtual void onUpdate(const F32 timeStep) {}
+	virtual void onUpdate(const float timeStep) {}
 
 	/*
 	 On unload method.
@@ -88,7 +88,7 @@ public:
 
 	 @param timeStep: The time step of the current call.
 	*/
-	void updateEntities(F32 timeStep);
+	void updateEntities(float timeStep);
 
 	/*
 	 Allocates a user defined Game World and initializes it.
@@ -105,7 +105,7 @@ public:
 
 public:
 	/* Game Mechanics */
-	ARRAY<DMKGameMechanics*> gameMechanics;
+	std::vector<DMKGameMechanics*> gameMechanics;
 
 	/*
 	 Get the game server which the module is currently active.
@@ -122,19 +122,19 @@ public:
 	/* Global game data */
 public:
 	/* The current score of the game */
-	F32 score = 0.0f;
+	float score = 0.0f;
 
 	/*
 	 Set the score of the game.
 
 	 @param score: The score to be set.
 	*/
-	void setScore(const F32 score) { this->score = score; }
+	void setScore(const float score) { this->score = score; }
 
 	/*
 	 Get the current score of the game.
 	*/
-	const F32 getScore() const { score; }
+	const float getScore() const { score; }
 
 	/* The currently active game server pointer. */
 	DMKGameServer* pServer = nullptr;

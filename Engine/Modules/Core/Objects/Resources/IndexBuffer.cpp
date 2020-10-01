@@ -54,17 +54,17 @@ void DMKIndexBuffer::add(const UI64& index)
 	if (((indexCount + 1) * indexSize) > lastAllocationSize)
 		_growBuffer(indexSize);
 
-	DMKMemoryFunctions::moveData(at(-1), Cast<VPTR>(&index), indexSize);
+	DMKMemoryFunctions::moveData(at(-1), Cast<void*>(&index), indexSize);
 
 	indexCount++;
 }
 
-void DMKIndexBuffer::set(const VPTR data, UI64 size, UI64 offset)
+void DMKIndexBuffer::set(const void* data, UI64 size, UI64 offset)
 {
 	DMKMemoryFunctions::copyData(IncrementPointer(pDataStore, offset), data, size);
 }
 
-VPTR DMKIndexBuffer::data() const
+void* DMKIndexBuffer::data() const
 {
 	return pDataStore;
 }
@@ -100,7 +100,7 @@ void DMKIndexBuffer::resize(UI64 newIndexSize)
 	}
 }
 
-VPTR DMKIndexBuffer::at(I64 index)
+void* DMKIndexBuffer::at(I64 index)
 {
 	if (index < 0 && indexCount == 0)
 		return pDataStore;
@@ -117,7 +117,7 @@ VPTR DMKIndexBuffer::at(I64 index)
 	return IncrementPointer(pDataStore, indexSize * index);
 }
 
-const VPTR DMKIndexBuffer::at(I64 index) const
+const void* DMKIndexBuffer::at(I64 index) const
 {
 	if (index < 0)
 		index = indexCount - index;
@@ -133,7 +133,7 @@ const VPTR DMKIndexBuffer::at(I64 index) const
 
 void DMKIndexBuffer::_growBuffer(UI64 byteSize)
 {
-	VPTR newBuffer = StaticAllocator<BYTE>::allocate(lastAllocationSize + byteSize);
+	void* newBuffer = StaticAllocator<BYTE>::allocate(lastAllocationSize + byteSize);
 	DMKMemoryFunctions::moveData(newBuffer, pDataStore, lastAllocationSize);
 
 	StaticAllocator<BYTE>::deallocate(pDataStore, lastAllocationSize);

@@ -9,7 +9,7 @@
 
 namespace EntityFactory
 {
-	DMKStaticModelEntity CreateStaticEntity(const STRING& asset, ARRAY<STRING> textures, DMKCameraModule* pDefaultCamera)
+	DMKStaticModelEntity CreateStaticEntity(const STRING& asset, std::vector<STRING> textures, DMKCameraModule* pDefaultCamera)
 	{
 		_Helpers::_SetDefaultStaticModelCameraModule(pDefaultCamera);
 

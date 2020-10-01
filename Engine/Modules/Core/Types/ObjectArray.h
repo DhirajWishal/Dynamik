@@ -9,8 +9,9 @@
  Object arrays can store multiple arrays of different types. This is almost identical to arrays used by
  Entity Component Systems.
 */
+#include "Core/Memory/StaticAllocator.h"
 
-#include "Array.h"
+#include <vector>
 #include <unordered_map>
 
 /*
@@ -26,16 +27,16 @@ public:
  Object Array Type for the Dynamik Engine
 */
 template<class OBJECT>
-class DMK_API ObjectArrayType : public IObjectArrayBase, public ARRAY<OBJECT> {
+class DMK_API ObjectArrayType : public IObjectArrayBase, public std::vector<OBJECT> {
 public:
-	ObjectArrayType() : ARRAY<OBJECT>() {}
-	ObjectArrayType(UI64 size) : ARRAY<OBJECT>(size) {}
-	ObjectArrayType(UI64 size, const OBJECT& value) : ARRAY<OBJECT>(size, value) {}
-	ObjectArrayType(const OBJECT* arr) : ARRAY<OBJECT>(arr) {}
-	ObjectArrayType(std::initializer_list<OBJECT> list, UI64 size = 1) : ARRAY<OBJECT>(list, size) {}
-	ObjectArrayType(const ARRAY<OBJECT>& arr) : ARRAY<OBJECT>(arr) {}
-	ObjectArrayType(ARRAY<OBJECT>&& arr) : ARRAY<OBJECT>(std::move(arr)) {}
-	ObjectArrayType(std::vector<OBJECT> vector) : ARRAY<OBJECT>(vector) {}
+	ObjectArrayType() : std::vector<OBJECT>() {}
+	ObjectArrayType(UI64 size) : std::vector<OBJECT>(size) {}
+	ObjectArrayType(UI64 size, const OBJECT& value) : std::vector<OBJECT>(size, value) {}
+	ObjectArrayType(const OBJECT* arr) : std::vector<OBJECT>(arr) {}
+	ObjectArrayType(std::initializer_list<OBJECT> list, UI64 size = 1) : std::vector<OBJECT>(list, size) {}
+	ObjectArrayType(const std::vector<OBJECT>& arr) : std::vector<OBJECT>(arr) {}
+	ObjectArrayType(std::vector<OBJECT>&& arr) : std::vector<OBJECT>(std::move(arr)) {}
+	ObjectArrayType(std::vector<OBJECT> vector) : std::vector<OBJECT>(vector) {}
 	~ObjectArrayType() {}
 };
 
@@ -69,23 +70,27 @@ public:
 	{
 		STRING objectName = typeid(OBJECT).name();
 
-		if (registeredComponentTypes.findFirstIndex(objectName) >= 0)
+		if (isRegistered<OBJECT>())
 		{
 			DMK_ERROR("Submitted Object Is Already Registered!");
 			return;
 		}
 
 		objectArray[objectName] = StaticAllocator<ObjectArrayType<OBJECT>>::rawAllocate();
-		registeredComponentTypes.pushBack(objectName);
+		registeredComponentTypes.push_back(objectName);
 	}
 
 	/*
 	 Check if an object is already registered.
 	*/
 	template<class OBJECT>
-	DMK_FORCEINLINE B1 isRegistered()
+	DMK_FORCEINLINE bool isRegistered()
 	{
-		return registeredComponentTypes.findFirstIndex(typeid(OBJECT).name()) >= 0;
+		for (auto itr : registeredComponentTypes)
+			if (itr == typeid(OBJECT).name())
+				return true;
+
+		return false;
 	}
 
 	/*
@@ -110,14 +115,14 @@ public:
 	template<class OBJECT>
 	DMK_FORCEINLINE void addObject(const OBJECT& object)
 	{
-		getObjectArray<OBJECT>()->pushBack(object);
+		getObjectArray<OBJECT>()->push_back(object);
 	}
 
 	/*
 	 Add multiple object of the same kind to the array.
 	*/
 	template<class OBJECT>
-	DMK_FORCEINLINE void addObjects(ARRAY<OBJECT> objects)
+	DMK_FORCEINLINE void addObjects(std::vector<OBJECT> objects)
 	{
 		for (auto object : objects)
 			addObject<OBJECT>(object);
@@ -131,7 +136,7 @@ public:
 	DMK_FORCEINLINE OBJECT* getObject(I64 index = 0)
 	{
 		if (isRegistered<OBJECT>())
-			return (OBJECT*)getObjectArray<OBJECT>()->location(index);
+			return (OBJECT*)&getObjectArray<OBJECT>()->at(index);
 
 		return nullptr;
 	}
@@ -141,16 +146,16 @@ public:
 	 These data are copies of the original data and modifications will not get applies to the actual data.
 	*/
 	template<class OBJECT>
-	DMK_FORCEINLINE ARRAY<OBJECT> getObjects()
+	DMK_FORCEINLINE std::vector<OBJECT> getObjects()
 	{
 		if (!isRegistered<OBJECT>())
-			return ARRAY<OBJECT>();
+			return std::vector<OBJECT>();
 
-		ARRAY<OBJECT> objects;
+		std::vector<OBJECT> objects;
 		auto arr = getObjectArray<OBJECT>();
 
 		for (auto elem : *arr)
-			objects.pushBack(elem);
+			objects.push_back(elem);
 
 		return objects;
 	}
@@ -177,14 +182,14 @@ public:
 	/*
 	 Get all the registered type names.
 	*/
-	ARRAY<STRING> getRegisteredComponentTypeNames()
+	std::vector<STRING> getRegisteredComponentTypeNames()
 	{
 		return registeredComponentTypes;
 	}
 
 private:
 	std::unordered_map<STRING, IObjectArrayBase*> objectArray;
-	ARRAY<STRING> registeredComponentTypes;
+	std::vector<STRING> registeredComponentTypes;
 };
 
 #endif // !_DYNAMIK_OBJECT_ARRAY_H

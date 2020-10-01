@@ -24,8 +24,8 @@ struct DMK_API DMKCameraRay {
 
 /* Camera view params */
 struct DMK_API DMKCameraViewParams {
-	F32 exposure = 1.0f;
-	F32 gamma = 1.0f;
+	float exposure = 1.0f;
+	float gamma = 1.0f;
 };
 
 /*
@@ -54,10 +54,10 @@ public:
 
 	virtual void setParams(const DMKCameraViewParams& params);
 	virtual DMKCameraViewParams getViewParams() const;
-	virtual void setExposure(const F32& exposure);
-	virtual void setGamma(const F32& gamma);
-	virtual F32 getExposure() const;
-	virtual F32 getGamma() const;
+	virtual void setExposure(const float& exposure);
+	virtual void setGamma(const float& gamma);
+	virtual float getExposure() const;
+	virtual float getGamma() const;
 
 	DMKCameraMatrix matrix;
 
@@ -71,14 +71,14 @@ public:
 
 	DMKCameraViewParams params = {};
 
-	F32 fieldOfView = 45.0f;
-	F32 farRender = 1024.0f;
-	F32 nearRender = 0.001f;
-	F32 aspectRatio = 1.77779f;
+	float fieldOfView = 45.0f;
+	float farRender = 1024.0f;
+	float nearRender = 0.001f;
+	float aspectRatio = 1.77779f;
 
-	F32 pitch = 0.0f;
-	F32 roll = 0.0f;
-	F32 yaw = 0.0f;
+	float pitch = 0.0f;
+	float roll = 0.0f;
+	float yaw = 0.0f;
 };
 
 #endif // !_DYNAMIK_CAMERA_H

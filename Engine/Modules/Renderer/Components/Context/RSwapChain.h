@@ -33,7 +33,7 @@ public:
 	virtual void initialize(RCoreObject* pCoreObject, DMKViewport viewport, RSwapChainPresentMode ePresentMode) = 0;
 	virtual void terminate(RCoreObject* pCoreObject) = 0;
 
-	ARRAY<RImage*> images;
+	std::vector<RImage*> images;
 	DMKExtent2D extent = DMKExtent2D(0.0f);
 	UI32 bufferCount = 0;
 	DMKFormat format = DMKFormat::DMK_FORMAT_UNDEFINED;

@@ -69,12 +69,12 @@ public:
 	 @param size: The byte size of the data.
 	 @param offset: The offset to the location. Default is 0.
 	*/
-	void set(const VPTR data, UI64 size, UI64 offset = 0);
+	void set(const void* data, UI64 size, UI64 offset = 0);
 
 	/*
 	 Return the data address (memory block pointer) of the buffer.
 	*/
-	VPTR data() const;
+	void* data() const;
 
 	/*
 	 Return the data count of the buffer.
@@ -108,7 +108,7 @@ public:
 
 	 @param index;
 	*/
-	VPTR at(I64 index);
+	void* at(I64 index);
 
 	/*
 	 Get an index value at a given memory index.
@@ -117,7 +117,7 @@ public:
 
 	 @param index;
 	*/
-	const VPTR at(I64 index) const;
+	const void* at(I64 index) const;
 
 private:	/* Helper Functions */
 	/*
@@ -131,7 +131,7 @@ private:
 	UI64 indexSize = 0;
 	UI64 indexCount = 0;
 	UI64 lastAllocationSize = 0;
-	VPTR pDataStore = nullptr;
+	void* pDataStore = nullptr;
 };
 
 #endif // !_DYNAMIK_INDEX_BUFFER_H

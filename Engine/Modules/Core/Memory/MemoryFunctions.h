@@ -25,9 +25,9 @@ public:
 	DMKMemoryFunctions& operator=(const DMKMemoryFunctions&) = delete;
 	DMKMemoryFunctions& operator=(DMKMemoryFunctions&&) = delete;
 
-	static void moveData(VPTR destination, VPTR source, UI64 byteSize);
-	static void copyData(VPTR destination, VPTR source, UI64 byteSize);
-	static void setData(VPTR destination, BYTE byteValue, UI64 byteSize);
+	static void moveData(void* destination, const void* source, UI64 byteSize);
+	static void copyData(void* destination, const void* source, UI64 byteSize);
+	static void setData(void* destination, BYTE byteValue, UI64 byteSize);
 };
 
 #endif // !_DYNAMIK_MEMORY_FUNCTIONS_H

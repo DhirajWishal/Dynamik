@@ -23,12 +23,12 @@ namespace Tools
 		/*
 		 Get the uniform buffers in the shader. 
 		*/
-		ARRAY<DMKUniformBuffer> getUniformBuffers();
+		std::vector<DMKUniformBuffer> getUniformBuffers();
 
 		/*
 		 Get the input attributes in this shader.
 		*/
-		ARRAY<DMKShaderInputAttribute> getInputAttributes();
+		std::vector<DMKShaderInputAttribute> getInputAttributes();
 
 		/*
 		 Set the shader module
@@ -51,9 +51,9 @@ namespace Tools
 	private:
 		DMKShaderModule shaderModule;
 
-		ARRAY<DMKUniformBuffer> uniformBuffers;
-		ARRAY<DMKShaderInputAttribute> inputAttributes;
-		B1 isParsed = false;
+		std::vector<DMKUniformBuffer> uniformBuffers;
+		std::vector<DMKShaderInputAttribute> inputAttributes;
+		bool isParsed = false;
 	};
 }
 

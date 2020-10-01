@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_THREAD_SAFE_ARRAY_H
 #define _DYNAMIK_THREAD_SAFE_ARRAY_H
 
-#include "Array.h"
+#include <vector>
 #include <initializer_list>
 #include <shared_mutex>
 
@@ -16,9 +16,9 @@ static std::shared_mutex __ts_array_mutex;
 
 /*
  * Thread Safe Array for the Dynamik Engine
- * This is a wrapper class for the ARRAY data type and this ensures thread-safe-ness to the array.
+ * This is a wrapper class for the std::vector data type and this ensures thread-safe-ness to the array.
  *
- * @warn: This class might be slower than the traditional ARRAY class.
+ * @warn: This class might be slower than the traditional std::vector class.
  *
  * @tparam TYPE: Data type of the array.
  * @tparam AllocationCount: How many extra slots should be allocated. Default is 1.
@@ -28,7 +28,7 @@ static std::shared_mutex __ts_array_mutex;
 template<class TYPE, UI64 AllocationCount = 1, DMKArrayDestructorCallMode DestructorCallMode = DMKArrayDestructorCallMode::DMK_ARRAY_DESTRUCTOR_CALL_MODE_DESTRUCT_NONE, class Allocator = StaticAllocator<TYPE>>
 class DMK_API TSArray {
 	/* Main data store */
-	ARRAY<TYPE, AllocationCount, DestructorCallMode, Allocator> myArray;
+	std::vector<TYPE, AllocationCount, DestructorCallMode, Allocator> myArray;
 
 	/* PRIVATE DATATYPE
 	 * Used as a private data type.
@@ -48,7 +48,7 @@ class DMK_API TSArray {
 	/* PRIVATE DATATYPE
 	 * Used to refer the array type.
 	 */
-	using STORE = ARRAY<TYPE, AllocationCount, DestructorCallMode, Allocator>;
+	using STORE = std::vector<TYPE, AllocationCount, DestructorCallMode, Allocator>;
 
 	/* HELPER STRUCTURE
 	 * Array locking mechanism
@@ -76,7 +76,7 @@ public:
 	}
 
 	/*
-	 * @param other: The other ARRAY to initialize this array's store with.
+	 * @param other: The other std::vector to initialize this array's store with.
 	 */
 	TSArray(const STORE& other) : myArray(other) {}
 
@@ -85,7 +85,7 @@ public:
 	 */
 	~TSArray()
 	{
-		myArray.~ARRAY();
+		myArray.~std::vector();
 	}
 
 	/* PRIVATE DATA TYPES */
@@ -178,10 +178,10 @@ public:
 	 *
 	 * @param data: Data to be added to the Array (lvalue).
 	 */
-	void pushBack(const TYPE& data)
+	void push_back(const TYPE& data)
 	{
 		InternalLock _lock;
-		myArray.pushBack(data);
+		myArray.push_back(data);
 	}
 
 	/* FUNCTION
@@ -189,10 +189,10 @@ public:
 	 *
 	 * @param data: Data to be added to the Array (rvalue).
 	 */
-	void pushBack(TYPE&& data)
+	void push_back(TYPE&& data)
 	{
 		InternalLock _lock;
-		myArray.pushBack((TYPE&&)data);
+		myArray.push_back((TYPE&&)data);
 	}
 
 	/* FUNCTION
@@ -422,7 +422,7 @@ public:
 	 *
 	 * @param index: Index to be checked.
 	 */
-	B1 isValidIndex(I32 index)
+	bool isValidIndex(I32 index)
 	{
 		InternalLock _lock;
 		return myArray.isValidIndex(index);
@@ -434,7 +434,7 @@ public:
 	 * @param first: First index.
 	 * @param last: Last index.
 	 */
-	B1 isValidIndexRange(I32 index)
+	bool isValidIndexRange(I32 index)
 	{
 		InternalLock _lock;
 		return myArray.isValidIndexRange(index);
@@ -446,7 +446,7 @@ public:
 	 *
 	 * @param isAsc = true: Sorting type (true = ascending, false = descending)
 	 */
-	void bubbleSort(B1 isAsc = true)
+	void bubbleSort(bool isAsc = true)
 	{
 		InternalLock _lock;
 		myArray.bubbleSort(isAsc);
@@ -477,9 +477,9 @@ public:
 	}
 
 	/* FUNCTION
-	 * Convert this to a ARRAY<TYPE>.
+	 * Convert this to a std::vector<TYPE>.
 	 */
-	ARRAY<TYPE> toVector()
+	std::vector<TYPE> toVector()
 	{
 		InternalLock _lock;
 		return myArray.toVector();
@@ -542,7 +542,7 @@ public:
 	/* FUNCTION
 	 * Check if the Array is empty.
 	 */
-	const B1 empty() const noexcept
+	const bool empty() const noexcept
 	{
 		InternalLock _lock;
 		return myArray.empty();
@@ -625,7 +625,7 @@ public:
 	 * Casts the data stored in this array to the provided type.
 	 */
 	template<class SUB_TYPE>
-	ARRAY<SUB_TYPE> cast()
+	std::vector<SUB_TYPE> cast()
 	{
 		InternalLock _lock;
 		return myArray.cast<SUB_TYPE>();
@@ -664,7 +664,7 @@ public:
 	 *
 	 * @param data: Array to be checked with.
 	 */
-	B1 operator==(STORE& data)
+	bool operator==(STORE& data)
 	{
 		InternalLock _lock;
 		return this->myArray == data;
@@ -746,7 +746,7 @@ public:
 	 * @param destination: Destination Array.
 	 */
 	template<class SUB_TYPE>
-	static void copy(ARRAY<SUB_TYPE>* source, ARRAY<SUB_TYPE>* destination)
+	static void copy(std::vector<SUB_TYPE>* source, std::vector<SUB_TYPE>* destination)
 	{
 		myArray::copy(source, destination);
 	}

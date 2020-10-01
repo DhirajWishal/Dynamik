@@ -185,7 +185,7 @@ struct DMK_API RColorBlendState {
 	RColorBlendFactor dstAlphaBlendFactor = {};
 	RColorBlendOp alphaBlendOp = {};
 	RColorComponent colorWriteMask = (RColorComponent)15;
-	B1 enable = false;
+	bool enable = false;
 };
 
 /* Renderer Depth Stencil Op State */
@@ -202,7 +202,7 @@ struct DMK_API RStencilOpState {
 /* Renderer Pipeline Primitive Assembly Info */
 struct DMK_API RPipelinePrimitiveAssemblyInfo {
 	RPrimitiveTopology primitiveTopology = RPrimitiveTopology::PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-	B1 enablePrimitiveRestart = false;
+	bool enablePrimitiveRestart = false;
 };
 
 /* Renderer Pipeline Tessellation State Control Info */
@@ -220,21 +220,21 @@ struct DMK_API RPipelineRasterizerInfo {
 	RPolygonMode polygonMode = RPolygonMode::POLYGON_MODE_FILL;
 	RCullMode cullMode = RCullMode::CULL_MODE_BACK_BIT;
 	RFrontFace frontFace = RFrontFace::FRONT_FACE_COUNTER_CLOCKWISE;
-	F32 lineWidth = 1.0f;
-	F32 constantFactor = 0.0f;
-	F32 slopeFactor = 0.0f;
-	B1 depthClampEnable = false;
-	B1 discardEnable = false;
-	B1 depthBiasEnable = false;
+	float lineWidth = 1.0f;
+	float constantFactor = 0.0f;
+	float slopeFactor = 0.0f;
+	bool depthClampEnable = false;
+	bool discardEnable = false;
+	bool depthBiasEnable = false;
 };
 
 /* Renderer Pipeline Multi Sampling Info */
 struct DMK_API RPipelineMultiSamplingInfo {
 	DMKSampleCount sampleCount = DMK_SAMPLE_COUNT_32_BIT;
-	F32 minSampleShading = 0.2f;
-	B1 enableSampleShading = false;
-	B1 enableAlphaToCoverage = false;
-	B1 enableAlphaToOne = false;
+	float minSampleShading = 0.2f;
+	bool enableSampleShading = false;
+	bool enableAlphaToCoverage = false;
+	bool enableAlphaToOne = false;
 };
 
 /* Renderer Pipeline Depth Stencil Info */
@@ -242,23 +242,23 @@ struct DMK_API RPipelineDepthStencilInfo {
 	RStencilCompareOp compareOp = RStencilCompareOp::STENCIL_COMPARE_OP_LESS;
 	RStencilOpState frontOpState;
 	RStencilOpState backOpState;
-	F32 minBounds = 0.0f;
-	F32 maxBounds = 0.0f;
-	B1 enableStencil = true;
-	B1 enableWrite = true;
-	B1 enableBoundsTest = false;
-	B1 enableStencilTests = false;
+	float minBounds = 0.0f;
+	float maxBounds = 0.0f;
+	bool enableStencil = true;
+	bool enableWrite = true;
+	bool enableBoundsTest = false;
+	bool enableStencilTests = false;
 };
 
 /* Renderer Pipeline Color Blend Info */
 struct DMK_API RPipelineColorBlendInfo {
-	ARRAY<RColorBlendState> blendStates;
-	ARRAY<RColorComponent> colorComponents;
-	StaticArray<F32, 4> blendConstants = {
+	std::vector<RColorBlendState> blendStates;
+	std::vector<RColorComponent> colorComponents;
+	StaticArray<float, 4> blendConstants = {
 		0.0f, 0.0f, 0.0f, 0.0f /* R, G, B, A */
 	};
 	RLogicOp blendLogicOp = RLogicOp::LOGIC_OP_CLEAR;
-	B1 enableColorBlendLogicOp = false;
+	bool enableColorBlendLogicOp = false;
 };
 
 #endif // !_DYNAMIK_PIPELINE_TYPE_DEFINES_H

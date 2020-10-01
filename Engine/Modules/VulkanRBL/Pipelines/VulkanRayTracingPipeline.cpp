@@ -44,7 +44,7 @@ namespace Backend
 		indexBufferBinding.descriptorCount = 1;
 		indexBufferBinding.stageFlags = VK_SHADER_STAGE_CLOSEST_HIT_BIT_KHR;
 
-		ARRAY<VkDescriptorSetLayoutBinding> bindings = {
+		std::vector<VkDescriptorSetLayoutBinding> bindings = {
 			accelerationStructureLayoutBinding,
 			resultImageLayoutBinding,
 			uniformBufferBinding,
@@ -110,7 +110,7 @@ namespace Backend
 		raygenGroupCI.closestHitShader = VK_SHADER_UNUSED_KHR;
 		raygenGroupCI.anyHitShader = VK_SHADER_UNUSED_KHR;
 		raygenGroupCI.intersectionShader = VK_SHADER_UNUSED_KHR;
-		shaderGroups.pushBack(raygenGroupCI);
+		shaderGroups.push_back(raygenGroupCI);
 
 		VkRayTracingShaderGroupCreateInfoKHR missGroupCI{};
 		missGroupCI.sType = VK_STRUCTURE_TYPE_RAY_TRACING_SHADER_GROUP_CREATE_INFO_KHR;
@@ -119,7 +119,7 @@ namespace Backend
 		missGroupCI.closestHitShader = VK_SHADER_UNUSED_KHR;
 		missGroupCI.anyHitShader = VK_SHADER_UNUSED_KHR;
 		missGroupCI.intersectionShader = VK_SHADER_UNUSED_KHR;
-		shaderGroups.pushBack(missGroupCI);
+		shaderGroups.push_back(missGroupCI);
 
 		VkRayTracingShaderGroupCreateInfoKHR closesHitGroupCI{};
 		closesHitGroupCI.sType = VK_STRUCTURE_TYPE_RAY_TRACING_SHADER_GROUP_CREATE_INFO_KHR;
@@ -128,7 +128,7 @@ namespace Backend
 		closesHitGroupCI.closestHitShader = shaderIndexClosestHit;
 		closesHitGroupCI.anyHitShader = VK_SHADER_UNUSED_KHR;
 		closesHitGroupCI.intersectionShader = VK_SHADER_UNUSED_KHR;
-		shaderGroups.pushBack(closesHitGroupCI);
+		shaderGroups.push_back(closesHitGroupCI);
 
 		VkRayTracingPipelineCreateInfoKHR rayTracingPipelineCI{};
 		rayTracingPipelineCI.sType = VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_CREATE_INFO_KHR;
@@ -171,7 +171,7 @@ namespace Backend
 		shaderBindingTable.initialize(pCoreObject, RBufferType::BUFFER_TYPE_RAY_TRACING, sbtSize, RResourceMemoryType::RESOURCE_MEMORY_TYPE_HOST_VISIBLE);
 
 		// Write the shader handles to the shader binding table
-		ARRAY<UI8> shaderHandleStorage(sbtSize);
+		std::vector<UI8> shaderHandleStorage(sbtSize);
 		DMK_VULKAN_ASSERT(vkGetRayTracingShaderGroupHandlesKHR(pCoreObject->getAs<VulkanCoreObject>()->device, pipeline, 0, groupCount, sbtSize, shaderHandleStorage.data()), "Failed to get ray tracing shader groups!");
 
 		UI8* data = Cast<UI8*>(shaderBindingTable.getData(pCoreObject, sbtSize, 0));

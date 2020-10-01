@@ -7,6 +7,7 @@
 
 #include "Core/Math/Vector/Vector2F.h"
 #include <imgui.h>
+#include <mutex>
 
 /* Global mutex to lock render data from being updated while rendering. */
 static std::mutex __globalLock;

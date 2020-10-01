@@ -29,79 +29,79 @@ public:
 	/*
 	 Check if the given value is not a number.
 	*/
-	static B1 isNaN(F32 value);
+	static bool isNaN(float value);
 
 	/*
 	 Check if the given value is not a number.
 	*/
-	static B1 isNaN(I32 value);
+	static bool isNaN(I32 value);
 
 	/*
 	 Check if the value is in the finite range.
 	*/
-	static B1 isFinite(F32 value);
+	static bool isFinite(float value);
 
 	/*
 	 Check if the value is in the finite range.
 	*/
-	static B1 isFinite(I32 value);
+	static bool isFinite(I32 value);
 
 	/*
 	 Check if the value is infinite.
 	*/
-	static B1 isInfinite(F32 value);
+	static bool isInfinite(float value);
 
 	/*
 	 Check if the value is infinite.
 	*/
-	static B1 isInfinite(I32 value);
+	static bool isInfinite(I32 value);
 
 	/*
 	 Add all values together.
 	*/
-	static DMK_FORCEINLINE F32 addAll(Vector4F const vector);
+	static DMK_FORCEINLINE float addAll(Vector4F const vector);
 
 	/*
 	 Get the sin value of a given value.
 
 	 @param radians: The value in radians.
 	*/
-	static F32 sin(F32 radians);
+	static float sin(float radians);
 
 	/*
 	 Get the cos value of a given value.
 
 	 @param radians: The value in radians.
 	*/
-	static F32 cos(F32 radians);
+	static float cos(float radians);
 
 	/*
 	 Get the tan value of a given value.
 
 	 @param radians: The value in radians.
 	*/
-	static F32 tan(F32 radians);
+	static float tan(float radians);
 
 public:
 	/*
 	 Dot product of two vectors (3D)
 	*/
-	static F32 dot(Vector3F lhs, Vector3F rhs);
+	static float dot(Vector3F lhs, Vector3F rhs);
 
 	/*
 	 Dot product of two vectors (4D)
 	*/
-	static F32 dot(Vector4F lhs, Vector4F rhs);
+	static float dot(Vector4F lhs, Vector4F rhs);
 
 	/*
 	 Convert radians to degrees
 	*/
-	static F32 degrees(F32 const radians);
+	static float degrees(float const radians);
 
 	/*
 	 Convert degrees to radians
 	*/
-	static F32 radians(F32 const degrees);
+	static float radians(float const degrees);
 
 public:
 	/*
@@ -139,7 +139,7 @@ public:
 	/*
 	 Perspective matrix
 	*/
-	static Matrix4F perspective(F32 FOV, F32 aspect, F32 near, F32 far, B1 flipYAxis = true);
+	static Matrix4F perspective(float FOV, float aspect, float near, float far, bool flipYAxis = true);
 
 	/*
 	 Translate matrix
@@ -154,7 +154,7 @@ public:
 	/*
 	 Rotate matrix
 	*/
-	static Matrix4F rotate(Matrix4F const mat, F32 const angel, Vector3F const vec);
+	static Matrix4F rotate(Matrix4F const mat, float const angel, Vector3F const vec);
 
 	/*
 	 Inverse matrix
@@ -165,12 +165,12 @@ public:		/* Quaternion Functions */
 	/*
 	 Interpolate quaternion.
 	*/
-	static Quaternion interpolate(Quaternion const& start, Quaternion const& end, const F32& blend);
+	static Quaternion interpolate(Quaternion const& start, Quaternion const& end, const float& blend);
 
 	/*
 	 Interpolate Vector 3D.
 	*/
-	static Vector3F interpolate(Vector3F const& start, Vector3F const& end, const F32& progression);
+	static Vector3F interpolate(Vector3F const& start, Vector3F const& end, const float& progression);
 
 	/*
 	 Convert the quaternion to a rotational matrix.

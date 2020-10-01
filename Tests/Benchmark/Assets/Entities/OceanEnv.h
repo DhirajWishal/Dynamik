@@ -20,8 +20,8 @@ public:
 	virtual void onUpdateEnvironment() override final;
 
 	struct UniformFS {
-		F32 exposure = 4.5f;
-		F32 gamma = 2.2f;
+		float exposure = 4.5f;
+		float gamma = 2.2f;
 	} fsUBO;
 
 	DMKCameraModule* pCameraModule = nullptr;

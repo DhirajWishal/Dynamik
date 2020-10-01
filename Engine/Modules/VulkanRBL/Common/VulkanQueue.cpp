@@ -11,7 +11,7 @@ namespace Backend
 		UI32 queueFamilyCount = 0;
 		vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, nullptr);
 
-		ARRAY<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+		std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
 		vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, queueFamilies.data());
 
 		I32 i = 0;
@@ -39,7 +39,7 @@ namespace Backend
 		vkGetDeviceQueue(logicalDevice, utilityFamily.value(), 0, &utilityQueue);
 	}
 
-	B1 VulkanQueue::isComplete()
+	bool VulkanQueue::isComplete()
 	{
 		return processFamily.has_value() && utilityFamily.has_value();;
 	}

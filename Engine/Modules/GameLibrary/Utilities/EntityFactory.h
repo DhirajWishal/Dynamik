@@ -22,7 +22,7 @@ namespace EntityFactory
 					  textures will be mapped to all the mesh objects.
 	 @param pDefaultCamera: The default camera module used by the current game world.
 	*/
-	DMKStaticModelEntity CreateStaticEntity(const STRING& asset, ARRAY<STRING> textures, DMKCameraModule* pDefaultCamera);
+	DMKStaticModelEntity CreateStaticEntity(const STRING& asset, std::vector<STRING> textures, DMKCameraModule* pDefaultCamera);
 }
 
 #endif // !_DYNAMIK_ENTITY_FACTORY_H

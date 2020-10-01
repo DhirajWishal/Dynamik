@@ -89,7 +89,7 @@ public:
 	/*
 	 Check if the stored pointer is null.
 	*/
-	const B1 isNull() const { return pMyData == nullptr; }
+	const bool isNull() const { return pMyData == nullptr; }
 
 	/*
 	 Terminate the stored memory buffer.

@@ -16,14 +16,14 @@
 class DMK_API DMKAnimNodePose {
 public:
 	DMKAnimNodePose() = default;
-	DMKAnimNodePose(const UI64& index, const F32& duration, const Vector3F& position, const Vector3F& scale, const Quaternion& rotation)
+	DMKAnimNodePose(const UI64& index, const float& duration, const Vector3F& position, const Vector3F& scale, const Quaternion& rotation)
 		: nodeIndex(index), duration(duration), position(position), scale(scale), rotation(rotation) {}
 	~DMKAnimNodePose() = default;
 
 	/*
 	 Interpolate this pose and the old pose.
 	*/
-	Matrix4F interpolate(DMKAnimNodePose oldPose, F32 frameTime);
+	Matrix4F interpolate(DMKAnimNodePose oldPose, float frameTime);
 
 	/*
 	 Get the matrix using the rotation, position and scale.
@@ -43,7 +43,7 @@ public:
 	UI64 nodeIndex = 0;
 
 	/* Pose duration */
-	F32 duration = 0.0f;
+	float duration = 0.0f;
 };
 
 #endif // !_DYNAMIK_ANIMATION_NODE_POSE_H

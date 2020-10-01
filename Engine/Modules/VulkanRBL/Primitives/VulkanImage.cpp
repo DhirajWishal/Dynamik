@@ -208,16 +208,16 @@ namespace Backend
 		}
 	}
 
-	void VulkanImage::setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, VPTR data)
+	void VulkanImage::setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, void* data)
 	{
-		VPTR myData = getData(pCoreObject, uSize, offset);
+		void* myData = getData(pCoreObject, uSize, offset);
 		DMKMemoryFunctions::moveData(myData, data, uSize);
 		unmapMemory(pCoreObject);
 	}
 
-	VPTR VulkanImage::getData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset)
+	void* VulkanImage::getData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset)
 	{
-		VPTR data = nullptr;
+		void* data = nullptr;
 		DMK_VULKAN_ASSERT(vkMapMemory(pCoreObject->getAs<VulkanCoreObject>()->device, imageMemory, offset, size, 0, &data), "Unable to map image memory!");
 		return data;
 	}

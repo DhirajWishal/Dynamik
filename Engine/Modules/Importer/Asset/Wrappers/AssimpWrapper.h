@@ -39,7 +39,7 @@ private:
 	 @param pAiMeshObject: Pointer to the aiMesh object.
 	 @param vertexLayout: Vertex layout of the Dynamik Mesh Component.
 	*/
-	DMKMeshObject loadMeshObject(VPTR pAiMeshObject, const DMKVertexLayout& vertexLayout);
+	DMKMeshObject loadMeshObject(void* pAiMeshObject, const DMKVertexLayout& vertexLayout);
 
 	/*
 	 Load animation using aiAnimation and the root node.
@@ -47,7 +47,7 @@ private:
 	 @param pAiAnimation: pointer to the animation.
 	 @param pAiRootNode: Root node of the aiScene object.
 	*/
-	DMKAnimation loadAnimation(VPTR pAiAnimation, VPTR pAiRootNode);
+	DMKAnimation loadAnimation(void* pAiAnimation, void* pAiRootNode);
 
 	/*
 	 Load an animated mesh component using aiScene object.
@@ -55,10 +55,10 @@ private:
 	 @param pAiSceneObject: Pointer to the aiScene object.
 	 @param vertexLayout: Vertex layout of the mesh component.
 	*/
-	DMKAnimatedModelEntity loadAnimatedModelEntity(VPTR pAiSceneObject, const DMKVertexLayout& vertexLayout, const UI32& nodesPerVertex = 4);
+	DMKAnimatedModelEntity loadAnimatedModelEntity(void* pAiSceneObject, const DMKVertexLayout& vertexLayout, const UI32& nodesPerVertex = 4);
 
 	/* The importer object. */
-	VPTR importer = nullptr;
+	void* importer = nullptr;
 };
 
 #endif // !_DYNAMIK_ASSIMP_WRAPPER_H

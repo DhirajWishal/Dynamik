@@ -58,7 +58,7 @@ UI64 DMKClock::getCurrentLocal()
 Time DMKClock::get()
 {
 	Time _time;
-	_time.micros = Cast<D64>(GET_MICRO_SECONDS(GET_CURRENT_TIME) - startTime);
+	_time.micros = Cast<double>(GET_MICRO_SECONDS(GET_CURRENT_TIME) - startTime);
 	_time.millis = _time.micros / 1000;
 	_time.seconds = _time.millis / 1000;
 	_time.minutes = _time.seconds / 60;

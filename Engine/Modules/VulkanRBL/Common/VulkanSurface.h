@@ -24,7 +24,7 @@ namespace Backend
 		void initialize(VulkanInstance vInstance, DMKWindowHandle* windowHandle);
 		void terminate(VulkanInstance vInstance);
 
-		B1 isDeviceSuitable(const VkPhysicalDevice& physicalDevice);
+		bool isDeviceSuitable(const VkPhysicalDevice& physicalDevice);
 
 		operator VkSurfaceKHR() const;
 		operator VkSurfaceCapabilitiesKHR() const;

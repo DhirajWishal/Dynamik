@@ -30,8 +30,8 @@ namespace Backend
 		virtual void createImageView(RCoreObject* pCoreObject, DMKTexture::TextureSwizzles swizzles) override final;
 		virtual void terminate(RCoreObject* pCoreObject) override final;
 
-		virtual void setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, VPTR data) override final;
-		virtual VPTR getData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset) override final;
+		virtual void setData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset, void* data) override final;
+		virtual void* getData(RCoreObject* pCoreObject, UI64 uSize, UI64 offset) override final;
 		virtual void unmapMemory(RCoreObject* pCoreObject) override final;
 
 		operator VkImage() const;

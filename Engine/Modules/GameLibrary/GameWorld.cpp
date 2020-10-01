@@ -45,5 +45,5 @@ void DMKGameWorld::removeEnvironmentFromRenderer(DMKEnvironmentEntity* pEnvironm
 
 void DMKGameWorld::addLightComponent(DMKGameWorldLightComponent component)
 {
-	globalLightComponents.pushBack(component);
+	globalLightComponents.push_back(component);
 }

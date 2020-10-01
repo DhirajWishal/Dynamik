@@ -31,8 +31,8 @@ public:
 		Vector4F light2;
 		Vector4F light3;
 		Vector4F light4;
-		F32 exposure = 4.5f;
-		F32 gamma = 2.2f;
+		float exposure = 4.5f;
+		float gamma = 2.2f;
 	} camParamFS;
 
 	DMKCameraModule* pCameraModule = nullptr;

@@ -13,7 +13,7 @@
 */
 struct DMK_API GELoadNextLevel {
 	UI32 nextLevel = 0;
-	B1 isActive = false;
+	bool isActive = false;
 };
 
 /*

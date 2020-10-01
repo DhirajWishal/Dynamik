@@ -71,7 +71,7 @@ public:
 
 public:
 	/* Trigger instances of this object. */
-	ARRAY<DMKTriggerEntity2DInstance> triggerInstances;
+	std::vector<DMKTriggerEntity2DInstance> triggerInstances;
 };
 
 #endif // !_DYNAMIK_TRIGGER_2D_H

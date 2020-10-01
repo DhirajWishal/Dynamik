@@ -65,7 +65,7 @@ public:
 	/*
 	 Get the stored attributes.
 	*/
-	ARRAY<UniformBufferAttribute> getAttributes() const;
+	std::vector<UniformBufferAttribute> getAttributes() const;
 
 	/*
 	 Initialize the buffer.
@@ -83,14 +83,14 @@ public:
 	 @param data: The data to be added to the attribute.
 	 @param offset: The offset to be added to the attribute.
 	*/
-	void setData(const STRING& name, VPTR data, const UI64& offset = 0);
+	void setData(const STRING& name, void* data, const UI64& offset = 0);
 
 	/*
 	 Set data to the whole buffer object.
 
 	 @param data: The data to set to the buffer.
 	*/
-	void setData(VPTR data);
+	void setData(void* data);
 
 	/*
 	 Get the data pointer to the attribute.
@@ -99,7 +99,7 @@ public:
 	 @param name: The name of the attribute.
 	 @param offset: The offset to be added to the pointer.
 	*/
-	VPTR getData(const STRING& name, const UI64& offset = 0);
+	void* getData(const STRING& name, const UI64& offset = 0);
 
 	/*
 	 Sets 0 to the whole store.
@@ -112,7 +112,7 @@ public:
 	/*
 	 Get the uniform data.
 	*/
-	VPTR data() const;
+	void* data() const;
 
 	/*
 	 Get the byte size of the object.
@@ -145,7 +145,7 @@ public:
 
 private:	/* Private Data Store */
 	std::unordered_map<STRING, Attribute> attributeMap;
-	VPTR pUniformBufferStorage = nullptr;
+	void* pUniformBufferStorage = nullptr;
 
 public:		/* Public Data */
 	UI64 uByteSize = 0;

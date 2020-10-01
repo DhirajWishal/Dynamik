@@ -102,3 +102,101 @@ void ApplicationServer::onTerminateFinal()
 }
 
 DMK_SETUP_SERVER(ApplicationServer)
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+///		Tests
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class DMKVertexBufferData {
+public:
+	DMKVertexBufferData(UI32 stride = 0, UI32 count = 0, void* data = nullptr)
+		: stride(stride), count(count), data(data) {}
+	~DMKVertexBufferData() {}
+
+	UI32 stride = 0;
+	UI32 count = 0;
+
+	void* data = nullptr;
+};
+
+class DMKIndexBufferData {
+public:
+	DMKIndexBufferData(UI32 stride = 0, UI32 count = 0, void* data = nullptr)
+		: stride(stride), count(count), data(data) {}
+	~DMKIndexBufferData() {}
+
+	UI32 stride = 0;
+	UI32 count = 0;
+
+	void* data = nullptr;
+};
+
+class DMKMeshHandle {
+public:
+	DMKMeshHandle() {}
+	virtual ~DMKMeshHandle() {}
+
+	virtual DMKVertexBufferData getPackedVertexData() { return DMKVertexBufferData(); }
+	virtual DMKIndexBufferData getPackedIndexData() { return DMKIndexBufferData(); }
+	virtual std::vector<DMKUniformBuffer> getUniformBuffers() { return std::vector<DMKUniformBuffer>(); }
+	virtual std::vector<DMKTexture*> getTextures() { return std::vector<DMKTexture*>(); }
+};
+
+class DMKStaticMeshHandle : public DMKMeshHandle {};
+class DMKAnimatedMeshHandle : public DMKMeshHandle {};
+
+enum class DMKRenderPipelineType {
+	DMK_RENDER_PIPELINE_TYPE_GRAPHICS,
+	DMK_RENDER_PIPELINE_TYPE_COMPUTE,
+	DMK_RENDER_PIPELINE_TYPE_RAY_TRACING,
+};
+
+struct DMKRenderSpecification { DMKRenderPipelineType pipelineType; };
+
+/*
+ This object defines what data are to be rendered in one rendering burst.
+*/
+class DMKRenderData {
+public:
+	DMKRenderData() {}
+	~DMKRenderData() {}
+
+	void addMeshHandle(DMKMeshHandle* pMeshHandle) { this->pMeshHandles.push_back(pMeshHandle); }
+
+	std::vector<DMKMeshHandle*> pMeshHandles;
+	DMKRenderSpecification renderSpecifications = {};	/* This resolves into one pipeline object. */
+};
+
+class StaticMesh : public DMKStaticMeshHandle {
+public:
+	StaticMesh() {}
+	~StaticMesh() {}
+
+	virtual DMKVertexBufferData getPackedVertexData() override final
+	{
+		return DMKVertexBufferData(sizeof(float), vertexData.size(), vertexData.data());
+	}
+
+	virtual DMKIndexBufferData getPackedIndexData() override final
+	{
+		return DMKIndexBufferData(sizeof(UI32), indexData.size(), indexData.data());
+	}
+
+	virtual std::vector<DMKUniformBuffer> getUniformBuffers()
+	{
+		return { uniform1, uniform2 };
+	}
+
+	std::vector<float> vertexData;
+	std::vector<UI32> indexData;
+
+	DMKUniformBuffer uniform1;
+	DMKUniformBuffer uniform2;
+};
+
+void mainFunc()
+{
+	ObjectArray* pObjArray = nullptr;
+
+	pObjArray->addObject<StaticMesh>(StaticMesh());
+}

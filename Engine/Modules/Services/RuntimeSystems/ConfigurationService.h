@@ -38,7 +38,7 @@ public:
 	static void writeMessage(const STRING& message);
 	static void writeEntry(const Token& token, const STRING& message);
 
-	static void writeWindowSize(F32 width, F32 height);
+	static void writeWindowSize(float width, float height);
 
 private:
 	STRING _getTokenString(Token token);

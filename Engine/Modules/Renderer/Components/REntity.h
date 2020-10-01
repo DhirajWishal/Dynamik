@@ -15,9 +15,9 @@ public:
 	REntity() = default;
 	virtual ~REntity() = default;
 
-	ARRAY<RMeshObject> meshObjects;
-	ARRAY<RUniformContainer> uniformContainers;
-	VPTR pipelineCache = nullptr;
+	std::vector<RMeshObject> meshObjects;
+	std::vector<RUniformContainer> uniformContainers;
+	void* pipelineCache = nullptr;
 
 	/* TODO */
 	RPipelineObject* pPipelineObject = nullptr;

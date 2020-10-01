@@ -43,7 +43,7 @@ public:
 	 @param requiredFormat: To format to output the texture in. Default is UNDEFINED which will output the default
 	   format.
 	*/
-	DMKTexture* loadCube(ARRAY<STRING> files, DMKFormat requiredFormat = DMKFormat::DMK_FORMAT_UNDEFINED);
+	DMKTexture* loadCube(std::vector<STRING> files, DMKFormat requiredFormat = DMKFormat::DMK_FORMAT_UNDEFINED);
 };
 
 #endif // !_DYNAMIK_IMAGE_IMPORTER_H

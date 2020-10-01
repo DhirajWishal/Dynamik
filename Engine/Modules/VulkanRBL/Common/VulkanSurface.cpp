@@ -20,11 +20,11 @@
 
 namespace Backend
 {
-	B1 checkDeviceExtensionSupport(VkPhysicalDevice device, ARRAY<CCPTR> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME }) {
+	bool checkDeviceExtensionSupport(VkPhysicalDevice device, std::vector<CCPTR> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME }) {
 		UI32 extensionCount = 0;
 		vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
 
-		ARRAY<VkExtensionProperties> availableExtensions(extensionCount);
+		std::vector<VkExtensionProperties> availableExtensions(extensionCount);
 		vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, availableExtensions.data());
 
 		std::set<STRING> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
@@ -55,13 +55,13 @@ namespace Backend
 		vkDestroySurfaceKHR(vInstance, surface, nullptr);
 	}
 
-	B1 VulkanSurface::isDeviceSuitable(const VkPhysicalDevice& physicalDevice)
+	bool VulkanSurface::isDeviceSuitable(const VkPhysicalDevice& physicalDevice)
 	{
 		VulkanQueue _queue;
 		_queue.findQueueFamilies(physicalDevice, surface);
 
-		B1 extensionsSupported = checkDeviceExtensionSupport(physicalDevice);
-		B1 swapChainAdequate = false;
+		bool extensionsSupported = checkDeviceExtensionSupport(physicalDevice);
+		bool swapChainAdequate = false;
 		if (extensionsSupported)
 		{
 			VulkanSwapChainSupportDetails swapChainSupport = VulkanSwapChain::querySwapChainSupport(physicalDevice, surface);

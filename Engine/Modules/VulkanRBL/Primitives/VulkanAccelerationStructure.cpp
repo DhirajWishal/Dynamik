@@ -58,7 +58,7 @@ namespace Backend
 		accelerationStructureGeometry.geometry.triangles.indexType = VK_INDEX_TYPE_UINT32;
 		accelerationStructureGeometry.geometry.triangles.indexData.deviceAddress = indexBufferDeviceAddress.deviceAddress;
 
-		ARRAY<VkAccelerationStructureGeometryKHR> acceleration_geometries = { accelerationStructureGeometry };
+		std::vector<VkAccelerationStructureGeometryKHR> acceleration_geometries = { accelerationStructureGeometry };
 		VkAccelerationStructureGeometryKHR* acceleration_structure_geometries = acceleration_geometries.data();
 
 		/* Create scratch buffer. */
@@ -81,7 +81,7 @@ namespace Backend
 		accelerationBuildOffsetInfo.firstVertex = 0;
 		accelerationBuildOffsetInfo.transformOffset = 0x0;
 
-		ARRAY<VkAccelerationStructureBuildOffsetInfoKHR*> accelerationBuildOffsets = { &accelerationBuildOffsetInfo };
+		std::vector<VkAccelerationStructureBuildOffsetInfoKHR*> accelerationBuildOffsets = { &accelerationBuildOffsetInfo };
 
 		if (pCoreObject->getAs<VulkanCoreObject>()->device.getRayTracingFeatures().rayTracingHostAccelerationStructureCommands)
 		{
@@ -160,7 +160,7 @@ namespace Backend
 		accelerationStructureGeometry.geometry.instances.arrayOfPointers = VK_FALSE;
 		accelerationStructureGeometry.geometry.instances.data.deviceAddress = instance_data_device_address.deviceAddress;
 
-		ARRAY<VkAccelerationStructureGeometryKHR> acceleration_geometries = { accelerationStructureGeometry };
+		std::vector<VkAccelerationStructureGeometryKHR> acceleration_geometries = { accelerationStructureGeometry };
 		VkAccelerationStructureGeometryKHR* acceleration_structure_geometries = acceleration_geometries.data();
 
 		createScratchBuffer(pCoreObject);
@@ -182,7 +182,7 @@ namespace Backend
 		accelerationBuildOffsetInfo.primitiveOffset = 0x0;
 		accelerationBuildOffsetInfo.firstVertex = 0;
 		accelerationBuildOffsetInfo.transformOffset = 0x0;
-		ARRAY<VkAccelerationStructureBuildOffsetInfoKHR*> accelerationBuildOffsets = { &accelerationBuildOffsetInfo };
+		std::vector<VkAccelerationStructureBuildOffsetInfoKHR*> accelerationBuildOffsets = { &accelerationBuildOffsetInfo };
 	
 		if (pCoreObject->getAs<VulkanCoreObject>()->device.getRayTracingFeatures().rayTracingHostAccelerationStructureCommands)
 		{

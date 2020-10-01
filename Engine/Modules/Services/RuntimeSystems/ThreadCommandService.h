@@ -5,10 +5,11 @@
 #ifndef _DYNAMIK_THREAD_COMMAND_SERVICE_H
 #define _DYNAMIK_THREAD_COMMAND_SERVICE_H
 
-#include "Core/Types/Array.h"
 #include "Core/Types/StaticArray.h"
 #include "Core/Types/StaticQueue.h"
 
+#include <vector>
+#include <mutex>
 #include <queue>
 
 #define MAX_COMMANDS_PER_THREAD     10
@@ -44,12 +45,16 @@ public:
 	 Check if a command is already registered.
 	*/
 	template<class COMMAND>
-	DMK_FORCEINLINE B1 isRegistered()
+	DMK_FORCEINLINE bool isRegistered()
 	{
 		std::lock_guard<std::mutex> _lock(__globalThreadCommandMutex);
 		STRING name = typeid(COMMAND).name();
 
-		return registeredCommands.findFirstIndex(name) >= 0;
+		for (auto itr = registeredCommands.begin(); itr != registeredCommands.end(); itr++)
+			if (*itr == name)
+				return true;
+
+		return false;
 	}
 
 	/*
@@ -66,7 +71,7 @@ public:
 		STRING name = typeid(COMMAND).name();
 
 		commandMap[name] = StaticAllocator<SCommandQueueContainer<COMMAND>>::allocate();
-		registeredCommands.pushBack(name);
+		registeredCommands.push_back(name);
 	}
 
 	/*
@@ -115,7 +120,7 @@ public:
 	 Check if a command can be issued.
 	*/
 	template<class COMMAND>
-	DMK_FORCEINLINE B1 canIssueCommand()
+	DMK_FORCEINLINE bool canIssueCommand()
 	{
 		return getCommandQueue<COMMAND>()->commandQueue.size() < MAX_COMMANDS_PER_THREAD;
 	}
@@ -156,7 +161,7 @@ public:
 
 private:
 	std::unordered_map<STRING, ICommandQueue*> commandMap;
-	ARRAY<STRING> registeredCommands;
+	std::vector<STRING> registeredCommands;
 	std::queue<STRING> commandList;
 	DMKThreadControlCommand controlCommand = DMKThreadControlCommand::DMK_THREAD_CONTROL_COMMAND_UNDEFINED;
 };

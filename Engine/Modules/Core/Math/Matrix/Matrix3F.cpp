@@ -9,7 +9,7 @@ Matrix3F::Matrix3F()
 {
 }
 
-Matrix3F::Matrix3F(F32 value)
+Matrix3F::Matrix3F(float value)
 	:
 	r(value, 0.0f, 0.0f),
 	g(0.0f, value, 0.0f),
@@ -23,9 +23,9 @@ Matrix3F::Matrix3F(Vector3F vec1, Vector3F vec2, Vector3F vec3)
 }
 
 Matrix3F::Matrix3F(
-	F32 a, F32 b, F32 c,
-	F32 d, F32 e, F32 f,
-	F32 g, F32 h, F32 i)
+	float a, float b, float c,
+	float d, float e, float f,
+	float g, float h, float i)
 	:
 	x(a, b, c), y(d, e, f), z(g, h, i)
 {
@@ -36,12 +36,12 @@ Matrix3F::Matrix3F(const Matrix3F& other)
 {
 }
 
-Matrix3F::Matrix3F(std::initializer_list<F32> list)
+Matrix3F::Matrix3F(std::initializer_list<float> list)
 {
 	if ((list.size() > 9) || (list.size() < 9))
 		DMK_ERROR_BOX("The size of the provided list does not match the current Matrix size!");
 
-	DMKMemoryFunctions::moveData(this, (VPTR)list.begin(), list.size() * sizeof(F32));
+	DMKMemoryFunctions::moveData(this, (void*)list.begin(), list.size() * sizeof(float));
 }
 
 Matrix3F Matrix3F::operator=(const Matrix3F& other)

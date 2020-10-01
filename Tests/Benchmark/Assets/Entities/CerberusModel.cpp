@@ -21,14 +21,14 @@ void CerberusModel::onInitializeStaticEntity()
 	attribute.dataCount = 1;
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_POSITION;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_NORMAL;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	attribute.attributeType = DMKVertexAttributeType::DMK_VERTEX_ATTRIBUTE_TYPE_UV_COORDINATES;
 	attribute.dataFormat = DMKFormat::DMK_FORMAT_RG_32_SF32;
-	layout.attributes.pushBack(attribute);
+	layout.attributes.push_back(attribute);
 
 	setMeshObjects(DMKMeshFactory::loadMeshes(TEXT("E:\\Dynamik\\Game Repository\\assets\\Cerberus\\Assets\\cerberus.fbx"), layout));
 
@@ -53,7 +53,7 @@ void CerberusModel::onInitializeStaticEntity()
 
 	dataVS.model = DMathLib::rotate(Matrix4F::Identity, DMathLib::radians(90.0f), Vector3F(0.0f, 1.0f, 1.0f));
 
-	const F32 p = 15.0f;
+	const float p = 15.0f;
 	camParamFS.light1 = Vector4F(-0.5f, 0.5f, 0.5f, 1.0f);
 	camParamFS.light2 = Vector4F(-0.5f, -0.5f, 0.5f, 1.0f);
 	camParamFS.light3 = Vector4F(0.5f, -0.5f, 0.5f, 1.0f);

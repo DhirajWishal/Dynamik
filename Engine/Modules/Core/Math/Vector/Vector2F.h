@@ -13,7 +13,7 @@ class DMK_API Vector2F;
 template <>
 struct DMK_API VectorTraits<Vector2F>
 {
-	typedef F32 type;
+	typedef float type;
 };
 
 /*
@@ -23,20 +23,20 @@ class Vector2F : public Vector<Vector2F>
 {
 public:
 	Vector2F() : x(0.0f), y(0.0f) {}
-	Vector2F(F32 value) : x(value), y(value) {}
-	Vector2F(F32 value1, F32 value2) : x(value1), y(value2) {}
-	Vector2F(std::initializer_list<F32> list);
+	Vector2F(float value) : x(value), y(value) {}
+	Vector2F(float value1, float value2) : x(value1), y(value2) {}
+	Vector2F(std::initializer_list<float> list);
 	~Vector2F() {}
 
-	Vector2F operator=(const std::initializer_list<F32>& list);
-	F32& operator[](UI32 index) const;
+	Vector2F operator=(const std::initializer_list<float>& list);
+	float& operator[](UI32 index) const;
 
 public:
 	union
 	{
-		struct { F32 x, y; };
-		struct { F32 a, b; };
-		struct { F32 width, height; };
+		struct { float x, y; };
+		struct { float a, b; };
+		struct { float width, height; };
 	};
 };
 
@@ -45,22 +45,22 @@ Vector2F operator-(const Vector2F& lhs, const Vector2F& rhs);
 Vector2F operator*(const Vector2F& lhs, const Vector2F& rhs);
 Vector2F operator/(const Vector2F& lhs, const Vector2F& rhs);
 
-Vector2F operator+(const Vector2F& lhs, const F32& value);
-Vector2F operator-(const Vector2F& lhs, const F32& value);
-Vector2F operator*(const Vector2F& lhs, const F32& value);
-Vector2F operator/(const Vector2F& lhs, const F32& value);
+Vector2F operator+(const Vector2F& lhs, const float& value);
+Vector2F operator-(const Vector2F& lhs, const float& value);
+Vector2F operator*(const Vector2F& lhs, const float& value);
+Vector2F operator/(const Vector2F& lhs, const float& value);
 
-B1 operator==(const Vector2F& lhs, const Vector2F& rhs);
-B1 operator!=(const Vector2F& lhs, const Vector2F& rhs);
-B1 operator<(const Vector2F& lhs, const Vector2F& rhs);
-B1 operator<=(const Vector2F& lhs, const Vector2F& rhs);
-B1 operator>(const Vector2F& lhs, const Vector2F& rhs);
-B1 operator>=(const Vector2F& lhs, const Vector2F& rhs);
+bool operator==(const Vector2F& lhs, const Vector2F& rhs);
+bool operator!=(const Vector2F& lhs, const Vector2F& rhs);
+bool operator<(const Vector2F& lhs, const Vector2F& rhs);
+bool operator<=(const Vector2F& lhs, const Vector2F& rhs);
+bool operator>(const Vector2F& lhs, const Vector2F& rhs);
+bool operator>=(const Vector2F& lhs, const Vector2F& rhs);
 
-B1 operator&&(const Vector2F& lhs, const Vector2F& rhs);
-B1 operator||(const Vector2F& lhs, const Vector2F& rhs);
-B1 operator^(const Vector2F& lhs, const Vector2F& rhs);
-B1 operator~(const Vector2F& rhs);
-B1 operator!(const Vector2F& rhs);
+bool operator&&(const Vector2F& lhs, const Vector2F& rhs);
+bool operator||(const Vector2F& lhs, const Vector2F& rhs);
+bool operator^(const Vector2F& lhs, const Vector2F& rhs);
+bool operator~(const Vector2F& rhs);
+bool operator!(const Vector2F& rhs);
 
 #endif // !_DYNAMIK_VECTOR_2F_H

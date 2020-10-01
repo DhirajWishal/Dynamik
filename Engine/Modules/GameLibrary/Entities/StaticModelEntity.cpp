@@ -33,50 +33,50 @@ void DMKStaticModelEntity::onTerminateStaticEntity()
 
 void DMKStaticModelEntity::addMeshObject(const DMKMeshObject& meshObject)
 {
-	meshObjects.pushBack(meshObject);
+	meshObjects.push_back(meshObject);
 }
 
-void DMKStaticModelEntity::setMeshObjects(ARRAY<DMKMeshObject> meshObjects)
+void DMKStaticModelEntity::setMeshObjects(std::vector<DMKMeshObject> meshObjects)
 {
 	this->meshObjects = std::move(meshObjects);
 }
 
 DMKMeshObject* DMKStaticModelEntity::getMeshObject(I64 index)
 {
-	return getMeshObjects()->location(index);
+	return &getMeshObjects()->at(index);
 }
 
-ARRAY<DMKMeshObject>* DMKStaticModelEntity::getMeshObjects()
+std::vector<DMKMeshObject>* DMKStaticModelEntity::getMeshObjects()
 {
 	return &meshObjects;
 }
 
 void DMKStaticModelEntity::addShaderModule(const DMKShaderModule& sModule)
 {
-	shaders.pushBack(sModule);
+	shaders.push_back(sModule);
 }
 
-void DMKStaticModelEntity::setShaderModules(ARRAY<DMKShaderModule> sModules)
+void DMKStaticModelEntity::setShaderModules(std::vector<DMKShaderModule> sModules)
 {
 	shaders = std::move(sModules);
 }
 
 DMKShaderModule* DMKStaticModelEntity::getShaderModule(I32 index)
 {
-	return Cast<DMKShaderModule*>(shaders.location(index));
+	return Cast<DMKShaderModule*>(&shaders.at(index));
 }
 
-ARRAY<DMKShaderModule> DMKStaticModelEntity::getShaders()
+std::vector<DMKShaderModule> DMKStaticModelEntity::getShaders()
 {
 	return shaders;
 }
 
 void DMKStaticModelEntity::addResourceRequest(const DMKResourceRequest& request)
 {
-	resourceRequests.pushBack(request);
+	resourceRequests.push_back(request);
 }
 
-void DMKStaticModelEntity::setResourceRequests(ARRAY<DMKResourceRequest> requests)
+void DMKStaticModelEntity::setResourceRequests(std::vector<DMKResourceRequest> requests)
 {
 	resourceRequests = std::move(requests);
 }
@@ -86,7 +86,7 @@ DMKResourceRequest DMKStaticModelEntity::getResourceRequest(I64 index)
 	return resourceRequests[index];
 }
 
-ARRAY<DMKResourceRequest> DMKStaticModelEntity::getResourceRequests() const
+std::vector<DMKResourceRequest> DMKStaticModelEntity::getResourceRequests() const
 {
 	return resourceRequests;
 }

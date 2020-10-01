@@ -16,14 +16,14 @@
  * isValue is set 'false' if both template arguments are different.
  */
 template<class, class>
-inline constexpr B1 isValue = false;
+inline constexpr bool isValue = false;
 
 /* TEMPLATED
  * Type check.
  * isValue is set 'true' if both template arguments are the same.
  */
 template<class TYPE_1>
-inline constexpr B1 isValue<TYPE_1, TYPE_1> = true;
+inline constexpr bool isValue<TYPE_1, TYPE_1> = true;
 
 /* TEMPLATED
  * Store the final result in a static variable.
@@ -46,7 +46,7 @@ struct DMK_API Constant
  * @result: 'true' (1) if both the types are equal. 'false' (0) if both types are unequal.
  */
 template<class TYPE_1, class TYPE_2>
-struct isType : Constant<B1, isValue<TYPE_1, TYPE_2>> {};
+struct isType : Constant<bool, isValue<TYPE_1, TYPE_2>> {};
 
 /* TYPE CHECK ASSERTION MACRO
  * Compile time evaluation.

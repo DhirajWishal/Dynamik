@@ -5,7 +5,7 @@
 #ifndef _DYNAMIK_TYPES_HASH_MAP_H
 #define _DYNAMIK_TYPES_HASH_MAP_H
 
-#include "Array.h"
+#include <vector>
 
 /*
  HashMap for the Dynamik Engine

@@ -8,6 +8,7 @@
 /*
  Pointer class or the Dynamik Engine.
 */
+#include "Core/Error/ErrorManager.h"
 #include "Core/Macros/Global.h"
 #include "TypeTraits.h"
 
@@ -46,7 +47,7 @@ public:
 	 *
 	 * @param address: address of the data to be stored.
 	 */
-	DMK_FORCEINLINE POINTER(const VPTR address) : myPointer((TYPE*)address) {}
+	DMK_FORCEINLINE POINTER(const void* address) : myPointer((TYPE*)address) {}
 
 	/* DESTRUCTOR
 	 * Default destructor.
@@ -109,14 +110,14 @@ public:
 	 * Check if the pointer is valid.
 	 * Returns true if the pointer has data or not a null pointer.
 	 */
-	DMK_FORCEINLINE B1 isValid() const { return ((myPointer != nullptr) || (sizeof(myPointer) > sizeof(TYPE*))); }
+	DMK_FORCEINLINE bool isValid() const { return ((myPointer != nullptr) || (sizeof(myPointer) > sizeof(TYPE*))); }
 
 	/* FUNCTION
 	 * Assign the pointer to a given pointer.
 	 *
 	 * @param pointer: The pointer to be assigned.
 	 */
-	DMK_FORCEINLINE void assign(VPTR pointer) { myPointer = (TYPE*)pointer; }
+	DMK_FORCEINLINE void assign(void* pointer) { myPointer = (TYPE*)pointer; }
 
 	/* FUNCTION
 	 * Turn the pointer to a null pointer.
@@ -177,7 +178,7 @@ public:
 	///* OPERATOR
 	// * Return the casted pointer.
 	// */
-	//operator VPTR() { return this->myPointer; }
+	//operator void*() { return this->myPointer; }
 
 	/* OPERATOR
 	 * Return the casted pointer.
@@ -262,7 +263,7 @@ public:
 	 *
 	 * @param ptr: Pointer to be checked with.
 	 */
-	DMK_FORCEINLINE B1 operator==(const POINTER<TYPE>& ptr) const { return ((UI64)this->myPointer) == ((UI64)ptr.myPointer); }
+	DMK_FORCEINLINE bool operator==(const POINTER<TYPE>& ptr) const { return ((UI64)this->myPointer) == ((UI64)ptr.myPointer); }
 
 	/* OPERATOR
 	 * Assign the address of one POINTER to this.
@@ -277,7 +278,7 @@ public:
 	 *
 	 * @param value: Value to be assigned to the pointer.
 	 */
-	DMK_FORCEINLINE void operator=(const VPTR address) { this->myPointer = (TYPE*)address; }
+	DMK_FORCEINLINE void operator=(const void* address) { this->myPointer = (TYPE*)address; }
 
 	/* OPERATOR
 	 * Assign a value to the pointer.
@@ -298,7 +299,7 @@ public:
 	 *
 	 * @param ptr: Pointer to be checked with this.
 	 */
-	DMK_FORCEINLINE B1 operator!=(const POINTER<TYPE>& ptr) const { return this->myPointer != ptr.get(); }
+	DMK_FORCEINLINE bool operator!=(const POINTER<TYPE>& ptr) const { return this->myPointer != ptr.get(); }
 
 	/* OPERATOR
 	 * Access data at a given index in the pointer.

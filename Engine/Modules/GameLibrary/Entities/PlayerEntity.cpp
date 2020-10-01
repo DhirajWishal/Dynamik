@@ -16,52 +16,52 @@ void DMKPlayerEntity::setPosition(const Vector3F& position)
 	this->position = position;
 }
 
-void DMKPlayerEntity::addForwardVector(const F32& rate)
+void DMKPlayerEntity::addForwardVector(const float& rate)
 {
 	cameraModule.position += cameraModule.front * rate;
 }
 
-void DMKPlayerEntity::addBackwardVector(const F32& rate)
+void DMKPlayerEntity::addBackwardVector(const float& rate)
 {
 	cameraModule.position += (cameraModule.front * -1.0f) * rate;
 }
 
-void DMKPlayerEntity::addLeftVector(const F32& rate)
+void DMKPlayerEntity::addLeftVector(const float& rate)
 {
 	cameraModule.position += (cameraModule.right * -1.0f) * rate;
 }
 
-void DMKPlayerEntity::addRightVector(const F32& rate)
+void DMKPlayerEntity::addRightVector(const float& rate)
 {
 	cameraModule.position += cameraModule.right * rate;
 }
 
-void DMKPlayerEntity::addUpVector(const F32& rate)
+void DMKPlayerEntity::addUpVector(const float& rate)
 {
 	cameraModule.position += cameraModule.cameraUp * rate;
 }
 
-void DMKPlayerEntity::addDownVector(const F32& rate)
+void DMKPlayerEntity::addDownVector(const float& rate)
 {
 	cameraModule.position += (cameraModule.cameraUp * -1.0f) * rate;
 }
 
-void DMKPlayerEntity::addRotationX(F32 pitch)
+void DMKPlayerEntity::addRotationX(float pitch)
 {
 	cameraModule.pitch = pitch;
 }
 
-void DMKPlayerEntity::addRotationY(F32 yaw)
+void DMKPlayerEntity::addRotationY(float yaw)
 {
 	cameraModule.yaw = yaw;
 }
 
-void DMKPlayerEntity::addRotationZ(F32 roll)
+void DMKPlayerEntity::addRotationZ(float roll)
 {
 	cameraModule.roll = roll;
 }
 
-void DMKPlayerEntity::processMouseControl(DMKExtent2D position, F32 sensitivity, B1 refresh, B1 flipAxises)
+void DMKPlayerEntity::processMouseControl(DMKExtent2D position, float sensitivity, bool refresh, bool flipAxises)
 {
 	if (flipAxises)
 	{
@@ -75,8 +75,8 @@ void DMKPlayerEntity::processMouseControl(DMKExtent2D position, F32 sensitivity,
 		firstInput = false;
 	}
 
-	F32 xOffset = (position.x - lastPosition.x) * sensitivity;
-	F32 yOffset = (lastPosition.y - position.y) * sensitivity;
+	float xOffset = (position.x - lastPosition.x) * sensitivity;
+	float yOffset = (lastPosition.y - position.y) * sensitivity;
 
 	lastPosition = position;
 
@@ -105,7 +105,7 @@ void DMKPlayerEntity::setCameraAndWorldUp(const VEC3& cameraUp, const VEC3& worl
 	cameraModule.worldUp = worldUp;
 }
 
-void DMKPlayerEntity::setCameraParams(F32 FOV, F32 aspect, F32 fNear, F32 fFar)
+void DMKPlayerEntity::setCameraParams(float FOV, float aspect, float fNear, float fFar)
 {
 	cameraModule.fieldOfView = FOV;
 	cameraModule.aspectRatio = aspect;
@@ -113,7 +113,7 @@ void DMKPlayerEntity::setCameraParams(F32 FOV, F32 aspect, F32 fNear, F32 fFar)
 	cameraModule.farRender = fFar;
 }
 
-void DMKPlayerEntity::setAspectRatio(F32 fAspect)
+void DMKPlayerEntity::setAspectRatio(float fAspect)
 {
 	cameraModule.aspectRatio = fAspect;
 }

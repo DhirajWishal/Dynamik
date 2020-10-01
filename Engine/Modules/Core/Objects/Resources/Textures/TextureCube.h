@@ -6,7 +6,7 @@
 #define _DYNAMIK_TEXTURE_CUBE_H
 
 #include "../Texture.h"
-#include "Core/Types/Array.h"
+#include <vector>
 
 /*
  Dynamik Texture Cube

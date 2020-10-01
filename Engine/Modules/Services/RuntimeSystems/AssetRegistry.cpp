@@ -103,12 +103,12 @@ UI64 DMKAssetRegistry::getNumberOfRegisteredAssets()
 	return instance.assetMap.size();
 }
 
-ARRAY<STRING> DMKAssetRegistry::getAllRegisteredAssetNames()
+std::vector<STRING> DMKAssetRegistry::getAllRegisteredAssetNames()
 {
-	ARRAY<STRING> names;
+	std::vector<STRING> names;
 
 	for (auto asset : instance.assetMap)
-		names.pushBack(asset.first);
+		names.push_back(asset.first);
 
 	return names;
 }

@@ -18,7 +18,7 @@ DMKTickSize DMKTicker::getTickSize() const
 
 void DMKTicker::start()
 {
-	startTime = Cast<D64>(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+	startTime = Cast<double>(std::chrono::high_resolution_clock::now().time_since_epoch().count());
 }
 
 UI64 DMKTicker::getTicks()

@@ -28,8 +28,8 @@ public:
 
 	struct cameraParamsFS {
 		StaticArray<Vector4F, 4> lights;
-		F32 exposure = 4.5f;
-		F32 gamma = 2.2f;
+		float exposure = 4.5f;
+		float gamma = 2.2f;
 	} camParamFS;
 
 	DMKCameraModule* pCameraModule = nullptr;

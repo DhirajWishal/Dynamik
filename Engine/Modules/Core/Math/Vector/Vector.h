@@ -5,8 +5,9 @@
 #ifndef _DYNAMIK_VECTOR_BASE_H
 #define _DYNAMIK_VECTOR_BASE_H
 
+#include "Core/Types/DataTypes.h"
 #include "Core/Macros/Global.h"
-#include "Core/Types/Array.h"
+#include <initializer_list>
 
 /* Vector type traits */
 template <class TYPE>

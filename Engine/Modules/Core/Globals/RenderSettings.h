@@ -39,8 +39,8 @@ struct DMK_API DMKRendererDescription {
 	DMKRenderingAPI renderingAPI = DMKRenderingAPI::DMK_RENDERING_API_VULKAN;
 	DMKSampleCount msaaSampleCount = DMKSampleCount::DMK_SAMPLE_COUNT_64_BIT;
 
-	B1 enableRayTracing = false;
-	B1 enableValidation = true;
+	bool enableRayTracing = false;
+	bool enableValidation = true;
 };
 
 #endif // !_DYNAMIK_RENDER_SETTINGS_H

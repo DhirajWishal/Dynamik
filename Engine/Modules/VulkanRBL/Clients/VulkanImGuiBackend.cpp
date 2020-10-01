@@ -189,8 +189,8 @@ namespace Backend
 		viewport.y = 0.0f;
 		viewport.maxDepth = 1.0f;
 		viewport.minDepth = 0.0f;
-		viewport.width = Cast<F32>(io.DisplaySize.x);
-		viewport.height = Cast<F32>(io.DisplaySize.y);
+		viewport.width = Cast<float>(io.DisplaySize.x);
+		viewport.height = Cast<float>(io.DisplaySize.y);
 		vkCmdSetViewport(vCommandBuffer, 0, 1, &viewport);
 
 		/* Submit constant data. */
@@ -288,7 +288,7 @@ namespace Backend
 	{
 		ImGuiIO& io = ImGui::GetIO();
 
-		UCHR* fontData = nullptr;
+		unsigned char* fontData = nullptr;
 		I32 width = 0, height = 0;
 		io.Fonts->GetTexDataAsRGBA32(&fontData, &width, &height);
 		VkDeviceSize uploadSize = Cast<I64>(width) * Cast<I64>(height) * Cast<I64>(4) * Cast<I64>(sizeof(CHR));
@@ -296,8 +296,8 @@ namespace Backend
 		pFontTexture = StaticAllocator<VulkanTexture>::rawAllocate();
 
 		RImageCreateInfo imageCreateInfo = {};
-		imageCreateInfo.vDimentions.width = Cast<F32>(width);
-		imageCreateInfo.vDimentions.height = Cast<F32>(height);
+		imageCreateInfo.vDimentions.width = Cast<float>(width);
+		imageCreateInfo.vDimentions.height = Cast<float>(height);
 		imageCreateInfo.vDimentions.depth = 1.0f;
 		imageCreateInfo.mipLevels = 1;
 		imageCreateInfo.layers = 1;
@@ -328,8 +328,8 @@ namespace Backend
 		shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKFormat::DMK_FORMAT_RG_32_SF32, 1));
 		shaderVS.addInputAttribute(DMKShaderInputAttribute(DMKFormat::DMK_FORMAT_RGBA_8_UNORMAL, 1));
 
-		shaders.pushBack(shaderVS);
-		shaders.pushBack(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_IM_GUI_UI_FRAG")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT));
+		shaders.push_back(shaderVS);
+		shaders.push_back(compiler.getSPIRV(DMKAssetRegistry::getAsset(TEXT("SHADER_IM_GUI_UI_FRAG")), DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT));
 
 		RPipelineSpecification pipelineSpec = {};
 		pipelineSpec.resourceCount = 1;

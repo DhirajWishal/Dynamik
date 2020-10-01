@@ -60,12 +60,12 @@ public:
 	const UI64 getVertexSize() const;
 
 	/* Vertex attributes */
-	ARRAY<DMKVertexAttribute> attributes;
+	std::vector<DMKVertexAttribute> attributes;
 
 	/*
 	 Get the vertex layout as shader input attributes.
 	*/
-	ARRAY<DMKShaderInputAttribute> getInputAttributes() const;
+	std::vector<DMKShaderInputAttribute> getInputAttributes() const;
 
 public:		/* Helper methods */
 	/*
@@ -114,7 +114,7 @@ public:		/* Helper methods */
 	static DMKVertexLayout createBasicSkybox();
 
 public:		/* Operators */
-	B1 operator==(const DMKVertexLayout& other) const;
+	bool operator==(const DMKVertexLayout& other) const;
 };
 
 /*
@@ -182,7 +182,7 @@ public:
 	/*
 	 Get the data pointer.
 	*/
-	VPTR data() const;
+	void* data() const;
 
 	/*
 	 Add data to the buffer.
@@ -191,14 +191,14 @@ public:
 	 @param byteCount: Byte size to copy from the source address.
 	 @param offset: The offset of the buffer to which the data are added.
 	*/
-	void addData(const VPTR source, const UI64& byteCount, const UI64& offset);
+	void addData(const void* source, const UI64& byteCount, const UI64& offset);
 
 	/*
 	 Set data to the whole size of the buffer.
 
 	 @param source: The source address of the data.
 	*/
-	void setData(const VPTR source);
+	void setData(const void* source);
 
 	/*
 	 Set null to a block of data in the buffer. This is used if the layout requested data are not
@@ -215,7 +215,7 @@ public:
 	 @param index: Index of the vertex.
 	 @param data: Data to be added.
 	*/
-	void updateVertex(const UI64& index, const VPTR data);
+	void updateVertex(const UI64& index, const void* data);
 
 	/*
 	 Update a single vertex attribute.
@@ -224,14 +224,14 @@ public:
 	 @param data: Data to be added.
 	 @param attribute: The attribute to be updated.
 	*/
-	void updateVertexAttribute(const UI64& index, const VPTR data, const DMKVertexAttributeType& attribute);
+	void updateVertexAttribute(const UI64& index, const void* data, const DMKVertexAttributeType& attribute);
 
 public:		/* Buffer Data */
 	/* Vertex Layout */
 	DMKVertexLayout layout = {};
 
 	/* Data Store */
-	VPTR pDataStore = nullptr;
+	void* pDataStore = nullptr;
 
 private:
 	/*

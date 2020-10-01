@@ -17,10 +17,10 @@ public:
 	virtual ~RCommandBufferManager() {}
 
 	virtual void initialize(RCoreObject* pCoreObject) = 0;
-	virtual ARRAY<RCommandBuffer*> allocateCommandBuffers(RCoreObject* pCoreObject, UI32 bufferCount, RCommandBufferLevel level = RCommandBufferLevel::COMMAND_BUFFEER_LEVEL_PRIMARY) { return ARRAY<RCommandBuffer*>(); }
-	virtual void resetBuffers(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) = 0;
-	virtual void terminateBuffers(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) = 0;
-	virtual void terminate(RCoreObject* pCoreObject, ARRAY<RCommandBuffer*> commandBuffers) = 0;
+	virtual std::vector<RCommandBuffer*> allocateCommandBuffers(RCoreObject* pCoreObject, UI32 bufferCount, RCommandBufferLevel level = RCommandBufferLevel::COMMAND_BUFFEER_LEVEL_PRIMARY) { return std::vector<RCommandBuffer*>(); }
+	virtual void resetBuffers(RCoreObject* pCoreObject, std::vector<RCommandBuffer*> commandBuffers) = 0;
+	virtual void terminateBuffers(RCoreObject* pCoreObject, std::vector<RCommandBuffer*> commandBuffers) = 0;
+	virtual void terminate(RCoreObject* pCoreObject, std::vector<RCommandBuffer*> commandBuffers) = 0;
 
 	virtual void beginSecondaryCommandBuffers() {}
 	/* Swap the currently active command buffer with a specified buffer. */

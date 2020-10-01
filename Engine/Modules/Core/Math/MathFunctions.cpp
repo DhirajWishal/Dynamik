@@ -12,80 +12,80 @@ I32 DMKMathFunctions::abs(I32 value)
 	return (value ^ y) - y;
 }
 
-B1 DMKMathFunctions::isNaN(F32 value)
+bool DMKMathFunctions::isNaN(float value)
 {
 	//return std::isnan(value);
-	return B1();
+	return bool();
 }
 
-B1 DMKMathFunctions::isNaN(I32 value)
+bool DMKMathFunctions::isNaN(I32 value)
 {
 	//return std::isnan(value);
-	return B1();
+	return bool();
 }
 
-B1 DMKMathFunctions::isFinite(F32 value)
+bool DMKMathFunctions::isFinite(float value)
 {
 	//return std::isfinite(value);
-	return B1();
+	return bool();
 }
 
-B1 DMKMathFunctions::isFinite(I32 value)
+bool DMKMathFunctions::isFinite(I32 value)
 {
 	//return std::isfinite(value);
-	return B1();
+	return bool();
 }
 
-B1 DMKMathFunctions::isInfinite(F32 value)
+bool DMKMathFunctions::isInfinite(float value)
 {
 	//return std::isinf(value);
-	return B1();
+	return bool();
 }
 
-B1 DMKMathFunctions::isInfinite(I32 value)
+bool DMKMathFunctions::isInfinite(I32 value)
 {
 	//return std::isinf(value);
-	return B1();
+	return bool();
 }
 
-DMK_FORCEINLINE F32 DMKMathFunctions::addAll(Vector4F const vector)
+DMK_FORCEINLINE float DMKMathFunctions::addAll(Vector4F const vector)
 {
 	return vector[0] + vector[1] + vector[2] + vector[3];
 }
 
-F32 DMKMathFunctions::sin(F32 radians)
+float DMKMathFunctions::sin(float radians)
 {
 	return std::sinf(radians);
 }
 
-F32 DMKMathFunctions::cos(F32 radians)
+float DMKMathFunctions::cos(float radians)
 {
 	return std::cosf(radians);
 }
 
-F32 DMKMathFunctions::tan(F32 radians)
+float DMKMathFunctions::tan(float radians)
 {
 	return std::tanf(radians);
 }
 
-F32 DMKMathFunctions::dot(Vector3F lhs, Vector3F rhs)
+float DMKMathFunctions::dot(Vector3F lhs, Vector3F rhs)
 {
 	Vector3F _tmp(lhs * rhs);
 	return _tmp.x + _tmp.y + _tmp.z;
 }
 
-F32 DMKMathFunctions::dot(Vector4F lhs, Vector4F rhs)
+float DMKMathFunctions::dot(Vector4F lhs, Vector4F rhs)
 {
 	Vector4F _tmp(lhs * rhs);
 	return (_tmp.x + _tmp.y) + (_tmp.z + _tmp.w);
 }
 
-F32 DMKMathFunctions::degrees(F32 const radians)
+float DMKMathFunctions::degrees(float const radians)
 {
 	return radians * 57.295779513082320876798154814105f;
 }
 
-F32 DMKMathFunctions::radians(F32 const degrees)
+float DMKMathFunctions::radians(float const degrees)
 {
 	return degrees * 0.01745329251994329576923690768489f;
 }
@@ -149,9 +149,9 @@ Matrix4F DMKMathFunctions::lookAt(Vector3F const eye, Vector3F const center, Vec
 	return newMatrix;
 }
 
-Matrix4F DMKMathFunctions::perspective(F32 FOV, F32 aspect, F32 near, F32 far, B1 flipYAxis)
+Matrix4F DMKMathFunctions::perspective(float FOV, float aspect, float near, float far, bool flipYAxis)
 {
-	F32 const halfTan = DMathLib::tan(FOV / 2.0f);
+	float const halfTan = DMathLib::tan(FOV / 2.0f);
 
 	Matrix4F newMatrix(0.0f);
 	newMatrix[0][0] = 1.0f / (aspect * halfTan);
@@ -183,10 +183,10 @@ Matrix4F DMKMathFunctions::scale(Matrix4F mat, Vector3F const vec)
 	return matrix;
 }
 
-Matrix4F DMKMathFunctions::rotate(Matrix4F const mat, F32 const angel, Vector3F const vec)
+Matrix4F DMKMathFunctions::rotate(Matrix4F const mat, float const angel, Vector3F const vec)
 {
-	F32 const c = cos(angel);
-	F32 const s = sin(angel);
+	float const c = cos(angel);
+	float const s = sin(angel);
 
 	auto axis = normalize(vec);
 	auto temp = axis * (1.0f - c);
@@ -264,16 +264,16 @@ Matrix4F DMKMathFunctions::inverse(Matrix4F const& m)
 	Vector4F Row0(Inverse[0][0], Inverse[1][0], Inverse[2][0], Inverse[3][0]);
 
 	Vector4F Dot0(m[0] * Row0);
-	F32 Dot1 = (Dot0.x + Dot0.y) + (Dot0.z + Dot0.w);
+	float Dot1 = (Dot0.x + Dot0.y) + (Dot0.z + Dot0.w);
 
-	F32 OneOverDeterminant = static_cast<F32>(1) / Dot1;
+	float OneOverDeterminant = static_cast<float>(1) / Dot1;
 
 	return Inverse * OneOverDeterminant;
 }
 
-Quaternion DMKMathFunctions::interpolate(Quaternion const& start, Quaternion const& end, const F32& blend)
+Quaternion DMKMathFunctions::interpolate(Quaternion const& start, Quaternion const& end, const float& blend)
 {
-	F32 blendI = 1.0f - blend;
+	float blendI = 1.0f - blend;
 
 	if (dot(start.toVector4F(), end.toVector4F()) < 0)
 		return normalize((start.toVector4F() * blendI) + (end.toVector4F() * (-1.0f * blendI)));
@@ -281,22 +281,22 @@ Quaternion DMKMathFunctions::interpolate(Quaternion const& start, Quaternion con
 		return normalize((start.toVector4F() * blendI) + (end.toVector4F() * blendI));
 }
 
-Vector3F DMKMathFunctions::interpolate(Vector3F const& start, Vector3F const& end, const F32& progression)
+Vector3F DMKMathFunctions::interpolate(Vector3F const& start, Vector3F const& end, const float& progression)
 {
 	return (start + (end - start)) * progression;
 }
 
 Matrix4F DMKMathFunctions::toRotationalMatrix(Quaternion const& quat)
 {
-	F32 xy = quat.x * quat.y;
-	F32 xz = quat.x * quat.z;
-	F32 xw = quat.x * quat.w;
-	F32 yz = quat.y * quat.z;
-	F32 yw = quat.y * quat.w;
-	F32 zw = quat.z * quat.w;
-	F32 xSquared = quat.x * quat.x;
-	F32 ySquared = quat.y * quat.y;
-	F32 zSquared = quat.z * quat.z;
+	float xy = quat.x * quat.y;
+	float xz = quat.x * quat.z;
+	float xw = quat.x * quat.w;
+	float yz = quat.y * quat.z;
+	float yw = quat.y * quat.w;
+	float zw = quat.z * quat.w;
+	float xSquared = quat.x * quat.x;
+	float ySquared = quat.y * quat.y;
+	float zSquared = quat.z * quat.z;
 
 	Matrix4F matrix = Matrix4F(0.0f);
 	matrix[0][0] = 1 - 2 * (ySquared + zSquared);

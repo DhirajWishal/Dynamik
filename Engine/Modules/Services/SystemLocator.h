@@ -42,7 +42,7 @@ public:
 	 Check if a system is available.
 	*/
 	template<class SYSTEM>
-	static DMK_FORCEINLINE B1 isSystemAvailable()
+	static DMK_FORCEINLINE bool isSystemAvailable()
 	{
 		return instance.systemArray.isRegistered<SYSTEM>();
 	}

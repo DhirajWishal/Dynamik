@@ -13,11 +13,11 @@
 
 /* Container to store time */
 struct DMK_API Time {
-	D64 hours = 0;
-	D64 minutes = 0;
-	D64 seconds = 0;
-	D64 millis = 0;
-	D64 micros = 0;
+	double hours = 0;
+	double minutes = 0;
+	double seconds = 0;
+	double millis = 0;
+	double micros = 0;
 };
 
 /*

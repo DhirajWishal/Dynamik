@@ -34,7 +34,7 @@ public:
 	UI64 getNodeIndex(const STRING& name);
 
 	/* Node store */
-	ARRAY<DMKAnimNode> nodes;
+	std::vector<DMKAnimNode> nodes;
 };
 
 #endif // !_DYNAMIK_ANIMATION_NODE_GRAPH_H

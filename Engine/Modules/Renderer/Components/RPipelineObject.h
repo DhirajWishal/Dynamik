@@ -26,7 +26,7 @@ struct DMK_API RPipelineResource {
 	/*
 	 Update Render Resource.
 	*/
-	virtual void update(RCoreObject* pCoreObject, ARRAY<RBuffer*> pBuffers, ARRAY<RTexture*> pTextures) = 0;
+	virtual void update(RCoreObject* pCoreObject, std::vector<RBuffer*> pBuffers, std::vector<RTexture*> pTextures) = 0;
 };
 
 /* Renderer Pipeline Usage */
@@ -39,10 +39,10 @@ enum class DMK_API RPipelineUsage {
  Renderer Pipeline Create Info
 */
 struct DMK_API RPipelineSpecification {
-	ARRAY<DMKShaderModule> shaders;
+	std::vector<DMKShaderModule> shaders;
 
 	/* Pipeline Cache */
-	VPTR* pPipelineCache = { nullptr };
+	void** pPipelineCache = { nullptr };
 
 	/* Render Resource Count */
 	UI64 resourceCount = 0;
@@ -54,7 +54,7 @@ struct DMK_API RPipelineSpecification {
 	RPipelineTessellationStateControlInfo tessellationStateControlInfo;
 
 	/* Scissor */
-	ARRAY<RPipelineScissorInfo> scissorInfos;
+	std::vector<RPipelineScissorInfo> scissorInfos;
 
 	/* Rasterizer */
 	RPipelineRasterizerInfo rasterizerInfo;
@@ -69,7 +69,7 @@ struct DMK_API RPipelineSpecification {
 	RPipelineColorBlendInfo colorBlendInfo;
 
 	/* Dynamic State */
-	ARRAY<RDynamicState> dynamicStates;
+	std::vector<RDynamicState> dynamicStates;
 };
 
 /*
@@ -94,9 +94,9 @@ public:
 	virtual void reCreate(RCoreObject* pCoreObject, RRenderTarget* pRenderTarget, DMKViewport viewport) = 0;
 	virtual void terminate(RCoreObject* pCoreObject) = 0;
 
-	virtual void createPipelineCache(RCoreObject* pCoreObject, UI64 byteSize, VPTR pData) = 0;
-	virtual ARRAY<RPipelineResource*> allocateResources(RCoreObject* pCoreObject) = 0;
-	virtual void deallocateResources(ARRAY<RPipelineResource*> resources) = 0;
+	virtual void createPipelineCache(RCoreObject* pCoreObject, UI64 byteSize, void* pData) = 0;
+	virtual std::vector<RPipelineResource*> allocateResources(RCoreObject* pCoreObject) = 0;
+	virtual void deallocateResources(std::vector<RPipelineResource*> resources) = 0;
 
 	RPipelineSpecification mySpecification = {};
 	RPipelineUsage myUsage = RPipelineUsage::PIPELINE_USAGE_GRAPHICS;
@@ -104,26 +104,26 @@ public:
 public:		/* Constant Block */
 	struct DMK_API PConstantBlock {
 		PConstantBlock() = default;
-		PConstantBlock(VPTR data, UI64 size, DMKShaderLocation location, UI64 offset)
+		PConstantBlock(void* data, UI64 size, DMKShaderLocation location, UI64 offset)
 			: data(data), byteSize(size), location(location), offset(offset) {}
 		~PConstantBlock() = default;
 
-		VPTR data = nullptr;
+		void* data = nullptr;
 		UI64 byteSize = 0;
 		DMKShaderLocation location = DMKShaderLocation::DMK_SHADER_LOCATION_FRAGMENT;
 		UI64 offset = 0;
 	};
 
-	DMK_FORCEINLINE virtual void submitConstantData(VPTR data, UI64 blockIndex)
+	DMK_FORCEINLINE virtual void submitConstantData(void* data, UI64 blockIndex)
 	{
 		if (constantBlocks.size())
 			constantBlocks[blockIndex].data = data;
 	}
 
-	ARRAY<PConstantBlock> constantBlocks;
+	std::vector<PConstantBlock> constantBlocks;
 
 public:		/* Resource Check */
-	B1 isResourceAvailable = false;
+	bool isResourceAvailable = false;
 };
 
 #endif // !_DYNAMIK_RENDERER_PIPELINE_OBJECT_H

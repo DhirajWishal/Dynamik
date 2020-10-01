@@ -29,7 +29,7 @@ public:		/* Render data */
 
 public:		/* Resource Data */
 	RTexture* pTexture = nullptr;
-	ARRAY<RUniformContainer> uniformBuffers;
+	std::vector<RUniformContainer> uniformBuffers;
 
 	RBRDFTable* pBRDFTable = nullptr;
 	RPreFilteredCube* pPreFilteredCube = nullptr;

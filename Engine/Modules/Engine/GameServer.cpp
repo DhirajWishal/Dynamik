@@ -223,7 +223,7 @@ void DMKGameServer::initializeBasicServices()
 
 void DMKGameServer::terminateBasicServices()
 {
-	DMKConfigurationService::writeWindowSize(Cast<F32>(getCurrentWindowHandle()->windowWidth), Cast<F32>(getCurrentWindowHandle()->windowHeight));
+	DMKConfigurationService::writeWindowSize(Cast<float>(getCurrentWindowHandle()->windowWidth), Cast<float>(getCurrentWindowHandle()->windowHeight));
 	DMKConfigurationService::closeConfigFile();
 }
 

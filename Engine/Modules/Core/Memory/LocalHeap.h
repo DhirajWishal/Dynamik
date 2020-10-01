@@ -67,7 +67,7 @@ public:
 	 @warn: Extends the memory buffer and adds the new data to it. The extended size will be equal to
 			the pre allocated size plus the size of the adding data.
 	*/
-	VPTR addToStore(VPTR data, UI32 byteSize);
+	void* addToStore(void* data, UI32 byteSize);
 
 	/*
 	 Delete a value from the memory buffer.
@@ -75,7 +75,7 @@ public:
 	 @param data: Data location of the variable.
 	 @param byteSize: Size of the stored data.
 	*/
-	void deleteFromStore(VPTR data, UI32 byteSize);
+	void deleteFromStore(void* data, UI32 byteSize);
 
 	UI32 getAllocationSize() { return myAllocationSize; }
 

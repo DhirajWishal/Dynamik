@@ -455,5 +455,5 @@ DMKKeyEventComponent DMKEventPool::KeySubtract;
 DMKKeyEventComponent DMKEventPool::KeyDecimal;
 DMKKeyEventComponent DMKEventPool::KeyDivide;
 
-B1 DMKEventPool::WindowCloseEvent = false;
-B1 DMKEventPool::FrameBufferResizeEvent = false;
+bool DMKEventPool::WindowCloseEvent = false;
+bool DMKEventPool::FrameBufferResizeEvent = false;

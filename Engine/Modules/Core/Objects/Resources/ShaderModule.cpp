@@ -65,10 +65,10 @@ void DMKShaderModule::setLocation(const DMKShaderLocation& location)
 
 void DMKShaderModule::addUniform(const DMKUniformBuffer& uniform)
 {
-	uniforms.pushBack(uniform);
+	uniforms.push_back(uniform);
 }
 
-void DMKShaderModule::setUniforms(ARRAY<DMKUniformBuffer> uniforms)
+void DMKShaderModule::setUniforms(std::vector<DMKUniformBuffer> uniforms)
 {
 	this->uniforms = std::move(uniforms);
 }
@@ -78,17 +78,17 @@ DMKUniformBuffer& DMKShaderModule::getUniform(I64 index)
 	return uniforms[index];
 }
 
-ARRAY<DMKUniformBuffer>& DMKShaderModule::getUniforms()
+std::vector<DMKUniformBuffer>& DMKShaderModule::getUniforms()
 {
 	return uniforms;
 }
 
 void DMKShaderModule::addInputAttribute(const DMKShaderInputAttribute& attribute)
 {
-	inputAttributes.pushBack(attribute);
+	inputAttributes.push_back(attribute);
 }
 
-void DMKShaderModule::setInputAttributes(ARRAY<DMKShaderInputAttribute> attributes)
+void DMKShaderModule::setInputAttributes(std::vector<DMKShaderInputAttribute> attributes)
 {
 	this->inputAttributes = attributes;
 }
@@ -98,7 +98,7 @@ DMKShaderInputAttribute DMKShaderModule::getAttribute(I64 index) const
 	return inputAttributes[index];
 }
 
-ARRAY<DMKShaderInputAttribute>& DMKShaderModule::getAttributes()
+std::vector<DMKShaderInputAttribute>& DMKShaderModule::getAttributes()
 {
 	return inputAttributes;
 }

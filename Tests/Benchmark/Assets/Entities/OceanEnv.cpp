@@ -16,13 +16,13 @@ void OceanEnv::setCameraModule(DMKCameraModule* pCameraModule)
 
 void OceanEnv::onInitializeEnvironment()
 {
-	ARRAY<STRING> skyboxTexturePaths;
-	skyboxTexturePaths.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\right.jpg");
-	skyboxTexturePaths.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\left.jpg");
-	skyboxTexturePaths.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\top.jpg");
-	skyboxTexturePaths.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\bottom.jpg");
-	skyboxTexturePaths.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\front.jpg");
-	skyboxTexturePaths.pushBack("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\back.jpg");
+	std::vector<STRING> skyboxTexturePaths;
+	skyboxTexturePaths.push_back("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\right.jpg");
+	skyboxTexturePaths.push_back("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\left.jpg");
+	skyboxTexturePaths.push_back("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\top.jpg");
+	skyboxTexturePaths.push_back("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\bottom.jpg");
+	skyboxTexturePaths.push_back("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\front.jpg");
+	skyboxTexturePaths.push_back("E:\\Dynamik\\Game Repository\\assets\\assets\\Skybox\\skybox\\back.jpg");
 
 	skyBoxMesh = DMKMeshFactory::loadFromFile(DMKAssetRegistry::getAsset(TEXT("MODEL_SKYBOX_OBJ")), DMKVertexLayout::createBasicIBL());
 	skyBoxMesh.getMaterial().addTexture(DMKTextureFactory::createCubeMap(skyboxTexturePaths), MaterialTextureType::MATERIAL_TEXTURE_TYPE_DEFAULT);

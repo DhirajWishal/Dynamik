@@ -230,7 +230,7 @@ void WindowsWindow::terminate()
 	glfwTerminate();
 }
 
-B1 WindowsWindow::isVulkanCompatible()
+bool WindowsWindow::isVulkanCompatible()
 {
 	return glfwVulkanSupported();
 }
@@ -243,7 +243,7 @@ GLFWwindow* WindowsWindow::getHandle()
 DMKExtent2D WindowsWindow::getCursorPosition()
 {
 	DMKExtent2D position;
-	glfwGetCursorPos(windowHandle, (D64*)&position.x, (D64*)&position.y);
+	glfwGetCursorPos(windowHandle, (double*)&position.x, (double*)&position.y);
 
 	return position;
 }
@@ -262,10 +262,10 @@ void WindowsWindow::InternalEventHandler::_textCallback(GLFWwindow* window, UI32
 {
 }
 
-void WindowsWindow::InternalEventHandler::_cursorPositionCallback(GLFWwindow* window, D64 xOffset, D64 yOffset)
+void WindowsWindow::InternalEventHandler::_cursorPositionCallback(GLFWwindow* window, double xOffset, double yOffset)
 {
-	((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->MouseX.value = Cast<F32>(xOffset);
-	((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->MouseY.value = Cast<F32>(yOffset);
+	((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->MouseX.value = Cast<float>(xOffset);
+	((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->MouseY.value = Cast<float>(yOffset);
 }
 
 void WindowsWindow::InternalEventHandler::_mouseButtonCallback(GLFWwindow* window, I32 button, I32 action, I32 mods)
@@ -273,12 +273,12 @@ void WindowsWindow::InternalEventHandler::_mouseButtonCallback(GLFWwindow* windo
 	((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->activateButton(getGLFWEventType(action), button);
 }
 
-void WindowsWindow::InternalEventHandler::_mouseScrollCallback(GLFWwindow* window, D64 xOffset, D64 yOffset)
+void WindowsWindow::InternalEventHandler::_mouseScrollCallback(GLFWwindow* window, double xOffset, double yOffset)
 {
 	if (yOffset > 0.0f)
-		((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->MouseScrollUp.activate(Cast<F32>(yOffset), DMKEventType::DMK_EVENT_TYPE_FREE);
+		((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->MouseScrollUp.activate(Cast<float>(yOffset), DMKEventType::DMK_EVENT_TYPE_FREE);
 	else
-		((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->MouseScrollDown.activate(Cast<F32>(yOffset), DMKEventType::DMK_EVENT_TYPE_FREE);
+		((WindowsWindow*)glfwGetWindowUserPointer(window))->pEventPool->MouseScrollDown.activate(Cast<float>(yOffset), DMKEventType::DMK_EVENT_TYPE_FREE);
 }
 
 void WindowsWindow::InternalEventHandler::_mouseCursorEnterCallback(GLFWwindow* window, I32 entered)

@@ -21,7 +21,7 @@ class DMK_API DMKAutomatedMemoryManager {
 
 private:
 	using INDEX = UI64;
-	using ADDRESS = VPTR;
+	using ADDRESS = void*;
 
 public:
 	DMKAutomatedMemoryManager(const DMKAutomatedMemoryManager&) = delete;
@@ -49,7 +49,7 @@ public:
 	/*
 	 Deallocate a allocated buffer
 	*/
-	static void deallocate(VPTR location, UI64 size, UI64 offset, UI64 alignment);
+	static void deallocate(void* location, UI64 size, UI64 offset, UI64 alignment);
 
 private:
 	std::unordered_map<INDEX, ADDRESS> memoryMap;
