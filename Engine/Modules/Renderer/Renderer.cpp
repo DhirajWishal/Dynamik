@@ -448,15 +448,15 @@ void DMKRenderer::initializeEnvironmentEntity(DMKEnvironmentEntity* pEnvironment
 
 	/* Initialize Uniforms */
 	std::vector<RBuffer*> uniformBuffers;
-	for (auto shaders : pEnvironmentEntity->shaders)
+	for (auto itr = pEnvironmentEntity->shaders.begin(); itr != pEnvironmentEntity->shaders.end(); itr++)
 	{
-		for (UI64 index = 0; index < shaders.getUniforms().size(); index++)
+		for (UI64 index = 0; index < itr->getUniforms().size(); index++)
 		{
-			if (shaders.getUniform(index).type != DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER)
+			if (itr->getUniform(index).type != DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER)
 				continue;
 
 			RUniformContainer _container;
-			_container.pParent = &shaders.getUniform(index);
+			_container.pParent = &itr->getUniform(index);
 			_container.pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, _container.pParent->byteSize());
 			_container.pUniformBuffer->setData(getBackend()->getCoreObject(), _container.pParent->byteSize(), 0, _container.pParent->data());
 
@@ -534,15 +534,15 @@ void DMKRenderer::createStaticModelEntityResources(DMKStaticModelEntity* pEntity
 	std::vector<RBuffer*> pUniformBuffers;
 	{
 		/* Initialize Default Uniform */
-		for (auto shader : pEntity->shaders)
+		for (auto itr = pEntity->shaders.begin(); itr != pEntity->shaders.end(); itr++)
 		{
-			for (UI64 index = 0; index < shader.getUniforms().size(); index++)
+			for (UI64 index = 0; index < itr->getUniforms().size(); index++)
 			{
-				if (shader.getUniform(index).type != DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER)
+				if (itr->getUniform(index).type != DMKUniformType::DMK_UNIFORM_TYPE_UNIFORM_BUFFER)
 					continue;
 
 				RUniformContainer _container;
-				_container.pParent = Cast<DMKUniformBuffer*>(&shader.getUniforms().at(index));
+				_container.pParent = Cast<DMKUniformBuffer*>(&itr->getUniform(index));
 				_container.pUniformBuffer = createBuffer(RBufferType::BUFFER_TYPE_UNIFORM, _container.pParent->byteSize());
 				_container.pUniformBuffer->setData(getBackend()->getCoreObject(), _container.pParent->byteSize(), 0, _container.pParent->data());
 

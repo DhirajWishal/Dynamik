@@ -44,8 +44,6 @@ void DefaultWorld::onUpdate(const float timeStep)
 
 	if (!areEntitiesInitialized)
 	{
-		UI32 progress = 0;
-
 		/* Initialize the player entity */
 		playerObject->onInitializePlayer();
 
@@ -53,22 +51,17 @@ void DefaultWorld::onUpdate(const float timeStep)
 		setupPlayerConstrols(getEntity<Player>());
 
 		/* Submit the environment map entity. */
-		submitEnvironmentToRenderer(getEntity<OceanEnv>(), &progress);
-		while (progress != 12);
-		getEntity<OceanEnv>()->clearEnvironmentMap();
-		progress = 0;
+		submitEnvironmentToRenderer(getEntity<OceanEnv>());
 
 		/* Submit the Venus model to the renderer. */
 		//submitStaticModelToRenderer(getEntity<VenusModel>());
 
 		/* submit the Cerberus model to the renderer. */
-		submitStaticModelToRenderer(getEntity<CerberusModel>(), &progress);
-		while (progress != 7);
-		getEntity<CerberusModel>()->clearStaticModel();
+		submitStaticModelToRenderer(getEntity<CerberusModel>());
 
 		/* load the pure static entity. */
 		//submitStaticModelToRenderer(getEntity<DMKStaticModelEntity>());
-		
+
 		areEntitiesInitialized = true;
 	}
 

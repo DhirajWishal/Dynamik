@@ -71,7 +71,7 @@ namespace Backend
 
 		if (formatCount != 0)
 		{
-			details.formats.reserve(formatCount);
+			details.formats.resize(formatCount);
 			vkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface, &formatCount, details.formats.data());
 		}
 
@@ -80,7 +80,7 @@ namespace Backend
 
 		if (presentModeCount != 0)
 		{
-			details.presentModes.reserve(presentModeCount);
+			details.presentModes.resize(presentModeCount);
 			vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &presentModeCount, details.presentModes.data());
 		}
 
