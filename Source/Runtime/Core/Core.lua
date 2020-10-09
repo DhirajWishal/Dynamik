@@ -10,8 +10,12 @@ project "Core"
 	cppdialect "C++17"
 	staticruntime "On"
 
-	targetdir "$(SolutionDir)Builds/Engine/Binaries/$(Configuration)-$(Platform)/$(ProjectName)"
-	objdir "$(SolutionDir)Builds/Engine/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
+	defines {
+		"DMK_INTERNAL"
+	}
+
+	targetdir "$(SolutionDir)Builds/Runtime/Binaries/$(Configuration)-$(Platform)/$(ProjectName)"
+	objdir "$(SolutionDir)Builds/Runtime/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
 
 	pchheader "dmkafx.h"
 	pchsource "PCH/dmkafx.cpp"
@@ -29,8 +33,8 @@ project "Core"
 		"$(SolutionDir)Dependencies/Libraries/Local",
 		"$(SolutionDir)Source/Runtime/",
 		"$(SolutionDir)Source/Runtime/Core/PCH/",
-		"$(SolutionDir)ThirdParty/imgui",
-		"$(SolutionDir)ThirdParty/SPIRV-Cross",
+		"$(SolutionDir)Dependencies/ThirdParty/imgui",
+		"$(SolutionDir)Dependencies/ThirdParty/SPIRV-Cross",
 		"%{IncludeDir.Vulkan}",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLEW}",
@@ -49,37 +53,16 @@ project "Core"
 	}
 
 	filter "system:windows"
-
 		defines {
 			"DMK_PLATFORM_WINDOWS",
 		}
 
 	filter "system:linux"
-
 		defines {
 			"DMK_PLATFORM_LINUX",
-			"GLFW_INCLUDE_VULKAN",
-			"GLEW_STATIC",
-			"GRAPHICS_API",
 		}
 
 	filter "system:macosx"
-
 		defines {
 			"DMK_PLATFORM_MAC",
-			"GLFW_INCLUDE_VULKAN",
-			"GLEW_STATIC",
-			"GRAPHICS_API",
 		}
-
-	filter "configurations:Debug"
-		defines { "DMK_DEBUG"}
-		symbols "On"
-		
-	filter "configurations:Release"
-		defines { "DMK_RELEASE"}
-		optimize "On"
-
-	filter "configurations:Distribution"
-		defines { "DMK_DISTRIBUTION" }
-		optimize "On"

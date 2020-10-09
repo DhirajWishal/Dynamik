@@ -330,9 +330,7 @@ ASALocalRun/
 .mfractor/
 
 # Other Files
-*gitUpload.bat
 Builds/
-backup/
-libs/*.html
-libs/*.xml
-!ex-libs/
+
+Dependencies/ThirdParty/Binaries/SPIRV-Tools
+Dependencies/ThirdParty/Binaries/glslang

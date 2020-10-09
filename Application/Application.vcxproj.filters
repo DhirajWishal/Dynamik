@@ -4,37 +4,66 @@
     <Filter Include="Assets">
       <UniqueIdentifier>{3824E0A7-24C6-0A7E-0D81-1ED2F9C191CE}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Level1">
-      <UniqueIdentifier>{D087D5D6-3C48-510D-0583-9A8A710296E9}</UniqueIdentifier>
+    <Filter Include="Assets\Entities">
+      <UniqueIdentifier>{EC7BF91C-5807-67E1-6118-EAD5CD22C3E1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Level1\Entities">
-      <UniqueIdentifier>{846AF46B-7064-1DBE-59D1-B3CE456A832A}</UniqueIdentifier>
+    <Filter Include="Assets\Modules">
+      <UniqueIdentifier>{00699714-EC36-8B1A-D5CA-FB40C137677F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Modules\Module00">
+      <UniqueIdentifier>{55A6E948-C1DD-31E0-CAE7-9503369E58D9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Worlds">
+      <UniqueIdentifier>{422731F1-AEE7-AC27-7722-F6A4E3A1F103}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ApplicationPackage.h" />
-    <ClInclude Include="Assets\KeyBinding.h">
-      <Filter>Assets</Filter>
+    <ClInclude Include="ApplicationServer.h" />
+    <ClInclude Include="Assets\Entities\CerberusModel.h">
+      <Filter>Assets\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Assets\Level1\Entities\PlayerMoon.h">
-      <Filter>Assets\Level1\Entities</Filter>
+    <ClInclude Include="Assets\Entities\Moon.h">
+      <Filter>Assets\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Assets\Level1\Level1.h">
-      <Filter>Assets\Level1</Filter>
+    <ClInclude Include="Assets\Entities\OceanEnv.h">
+      <Filter>Assets\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Assets\Level1\Player.h">
-      <Filter>Assets\Level1</Filter>
+    <ClInclude Include="Assets\Entities\Player.h">
+      <Filter>Assets\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Assets\Entities\VenusModel.h">
+      <Filter>Assets\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Assets\Modules\Module00\Module00.h">
+      <Filter>Assets\Modules\Module00</Filter>
+    </ClInclude>
+    <ClInclude Include="Assets\Worlds\DefaultWorld.h">
+      <Filter>Assets\Worlds</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ApplicationPackage.cpp" />
-    <ClCompile Include="Assets\Level1\Entities\PlayerMoon.cpp">
-      <Filter>Assets\Level1\Entities</Filter>
+    <ClCompile Include="ApplicationServer.cpp" />
+    <ClCompile Include="Assets\Entities\CerberusModel.cpp">
+      <Filter>Assets\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Assets\Level1\Level1.cpp">
-      <Filter>Assets\Level1</Filter>
+    <ClCompile Include="Assets\Entities\Moon.cpp">
+      <Filter>Assets\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Assets\Entities\OceanEnv.cpp">
+      <Filter>Assets\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Assets\Entities\Player.cpp">
+      <Filter>Assets\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Assets\Entities\VenusModel.cpp">
+      <Filter>Assets\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Assets\Modules\Module00\Module00.cpp">
+      <Filter>Assets\Modules\Module00</Filter>
+    </ClCompile>
+    <ClCompile Include="Assets\Worlds\DefaultWorld.cpp">
+      <Filter>Assets\Worlds</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Application.lua" />

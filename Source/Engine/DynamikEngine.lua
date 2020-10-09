@@ -10,6 +10,10 @@ project "DynamikEngine"
 	cppdialect "C++17"
 	staticruntime "On"
 
+	defines {
+		"DMK_INTERNAL"
+	}
+
 	targetdir "$(SolutionDir)Builds/Engine/Binaries/$(Configuration)-$(Platform)/$(ProjectName)"
 	objdir "$(SolutionDir)Builds/Engine/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
 
@@ -30,8 +34,8 @@ project "DynamikEngine"
 		"$(SolutionDir)Source/Runtime/",
 		"$(SolutionDir)Source/Runtime/Core/PCH/",
 		"$(SolutionDir)Source/Runtime",
-		"$(SolutionDir)ThirdParty/imgui",
-		"$(SolutionDir)ThirdParty/SPIRV-Cross",
+		"$(SolutionDir)Dependencies/ThirdParty/imgui",
+		"$(SolutionDir)Dependencies/ThirdParty/SPIRV-Cross",
 		"%{IncludeDir.Vulkan}",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLEW}",
@@ -44,43 +48,30 @@ project "DynamikEngine"
 	}
 
 	links { 
-		"ComponentSystem",
+		"Animation",
 		"Core",
 		"Events",
 		"GameLibrary",
 		"Importer",
 		"Managers",
 		"Renderer",
+		"Services",
 		"Tools",
+		"UserInterface",
 		"Window",
 	}
 
 	filter "system:windows"
-
 		defines {
 			"DMK_PLATFORM_WINDOWS",
 		}
 
 	filter "system:linux"
-
 		defines {
 			"DMK_PLATFORM_LINUX",
 		}
 
 	filter "system:macosx"
-
 		defines {
 			"DMK_PLATFORM_MAC",
 		}
-
-	filter "configurations:Debug"
-		defines { "DMK_DEBUG"}
-		symbols "On"
-		
-	filter "configurations:Release"
-		defines { "DMK_RELEASE"}
-		optimize "On"
-
-	filter "configurations:Distribution"
-		defines { "DMK_DISTRIBUTION" }
-		optimize "On"

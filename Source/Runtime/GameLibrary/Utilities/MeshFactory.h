@@ -5,50 +5,83 @@
 #ifndef _DYNAMIK_MESH_FACTORY_H
 #define _DYNAMIK_MESH_FACTORY_H
 
+#include "GameLibrary/Entities/AnimatedModelEntity.h"
+
 /*
- Author:	Dhiraj Wishal
- Date:		07/06/2020
+ Dynamik Mesh Factory
 */
-#include "ComponentSystem/Components/RenderableComponents/MeshComponent.h"
+class DMK_API DMKMeshFactory {
+	DMKMeshFactory() = default;
+	~DMKMeshFactory() = default;
 
-namespace Dynamik
-{
+	static DMKMeshFactory instance;
+
+public:
+	DMKMeshFactory(const DMKMeshFactory&) = delete;
+	DMKMeshFactory(DMKMeshFactory&&) = delete;
+	DMKMeshFactory& operator=(const DMKMeshFactory&) = delete;
+	DMKMeshFactory& operator=(DMKMeshFactory&&) = delete;
+
 	/*
-	 Dynamik Mesh Factory
+	 Internally used by the engine.
 	*/
-	class DMK_API DMKMeshFactory {
-		DMKMeshFactory() = default;
-		~DMKMeshFactory() = default;
+	static void setWorkingDirectory(const STRING& path);
 
-		static DMKMeshFactory instance;
+public:
+	/*
+	 Create a basic triangle object.
+	*/
+	static DMKMeshObject createBasicTriangle();
 
-	public:
-		DMKMeshFactory(const DMKMeshFactory&) = delete;
-		DMKMeshFactory(DMKMeshFactory&&) = delete;
-		DMKMeshFactory& operator=(const DMKMeshFactory&) = delete;
-		DMKMeshFactory& operator=(DMKMeshFactory&&) = delete;
+	/*
+	 Load mesh components from a file.
+	*/
+	static DMKMeshObject loadFromFile(const STRING& file, const DMKVertexLayout& vertexLayout = DMKVertexLayout::createBasic());
 
-		/*
-		 Internally used by the engine.
-		*/
-		static void setWorkingDirectory(const STRING& path);
+	/*
+	 Create a default mesh component from a provided file.
 
-	public:
-		/*
-		 Create a basic triangle object.
-		*/
-		static DMKMeshComponent createBasicTriangle();
+	 @param path: Path to the file which contains the mesh data.
+	*/
+	static DMKMeshObject createDefault(const STRING& path);
 
-		/*
-		 Create a default mesh component from a provided file.
+	/*
+	 Create a basic cube mesh.
+	*/
+	static DMKMeshObject createCube();
 
-		 @param path: Path to the file which contains the mesh data.
-		*/
-		static DMKMeshComponent createDefault(const STRING& path);
+	/*
+	 Create a basic sky box using texture files.
 
-	private:
-		STRING workingDirectory = DMK_TEXT("");
-	};
-}
+	 @param textureFiles: Texture files which are loaded to the sky box. These must be given as,
+			+X, -X, +Y, -Y, +Z, -Z configuration.
+			(eg: { "right.jpg", "left.jpg", "top.jpg", "bottom.jpg", "front.jpg", "back.jpg" })
+	*/
+	static DMKMeshObject createSkyBox(ARRAY<STRING> textureFiles);
+
+	/*
+	 Load an animated mesh from an asset file.
+
+	 @param file: The asset file.
+	*/
+	static DMKMeshObject loadAnimatedMesh(const STRING& file);
+
+	/*
+	 Load a static model from an asset file.
+
+	 @param file: The asset file.
+	*/
+	static DMKMeshObject loadStaticModel(const STRING& file, Vector3F position = { 0.0f, 0.0f, 0.0f }, Vector3F scale = { 1.0f, 1.0f, 1.0f });
+
+	/*
+	 Load all the meshes in a given asset.
+
+	 @param asset: The asset path.
+	*/
+	static ARRAY<DMKMeshObject> loadMeshes(const STRING& file, DMKVertexLayout vertexLayout = DMKVertexLayout::createBasic());
+
+private:
+	STRING workingDirectory = TEXT("");
+};
 
 #endif // !_DYNAMIK_MESH_FACTORY_H

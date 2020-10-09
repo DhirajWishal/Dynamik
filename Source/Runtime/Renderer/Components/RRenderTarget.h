@@ -5,42 +5,26 @@
 #ifndef _DYNAMIK_RENDERER_RENDER_TARGET_H
 #define _DYNAMIK_RENDERER_RENDER_TARGET_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		14/06/2020
-*/
 #include "Context/RFrameBuffer.h"
 #include "RCommandBuffer.h"
 
-namespace Dynamik
-{
-	class DMK_API RCommandBuffer;
-	class DMK_API RRenderPass;
-	class DMK_API RFrameBuffer;
+class DMK_API RCommandBuffer;
+class DMK_API RRenderPass;
+class DMK_API RFrameBuffer;
 
-	/*
-	 Renderer Render Target
-	*/
-	class DMK_API RRenderTarget {
-	public:
-		RRenderTarget() {}
-		virtual ~RRenderTarget() {}
+/*
+ Renderer Render Target
+*/
+class DMK_API RRenderTarget {
+public:
+	RRenderTarget() : pFrameBuffer(nullptr), pRenderPass(nullptr) {}
+	virtual ~RRenderTarget() {}
 
-		virtual void setComponents(RFrameBuffer* frameBuffer, RRenderPass* renderPass) { pFrameBuffer = frameBuffer, pRenderPass = renderPass; }
-		virtual void submit(RCommandBuffer* pCommandBuffer) {}
+	void setComponents(RFrameBuffer* frameBuffer, RRenderPass* renderPass) { pFrameBuffer = frameBuffer, pRenderPass = renderPass; }
+	virtual void submit(RCommandBuffer* pCommandBuffer) {}
 
-		RFrameBuffer* pFrameBuffer;
-		RRenderPass* pRenderPass;
-	};
-
-	/*
-	 Render Target Texture Object
-	*/
-	class DMK_API RRenderTargetTexture : public RRenderTarget {
-	public:
-		RRenderTargetTexture() {}
-		virtual ~RRenderTargetTexture() {}
-	};
-}
+	RFrameBuffer* pFrameBuffer = nullptr;
+	RRenderPass* pRenderPass = nullptr;
+};
 
 #endif // !_DYNAMIK_RENDERER_RENDER_TARGET_H

@@ -4,6 +4,12 @@
     <Filter Include="Camera">
       <UniqueIdentifier>{CE7141AB-BA13-6C81-A3CE-7FD58F0FF3D1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{8AA33B53-7670-965E-9F89-84068BB5CBEC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\Complex">
+      <UniqueIdentifier>{71D9B7F5-5DD2-D647-8604-BCCC725CB653}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Mechanics">
       <UniqueIdentifier>{30EBFAEF-9C55-AF66-E593-600C513D8DBB}</UniqueIdentifier>
     </Filter>
@@ -18,11 +24,33 @@
     <ClInclude Include="Camera\CameraModule.h">
       <Filter>Camera</Filter>
     </ClInclude>
-    <ClInclude Include="EnvironmentMap.h" />
-    <ClInclude Include="GameEntity.h" />
+    <ClInclude Include="Entities\AnimatedModelEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\CanvasEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\Complex\Button2D.h">
+      <Filter>Entities\Complex</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\EnvironmentEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\PlayerEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\SkyBoxEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\StaticModelEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities\TriggerEntity2D.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
     <ClInclude Include="GameMechanics.h" />
-    <ClInclude Include="GamePackage.h" />
-    <ClInclude Include="LevelComponent.h" />
+    <ClInclude Include="GameModule.h" />
+    <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Mechanics\GameAssetMechanics.h">
       <Filter>Mechanics</Filter>
     </ClInclude>
@@ -32,7 +60,6 @@
     <ClInclude Include="Menus\Layer.h">
       <Filter>Menus</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerObject.h" />
     <ClInclude Include="Utilities\EntityFactory.h">
       <Filter>Utilities</Filter>
     </ClInclude>
@@ -44,10 +71,34 @@
     <ClCompile Include="Camera\CameraModule.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
-    <ClCompile Include="GameEntity.cpp" />
-    <ClCompile Include="LevelComponent.cpp" />
+    <ClCompile Include="Entities\AnimatedModelEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\CanvasEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\EnvironmentEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\PlayerEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\SkyBoxEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\StaticModelEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities\TriggerEntity2D.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModule.cpp" />
+    <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Mechanics\PlayerController.cpp">
       <Filter>Mechanics</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\EntityFactory.cpp">
+      <Filter>Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Utilities\MeshFactory.cpp">
       <Filter>Utilities</Filter>

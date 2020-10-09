@@ -133,69 +133,69 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Windows|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Debug\DynamikStudio\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Studio\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Studio\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Debug\</IntDir>
     <TargetName>DynamikStudio</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unix|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Debug\DynamikStudio\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Studio\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Studio\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Debug\</IntDir>
     <TargetName>DynamikStudio</TargetName>
     <TargetExt>
     </TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Mac|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Debug\DynamikStudio\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Studio\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Studio\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Debug\</IntDir>
     <TargetName>DynamikStudio</TargetName>
     <TargetExt>
     </TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Windows|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Release\DynamikStudio\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Studio\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Studio\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Release\</IntDir>
     <TargetName>DynamikStudio</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unix|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Release\DynamikStudio\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Studio\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Studio\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Release\</IntDir>
     <TargetName>DynamikStudio</TargetName>
     <TargetExt>
     </TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Mac|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Release\DynamikStudio\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Studio\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Studio\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Release\</IntDir>
     <TargetName>DynamikStudio</TargetName>
     <TargetExt>
     </TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Windows|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Distribution\DynamikStudio\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Studio\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Studio\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Distribution\</IntDir>
     <TargetName>DynamikStudio</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Unix|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Distribution\DynamikStudio\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Studio\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Studio\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Distribution\</IntDir>
     <TargetName>DynamikStudio</TargetName>
     <TargetExt>
     </TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Mac|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Distribution\DynamikStudio\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Studio\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Studio\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Distribution\</IntDir>
     <TargetName>DynamikStudio</TargetName>
     <TargetExt>
     </TargetExt>
@@ -205,8 +205,8 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;DMK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_DEBUG;DMK_INTERNAL;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -219,11 +219,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unix|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_DEBUG;DMK_INTERNAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -235,11 +235,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Mac|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_DEBUG;DMK_INTERNAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -251,11 +251,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Windows|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;DMK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_RELEASE;DMK_INTERNAL;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -272,11 +272,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unix|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_RELEASE;DMK_INTERNAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -292,11 +292,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Mac|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_RELEASE;DMK_INTERNAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -312,11 +312,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Windows|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;DMK_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_INTERNAL;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -333,11 +333,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Unix|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_INTERNAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -353,11 +353,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Mac|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_INTERNAL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -372,25 +372,54 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="GUI\GUIComponents\Widget.h" />
-    <ClInclude Include="GUI\GUICore\GUICore.h" />
-    <ClInclude Include="GUI\GUICore\GUIShader.h" />
-    <ClInclude Include="GUI\GUIManager\GUIManager.h" />
+    <ClInclude Include="GUI\ImGuiWrapper.h" />
     <ClInclude Include="Studio.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GUI\GUICore\GUICore.cpp" />
-    <ClCompile Include="GUI\GUICore\GUIShader.cpp" />
-    <ClCompile Include="GUI\GUIManager\GUIManager.cpp" />
+    <ClCompile Include="GUI\ImGuiWrapper.cpp" />
     <ClCompile Include="Studio.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DynamikStudio.lua" />
+    <None Include="imgui.ini" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Engine\DynamikEngine.vcxproj">
-      <Project>{2873A0D0-9433-1C07-5D6E-6584C9ED60E3}</Project>
+    <ProjectReference Include="..\Runtime\Animation\Animation.vcxproj">
+      <Project>{859E00A2-F108-B518-3A47-66BEA6F0926D}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Core\Core.vcxproj">
+      <Project>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Events\Events.vcxproj">
+      <Project>{3A8963B1-262B-8E87-0FE6-A1DBFB2615D8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\GameLibrary\GameLibrary.vcxproj">
+      <Project>{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Importer\Importer.vcxproj">
+      <Project>{D7C05FAE-C38D-BAB9-ECA6-A861D8D2EF47}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Managers\Managers.vcxproj">
+      <Project>{B34CFEBD-9F19-59C9-C832-4771B45E8E57}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Renderer\Renderer.vcxproj">
+      <Project>{7CCE658F-689B-C09A-91B4-AE427DE0F528}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Services\Services.vcxproj">
+      <Project>{A9F04386-95BD-9E91-BED6-8C39AA02D41F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Tools\Tools.vcxproj">
+      <Project>{16CF2D0E-82E3-55BF-4B65-F91EB73852F0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\UserInterface\UserInterface.vcxproj">
+      <Project>{B5552FC0-2116-ABF6-EA50-F47356D0EFD2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Runtime\Window\Window.vcxproj">
+      <Project>{3DEA79DA-298C-A4B0-1247-B804FE872B01}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Dependencies\ThirdParty\imgui\ImGui.vcxproj">
+      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

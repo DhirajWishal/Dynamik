@@ -132,56 +132,56 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Windows|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Debug\GameLibrary\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Runtime\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Runtime\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Debug\GameLibrary\</IntDir>
     <TargetName>GameLibrary</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unix|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Debug\GameLibrary\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Runtime\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Runtime\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Debug\GameLibrary\</IntDir>
     <TargetName>libGameLibrary</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Mac|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Debug\GameLibrary\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Runtime\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Runtime\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Debug\GameLibrary\</IntDir>
     <TargetName>libGameLibrary</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Windows|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Release\GameLibrary\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Runtime\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Runtime\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Release\GameLibrary\</IntDir>
     <TargetName>GameLibrary</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unix|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Release\GameLibrary\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Runtime\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Runtime\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Release\GameLibrary\</IntDir>
     <TargetName>libGameLibrary</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Mac|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Release\GameLibrary\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Runtime\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Runtime\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Release\GameLibrary\</IntDir>
     <TargetName>libGameLibrary</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Windows|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Distribution\GameLibrary\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Runtime\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Runtime\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Windows\Distribution\GameLibrary\</IntDir>
     <TargetName>GameLibrary</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Unix|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Distribution\GameLibrary\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Runtime\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Runtime\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Unix\Distribution\GameLibrary\</IntDir>
     <TargetName>libGameLibrary</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Mac|x64'">
-    <OutDir>$(SolutionDir)Builds\Engine\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Builds\Engine\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Distribution\GameLibrary\</IntDir>
+    <OutDir>$(SolutionDir)Builds\Runtime\Binaries\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Builds\Runtime\Intermediate\$(Configuration)-$(Platform)\$(ProjectName)\Mac\Distribution\GameLibrary\</IntDir>
     <TargetName>libGameLibrary</TargetName>
     <TargetExt>.a</TargetExt>
   </PropertyGroup>
@@ -190,8 +190,8 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;DMK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_DEBUG;DMK_INTERNAL;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -204,11 +204,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unix|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_LINUX;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;DMK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_DEBUG;DMK_INTERNAL;DMK_PLATFORM_LINUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -221,11 +221,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Mac|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_MAC;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;DMK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_DEBUG;DMK_INTERNAL;DMK_PLATFORM_MAC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -238,11 +238,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Windows|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;DMK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_RELEASE;DMK_INTERNAL;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -259,11 +259,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unix|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_LINUX;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;DMK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_RELEASE;DMK_INTERNAL;DMK_PLATFORM_LINUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -280,11 +280,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Mac|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_MAC;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;DMK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_RELEASE;DMK_INTERNAL;DMK_PLATFORM_MAC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -301,11 +301,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Windows|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;DMK_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_INTERNAL;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -322,11 +322,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Unix|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_LINUX;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;DMK_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_INTERNAL;DMK_PLATFORM_LINUX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -343,11 +343,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Distribution Mac|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>dmkafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_MAC;GLFW_INCLUDE_VULKAN;GLEW_STATIC;GRAPHICS_API;DMK_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)ThirdParty\imgui;$(SolutionDir)ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\Libraries\External\Vulkan\include;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;$(SolutionDir)Dependencies\Libraries\External\stb;$(SolutionDir)Dependencies\Libraries\External\gli\gli;$(SolutionDir)Dependencies\Libraries\External\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\Libraries\External\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_INTERNAL;DMK_PLATFORM_MAC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -364,23 +364,36 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera\CameraModule.h" />
-    <ClInclude Include="EnvironmentMap.h" />
-    <ClInclude Include="GameEntity.h" />
+    <ClInclude Include="Entities\AnimatedModelEntity.h" />
+    <ClInclude Include="Entities\CanvasEntity.h" />
+    <ClInclude Include="Entities\Complex\Button2D.h" />
+    <ClInclude Include="Entities\EnvironmentEntity.h" />
+    <ClInclude Include="Entities\PlayerEntity.h" />
+    <ClInclude Include="Entities\SkyBoxEntity.h" />
+    <ClInclude Include="Entities\StaticModelEntity.h" />
+    <ClInclude Include="Entities\TriggerEntity2D.h" />
     <ClInclude Include="GameMechanics.h" />
-    <ClInclude Include="GamePackage.h" />
-    <ClInclude Include="LevelComponent.h" />
+    <ClInclude Include="GameModule.h" />
+    <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Mechanics\GameAssetMechanics.h" />
     <ClInclude Include="Mechanics\PlayerController.h" />
     <ClInclude Include="Menus\Layer.h" />
-    <ClInclude Include="PlayerObject.h" />
     <ClInclude Include="Utilities\EntityFactory.h" />
     <ClInclude Include="Utilities\MeshFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera\CameraModule.cpp" />
-    <ClCompile Include="GameEntity.cpp" />
-    <ClCompile Include="LevelComponent.cpp" />
+    <ClCompile Include="Entities\AnimatedModelEntity.cpp" />
+    <ClCompile Include="Entities\CanvasEntity.cpp" />
+    <ClCompile Include="Entities\EnvironmentEntity.cpp" />
+    <ClCompile Include="Entities\PlayerEntity.cpp" />
+    <ClCompile Include="Entities\SkyBoxEntity.cpp" />
+    <ClCompile Include="Entities\StaticModelEntity.cpp" />
+    <ClCompile Include="Entities\TriggerEntity2D.cpp" />
+    <ClCompile Include="GameModule.cpp" />
+    <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Mechanics\PlayerController.cpp" />
+    <ClCompile Include="Utilities\EntityFactory.cpp" />
     <ClCompile Include="Utilities\MeshFactory.cpp" />
   </ItemGroup>
   <ItemGroup>

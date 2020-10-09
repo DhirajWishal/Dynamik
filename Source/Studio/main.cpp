@@ -2,23 +2,30 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "dmkafx.h"
-#include "Dynamik.h"
 #include "Studio.h"
-#include "GUI/GUICore/GUICore.h"
-#include "GUI/GUIManager/GUIManager.h"
-#include "Core/Math/MathFunctions.h"
-using namespace Dynamik;
 
-I32 main(I32 argc, CCPTR argv[])
+int main()
 {
-	DMKStudio _instance;
+	try
+	{
+		/* Instantiate the studio */
+		DMKStudio studio;
 
-	DMKEngineInstanceDescriptor _instanceDescriptor;
-	DMKGamePackage _package;
+		/* Initialize the studio */
+		studio.initialize();
 
-	DMKEngine _engine(_instanceDescriptor, &_package);
+		/* Execute the studio */
+		studio.execute();
 
-	_engine.execute();
+		/* Terminate the studio */
+		studio.terminate();
+	}
+	catch (std::exception& e)
+	{
+		DMKErrorManager::logError(e.what());
+
+		return -1;
+	}
 
 	return 0;
 }

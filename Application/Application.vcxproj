@@ -204,8 +204,8 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;DMK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Source\Runtime\GameLibraries;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_DEBUG;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -221,7 +221,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Source\Runtime\GameLibraries;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -236,7 +236,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Source\Runtime\GameLibraries;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -250,8 +250,8 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;DMK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Source\Runtime\GameLibraries;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_RELEASE;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -271,7 +271,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Source\Runtime\GameLibraries;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -290,7 +290,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Source\Runtime\GameLibraries;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -308,8 +308,8 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>DMK_PLATFORM_WINDOWS;DMK_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Source\Runtime\GameLibraries;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DMK_DISTRIBUTION;DMK_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -329,7 +329,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Source\Runtime\GameLibraries;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -348,7 +348,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DMK_DISTRIBUTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Source\Runtime\Core;$(SolutionDir)Source\Runtime\Core\PCH;$(SolutionDir)Source\Runtime\GameLibraries;$(SolutionDir)Dependencies\Libraries\External\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\Libraries\Local\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Libraries\Local;$(SolutionDir)Source\Engine;$(SolutionDir)Source\Runtime;$(SolutionDir)Dependencies\ThirdParty\imgui;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Cross;$(SolutionDir)Dependencies\ThirdParty\Vulkan\include;$(SolutionDir)Dependencies\ThirdParty\glfw\include;$(SolutionDir)Dependencies\GLEW\include;$(SolutionDir)Dependencies\ThirdParty\Assimp\include;$(SolutionDir)Dependencies\ThirdParty\stb;$(SolutionDir)Dependencies\ThirdParty\gli;$(SolutionDir)Dependencies\ThirdParty\gli\external\glm;$(SolutionDir)Dependencies\Libraries\External\zlib;$(SolutionDir)Dependencies\ThirdParty\SPIRV-Tools\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -363,17 +363,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ApplicationPackage.h" />
-    <ClInclude Include="Assets\KeyBinding.h" />
-    <ClInclude Include="Assets\Level1\Entities\PlayerMoon.h" />
-    <ClInclude Include="Assets\Level1\Level1.h" />
-    <ClInclude Include="Assets\Level1\Player.h" />
+    <ClInclude Include="ApplicationServer.h" />
+    <ClInclude Include="Assets\Entities\CerberusModel.h" />
+    <ClInclude Include="Assets\Entities\Moon.h" />
+    <ClInclude Include="Assets\Entities\OceanEnv.h" />
+    <ClInclude Include="Assets\Entities\Player.h" />
+    <ClInclude Include="Assets\Entities\VenusModel.h" />
+    <ClInclude Include="Assets\Modules\Module00\Module00.h" />
+    <ClInclude Include="Assets\Worlds\DefaultWorld.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ApplicationPackage.cpp" />
-    <ClCompile Include="Assets\Level1\Entities\PlayerMoon.cpp" />
-    <ClCompile Include="Assets\Level1\Level1.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ApplicationServer.cpp" />
+    <ClCompile Include="Assets\Entities\CerberusModel.cpp" />
+    <ClCompile Include="Assets\Entities\Moon.cpp" />
+    <ClCompile Include="Assets\Entities\OceanEnv.cpp" />
+    <ClCompile Include="Assets\Entities\Player.cpp" />
+    <ClCompile Include="Assets\Entities\VenusModel.cpp" />
+    <ClCompile Include="Assets\Modules\Module00\Module00.cpp" />
+    <ClCompile Include="Assets\Worlds\DefaultWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Application.lua" />

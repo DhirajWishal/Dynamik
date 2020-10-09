@@ -1,70 +1,63 @@
 # Dynamik Engine Documentation
 ## Game Library
 
-### Structure
-- Game Package
-  - Level Components
-    - Entities - Contains components which performs a task/ tasks. By default entities do not have any 
-    functionality. Entities are almost like wrappers to scene components but when given functionalities, 
-    it can perform tasks like an NPC.
-      - Audio Component
-      - Physics Component
-      - Renderable Component
-    - Skybox
-    - Game Mechanics
-      - Key Bindings
-      - Win Condition
-      - Game Mode
-    - Player Object
-      - Player Controller
-      - Character Components
-      - Camera Module
-        - Attachments
-  - Game Menus
-    - Layers
-      - Layer Components
+The Dynamik Engine allows users a maximum degree of freedom in designing a game. The entire application is submitted 
+using the object "DMKGameServer". This object contains the actual engine runtime and allows users to interact directly 
+with the runtime itself. The game logic is coded into "DMKGameModule" and is presented using the game server.
 
-### Basic Description
-#### Game Package
-Game package is a super class which defines a game. This is the only way a game is imported to the engine.
+### DMKGameServer
+This object is the actual engine instance. Although the runtime is not fully visible and usable to the user, some 
+functionalities are enabled allowing users to interact directly with the engine runtime or with the systems. This 
+object contains the basic information and the startup of the game application. The reason why this object is called the 
+"GameServer" is because this object occupies a full thread and all the other major systems are in different threads and 
+are behaves more like servers. 
+This object is responsible of initializing the game code, submitting system listeners which are required by the game, 
+loading game modules, handling logins, and much more.
 
-#### Level Component
-Level component directly translates to a level in the game. Every level contains entities (scene components),
-game mechanics and a player object.
+### DMKGameModule
+This object is considered as one game match (eg: Capture the flag, Search and destroy, Battle Royale, ...). This object 
+contains the logic based on the current player's perspective. This module contains the game world (inheritable).
 
-##### Entity
-An entity is an object consisting of one or more components. Collectively this may recreate a complete asset, 
-or another character, or any other complex object. By default these objects do not have any functionality.
-In multiplayer games, other players are considered as entities.
+### DMKGameWorld
+The game world holds information about one game world/ map. All of the data in this is submitted using Entities, Environment 
+Maps and Light Components. This allows one module to switch between game worlds at runtime. 
 
-###### Components
-Components are the containers which contain all the raw data (eg: Audio, Video, Mesh, ...). These components
-are devided into 3 main types,
-- Audio Component
-- Renderable Component
-- Compute Component (Used to perform calculations)
+#### Dynamik Entity System
+Entities in the engine represent objects with some behavior/ functionality attached to it. The engine supplies multiple 
+Entity types which the users are allowed to inherit from and use. These entities are: 
+- DMKPlayerEntity
+  - This entity contains all the required information about the player character.
+  - The player entity is attached to the player controller at runtime.
+  - This contains a default camera module which can be set to a user defined one.
+- DMKEnvironmentEntity
+  - This entity contains all the environment information. 
+  - This contains the sky box.
+- DMKStaticModelEntity
+  - This entity holds information about one single model which contains one or more meshes. 
+  - This model contains a rendering specification which is applies to all the mesh objects stored in it.
+  - Allows instancing (Adding copies of one entity).
+- DMKAnimatedModelEntity
+  - This is the same as the static model entity but this contains animation information. 
+  - Allows instancing.
+- DMKAudioControllerEntity
+  - This object stores information about audio.
+  - Audio data are submitted using this entity.
+- DMKPhyaicalEntity
+  - This object stores physics information about an entity.
+- DMKTrigger2D
+  - This entity suplies the entity with trigger mechanisms.
+  - Triggers occur when a certain event occurs to an entity. 
+  - This is a 2D instance of a trigger and only accepts events from the perpendicular axis of the specified axises. 
+  - Instances can be added which will contains an ID to uniquily identify the trigger instance.
+- DMKTrigger3D
+  - This entity is the same as the 2D entity but it contains 3D bounds.
+- DMKCanvasEntity
+  - This provides an entity with a 2D canvas which the user can draw or wright anything to. 
+  - Mostly this is used in menus and HUDs.
+  - Buttons are required to be added using Trigger2D or trigger3D entities.
 
-##### Game Mechanics
-This defines the rules of a game. This includes,
-- Key Bindings
-- Win Conditions
-- Game Modes 
+To create an entity, users are required to inherit their entity from these entities. All the entities are suplied using 
+the game world. And entities are to be initialized and submitted to the relevant systems explicitly in the 
+onInitializeEntities() method.
 
-##### Player Object
-This is the object which the player/ user uses to interact with the game world. This is, as the name suggests,
-the player in the game. This object updates and controls the camera module.
-
-###### Player Controller
-This component defines the player controls (waling, jumping, swimming, ...)
-
-###### Character Components
-This defines the components possessed by the player (Audio (Voice), Mesh (Skinned, Bone), Physics (Capsule), ...).
-
-###### Camera Module
-This is the main camera of the level. Even though cinematic cameras can be setup by game mechanics, this camera
-is the active camera when the player is on a mission. HUDs can be added to the camera using attachments.
-
-##### Game Menus
-This is the main game UI. The game can have multiple UIs and the first menu will be loaded upon engine initialization.
-A single menu or UI interface is called as a Level and level components provide buttons, textures and other 
-visual and functional components.
+##### Warning: Do not inherit from both DMKAnimatedModelEntity and DMKStaticModelEntity at the same time as the animated model is inherited from the static model entity.

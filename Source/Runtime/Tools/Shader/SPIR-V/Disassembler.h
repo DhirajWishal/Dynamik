@@ -5,80 +5,56 @@
 #ifndef _DYNAMIK_TOOLS_SPIRV_DISASSEMBLER_H
 #define _DYNAMIK_TOOLS_SPIRV_DISASSEMBLER_H
 
-/*
- Author:	Dhiraj Wishal
- Date:		10/06/2020
-*/
-#include "Core/Object/Resource/ShaderModule.h"
+#include "Core/Objects/Resources/ShaderModule.h"
 #include <vulkan/vulkan.h>
 
-namespace Dynamik
+namespace Tools
 {
-	namespace Tools
-	{
+	/*
+	 SPIR-V Disassembler tool
+	 This disassembles SPIR-V modules to GLSL and/or HLSL
+	*/
+	class DMK_API SPIRVDisassembler {
+	public:
+		SPIRVDisassembler() {}
+		SPIRVDisassembler(const DMKShaderModule& sModule) : shaderModule(sModule) {}
+		~SPIRVDisassembler() {}
+
 		/*
-		 SPIR-V Disassembler tool
-		 This disassembles SPIR-V modules to GLSL and/or HLSL
+		 Get the uniform buffers in the shader. 
 		*/
-		class DMK_API SPIRVDisassembler {
-		public:
-			SPIRVDisassembler() {}
-			SPIRVDisassembler(const DMKShaderModule& sModule) : shaderModule(sModule) {}
-			~SPIRVDisassembler() {}
+		ARRAY<DMKUniformBuffer> getUniformBuffers();
 
-			/*
-			 Get the descriptor set layout bindings of the current shader.
-			*/
-			ARRAY<VkDescriptorSetLayoutBinding> getDescriptorSetLayoutBindings();
+		/*
+		 Get the input attributes in this shader.
+		*/
+		ARRAY<DMKShaderInputAttribute> getInputAttributes();
 
-			/*
-			 Get the descriptor pool sizes of the current shader.
-			*/
-			ARRAY<VkDescriptorPoolSize> getDescriptorPoolSizes();
+		/*
+		 Set the shader module
+		*/
+		void setShaderModule(const DMKShaderModule& sModule);
 
-			/*
-			 Get the vertex input attributes of the current shader
-			*/
-			ARRAY<VkVertexInputAttributeDescription> getVertexAttributeDescriptions();
+		/*
+		 Convert to GLSL
+		*/
+		STRING toGLSL();
 
-			/*
-			 Get the push constant information in the current shader.
-			*/
-			ARRAY<VkPushConstantRange> getPushConstantRanges();
+		/*
+		 Convert to HLSL
+		*/
+		STRING toHLSL();
 
-			/*
-			 Get the shader resource map from the current shader.
-			*/
-			DMKShaderResourceLayout getResourceMap();
+	private:
+		void _parseModule();
 
-			/*
-			 Set the shader module
-			*/
-			void setShaderModule(const DMKShaderModule& sModule);
+	private:
+		DMKShaderModule shaderModule;
 
-			/*
-			 Convert to GLSL
-			*/
-			STRING toGLSL();
-
-			/*
-			 Convert to HLSL
-			*/
-			STRING toHLSL();
-
-		private:
-			void _parseModule();
-
-		private:
-			DMKShaderModule shaderModule;
-			DMKShaderResourceLayout resourceLayout;
-			ARRAY<VkDescriptorSetLayoutBinding> layoutBindings;
-			ARRAY<VkDescriptorPoolSize> poolSizes;
-			ARRAY<VkVertexInputAttributeDescription> vertexAttributes;
-			ARRAY<VkPushConstantRange> pushConstantRanges;
-			B1 isParsed = false;
-		};
-	}
+		ARRAY<DMKUniformBuffer> uniformBuffers;
+		ARRAY<DMKShaderInputAttribute> inputAttributes;
+		B1 isParsed = false;
+	};
 }
 
 #endif // !_DYNAMIK_TOOLS_SPIRV_DISASSEMBLER_H

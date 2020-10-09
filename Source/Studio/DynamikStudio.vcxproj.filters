@@ -4,45 +4,22 @@
     <Filter Include="GUI">
       <UniqueIdentifier>{2AEC870B-96F5-877C-1F71-9E7C8B79937C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI\GUIComponents">
-      <UniqueIdentifier>{E47338DC-508A-3672-9901-C293055707FA}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI\GUICore">
-      <UniqueIdentifier>{E78331FC-5339-AAF1-DC2D-A4C848E2A0F5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI\GUIManager">
-      <UniqueIdentifier>{59A5BA83-4573-AE89-2E07-1FB01A748AEE}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GUI\GUIComponents\Widget.h">
-      <Filter>GUI\GUIComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI\GUICore\GUICore.h">
-      <Filter>GUI\GUICore</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI\GUICore\GUIShader.h">
-      <Filter>GUI\GUICore</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI\GUIManager\GUIManager.h">
-      <Filter>GUI\GUIManager</Filter>
+    <ClInclude Include="GUI\ImGuiWrapper.h">
+      <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="Studio.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GUI\GUICore\GUICore.cpp">
-      <Filter>GUI\GUICore</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI\GUICore\GUIShader.cpp">
-      <Filter>GUI\GUICore</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI\GUIManager\GUIManager.cpp">
-      <Filter>GUI\GUIManager</Filter>
+    <ClCompile Include="GUI\ImGuiWrapper.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
     <ClCompile Include="Studio.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DynamikStudio.lua" />
+    <None Include="imgui.ini" />
   </ItemGroup>
 </Project>

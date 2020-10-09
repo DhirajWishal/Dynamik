@@ -5,32 +5,49 @@
 #ifndef _DYNAMIK_STUDIO_H
 #define _DYNAMIK_STUDIO_H
 
+#include "GUI/ImGuiWrapper.h"
+#include "Window/WindowHandle.h"
+#include "Events/EventPool.h"
+
 /*
- Author:	Dhiraj Wishal
- Date:		05/06/2020
+ Main Dynamik Studio class
 */
-#include "GUI/GUIManager/GUIManager.h"
-
-namespace Dynamik
-{
+class DMKStudio {
+public:
 	/*
-	 Dynamik Studio
+	 Default constructor.
 	*/
-	class DMKStudio {
-	public:
-		DMKStudio();
-		~DMKStudio();
+	DMKStudio();
 
-		void execute();
+	/*
+	 Default destructor.
+	*/
+	~DMKStudio();
 
-	private:
-		void beginFrame();
-		void updateFrame();
-		void endFrame();
+	/*
+	 Initialize the studio.
+	*/
+	void initialize();
 
-	private:
-		GUIManager myGuiManager;
-	};
-}
+	/*
+	 Execute the studio.
+	*/
+	void execute();
+
+	/*
+	 Terminate the studio.
+	*/
+	void terminate();
+
+private:
+	DMKImGuiWrapper imGuiWrapper;
+	DMKEventPool myEventPool;
+	DMKWindowHandle* pActiveWindow = nullptr;
+
+private:
+	void initializeRuntimeSystems();
+
+	DMKWindowHandle* createWindowHandle(I32 width, I32 height, STRING title);
+};
 
 #endif // !_DYNAMIK_STUDIO_H
