@@ -33,3 +33,7 @@ The engine is intended to support Windows, Linux and MacOS.
 ### Developer notice
 If anyone is interested to support this engine, please make sure to send me an email (wishaldhiraj@gmail.com)
 and you can be a contributor of this engine.
+
+## Community
+Join the Discord community to talk to me personally and to help build up a strong army and revolutionize the game-dev industry! XD <br />
+Link: [Dynamik Engine](https://discord.gg/Tw5pQns)

@@ -35,8 +35,17 @@ namespace DMK
 
 		/**
 		 * Initialize the display object.
+		 *
+		 * @param createInfo: The graphics display create info sturcture.
 		 */
 		virtual void Initialize(const GDisplayCreateInfo& createInfo) {}
+
+		/**
+		 * Set an icon to the display.
+		 *
+		 * @param file: The image path.
+		 */
+		virtual void SetIcon(const STRING& file) {}
 
 		/**
 		 * Terminate the display object.
