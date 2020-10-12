@@ -1,9 +1,9 @@
 -- Copyright 2020 Dhiraj Wishal
 -- SPDX-License-Identifier: Apache-2.0
 
----------- Graphics Core project description ----------
+---------- Graphics Engine project description ----------
 
-project "GraphicsCore"
+project "GraphicsEngine"
 	kind "StaticLib"
 	language "C++"
 	systemversion "latest"
@@ -47,6 +47,7 @@ project "GraphicsCore"
 	}
 
 	links { 
+		"GraphicsCore",
 	}
 
 	filter "system:windows"
