@@ -27,26 +27,15 @@ project "GraphicsCore"
 	}
 
 	includedirs {
-		"$(SolutionDir)Dependencies/Libraries/Local",
 		"$(SolutionDir)Engine/Modules/",
-		"$(SolutionDir)Engine/Modules/Core/PCH/",
-		"$(SolutionDir)Dependencies/ThirdParty/imgui",
-		"$(SolutionDir)Dependencies/ThirdParty/SPIRV-Cross",
-		"%{IncludeDir.Vulkan}",
-		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.GLEW}",
-		"%{IncludeDir.assimp}",
-		"%{IncludeDir.stb}",
-		"%{IncludeDir.gli}",
-		"%{IncludeDir.glm}",
-		"%{IncludeDir.zlib}",
-		"%{IncludeDir.SPIRVTools}",
+		"$(SolutionDir)Tools/",
 	}
 
 	libdirs {
 	}
 
 	links { 
+		"ErrorHandler",
 	}
 
 	filter "system:windows"

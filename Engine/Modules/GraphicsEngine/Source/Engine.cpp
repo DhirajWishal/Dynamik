@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "GraphicsEngine/Engine.h"
-#include "Core/Error/ErrorManager.h"
+#include "ErrorHandler/Logger.h"
 
 namespace DMK
 {
@@ -19,7 +19,7 @@ namespace DMK
 			case DMK::GraphicsCore::BackendAPI::BACKEND_API_WEB_GPU:
 				break;
 			default:
-				DMKErrorManager::logError(TEXT("Unsupported or invalid graphics backend API!"));
+				ErrorHandler::Logger::LogError(TEXT("Unsupported or invalid graphics backend API!"));
 				break;
 			}
 		}

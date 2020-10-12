@@ -28,6 +28,18 @@ namespace DMK
 			virtual ~MemoryHandle() {}
 
 			/**
+			 * Set the size of the allocation.
+			 *
+			 * @param size: The size in bytes.
+			 */
+			void SetSize(UI64 size) { byteSize = size; }
+
+			/**
+			 * Get the allocation size.
+			 */
+			UI64 GetSize() const { return byteSize; }
+
+			/**
 			 * Map the graphics memory to the local address space.
 			 *
 			 * @param size: The number of bytes to be mapped.
@@ -39,6 +51,9 @@ namespace DMK
 			 * Unmap the mapped memory from the local address space.
 			 */
 			virtual void UnmapMemory() {}
+
+		protected:
+			UI64 byteSize = 0;
 		};
 	}
 }

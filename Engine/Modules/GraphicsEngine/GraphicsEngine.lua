@@ -27,11 +27,10 @@ project "GraphicsEngine"
 	}
 
 	includedirs {
-		"$(SolutionDir)Dependencies/Libraries/Local",
 		"$(SolutionDir)Engine/Modules/",
-		"$(SolutionDir)Engine/Modules/Core/PCH/",
 		"$(SolutionDir)Dependencies/ThirdParty/imgui",
 		"$(SolutionDir)Dependencies/ThirdParty/SPIRV-Cross",
+		"$(SolutionDir)Tools/",
 		"%{IncludeDir.Vulkan}",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLEW}",

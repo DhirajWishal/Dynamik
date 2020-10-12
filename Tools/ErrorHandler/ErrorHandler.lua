@@ -1,9 +1,9 @@
 -- Copyright 2020 Dhiraj Wishal
 -- SPDX-License-Identifier: Apache-2.0
 
----------- Inputs project description ----------
+---------- Error Handler project description ----------
 
-project "Inputs"
+project "ErrorHandler"
 	kind "StaticLib"
 	language "C++"
 	systemversion "latest"
@@ -14,8 +14,8 @@ project "Inputs"
 		"DMK_INTERNAL"
 	}
 
-	targetdir "$(SolutionDir)Builds/Engine/Binaries/$(Configuration)-$(Platform)"
-	objdir "$(SolutionDir)Builds/Engine/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
+	targetdir "$(SolutionDir)Builds/Tools/Binaries/$(Configuration)-$(Platform)"
+	objdir "$(SolutionDir)Builds/Tools/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
 
 	files {
 		"**.txt",
@@ -24,16 +24,16 @@ project "Inputs"
 		"**.lua",
 		"**.txt",
 		"**.md",
-		"**.inl",
 	}
 
 	includedirs {
-		"$(SolutionDir)Engine/Modules/",
-		"$(SolutionDir)Tools/",
+		"$(SolutionDir)Tools/$(ProjectName)",
 	}
 
-	links {
-		"ErrorHandler",
+	libdirs {
+	}
+
+	links { 
 	}
 
 	filter "system:windows"

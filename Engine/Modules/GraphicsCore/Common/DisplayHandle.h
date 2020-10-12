@@ -60,12 +60,12 @@ namespace DMK
 			/**
 			 * Setup the input center of the current display object.
 			 */
-			virtual void SetupInputCenter(InputCenter* pInputCenter) {}
+			virtual void SetupInputCenter(Inputs::InputCenter* pInputCenter) {}
 
 			/**
 			 * Get the current input center pointer.
 			 */
-			InputCenter* GetInputCenter() const { return pInputCenter; }
+			Inputs::InputCenter* GetInputCenter() const { return pInputCenter; }
 
 			/**
 			 * Poll all the inputs occured in a given time frame.
@@ -74,8 +74,8 @@ namespace DMK
 
 			/* Data */
 		protected:
-			GDisplayCreateInfo displayCreateInfo = {};
-			InputCenter* pInputCenter = nullptr;
+			DisplayCreateInfo displayCreateInfo = {};
+			Inputs::InputCenter* pInputCenter = nullptr;
 		};
 	}
 }
