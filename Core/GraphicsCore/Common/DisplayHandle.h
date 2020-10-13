@@ -7,6 +7,7 @@
 
 #include "Object.h"
 #include "Inputs/InputCenter.h"
+#include "Core/Types/Utilities.h"
 
 namespace DMK
 {
@@ -25,6 +26,8 @@ namespace DMK
 		/**
 		 * Graphics Display Handle for the Dynamik Engine.
 		 * This object holds information about a single display object created by the graphics backend.
+		 *
+		 * Each display handle contains an input center.
 		 */
 		class DMK_API DisplayHandle : public GObject {
 		public:
@@ -60,12 +63,12 @@ namespace DMK
 			/**
 			 * Setup the input center of the current display object.
 			 */
-			virtual void SetupInputCenter(Inputs::InputCenter* pInputCenter) {}
+			virtual void SetupInputCenter() {}
 
 			/**
 			 * Get the current input center pointer.
 			 */
-			Inputs::InputCenter* GetInputCenter() const { return pInputCenter; }
+			Inputs::InputCenter* GetInputCenter() const { return Cast<Inputs::InputCenter*>(&inputCenter); }
 
 			/**
 			 * Poll all the inputs occured in a given time frame.
@@ -75,7 +78,7 @@ namespace DMK
 			/* Data */
 		protected:
 			DisplayCreateInfo displayCreateInfo = {};
-			Inputs::InputCenter* pInputCenter = nullptr;
+			Inputs::InputCenter inputCenter = {};
 		};
 	}
 }
