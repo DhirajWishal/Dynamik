@@ -5,42 +5,45 @@
 
 namespace DMK
 {
-	namespace VulkanBackend
+	namespace GraphicsCore
 	{
-		void VulkanBackend::Initialize(const BackendInitInfo& initInfo)
+		namespace VulkanBackend
 		{
-		}
+			void VulkanBackend::Initialize(const BackendInitInfo& initInfo)
+			{
+			}
 
-		void VulkanBackend::Terminate()
-		{
-		}
+			void VulkanBackend::Terminate()
+			{
+			}
 
-		MemoryHandle* VulkanBackend::AllocateMemory(UI64 size, MemoryProperty memoryProperty)
-		{
-			return nullptr;
-		}
+			MemoryHandle* VulkanBackend::AllocateMemory(UI64 size, MemoryProperty memoryProperty)
+			{
+				return nullptr;
+			}
 
-		void VulkanBackend::DeallocateMemory(MemoryHandle* pMemoryHandle)
-		{
-		}
+			void VulkanBackend::DeallocateMemory(MemoryHandle* pMemoryHandle)
+			{
+			}
 
-		Buffer* VulkanBackend::CreateRawBuffer(UI64 size, MemoryProperty memoryProperty)
-		{
-			return nullptr;
-		}
+			Buffer* VulkanBackend::CreateRawBuffer(UI64 size, MemoryProperty memoryProperty)
+			{
+				return nullptr;
+			}
 
-		void VulkanBackend::DestroyBuffer(Buffer* pBuffer)
-		{
-		}
+			void VulkanBackend::DestroyBuffer(Buffer* pBuffer)
+			{
+			}
 
-		VertexBuffer* VulkanBackend::CreateVertexBuffer(UI64 stride, UI64 vertexCount, MemoryProperty memoryProperty)
-		{
-			return nullptr;
-		}
+			VertexBuffer* VulkanBackend::CreateVertexBuffer(UI64 stride, UI64 vertexCount, MemoryProperty memoryProperty)
+			{
+				return nullptr;
+			}
 
-		IndexBuffer* VulkanBackend::CreateIndexBuffer(UI64 stride, UI64 vertexCount, MemoryProperty memoryProperty)
-		{
-			return nullptr;
+			IndexBuffer* VulkanBackend::CreateIndexBuffer(UI64 stride, UI64 vertexCount, MemoryProperty memoryProperty)
+			{
+				return nullptr;
+			}
 		}
 	}
 }

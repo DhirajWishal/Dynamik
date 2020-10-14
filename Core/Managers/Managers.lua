@@ -32,8 +32,8 @@ project "Managers"
 
 	includedirs {
 		"$(SolutionDir)Dependencies/Libraries/Local",
-		"$(SolutionDir)Engine/Modules/",
-		"$(SolutionDir)Engine/Modules/Core/PCH/",
+		"$(SolutionDir)Core/",
+		"$(SolutionDir)Core/Core/PCH/",
 		"$(SolutionDir)Dependencies/ThirdParty/imgui",
 		"$(SolutionDir)Dependencies/ThirdParty/SPIRV-Cross",
 		"%{IncludeDir.Vulkan}",

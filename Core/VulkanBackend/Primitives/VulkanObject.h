@@ -10,40 +10,43 @@
 
 namespace DMK
 {
-	namespace VulkanBackend
+	namespace GraphicsCore
 	{
-		/**
-		 * Vulkan Object for the Dynamik Engine.
-		 * This object is (one of) the base class(es) of all the objects in the Vulkan Backend.
-		 */
-		class DMK_API VulkanObject {
-		public:
+		namespace VulkanBackend
+		{
 			/**
-			 * Default constructor.
+			 * Vulkan Object for the Dynamik Engine.
+			 * This object is (one of) the base class(es) of all the objects in the Vulkan Backend.
 			 */
-			VulkanObject() {}
+			class DMK_API VulkanObject {
+			public:
+				/**
+				 * Default constructor.
+				 */
+				VulkanObject() {}
 
-			/**
-			 * Default destructor.
-			 */
-			virtual ~VulkanObject() {}
+				/**
+				 * Default destructor.
+				 */
+				virtual ~VulkanObject() {}
 
-			/**
-			 * Set the logical device which the object is build upon on.
-			 *
-			 * @param vDevice: The VkDevice object.
-			 */
-			void SetDevice(const VkDevice& vDevice) { logicalDevice = vDevice; }
+				/**
+				 * Set the logical device which the object is build upon on.
+				 *
+				 * @param vDevice: The VkDevice object.
+				 */
+				void SetDevice(const VkDevice& vDevice) { logicalDevice = vDevice; }
 
-			/**
-			 * Get the vulkan logical device.
-			 */
-			VkDevice GetDevice() const { return logicalDevice; }
+				/**
+				 * Get the vulkan logical device.
+				 */
+				VkDevice GetDevice() const { return logicalDevice; }
 
-			/* Data */
-		protected:
-			VkDevice logicalDevice = VK_NULL_HANDLE;
-		};
+				/* Data */
+			protected:
+				VkDevice logicalDevice = VK_NULL_HANDLE;
+			};
+		}
 	}
 }
 

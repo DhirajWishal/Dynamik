@@ -31,8 +31,8 @@ project "Engine"
 
 	includedirs {
 		"$(SolutionDir)Dependencies/Libraries/Local",
-		"$(SolutionDir)Engine/Modules/",
-		"$(SolutionDir)Engine/Modules/Core/PCH/",
+		"$(SolutionDir)Core/",
+		"$(SolutionDir)Core/Core/PCH/",
 		"$(SolutionDir)Engine/Modules",
 		"$(SolutionDir)Dependencies/ThirdParty/imgui",
 		"$(SolutionDir)Dependencies/ThirdParty/SPIRV-Cross",

@@ -27,7 +27,7 @@ project "VulkanBackend"
 	}
 
 	includedirs {
-		"$(SolutionDir)Engine/Modules/",
+		"$(SolutionDir)Core/",
 		"$(SolutionDir)Tools/",
 		"$(SolutionDir)Dependencies/ThirdParty/imgui",
 		"$(SolutionDir)Dependencies/ThirdParty/SPIRV-Cross",

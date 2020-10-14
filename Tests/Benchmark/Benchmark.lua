@@ -22,8 +22,8 @@ project "Benchmark"
 
 	includedirs {
 		"$(SolutionDir)Dependencies/Libraries/Local",
-		"$(SolutionDir)Engine/Modules/Engine/",
-		"$(SolutionDir)Engine/Modules/",
+		"$(SolutionDir)Core/Engine/",
+		"$(SolutionDir)Core/",
 		"$(SolutionDir)Dependencies/ThirdParty/imgui",
 		"$(SolutionDir)Dependencies/ThirdParty/SPIRV-Cross",
 		"%{IncludeDir.Vulkan}",

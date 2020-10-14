@@ -27,7 +27,7 @@ project "GraphicsCore"
 	}
 
 	includedirs {
-		"$(SolutionDir)Engine/Modules/",
+		"$(SolutionDir)Core/",
 		"$(SolutionDir)Tools/",
 	}
 

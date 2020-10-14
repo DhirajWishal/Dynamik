@@ -27,7 +27,7 @@ project "GraphicsEngine"
 	}
 
 	includedirs {
-		"$(SolutionDir)Engine/Modules/",
+		"$(SolutionDir)Core/",
 		"$(SolutionDir)Dependencies/ThirdParty/imgui",
 		"$(SolutionDir)Dependencies/ThirdParty/SPIRV-Cross",
 		"$(SolutionDir)Tools/",

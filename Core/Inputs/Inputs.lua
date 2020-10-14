@@ -28,7 +28,7 @@ project "Inputs"
 	}
 
 	includedirs {
-		"$(SolutionDir)Engine/Modules/",
+		"$(SolutionDir)Core/",
 		"$(SolutionDir)Tools/",
 	}
 
