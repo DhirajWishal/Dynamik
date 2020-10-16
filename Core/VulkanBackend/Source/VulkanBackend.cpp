@@ -11,18 +11,14 @@ namespace DMK
 		{
 			void VulkanBackend::Initialize(const BackendInitInfo& initInfo)
 			{
+				CreateInstance();
+				CreateDebugger();
+				CreateDisplay();
+				CreatePhysicalDevice();
+				CreateLogicalDevice();
 			}
 
 			void VulkanBackend::Terminate()
-			{
-			}
-
-			MemoryHandle* VulkanBackend::AllocateMemory(UI64 size, MemoryProperty memoryProperty)
-			{
-				return nullptr;
-			}
-
-			void VulkanBackend::DeallocateMemory(MemoryHandle* pMemoryHandle)
 			{
 			}
 
@@ -43,6 +39,26 @@ namespace DMK
 			IndexBuffer* VulkanBackend::CreateIndexBuffer(UI64 stride, UI64 vertexCount, MemoryProperty memoryProperty)
 			{
 				return nullptr;
+			}
+
+			void VulkanBackend::CreateInstance()
+			{
+			}
+
+			void VulkanBackend::CreateDebugger()
+			{
+			}
+
+			void VulkanBackend::CreateDisplay()
+			{
+			}
+
+			void VulkanBackend::CreateLogicalDevice()
+			{
+			}
+
+			void VulkanBackend::CreatePhysicalDevice()
+			{
 			}
 		}
 	}

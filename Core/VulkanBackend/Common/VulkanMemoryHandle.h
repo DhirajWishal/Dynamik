@@ -8,6 +8,8 @@
 #include "GraphicsCore/Common/MemoryHandle.h"
 #include "VulkanBackend/Primitives/VulkanObject.h"
 
+#include "GraphicsCore/Common/Defines.h"
+
 namespace DMK
 {
 	namespace GraphicsCore
@@ -60,6 +62,20 @@ namespace DMK
 				/* Data */
 			private:
 				VkDeviceMemory deviceMemory = VK_NULL_HANDLE;
+
+				/* Static Utilities */
+			public:
+				/**
+				 * Static method to create the Vulkan Device Memory object.
+				 *
+				 * @param vLogicalDevice: The Vulkan logical device.
+				 * @param vPhysicalDevice: The Vulkan physical device.
+				 * @param size: The size of the allocation.
+				 * @param propertyFlags: The Vulkan memory property flags.
+				 * @param memoryPropertyBits: Vulkan memory property bits submitted by the physical device.
+				 * @param alignment: The memory alignment. Default is 0.
+				 */
+				static VkDeviceMemory CreateDeviceMemory(VkPhysicalDevice vPhysicalDevice, VkDevice vLogicalDevice, UI64 size, VkMemoryPropertyFlags propertyFlags, UI32 memoryPropertyBits, UI64 alignment = 0);
 			};
 		}
 	}

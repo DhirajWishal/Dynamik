@@ -42,9 +42,22 @@ namespace DMK
 				 */
 				VkDevice GetDevice() const { return logicalDevice; }
 
+				/**
+				 * Set the physical device which the object is build upon on.
+				 *
+				 * @param vDevice: The VkPhysicalDevice object.
+				 */
+				void SetPhysicalDevice(const VkPhysicalDevice& vDevice) { physicalDevice = vDevice; }
+
+				/**
+				 * Get the vulkan physical device.
+				 */
+				VkPhysicalDevice GetPhysicalDevice() const { return physicalDevice; }
+
 				/* Data */
 			protected:
 				VkDevice logicalDevice = VK_NULL_HANDLE;
+				VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 			};
 		}
 	}

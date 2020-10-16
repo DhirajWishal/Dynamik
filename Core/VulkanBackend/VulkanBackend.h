@@ -7,6 +7,8 @@
 
 #include "GraphicsCore/Graphics/Backend.h"
 
+#include <vulkan/vulkan.h>
+
 namespace DMK
 {
 	namespace GraphicsCore
@@ -91,6 +93,49 @@ namespace DMK
 				 * @param memoryProperty: The memory properties of the block.
 				 */
 				virtual IndexBuffer* CreateIndexBuffer(UI64 stride, UI64 vertexCount, MemoryProperty memoryProperty) override final;
+
+			private:
+				/**
+				 * Create the Vulkan instance.
+				 */
+				void CreateInstance();
+
+				/**
+				 * Create the Vulkan debugger.
+				 */
+				void CreateDebugger();
+
+				/**
+				 * Create the display object.
+				 */
+				void CreateDisplay();
+
+				/**
+				 * Create the Vulkan logical device.
+				 */
+				void CreateLogicalDevice();
+
+				/**
+				 * Create the Vulkan physical device.
+				 */
+				void CreatePhysicalDevice();
+
+				/* Utilities */
+			private:
+				/**
+				 * Get the Vulkan logical device.
+				 */
+				VkDevice GetLogicalDevice() const { return vLogicalDevice; }
+
+				/**
+				 * Get the Vulkan physical device.
+				 */
+				VkPhysicalDevice GetPhysicalDevice() const { return vPhysicalDevice; }
+
+				/* Data */
+			private:
+				VkDevice vLogicalDevice = VK_NULL_HANDLE;
+				VkPhysicalDevice vPhysicalDevice = VK_NULL_HANDLE;
 			};
 		}
 	}
