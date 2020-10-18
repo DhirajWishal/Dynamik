@@ -12,49 +12,6 @@ namespace DMK
 	{
 		namespace VulkanBackend
 		{
-			MemoryHandle* VulkanBackend::AllocateMemory(UI64 size, MemoryProperty memoryProperty)
-			{
-				// Allocate the memory handle object.
-				VulkanMemoryHandle* pMemoryHandle = new VulkanMemoryHandle;
-
-				// Set basic data.
-				pMemoryHandle->SetDevice(GetLogicalDevice());
-				pMemoryHandle->SetPhysicalDevice(GetPhysicalDevice());
-
-				return pMemoryHandle->Inherit<MemoryHandle>();
-			}
-
-			void VulkanBackend::DeallocateMemory(MemoryHandle* pMemoryHandle)
-			{
-				// Free the allocated memory block.
-				vkFreeMemory(GetLogicalDevice(), pMemoryHandle->Inherit<VulkanMemoryHandle>()->GetDeviceMemory(), nullptr);
-
-				// Delete the allocated memory handle from the memory.
-				delete pMemoryHandle->Inherit<VulkanMemoryHandle>();
-			}
-
-			void* VulkanMemoryHandle::MapToLocal(UI64 size, UI64 offset)
-			{
-				// Check if the size or the offset is valid. 
-				if (!size || (offset > byteSize))
-				{
-					ErrorHandler::Logger::LogError(TEXT("Invalid size or offset to map device memory!"));
-					return nullptr;
-				}
-
-				// Map the memory to the local address space. 
-				void* pData = nullptr;
-				DMK_VULKAN_ASSERT(vkMapMemory(GetDevice(), GetDeviceMemory(), offset, size, 0, &pData), "Failed to map device memory!");
-
-				return pData;
-			}
-
-			void VulkanMemoryHandle::UnmapMemory()
-			{
-				// Unmap the mapped memory. 
-				vkUnmapMemory(GetDevice(), GetDeviceMemory());
-			}
-
 			/**
 			 * Get Vulkan Memory Property Flags from Memory Properties.
 			 *
@@ -106,6 +63,49 @@ namespace DMK
 				return 0;
 			}
 
+			MemoryHandle* VulkanBackend::AllocateMemory(UI64 size, MemoryProperty memoryProperty)
+			{
+				// Allocate the memory handle object.
+				VulkanMemoryHandle* pMemoryHandle = new VulkanMemoryHandle;
+
+				// Set basic data.
+				pMemoryHandle->SetDevice(GetLogicalDevice());
+				pMemoryHandle->SetPhysicalDevice(GetPhysicalDevice());
+
+				return pMemoryHandle->Inherit<MemoryHandle>();
+			}
+
+			void VulkanBackend::DeallocateMemory(MemoryHandle* pMemoryHandle)
+			{
+				// Free the allocated memory block.
+				vkFreeMemory(GetLogicalDevice(), pMemoryHandle->Inherit<VulkanMemoryHandle>()->GetDeviceMemory(), nullptr);
+
+				// Delete the allocated memory handle from the memory.
+				delete pMemoryHandle->Inherit<VulkanMemoryHandle>();
+			}
+
+			void* VulkanMemoryHandle::MapToLocal(UI64 size, UI64 offset)
+			{
+				// Check if the size or the offset is valid. 
+				if (!size || (offset > byteSize))
+				{
+					ErrorHandler::Logger::LogError(TEXT("Invalid size or offset to map device memory!"));
+					return nullptr;
+				}
+
+				// Map the memory to the local address space. 
+				void* pData = nullptr;
+				DMK_VULKAN_ASSERT(vkMapMemory(GetDevice(), GetDeviceMemory(), offset, size, 0, &pData), "Failed to map device memory!");
+
+				return pData;
+			}
+
+			void VulkanMemoryHandle::UnmapMemory()
+			{
+				// Unmap the mapped memory. 
+				vkUnmapMemory(GetDevice(), GetDeviceMemory());
+			}
+
 			VkDeviceMemory VulkanMemoryHandle::CreateDeviceMemory(VkPhysicalDevice vPhysicalDevice, VkDevice vLogicalDevice, UI64 size, VkMemoryPropertyFlags propertyFlags, UI32 memoryPropertyBits, UI64 alignment)
 			{
 				// Memory allocation information structure. 
@@ -116,8 +116,8 @@ namespace DMK
 
 				// Allocate the memory.
 				VkDeviceMemory vDeviceMemory = VK_NULL_HANDLE;
-				DMK_VULKAN_ASSERT(vkAllocateMemory(vLogicalDevice, &allocInfo, nullptr, &vDeviceMemory), "Failed to allocate buffer memory!");
-				
+				DMK_VULKAN_ASSERT(vkAllocateMemory(vLogicalDevice, &allocInfo, nullptr, &vDeviceMemory), "Failed to allocate memory!");
+
 				return vDeviceMemory;
 			}
 		}

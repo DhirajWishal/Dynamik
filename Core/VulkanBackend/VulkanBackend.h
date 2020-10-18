@@ -108,7 +108,12 @@ namespace DMK
 				/**
 				 * Create the display object.
 				 */
-				void CreateDisplay();
+				void CreateDisplay(const DisplayCreateInfo& displayCreateInfo);
+
+				/**
+				 * Create the Vulkan physical device.
+				 */
+				void CreatePhysicalDevice();
 
 				/**
 				 * Create the Vulkan logical device.
@@ -116,12 +121,37 @@ namespace DMK
 				void CreateLogicalDevice();
 
 				/**
-				 * Create the Vulkan physical device.
+				 * Destroy the Vulkan instance.
 				 */
-				void CreatePhysicalDevice();
+				void DestroyInstance();
+
+				/**
+				 * Destroy the Vulkan debugger.
+				 */
+				void DestroyDebugger();
+
+				/**
+				 * Destroy the display object.
+				 */
+				void DestroyDisplay();
+
+				/**
+				 * Destroy the Vulkan physical device.
+				 */
+				void DestroyPhysicalDevice();
+
+				/**
+				 * Destroy the Vulkan logical device.
+				 */
+				void DestroyLogicalDevice();
 
 				/* Utilities */
 			private:
+				/**
+				 * Get the Vulkan instance.
+				 */
+				VkInstance GetInstance() const { return vInstance; }
+
 				/**
 				 * Get the Vulkan logical device.
 				 */
@@ -134,8 +164,16 @@ namespace DMK
 
 				/* Data */
 			private:
+				bool enableValidation = true;
+
+				VkInstance vInstance = VK_NULL_HANDLE;
 				VkDevice vLogicalDevice = VK_NULL_HANDLE;
 				VkPhysicalDevice vPhysicalDevice = VK_NULL_HANDLE;
+				VkDebugUtilsMessengerEXT vDebugMessenger = VK_NULL_HANDLE;
+
+				std::vector<const char*> instanceExtensions;
+				std::vector<const char*> validationLayers;
+				std::vector<const char*> deviceExtensions;
 			};
 		}
 	}
