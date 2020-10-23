@@ -269,6 +269,7 @@ namespace DMK
 				pDisplayHandle->Initialize(displayCreateInfo);
 
 				pDisplayHandle->SetupInputCenter();
+				pDisplayHandle->Inherit<VulkanDisplayHandle>()->CreateSurface(GetInstance());
 			}
 
 			void VulkanBackend::CreatePhysicalDevice()

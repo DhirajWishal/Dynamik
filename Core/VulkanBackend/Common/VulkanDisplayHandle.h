@@ -7,6 +7,8 @@
 
 #include "GraphicsCore/Common/DisplayHandle.h"
 
+#include <vulkan/vulkan.h>
+
 namespace DMK
 {
 	namespace GraphicsCore
@@ -64,9 +66,35 @@ namespace DMK
 				 */
 				virtual void Resize(const DisplayExtent& extent) override final;
 
+			public:
+				/**
+				 * Create the Vulkan surface object.
+				 *
+				 * @param vInstance: The Vulkan instance.
+				 */
+				VkSurfaceKHR CreateSurface(VkInstance vInstance);
+
+				/**
+				 * Get the window surface.
+				 */
+				VkSurfaceKHR GetSurface() const;
+
+				/**
+				 * Destroy the window surface.
+				 */
+				void DestroySurface(VkInstance vInstance);
+
+				/**
+				 * Check if a device is compatible with the current window surface.
+				 *
+				 * @param vPhysicalDevice: The physical device to be checked.
+				 */
+				bool IsDeviceCompatible(VkPhysicalDevice vPhysicalDevice);
+
 				/* Data */
 			private:
 				void* pWindowHandle = nullptr;
+				VkSurfaceKHR vSurface = VK_NULL_HANDLE;
 			};
 		}
 	}

@@ -392,6 +392,46 @@ namespace DMK
 
 				createInfo.extent = extent;
 			}
+
+			VkSurfaceKHR VulkanDisplayHandle::CreateSurface(VkInstance vInstance)
+			{
+				if (vSurface == VK_NULL_HANDLE)
+					glfwCreateWindowSurface(vInstance, Cast<GLFWwindow*>(pWindowHandle), nullptr, &vSurface);
+
+				return vSurface;
+			}
+
+			VkSurfaceKHR VulkanDisplayHandle::GetSurface() const
+			{
+				return vSurface;
+			}
+
+			void VulkanDisplayHandle::DestroySurface(VkInstance vInstance)
+			{
+				vkDestroySurfaceKHR(vInstance, GetSurface(), nullptr);
+			}
+
+			bool VulkanDisplayHandle::IsDeviceCompatible(VkPhysicalDevice vPhysicalDevice)
+			{
+				VulkanQueue _queue;
+				_queue.findQueueFamilies(physicalDevice, surface);
+
+				bool extensionsSupported = checkDeviceExtensionSupport(physicalDevice);
+				bool swapChainAdequate = false;
+				if (extensionsSupported)
+				{
+					VulkanSwapChainSupportDetails swapChainSupport = VulkanSwapChain::querySwapChainSupport(physicalDevice, surface);
+					swapChainAdequate = (!swapChainSupport.formats.empty()) && (!swapChainSupport.presentModes.empty());
+				}
+
+				VkPhysicalDeviceFeatures supportedFeatures;
+				vkGetPhysicalDeviceFeatures(physicalDevice, &supportedFeatures);
+
+				return _queue.isComplete()
+					&& extensionsSupported
+					&& swapChainAdequate
+					&& supportedFeatures.samplerAnisotropy;
+			}
 		}
 	}
 }
