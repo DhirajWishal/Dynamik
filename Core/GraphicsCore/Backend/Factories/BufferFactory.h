@@ -6,6 +6,8 @@
 #define _DYNAMIK_GRAPHICS_CORE_BUFFER_FACTORY_H
 
 #include "GraphicsCore/Backend/Objects/VertexBuffer.h"
+#include "GraphicsCore/Backend/Objects/IndexBuffer.h"
+#include "GraphicsCore/Backend/Objects/StaggingBuffer.h"
 
 namespace DMK
 {
@@ -45,13 +47,23 @@ namespace DMK
 			virtual VertexBuffer* CreateVertexBuffer(const Vertex& vertex, UI64 vertexCount) { return nullptr; }
 
 			/**
-			 * Create a vertex buffer using the Vertex and the total buffer size.
+			 * Create an index buffer using the index size and the total number of indexes to be stored.
 			 *
-			 * @param vertex: The vertex structure defining the structure of a single vertex.
-			 * @param size: The total size of the buffer.
-			 * @return: The created vertex buffer pointer.
+			 * @param indexSize: The size of the index in bytes.
+			 * @param indexCount: The total number of indexes to be stored.
+			 * @return: The created index buffer pointer.
 			 */
-			virtual VertexBuffer* CreateVertexBuffer(const Vertex& vertex, UI64 size) { return nullptr; }
+			virtual IndexBuffer* CreateIndexBuffer(UI8 indexSize, UI64 indexCount) { return nullptr; }
+
+			/**
+			 * Create a stagging buffer.
+			 * These buffers does not contain any major usage unless moving data from the local address space to the
+			 * device (GPU) address space.
+			 *
+			 * @param size: The size of the buffer in bytes.
+			 * @return: The created stagging buffer pointer.
+			 */
+			virtual StaggingBuffer* CreateStaggingBuffer(UI64 size) { return nullptr; }
 
 			/**
 			 * Destroy a created buffer object.

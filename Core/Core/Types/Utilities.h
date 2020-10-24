@@ -14,26 +14,26 @@ namespace DMK
 	 * Cast (C++ - Style) data type of one variable to another.
 	 *
 	 * @param value: Variable value.
-	 * @tparam Cast_To: To cast to.
-	 * @tparam Cast_From: To cast from.
+	 * @tparam CastTo: To cast to.
+	 * @tparam CastFrom: To cast from.
 	 */
-	template<class Cast_To, class Cast_From>
-	DMK_FORCEINLINE constexpr Cast_To Cast(const Cast_From& value)
+	template<class CastTo, class CastFrom>
+	DMK_FORCEINLINE constexpr CastTo Cast(const CastFrom& value)
 	{
-		return static_cast<Cast_To>(value);
+		return static_cast<CastTo>(value);
 	}
 
 	/**
 	 * Raw cast (C - Style) data type of one variable to another.
 	 *
 	 * @param value: Variable value.
-	 * @tparam Cast_To: To cast to.
-	 * @tparam Cast_From: To cast from.
+	 * @tparam CastTo: To cast to.
+	 * @tparam CastFrom: To cast from.
 	 */
-	template<class Cast_To, class Cast_From>
-	DMK_FORCEINLINE constexpr Cast_To RawCast(const Cast_From& value)
+	template<class CastTo, class CastFrom>
+	DMK_FORCEINLINE constexpr CastTo RawCast(const CastFrom& value)
 	{
-		return (Cast_To)value;
+		return (CastTo)value;
 	}
 
 	/**
