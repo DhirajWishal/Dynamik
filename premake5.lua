@@ -12,6 +12,8 @@ workspace "Dynamik"
 		"Distribution",
 	}
 
+	--defines { "DMK_USE_WIDE_CHAR" }
+
 	filter "platforms:Windows"
 		system "windows"
 
@@ -78,16 +80,15 @@ IncludeLib["FreeImageD"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/FreeI
 IncludeLib["FreeImageR"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/FreeImage/Release"
 
 include "Core/CoreIncludes.lua"
-include "Tools/ToolsIncludes.lua"
+--include "Tools/ToolsIncludes.lua"
+
+include "Tests/TestIncludes.lua"
 
 group "Studio"
-include "Studio/Application/Application.lua"
-
-group "Tests"
-include "Tests/Benchmark/Benchmark.lua"
+--include "Studio/Application/Application.lua"
 
 group "Third Party"
-include "Dependencies/ThirdParty/imgui/imgui.lua"
-include "Dependencies/ThirdParty/SPIRV-Cross/SPIRV-Cross.lua"
+--include "Dependencies/ThirdParty/imgui/imgui.lua"
+--include "Dependencies/ThirdParty/SPIRV-Cross/SPIRV-Cross.lua"
 
 group ""

@@ -14,8 +14,8 @@ project "Inputs"
 		"DMK_INTERNAL"
 	}
 
-	targetdir "$(SolutionDir)Builds/Engine/Binaries/$(Configuration)-$(Platform)"
-	objdir "$(SolutionDir)Builds/Engine/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
+	targetdir "$(SolutionDir)Builds/Core/Binaries/$(Configuration)-$(Platform)"
+	objdir "$(SolutionDir)Builds/Core/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
 
 	files {
 		"**.txt",
@@ -24,16 +24,16 @@ project "Inputs"
 		"**.lua",
 		"**.txt",
 		"**.md",
-		"**.inl",
 	}
 
 	includedirs {
 		"$(SolutionDir)Core/",
-		"$(SolutionDir)Tools/",
 	}
 
-	links {
-		"ErrorHandler",
+	libdirs {
+	}
+
+	links { 
 	}
 
 	filter "system:windows"

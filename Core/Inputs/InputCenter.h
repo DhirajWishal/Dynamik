@@ -2,20 +2,22 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _ENGINE_DEV_KIT_INPUT_CENTER_H
-#define _ENGINE_DEV_KIT_INPUT_CENTER_H
+#ifndef _DYNAMIK_INPUT_CENTER_H
+#define _DYNAMIK_INPUT_CENTER_H
 
-#include "InputComponent.h"
-#include "Core/Math/Vector/Vector2F.h"
+#include "Suppliers/KeyInputSupplier.h"
+#include "Suppliers/MouseInputSupplier.h"
+
+#include <vector>
 
 namespace DMK
 {
 	namespace Inputs
 	{
 		/**
-		 * This object contains all the events that occurred in one iteration.
+		 * Centralized object which handles inputs for the Dynamik Engine.
 		 */
-		class DMK_API InputCenter {
+		class InputCenter {
 		public:
 			/**
 			 * Default constructor.
@@ -28,204 +30,36 @@ namespace DMK
 			~InputCenter() {}
 
 			/**
-			 * Initialize the input center.
-			 */
-			void Initialize();
-
-			/**
-			 * Bind a key to the input center.
+			 * Add a key input supplier to the input center.
 			 *
-			 * @param keyName: The name of the key.
-			 * @param scanCode: The scan code of the key.
+			 * @param pKeyInputSupplier: The pointer to the key input supplier.
 			 */
-			void BindKey(const STRING& keyName, UI32 scanCode);
+			void AddKeyInputSupplier(KeyInputSupplier* pKeyInputSupplier);
 
 			/**
-			 * Get an input component using the input name.
+			 * Add a mouse input supplier to the input center.
 			 *
-			 * @param eventName: The name of the input.
+			 * @param pMouseInputSupplier: The pointer to the mouse input supplier.
 			 */
-			InputComponent* GetComponent(const STRING& inputName);
+			void AddMouseInputSupplier(MouseInputSupplier* pMouseInputSupplier);
 
 			/**
-			 * Activate a key component.
+			 * Update all the input suppliers of the center.
+			 */
+			void Update();
+
+			/**
+			 * Get a supplier using its name.
 			 *
-			 * @param type: Type of the activation.
-			 * @param scanCode: Scan code of the key to be activated.
+			 * @param sName: The name of the supplier.
+			 * @return: The pointer of the supplier.
 			 */
-			void ActivateKey(InputType type, UI32 scanCode);
-
-			/**
-			 * Activate a button component.
-			 *
-			 * @param type: Type of the activation.
-			 * @param ID: The button ID of the button to be activated.
-			 */
-			void ActivateButton(InputType type, UI32 ID);
-
-			/**
-			 * This method sets FrameBufferResizeEvent = true.
-			 */
-			void FrameBufferResized();
-
-			/**
-			 * Reset all the input components to its normal state/ activation.
-			 */
-			void ReasetAll();
-
-			/**
-			 * Get the current mouse position.
-			 */
-			Vector2F GetMousePosition();
-
-			/* Mouse Events */
-		public:
-			InputComponent MouseX = {};
-			InputComponent MouseY = {};
-			InputComponent MouseScrollUp = {};
-			InputComponent MouseScrollDown = {};
-			InputComponent MouseWheel = {};
-
-			ButtonInputComponent MouseButtonLeft = {};
-			ButtonInputComponent MouseButtonRight = {};
-			ButtonInputComponent MouseButtonMiddle = {};
-			ButtonInputComponent MouseButton0 = {};
-			ButtonInputComponent MouseButton1 = {};
-
-			/* Keyboard Events */
-		public:
-			KeyInputComponent KeyLeft = {};
-			KeyInputComponent KeyRight = {};
-			KeyInputComponent KeyUp = {};
-			KeyInputComponent KeyDown = {};
-
-			KeyInputComponent KeyBackSpace = {};
-			KeyInputComponent KeyTab = {};
-			KeyInputComponent KeyEnter = {};
-			KeyInputComponent KeyPause = {};
-
-			KeyInputComponent KeyCapsLock = {};
-			KeyInputComponent KeyEscape = {};
-			KeyInputComponent KeySpaceBar = {};
-			KeyInputComponent KeyPageUp = {};
-			KeyInputComponent KeyPageDown = {};
-			KeyInputComponent KeyEnd = {};
-			KeyInputComponent KeyHome = {};
-
-			KeyInputComponent KeyZero = {};
-			KeyInputComponent KeyOne = {};
-			KeyInputComponent KeyTwo = {};
-			KeyInputComponent KeyThree = {};
-			KeyInputComponent KeyFour = {};
-			KeyInputComponent KeyFive = {};
-			KeyInputComponent KeySix = {};
-			KeyInputComponent KeySeven = {};
-			KeyInputComponent KeyEight = {};
-			KeyInputComponent KeyNine = {};
-
-			KeyInputComponent KeyA = {};
-			KeyInputComponent KeyB = {};
-			KeyInputComponent KeyC = {};
-			KeyInputComponent KeyD = {};
-			KeyInputComponent KeyE = {};
-			KeyInputComponent KeyF = {};
-			KeyInputComponent KeyG = {};
-			KeyInputComponent KeyH = {};
-			KeyInputComponent KeyI = {};
-			KeyInputComponent KeyJ = {};
-			KeyInputComponent KeyK = {};
-			KeyInputComponent KeyL = {};
-			KeyInputComponent KeyM = {};
-			KeyInputComponent KeyN = {};
-			KeyInputComponent KeyO = {};
-			KeyInputComponent KeyP = {};
-			KeyInputComponent KeyQ = {};
-			KeyInputComponent KeyR = {};
-			KeyInputComponent KeyS = {};
-			KeyInputComponent KeyT = {};
-			KeyInputComponent KeyU = {};
-			KeyInputComponent KeyV = {};
-			KeyInputComponent KeyW = {};
-			KeyInputComponent KeyX = {};
-			KeyInputComponent KeyY = {};
-			KeyInputComponent KeyZ = {};
-
-			KeyInputComponent KeyF1 = {};
-			KeyInputComponent KeyF2 = {};
-			KeyInputComponent KeyF3 = {};
-			KeyInputComponent KeyF4 = {};
-			KeyInputComponent KeyF5 = {};
-			KeyInputComponent KeyF6 = {};
-			KeyInputComponent KeyF7 = {};
-			KeyInputComponent KeyF8 = {};
-			KeyInputComponent KeyF9 = {};
-			KeyInputComponent KeyF10 = {};
-			KeyInputComponent KeyF11 = {};
-			KeyInputComponent KeyF12 = {};
-
-			KeyInputComponent KeyNumLock = {};
-
-			KeyInputComponent KeyScrollLock = {};
-
-			KeyInputComponent KeyLeftShift = {};
-			KeyInputComponent KeyRightShift = {};
-			KeyInputComponent KeyLeftControl = {};
-			KeyInputComponent KeyRightControl = {};
-			KeyInputComponent KeyLeftAlt = {};
-			KeyInputComponent KeyRightAlt = {};
-			KeyInputComponent KeyLeftCommand = {};
-			KeyInputComponent KeyRightCommand = {};
-
-			KeyInputComponent KeySemicolon = {};
-			KeyInputComponent KeyEqual = {};
-			KeyInputComponent KeyComma = {};
-			KeyInputComponent KeyUnderscore = {};
-			KeyInputComponent KeyHyphen = {};
-			KeyInputComponent KeyPeriod = {};
-			KeyInputComponent KeySlash = {};
-			KeyInputComponent KeyTilde = {};
-			KeyInputComponent KeyLeftBracket = {};
-			KeyInputComponent KeyBackslash = {};
-			KeyInputComponent KeyRightBracket = {};
-			KeyInputComponent KeyApostrophe = {};
-
-			KeyInputComponent KeyAmpersand = {};
-			KeyInputComponent KeyAsterix = {};
-			KeyInputComponent KeyCaret = {};
-			KeyInputComponent KeyColon = {};
-			KeyInputComponent KeyDollar = {};
-			KeyInputComponent KeyExclamation = {};
-			KeyInputComponent KeyLeftParantheses = {};
-			KeyInputComponent KeyRightParantheses = {};
-			KeyInputComponent KeyQuote = {};
-
-			KeyInputComponent KeyNumPadZero = {};
-			KeyInputComponent KeyNumPadOne = {};
-			KeyInputComponent KeyNumPadTwo = {};
-			KeyInputComponent KeyNumPadThree = {};
-			KeyInputComponent KeyNumPadFour = {};
-			KeyInputComponent KeyNumPadFive = {};
-			KeyInputComponent KeyNumPadSix = {};
-			KeyInputComponent KeyNumPadSeven = {};
-			KeyInputComponent KeyNumPadEight = {};
-			KeyInputComponent KeyNumPadNine = {};
-
-			KeyInputComponent KeyMultiply = {};
-			KeyInputComponent KeyAdd = {};
-			KeyInputComponent KeySubtract = {};
-			KeyInputComponent KeyDecimal = {};
-			KeyInputComponent KeyDivide = {};
-
-			/* Application Events */
-		public:
-			bool WindowCloseEvent = false;
-			bool FrameBufferResizeEvent = false;
+			InputSupplier* GetSupplier(const String& sName) const;
 
 		private:
-			std::unordered_map<STRING, InputComponent*> componentMap;
-			std::unordered_map<UI32, KeyInputComponent*> keyMappings;
+			std::unordered_map<String, InputSupplier*> pInputSuppliers;	// Container of input supplier pointers.
 		};
 	}
 }
 
-#endif // !_ENGINE_DEV_KIT_INPUT_CENTER_H
+#endif // !_DYNAMIK_INPUT_CENTER_H

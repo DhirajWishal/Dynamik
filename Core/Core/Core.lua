@@ -14,11 +14,8 @@ project "Core"
 		"DMK_INTERNAL"
 	}
 
-	targetdir "$(SolutionDir)Builds/Engine/Binaries/$(Configuration)-$(Platform)"
-	objdir "$(SolutionDir)Builds/Engine/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
-
-	pchheader "dmkafx.h"
-	pchsource "PCH/dmkafx.cpp"
+	targetdir "$(SolutionDir)Builds/Core/Binaries/$(Configuration)-$(Platform)"
+	objdir "$(SolutionDir)Builds/Core/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
 
 	files {
 		"**.txt",
@@ -30,20 +27,7 @@ project "Core"
 	}
 
 	includedirs {
-		"$(SolutionDir)Dependencies/Libraries/Local",
 		"$(SolutionDir)Core/",
-		"$(SolutionDir)Core/Core/PCH/",
-		"$(SolutionDir)Dependencies/ThirdParty/imgui",
-		"$(SolutionDir)Dependencies/ThirdParty/SPIRV-Cross",
-		"%{IncludeDir.Vulkan}",
-		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.GLEW}",
-		"%{IncludeDir.assimp}",
-		"%{IncludeDir.stb}",
-		"%{IncludeDir.gli}",
-		"%{IncludeDir.glm}",
-		"%{IncludeDir.zlib}",
-		"%{IncludeDir.SPIRVTools}",
 	}
 
 	libdirs {

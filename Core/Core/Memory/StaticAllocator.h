@@ -2,245 +2,266 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_STATIC_ALLOCATOR_H
-#define _DYNAMIK_STATIC_ALLOCATOR_H
+#ifndef _DYNAMIK_CORE_MEMORY_STATIC_ALLOCATOR_H
+#define _DYNAMIK_CORE_MEMORY_STATIC_ALLOCATOR_H
 
-/*
- Static Memory Allocator for the Dynamik Engine
-*/
+/**
+ * Static Memory Allocator for the Dynamik Engine
+ */
 
-#include "Core/Types/Pointer.h"
-#include "Core/Macros/MemoryMacro.h"
-#include "Core/Macros/Global.h"
-#include "Core/Error/ErrorManager.h"
-#include "Core/Types/TypeTraits.h"
+#include "Core/ErrorHandler/Logger.h"
 #include "AutomatedMemoryManager.h"
+#include "Core/Types/Utilities.h"
+#include "Core/Macros/Global.h"
+#include "Defines.h"
 
 #include <memory>
 
-/*
- Dynamik Static Allocator class
- The static allocator is used to allocate a buffer in heap. It does not manage its deletion automatically but
- needs to be explicitly deleted.
-
- @tparam: Output type.
- @tparam: Default alignment type.
-*/
-template<class TYPE, UI64 DefaultAligment = DMK_ALIGNMENT>
-class DMK_API StaticAllocator
+namespace DMK
 {
-	using PTR = POINTER<TYPE>;
-
-	StaticAllocator() {}
-	~StaticAllocator() {}
-public:
-
-	/*
-	 Allocates a block of memory and return its address.
-
-	 @param byteSize: Size of the memory block in bytes. Default is the size of the type.
-	 @param alignment: Alignment of the allocated memory. Default is 0.
-	 @param offset: Memory offset of the allocated memory block. Default is 0;
-	*/
-	DMK_FORCEINLINE static PTR rawAllocate(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+	/**
+	 * Dynamik Static Allocator class
+	 * The static allocator is used to allocate a buffer in heap.It does not manage its deletion automatically but
+	 * needs to be explicitly deleted.
+	 *
+	 * @tparam TYPE: Output type.
+	 */
+	template<class TYPE, UI64 DefaultAligment = DMK_ALIGNMENT>
+	class StaticAllocator
 	{
-		PTR _ptr = _rawAllocation(byteSize, alignment, offset);
-		set(_ptr, TYPE());
+		using PTR = TYPE*;
 
-		return _ptr;
-	}
+		StaticAllocator() {}
+		~StaticAllocator() {}
+	public:
 
-	/*
-	 Allocates a block of memory and return its address.
-	 This type of allocation is slow.
-
-	 @param byteSize: Size of the memory block in bytes. Default is the size of the type.
-	 @param alignment: Alignment of the allocated memory. Default is 0.
-	 @param offset: Memory offset of the allocated memory block. Default is 0;
-	*/
-	DMK_FORCEINLINE static PTR allocate(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
-	{
-		PTR _ptr = (PTR)DMKAutomatedMemoryManager::allocateNew<TYPE>(byteSize, offset, alignment);
-
-		return _ptr;
-	}
-
-	/*
-	 Allocates a block of memory and return its address.
-
-	 @param byteSize: Size of the memory block in bytes. Default is the size of the type.
-	 @param alignment: Alignment of the allocated memory. Default is 0.
-	 @param offset: Memory offset of the allocated memory block. Default is 0;
-	*/
-	DMK_FORCEINLINE static PTR allocateInit(const TYPE& initData, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
-	{
-		PTR _ptr = _rawAllocation(byteSize, alignment, offset);
-		set(_ptr, (TYPE&&)initData);
-
-		return _ptr;
-	}
-
-	/*
-	 Deallocates the previously allocated block of memory.
-
-	 @param location: Address of the memory block.
-	 @param byteSize: Size of the memory block. Default is the size of type. If size is unknown, enter 0.
-	 @param alignment: Alignment of the memory block. Default is 0.
-	 @param offset: Offset of the memory block. Default is 0.
-	*/
-	DMK_FORCEINLINE static void rawDeallocate(PTR location, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
-	{
-		if (byteSize)
-			operator delete (location.get(), byteSize, std::align_val_t{ alignment });
-		else
-			operator delete (location.get(), std::align_val_t{ alignment });
-	}
-
-	/*
-	 Deallocates the previously allocated block of memory.
-
-	 @param location: Address of the memory block.
-	 @param byteSize: Size of the memory block. Default is the size of type. If size is unknown, enter 0.
-	 @param alignment: Alignment of the memory block. Default is 0.
-	 @param offset: Offset of the memory block. Default is 0.
-	*/
-	DMK_FORCEINLINE static void deallocate(PTR location, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
-	{
-		DMKAutomatedMemoryManager::deallocate(location, byteSize, offset, alignment);
-	}
-
-	/*
-	 Deallocates the previously allocated block of memory.
-
-	 @param begin: Begin address of the memory.
-	 @param end: Final address of the memory.
-	*/
-	DMK_FORCEINLINE static void deallocateRange(PTR begin, PTR end)
-	{
-		operator delete(begin.get(), end.get());
-	}
-
-	/*
-	 Allocates a block of memory as an array and return its address.
-
-	 @param byteSize: Size of the memory block in bytes. Default is the size of the type.
-	 @param alignment: Alignment of the allocated memory. Default is 0.
-	 @param offset: Memory offset of the allocated memory block. Default is 0;
-	*/
-	DMK_FORCEINLINE static PTR allocateArr(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
-	{
-		PTR _ptr = _rawAllocationArr(byteSize, alignment, offset);
-		set(_ptr, TYPE());
-
-		return _ptr;
-	}
-
-	/*
-	 Deallocates the previously allocated block of memory. The allocation must be an array type.
-
-	 @param location: Address of the memory block.
-	 @param byteSize: Size of the memory block. Default is the size of type.
-	 @param alignment: Alignment of the memory block. Default is 0.
-	 @param offset: Offset of the memory block. Default is 0.
-	*/
-	DMK_FORCEINLINE static void deallocateArr(PTR location, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
-	{
-		if (byteSize)
-			operator delete[](location.get(), byteSize, std::align_val_t{ alignment });
-		else
-			delete[] location.get();
-	}
-
-	/*
-	 Deallocates the previously allocated block of memory. The allocation must be an array type.
-
-	 @param begin: Begin address of the memory.
-	 @param end: Final address of the memory.
-	*/
-	DMK_FORCEINLINE static void deallocateArrRange(PTR begin, PTR end)
-	{
-		operator delete[](begin.get(), end.get());
-	}
-
-	/*
-	 Sets a value to a given location.
-
-	 @param location: Memory address of the block.
-	 @param value: Value to be initialized with.
-	*/
-	static void set(PTR location, TYPE&& value)
-	{
-		new ((void*)location.get()) (TYPE)(removeReference<TYPE&&>(value));
-	}
-
-private:
-	/*
-	 Allocate memory and check if the allocation was successful.
-	*/
-	DMK_FORCEINLINE static PTR _rawAllocation(UI64 byteSize, UI64 alignment, UI64 offset)
-	{
-		try
+		/**
+		 * Allocates a block of memory and return its address.
+		 *
+		 * @param byteSize: Size of the memory block in bytes. Default is the size of the type.
+		 * @param alignment: Alignment of the allocated memory. Default is 0.
+		 * @param offset: Memory offset of the allocated memory block. Default is 0.
+		 * @return: The newly allocated block.
+		 */
+		DMK_FORCEINLINE static PTR RawAllocate(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
-			auto __newAddr = operator new (byteSize, std::align_val_t{ alignment });
+			PTR _ptr = RawAllocation(byteSize, alignment, offset);
+			Set(_ptr, TYPE());
 
-			if (!__newAddr)
+			return _ptr;
+		}
+
+		/**
+		 * Allocates a block of memory and return its address.
+		 * This type of allocation is slow.
+		 *
+		 * @param byteSize: Size of the memory block in bytes. Default is the size of the type.
+		 * @param alignment: Alignment of the allocated memory. Default is 0.
+		 * @param offset: Memory offset of the allocated memory block. Default is 0.
+		 * @return: The newly allocated block.
+		 */
+		DMK_FORCEINLINE static PTR Allocate(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		{
+			PTR _ptr = AutomatedMemoryManager::AllocateNew<TYPE>(byteSize, offset, alignment);
+
+			return _ptr;
+		}
+
+		/**
+		 * Allocates a block of memory and return its address.
+		 *
+		 * @param initData: Data to be initialized with.
+		 * @param byteSize: Size of the memory block in bytes. Default is the size of the type.
+		 * @param alignment: Alignment of the allocated memory. Default is 0.
+		 * @param offset: Memory offset of the allocated memory block. Default is 0.
+		 * @return: The newly allocated block.
+		 */
+		DMK_FORCEINLINE static PTR AllocateInit(const TYPE& initData, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		{
+			PTR _ptr = RawAllocation(byteSize, alignment, offset);
+			Set(_ptr, Cast<TYPE&&>(initData));
+
+			return _ptr;
+		}
+
+		/**
+		 * Deallocates the previously allocated block of memory.
+		 *
+		 * @param location: Address of the memory block.
+		 * @param byteSize: Size of the memory block. Default is the size of type. If size is unknown, enter 0.
+		 * @param alignment: Alignment of the memory block. Default is 0.
+		 * @param offset: Offset of the memory block. Default is 0.
+		 * @return: The newly allocated block.
+		 */
+		DMK_FORCEINLINE static void RawDeallocate(PTR location, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		{
+			if (byteSize)
+				operator delete (location, byteSize, std::align_val_t{ alignment });
+			else
+				operator delete (location, std::align_val_t{ alignment });
+		}
+
+		/**
+		 * Deallocates the previously allocated block of memory.
+		 *
+		 * @param location: Address of the memory block.
+		 * @param byteSize: Size of the memory block. Default is the size of type. If size is unknown, enter 0.
+		 * @param alignment: Alignment of the memory block. Default is 0.
+		 * @param offset: Offset of the memory block. Default is 0.
+		 * @return: The newly allocated block.
+		 */
+		DMK_FORCEINLINE static void Deallocate(PTR location, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		{
+			AutomatedMemoryManager::Deallocate(location, byteSize, offset, alignment);
+		}
+
+		/**
+		 * Deallocates the previously allocated block of memory.
+		 *
+		 * @param begin: Begin address of the memory.
+		 * @param end: Final address of the memory.
+		 * @return: The newly allocated block.
+		 */
+		DMK_FORCEINLINE static void DeallocateRange(PTR begin, PTR end)
+		{
+			operator delete(begin, end);
+		}
+
+		/**
+		 * Allocates a block of memory as an array and return its address.
+		 *
+		 * @param byteSize: Size of the memory block in bytes. Default is the size of the type.
+		 * @param alignment: Alignment of the allocated memory. Default is 0.
+		 * @param offset: Memory offset of the allocated memory block. Default is 0.
+		 * @return: The newly allocated block.
+		 */
+		DMK_FORCEINLINE static PTR AllocateArr(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		{
+			PTR _ptr = RawAllocationArr(byteSize, alignment, offset);
+			Set(_ptr, TYPE());
+
+			return _ptr;
+		}
+
+		/**
+		 * Deallocates the previously allocated block of memory. The allocation must be an array type.
+		 *
+		 * @param location: Address of the memory block.
+		 * @param byteSize: Size of the memory block. Default is the size of type.
+		 * @param alignment: Alignment of the memory block. Default is 0.
+		 * @param offset: Offset of the memory block. Default is 0.
+		 * @return: The newly allocated block.
+		 */
+		DMK_FORCEINLINE static void DeallocateArr(PTR location, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		{
+			if (byteSize)
+				operator delete[](location, byteSize, std::align_val_t{ alignment });
+			else
+				delete[] location;
+		}
+
+		/**
+		 * Deallocates the previously allocated block of memory. The allocation must be an array type.
+		 *
+		 * @param begin: Begin address of the memory.
+		 * @param end: Final address of the memory.
+		 * @return: The newly allocated block.
+		 */
+		DMK_FORCEINLINE static void DeallocateArrRange(PTR begin, PTR end)
+		{
+			operator delete[](begin, end);
+		}
+
+		/**
+		 * Sets a value to a given location.
+		 *
+		 * @param location: Memory address of the block.
+		 * @param value: Value to be initialized with.
+		 */
+		static void Set(PTR location, TYPE&& value)
+		{
+			new (Cast<void*>(location)) (TYPE)(static_cast<TYPE&&>(value));
+		}
+
+	private:
+		/**
+		 * Allocate memory and check if the allocation was successful.
+		 *
+		 * @param byteSize: Size of the block.
+		 * @param alignment: Alignment of the block.
+		 * @param offset: Offset of the block.
+		 * @return: The newly allocated block.
+		 */
+		DMK_FORCEINLINE static PTR RawAllocation(UI64 byteSize, UI64 alignment, UI64 offset)
+		{
+			try
 			{
-				DMKErrorManager::issueErrorBox("Unable to allocate memory!");
+				auto __newAddr = operator new (byteSize, std::align_val_t{ alignment });
+
+				if (!__newAddr)
+				{
+					Logger::LogError(TEXT("Unable to allocate memory!"));
+
+#ifdef DMK_DEBUG
+					__debugbreak();
+
+#endif
+				}
+
+				return Cast<PTR>(__newAddr);
+			}
+			catch (const std::exception&)
+			{
+				Logger::LogError(TEXT("Unable to allocate memory!"));
 
 #ifdef DMK_DEBUG
 				__debugbreak();
 
 #endif
-			}
 
-			return (PTR)__newAddr;
+				return nullptr;
+			}
 		}
-		catch (const std::exception&)
+
+		/**
+		 * Allocate memory as an array and check if the allocation was successful.
+		 *
+		 * @param byteSize: Size of the block.
+		 * @param alignment: Alignment of the block.
+		 * @param offset: Offset of the block.
+		 * @return: The newly allocated block.
+		 */
+		DMK_FORCEINLINE static PTR RawAllocationArr(UI64 byteSize, UI64 alignment, UI64 offset)
 		{
-			DMKErrorManager::issueErrorBox("Unable to allocate memory!");
+			try
+			{
+				auto __newAddr = operator new[](byteSize, std::align_val_t{ alignment });
+
+				if (!__newAddr)
+				{
+					Logger::LogError(TEXT("Unable to allocate memory!"));
 
 #ifdef DMK_DEBUG
-			__debugbreak();
+					__debugbreak();
 
 #endif
+				}
 
-			return PTR();
-		}
-	}
-
-	/*
-	 Allocate memory as an array and check if the allocation was successful.
-	*/
-	DMK_FORCEINLINE static PTR _rawAllocationArr(UI64 byteSize, UI64 alignment, UI64 offset)
-	{
-		try
-		{
-			auto __newAddr = operator new[](byteSize, std::align_val_t{ alignment });
-
-			if (!__newAddr)
+				return Cast<PTR>(__newAddr);
+			}
+			catch (const std::exception&)
 			{
-				DMKErrorManager::issueErrorBox("Unable to allocate memory!");
+				Logger::LogError(TEXT("Unable to allocate memory!"));
 
 #ifdef DMK_DEBUG
 				__debugbreak();
 
 #endif
+
+				return nullptr;
 			}
-
-			return (PTR)__newAddr;
 		}
-		catch (const std::exception&)
-		{
-			DMKErrorManager::issueErrorBox("Unable to allocate memory!");
+	};
+}
 
-#ifdef DMK_DEBUG
-			__debugbreak();
-
-#endif
-
-			return PTR();
-		}
-	}
-};
-
-#endif // !_DYNAMIK_STATIC_ALLOCATOR_H
+#endif // !_DYNAMIK_CORE_MEMORY_STATIC_ALLOCATOR_H

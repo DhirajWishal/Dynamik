@@ -14,8 +14,8 @@ project "GraphicsCore"
 		"DMK_INTERNAL"
 	}
 
-	targetdir "$(SolutionDir)Builds/Engine/Binaries/$(Configuration)-$(Platform)"
-	objdir "$(SolutionDir)Builds/Engine/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
+	targetdir "$(SolutionDir)Builds/Core/Binaries/$(Configuration)-$(Platform)"
+	objdir "$(SolutionDir)Builds/Core/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
 
 	files {
 		"**.txt",
@@ -28,14 +28,12 @@ project "GraphicsCore"
 
 	includedirs {
 		"$(SolutionDir)Core/",
-		"$(SolutionDir)Tools/",
 	}
 
 	libdirs {
 	}
 
 	links { 
-		"ErrorHandler",
 	}
 
 	filter "system:windows"
