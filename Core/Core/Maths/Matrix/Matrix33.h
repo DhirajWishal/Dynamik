@@ -99,7 +99,15 @@ namespace DMK
 		 * @param index: The index of the row.
 		 * @return: The Vector 3D row.
 		 */
-		Vector3& operator[](UI32 index) const;
+		const Vector3 operator[](UI32 index) const;
+
+		/**
+		 * Retrieve a row by using the index.
+		 *
+		 * @param index: The index of the row.
+		 * @return: The Vector 3D row.
+		 */
+		Vector3& operator[](UI32 index);
 
 		/**
 		 * Multiply the matrix by a value.

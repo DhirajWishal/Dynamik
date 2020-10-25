@@ -108,7 +108,15 @@ namespace DMK
 		 * @param index: The index of the row.
 		 * @return: Vector 4D row.
 		 */
-		Vector4& operator[](UI32 index) const;
+		const Vector4 operator[](UI32 index) const;
+
+		/**
+		 * Retrieve a row using the index.
+		 *
+		 * @param index: The index of the row.
+		 * @return: Vector 4D row.
+		 */
+		Vector4& operator[](UI32 index);
 
 		/**
 		 * Multiply the matrix by a value.

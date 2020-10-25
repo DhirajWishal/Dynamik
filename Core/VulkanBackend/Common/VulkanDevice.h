@@ -93,13 +93,13 @@ namespace DMK
 				 */
 				DMK_FORCEINLINE VkQueue GetTransferQueue() const { return vTransferQueue; }
 
-				std::optional<UI32> graphicsFamily;      // Graphics Family 
-				std::optional<UI32> computeFamily;      // Compute Family 
-				std::optional<UI32> transferFamily;      // Transfer Family 
+				std::optional<UI32> graphicsFamily;     // Graphics Family 
+				std::optional<UI32> computeFamily;  // Compute Family 
+				std::optional<UI32> transferFamily;     // Transfer Family 
 
 				VkQueue vGraphicsQueue = VK_NULL_HANDLE;	// Graphics queue handle.
 				VkQueue vComputeQueue = VK_NULL_HANDLE;		// Compute queue handle.
-				VkQueue vTransferQueue = VK_NULL_HANDLE;		// Transfer queue handle.
+				VkQueue vTransferQueue = VK_NULL_HANDLE;	// Transfer queue handle.
 			};
 
 			/**

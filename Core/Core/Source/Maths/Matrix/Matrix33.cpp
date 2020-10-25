@@ -4,6 +4,7 @@
 #include "Core/Maths/Matrix/Matrix33.h"
 #include "Core/ErrorHandler/Logger.h"
 #include "Core/Memory/Functions.h"
+#include "Core/Types/Utilities.h"
 
 namespace DMK
 {
@@ -45,7 +46,7 @@ namespace DMK
 		if ((list.size() > 9) || (list.size() < 9))
 			Logger::LogError(TEXT("The size of the provided list does not match the current Matrix size!"));
 
-		MemoryFunctions::MoveData(this, (void*)list.begin(), list.size() * sizeof(float));
+		MemoryFunctions::MoveData(this, Cast<const void*>(list.begin()), list.size() * sizeof(float));
 	}
 
 	Matrix33 Matrix33::operator=(const Matrix33& other)
@@ -57,9 +58,14 @@ namespace DMK
 		return *this;
 	}
 
-	Vector3& Matrix33::operator[](UI32 index) const
+	const Vector3 Matrix33::operator[](UI32 index) const
 	{
-		return ((Vector3*)this)[index];
+		return (&this->r)[index];
+	}
+
+	Vector3& Matrix33::operator[](UI32 index)
+	{
+		return (&this->r)[index];
 	}
 
 	Matrix33& Matrix33::operator*(const float& value)

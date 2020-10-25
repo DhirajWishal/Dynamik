@@ -50,51 +50,51 @@ namespace DMK
 	 * This contains all the virtual data types for the Dynamik Engine.
 	 */
 	enum class DataType : UI32 {
-		DATA_Type_UNDEFINED = 0,	// Undefined type
+		DATA_TYPE_UNDEFINED = 0,	// Undefined type
 
-		DATA_Type_BYTE = 1,			// Translates to one byte
+		DATA_TYPE_BYTE = 1,			// Translates to one byte
 
-		DATA_Type_I8 = 1,			// Translates to 8 bit integer
-		DATA_Type_UI8 = 1,			// Translates to 8 bit unsigned integer
-		DATA_Type_SI8 = 1,			// Translates to 8 bit signed integer
-		DATA_Type_I16 = 2,			// Translates to 16 bit integer
-		DATA_Type_UI16 = 2,			// Translates to 16 bit unsigned integer
-		DATA_Type_SI16 = 2,			// Translates to 16 bit signed integer
-		DATA_Type_I32 = 4,			// Translates to 32 bit integer
-		DATA_Type_UI32 = 4,			// Translates to 32 bit unsigned integer
-		DATA_Type_SI32 = 4,			// Translates to 32 bit signed integer
-		DATA_Type_I64 = 8,			// Translates to 64 bit integer
-		DATA_Type_UI64 = 8,			// Translates to 64 bit unsigned integer
-		DATA_Type_SI64 = 8,			// Translates to 64 bit signed integer
+		DATA_TYPE_I8 = 1,			// Translates to 8 bit integer
+		DATA_TYPE_UI8 = 1,			// Translates to 8 bit unsigned integer
+		DATA_TYPE_SI8 = 1,			// Translates to 8 bit signed integer
+		DATA_TYPE_I16 = 2,			// Translates to 16 bit integer
+		DATA_TYPE_UI16 = 2,			// Translates to 16 bit unsigned integer
+		DATA_TYPE_SI16 = 2,			// Translates to 16 bit signed integer
+		DATA_TYPE_I32 = 4,			// Translates to 32 bit integer
+		DATA_TYPE_UI32 = 4,			// Translates to 32 bit unsigned integer
+		DATA_TYPE_SI32 = 4,			// Translates to 32 bit signed integer
+		DATA_TYPE_I64 = 8,			// Translates to 64 bit integer
+		DATA_TYPE_UI64 = 8,			// Translates to 64 bit unsigned integer
+		DATA_TYPE_SI64 = 8,			// Translates to 64 bit signed integer
 
-		DATA_Type_float = 4,			// Translates to 32 bit float
-		DATA_Type_F64 = 4,			// Translates to 64 bit float
-		DATA_Type_D64 = 8,			// Translates to 64 bit double
-		DATA_Type_Char = 1,			// Translates to 8 bit char
+		DATA_TYPE_FLOAT = 4,			// Translates to 32 bit float
+		DATA_TYPE_F64 = 4,			// Translates to 64 bit float
+		DATA_TYPE_D64 = 8,			// Translates to 64 bit double
+		DATA_TYPE_CHAR = 1,			// Translates to 8 bit char
 
-		DATA_Type_PTR = 8,			// Translates to 8 bit pointer (x64 architecture)
-		DATA_Type_VOID_PTR = 8,			// Translates to 8 bit void pointer (x64 architecture)
+		DATA_TYPE_PTR = 8,			// Translates to 8 bit pointer (x64 architecture)
+		DATA_TYPE_VOID_PTR = 8,			// Translates to 8 bit void pointer (x64 architecture)
 
-		DATA_Type_VEC1 = 4,			// Translates to 4 bit vector (1 float)
-		DATA_Type_VEC2 = 8,			// Translates to 8 bit vector (2 floats)
-		DATA_Type_VEC3 = 16,		// Translates to 16 bit vector (3 floats)
-		DATA_Type_VEC4 = 16,		// Translates to 16 bit vector (4 floats)
-		DATA_Type_UVEC1 = 4,		// Translates to 4 bit unsigned vector (1 float)
-		DATA_Type_UVEC2 = 8,		// Translates to 8 bit unsigned vector (2 floats)
-		DATA_Type_UVEC3 = 16,		// Translates to 16 bit unsigned vector (3 floats)
-		DATA_Type_UVEC4 = 16,		// Translates to 16 bit unsigned vector (4 floats)
-		DATA_Type_SVEC1 = 4,		// Translates to 4 bit signed vector (1 float)
-		DATA_Type_SVEC2 = 8,		// Translates to 8 bit signed vector (2 floats)
-		DATA_Type_SVEC3 = 16,		// Translates to 16 bit signed vector (3 floats)
-		DATA_Type_SVEC4 = 16,		// Translates to 16 bit signed vector (4 floats)
-		DATA_Type_BVEC1 = 1,		// Translates to 4 bit boolean vector (1 float)
-		DATA_Type_BVEC2 = 2,		// Translates to 8 bit boolean vector (2 floats)
-		DATA_Type_BVEC3 = 3,		// Translates to 16 bit boolean vector (3 floats)
-		DATA_Type_BVEC4 = 4,		// Translates to 16 bit boolean vector (4 floats)
+		DATA_TYPE_VEC1 = 4,			// Translates to 4 bit vector (1 float)
+		DATA_TYPE_VEC2 = 8,			// Translates to 8 bit vector (2 floats)
+		DATA_TYPE_VEC3 = 16,		// Translates to 16 bit vector (3 floats)
+		DATA_TYPE_VEC4 = 16,		// Translates to 16 bit vector (4 floats)
+		DATA_TYPE_UVEC1 = 4,		// Translates to 4 bit unsigned vector (1 float)
+		DATA_TYPE_UVEC2 = 8,		// Translates to 8 bit unsigned vector (2 floats)
+		DATA_TYPE_UVEC3 = 16,		// Translates to 16 bit unsigned vector (3 floats)
+		DATA_TYPE_UVEC4 = 16,		// Translates to 16 bit unsigned vector (4 floats)
+		DATA_TYPE_SVEC1 = 4,		// Translates to 4 bit signed vector (1 float)
+		DATA_TYPE_SVEC2 = 8,		// Translates to 8 bit signed vector (2 floats)
+		DATA_TYPE_SVEC3 = 16,		// Translates to 16 bit signed vector (3 floats)
+		DATA_TYPE_SVEC4 = 16,		// Translates to 16 bit signed vector (4 floats)
+		DATA_TYPE_BVEC1 = 1,		// Translates to 4 bit boolean vector (1 float)
+		DATA_TYPE_BVEC2 = 2,		// Translates to 8 bit boolean vector (2 floats)
+		DATA_TYPE_BVEC3 = 3,		// Translates to 16 bit boolean vector (3 floats)
+		DATA_TYPE_BVEC4 = 4,		// Translates to 16 bit boolean vector (4 floats)
 
-		DATA_Type_MAT2 = 16,		// Translates to 16 bit matrix (2x2)
-		DATA_Type_MAT3 = 36,		// Translates to 36 bit matrix (3x3)
-		DATA_Type_MAT4 = 64,		// Translates to 64 bit matrix (4x4)
+		DATA_TYPE_MAT2 = 16,		// Translates to 16 bit matrix (2x2)
+		DATA_TYPE_MAT3 = 36,		// Translates to 36 bit matrix (3x3)
+		DATA_TYPE_MAT4 = 64,		// Translates to 64 bit matrix (4x4)
 	};
 
 	/**

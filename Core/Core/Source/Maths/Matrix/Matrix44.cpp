@@ -4,6 +4,7 @@
 #include "Core/Maths/Matrix/Matrix44.h"
 #include "Core/ErrorHandler/Logger.h"
 #include "Core/Memory/Functions.h"
+#include "Core/Types/Utilities.h"
 
 namespace DMK
 {
@@ -46,7 +47,7 @@ namespace DMK
 		if ((list.size() > 16) || (list.size() < 16))
 			Logger::LogError(TEXT("The size of the provided list does not match the current Matrix size!"));
 
-		MemoryFunctions::MoveData(this, (void*)list.begin(), list.size() * sizeof(float));
+		MemoryFunctions::MoveData(this, Cast<const void*>(list.begin()), list.size() * sizeof(float));
 	}
 
 	Matrix44 Matrix44::operator=(const Matrix44& other)
@@ -59,9 +60,14 @@ namespace DMK
 		return *this;
 	}
 
-	Vector4& Matrix44::operator[](UI32 index) const
+	const Vector4 Matrix44::operator[](UI32 index) const
 	{
-		return ((Vector4*)this)[index];
+		return (&this->r)[index];
+	}
+
+	Vector4& Matrix44::operator[](UI32 index)
+	{
+		return (&this->r)[index];
 	}
 
 	Matrix44& Matrix44::operator*(const float& value)

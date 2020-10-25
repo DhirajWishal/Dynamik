@@ -67,21 +67,23 @@ namespace DMK
 				vkGetPhysicalDeviceQueueFamilyProperties(vPhysicalDevice, &queueFamilyCount, queueFamilies.data());
 
 				I32 i = 0;
-				for (const auto& queueFamily : queueFamilies)
+				for (auto itr = queueFamilies.begin(); itr != queueFamilies.end(); itr++, i++)
 				{
-					if (queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
+					// Set graphics family.
+					if ((itr->queueCount > 0) && (itr->queueFlags & VK_QUEUE_GRAPHICS_BIT))
 						graphicsFamily = i;
 
-					if (queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_COMPUTE_BIT)
+					// Set compute family.
+					if ((itr->queueCount > 0) && (itr->queueFlags & VK_QUEUE_COMPUTE_BIT))
 						computeFamily = i;
 
-					if (queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_TRANSFER_BIT)
+					// Set transfer family.
+					if ((itr->queueCount > 0) && (itr->queueFlags & VK_QUEUE_TRANSFER_BIT))
 						transferFamily = i;
 
+					// Escape from the loop if the queues were found.
 					if (IsComplete())
 						break;
-
-					i++;
 				}
 			}
 
@@ -212,7 +214,7 @@ namespace DMK
 			 *
 			 * @return: std::vector<const char*> containing the required extensions.
 			 */
-			inline std::vector<const char*> GetRequiredInstanceExtensions()
+			DMK_FORCEINLINE std::vector<const char*> GetRequiredInstanceExtensions()
 			{
 				UI32 glfwExtentionCount = 0;
 				const char** glfwExtentions = nullptr;

@@ -92,7 +92,15 @@ namespace DMK
 		 * @param index: The index of the row.
 		 * @return: The requested row.
 		 */
-		Vector2& operator[](UI32 index) const;
+		const Vector2 operator[](UI32 index) const;
+
+		/**
+		 * Get a row of the matrix using the index.
+		 *
+		 * @param index: The index of the row.
+		 * @return: The requested row.
+		 */
+		Vector2& operator[](UI32 index);
 
 		/**
 		 * Multiply the matrix by a value.
