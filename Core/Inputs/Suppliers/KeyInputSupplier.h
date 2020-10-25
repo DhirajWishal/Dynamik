@@ -19,9 +19,9 @@ namespace DMK
 		 * - Repeat (When the user presses and holds on to the key)
 		 */
 		enum class KeyInputType : UI32 {
-			KEY_INPUT_TYPE_PRESS,
-			KEY_INPUT_TYPE_RELEASE,
-			KEY_INPUT_TYPE_REPEAT,
+			KEY_INPUT_Type_PRESS,
+			KEY_INPUT_Type_RELEASE,
+			KEY_INPUT_Type_REPEAT,
 		};
 
 		/**
@@ -37,7 +37,7 @@ namespace DMK
 			/**
 			 * Construct the key using its name.
 			 */
-			Key(const CHR* pName) : pName(pName) {}
+			Key(const Char* pName) : pName(pName) {}
 
 			/**
 			 * Set the scan code of the key.
@@ -66,25 +66,25 @@ namespace DMK
 			 *
 			 * @return: Boolean value.
 			 */
-			bool IsPressed() const { return eInputType == KeyInputType::KEY_INPUT_TYPE_PRESS; }
+			bool IsPressed() const { return eInputType == KeyInputType::KEY_INPUT_Type_PRESS; }
 
 			/**
 			 * Check if the key is released.
 			 *
 			 * @return: Boolean value.
 			 */
-			bool IsRelease() const { return eInputType == KeyInputType::KEY_INPUT_TYPE_RELEASE; }
+			bool IsRelease() const { return eInputType == KeyInputType::KEY_INPUT_Type_RELEASE; }
 
 			/**
 			 * Check if the key is on repeat.
 			 *
 			 * @return: Boolean value.
 			 */
-			bool IsOnRepeat() const { return eInputType == KeyInputType::KEY_INPUT_TYPE_REPEAT; }
+			bool IsOnRepeat() const { return eInputType == KeyInputType::KEY_INPUT_Type_REPEAT; }
 
 		public:
-			const CHR* pName = TEXT("");	// Name of the key. 
-			KeyInputType eInputType = KeyInputType::KEY_INPUT_TYPE_RELEASE;	// Input type/ activation.
+			const Char* pName = TEXT("");	// Name of the key. 
+			KeyInputType eInputType = KeyInputType::KEY_INPUT_Type_RELEASE;	// Input type/ activation.
 			UI32 scanCode = 0;	// The scancode of the key.
 		};
 

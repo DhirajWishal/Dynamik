@@ -9,11 +9,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsCore", "Core\Graphi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Inputs", "Core\Inputs\Inputs.vcxproj", "{A88D2DBA-942F-5890-7DEA-6BE4692BDFE0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VulkanBackend", "Core\VulkanBackend\VulkanBackend.vcxproj", "{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1FCE6517-8B83-DE0C-1478-D8E3802CD510}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreTests", "Tests\CoreTests\CoreTests.vcxproj", "{21E66A18-8D50-1F8F-D68E-D0344238FDE3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InputTests", "Tests\InputTests\InputTests.vcxproj", "{E884140A-D43C-5657-3D44-2FB3291BF147}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VulkanBackendTests", "Tests\VulkanBackendTests\VulkanBackendTests.vcxproj", "{7153020B-5D37-C360-C697-BDB3B29AADE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,6 +86,24 @@ Global
 		{A88D2DBA-942F-5890-7DEA-6BE4692BDFE0}.Release|Unix.Build.0 = Release Unix|x64
 		{A88D2DBA-942F-5890-7DEA-6BE4692BDFE0}.Release|Windows.ActiveCfg = Release Windows|x64
 		{A88D2DBA-942F-5890-7DEA-6BE4692BDFE0}.Release|Windows.Build.0 = Release Windows|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Debug|Mac.ActiveCfg = Debug Mac|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Debug|Mac.Build.0 = Debug Mac|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Debug|Unix.ActiveCfg = Debug Unix|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Debug|Unix.Build.0 = Debug Unix|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Debug|Windows.ActiveCfg = Debug Windows|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Debug|Windows.Build.0 = Debug Windows|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Distribution|Mac.ActiveCfg = Distribution Mac|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Distribution|Mac.Build.0 = Distribution Mac|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Distribution|Unix.ActiveCfg = Distribution Unix|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Distribution|Unix.Build.0 = Distribution Unix|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Distribution|Windows.ActiveCfg = Distribution Windows|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Distribution|Windows.Build.0 = Distribution Windows|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Release|Mac.ActiveCfg = Release Mac|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Release|Mac.Build.0 = Release Mac|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Release|Unix.ActiveCfg = Release Unix|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Release|Unix.Build.0 = Release Unix|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Release|Windows.ActiveCfg = Release Windows|x64
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Release|Windows.Build.0 = Release Windows|x64
 		{21E66A18-8D50-1F8F-D68E-D0344238FDE3}.Debug|Mac.ActiveCfg = Debug Mac|x64
 		{21E66A18-8D50-1F8F-D68E-D0344238FDE3}.Debug|Mac.Build.0 = Debug Mac|x64
 		{21E66A18-8D50-1F8F-D68E-D0344238FDE3}.Debug|Unix.ActiveCfg = Debug Unix|x64
@@ -118,6 +140,24 @@ Global
 		{E884140A-D43C-5657-3D44-2FB3291BF147}.Release|Unix.Build.0 = Release Unix|x64
 		{E884140A-D43C-5657-3D44-2FB3291BF147}.Release|Windows.ActiveCfg = Release Windows|x64
 		{E884140A-D43C-5657-3D44-2FB3291BF147}.Release|Windows.Build.0 = Release Windows|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Debug|Mac.ActiveCfg = Debug Mac|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Debug|Mac.Build.0 = Debug Mac|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Debug|Unix.ActiveCfg = Debug Unix|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Debug|Unix.Build.0 = Debug Unix|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Debug|Windows.ActiveCfg = Debug Windows|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Debug|Windows.Build.0 = Debug Windows|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Distribution|Mac.ActiveCfg = Distribution Mac|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Distribution|Mac.Build.0 = Distribution Mac|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Distribution|Unix.ActiveCfg = Distribution Unix|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Distribution|Unix.Build.0 = Distribution Unix|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Distribution|Windows.ActiveCfg = Distribution Windows|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Distribution|Windows.Build.0 = Distribution Windows|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Release|Mac.ActiveCfg = Release Mac|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Release|Mac.Build.0 = Release Mac|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Release|Unix.ActiveCfg = Release Unix|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Release|Unix.Build.0 = Release Unix|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Release|Windows.ActiveCfg = Release Windows|x64
+		{7153020B-5D37-C360-C697-BDB3B29AADE2}.Release|Windows.Build.0 = Release Windows|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,7 +166,9 @@ Global
 		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F} = {15A0C35D-0158-05AB-6A5F-DE065636A09B}
 		{BF92744A-ABF5-03EF-547B-3CA540BDCF71} = {15A0C35D-0158-05AB-6A5F-DE065636A09B}
 		{A88D2DBA-942F-5890-7DEA-6BE4692BDFE0} = {15A0C35D-0158-05AB-6A5F-DE065636A09B}
+		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5} = {15A0C35D-0158-05AB-6A5F-DE065636A09B}
 		{21E66A18-8D50-1F8F-D68E-D0344238FDE3} = {1FCE6517-8B83-DE0C-1478-D8E3802CD510}
 		{E884140A-D43C-5657-3D44-2FB3291BF147} = {1FCE6517-8B83-DE0C-1478-D8E3802CD510}
+		{7153020B-5D37-C360-C697-BDB3B29AADE2} = {1FCE6517-8B83-DE0C-1478-D8E3802CD510}
 	EndGlobalSection
 EndGlobal

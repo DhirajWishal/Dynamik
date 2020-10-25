@@ -4,6 +4,7 @@
 #include "Core/Maths/Vector/Vector2.h"
 #include "Core/ErrorHandler/Logger.h"
 #include "Core/Memory/Functions.h"
+#include "Core/Types/Utilities.h"
 
 namespace DMK
 {
@@ -13,7 +14,7 @@ namespace DMK
 		if ((list.size() > 2) || (list.size() < 2))
 			Logger::LogError(TEXT("The size of the provided list does not match the current Vector size! Expected size is 2."));
 
-		MemoryFunctions::MoveData(this, (void*)list.begin(), list.size() * sizeof(float));
+		MemoryFunctions::MoveData(this, Cast<const void*>(list.begin()), list.size() * sizeof(float));
 	}
 
 	Vector2 Vector2::operator=(const std::initializer_list<float>& list)
@@ -21,14 +22,24 @@ namespace DMK
 		if ((list.size() > 2) || (list.size() < 2))
 			Logger::LogError(TEXT("The size of the provided list does not match the current Vector size! Expected size is 2."));
 
-		MemoryFunctions::MoveData(this, (void*)list.begin(), list.size() * sizeof(float));
+		MemoryFunctions::MoveData(this, Cast<const void*>(list.begin()), list.size() * sizeof(float));
 
 		return *this;
 	}
 
-	float& Vector2::operator[](UI32 index) const
+	const float Vector2::operator[](UI32 index) const
 	{
-		return ((float*)this)[index];
+		return (operator const float* ())[index];
+	}
+
+	float& Vector2::operator[](UI32 index)
+	{
+		return const_cast<float&>((operator const float* ())[index]);
+	}
+
+	Vector2::operator const float* () const
+	{
+		return &this->x;
 	}
 
 	Vector2 operator+(const Vector2& lhs, const Vector2& rhs)

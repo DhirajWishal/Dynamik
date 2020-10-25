@@ -21,7 +21,7 @@ namespace DMK
 		 * @param source: SourceAddress
 		 * @param byteSize: Number of bytes to be moved.
 		 */
-		void MoveData(void* destination, void* source, UI64 byteSize);
+		void MoveData(void* destination, const void* source, UI64 byteSize);
 
 		/**
 		 * Copy data from one location to another. 
@@ -30,7 +30,7 @@ namespace DMK
 		 * @param source: SourceAddress
 		 * @param byteSize: Number of bytes to be copied.
 		 */
-		void CopyData(void* destination, void* source, UI64 byteSize);
+		void CopyData(void* destination, const void* source, UI64 byteSize);
 
 		/**
 		 * Set data to a whole block of memory.

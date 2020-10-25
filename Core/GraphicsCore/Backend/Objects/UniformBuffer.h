@@ -15,7 +15,7 @@ namespace DMK
 		 * Uniform Type enum.
 		 */
 		enum class UniformType : UI32 {
-			UNIFORM_TYPE_UNIFORM_BUFFER,
+			UNIFORM_Type_UNIFORM_BUFFER,
 		};
 
 		/**
@@ -64,7 +64,7 @@ namespace DMK
 
 		protected:
 			UI32 binding = 0;	// Binding of the buffer.
-			UniformType type = UniformType::UNIFORM_TYPE_UNIFORM_BUFFER;	// The uniform buffer type.
+			UniformType type = UniformType::UNIFORM_Type_UNIFORM_BUFFER;	// The uniform buffer type.
 		};
 	}
 }

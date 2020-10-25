@@ -75,7 +75,20 @@ namespace DMK
 		 * @param index: The index of the data to be accessed.
 		 * @return: Float value at the index.
 		 */
-		float& operator[](UI32 index) const;
+		const float operator[](UI32 index) const;
+
+		/**
+		 * Get data using the [] operator.
+		 *
+		 * @param index: The index of the data to be accessed.
+		 * @return: Float value at the index.
+		 */
+		float& operator[](UI32 index);
+
+		/**
+		 * Return the address of this since it can be accessed by the [] operator.
+		 */
+		operator const float* () const;
 
 	public:
 		union

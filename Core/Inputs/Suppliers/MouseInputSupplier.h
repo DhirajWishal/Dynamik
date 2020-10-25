@@ -19,9 +19,9 @@ namespace DMK
 		 * - Repeat (When the user keeps on pressing the buttom)
 		 */
 		enum class ButtonInputType : UI32 {
-			BUTTON_INPUT_TYPE_PRESS,
-			BUTTON_INPUT_TYPE_RELEASE,
-			BUTTON_INPUT_TYPE_REPEAT,
+			BUTTON_INPUT_Type_PRESS,
+			BUTTON_INPUT_Type_RELEASE,
+			BUTTON_INPUT_Type_REPEAT,
 		};
 
 		/**
@@ -41,7 +41,7 @@ namespace DMK
 			Button(UI32 scanCode) : scanCode(scanCode) {}
 
 			UI32 scanCode = 0;	// Scan code of the button.
-			ButtonInputType eInputType = ButtonInputType::BUTTON_INPUT_TYPE_RELEASE;	// Input type/ activation of the button.
+			ButtonInputType eInputType = ButtonInputType::BUTTON_INPUT_Type_RELEASE;	// Input type/ activation of the button.
 		};
 
 		/**

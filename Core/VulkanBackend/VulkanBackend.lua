@@ -1,9 +1,9 @@
 -- Copyright 2020 Dhiraj Wishal
 -- SPDX-License-Identifier: Apache-2.0
 
----------- Graphics Core project description ----------
+---------- Vulkan Backend project description ----------
 
-project "GraphicsCore"
+project "VulkanBackend"
 	kind "StaticLib"
 	language "C++"
 	systemversion "latest"
@@ -11,7 +11,8 @@ project "GraphicsCore"
 	staticruntime "On"
 
 	defines {
-		"DMK_INTERNAL"
+		"DMK_INTERNAL",
+		"GLFW_INCLUDE_VULKAN"
 	}
 
 	targetdir "$(SolutionDir)Builds/Core/Binaries/$(Configuration)-$(Platform)"
@@ -28,13 +29,19 @@ project "GraphicsCore"
 
 	includedirs {
 		"$(SolutionDir)Core/",
+		"%{IncludeDir.Vulkan}",
+		"%{IncludeDir.GLFW}",
 	}
 
 	libdirs {
+		"%{IncludeLib.Vulkan}",
+		"%{IncludeLib.GLFW}",
 	}
 
 	links { 
-		"Core",
+		"GraphicsCore",
+		"vulkan-1",
+		"glfw3dll",
 	}
 
 	filter "system:windows"

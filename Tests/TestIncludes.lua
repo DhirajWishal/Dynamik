@@ -6,3 +6,4 @@
 group "Tests"
 include "CoreTests/CoreTests.lua"
 include "InputTests/InputTests.lua"
+include "VulkanBackendTests/VulkanBackendTests.lua"

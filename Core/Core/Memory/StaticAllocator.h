@@ -24,14 +24,21 @@ namespace DMK
 	 * The static allocator is used to allocate a buffer in heap.It does not manage its deletion automatically but
 	 * needs to be explicitly deleted.
 	 *
-	 * @tparam TYPE: Output type.
+	 * @tparam Type: Output type.
 	 */
-	template<class TYPE, UI64 DefaultAligment = DMK_ALIGNMENT>
+	template<class Type, UI64 DefaultAligment = DMK_ALIGNMENT>
 	class StaticAllocator
 	{
-		using PTR = TYPE*;
+		using PTR = Type*;
 
+		/**
+		 * Constructor.
+		 */
 		StaticAllocator() {}
+
+		/**
+		 * Destructor.
+		 */
 		~StaticAllocator() {}
 	public:
 
@@ -43,10 +50,10 @@ namespace DMK
 		 * @param offset: Memory offset of the allocated memory block. Default is 0.
 		 * @return: The newly allocated block.
 		 */
-		DMK_FORCEINLINE static PTR RawAllocate(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		DMK_FORCEINLINE static PTR RawAllocate(UI64 byteSize = sizeof(Type), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
 			PTR _ptr = RawAllocation(byteSize, alignment, offset);
-			Set(_ptr, TYPE());
+			Set(_ptr, Type());
 
 			return _ptr;
 		}
@@ -60,9 +67,9 @@ namespace DMK
 		 * @param offset: Memory offset of the allocated memory block. Default is 0.
 		 * @return: The newly allocated block.
 		 */
-		DMK_FORCEINLINE static PTR Allocate(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		DMK_FORCEINLINE static PTR Allocate(UI64 byteSize = sizeof(Type), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
-			PTR _ptr = AutomatedMemoryManager::AllocateNew<TYPE>(byteSize, offset, alignment);
+			PTR _ptr = AutomatedMemoryManager::AllocateNew<Type>(byteSize, offset, alignment);
 
 			return _ptr;
 		}
@@ -76,10 +83,10 @@ namespace DMK
 		 * @param offset: Memory offset of the allocated memory block. Default is 0.
 		 * @return: The newly allocated block.
 		 */
-		DMK_FORCEINLINE static PTR AllocateInit(const TYPE& initData, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		DMK_FORCEINLINE static PTR AllocateInit(const Type& initData, UI64 byteSize = sizeof(Type), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
 			PTR _ptr = RawAllocation(byteSize, alignment, offset);
-			Set(_ptr, Cast<TYPE&&>(initData));
+			Set(_ptr, Cast<Type&&>(initData));
 
 			return _ptr;
 		}
@@ -93,7 +100,7 @@ namespace DMK
 		 * @param offset: Offset of the memory block. Default is 0.
 		 * @return: The newly allocated block.
 		 */
-		DMK_FORCEINLINE static void RawDeallocate(PTR location, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		DMK_FORCEINLINE static void RawDeallocate(PTR location, UI64 byteSize = sizeof(Type), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
 			if (byteSize)
 				operator delete (location, byteSize, std::align_val_t{ alignment });
@@ -110,7 +117,7 @@ namespace DMK
 		 * @param offset: Offset of the memory block. Default is 0.
 		 * @return: The newly allocated block.
 		 */
-		DMK_FORCEINLINE static void Deallocate(PTR location, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		DMK_FORCEINLINE static void Deallocate(PTR location, UI64 byteSize = sizeof(Type), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
 			AutomatedMemoryManager::Deallocate(location, byteSize, offset, alignment);
 		}
@@ -135,10 +142,10 @@ namespace DMK
 		 * @param offset: Memory offset of the allocated memory block. Default is 0.
 		 * @return: The newly allocated block.
 		 */
-		DMK_FORCEINLINE static PTR AllocateArr(UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		DMK_FORCEINLINE static PTR AllocateArr(UI64 byteSize = sizeof(Type), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
 			PTR _ptr = RawAllocationArr(byteSize, alignment, offset);
-			Set(_ptr, TYPE());
+			Set(_ptr, Type());
 
 			return _ptr;
 		}
@@ -152,7 +159,7 @@ namespace DMK
 		 * @param offset: Offset of the memory block. Default is 0.
 		 * @return: The newly allocated block.
 		 */
-		DMK_FORCEINLINE static void DeallocateArr(PTR location, UI64 byteSize = sizeof(TYPE), UI64 alignment = DefaultAligment, UI64 offset = 0)
+		DMK_FORCEINLINE static void DeallocateArr(PTR location, UI64 byteSize = sizeof(Type), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
 			if (byteSize)
 				operator delete[](location, byteSize, std::align_val_t{ alignment });
@@ -178,9 +185,9 @@ namespace DMK
 		 * @param location: Memory address of the block.
 		 * @param value: Value to be initialized with.
 		 */
-		static void Set(PTR location, TYPE&& value)
+		static void Set(PTR location, Type&& value)
 		{
-			new (Cast<void*>(location)) (TYPE)(static_cast<TYPE&&>(value));
+			new (Cast<void*>(location)) (Type)(static_cast<Type&&>(value));
 		}
 
 	private:

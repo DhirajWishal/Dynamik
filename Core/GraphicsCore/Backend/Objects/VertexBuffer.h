@@ -66,7 +66,7 @@ namespace DMK
 			 */
 			Format GetFormat() const { return format; }
 
-			DataType type = DataType::DATA_TYPE_UNDEFINED;	// The data type of the attribute. 
+			DataType type = DataType::DATA_Type_UNDEFINED;	// The data type of the attribute. 
 			Format format = Format::FORMAT_UNDEFINED;	// The data format of the attribute.
 		};
 
