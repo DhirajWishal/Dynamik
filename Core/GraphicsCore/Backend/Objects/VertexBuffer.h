@@ -123,7 +123,7 @@ namespace DMK
 			 *
 			 * @return: Pointer to the attrubutes.
 			 */
-			std::vector<VertexAttribute>* GetAttributes() const { return Cast<std::vector<VertexAttribute>*>(&attributes); }
+			std::vector<VertexAttribute>* GetAttributes() const { return const_cast<std::vector<VertexAttribute>*>(&attributes); }
 
 			/**
 			 * Set the binding index of the vertex.
@@ -187,7 +187,7 @@ namespace DMK
 			 *
 			 * @return: Pointer to the vertex data.
 			 */
-			Vertex* GetVertex() const { return Cast<Vertex*>(&vertex); }
+			Vertex* GetVertex() const { return const_cast<Vertex*>(&vertex); }
 
 			/**
 			 * Get the number of vertexes stored in the buffer.
@@ -198,6 +198,32 @@ namespace DMK
 
 		protected:
 			Vertex vertex = {};	// Vertex stored in the buffer.
+		};
+
+		/**
+		 * Vertex Buffer Reference for the Dynamik Engine.
+		 * Since the engine stores vertex buffers in multiple large vertex buffers, sorted by the size of the
+		 * vertex. Because of this, almost all the vertexes are stored in one large vertex buffer.
+		 * Because of this, we maintain an object named the Vertex Buffer Reference to store the following information,
+		 * - Parent vertex buffer: The actual vertex buffer that contains the data.
+		 * - Vertex offset: The number of vertexes to go from the begining to find the first vertex entry.
+		 * - Vertex count: The number of vertexes associated with the vertex buffer.
+		 */
+		class VertexBufferRef {
+		public:
+			/**
+			 * Default constructor.
+			 */
+			VertexBufferRef() {}
+
+			/**
+			 * Default destructor.
+			 */
+			~VertexBufferRef() {}
+
+			VertexBuffer* pParentBuffer = nullptr;	// The parent vertex buffer.
+			UI64 vertexOffset = 0;	// The vertex offset.
+			UI64 vertexCount = 0;	// The vertex count.
 		};
 	}
 }

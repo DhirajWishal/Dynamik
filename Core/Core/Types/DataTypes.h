@@ -67,13 +67,13 @@ namespace DMK
 		DATA_TYPE_UI64 = 8,			// Translates to 64 bit unsigned integer
 		DATA_TYPE_SI64 = 8,			// Translates to 64 bit signed integer
 
-		DATA_TYPE_FLOAT = 4,			// Translates to 32 bit float
+		DATA_TYPE_FLOAT = 4,		// Translates to 32 bit float
 		DATA_TYPE_F64 = 4,			// Translates to 64 bit float
 		DATA_TYPE_D64 = 8,			// Translates to 64 bit double
 		DATA_TYPE_CHAR = 1,			// Translates to 8 bit char
 
 		DATA_TYPE_PTR = 8,			// Translates to 8 bit pointer (x64 architecture)
-		DATA_TYPE_VOID_PTR = 8,			// Translates to 8 bit void pointer (x64 architecture)
+		DATA_TYPE_VOID_PTR = 8,		// Translates to 8 bit void pointer (x64 architecture)
 
 		DATA_TYPE_VEC1 = 4,			// Translates to 4 bit vector (1 float)
 		DATA_TYPE_VEC2 = 8,			// Translates to 8 bit vector (2 floats)

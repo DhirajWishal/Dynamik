@@ -81,8 +81,8 @@ IncludeLib["FreeImageR"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/FreeI
 
 include "Core/CoreIncludes.lua"
 --include "Tools/ToolsIncludes.lua"
-
 include "Tests/TestIncludes.lua"
+include "Engine/EngineIncludes.lua"
 
 group "Studio"
 --include "Studio/Application/Application.lua"
