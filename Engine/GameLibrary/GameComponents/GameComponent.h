@@ -5,8 +5,6 @@
 #ifndef _DYNAMIK_GAME_COMPONENT_H
 #define _DYNAMIK_GAME_COMPONENT_H
 
-#include "GameLibrary/PropertySystem/PropertyStore.h"
-
 namespace DMK
 {
 	namespace GameLibrary
@@ -14,13 +12,8 @@ namespace DMK
 		/**
 		 * Game Component for the Dynamik Engine.
 		 * This object is the base class for all the main components of the game library.
-		 *
-		 * Properties are used to define certain chacracteristice of the component.
-		 * Some of the properties are user editable, meaning that the user is allowed to inherit the base class and
-		 * create it as their own to best fit them. But these require callback methods to initialize, update and terminate
-		 * them.
 		 */
-		class GameComponent : public PropertyStore {
+		class GameComponent {
 		public:
 			/**
 			 * Default constructor.

@@ -28,6 +28,8 @@ namespace DMK
 			 * Default destructor.
 			 */
 			virtual ~MeshHandle() {}
+
+			VertexBufferRef vertexBufferRef = {};	// Vertex buffer reference object.
 		};
 	}
 }
