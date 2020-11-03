@@ -1,5 +1,6 @@
 ![Dynamik Logo](https://github.com/DhirajWishal/Dynamik/blob/new-architecture/Dependencies/Assets/icons/Samples/DynamikL.png)
-Dynamik is a set of tools/ APIs which can be used to build a custom game engine. 
+
+Dynamik is a set of tools/ modules which can be used to build a custom game engine.
 
 ## Why Dynamik?
 Dynamik allows game developers to build a fully functional game engines, targeting multiple platforms, in as little time as possible. The Dynamik Studio (which is yet to be made) will automate certain key areas and help developers to build something which before would be impossible.
