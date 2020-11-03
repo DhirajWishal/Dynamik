@@ -3,19 +3,29 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{15A0C35D-0158-05AB-6A5F-DE065636A09B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "Core\Core.vcxproj", "{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "Core\Core\Core.vcxproj", "{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Graphics", "Graphics\Graphics.vcxproj", "{1653CE33-0220-293F-2B39-17E717655ECD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Graphics", "Core\Graphics\Graphics.vcxproj", "{1653CE33-0220-293F-2B39-17E717655ECD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsCore", "GraphicsCore\GraphicsCore.vcxproj", "{BF92744A-ABF5-03EF-547B-3CA540BDCF71}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsCore", "Core\GraphicsCore\GraphicsCore.vcxproj", "{BF92744A-ABF5-03EF-547B-3CA540BDCF71}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Inputs", "Inputs\Inputs.vcxproj", "{A88D2DBA-942F-5890-7DEA-6BE4692BDFE0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Inputs", "Core\Inputs\Inputs.vcxproj", "{A88D2DBA-942F-5890-7DEA-6BE4692BDFE0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VulkanBackend", "VulkanBackend\VulkanBackend.vcxproj", "{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VulkanBackend", "Core\VulkanBackend\VulkanBackend.vcxproj", "{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{8249BEE1-6EAC-4D86-1732-863C03741909}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameLibrary", "Engine\GameLibrary\GameLibrary.vcxproj", "{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1FCE6517-8B83-DE0C-1478-D8E3802CD510}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreTests", "Tests\CoreTests\CoreTests.vcxproj", "{21E66A18-8D50-1F8F-D68E-D0344238FDE3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demos", "Demos", "{E6E1FF70-52F8-FD06-9B6F-892807C5CE8E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BallBouncer", "Tests\Demos\BallBouncer\BallBouncer.vcxproj", "{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameLibraryTests", "Tests\GameLibraryTests\GameLibraryTests.vcxproj", "{0722F71C-F31A-166F-1C4D-FBF308A5F57A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicsTests", "Tests\GraphicsTests\GraphicsTests.vcxproj", "{0916359A-75D6-B0D0-3E11-FA4DAA90F5AC}"
 EndProject
@@ -126,6 +136,24 @@ Global
 		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Release|Unix.Build.0 = Release Unix|x64
 		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Release|Windows.ActiveCfg = Release Windows|x64
 		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5}.Release|Windows.Build.0 = Release Windows|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Debug|Mac.ActiveCfg = Debug Mac|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Debug|Mac.Build.0 = Debug Mac|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Debug|Unix.ActiveCfg = Debug Unix|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Debug|Unix.Build.0 = Debug Unix|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Debug|Windows.ActiveCfg = Debug Windows|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Debug|Windows.Build.0 = Debug Windows|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Distribution|Mac.ActiveCfg = Distribution Mac|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Distribution|Mac.Build.0 = Distribution Mac|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Distribution|Unix.ActiveCfg = Distribution Unix|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Distribution|Unix.Build.0 = Distribution Unix|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Distribution|Windows.ActiveCfg = Distribution Windows|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Distribution|Windows.Build.0 = Distribution Windows|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Release|Mac.ActiveCfg = Release Mac|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Release|Mac.Build.0 = Release Mac|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Release|Unix.ActiveCfg = Release Unix|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Release|Unix.Build.0 = Release Unix|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Release|Windows.ActiveCfg = Release Windows|x64
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E}.Release|Windows.Build.0 = Release Windows|x64
 		{21E66A18-8D50-1F8F-D68E-D0344238FDE3}.Debug|Mac.ActiveCfg = Debug Mac|x64
 		{21E66A18-8D50-1F8F-D68E-D0344238FDE3}.Debug|Mac.Build.0 = Debug Mac|x64
 		{21E66A18-8D50-1F8F-D68E-D0344238FDE3}.Debug|Unix.ActiveCfg = Debug Unix|x64
@@ -144,6 +172,42 @@ Global
 		{21E66A18-8D50-1F8F-D68E-D0344238FDE3}.Release|Unix.Build.0 = Release Unix|x64
 		{21E66A18-8D50-1F8F-D68E-D0344238FDE3}.Release|Windows.ActiveCfg = Release Windows|x64
 		{21E66A18-8D50-1F8F-D68E-D0344238FDE3}.Release|Windows.Build.0 = Release Windows|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Debug|Mac.ActiveCfg = Debug Mac|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Debug|Mac.Build.0 = Debug Mac|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Debug|Unix.ActiveCfg = Debug Unix|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Debug|Unix.Build.0 = Debug Unix|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Debug|Windows.ActiveCfg = Debug Windows|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Debug|Windows.Build.0 = Debug Windows|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Distribution|Mac.ActiveCfg = Distribution Mac|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Distribution|Mac.Build.0 = Distribution Mac|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Distribution|Unix.ActiveCfg = Distribution Unix|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Distribution|Unix.Build.0 = Distribution Unix|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Distribution|Windows.ActiveCfg = Distribution Windows|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Distribution|Windows.Build.0 = Distribution Windows|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Release|Mac.ActiveCfg = Release Mac|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Release|Mac.Build.0 = Release Mac|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Release|Unix.ActiveCfg = Release Unix|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Release|Unix.Build.0 = Release Unix|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Release|Windows.ActiveCfg = Release Windows|x64
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982}.Release|Windows.Build.0 = Release Windows|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Debug|Mac.ActiveCfg = Debug Mac|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Debug|Mac.Build.0 = Debug Mac|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Debug|Unix.ActiveCfg = Debug Unix|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Debug|Unix.Build.0 = Debug Unix|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Debug|Windows.ActiveCfg = Debug Windows|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Debug|Windows.Build.0 = Debug Windows|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Distribution|Mac.ActiveCfg = Distribution Mac|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Distribution|Mac.Build.0 = Distribution Mac|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Distribution|Unix.ActiveCfg = Distribution Unix|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Distribution|Unix.Build.0 = Distribution Unix|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Distribution|Windows.ActiveCfg = Distribution Windows|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Distribution|Windows.Build.0 = Distribution Windows|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Release|Mac.ActiveCfg = Release Mac|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Release|Mac.Build.0 = Release Mac|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Release|Unix.ActiveCfg = Release Unix|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Release|Unix.Build.0 = Release Unix|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Release|Windows.ActiveCfg = Release Windows|x64
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A}.Release|Windows.Build.0 = Release Windows|x64
 		{0916359A-75D6-B0D0-3E11-FA4DAA90F5AC}.Debug|Mac.ActiveCfg = Debug Mac|x64
 		{0916359A-75D6-B0D0-3E11-FA4DAA90F5AC}.Debug|Mac.Build.0 = Debug Mac|x64
 		{0916359A-75D6-B0D0-3E11-FA4DAA90F5AC}.Debug|Unix.ActiveCfg = Debug Unix|x64
@@ -208,7 +272,11 @@ Global
 		{BF92744A-ABF5-03EF-547B-3CA540BDCF71} = {15A0C35D-0158-05AB-6A5F-DE065636A09B}
 		{A88D2DBA-942F-5890-7DEA-6BE4692BDFE0} = {15A0C35D-0158-05AB-6A5F-DE065636A09B}
 		{7E8F1DD3-EA4F-9909-B38A-E2861F0ADEE5} = {15A0C35D-0158-05AB-6A5F-DE065636A09B}
+		{54687B15-C01D-F40A-4912-EEE1B5C6EA0E} = {8249BEE1-6EAC-4D86-1732-863C03741909}
 		{21E66A18-8D50-1F8F-D68E-D0344238FDE3} = {1FCE6517-8B83-DE0C-1478-D8E3802CD510}
+		{E6E1FF70-52F8-FD06-9B6F-892807C5CE8E} = {1FCE6517-8B83-DE0C-1478-D8E3802CD510}
+		{4E7A8A89-BA2F-037F-4324-FD55AFD8F982} = {E6E1FF70-52F8-FD06-9B6F-892807C5CE8E}
+		{0722F71C-F31A-166F-1C4D-FBF308A5F57A} = {1FCE6517-8B83-DE0C-1478-D8E3802CD510}
 		{0916359A-75D6-B0D0-3E11-FA4DAA90F5AC} = {1FCE6517-8B83-DE0C-1478-D8E3802CD510}
 		{E884140A-D43C-5657-3D44-2FB3291BF147} = {1FCE6517-8B83-DE0C-1478-D8E3802CD510}
 		{7153020B-5D37-C360-C697-BDB3B29AADE2} = {1FCE6517-8B83-DE0C-1478-D8E3802CD510}
