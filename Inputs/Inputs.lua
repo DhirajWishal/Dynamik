@@ -27,7 +27,7 @@ project "Inputs"
 	}
 
 	includedirs {
-		"$(SolutionDir)Core/",
+		"$(SolutionDir)",
 	}
 
 	libdirs {

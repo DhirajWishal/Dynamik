@@ -28,7 +28,7 @@ project "VulkanBackend"
 	}
 
 	includedirs {
-		"$(SolutionDir)Core/",
+		"$(SolutionDir)",
 		"%{IncludeDir.Vulkan}",
 		"%{IncludeDir.GLFW}",
 	}

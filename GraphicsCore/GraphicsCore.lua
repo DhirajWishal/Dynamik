@@ -27,7 +27,7 @@ project "GraphicsCore"
 	}
 
 	includedirs {
-		"$(SolutionDir)Core/",
+		"$(SolutionDir)",
 	}
 
 	libdirs {
