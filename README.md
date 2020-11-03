@@ -1,39 +1,43 @@
-![Dynamik Engine Logo](https://github.com/DhirajWishal/Dynamik/blob/master/Dependencies/Assets/icons/Samples/DynamikL.png)
-# 
-Dynamik Engine is a community driven, high performance, game engine currently at its early stages and 
-is primarily targeted on 3D FPS games.
-The engine is intended to support Windows, Linux and MacOS.
+![Dynamik Logo](https://github.com/DhirajWishal/Dynamik/blob/new-architecture/Dependencies/Assets/icons/Samples/DynamikL.png)
+Dynamik is a set of tools/ APIs which can be used to build a custom game engine. 
 
-#### The engine is currently at its very early stages and is not guaranteed to run on any other platforms and/or devices.
+## Why Dynamik?
+Dynamik allows game developers to build a fully functional game engines, targeting multiple platforms, in as little time as possible. The Dynamik Studio (which is yet to be made) will automate certain key areas and help developers to build something which before would be impossible.
 
-### Basic Repository Structure
-- Application: A test application to test client side programming.
-- Builds: An automatically created folder which contains all the build outputs.
-- Dependencies: This folder contains all the dependencies (Assets, Libraries, ...) used by the engine.
-  - Assets: Contains all the assets (icons, ...) the engine requires.
-  - Libraries: Contains all the third party libraries.
-    - Binaries: Binaries of some libraries.
-    - External: Git cloned repositories.
-    - Local: Locally stored copies of libraries.
-  - Programs: Local programs which are not specific to the engine, but are developed by the author.
-- Developer: This contains debug information generated from different applications.
-- Documentation: All the engine documentation is stored here.
-- Source: The source code of the engine is in this folder.
-  - Engine: Contains all the engine source and header files.
-  - Runtime: Contains all the runtime source and header files.
-  - Studio: Contains all the studio source and header files.
-- ThirdParty: Third party libraries which are built by the engine build system are stored here.
+## When to use Dynamik?
+As a quick note, if your goal is to build a game in a short period of time, with a very limited budget, we don't recommend using Dynamik. For that purpose we recommend using a well reputed game engine. 
+But if your product requires you to harness almost all the performance available, we definitely recommend using Dynamik. 
 
-### First Run:
-1. Double click (run/ execute) the GenProject.bat file.
-2. Open the Dynamik.sln file in Visual Studio.
-3. Select "Application" in the Solution Explorer as the StartUp Project if not selected by default.
-4. Run the Build and Run the solution. 
+## How to use Dynamik?
+Mainly there are two ways to use Dynamik,
+- As a framework.
+- Using the Dynamik Studio (currently unavailable).
 
-### Developer notice
-If anyone is interested to support this engine, please make sure to send me an email (wishaldhiraj@gmail.com)
-and you can be a contributor of this engine.
+### Dynamik as a Framework
+To use Dynamik as a Framework, clone the release branch to the working directory of your project.
+For this you need the GitHub Desktop application or the Git Bash application.
 
-## Community
-Join the Discord community to talk to me personally and to help build up a strong army and revolutionize the game-dev industry! XD <br />
-Link: [Dynamik Engine](https://discord.gg/Tw5pQns)
+#### GitHub Desktop
+File -> Clone repository -> Enter the URL and enter the path to clone the repository to -> Clone.
+
+#### Git Bash
+```bash
+git clone https://github.com/DhirajWishal/Dynamik Dynamik
+```
+
+After cloning the repository, set the include file path of your project to the root path/ solution path of Dynamik. After building the repository or by downloading the binaries, place the include library path to `Builds/<Configuration>/`.  We **highly recommend** you including only the files and libraries that are used by your application.
+
+## Build
+Note: To build or use Dynamik, you are required to have Visual Studio installed with the C++ development modules pre installed. We highly recommend using [Visual Studio 2019](https://visualstudio.microsoft.com/vs/).
+
+After cloning the repository to a local directory, run the `GenerateProjects.bat` file. This creates the required `.sln` and `.vcxproj` files. Then open the `Dynamik.sln` file in Visual Studio.
+
+There are 3 project configurations that can be used,
+- Debug.
+- Release.
+- Distribution.
+
+We recommend building Dynamik in the `Release` configuration. The output binaries are stored in `Builds/<Configuration>/<Module name>/` directory.
+
+##  Community 
+ Join the [Discord](https://discord.gg/Tw5pQns) community to talk to me personally and to help:

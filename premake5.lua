@@ -79,13 +79,14 @@ IncludeLib["glslang"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/glslang/
 IncludeLib["FreeImageD"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/FreeImage/Debug"
 IncludeLib["FreeImageR"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/FreeImage/Release"
 
-include "Core/CoreIncludes.lua"
---include "Tools/ToolsIncludes.lua"
-include "Tests/TestIncludes.lua"
-include "Engine/EngineIncludes.lua"
+group "Core"
+include "Core/Core.lua"
+include "Graphics/Graphics.lua"
+include "GraphicsCore/GraphicsCore.lua"
+include "Inputs/Inputs.lua"
+include "VulkanBackend/VulkanBackend.lua"
 
-group "Studio"
---include "Studio/Application/Application.lua"
+include "Tests/TestIncludes.lua"
 
 group "Third Party"
 --include "Dependencies/ThirdParty/imgui/imgui.lua"
