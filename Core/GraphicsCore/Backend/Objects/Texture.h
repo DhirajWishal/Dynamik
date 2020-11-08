@@ -83,7 +83,7 @@ namespace DMK
 		};
 
 		/**
-		 * Base class for all the supported texture objects in Dynamik.
+		 * Base class for all the supported texture objects in DMK.
 		 */
 		class Texture : public GObject {
 		public:

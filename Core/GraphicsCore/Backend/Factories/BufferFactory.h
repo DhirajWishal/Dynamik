@@ -14,7 +14,7 @@ namespace DMK
 	namespace GraphicsCore
 	{
 		/**
-		 * Buffer Factory for the Dynamik Engine.
+		 * Buffer Factory for Dynamik.
 		 * This object is the base class for all the buffer factories implemented by the different backend APIs.
 		 */
 		class BufferFactory : public GObject {

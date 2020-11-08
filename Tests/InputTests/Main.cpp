@@ -13,10 +13,10 @@ public:
 
 	}
 
-	virtual void DMK::Inputs::MouseInputSupplier::OnInitializeSupplier() override final
-	{
-
-	}
+	//virtual void DMK::Inputs::MouseInputSupplier::OnInitializeSupplier() override final
+	//{
+	//
+	//}
 };
 
 int main()

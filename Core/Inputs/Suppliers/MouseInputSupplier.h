@@ -106,7 +106,7 @@ namespace DMK
 			/**
 			 * Default constructor.
 			 */
-			MouseInputSupplier() : InputSupplier(TEXT("MouseInputSupplier")) {}
+			MouseInputSupplier() : InputSupplier("MouseInputSupplier") {}
 
 			/**
 			 * Default destructor.

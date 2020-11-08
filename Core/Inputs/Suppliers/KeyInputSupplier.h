@@ -37,7 +37,7 @@ namespace DMK
 			/**
 			 * Construct the key using its name.
 			 */
-			Key(const Char* pName) : pName(pName) {}
+			Key(const char* pName) : pName(pName) {}
 
 			/**
 			 * Set the scan code of the key.
@@ -83,7 +83,7 @@ namespace DMK
 			bool IsOnRepeat() const { return eInputType == KeyInputType::KEY_INPUT_Type_REPEAT; }
 
 		public:
-			const Char* pName = TEXT("");	// Name of the key. 
+			const char* pName = "";	// Name of the key. 
 			KeyInputType eInputType = KeyInputType::KEY_INPUT_Type_RELEASE;	// Input type/ activation.
 			UI32 scanCode = 0;	// The scancode of the key.
 		};
@@ -99,7 +99,7 @@ namespace DMK
 			/**
 			 * Default constructor.
 			 */
-			KeyInputSupplier() : InputSupplier(TEXT("KeyInputSupplier")) {}
+			KeyInputSupplier() : InputSupplier("KeyInputSupplier") {}
 
 			/**
 			 * Default destructor.

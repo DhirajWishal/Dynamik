@@ -15,7 +15,7 @@ namespace DMK
 		/**
 		 * Vertex Attributes structure containing information about a single vertex attribute.
 		 *
-		 * Dynamik uses the DMK::Format enum to define the data format of the attribute.
+		 * DMK uses the DMK::Format enum to define the data format of the attribute.
 		 */
 		struct VertexAttribute {
 			/**
@@ -66,12 +66,12 @@ namespace DMK
 			 */
 			Format GetFormat() const { return format; }
 
-			DataType type = DataType::DATA_TYPE_UNDEFINED;	// The data type of the attribute. 
+			DataType type = DataType::DATA_TYPE_UNDEFINED;	// The data type of the attribute.
 			Format format = Format::FORMAT_UNDEFINED;	// The data format of the attribute.
 		};
 
 		/**
-		 * Vertex structure for the Dynamik Engine.
+		 * Vertex structure for Dynamik.
 		 * This structure contains information about a single vertex.
 		 */
 		struct Vertex {
@@ -160,7 +160,7 @@ namespace DMK
 		};
 
 		/**
-		 * Vertex Buffer base class for the Dynamik Engine.
+		 * Vertex Buffer base class for Dynamik.
 		 * This object is used to store vertex information.
 		 */
 		class VertexBuffer : public Buffer {
@@ -201,7 +201,7 @@ namespace DMK
 		};
 
 		/**
-		 * Vertex Buffer Reference for the Dynamik Engine.
+		 * Vertex Buffer Reference for Dynamik.
 		 * Since the engine stores vertex buffers in multiple large vertex buffers, sorted by the size of the
 		 * vertex. Because of this, almost all the vertexes are stored in one large vertex buffer.
 		 * Because of this, we maintain an object named the Vertex Buffer Reference to store the following information,

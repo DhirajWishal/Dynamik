@@ -1,7 +1,7 @@
 // Copyright 2020 Dhiraj Wishal
 // SPDX-License-Identifier: Apache-2.0
 
-#include "VulkanBackend/Common/VulkanDevice.h"
+#include "VulkanBackend/VulkanBackendInstance.h"
 using namespace DMK::GraphicsCore;
 using namespace DMK::GraphicsCore::VulkanBackend;
 
@@ -36,17 +36,26 @@ using namespace DMK::GraphicsCore::VulkanBackend;
 
 int main()
 {
-	VulkanDevice vDevice;
+	VulkanBackendInstance vBackendInstance = {};
+	vBackendInstance.Initialize(BackendInitInfo());
 
 	DeviceInitInfo initInfo = {};
 	initInfo.enableRayTracing = false;
-	vDevice.Initialize(initInfo);
+	auto pDevice = vBackendInstance.CreateDeviceObject(initInfo)->Inherit<VulkanDevice>();
+	auto pDevice2 = vBackendInstance.CreateDeviceObject(initInfo);
 
-	while (true)
+	int count = 1000;
+	while (count--)
 	{
-		vDevice.BeginFrame();
-		vDevice.EndFrame();
+		pDevice->BeginFrame();
+		pDevice->EndFrame();
+
+		pDevice2->BeginFrame();
+		pDevice2->EndFrame();
 	}
 
-	vDevice.Terminate();
+	vBackendInstance.DestroyDevice(pDevice);
+	vBackendInstance.DestroyDevice(pDevice2);
+
+	vBackendInstance.Terminate();
 }

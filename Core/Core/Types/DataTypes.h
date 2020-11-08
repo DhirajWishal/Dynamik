@@ -29,17 +29,9 @@ typedef short I16;					// 16 bit integer
 typedef int I32;					// 32 bit integer
 typedef long long I64;				// 64 bit integer
 
-#ifdef DMK_USE_WIDE_CHAR
 #define TEXT(text)  L##text
-typedef std::wstring String;
-typedef wchar_t Char;				// wide char (UTF-8)
-
-#else
-#define TEXT(text)  text
 typedef std::string String;
-typedef char Char;					// char (ASCII)
-
-#endif // DMK_USE_WIDE_Char
+typedef std::wstring WString;
 
 typedef UI8 BYTE;					// byte of data
 typedef BYTE* BPTR;					// byte pointer

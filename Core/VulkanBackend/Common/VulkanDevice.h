@@ -20,6 +20,8 @@ namespace DMK
 	{
 		namespace VulkanBackend
 		{
+			class VulkanBackendInstance;
+
 			/**
 			 * Vulkan Queue obect.
 			 * Vulkan uses queues to perform tasks.
@@ -93,9 +95,9 @@ namespace DMK
 				 */
 				DMK_FORCEINLINE VkQueue GetTransferQueue() const { return vTransferQueue; }
 
-				std::optional<UI32> graphicsFamily;     // Graphics Family 
-				std::optional<UI32> computeFamily;  // Compute Family 
-				std::optional<UI32> transferFamily;     // Transfer Family 
+				std::optional<UI32> graphicsFamily;     // Graphics Family
+				std::optional<UI32> computeFamily;  // Compute Family
+				std::optional<UI32> transferFamily;     // Transfer Family
 
 				VkQueue vGraphicsQueue = VK_NULL_HANDLE;	// Graphics queue handle.
 				VkQueue vComputeQueue = VK_NULL_HANDLE;		// Compute queue handle.
@@ -112,7 +114,7 @@ namespace DMK
 			};
 
 			/**
-			 * Vulkan Device for the Dynamik Engine.
+			 * Vulkan Device for Dynamik.
 			 *
 			 * This uses GLFW to create and manage the window and inputs.
 			 */
@@ -154,20 +156,6 @@ namespace DMK
 
 			public:
 				/**
-				 * Get the Vulkan Instance.
-				 *
-				 * @return: VkInstance handle.
-				 */
-				DMK_FORCEINLINE VkInstance GetInstance() const { return vInstance; }
-
-				/**
-				 * Get the Vulkan Debug Messenger.
-				 *
-				 * @return: VkDebugUtilsMessengerEXT handle.
-				 */
-				DMK_FORCEINLINE VkDebugUtilsMessengerEXT GetDebugMessenger() const { return vDebugMessenger; }
-
-				/**
 				 * Get the GLFW window handle.
 				 *
 				 * @return: GLFWwindow pointer.
@@ -203,26 +191,6 @@ namespace DMK
 				DMK_FORCEINLINE VulkanQueue GetQueue() const { return vQueue; }
 
 			private:
-				/**
-				 * Initialize the Vulkan Instance.
-				 */
-				void InitializeInstance();
-
-				/**
-				 * Terminate the Vulkan Instance.
-				 */
-				void TerminateInstance();
-
-				/**
-				 * Initialize the Vulkan Debugger.
-				 */
-				void InitializeDebugger();
-
-				/**
-				 * Terminate the Vulkan Debugger.
-				 */
-				void TerminateDebugger();
-
 				/**
 				 * Initialize the display object.
 				 */
@@ -308,12 +276,8 @@ namespace DMK
 			private:
 				VulkanQueue vQueue = {};	// Vulkan queue object.
 
-				std::vector<const char*> validationLayers;	// Validation layers.
 				std::vector<const char*> instanceExtensions;	// Instance extensions.
 				std::vector<const char*> deviceExtensions;	// Device extensions.
-
-				VkInstance vInstance = VK_NULL_HANDLE;	// Vulkan instance handle.
-				VkDebugUtilsMessengerEXT vDebugMessenger = VK_NULL_HANDLE;	// Vulkan debug messenger handle.
 
 				GLFWwindow* pWindowHandle = nullptr;	// The GLFW window pointer.
 				VkSurfaceKHR vSurface = VK_NULL_HANDLE;	// The display surface.

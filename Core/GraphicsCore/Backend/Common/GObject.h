@@ -10,7 +10,7 @@ namespace DMK
 	namespace GraphicsCore
 	{
 		/**
-		 * Graphics Object for the Dynamik Engine.
+		 * Graphics Object for Dynamik.
 		 * This object is the base object for all the graphics objects used in the engine.
 		 */
 		class GObject {

@@ -12,7 +12,7 @@ namespace DMK
 	namespace GraphicsCore
 	{
 		/**
-		 * Texture Sampler for the Dynamik Engine.
+		 * Texture Sampler for Dynamik.
 		 * This object is used to render a texture.
 		 */
 		class TextureSampler : public GObject {

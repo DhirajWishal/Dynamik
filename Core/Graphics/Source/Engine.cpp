@@ -7,7 +7,7 @@
 
 namespace DMK
 {
-	namespace Graphics
+	namespace GraphicsCore
 	{
 		void Engine::Initialize(const GraphicsEngineCreateInfo& initInfo)
 		{

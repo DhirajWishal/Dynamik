@@ -17,7 +17,7 @@ public:
 		DMK::Logger::LogDebug(TEXT("Ball despawned!"));
 	}
 
-	void callHello() { DMK::Logger::LogDebug("Hello!!"); }
+	void callHello() { DMK::Logger::LogDebug(TEXT("Hello!!")); }
 };
 
 class TestModule : public DMK::GameLibrary::GameModule {

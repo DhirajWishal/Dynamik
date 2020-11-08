@@ -5,21 +5,25 @@
 #ifndef _DYNAMIK_GRAPHICS_CORE_DEVICE_H
 #define _DYNAMIK_GRAPHICS_CORE_DEVICE_H
 
-#include "GObject.h"
+#include "RenderTarget.h"
 #include "Defines.h"
 #include "Core/Types/DataTypes.h"
+
+#include "ShaderModule.h"
 
 namespace DMK
 {
 	namespace GraphicsCore
 	{
+		class BackendInstance;
+
 		/**
 		 * Device Init Info structure.
 		 * This structure contains information required to initialize the device.
 		 */
 		struct DeviceInitInfo {
-			const Char* pTitle = TEXT("Dynamik Engine");	// The title of the display/ window.
-			const Char* pIconFile = nullptr;	// The icon file path.
+			const char* pTitle = "Engine Dev Kit";	// The title of the display/ window.
+			const char* pIconFile = nullptr;	// The icon file path.
 
 			UI32 windowWidth = 1280;	// The width of the window.
 			UI32 windowHeight = 720;	// The height of the window.
@@ -97,7 +101,7 @@ namespace DMK
 		};
 
 		/**
-		 * Graphics Device for the Dynamik Engine.
+		 * Graphics Device for Dynamik.
 		 * This object stores information about the graphics device which the graphics and compute engines use.
 		 *
 		 * This object also contains the display object which is used to render data to.
@@ -132,6 +136,20 @@ namespace DMK
 			 * Terminate the device.
 			 */
 			virtual void Terminate() {}
+
+			/**
+			 * Set the parent instance which created the device.
+			 *
+			 * @param pParentInstance: The parent instance pointer.
+			 */
+			DMK_FORCEINLINE void SetParentInstance(BackendInstance* pParentInstance) { this->pBackendInstance = pParentInstance; }
+
+			/**
+			 * Get the parent instance pointer.
+			 *
+			 * @return: The pointer to the parent instance.
+			 */
+			DMK_FORCEINLINE BackendInstance* GetParentInstance() const { return this->pBackendInstance; }
 
 			/**
 			 * Get the anti aliasing samples supported by the device.
@@ -175,7 +193,34 @@ namespace DMK
 			 */
 			virtual void EndFrame() {}
 
+		public:
+			/**
+			 * Create a render target to render object to.
+			 *
+			 * @return: The pointer to the created render target.
+			 */
+			virtual RenderTarget* CreateRenderTarget() { return nullptr; }
+
+			/**
+			 * Destroy a created render target object.
+			 *
+			 * @param pRenderTarget: The created render target pointer.
+			 */
+			virtual void DestroyRenderTarget(RenderTarget* pRenderTarget) {}
+
+		public:
+			/**
+			 * Create a new shader module object.
+			 *
+			 * @param pAsset: The shader asset path.
+			 * @param location: The location of the shader in the graphics pipeline.
+			 * @return: The newly created shader module.
+			 */
+			ShaderModule CreateShaderModule(const wchar_t* pAsset, ShaderLocation location);
+
 		protected:
+			BackendInstance* pBackendInstance = nullptr;	// The backend object pointer which created the device.
+
 			DeviceInitInfo initInfo = {};	// Initialize information of the device.
 			I8 frameIndex = 0;	// The current frame index.
 		};

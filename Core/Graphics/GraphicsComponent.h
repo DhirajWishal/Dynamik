@@ -9,7 +9,7 @@
 
 namespace DMK
 {
-	namespace Graphics
+	namespace GraphicsCore
 	{
 		/**
 		 * Graphics Component object for the Dynamik Engine.
@@ -36,7 +36,7 @@ namespace DMK
 			 * @param indexSize: The size of the index in bytes.
 			 * @return: The pointer to the created mesh handle.
 			 */
-			MeshHandle* LoadMeshFromFile(const Char* pAsset, Vertex vertex, UI8 indexSize);
+			MeshHandle* LoadMeshFromFile(const char* pAsset, Vertex vertex, UI8 indexSize);
 		};
 	}
 }

@@ -23,7 +23,7 @@ namespace DMK
 			 *
 			 * @param sName: The name of the supplier.
 			 */
-			InputSupplier(const Char* sName) : pSupplierName(sName) {}
+			InputSupplier(const char* sName) : pSupplierName(sName) {}
 
 			/**
 			 * Default destructor.
@@ -33,9 +33,9 @@ namespace DMK
 			/**
 			 * Get the supplier name.
 			 *
-			 * @return: const Char pointer of the name.
+			 * @return: const char pointer of the name.
 			 */
-			const Char* GetName() const { return pSupplierName; }
+			const char* GetName() const { return pSupplierName; }
 
 			/**
 			 * On Initialize method which is used to initialize the supplier. This is called as soon as the supplier
@@ -57,7 +57,7 @@ namespace DMK
 			/**
 			 * Suppliers contains a unique name which is used to identify them.
 			 */
-			const Char* pSupplierName = TEXT("");
+			const char* pSupplierName = "";
 		};
 	}
 }

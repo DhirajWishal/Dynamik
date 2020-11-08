@@ -12,7 +12,7 @@ namespace DMK
 	namespace GraphicsCore
 	{
 		/**
-		 * Stagging Buffer for the Dynamik Engine.
+		 * Stagging Buffer for Dynamik.
 		 * This buffer is used much like one-time and is used to transfer data from one to another. Mostly used when
 		 * trasfering texture data from the local image to the GPU address space.
 		 */

@@ -19,7 +19,7 @@ namespace DMK
 		};
 
 		/**
-		 * Uniform Buffer for the Dynamik Engine.
+		 * Uniform Buffer for Dynamik.
 		 * This object is used to submit uniform data to the shaders.
 		 */
 		class UniformBuffer : public Buffer {
@@ -57,7 +57,7 @@ namespace DMK
 
 			/**
 			 * Get the uniform buffer type.
-			 * 
+			 *
 			 * @return: DMK::GraphcisCore::UniformType enum.
 			 */
 			UniformType GetType() const { return type; }

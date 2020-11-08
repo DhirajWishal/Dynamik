@@ -12,7 +12,7 @@ namespace DMK
 	namespace GraphicsCore
 	{
 		/**
-		 * Texture Factory for the Dynamik Engine.
+		 * Texture Factory for Dynamik.
 		 */
 		class TextureFactory : public GObject {
 		public:

@@ -11,7 +11,7 @@
 
 namespace DMK
 {
-	namespace Graphics
+	namespace GraphicsCore
 	{
 		using namespace GraphicsCore;
 

@@ -12,7 +12,7 @@ namespace DMK
 	namespace GraphicsCore
 	{
 		/**
-		 * Index Buffer object for the Dynamik Engine.
+		 * Index Buffer object for Dynamik.
 		 * This buffer is used to store index data.
 		 */
 		class IndexBuffer : public Buffer {

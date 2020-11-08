@@ -13,7 +13,7 @@ namespace DMK
 	namespace GraphicsCore
 	{
 		/**
-		 * Graphics Buffer object for the Dynamik Engine.
+		 * Graphics Buffer object for Dynamik.
 		 * This object is the base class for all the graphics and compute buffers.
 		 */
 		class Buffer : public GObject {

@@ -23,7 +23,7 @@ project "InputTests"
 	}
 
 	links {
-		"Input"
+		"Inputs"
 	}
 
 	filter "system:windows"
