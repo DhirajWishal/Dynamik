@@ -34,7 +34,7 @@ namespace DMK
 			 * @param pAsset: The asset path.
 			 * @param vertex: The vertex description.
 			 * @param indexSize: The size of the index in bytes.
-			 * @return: The pointer to the created mesh handle.
+			 * @return The pointer to the created mesh handle.
 			 */
 			MeshHandle* LoadMeshFromFile(const char* pAsset, Vertex vertex, UI8 indexSize);
 		};

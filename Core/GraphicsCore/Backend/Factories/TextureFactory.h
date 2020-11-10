@@ -31,7 +31,7 @@ namespace DMK
 			 *
 			 * @param extent: The extent of the texture.
 			 * @param format: The texture data format.
-			 * @return: Created texture object pointer.
+			 * @return Created texture object pointer.
 			 */
 			virtual Texture* CreateRawTexture(TextureExtent extent, Format format) { return nullptr; }
 

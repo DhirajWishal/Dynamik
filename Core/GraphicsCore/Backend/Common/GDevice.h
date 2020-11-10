@@ -59,7 +59,7 @@ namespace DMK
 			/**
 			 * Get the device of the view port.
 			 *
-			 * @return: GDevice class pointer.
+			 * @return GDevice class pointer.
 			 */
 			DMK_FORCEINLINE class GDevice* GetDevice() const { this->pDevice; }
 
@@ -75,7 +75,7 @@ namespace DMK
 			/**
 			 * Get the offsets of the view port.
 			 *
-			 * @return: std::pair<float, float> containing the xOffset and yOffset.
+			 * @return std::pair<float, float> containing the xOffset and yOffset.
 			 */
 			DMK_FORCEINLINE std::pair<float, float> GetOffsets() const { return { xOffset, yOffset }; }
 
@@ -90,7 +90,7 @@ namespace DMK
 			/**
 			 * Get the width and height of the view port.
 			 *
-			 * @return: std::pair<UI32, UI32> containing the width and height.
+			 * @return std::pair<UI32, UI32> containing the width and height.
 			 */
 			DMK_FORCEINLINE std::pair<UI32, UI32> GetSize() { return { width, height }; }
 
@@ -128,7 +128,7 @@ namespace DMK
 			/**
 			 * Get the init info of the device.
 			 *
-			 * @return: DeviceInitInfo structure.
+			 * @return DeviceInitInfo structure.
 			 */
 			DMK_FORCEINLINE DeviceInitInfo GetInitInfo() const { return initInfo; }
 
@@ -147,21 +147,21 @@ namespace DMK
 			/**
 			 * Get the parent instance pointer.
 			 *
-			 * @return: The pointer to the parent instance.
+			 * @return The pointer to the parent instance.
 			 */
 			DMK_FORCEINLINE BackendInstance* GetParentInstance() const { return this->pBackendInstance; }
 
 			/**
 			 * Get the anti aliasing samples supported by the device.
 			 *
-			 * @return: DMK::GraphicsCore::AntiAliasingSamples enum.
+			 * @return DMK::GraphicsCore::AntiAliasingSamples enum.
 			 */
 			virtual AntiAliasingSamples GetMSAASamples() { return AntiAliasingSamples::ANTI_ALIASING_SAMPLES_1_BIT; }
 
 			/**
 			 * Get the display extent.
 			 *
-			 * @return: std::pair<UI32, UI32> object containing the extent.
+			 * @return std::pair<UI32, UI32> object containing the extent.
 			 */
 			DMK_FORCEINLINE std::pair<UI32, UI32> GetDisplayExtent() const { return { GetInitInfo().windowWidth, GetInitInfo().windowHeight }; }
 
@@ -184,7 +184,7 @@ namespace DMK
 			/**
 			 * Begin a new frame.
 			 *
-			 * @return: 8 bit integer representing the frame index. Returns -1 if an error has occured.
+			 * @return 8 bit integer representing the frame index. Returns -1 if an error has occured.
 			 */
 			virtual I8 BeginFrame() { return 0; }
 
@@ -197,7 +197,7 @@ namespace DMK
 			/**
 			 * Create a render target to render object to.
 			 *
-			 * @return: The pointer to the created render target.
+			 * @return The pointer to the created render target.
 			 */
 			virtual RenderTarget* CreateRenderTarget() { return nullptr; }
 
@@ -214,7 +214,7 @@ namespace DMK
 			 *
 			 * @param pAsset: The shader asset path.
 			 * @param location: The location of the shader in the graphics pipeline.
-			 * @return: The newly created shader module.
+			 * @return The newly created shader module.
 			 */
 			ShaderModule CreateShaderModule(const wchar_t* pAsset, ShaderLocation location);
 

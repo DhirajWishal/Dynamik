@@ -26,7 +26,7 @@ namespace DMK
 				 *
 				 * @param vPhysicalDevice: The physical device to be checked for.
 				 * @param vSurface: The surface to be checked with.
-				 * @return: VulkanSwapChainSupportDetails structure.
+				 * @return VulkanSwapChainSupportDetails structure.
 				 */
 				VulkanSwapChainSupportDetails QuerySwapChainSupportDetails(VkPhysicalDevice vPhysicalDevice, VkSurfaceKHR vSurface)
 				{
@@ -371,7 +371,7 @@ namespace DMK
 			 *
 			 * @param vPhysicalDevice: The physical device to be checked for.
 			 * @param deviceExtensions: The device extensions to be checked with.
-			 * @return: Boolean value.
+			 * @return Boolean value.
 			 */
 			bool CheckDeviceExtensionSupport(VkPhysicalDevice vPhysicalDevice, std::vector<const char*> deviceExtensions = { VK_KHR_SWAPCHAIN_EXTENSION_NAME })
 			{

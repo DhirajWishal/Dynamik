@@ -49,49 +49,49 @@ namespace DMK
 				/**
 				 * Check if the queues are completed.
 				 *
-				 * @return: Boolean value.
+				 * @return Boolean value.
 				 */
 				bool IsComplete();
 
 				/**
 				 * Get the graphics family queue.
 				 *
-				 * @return: std::optional<UI32> object.
+				 * @return std::optional<UI32> object.
 				 */
 				DMK_FORCEINLINE std::optional<UI32> GetGraphicsFamily() const { return graphicsFamily; }
 
 				/**
 				 * Get the compute family queue.
 				 *
-				 * @return: std::optional<UI32> object.
+				 * @return std::optional<UI32> object.
 				 */
 				DMK_FORCEINLINE std::optional<UI32> GetComputeFamily() const { return computeFamily; }
 
 				/**
 				 * Get the transfer family queue.
 				 *
-				 * @return: std::optional<UI32> object.
+				 * @return std::optional<UI32> object.
 				 */
 				DMK_FORCEINLINE std::optional<UI32> GetTransferFamily() const { return transferFamily; }
 
 				/**
 				 * Get the graphcis queue.
 				 *
-				 * @return: VkQueue handle.
+				 * @return VkQueue handle.
 				 */
 				DMK_FORCEINLINE VkQueue GetGraphicsQueue() const { return vGraphicsQueue; }
 
 				/**
 				 * Get the compute queue.
 				 *
-				 * @return: VkQueue handle.
+				 * @return VkQueue handle.
 				 */
 				DMK_FORCEINLINE VkQueue GetComputeQueue() const { return vComputeQueue; }
 
 				/**
 				 * Get the transfer queue.
 				 *
-				 * @return: VkQueue handle.
+				 * @return VkQueue handle.
 				 */
 				DMK_FORCEINLINE VkQueue GetTransferQueue() const { return vTransferQueue; }
 
@@ -145,7 +145,7 @@ namespace DMK
 				/**
 				 * Begin a new frame.
 				 *
-				 * @return: 8 bit integer representing the frame index. Returns -1 if an error has occured.
+				 * @return 8 bit integer representing the frame index. Returns -1 if an error has occured.
 				 */
 				virtual I8 BeginFrame() override final;
 
@@ -158,35 +158,35 @@ namespace DMK
 				/**
 				 * Get the GLFW window handle.
 				 *
-				 * @return: GLFWwindow pointer.
+				 * @return GLFWwindow pointer.
 				 */
 				DMK_FORCEINLINE GLFWwindow* GetWindowHandle() const { return pWindowHandle; }
 
 				/**
 				 * Get the Vulkan surface.
 				 *
-				 * @return: VkSurfaceKHR handle.
+				 * @return VkSurfaceKHR handle.
 				 */
 				DMK_FORCEINLINE VkSurfaceKHR GetSurface() const { return vSurface; }
 
 				/**
 				 * Get the Vulkan physical device.
 				 *
-				 * @return: VkPhysicalDevice handle.
+				 * @return VkPhysicalDevice handle.
 				 */
 				DMK_FORCEINLINE VkPhysicalDevice GetPhysicalDevice() const { return vPhysicalDevice; }
 
 				/**
 				 * Get Vulkan logical device.
 				 *
-				 * @return: VkDevice handle.
+				 * @return VkDevice handle.
 				 */
 				DMK_FORCEINLINE VkDevice GetLogicalDevice() const { return vLogicalDevice; }
 
 				/**
 				 * Get the Vulkan Queues.
 				 *
-				 * @return: VulkanQueue object.
+				 * @return VulkanQueue object.
 				 */
 				DMK_FORCEINLINE VulkanQueue GetQueue() const { return vQueue; }
 
@@ -235,28 +235,28 @@ namespace DMK
 				/**
 				 * Get the physical device properties.
 				 *
-				 * @return: VkPhysicalDeviceProperties structure.
+				 * @return VkPhysicalDeviceProperties structure.
 				 */
 				DMK_FORCEINLINE VkPhysicalDeviceProperties GetPhysicalDeviceProperties() const { return vPhysicalDeviceProperties; }
 
 				/**
 				 * Get the physical device ray tracing properties.
 				 *
-				 * @return: VkPhysicalDeviceRayTracingPropertiesKHR structure.
+				 * @return VkPhysicalDeviceRayTracingPropertiesKHR structure.
 				 */
 				DMK_FORCEINLINE VkPhysicalDeviceRayTracingPropertiesKHR GetPhysicalDeviceRayTracingProperties() const { return vPhysicalDeviceRayTracingProperties; }
 
 				/**
 				 * Get the physical device ray tracing properties.
 				 *
-				 * @return: VkPhysicalDeviceRayTracingFeaturesKHR structure.
+				 * @return VkPhysicalDeviceRayTracingFeaturesKHR structure.
 				 */
 				DMK_FORCEINLINE VkPhysicalDeviceRayTracingFeaturesKHR GetPhysicalDeviceRayTracingFeatures() const { return vPhysicalDeviceRayTracingFeatures; }
 
 				/**
 				 * Query swap chain support details for this device.
 				 *
-				 * @return: VulkanSwapChainSupportDetails structure.
+				 * @return VulkanSwapChainSupportDetails structure.
 				 */
 				VulkanSwapChainSupportDetails QuerySwapChainSupportDetails();
 
@@ -269,7 +269,7 @@ namespace DMK
 				 * Check if a physical device is suitable to use.
 				 *
 				 * @param vDevice: The physical device to be checked.
-				 * @return: Boolean value.
+				 * @return Boolean value.
 				 */
 				bool IsPhysicalDeviceSuitable(VkPhysicalDevice vDevice);
 

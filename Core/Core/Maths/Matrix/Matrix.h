@@ -30,14 +30,14 @@ namespace DMK
 		/**
 		 * Dereference operator to return the primitive type data.
 		 *
-		 * @return: The matrix.
+		 * @return The matrix.
 		 */
 		inline Type& operator()() { return *static_cast<Type*>(this); }
 
 		/**
 		 * Dereference operator to return the primitive type data.
 		 *
-		 * @return: The const matrix.
+		 * @return The const matrix.
 		 */
 		inline const Type& operator()() const { return *static_cast<const Type*>(this); }
 
@@ -45,7 +45,7 @@ namespace DMK
 		 * Increment operator.
 		 *
 		 * @param rhs: The other matrix.
-		 * @return: The incremented matrix.
+		 * @return The incremented matrix.
 		 */
 		inline Type& operator+=(const Type& rhs)
 		{
@@ -57,7 +57,7 @@ namespace DMK
 		 * Increment operator.
 		 *
 		 * @param rhs: The other primitive matrix data.
-		 * @return: The incremented matrix.
+		 * @return The incremented matrix.
 		 */
 		inline Type& operator+=(const value_type& rhs)
 		{
@@ -69,7 +69,7 @@ namespace DMK
 		 * Increment operator (by one).
 		 *
 		 * @param :
-		 * @return: The incremented matrix.
+		 * @return The incremented matrix.
 		 */
 		inline Type operator++(int)
 		{
@@ -82,7 +82,7 @@ namespace DMK
 		 * Increment operator (by one).
 		 *
 		 * @param :
-		 * @return: The incremented matrix.
+		 * @return The incremented matrix.
 		 */
 		inline Type& operator++()
 		{
@@ -94,7 +94,7 @@ namespace DMK
 		 * The decrement operator.
 		 *
 		 * @param rhs: The other matrix to be decremented by.
-		 * @return: The decremented matrix.
+		 * @return The decremented matrix.
 		 */
 		inline Type& operator-=(const Type& rhs)
 		{
@@ -106,7 +106,7 @@ namespace DMK
 		 * The decrement operator.
 		 *
 		 * @param rhs: The other matrix to be decremented by.
-		 * @return: The decremented matrix.
+		 * @return The decremented matrix.
 		 */
 		inline Type& operator-=(const value_type& rhs)
 		{
@@ -118,7 +118,7 @@ namespace DMK
 		 * Decrement operator (by one).
 		 *
 		 * @param :
-		 * @return: The decremented matrix.
+		 * @return The decremented matrix.
 		 */
 		inline Type operator--(int)
 		{
@@ -131,7 +131,7 @@ namespace DMK
 		 * Decrement operator (by one).
 		 *
 		 * @param :
-		 * @return: The decremented matrix.
+		 * @return The decremented matrix.
 		 */
 		inline Type& operator--()
 		{
@@ -143,7 +143,7 @@ namespace DMK
 		 * The multiplication operator.
 		 *
 		 * @param rhs: The other matrix to be decremented by.
-		 * @return: The decremented matrix.
+		 * @return The decremented matrix.
 		 */
 		inline Type& operator*=(const Type& rhs)
 		{
@@ -155,7 +155,7 @@ namespace DMK
 		 * The multiplication operator.
 		 *
 		 * @param rhs: The other matrix to be decremented by.
-		 * @return: The decremented matrix.
+		 * @return The decremented matrix.
 		 */
 		inline Type& operator*=(const value_type& rhs)
 		{
@@ -167,7 +167,7 @@ namespace DMK
 		 * The division operator.
 		 *
 		 * @param rhs: The other matrix to be decremented by.
-		 * @return: The decremented matrix.
+		 * @return The decremented matrix.
 		 */
 		inline Type& operator/=(const Type& rhs)
 		{
@@ -179,7 +179,7 @@ namespace DMK
 		 * The division operator.
 		 *
 		 * @param rhs: The other matrix to be decremented by.
-		 * @return: The decremented matrix.
+		 * @return The decremented matrix.
 		 */
 		inline Type& operator/=(const value_type& rhs)
 		{
@@ -208,7 +208,7 @@ namespace DMK
 		 * Return this matrix.
 		 *
 		 * @param :
-		 * @return: This matrix.
+		 * @return This matrix.
 		 */
 		inline Matrix& operator=(const  Matrix&) { return *this; }
 
@@ -221,7 +221,7 @@ namespace DMK
 	 * @tparam Type: The type of the matrix.
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The added matrix.
+	 * @return The added matrix.
 	 */
 	template <class Type>
 	inline Matrix<Type> operator+(const Matrix<Type>& lhs,
@@ -236,7 +236,7 @@ namespace DMK
 	 * @tparam Type: The type of the matrix.
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The added matrix.
+	 * @return The added matrix.
 	 */
 	template <class Type>
 	inline Matrix<Type> operator+(const typename MatrixTraits<Type>::type& lhs,
@@ -251,7 +251,7 @@ namespace DMK
 	 * @tparam Type: The type of the matrix.
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The subracted matrix.
+	 * @return The subracted matrix.
 	 */
 	template <class Type>
 	inline Matrix<Type> operator-(const Matrix<Type>& lhs,
@@ -266,7 +266,7 @@ namespace DMK
 	 * @tparam Type: The type of the matrix.
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The subracted matrix.
+	 * @return The subracted matrix.
 	 */
 	template <class Type>
 	inline Matrix<Type> operator-(const typename MatrixTraits<Type>::type& lhs,
@@ -281,7 +281,7 @@ namespace DMK
 	 * @tparam Type: The type of the matrix.
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The multiplied matrix.
+	 * @return The multiplied matrix.
 	 */
 	template <class Type>
 	inline Matrix<Type> operator*(const Matrix<Type>& lhs,
@@ -296,7 +296,7 @@ namespace DMK
 	 * @tparam Type: The type of the matrix.
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The multiplied matrix.
+	 * @return The multiplied matrix.
 	 */
 	template <class Type>
 	inline Matrix<Type> operator*(const typename MatrixTraits<Type>::type& lhs,
@@ -311,7 +311,7 @@ namespace DMK
 	 * @tparam Type: The type of the matrix.
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The divided matrix.
+	 * @return The divided matrix.
 	 */
 	template <class Type>
 	inline Matrix<Type> operator/(const Matrix<Type>& lhs,
@@ -326,7 +326,7 @@ namespace DMK
 	 * @tparam Type: The type of the matrix.
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The divided matrix.
+	 * @return The divided matrix.
 	 */
 	template <class Type>
 	inline Matrix<Type> operator/(const typename MatrixTraits<Type>::type& lhs,

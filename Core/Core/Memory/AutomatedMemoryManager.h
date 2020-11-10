@@ -40,10 +40,9 @@ namespace DMK
 		/**
 		 * Get the number of allocations made.
 		 *
-		 * @return: Unsigned 16 bit integer.
+		 * @return Unsigned 16 bit integer.
 		 */
 		static UI64 GetAllocationCount();
-
 
 		/**
 		 * Allocate a new buffer.
@@ -52,7 +51,7 @@ namespace DMK
 		 * @param size: Size of the block.
 		 * @param offset: Offset of the block.
 		 * @param alignment: Alignment of the block.
-		 * @return: Pointer to the allocated memory block.
+		 * @return Pointer to the allocated memory block.
 		 */
 		template<class Type>
 		static Type* AllocateNew(UI64 size = sizeof(Type), UI64 offset = 0, UI64 alignment = 0)

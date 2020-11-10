@@ -29,14 +29,14 @@ namespace DMK
 		/**
 		 * Dereference operator to return the primitive type data.
 		 *
-		 * @return: The vector.
+		 * @return The vector.
 		 */
 		inline Type& operator()() { return *static_cast<Type*>(this); }
 
 		/**
 		 * Dereference operator to return the primitive type data.
 		 *
-		 * @return: The const vector.
+		 * @return The const vector.
 		 */
 		inline const Type& operator()() const { return *static_cast<const Type*>(this); }
 
@@ -44,7 +44,7 @@ namespace DMK
 		 * Increment operator.
 		 *
 		 * @param rhs: The other vector.
-		 * @return: The incremented vector.
+		 * @return The incremented vector.
 		 */
 		inline Type& operator+=(const Type& rhs)
 		{
@@ -56,7 +56,7 @@ namespace DMK
 		 * Increment operator.
 		 *
 		 * @param rhs: The other primitive vector data.
-		 * @return: The incremented vector.
+		 * @return The incremented vector.
 		 */
 		inline Type& operator+=(const value_type& rhs)
 		{
@@ -68,7 +68,7 @@ namespace DMK
 		 * Increment operator (by one).
 		 *
 		 * @param :
-		 * @return: The incremented vector.
+		 * @return The incremented vector.
 		 */
 		inline Type operator++(int)
 		{
@@ -81,7 +81,7 @@ namespace DMK
 		 * Increment operator (by one).
 		 *
 		 * @param :
-		 * @return: The incremented vector.
+		 * @return The incremented vector.
 		 */
 		inline Type& operator++()
 		{
@@ -93,7 +93,7 @@ namespace DMK
 		 * The decrement operator.
 		 *
 		 * @param rhs: The other vector to be decremented by.
-		 * @return: The decremented vector.
+		 * @return The decremented vector.
 		 */
 		inline Type& operator-=(const Type& rhs)
 		{
@@ -105,7 +105,7 @@ namespace DMK
 		 * The decrement operator.
 		 *
 		 * @param rhs: The other vector to be decremented by.
-		 * @return: The decremented vector.
+		 * @return The decremented vector.
 		 */
 		inline Type& operator-=(const value_type& rhs)
 		{
@@ -117,7 +117,7 @@ namespace DMK
 		 * Decrement operator (by one).
 		 *
 		 * @param :
-		 * @return: The decremented vector.
+		 * @return The decremented vector.
 		 */
 		inline Type operator--(int)
 		{
@@ -130,7 +130,7 @@ namespace DMK
 		 * Decrement operator (by one).
 		 *
 		 * @param :
-		 * @return: The decremented vector.
+		 * @return The decremented vector.
 		 */
 		inline Type& operator--()
 		{
@@ -142,7 +142,7 @@ namespace DMK
 		 * The multiplication operator.
 		 *
 		 * @param rhs: The other vector to be decremented by.
-		 * @return: The decremented vector.
+		 * @return The decremented vector.
 		 */
 		inline Type& operator*=(const Type& rhs)
 		{
@@ -154,7 +154,7 @@ namespace DMK
 		 * The multiplication operator.
 		 *
 		 * @param rhs: The other vector to be decremented by.
-		 * @return: The decremented vector.
+		 * @return The decremented vector.
 		 */
 		inline Type& operator*=(const value_type& rhs)
 		{
@@ -166,7 +166,7 @@ namespace DMK
 		 * The division operator.
 		 *
 		 * @param rhs: The other vector to be decremented by.
-		 * @return: The decremented vector.
+		 * @return The decremented vector.
 		 */
 		inline Type& operator/=(const Type& rhs)
 		{
@@ -178,7 +178,7 @@ namespace DMK
 		 * The division operator.
 		 *
 		 * @param rhs: The other vector to be decremented by.
-		 * @return: The decremented vector.
+		 * @return The decremented vector.
 		 */
 		inline Type& operator/=(const value_type& rhs)
 		{
@@ -207,7 +207,7 @@ namespace DMK
 		 * Return this vector.
 		 *
 		 * @param :
-		 * @return: This vector.
+		 * @return This vector.
 		 */
 		inline Vector& operator=(const  Vector&) { return *this; }
 
@@ -220,7 +220,7 @@ namespace DMK
 	 * @tparam Type: The type of the vector.
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The added vector.
+	 * @return The added vector.
 	 */
 	template <class Type>
 	inline Vector<Type> operator+(const Vector<Type>& lhs,
@@ -235,7 +235,7 @@ namespace DMK
 	 * @tparam Type: The type of the vector.
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The added vector.
+	 * @return The added vector.
 	 */
 	template <class Type>
 	inline Vector<Type> operator+(const typename VectorTraits<Type>::type& lhs,
@@ -250,7 +250,7 @@ namespace DMK
 	 * @tparam Type: The type of the vector.
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The subracted vector.
+	 * @return The subracted vector.
 	 */
 	template <class Type>
 	inline Vector<Type> operator-(const Vector<Type>& lhs,
@@ -265,7 +265,7 @@ namespace DMK
 	 * @tparam Type: The type of the vector.
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The subracted vector.
+	 * @return The subracted vector.
 	 */
 	template <class Type>
 	inline Vector<Type> operator-(const typename VectorTraits<Type>::type& lhs,
@@ -280,7 +280,7 @@ namespace DMK
 	 * @tparam Type: The type of the vector.
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The multiplied vector.
+	 * @return The multiplied vector.
 	 */
 	template <class Type>
 	inline Vector<Type> operator*(const Vector<Type>& lhs,
@@ -295,7 +295,7 @@ namespace DMK
 	 * @tparam Type: The type of the vector.
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The multiplied vector.
+	 * @return The multiplied vector.
 	 */
 	template <class Type>
 	inline Vector<Type> operator*(const typename VectorTraits<Type>::type& lhs,
@@ -310,7 +310,7 @@ namespace DMK
 	 * @tparam Type: The type of the vector.
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The divided vector.
+	 * @return The divided vector.
 	 */
 	template <class Type>
 	inline Vector<Type> operator/(const Vector<Type>& lhs,
@@ -325,7 +325,7 @@ namespace DMK
 	 * @tparam Type: The type of the vector.
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The divided vector.
+	 * @return The divided vector.
 	 */
 	template <class Type>
 	inline Vector<Type> operator/(const typename VectorTraits<Type>::type& lhs,

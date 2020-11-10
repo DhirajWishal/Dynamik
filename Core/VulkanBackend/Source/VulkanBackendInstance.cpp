@@ -80,7 +80,7 @@ namespace DMK
 			 * Check if the requested validation layers are supported.
 			 *
 			 * @param layers: The validation layers to be checked.
-			 * @return: Boolean value.
+			 * @return Boolean value.
 			 */
 			inline bool CheckValidationLayerSupport(std::vector<const char*> layers)
 			{
@@ -115,7 +115,7 @@ namespace DMK
 			/**
 			 * Get the requires instance extensions from GLFW.
 			 *
-			 * @return: std::vector<const char*> containing the required extensions.
+			 * @return std::vector<const char*> containing the required extensions.
 			 */
 			DMK_FORCEINLINE std::vector<const char*> GetRequiredInstanceExtensions()
 			{
@@ -148,7 +148,7 @@ namespace DMK
 			 * @param messageType: The type of the message.
 			 * @param pCallbackData: The callback data.
 			 * @param pUserData: The user data that triggered the messenger.
-			 * @return: VkBool32 value.
+			 * @return VkBool32 value.
 			 */
 			static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(
 				VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
@@ -190,7 +190,7 @@ namespace DMK
 			/**
 			 * Create a new VkDebugUtilsMessengerCreateInfoEXT object.
 			 *
-			 * @return: The newly created VkDebugUtilsMessengerCreateInfoEXT object.
+			 * @return The newly created VkDebugUtilsMessengerCreateInfoEXT object.
 			 */
 			DMK_FORCEINLINE VkDebugUtilsMessengerCreateInfoEXT CreateDebugMessengerCreateInfo()
 			{

@@ -98,7 +98,7 @@ namespace DMK
 		 * Assign data from another matrix of the same type.
 		 *
 		 * @param other: The other matrix.
-		 * @return: The value updated matrix.
+		 * @return The value updated matrix.
 		 */
 		Matrix44 operator=(const Matrix44& other);
 
@@ -106,7 +106,7 @@ namespace DMK
 		 * Retrieve a row using the index.
 		 *
 		 * @param index: The index of the row.
-		 * @return: Vector 4D row.
+		 * @return Vector 4D row.
 		 */
 		const Vector4 operator[](UI32 index) const;
 
@@ -114,7 +114,7 @@ namespace DMK
 		 * Retrieve a row using the index.
 		 *
 		 * @param index: The index of the row.
-		 * @return: Vector 4D row.
+		 * @return Vector 4D row.
 		 */
 		Vector4& operator[](UI32 index);
 
@@ -122,7 +122,7 @@ namespace DMK
 		 * Multiply the matrix by a value.
 		 *
 		 * @param value: The value to be multiplied with.
-		 * @return: The multiplied matrix.
+		 * @return The multiplied matrix.
 		 */
 		Matrix44& operator*(const float& value);
 
@@ -131,7 +131,7 @@ namespace DMK
 		 * Matrix * Vector.
 		 *
 		 * @param other: The vector 4D.
-		 * @return: The multiplied vector 4D.
+		 * @return The multiplied vector 4D.
 		 */
 		Vector4 operator*(const Vector4& other);
 
@@ -139,7 +139,7 @@ namespace DMK
 		 * Multiplication operator.
 		 *
 		 * @param other: The other matrix to be multiplied with.
-		 * @return: The multiplied matrix.
+		 * @return The multiplied matrix.
 		 */
 		Matrix44& operator*(const Matrix44& other);
 

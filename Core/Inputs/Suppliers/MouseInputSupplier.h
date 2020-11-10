@@ -63,11 +63,11 @@ namespace DMK
 			/**
 			 * Get the scroll value.
 			 *
-			 * @return: Float value.
+			 * @return Float value.
 			 */
 			float GetValue() const { return value; }
 
-			float value = 0.0f;	// Scroll value. 
+			float value = 0.0f;	// Scroll value.
 		};
 
 		/**
@@ -90,7 +90,7 @@ namespace DMK
 			/**
 			 * Get the position of the cursor.
 			 *
-			 * @return: std::pair<float, float> structure containing the position.
+			 * @return std::pair<float, float> structure containing the position.
 			 */
 			std::pair<float, float> GetPosition() const { return { xOffset, yOffset }; }
 

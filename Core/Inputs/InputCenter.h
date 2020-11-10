@@ -52,7 +52,7 @@ namespace DMK
 			 * Get a supplier using its name.
 			 *
 			 * @param sName: The name of the supplier.
-			 * @return: The pointer of the supplier.
+			 * @return The pointer of the supplier.
 			 */
 			InputSupplier* GetSupplier(const String& sName) const;
 

@@ -8,6 +8,7 @@ include "CoreTests/CoreTests.lua"
 include "GameLibraryTests/GameLibraryTests.lua"
 include "GraphicsTests/GraphicsTests.lua"
 include "InputTests/InputTests.lua"
+include "ThreadTests/ThreadTests.lua"
 include "VulkanBackendTests/VulkanBackendTests.lua"
 
 include "Demos/DemosIncludes.lua"

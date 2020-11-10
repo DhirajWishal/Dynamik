@@ -55,7 +55,7 @@ namespace DMK
 			 * and render object to them, different devices are required.
 			 *
 			 * @param initInfo: Graphics Device Init Info structure.
-			 * @return: Pointer to the created device object.
+			 * @return Pointer to the created device object.
 			 */
 			virtual GDevice* CreateDeviceObject(DeviceInitInfo initInfo) { return nullptr; }
 

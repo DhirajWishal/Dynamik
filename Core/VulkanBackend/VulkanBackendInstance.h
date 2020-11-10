@@ -47,7 +47,7 @@ namespace DMK
 				 * and render object to them, different devices are required.
 				 *
 				 * @param initInfo: Graphics Device Init Info structure.
-				 * @return: Pointer to the created device object.
+				 * @return Pointer to the created device object.
 				 */
 				virtual GDevice* CreateDeviceObject(DeviceInitInfo initInfo) override final;
 
@@ -62,14 +62,14 @@ namespace DMK
 				/**
 				 * Get the Vulkan Instance.
 				 *
-				 * @return: VkInstance handle.
+				 * @return VkInstance handle.
 				 */
 				DMK_FORCEINLINE VkInstance GetInstance() const { return vInstance; }
 
 				/**
 				 * Get the Vulkan Debug Messenger.
 				 *
-				 * @return: VkDebugUtilsMessengerEXT handle.
+				 * @return VkDebugUtilsMessengerEXT handle.
 				 */
 				DMK_FORCEINLINE VkDebugUtilsMessengerEXT GetDebugMessenger() const { return vDebugMessenger; }
 

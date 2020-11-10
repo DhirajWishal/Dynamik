@@ -33,7 +33,7 @@ namespace DMK
 			/**
 			 * Get the supplier name.
 			 *
-			 * @return: const char pointer of the name.
+			 * @return const char pointer of the name.
 			 */
 			const char* GetName() const { return pSupplierName; }
 

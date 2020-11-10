@@ -89,7 +89,7 @@ namespace DMK
 		 * Assign data from another matrix of the same type.
 		 *
 		 * @param other: The other matrix.
-		 * @return: The value updated matrix.
+		 * @return The value updated matrix.
 		 */
 		Matrix33 operator=(const Matrix33& other);
 
@@ -97,7 +97,7 @@ namespace DMK
 		 * Retrieve a row by using the index.
 		 *
 		 * @param index: The index of the row.
-		 * @return: The Vector 3D row.
+		 * @return The Vector 3D row.
 		 */
 		const Vector3 operator[](UI32 index) const;
 
@@ -105,7 +105,7 @@ namespace DMK
 		 * Retrieve a row by using the index.
 		 *
 		 * @param index: The index of the row.
-		 * @return: The Vector 3D row.
+		 * @return The Vector 3D row.
 		 */
 		Vector3& operator[](UI32 index);
 
@@ -113,7 +113,7 @@ namespace DMK
 		 * Multiply the matrix by a value.
 		 *
 		 * @param value: The value to be multiplied with.
-		 * @return: The multiplied matrix.
+		 * @return The multiplied matrix.
 		 */
 		Matrix33& operator*(const float& value);
 
@@ -122,7 +122,7 @@ namespace DMK
 		 * Matrix * Vector.
 		 *
 		 * @param other: The vector 3D.
-		 * @return: The multiplied vector 3D.
+		 * @return The multiplied vector 3D.
 		 */
 		Vector3 operator*(const Vector3& other);
 
@@ -130,7 +130,7 @@ namespace DMK
 		 * Multiplication operator.
 		 *
 		 * @param other: The other matrix to be multiplied with.
-		 * @return: The multiplied matrix.
+		 * @return The multiplied matrix.
 		 */
 		Matrix33& operator*(const Matrix33& other);
 

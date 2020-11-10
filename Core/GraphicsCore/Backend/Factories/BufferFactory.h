@@ -33,7 +33,7 @@ namespace DMK
 			 * Create a raw buffer.
 			 *
 			 * @param size: The size of the buffer in bytes.
-			 * @return: The created raw buffer pointer.
+			 * @return The created raw buffer pointer.
 			 */
 			virtual Buffer* CreateRawBuffer(UI64 size) { return nullptr; }
 
@@ -42,7 +42,7 @@ namespace DMK
 			 *
 			 * @param vertex: The vertex structure defining the structure of a single vertex.
 			 * @param vertexCount: The total number of vertexes that will be stored.
-			 * @return: The created vertex buffer pointer.
+			 * @return The created vertex buffer pointer.
 			 */
 			virtual VertexBuffer* CreateVertexBuffer(const Vertex& vertex, UI64 vertexCount) { return nullptr; }
 
@@ -51,7 +51,7 @@ namespace DMK
 			 *
 			 * @param indexSize: The size of the index in bytes.
 			 * @param indexCount: The total number of indexes to be stored.
-			 * @return: The created index buffer pointer.
+			 * @return The created index buffer pointer.
 			 */
 			virtual IndexBuffer* CreateIndexBuffer(UI8 indexSize, UI64 indexCount) { return nullptr; }
 
@@ -61,7 +61,7 @@ namespace DMK
 			 * device (GPU) address space.
 			 *
 			 * @param size: The size of the buffer in bytes.
-			 * @return: The created stagging buffer pointer.
+			 * @return The created stagging buffer pointer.
 			 */
 			virtual StaggingBuffer* CreateStaggingBuffer(UI64 size) { return nullptr; }
 

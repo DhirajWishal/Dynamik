@@ -50,7 +50,7 @@ namespace DMK
 			/**
 			 * Get the scan code of the key.
 			 *
-			 * @return: Unsigned 32 bit integer.
+			 * @return Unsigned 32 bit integer.
 			 */
 			UI32 GetScanCode() const { return scanCode; }
 
@@ -64,32 +64,32 @@ namespace DMK
 			/**
 			 * Check if the key is pressed.
 			 *
-			 * @return: Boolean value.
+			 * @return Boolean value.
 			 */
 			bool IsPressed() const { return eInputType == KeyInputType::KEY_INPUT_Type_PRESS; }
 
 			/**
 			 * Check if the key is released.
 			 *
-			 * @return: Boolean value.
+			 * @return Boolean value.
 			 */
 			bool IsRelease() const { return eInputType == KeyInputType::KEY_INPUT_Type_RELEASE; }
 
 			/**
 			 * Check if the key is on repeat.
 			 *
-			 * @return: Boolean value.
+			 * @return Boolean value.
 			 */
 			bool IsOnRepeat() const { return eInputType == KeyInputType::KEY_INPUT_Type_REPEAT; }
 
 		public:
-			const char* pName = "";	// Name of the key. 
+			const char* pName = "";	// Name of the key.
 			KeyInputType eInputType = KeyInputType::KEY_INPUT_Type_RELEASE;	// Input type/ activation.
 			UI32 scanCode = 0;	// The scancode of the key.
 		};
 
 		/**
-		 * Key Input Supplier for the Dynamik Engine. 
+		 * Key Input Supplier for the Dynamik Engine.
 		 * This is the default supplier which supplies key inputs to the engine.
 		 *
 		 * @required: All the keys are required to be given the scan code which is platform specific.

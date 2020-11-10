@@ -82,7 +82,7 @@ namespace DMK
 		 * Assign data from another matrix of the same type.
 		 *
 		 * @param other: The other matrix.
-		 * @return: The value updated matrix.
+		 * @return The value updated matrix.
 		 */
 		Matrix22 operator=(const Matrix22& other);
 
@@ -90,7 +90,7 @@ namespace DMK
 		 * Get a row of the matrix using the index.
 		 *
 		 * @param index: The index of the row.
-		 * @return: The requested row.
+		 * @return The requested row.
 		 */
 		const Vector2 operator[](UI32 index) const;
 
@@ -98,7 +98,7 @@ namespace DMK
 		 * Get a row of the matrix using the index.
 		 *
 		 * @param index: The index of the row.
-		 * @return: The requested row.
+		 * @return The requested row.
 		 */
 		Vector2& operator[](UI32 index);
 
@@ -106,7 +106,7 @@ namespace DMK
 		 * Multiply the matrix by a value.
 		 *
 		 * @param value: The value to be multiplied with.
-		 * @return: The multiplied matrix.
+		 * @return The multiplied matrix.
 		 */
 		Matrix22& operator*(const float& value);
 
@@ -115,7 +115,7 @@ namespace DMK
 		 * Matrix * Vector.
 		 *
 		 * @param other: The vector 2D.
-		 * @return: The multiplied vector 2D.
+		 * @return The multiplied vector 2D.
 		 */
 		Vector2 operator*(const Vector2& other);
 
@@ -123,7 +123,7 @@ namespace DMK
 		 * Multiplication operator.
 		 *
 		 * @param other: The other matrix to be multiplied with.
-		 * @return: The multiplied matrix.
+		 * @return The multiplied matrix.
 		 */
 		Matrix22& operator*(const Matrix22& other);
 

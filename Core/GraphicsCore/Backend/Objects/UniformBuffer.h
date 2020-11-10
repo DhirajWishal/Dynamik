@@ -44,7 +44,7 @@ namespace DMK
 			/**
 			 * Get the shader binding index.
 			 *
-			 * @return: Unsigned 32 bit integer.
+			 * @return Unsigned 32 bit integer.
 			 */
 			UI32 GetBinding() const { return binding; }
 
@@ -58,7 +58,7 @@ namespace DMK
 			/**
 			 * Get the uniform buffer type.
 			 *
-			 * @return: DMK::GraphcisCore::UniformType enum.
+			 * @return DMK::GraphcisCore::UniformType enum.
 			 */
 			UniformType GetType() const { return type; }
 

@@ -54,7 +54,7 @@ namespace DMK
 			/**
 			 * Get the shader location in the pipeline.
 			 *
-			 * @return: DMK::GraphcisCore::ShaderLocation enum.
+			 * @return DMK::GraphcisCore::ShaderLocation enum.
 			 */
 			ShaderLocation GetLocation() const { return location; }
 

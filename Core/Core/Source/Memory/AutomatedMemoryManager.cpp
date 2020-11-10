@@ -12,7 +12,6 @@ namespace DMK
 
 	AutomatedMemoryManager::~AutomatedMemoryManager()
 	{
-
 		for (auto _address : memoryMap)
 		{
 #ifdef DMK_DEBUG

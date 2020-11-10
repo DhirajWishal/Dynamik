@@ -41,14 +41,14 @@ namespace DMK
 			/**
 			 * Get the data type of the attrubute.
 			 *
-			 * @return: DMK::DataType enum.
+			 * @return DMK::DataType enum.
 			 */
 			DataType GetType() const { return type; }
 
 			/**
 			 * Get the size of the attribute.
 			 *
-			 * @return: Unsigned 32 bit integer.
+			 * @return Unsigned 32 bit integer.
 			 */
 			UI32 Size() const { return Cast<UI32>(type); }
 
@@ -62,7 +62,7 @@ namespace DMK
 			/**
 			 * Get the format of the attribute.
 			 *
-			 * @return: DMK::Format enum.
+			 * @return DMK::Format enum.
 			 */
 			Format GetFormat() const { return format; }
 
@@ -106,7 +106,7 @@ namespace DMK
 			 * Get an attribute from the vertex.
 			 *
 			 * @param index: The index of the attribute.
-			 * @return: const Vertex Attrubute structure.
+			 * @return const Vertex Attrubute structure.
 			 */
 			const VertexAttribute GetAttribute(UI64 index) const { return attributes[index]; }
 
@@ -114,14 +114,14 @@ namespace DMK
 			 * Get an attribute from the vertex.
 			 *
 			 * @param index: The index of the attribute.
-			 * @return: Vertex Attrubute structure.
+			 * @return Vertex Attrubute structure.
 			 */
 			VertexAttribute GetAttribute(UI64 index) { return attributes[index]; }
 
 			/**
 			 * Get the pointer of the attributes.
 			 *
-			 * @return: Pointer to the attrubutes.
+			 * @return Pointer to the attrubutes.
 			 */
 			std::vector<VertexAttribute>* GetAttributes() const { return const_cast<std::vector<VertexAttribute>*>(&attributes); }
 
@@ -135,14 +135,14 @@ namespace DMK
 			/**
 			 * Get the binding index of the vertex.
 			 *
-			 * @return: Unsigned 32 bit integer.
+			 * @return Unsigned 32 bit integer.
 			 */
 			UI32 GetBinding() const { return binding; }
 
 			/**
 			 * Get the size of the vertex in bytes.
 			 *
-			 * @return: Unsigned 64 bit integer.
+			 * @return Unsigned 64 bit integer.
 			 */
 			UI64 Size() const
 			{
@@ -185,14 +185,14 @@ namespace DMK
 			/**
 			 * Get the pointer to the vertex.
 			 *
-			 * @return: Pointer to the vertex data.
+			 * @return Pointer to the vertex data.
 			 */
 			Vertex* GetVertex() const { return const_cast<Vertex*>(&vertex); }
 
 			/**
 			 * Get the number of vertexes stored in the buffer.
 			 *
-			 * @return: Unsigned 64 bit integer.
+			 * @return Unsigned 64 bit integer.
 			 */
 			UI64 GetVertexCount() const { return GetSize() / vertex.Size(); }
 

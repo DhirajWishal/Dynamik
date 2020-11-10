@@ -37,7 +37,7 @@ namespace DMK
 			/**
 			 * Get the index size in bytes.
 			 *
-			 * @return: Unsigned 8 bit integer of the size.
+			 * @return Unsigned 8 bit integer of the size.
 			 */
 			UI8 GetIndexSize() const { return indexSize; }
 

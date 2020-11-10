@@ -10,7 +10,6 @@ public:
 
 	virtual void DMK::Inputs::KeyInputSupplier::OnInitializeSupplier() override final
 	{
-
 	}
 
 	//virtual void DMK::Inputs::MouseInputSupplier::OnInitializeSupplier() override final
@@ -21,5 +20,4 @@ public:
 
 int main()
 {
-
 }

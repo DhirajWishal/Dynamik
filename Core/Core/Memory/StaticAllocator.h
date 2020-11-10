@@ -48,7 +48,7 @@ namespace DMK
 		 * @param byteSize: Size of the memory block in bytes. Default is the size of the type.
 		 * @param alignment: Alignment of the allocated memory. Default is 0.
 		 * @param offset: Memory offset of the allocated memory block. Default is 0.
-		 * @return: The newly allocated block.
+		 * @return The newly allocated block.
 		 */
 		DMK_FORCEINLINE static PTR RawAllocate(UI64 byteSize = sizeof(Type), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
@@ -65,7 +65,7 @@ namespace DMK
 		 * @param byteSize: Size of the memory block in bytes. Default is the size of the type.
 		 * @param alignment: Alignment of the allocated memory. Default is 0.
 		 * @param offset: Memory offset of the allocated memory block. Default is 0.
-		 * @return: The newly allocated block.
+		 * @return The newly allocated block.
 		 */
 		DMK_FORCEINLINE static PTR Allocate(UI64 byteSize = sizeof(Type), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
@@ -81,7 +81,7 @@ namespace DMK
 		 * @param byteSize: Size of the memory block in bytes. Default is the size of the type.
 		 * @param alignment: Alignment of the allocated memory. Default is 0.
 		 * @param offset: Memory offset of the allocated memory block. Default is 0.
-		 * @return: The newly allocated block.
+		 * @return The newly allocated block.
 		 */
 		DMK_FORCEINLINE static PTR AllocateInit(const Type& initData, UI64 byteSize = sizeof(Type), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
@@ -98,7 +98,7 @@ namespace DMK
 		 * @param byteSize: Size of the memory block. Default is the size of type. If size is unknown, enter 0.
 		 * @param alignment: Alignment of the memory block. Default is 0.
 		 * @param offset: Offset of the memory block. Default is 0.
-		 * @return: The newly allocated block.
+		 * @return The newly allocated block.
 		 */
 		DMK_FORCEINLINE static void RawDeallocate(PTR location, UI64 byteSize = sizeof(Type), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
@@ -115,7 +115,7 @@ namespace DMK
 		 * @param byteSize: Size of the memory block. Default is the size of type. If size is unknown, enter 0.
 		 * @param alignment: Alignment of the memory block. Default is 0.
 		 * @param offset: Offset of the memory block. Default is 0.
-		 * @return: The newly allocated block.
+		 * @return The newly allocated block.
 		 */
 		DMK_FORCEINLINE static void Deallocate(PTR location, UI64 byteSize = sizeof(Type), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
@@ -127,7 +127,7 @@ namespace DMK
 		 *
 		 * @param begin: Begin address of the memory.
 		 * @param end: Final address of the memory.
-		 * @return: The newly allocated block.
+		 * @return The newly allocated block.
 		 */
 		DMK_FORCEINLINE static void DeallocateRange(PTR begin, PTR end)
 		{
@@ -140,7 +140,7 @@ namespace DMK
 		 * @param byteSize: Size of the memory block in bytes. Default is the size of the type.
 		 * @param alignment: Alignment of the allocated memory. Default is 0.
 		 * @param offset: Memory offset of the allocated memory block. Default is 0.
-		 * @return: The newly allocated block.
+		 * @return The newly allocated block.
 		 */
 		DMK_FORCEINLINE static PTR AllocateArr(UI64 byteSize = sizeof(Type), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
@@ -157,7 +157,7 @@ namespace DMK
 		 * @param byteSize: Size of the memory block. Default is the size of type.
 		 * @param alignment: Alignment of the memory block. Default is 0.
 		 * @param offset: Offset of the memory block. Default is 0.
-		 * @return: The newly allocated block.
+		 * @return The newly allocated block.
 		 */
 		DMK_FORCEINLINE static void DeallocateArr(PTR location, UI64 byteSize = sizeof(Type), UI64 alignment = DefaultAligment, UI64 offset = 0)
 		{
@@ -172,7 +172,7 @@ namespace DMK
 		 *
 		 * @param begin: Begin address of the memory.
 		 * @param end: Final address of the memory.
-		 * @return: The newly allocated block.
+		 * @return The newly allocated block.
 		 */
 		DMK_FORCEINLINE static void DeallocateArrRange(PTR begin, PTR end)
 		{
@@ -197,7 +197,7 @@ namespace DMK
 		 * @param byteSize: Size of the block.
 		 * @param alignment: Alignment of the block.
 		 * @param offset: Offset of the block.
-		 * @return: The newly allocated block.
+		 * @return The newly allocated block.
 		 */
 		DMK_FORCEINLINE static PTR RawAllocation(UI64 byteSize, UI64 alignment, UI64 offset)
 		{
@@ -236,7 +236,7 @@ namespace DMK
 		 * @param byteSize: Size of the block.
 		 * @param alignment: Alignment of the block.
 		 * @param offset: Offset of the block.
-		 * @return: The newly allocated block.
+		 * @return The newly allocated block.
 		 */
 		DMK_FORCEINLINE static PTR RawAllocationArr(UI64 byteSize, UI64 alignment, UI64 offset)
 		{

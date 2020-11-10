@@ -38,7 +38,7 @@ namespace DMK
 			/**
 			 * Get the size of the buffer.
 			 *
-			 * @return: Unsigned 64 bit integer.
+			 * @return Unsigned 64 bit integer.
 			 */
 			UI64 GetSize() const { return size; }
 
@@ -47,7 +47,7 @@ namespace DMK
 			 *
 			 * @param size: The size in bytes to be exposed.
 			 * @param offset: The offset in the memory block. Default is 0.
-			 * @return: Void pointer to the mapped address space.
+			 * @return Void pointer to the mapped address space.
 			 */
 			virtual void* MapToLocal(UI64 size, UI64 offset = 0) {}
 

@@ -10,12 +10,12 @@
 namespace DMK
 {
 	/**
-	 * This namespace contains functions which can be used to manipulate memory. 
+	 * This namespace contains functions which can be used to manipulate memory.
 	 */
 	namespace MemoryFunctions
 	{
 		/**
-		 * Move data from one location to another. 
+		 * Move data from one location to another.
 		 *
 		 * @param destination: Destination address.
 		 * @param source: SourceAddress
@@ -24,7 +24,7 @@ namespace DMK
 		void MoveData(void* destination, const void* source, UI64 byteSize);
 
 		/**
-		 * Copy data from one location to another. 
+		 * Copy data from one location to another.
 		 *
 		 * @param destination: Destination address.
 		 * @param source: SourceAddress

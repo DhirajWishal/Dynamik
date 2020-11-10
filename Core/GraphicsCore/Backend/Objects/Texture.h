@@ -40,7 +40,7 @@ namespace DMK
 			/**
 			 * Get the width in the extent.
 			 *
-			 * @return: Unsigned 32 bit value.
+			 * @return Unsigned 32 bit value.
 			 */
 			UI32 GetWidth() const { return width; }
 
@@ -54,7 +54,7 @@ namespace DMK
 			/**
 			 * Get the height in the extent.
 			 *
-			 * @return: Unsigned 32 bit value.
+			 * @return Unsigned 32 bit value.
 			 */
 			UI32 GetHeight() const { return height; }
 
@@ -68,14 +68,14 @@ namespace DMK
 			/**
 			 * Get the depth in the extent.
 			 *
-			 * @return: Unsigned 32 bit value.
+			 * @return Unsigned 32 bit value.
 			 */
 			UI32 GetDepth() const { return depth; }
 
 			/**
 			 * Get the total size of the extent (width * height * depth).
 			 *
-			 * @return: Unsigned 64 bit integer.
+			 * @return Unsigned 64 bit integer.
 			 */
 			UI64 GetSize() const { return Cast<UI64>(width * height * depth); }
 
@@ -129,7 +129,7 @@ namespace DMK
 			/**
 			 * Get the current format of the texture.
 			 *
-			 * @return: DMK::Format enum.
+			 * @return DMK::Format enum.
 			 */
 			Format GetFormat() const { return format; }
 

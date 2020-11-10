@@ -81,7 +81,7 @@ namespace DMK
 		 * Load data from an initializer list.
 		 *
 		 * @param list: The initializer list.
-		 * @return: The data added vector (this).
+		 * @return The data added vector (this).
 		 */
 		Vector4 operator=(const std::initializer_list<float>& list);
 
@@ -89,7 +89,7 @@ namespace DMK
 		 * Get data using the [] operator.
 		 *
 		 * @param index: The index of the data to be accessed.
-		 * @return: Float value at the index.
+		 * @return Float value at the index.
 		 */
 		const float operator[](UI32 index) const;
 
@@ -97,7 +97,7 @@ namespace DMK
 		 * Get data using the [] operator.
 		 *
 		 * @param index: The index of the data to be accessed.
-		 * @return: Float value at the index.
+		 * @return Float value at the index.
 		 */
 		float& operator[](UI32 index);
 
@@ -121,7 +121,7 @@ namespace DMK
 	 *
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The calculated vector.
+	 * @return The calculated vector.
 	 */
 	Vector4 operator+(const Vector4& lhs, const Vector4& rhs);
 
@@ -130,7 +130,7 @@ namespace DMK
 	 *
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The calculated vector.
+	 * @return The calculated vector.
 	 */
 	Vector4 operator-(const Vector4& lhs, const Vector4& rhs);
 
@@ -139,7 +139,7 @@ namespace DMK
 	 *
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The calculated vector.
+	 * @return The calculated vector.
 	 */
 	Vector4 operator*(const Vector4& lhs, const Vector4& rhs);
 
@@ -148,7 +148,7 @@ namespace DMK
 	 *
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: The calculated vector.
+	 * @return The calculated vector.
 	 */
 	Vector4 operator/(const Vector4& lhs, const Vector4& rhs);
 
@@ -157,7 +157,7 @@ namespace DMK
 	 *
 	 * @param lhs: LHS argument.
 	 * @param value: RHS value.
-	 * @return: The calculated vector.
+	 * @return The calculated vector.
 	 */
 	Vector4 operator+(const Vector4& lhs, const float& value);
 
@@ -166,7 +166,7 @@ namespace DMK
 	 *
 	 * @param lhs: LHS argument.
 	 * @param value: RHS value.
-	 * @return: The calculated vector.
+	 * @return The calculated vector.
 	 */
 	Vector4 operator-(const Vector4& lhs, const float& value);
 
@@ -175,7 +175,7 @@ namespace DMK
 	 *
 	 * @param lhs: LHS argument.
 	 * @param value: RHS value.
-	 * @return: The calculated vector.
+	 * @return The calculated vector.
 	 */
 	Vector4 operator*(const Vector4& lhs, const float& value);
 
@@ -184,7 +184,7 @@ namespace DMK
 	 *
 	 * @param lhs: LHS argument.
 	 * @param value: RHS value.
-	 * @return: The calculated vector.
+	 * @return The calculated vector.
 	 */
 	Vector4 operator/(const Vector4& lhs, const float& value);
 
@@ -193,7 +193,7 @@ namespace DMK
 	 *
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: Boolean value.
+	 * @return Boolean value.
 	 */
 	bool operator==(const Vector4& lhs, const Vector4& rhs);
 
@@ -202,7 +202,7 @@ namespace DMK
 	 *
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: Boolean value.
+	 * @return Boolean value.
 	 */
 	bool operator!=(const Vector4& lhs, const Vector4& rhs);
 
@@ -211,7 +211,7 @@ namespace DMK
 	 *
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: Boolean value.
+	 * @return Boolean value.
 	 */
 	bool operator<(const Vector4& lhs, const Vector4& rhs);
 
@@ -220,7 +220,7 @@ namespace DMK
 	 *
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: Boolean value.
+	 * @return Boolean value.
 	 */
 	bool operator<=(const Vector4& lhs, const Vector4& rhs);
 
@@ -229,7 +229,7 @@ namespace DMK
 	 *
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: Boolean value.
+	 * @return Boolean value.
 	 */
 	bool operator>(const Vector4& lhs, const Vector4& rhs);
 
@@ -238,17 +238,16 @@ namespace DMK
 	 *
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: Boolean value.
+	 * @return Boolean value.
 	 */
 	bool operator>=(const Vector4& lhs, const Vector4& rhs);
-
 
 	/**
 	 * AND operator.
 	 *
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: Boolean value.
+	 * @return Boolean value.
 	 */
 	bool operator&&(const Vector4& lhs, const Vector4& rhs);
 
@@ -257,7 +256,7 @@ namespace DMK
 	 *
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: Boolean value.
+	 * @return Boolean value.
 	 */
 	bool operator||(const Vector4& lhs, const Vector4& rhs);
 
@@ -266,7 +265,7 @@ namespace DMK
 	 *
 	 * @param lhs: LHS argument.
 	 * @param rhs: RHS argument.
-	 * @return: Boolean value.
+	 * @return Boolean value.
 	 */
 	bool operator^(const Vector4& lhs, const Vector4& rhs);
 
@@ -274,7 +273,7 @@ namespace DMK
 	 * Inverse NOT operator.
 	 *
 	 * @param rhs: RHS argument.
-	 * @return: Boolean value.
+	 * @return Boolean value.
 	 */
 	bool operator~(const Vector4& rhs);
 
@@ -282,7 +281,7 @@ namespace DMK
 	 * NOR operator.
 	 *
 	 * @param rhs: RHS argument.
-	 * @return: Boolean value.
+	 * @return Boolean value.
 	 */
 	bool operator!(const Vector4& rhs);
 }

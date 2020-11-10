@@ -67,7 +67,7 @@ namespace DMK
 			/**
 			 * Get the backend data pointer.
 			 *
-			 * @return: void pointer containing the backend data.
+			 * @return void pointer containing the backend data.
 			 */
 			void* GetBackendData() const { return pBackendData; }
 

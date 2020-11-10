@@ -29,7 +29,7 @@ namespace DMK
 			 * Inherit the class to a base or super type.
 			 *
 			 * @tparam Type: The base or super type to be casted.
-			 * @return: Type pointer.
+			 * @return Type pointer.
 			 */
 			template<class Type>
 			Type* Inherit() { return dynamic_cast<Type*>(this); }

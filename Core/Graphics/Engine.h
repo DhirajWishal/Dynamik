@@ -20,7 +20,6 @@ namespace DMK
 		 * This structure defines how the graphics engine should be initialized.
 		 */
 		struct GraphicsEngineCreateInfo {
-
 		};
 
 		/**
@@ -50,7 +49,7 @@ namespace DMK
 			/**
 			 * Get the graphics device used by the engine.
 			 *
-			 * @return: const GDevice pointer.
+			 * @return const GDevice pointer.
 			 */
 			const GDevice* GetDevice() const;
 
@@ -58,7 +57,7 @@ namespace DMK
 			/**
 			 * Get the graphics device used by the engine.
 			 *
-			 * @return: GDevice pointer.
+			 * @return GDevice pointer.
 			 */
 			GDevice* GetDevice();
 
