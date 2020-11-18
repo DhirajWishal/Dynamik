@@ -197,9 +197,10 @@ namespace DMK
 			/**
 			 * Create a render target to render object to.
 			 *
+			 * @param flags: Render Target Attachment Flags containing the attachment information.
 			 * @return The pointer to the created render target.
 			 */
-			virtual RenderTarget* CreateRenderTarget() { return nullptr; }
+			virtual RenderTarget* CreateRenderTarget(RenderTargetAttachmentFlags flags) { return nullptr; }
 
 			/**
 			 * Destroy a created render target object.

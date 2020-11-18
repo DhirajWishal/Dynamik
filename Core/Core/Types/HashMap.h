@@ -13,11 +13,25 @@ namespace DMK
 	/**
 	 * Hash Map structure for the Dynamik Engine.
 	 *
-	 * The hash map stores data in a structure named EntryContainer. This container contains two static arrays
-	 * each 10 elements in size. The first stores the key and the value. The second states whether the included pair
-	 * is valid at a given index.
+	 * The hash map stores an array of structures called EntryContainer. These containers are made up of two arrays,
+	 * each with a set size. This size is called the Chunk Size. The two arrays are,
+	 * - Entry Pair: This stores the key value and the mapped value.
+	 * - Validity array: This states whether the corresponding entry pair is valid or not (meaning it has data).
 	 *
-	 * @note The hash map may contain empty slots.
+	 * The hash index is an integer which denots a location in the entry container. This location is called a slot.
+	 * The hash index is calculated by the following:
+	 * > HashIndex = std::hash<Key>()(keyValue) % ChunkSize;
+	 *
+	 * The entry vector is iterated till an empty slot id found for the corresponding hash index. And when retrieving
+	 * data, the hash index is calculated and the key value is compared to check if the right pair was found. This
+	 * eliminates hash collisions.
+	 *
+	 * Since new EntryContainers are created for identical hashes, the map could contain empty slots which could be
+	 * filled later on by adding data. This means that the memory complexity will be somewhat large but this alows for
+	 * fast insertions and retrieval times.
+	 *
+	 * This also ensures locality as static arrays and dynamic arrays are used. Keeping the chunk size at an average
+	 * or to fit a chache line is recommended.
 	 *
 	 * @tparam Key: The key value type.
 	 * @tparam Value: The value type.
@@ -33,7 +47,7 @@ namespace DMK
 		 * This is also known as the Entry Table.
 		 */
 		struct EntryContainer {
-			EntryPair mEntryArray[ChunkSize] = {};	// Entry pair array.
+			EntryPair mEntryArray[ChunkSize] = { EntryPair() };	// Entry pair array.
 			bool bValidityTable[ChunkSize] = { false };	// Validity table.
 		};
 
@@ -81,57 +95,15 @@ namespace DMK
 		DMK_FORCEINLINE void Insert(const Key& key, const Value& value)
 		{
 			// Compute the hash index.
-			size_t index = GetHashIndex(key);
+			UI64 index = GetHashIndex(key);
 
 			// Find the suitable entry table.
-			auto pTable = FindEntityStore(index);
+			auto pTable = FindEntityContainer(index);
 
 			// Assign values to the resolved table slot.
 			pTable->mEntryArray[index].first = key;
 			pTable->mEntryArray[index].second = value;
 			pTable->bValidityTable[index] = true;
-		}
-
-		/**
-		 * Find a suitable entity store from the entrier or create a new one.
-		 * This method checks if theres an empty entry table and if not found, creates a new one and returnes its
-		 * address.
-		 *
-		 * @param index: The index in the entry container.
-		 * @param key: The key to be checked.
-		 * @return The Entry Container pointer.
-		 */
-		DMK_FORCEINLINE EntryContainer* FindEntityStore(const UI64& index, const Key& key = Key())
-		{
-			UI64 counter = 0;
-			EntryContainer* addr = nullptr;
-			EntryContainer* itr = nullptr;
-
-			// Iterate till a table was found.
-			while (true)
-			{
-				counter = mEntries.size();
-				addr = mEntries.data();
-
-				// Iterate and check if a table was found.
-				while (counter--)
-				{
-					itr = addr + counter;
-
-					// Check if a matching pair was found and return if true.
-					if (itr->bValidityTable[index] && itr->mEntryArray[index].first == key)
-						return itr;
-
-					// Check if an empty table slot was found and return if true.
-					else if (!itr->bValidityTable[index])
-						return itr;
-				}
-
-				// Insert a new table if the entries does not have a free slot.
-				mEntries.insert(mEntries.end(), EntryContainer());
-			}
-
-			return nullptr;
 		}
 
 		/**
@@ -146,7 +118,7 @@ namespace DMK
 			UI64 index = GetHashIndex(key);
 
 			// Find the required entry store.
-			auto pTable = FindEntityStore(index, key);
+			auto pTable = FindEntityContainer(index, key);
 
 			// Setup the table slot.
 			pTable->bValidityTable[index] = true;
@@ -168,7 +140,7 @@ namespace DMK
 			UI64 index = GetHashIndex(key);
 
 			// Find the required entry store.
-			auto pTable = FindEntityStore(index, key);
+			auto pTable = FindEntityContainer(index, key);
 
 			// Terminate the store.
 			TerminateEntry(pTable, index);
@@ -187,7 +159,7 @@ namespace DMK
 			UI64 index = GetHashIndex(key);
 
 			// Find the required entry store.
-			auto pTable = FindEntityStore(index, key);
+			auto pTable = FindEntityContainer(index, key);
 
 			// Terminate the store.
 			TerminateEntry(pTable, index);
@@ -220,6 +192,96 @@ namespace DMK
 			mEntries.clear();
 		}
 
+		/**
+		 * Check if the table entry has data to a given key.
+		 *
+		 * @param key: The key to be checked with.
+		 * @return Boolean value.
+		 */
+		DMK_FORCEINLINE bool IsAvailable(const Key& key)
+		{
+			// Find the required entry store.
+			auto pPair = Find(key);
+
+			// Check if an entry is present and return true of found.
+			if (pPair)
+				return true;
+
+			return false;
+		}
+
+		/**
+		 * Check to see if there is an entry to a certain key.
+		 *
+		 * @param key: The key to be checked.
+		 * @return Entry Pair pointer.
+		 */
+		DMK_FORCEINLINE EntryPair* Find(const Key& key)
+		{
+			// Calculate the hash index.
+			UI64 index = GetHashIndex(key);
+
+			// Initialize pointers and counters.
+			UI64 counter = mEntries.size();
+			EntryContainer* addr = mEntries.data();
+			EntryContainer* itr = nullptr;
+
+			// Iterate and check if a table was found.
+			while (counter--)
+			{
+				itr = addr + counter;
+
+				// Check if a matching pair was found and return if true.
+				if (itr->bValidityTable[index] && itr->mEntryArray[index].first == key)
+					return &itr->mEntryArray[index];
+			}
+
+			return nullptr;
+		}
+
+		/**
+		 * Find a suitable entity store from the entrier or create a new one.
+		 * This method checks if theres an empty entry table and if not found, creates a new one and returnes its
+		 * address.
+		 *
+		 * @param index: The index in the entry container.
+		 * @param key: The key to be checked.
+		 * @return The Entry Container pointer.
+		 */
+		DMK_FORCEINLINE EntryContainer* FindEntityContainer(const UI64& index, const Key& key = Key())
+		{
+			// Initailize pointers and counters.
+			UI64 counter = 0;
+			EntryContainer* addr = nullptr;
+			EntryContainer* itr = nullptr;
+
+			// Iterate till a table was found.
+			while (true)
+			{
+				counter = mEntries.size();
+				addr = mEntries.data();
+
+				// Iterate and check if a table was found.
+				while (counter--)
+				{
+					itr = addr + counter;
+
+					// Check if a matching pair was found and return if true.
+					if (itr->bValidityTable[index] && itr->mEntryArray[index].first == key)
+						return itr;
+
+					// Check if an empty table slot was found and return if true.
+					else if (!itr->bValidityTable[index])
+						return itr;
+				}
+
+				// Insert a new table if the entries does not have a free slot.
+				mEntries.insert(mEntries.end(), EntryContainer());
+			}
+
+			return nullptr;
+		}
+
 	public:
 		/**
 		 * Index operator overload.
@@ -230,6 +292,30 @@ namespace DMK
 		DMK_FORCEINLINE Value& operator[](const Key& key)
 		{
 			return Get(key);
+		}
+
+		/**
+		 * Assignment operator (copy).
+		 *
+		 * @param other: The other hash map.
+		 * @return The assigned hash map.
+		 */
+		DMK_FORCEINLINE HashMap<Key, Value, ChunkSize>& operator=(const HashMap<Key, Value, ChunkSize>& other)
+		{
+			this->mEntries = other.mEntries;
+			return *this;
+		}
+
+		/**
+		 * Assignment operator (move).
+		 *
+		 * @param other: The other hash map.
+		 * @return The assigned hash map.
+		 */
+		DMK_FORCEINLINE HashMap<Key, Value, ChunkSize>& operator=(HashMap<Key, Value, ChunkSize>&& other)
+		{
+			this->mEntries = std::move(other.mEntries);
+			return *this;
 		}
 
 	public:
@@ -467,9 +553,15 @@ namespace DMK
 				return &pContainer->mEntryArray[entryIndex];
 			}
 
+			/**
+			 * Get the stored pointer from the iterator.
+			 *
+			 * @return The Entry Container pointer.
+			 */
+			DMK_FORCEINLINE EntryContainer* GetPointer() const { return pContainer; }
+
 		private:
 			EntryContainer* pContainer = nullptr;	// Main data pointer.
-
 			I64 entryIndex = 0;	// The entry index.
 		};
 
@@ -486,6 +578,17 @@ namespace DMK
 		 * @return Iterator object of the hash map.
 		 */
 		Iterator End() { return Iterator(mEntries.end()._Ptr); }
+
+		/**
+		 * Append data to the back of the map.
+		 *
+		 * @param begin: The begin iterator.
+		 * @param end: The end iterator.
+		 */
+		DMK_FORCEINLINE void Append(const Iterator& begin, const Iterator& end)
+		{
+			mEntries.insert(mEntries.end(), begin.GetPointer(), end.GetPointer());
+		}
 
 		/**
 		 * Const Iterator for the Hash Map.
@@ -721,9 +824,15 @@ namespace DMK
 				return &pContainer->mEntryArray[entryIndex];
 			}
 
+			/**
+			 * Get the stored pointer from the iterator.
+			 *
+			 * @return The Entry Container pointer.
+			 */
+			DMK_FORCEINLINE EntryContainer* GetPointer() const { return pContainer; }
+
 		private:
 			EntryContainer* pContainer = nullptr;	// Main data pointer.
-
 			I64 entryIndex = 0;	// The entry index.
 		};
 
@@ -740,6 +849,17 @@ namespace DMK
 		 * @return Iterator object of the hash map.
 		 */
 		ConstIterator ConstEnd() { return ConstIterator(mEntries.end()._Ptr); }
+
+		/**
+		 * Append data to the back of the map.
+		 *
+		 * @param begin: The begin iterator.
+		 * @param end: The end iterator.
+		 */
+		DMK_FORCEINLINE void Append(const ConstIterator& begin, const ConstIterator& end)
+		{
+			mEntries.insert(mEntries.end(), begin.GetPointer(), end.GetPointer());
+		}
 
 	private:
 		/**

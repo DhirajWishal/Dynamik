@@ -4,4 +4,5 @@
 -- File including all the engine modules.
 
 group "Engine"
+include "Engine/Engine.lua"
 include "GameLibrary/GameLibrary.lua"

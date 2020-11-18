@@ -11,4 +11,7 @@ int main()
 
 	for (int i = 0; i < 100; i++)
 			printf("%d. %d\n", i, hash[i]);
+
+	DMK::HashMap<int, int> h2;
+	h2.Append(hash.Begin(), hash.End());
 }

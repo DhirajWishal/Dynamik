@@ -20,6 +20,12 @@ namespace DMK
 			return pDevice;
 		}
 
+		void Engine::GraphicsThread(Thread::CommandHub* pCommandHub)
+		{
+			// Setup instance.
+			Engine GraphicsEngine = {};
+		}
+
 		GDevice* Engine::GetDevice()
 		{
 			return pDevice;

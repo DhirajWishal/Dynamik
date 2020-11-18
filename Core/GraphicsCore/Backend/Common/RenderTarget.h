@@ -6,11 +6,22 @@
 #define _DYNAMIK_GRAPHICS_RENDER_TARGET_H
 
 #include "GObject.h"
+#include "Core/Macros/Global.h"
 
 namespace DMK
 {
 	namespace GraphicsCore
 	{
+		/**
+		 * Render Target Attachment Flags.
+		 * These flags define what attachments the render target should have.
+		 */
+		enum class RenderTargetAttachmentFlags {
+			RENDER_TARGET_ATTACHMENT_FLAG_SWAP_CHAIN = BIT_SHIFT(0),
+			RENDER_TARGET_ATTACHMENT_FLAG_DEPTH_BUFFER = BIT_SHIFT(1),
+			RENDER_TARGET_ATTACHMENT_FLAG_COLOR_BUFFER = BIT_SHIFT(2),
+		};
+
 		/**
 		 * Render Target for Dynamik Graphics module.
 		 */

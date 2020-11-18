@@ -20,10 +20,11 @@ project "BallBouncer"
 
 	includedirs {
 		"$(SolutionDir)Core",
-		"$(SolutionDir)GameLibrary",
+		"$(SolutionDir)Engine",
 	}
 
 	links {
+		"Engine",
 		"GameLibrary",
 	}
 

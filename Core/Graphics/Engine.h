@@ -6,8 +6,7 @@
 #define _DYNAMIK_GRAPHICS_ENGINE_H
 
 #include "GraphicsCore/Backend/Common/GDevice.h"
-
-#include "Mesh/MeshHandle.h"
+#include "Thread/CommandHub.h"
 
 namespace DMK
 {
@@ -52,6 +51,16 @@ namespace DMK
 			 * @return const GDevice pointer.
 			 */
 			const GDevice* GetDevice() const;
+
+		public:
+			/**
+			 * Graphics thread function.
+			 * This function will be executed on another thread by the engine. It takes a command hub object pointer
+			 * as an argument to communitcate with the game thread and to share information.
+			 *
+			 * @param pCommandHub: The command hub object instance.
+			 */
+			static void GraphicsThread(Thread::CommandHub* pCommandHub);
 
 		private:
 			/**
