@@ -6,6 +6,7 @@
 #define _DYNAMIK_THREAD_COMMAND_QUEUE_H
 
 #include "Command.h"
+#include "Core/Types/StaticQueue.h"
 #include <array>
 
 #define THREAD_MAX_COMMAND_COUNT	10
@@ -34,7 +35,7 @@ namespace DMK
 			~CommandQueue() {}
 
 		private:
-			std::pair<const char*, CommandBase*> commandQueue[CommandCount] = {};	// The command queue.
+			StaticQueue<const char*, CommandCount> commandQueue;
 		};
 	}
 }

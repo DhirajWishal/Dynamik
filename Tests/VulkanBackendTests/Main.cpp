@@ -1,9 +1,9 @@
 // Copyright 2020 Dhiraj Wishal
 // SPDX-License-Identifier: Apache-2.0
 
-#include "VulkanBackend/VulkanBackendInstance.h"
+#include "VulkanBackend/Common/VulkanDeviceManager.h"
 using namespace DMK::GraphicsCore;
-using namespace DMK::GraphicsCore::VulkanBackend;
+using namespace DMK::VulkanBackend;
 
 /** CONCEPT
  * Create a file named *.das (Dynamik Asset Serialization) which stores all the vertex data in binary.
@@ -36,26 +36,17 @@ using namespace DMK::GraphicsCore::VulkanBackend;
 
 int main()
 {
-	VulkanBackendInstance vBackendInstance = {};
-	vBackendInstance.Initialize(BackendInitInfo());
+	VulkanInstance vInstance = {};
+	vInstance.Initialize(true);
 
-	DeviceInitInfo initInfo = {};
-	initInfo.enableRayTracing = false;
-	auto pDevice = vBackendInstance.CreateDeviceObject(initInfo)->Inherit<VulkanDevice>();
-	auto pDevice2 = vBackendInstance.CreateDeviceObject(initInfo);
+	VulkanDeviceManager vDeviceManager = {};
+	vDeviceManager.Initialize(&vInstance);
 
-	int count = 1000;
-	while (count--)
-	{
-		pDevice->BeginFrame();
-		pDevice->EndFrame();
+	auto hDevice = vDeviceManager.CreateDevice(DeviceInitInfo());
 
-		pDevice2->BeginFrame();
-		pDevice2->EndFrame();
-	}
+	while (true)
+		vDeviceManager.PollInputs();
 
-	vBackendInstance.DestroyDevice(pDevice);
-	vBackendInstance.DestroyDevice(pDevice2);
-
-	vBackendInstance.Terminate();
+	vDeviceManager.DestroyDevice(hDevice);
+	vInstance.Terminate();
 }

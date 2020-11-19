@@ -11,12 +11,12 @@ namespace DMK
 {
 	namespace Logger
 	{
-		const wchar_t blue[8] = { 0x1b, '[', '1', ';', '3', '4', 'm', 0 };		// core info
-		const wchar_t green[8] = { 0x1b, '[', '1', ';', '9', '2', 'm', 0 };		// info
-		const wchar_t yellow[8] = { 0x1b, '[', '1', ';', '9', '3', 'm', 0 };	// warning
-		const wchar_t errRed[8] = { 0x1b, '[', '1', ';', '3', '1', 'm', 0 };	// error
-		const wchar_t fatalRed[8] = { 0x1b, '[', '4', ';', '3', '1', 'm', 0 };	// fatal
-		const wchar_t normal[8] = { 0x1b, '[', '0', ';', '3', '9', 'm', 0 };	// default
+		const wchar blue[8] = { 0x1b, '[', '1', ';', '3', '4', 'm', 0 };		// core info
+		const wchar green[8] = { 0x1b, '[', '1', ';', '9', '2', 'm', 0 };		// info
+		const wchar yellow[8] = { 0x1b, '[', '1', ';', '9', '3', 'm', 0 };	// warning
+		const wchar errRed[8] = { 0x1b, '[', '1', ';', '3', '1', 'm', 0 };	// error
+		const wchar fatalRed[8] = { 0x1b, '[', '4', ';', '3', '1', 'm', 0 };	// fatal
+		const wchar normal[8] = { 0x1b, '[', '0', ';', '3', '9', 'm', 0 };	// default
 
 		void changeToColor(int severity) {
 			switch (severity) {
@@ -38,7 +38,7 @@ namespace DMK
 			}
 		}
 
-		std::vector<const wchar_t*> LOG_INFO = {
+		std::vector<const wchar*> LOG_INFO = {
 			TEXT("INFO-> "),
 			TEXT("WARN-> "),
 			TEXT("ERROR-> "),
@@ -52,8 +52,8 @@ namespace DMK
 		* @param severity: Message priority.
 		* @param msg: The actual message to be logged.
 		 */
-		void LOG(int severity, const wchar_t* msg) {
-			wchar_t tmpBuff[128];
+		void LOG(int severity, const wchar* msg) {
+			wchar tmpBuff[128];
 			_tzset();
 
 			changeToColor(severity);
@@ -62,31 +62,31 @@ namespace DMK
 			wprintf(TEXT("[%s] %s%s%s\n"), tmpBuff, LOG_INFO[severity], msg, normal);
 		}
 
-		void LogInfo(const wchar_t* message)
+		void LogInfo(const wchar* message)
 		{
 			changeToColor(0);
 			LOG(0, message);
 		}
 
-		void LogWarn(const wchar_t* message)
+		void LogWarn(const wchar* message)
 		{
 			changeToColor(1);
 			LOG(1, message);
 		}
 
-		void LogError(const wchar_t* message)
+		void LogError(const wchar* message)
 		{
 			changeToColor(2);
 			LOG(2, message);
 		}
 
-		void LogFatal(const wchar_t* message, const wchar_t* file, UI32 line)
+		void LogFatal(const wchar* message, const wchar* file, UI32 line)
 		{
 			changeToColor(3);
 			wprintf(TEXT("[%s:%u] %s%s%s\n"), file, line, LOG_INFO[3], message, normal);
 		}
 
-		void LogDebug(const wchar_t* message)
+		void LogDebug(const wchar* message)
 		{
 			changeToColor(4);
 			LOG(4, message);

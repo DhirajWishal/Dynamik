@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 /**
  * Dynamik Data Types.
@@ -32,6 +33,7 @@ typedef long long I64;				// 64 bit integer
 #define TEXT(text)  L##text
 typedef std::string String;
 typedef std::wstring WString;
+typedef wchar_t wchar;
 
 typedef UI8 BYTE;					// byte of data
 typedef BYTE* BPTR;					// byte pointer

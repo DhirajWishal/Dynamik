@@ -5,8 +5,8 @@
 #ifndef _DYNAMIK_GRAPHICS_CORE_STATIC_MESH_OBJECT_H
 #define _DYNAMIK_GRAPHICS_CORE_STATIC_MESH_OBJECT_H
 
-#include "GraphicsCore/Backend/Objects/VertexBuffer.h"
-#include "GraphicsCore/Backend/Objects/IndexBuffer.h"
+//#include "GraphicsCore/Backend/Objects/VertexBuffer.h"
+//#include "GraphicsCore/Backend/Objects/IndexBuffer.h"
 
 namespace DMK
 {
@@ -45,7 +45,7 @@ namespace DMK
 			GameEntity* GetParent() const { return pParentEntity; }
 
 		public:
-			VertexBufferRef mVertexBufferRef;	// Vertex buffer reference.
+			//VertexBufferRef mVertexBufferRef;	// Vertex buffer reference.
 			GameEntity* pParentEntity = nullptr;	// The entity which created the static mesh.
 		};
 	}

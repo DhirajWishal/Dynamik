@@ -5,7 +5,6 @@
 #ifndef _DYNAMIK_GRAPHICS_ENGINE_H
 #define _DYNAMIK_GRAPHICS_ENGINE_H
 
-#include "GraphicsCore/Backend/Common/GDevice.h"
 #include "Thread/CommandHub.h"
 
 namespace DMK
@@ -19,6 +18,8 @@ namespace DMK
 		 * This structure defines how the graphics engine should be initialized.
 		 */
 		struct GraphicsEngineCreateInfo {
+			bool enableValidation = true;	// Enable API validation.
+			bool tryEnableRayTracing = true;	// Try and enable ray tracing. If not supported, compute shaders are used.
 		};
 
 		/**
@@ -45,13 +46,6 @@ namespace DMK
 			 */
 			void Initialize(const GraphicsEngineCreateInfo& initInfo);
 
-			/**
-			 * Get the graphics device used by the engine.
-			 *
-			 * @return const GDevice pointer.
-			 */
-			const GDevice* GetDevice() const;
-
 		public:
 			/**
 			 * Graphics thread function.
@@ -61,17 +55,6 @@ namespace DMK
 			 * @param pCommandHub: The command hub object instance.
 			 */
 			static void GraphicsThread(Thread::CommandHub* pCommandHub);
-
-		private:
-			/**
-			 * Get the graphics device used by the engine.
-			 *
-			 * @return GDevice pointer.
-			 */
-			GDevice* GetDevice();
-
-		private:
-			GDevice* pDevice = nullptr;	// The graphics backend device pointer.
 		};
 	}
 }

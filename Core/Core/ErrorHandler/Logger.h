@@ -20,7 +20,7 @@ namespace DMK
 		 *
 		* @param message: The message to be logged.
 		 */
-		void LogInfo(const wchar_t* message);
+		void LogInfo(const wchar* message);
 
 		/**
 		 * Log a warning message to the console.
@@ -28,7 +28,7 @@ namespace DMK
 		 *
 		* @param message: The message to be logged.
 		 */
-		void LogWarn(const wchar_t* message);
+		void LogWarn(const wchar* message);
 
 		/**
 		 * Log an error message to the console.
@@ -36,7 +36,7 @@ namespace DMK
 		 *
 		* @param message: The message to be logged.
 		 */
-		void LogError(const wchar_t* message);
+		void LogError(const wchar* message);
 
 		/**
 		 * Log a fatal error message to the console.
@@ -46,7 +46,7 @@ namespace DMK
 		* @param file: The file the error had occurred.
 		* @param line: The line of the error.
 		 */
-		void LogFatal(const wchar_t* message, const wchar_t* file, UI32 line);
+		void LogFatal(const wchar* message, const wchar* file, UI32 line);
 
 		/**
 		 * Log a debug information to the console.
@@ -54,7 +54,7 @@ namespace DMK
 		 *
 		* @param message: The message to be logged.
 		 */
-		void LogDebug(const wchar_t* message);
+		void LogDebug(const wchar* message);
 	}
 }
 

@@ -16,6 +16,9 @@ namespace DMK
 	 */
 	template<class Type>
 	class SingleDataStore {
+		typedef std::vector<Type> Container;
+		typedef typename Container::iterator Iterator;
+
 		/**
 		 * Private constructor.
 		 */
@@ -34,23 +37,73 @@ namespace DMK
 		 *
 		 * @param data: The data to be added.
 		 */
-		static void PushBack(const Type& data)
-		{
-			instance.container.push_back(data);
-		}
+		static void PushBack(const Type& data) { instance.mContainer.push_back(data); }
 
 		/**
 		 * Add data to the store.
 		 *
 		 * @param data: The data to be added.
 		 */
-		static void PushBack(Type&& data)
-		{
-			instance.container.push_back(std::move(data));
-		}
+		static void PushBack(Type&& data) { instance.mContainer.push_back(std::move(data)); }
+
+		/**
+		 * Get an element from the container.
+		 *
+		 * @param index: The index of the element.
+		 * @return The Type reference.
+		 */
+		static Type& Get(const UI64& index) { return *(instance.mContainer.data() + index); }
+
+		/**
+		 * Get the location (address) of an element.
+		 *
+		 * @param index: The index to be accessed.
+		 * @return The Type pointer.
+		 */
+		static Type* Location(const UI64& index) { return instance.mContainer.data() + index; }
+
+		/**
+		 * Remove an element from the container.
+		 *
+		 * @param index: The index of the element to be removed.
+		 */
+		static void Remove(const UI64& index) { instance.mContainer.erase(instance.mContainer.begin() + index); }
+
+		/**
+		 * Get the number of data stored in the container.
+		 *
+		 * @return The size of the container vector.
+		 */
+		static UI64 Size() { return instance.mContainer.size(); }
+
+		/**
+		 * Begin iterator of the store.
+		 *
+		 * @return std::vector<Type>::iterator object.
+		 */
+		static Iterator Begin() { return instance.mContainer.begin(); }
+
+		/**
+		 * End iterator of the store.
+		 *
+		 * @return std::vector<Type>::iterator object.
+		 */
+		static Iterator End() { return instance.mContainer.end(); }
+
+		/**
+		 * Get the data address of the container.
+		 *
+		 * @return Type pointer.
+		 */
+		static const Type* Data() { return instance.mContainer.data(); }
+
+		/**
+		 * Clear the container.
+		 */
+		static void Clear() { instance.mContainer.clear(); }
 
 	private:
-		std::vector<Type> container;	// The data container.
+		Container mContainer;	// The data container.
 	};
 
 	/**
