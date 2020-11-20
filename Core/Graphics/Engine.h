@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_GRAPHICS_ENGINE_H
-#define _DYNAMIK_GRAPHICS_ENGINE_H
 
 #include "Thread/CommandHub.h"
+#include "Thread/Commands/CommandQueue.h"
 
 namespace DMK
 {
@@ -14,10 +13,21 @@ namespace DMK
 		using namespace GraphicsCore;
 
 		/**
+		 * Graphics Backend API enum.
+		 */
+		enum class GraphicsBackendAPI {
+			GRAPHICS_BACKEND_API_VULKAN,
+			GRAPHICS_BACKEND_API_DIRECT_X,
+			GRAPHICS_BACKEND_API_WEB_GPU,
+		};
+
+		/**
 		 * Graphics Engine Create Info structure.
 		 * This structure defines how the graphics engine should be initialized.
 		 */
 		struct GraphicsEngineCreateInfo {
+			GraphicsBackendAPI backendAPI = GraphicsBackendAPI::GRAPHICS_BACKEND_API_VULKAN;	// Backend API.
+
 			bool enableValidation = true;	// Enable API validation.
 			bool tryEnableRayTracing = true;	// Try and enable ray tracing. If not supported, compute shaders are used.
 		};
@@ -26,6 +36,8 @@ namespace DMK
 		 * Graphics Engine for the Dynamik Engine.
 		 * This object is the high level API of the Graphics system. All the graphics related tasks are done through
 		 * this.
+		 * The graphics backend (the backend thread) is managed by this object and direct commands to it shall be
+		 * dont by this object by calling the GetCommandQueue() method.
 		 */
 		class Engine {
 		public:
@@ -46,17 +58,16 @@ namespace DMK
 			 */
 			void Initialize(const GraphicsEngineCreateInfo& initInfo);
 
-		public:
 			/**
-			 * Graphics thread function.
-			 * This function will be executed on another thread by the engine. It takes a command hub object pointer
-			 * as an argument to communitcate with the game thread and to share information.
+			 * Get the backend command queue.
 			 *
-			 * @param pCommandHub: The command hub object instance.
+			 * @return Threads::CommandQueue<> pointer.
 			 */
-			static void GraphicsThread(Thread::CommandHub* pCommandHub);
+			Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT>* GetCommandQueue() { return &mCommandQueue; }
+
+		private:
+			std::thread mBackendThread;	// Backend thread object.
+			Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT> mCommandQueue;	// Backend command queue.
 		};
 	}
 }
-
-#endif // !_DYNAMIK_GRAPHICS_ENGINE_H

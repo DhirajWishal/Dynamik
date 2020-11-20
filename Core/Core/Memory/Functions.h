@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_CORE_MEMORY_FUNCTIONS_H
-#define _DYNAMIK_CORE_MEMORY_FUNCTIONS_H
 
 #include "Core/Types/DataTypes.h"
 
@@ -42,5 +40,3 @@ namespace DMK
 		void SetData(void* destination, BYTE byteValue, UI64 byteSize);
 	}
 }
-
-#endif // !_DYNAMIK_CORE_MEMORY_FUNCTIONS_H

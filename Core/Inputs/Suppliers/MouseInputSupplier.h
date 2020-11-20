@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_INPUTS_MOUSE_INPUT_SUPPLIER_H
-#define _DYNAMIK_INPUTS_MOUSE_INPUT_SUPPLIER_H
 
 #include "InputSupplier.h"
 
@@ -127,5 +125,3 @@ namespace DMK
 		};
 	}
 }
-
-#endif // !_DYNAMIK_INPUTS_MOUSE_INPUT_SUPPLIER_H

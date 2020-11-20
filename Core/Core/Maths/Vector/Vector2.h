@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_CORE_MATHS_VECTOR_2_H
-#define _DYNAMIK_CORE_MATHS_VECTOR_2_H
 
 #include "Vector.h"
 #include "Core/Types/DataTypes.h"
@@ -270,5 +268,3 @@ namespace DMK
 	 */
 	bool operator!(const Vector2& rhs);
 }
-
-#endif // !_DYNAMIK_CORE_MATHS_VECTOR_2_H

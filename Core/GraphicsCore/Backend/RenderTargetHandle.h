@@ -3,5 +3,9 @@
 
 #pragma once
 
-#include "Core/Types/DataTypes.h"
-#define DMK_ALIGNMENT	sizeof(UI32)
+namespace DMK
+{
+	namespace GraphicsCore
+	{
+	}
+}

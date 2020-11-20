@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_GRAPHICS_CORE_CORE_COMMANDS_H
-#define _DYNAMIK_GRAPHICS_CORE_CORE_COMMANDS_H
 
 #include "Core/Types/DataTypes.h"
 #include "GraphicsCore/Backend/DeviceHandle.h"
@@ -102,5 +100,3 @@ namespace DMK
 		}
 	}
 }
-
-#endif // !_DYNAMIK_GRAPHICS_CORE_COMMANDS_H

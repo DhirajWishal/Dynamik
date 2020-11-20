@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_CORE_MEMORY_AUTOMATED_MEMORY_MANAGER_H
-#define _DYNAMIK_CORE_MEMORY_AUTOMATED_MEMORY_MANAGER_H
 
 #include "Core/Types/DataTypes.h"
 
@@ -76,5 +74,3 @@ namespace DMK
 		std::unordered_map<INDEX, ADDRESS> memoryMap;	// Memory map containing the memory addresses.
 	};
 }
-
-#endif // !_DYNAMIK_CORE_MEMORY_AUTOMATED_MEMORY_MANAGER_H

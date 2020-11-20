@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_CORE_MATHS_MATRIX_44_H
-#define _DYNAMIK_CORE_MATHS_MATRIX_44_H
 
 #include "Matrix.h"
 #include "Core/Maths/Vector/Vector4.h"
@@ -153,5 +151,3 @@ namespace DMK
 
 	Matrix44 operator*(const Matrix44& lhs, const float& rhs);
 }
-
-#endif // !_DYNAMIK_CORE_MATHS_MATRIX_44_H

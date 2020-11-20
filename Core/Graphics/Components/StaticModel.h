@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_GRAPHICS_STATIC_MODEL_H
-#define _DYNAMIK_GRAPHICS_STATIC_MODEL_H
 
 #include "GraphicsCore/Objects/StaticMeshObject.h"
 
@@ -33,5 +31,3 @@ namespace DMK
 		};
 	}
 }
-
-#endif // !_DYNAMIK_GRAPHICS_STATIC_MODEL_H

@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_STATIC_QUEUE_H
-#define _DYNAMIK_STATIC_QUEUE_H
 
 #include "DataTypes.h"
 #include "Core/Memory/Functions.h"
@@ -152,5 +150,3 @@ namespace DMK
 		UI64 entryCounter = 0;	// Keeps track of the number of elements stored.
 	};
 }
-
-#endif // !_DYNAMIK_STATIC_QUEUE_H

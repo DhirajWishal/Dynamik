@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_VULKAN_BACKEND_DEVICE_MANAGER_H
-#define _DYNAMIK_VULKAN_BACKEND_DEVICE_MANAGER_H
 
 #include "GraphicsCore/Backend/DeviceHandle.h"
 #include "VulkanInstance.h"
@@ -70,5 +68,3 @@ namespace DMK
 		};
 	}
 }
-
-#endif // !_DYNAMIK_VULKAN_BACKEND_DEVICE_MANAGER_H

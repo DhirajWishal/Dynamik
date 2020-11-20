@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_THREAD_COMMAND_H
-#define _DYNAMIK_THREAD_COMMAND_H
 
 #include "Core/Types/DataTypes.h"
 #include "Core/Macros/Global.h"
@@ -17,6 +15,18 @@ namespace DMK
 		template<class Type> class Command;
 
 		/**
+		 * Command State enum.
+		 * This defines the states of a given command.
+		 */
+		enum class CommandState : UI8 {
+			COMMAND_STATE_PENDING,		// Command is waiting in the queue.
+			COMMAND_STATE_EXECUTING,	// Command is being executed.
+			COMMAND_STATE_SUCCESS,		// Command execution was successful.
+			COMMAND_STATE_FAILED,		// Command execution failed.
+			COMMAND_STATE_INVALID		// Invalid command was passed.
+		};
+
+		/**
 		 * Base bject for the commands.
 		 */
 		class CommandBase {
@@ -24,7 +34,7 @@ namespace DMK
 			/**
 			 * Default constructor.
 			 */
-			CommandBase() {}
+			CommandBase(CommandState* pCommandState = nullptr) : pComandState(pCommandState) {}
 
 			/**
 			 * Default destructor.
@@ -46,6 +56,15 @@ namespace DMK
 			 */
 			template<class Type>
 			constexpr Command<Type>* Derived() { return dynamic_cast<Command<Type>*>(this); }
+
+			/**
+			 * Set the command state if the command state is valid.
+			 *
+			 * @param state: The state of the command.
+			 */
+			void SetState(CommandState state) { if (pComandState) *pComandState = state; }
+
+			CommandState* pComandState = nullptr;	// Command state pointer.
 		};
 
 		/**
@@ -57,22 +76,29 @@ namespace DMK
 		public:
 			/**
 			 * Default constructor.
+			 * This can be used to set the command state pointer.
+			 *
+			 * @param pCommandState: The command state pointer. Default is nullptr.
 			 */
-			Command() {}
+			Command(CommandState* pCommandState = nullptr) : CommandBase(pCommandState) {}
 
 			/**
 			 * Construct the command by providing the command data (copy).
 			 *
-			 * @param command: The command data to initialize with.
+			 * @param command: The command data to initialize with..
+			 * @param pCommandState: The command state pointer. Default is nullptr.
 			 */
-			Command(const Type& command) : mData(command) {}
+			Command(const Type& command, CommandState* pCommandState = nullptr)
+				: mData(command), CommandBase(pCommandState) {}
 
 			/**
 			 * Construct the command by providing the command data (move).
 			 *
 			 * @param command: The command data to initialize with.
+			 * @param pCommandState: The command state pointer. Default is nullptr.
 			 */
-			Command(Type&& command) : mData(std::move(command)) {}
+			Command(Type&& command, CommandState* pCommandState = nullptr)
+				: mData(std::move(command)), CommandBase(pCommandState) {}
 
 			/**
 			 * Default destructor.
@@ -136,5 +162,3 @@ namespace DMK
 		};
 	}
 }
-
-#endif // !_DYNAMIK_THREAD_COMMAND_H

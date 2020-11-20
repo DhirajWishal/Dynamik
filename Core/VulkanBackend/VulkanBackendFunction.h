@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_VULKAN_BACKEND_FUNCTION_H
-#define _DYNAMIK_VULKAN_BACKEND_FUNCTION_H
 
 #include "Thread/Commands/CommandQueue.h"
 
@@ -20,5 +18,3 @@ namespace DMK
 		void VulkanBackendFunction(Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT>* pCommandQueue);
 	}
 }
-
-#endif // !_DYNAMIK_VULKAN_BACKEND_FUNCTION_H

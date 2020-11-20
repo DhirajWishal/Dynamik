@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_VULKAN_INSTANCE_H
-#define _DYNAMIK_VULKAN_INSTANCE_H
 
 #include "VulkanDevice.h"
 
@@ -96,5 +94,3 @@ namespace DMK
 		};
 	}
 }
-
-#endif // !_DYNAMIK_VULKAN_INSTANCE_H

@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_CORE_ERROR_LOGGER_H
-#define _DYNAMIK_CORE_ERROR_LOGGER_H
 
 #include "Core/Types/DataTypes.h"
 
@@ -57,5 +55,3 @@ namespace DMK
 		void LogDebug(const wchar* message);
 	}
 }
-
-#endif // !_DYNAMIK_CORE_ERROR_LOGGER_H

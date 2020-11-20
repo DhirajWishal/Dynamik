@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_CORE_MATHS_INCLUDE_SIMD_H
-#define _DYNAMIK_CORE_MATHS_INCLUDE_SIMD_H
 
 /**
  * This file includes all the necessary SIMD instruction set libraries.
@@ -79,5 +77,3 @@
 #include "simd_sse.hpp"
 #endif
 #endif
-
-#endif // !_DYNAMIK_INCLUDE_SIMD_H

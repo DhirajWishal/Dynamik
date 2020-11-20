@@ -115,6 +115,6 @@ namespace DMK
 															application.Initialize();							\
 															application.Execute();								\
 															application.Terminate();							\
-														}					
+														}
 
 #endif // !_DYNAMIK_ENGINE_GAME_APPLICATION_H

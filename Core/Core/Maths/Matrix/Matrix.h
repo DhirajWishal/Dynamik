@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_CORE_MATHS_MATRIX_H
-#define _DYNAMIK_CORE_MATHS_MATRIX_H
 
 namespace DMK
 {
@@ -343,5 +341,3 @@ namespace DMK
 	template<class Type>
 	Type Matrix<Type>::Identity = Type(1.0f);
 }
-
-#endif // !_DYNAMIK_CORE_MATHS_MATRIX_H

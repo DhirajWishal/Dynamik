@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_CORE_MATHS_MATRIX_22_H
-#define _DYNAMIK_CORE_MATHS_MATRIX_22_H
 
 #include "Matrix.h"
 #include "Core/Maths/Vector/Vector2.h"
@@ -135,5 +133,3 @@ namespace DMK
 		};
 	};
 }
-
-#endif // !_DYNAMIK_CORE_MATHS_MATRIX_22_H

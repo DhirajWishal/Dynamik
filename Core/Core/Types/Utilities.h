@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_UTILITIES_H
-#define _DYNAMIK_UTILITIES_H
 
 #include "Core/Macros/Global.h"
 #include "Core/ErrorHandler/Logger.h"
@@ -252,5 +250,3 @@ namespace DMK
 	 */
 	std::wstring StringToWString(const std::string& string);
 }
-
-#endif // !_DYNAMIK_UTILITIES_H

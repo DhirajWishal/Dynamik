@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_CORE_MEMORY_STATIC_ALLOCATOR_H
-#define _DYNAMIK_CORE_MEMORY_STATIC_ALLOCATOR_H
 
 /**
  * Static Memory Allocator for the Dynamik Engine
@@ -270,5 +268,3 @@ namespace DMK
 		}
 	};
 }
-
-#endif // !_DYNAMIK_CORE_MEMORY_STATIC_ALLOCATOR_H

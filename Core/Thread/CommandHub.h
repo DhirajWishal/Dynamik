@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_THREAD_COMMAND_HUB_H
-#define _DYNAMIK_THREAD_COMMAND_HUB_H
 
 namespace DMK
 {
@@ -26,5 +24,3 @@ namespace DMK
 		};
 	}
 }
-
-#endif // !_DYNAMIK_THREAD_COMMAND_HUB_H

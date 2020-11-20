@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_GRAPHICS_CORE_VIEW_PORT_H
-#define _DYNAMIK_GRAPHICS_CORE_VIEW_PORT_H
 
 #include "Core/Macros/Global.h"
 #include "Core/Types/DataTypes.h"
@@ -81,5 +79,3 @@ namespace DMK
 		};
 	}
 }
-
-#endif // !_DYNAMIK_GRAPHICS_CORE_VIEW_PORT_H

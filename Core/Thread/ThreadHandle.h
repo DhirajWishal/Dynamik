@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_THREAD_HANDLE_H
-#define _DYNAMIK_THREAD_HANDLE_H
 
 #include "Commands/CommandQueue.h"
 
@@ -62,5 +60,3 @@ namespace DMK
 		};
 	}
 }
-
-#endif // !_DYNAMIK_THREAD_HANDLE_H

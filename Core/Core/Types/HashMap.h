@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_CORE_HASH_MAP_H
-#define _DYNAMIK_CORE_HASH_MAP_H
 
 #include "Core/Macros/Global.h"
 #include "DataTypes.h"
@@ -900,5 +898,3 @@ namespace DMK
 		EntryVector mEntries;	// Entry vector.
 	};
 }
-
-#endif // !_DYNAMIK_CORE_HASH_MAP_H

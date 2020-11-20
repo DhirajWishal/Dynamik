@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_DATA_TypeS_H
-#define _DYNAMIK_DATA_TypeS_H
 
 #include <cstdint>
 #include <string>
@@ -335,5 +333,3 @@ namespace DMK
 		FORMAT_ASTC_12x12_SRGB_BLOCK,
 	};
 }
-
-#endif // !_DYNAMIK_DATA_TypeS_H

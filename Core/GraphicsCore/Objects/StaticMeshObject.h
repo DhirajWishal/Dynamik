@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_GRAPHICS_CORE_STATIC_MESH_OBJECT_H
-#define _DYNAMIK_GRAPHICS_CORE_STATIC_MESH_OBJECT_H
 
 //#include "GraphicsCore/Backend/Objects/VertexBuffer.h"
 //#include "GraphicsCore/Backend/Objects/IndexBuffer.h"
@@ -50,5 +48,3 @@ namespace DMK
 		};
 	}
 }
-
-#endif // !_DYNAMIK_GRAPHICS_CORE_STATIC_MESH_OBJECT_H

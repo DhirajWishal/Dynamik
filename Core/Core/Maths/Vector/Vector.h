@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_CORE_MATHS_VECTOR_H
-#define _DYNAMIK_CORE_MATHS_VECTOR_H
 
 namespace DMK
 {
@@ -342,5 +340,3 @@ namespace DMK
 	template<class Type>
 	Type Vector<Type>::ZeroAll = Type(0.0f);
 }
-
-#endif // !_DYNAMIK_CORE_MATH_VECTOR_H

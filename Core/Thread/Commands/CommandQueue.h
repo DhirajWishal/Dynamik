@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_THREAD_COMMAND_QUEUE_H
-#define _DYNAMIK_THREAD_COMMAND_QUEUE_H
 
 #include "Command.h"
 #include "Core/Types/StaticQueue.h"
@@ -43,17 +41,36 @@ namespace DMK
 			 * This method will wait till the command queue has an empty slot to push the data.
 			 *
 			 * @tparam Type: The type of the command.
-			 * @param command: The command data to be pushed with. Default is Type().
+			 * @param pState: The state variable pointer.
 			 */
 			template<class Type>
-			void PushCommand(const Type& command = Type())
+			void PushCommand(CommandState* pState = nullptr)
 			{
 				// Wait till the command queue has space.
 				while (commandQueue.Size() >= CommandCount);
 
 				// Lock the queue and push the data.
 				std::lock_guard<std::mutex> _lock(__CommandQueueMutex);
-				commandQueue.Push(std::make_pair(typeid(Type).name(), new Command<Type>(std::move(command))));
+				commandQueue.Push(std::make_pair(typeid(Type).name(), new Command<Type>(Type(), pState)));
+			}
+
+			/**
+			 * Push a new command to the command queue.
+			 * This method will wait till the command queue has an empty slot to push the data.
+			 *
+			 * @tparam Type: The type of the command.
+			 * @param command: The command data to be pushed with. Default is Type().
+			 * @param pState: The state variable pointer.
+			 */
+			template<class Type>
+			void PushCommand(const Type& command, CommandState* pState = nullptr)
+			{
+				// Wait till the command queue has space.
+				while (commandQueue.Size() >= CommandCount);
+
+				// Lock the queue and push the data.
+				std::lock_guard<std::mutex> _lock(__CommandQueueMutex);
+				commandQueue.Push(std::make_pair(typeid(Type).name(), new Command<Type>(std::move(command), pState)));
 			}
 
 			/**
@@ -104,5 +121,3 @@ namespace DMK
 		};
 	}
 }
-
-#endif // !_DYNAMIK_THREAD_COMMAND_QUEUE_H

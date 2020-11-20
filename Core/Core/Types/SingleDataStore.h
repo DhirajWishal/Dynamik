@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_CORE_SINGLE_DATA_STORE_H
-#define _DYNAMIK_CORE_SINGLE_DATA_STORE_H
 
 #include "DataTypes.h"
 
@@ -112,5 +110,3 @@ namespace DMK
 	template<class Type>
 	SingleDataStore<Type> SingleDataStore<Type>::instance;
 }
-
-#endif // !_DYNAMIK_CORE_SINGLE_DATA_STORE_H

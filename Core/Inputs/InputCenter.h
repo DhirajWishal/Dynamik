@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_INPUT_CENTER_H
-#define _DYNAMIK_INPUT_CENTER_H
 
 #include "Suppliers/KeyInputSupplier.h"
 #include "Suppliers/MouseInputSupplier.h"
@@ -61,5 +59,3 @@ namespace DMK
 		};
 	}
 }
-
-#endif // !_DYNAMIK_INPUT_CENTER_H

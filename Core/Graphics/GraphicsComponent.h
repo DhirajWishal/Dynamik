@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_GRAPHICS_COMPONENT_H
-#define _DYNAMIK_GRAPHICS_COMPONENT_H
 
 #include "Graphics/Mesh/MeshHandle.h"
 
@@ -40,5 +38,3 @@ namespace DMK
 		};
 	}
 }
-
-#endif // !_DYNAMIK_GRAPHICS_COMPONENT_H

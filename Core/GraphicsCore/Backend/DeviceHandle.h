@@ -2,8 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #pragma once
-#ifndef _DYNAMIK_GRAPHICS_CORE_DEVICE_HANDLE_H
-#define _DYNAMIK_GRAPHICS_CORE_DEVICE_HANDLE_H
 
 #include "Core/Types/DataTypes.h"
 
@@ -22,7 +20,7 @@ namespace DMK
 			UI32 windowWidth = 1280;	// Window width.
 			UI32 windowHeight = 720;	// Window height.
 
-			bool tryEnableRayTracing = false;	// Try and enable ray tracing. 
+			bool tryEnableRayTracing = false;	// Try and enable ray tracing.
 			bool enableValidation = true;	// Enable validation for the device.
 		};
 
@@ -53,5 +51,3 @@ namespace DMK
 		};
 	}
 }
-
-#endif // !_DYNAMIK_GRAPHICS_CORE_DEVICE_HANDLE_H

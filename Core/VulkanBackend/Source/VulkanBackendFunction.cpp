@@ -7,7 +7,12 @@
 #include "VulkanBackend/Common/VulkanDeviceManager.h"
 
 #define TYPE_NAME(type)	typeid(type).name()
-#define DELETE(type)	delete pCommand->Derived<type>()
+#define DELETE(type)	delete pCommand->Derived<type>(), pCommand = nullptr
+
+#define SET_COMMAND_STATE_PENDING(command)		command->SetState(Threads::CommandState::COMMAND_STATE_PENDING)
+#define SET_COMMAND_STATE_EXECUTING(command)	command->SetState(Threads::CommandState::COMMAND_STATE_EXECUTING)
+#define SET_COMMAND_STATE_SUCCESS(command)		command->SetState(Threads::CommandState::COMMAND_STATE_SUCCESS)
+#define SET_COMMAND_STATE_FAILED(command)		command->SetState(Threads::CommandState::COMMAND_STATE_FAILED)
 
 namespace DMK
 {
@@ -32,15 +37,20 @@ namespace DMK
 				{
 					// Get the first command.
 					auto pCommand = pCommandQueue->GetAndPop();
+					SET_COMMAND_STATE_PENDING(pCommand);
 
 					// Initialize backend (Vulkan Instance) command.
 					if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::InitializeBackend))
 					{
+						SET_COMMAND_STATE_EXECUTING(pCommand);
+
 						// Initialize the instance.
 						vInstance.Initialize(pCommand->Derived<GraphicsCore::Commands::InitializeBackend>()->Get().enableValidation);
 
 						// Initialize the device manager.
 						vDeviceManager.Initialize(&vInstance);
+
+						SET_COMMAND_STATE_SUCCESS(pCommand);
 
 						// Delete the command.
 						DELETE(GraphicsCore::Commands::InitializeBackend);
@@ -86,11 +96,19 @@ namespace DMK
 						// Delete the command.
 						DELETE(GraphicsCore::Commands::DestroyDevice);
 					}
+
+					// If execution failed.
+					if (pCommand)
+					{
+						SET_COMMAND_STATE_FAILED(pCommand);
+
+						// Delete the command.
+						delete pCommand;
+					}
 				}
 
 				// Poll inputs.
 				vDeviceManager.PollInputs();
-
 			} while (ShouldRun);
 		}
 	}

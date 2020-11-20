@@ -42,11 +42,12 @@ using namespace DMK::VulkanBackend;
 int main()
 {
 	DMK::Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT> mCommandQueue = {};
+	DMK::Threads::CommandState mCommandState = DMK::Threads::CommandState::COMMAND_STATE_PENDING;
 
 	std::thread vBackendThread(VulkanBackendFunction, &mCommandQueue);
 
-	mCommandQueue.PushCommand<Commands::InitializeBackend>();
-	mCommandQueue.PushCommand<Commands::CreateDevice>();
+	mCommandQueue.PushCommand<Commands::InitializeBackend>(&mCommandState);
+	mCommandQueue.PushCommand<Commands::CreateDevice>(&mCommandState);
 
 	size_t counter = 1000000000;
 	while (counter--);
