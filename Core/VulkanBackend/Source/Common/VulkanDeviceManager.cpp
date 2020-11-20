@@ -18,6 +18,7 @@ namespace DMK
 		void VulkanDeviceManager::Initialize(VulkanInstance* pInstance)
 		{
 			this->pParentInstance = pInstance;
+			isInitialized = true;
 		}
 
 		void VulkanDeviceManager::Terminate()
@@ -32,6 +33,9 @@ namespace DMK
 
 			// Clear the store.
 			Store::Clear();
+
+			// Terminate GLFW.
+			glfwTerminate();
 		}
 
 		GraphicsCore::DeviceHandle VulkanDeviceManager::CreateDevice(GraphicsCore::DeviceInitInfo initInfo)
@@ -58,7 +62,8 @@ namespace DMK
 
 		void VulkanDeviceManager::PollInputs()
 		{
-			glfwPollEvents();
+			if (isInitialized)
+				glfwPollEvents();
 		}
 	}
 }

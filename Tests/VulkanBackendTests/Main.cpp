@@ -2,8 +2,13 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "VulkanBackend/Common/VulkanDeviceManager.h"
+#include "VulkanBackend/VulkanBackendFunction.h"
+
+#include "GraphicsCore/Commands/CoreCommands.h"
 using namespace DMK::GraphicsCore;
 using namespace DMK::VulkanBackend;
+
+#include <thread>
 
 /** CONCEPT
  * Create a file named *.das (Dynamik Asset Serialization) which stores all the vertex data in binary.
@@ -36,17 +41,18 @@ using namespace DMK::VulkanBackend;
 
 int main()
 {
-	VulkanInstance vInstance = {};
-	vInstance.Initialize(true);
+	DMK::Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT> mCommandQueue = {};
 
-	VulkanDeviceManager vDeviceManager = {};
-	vDeviceManager.Initialize(&vInstance);
+	std::thread vBackendThread(VulkanBackendFunction, &mCommandQueue);
 
-	auto hDevice = vDeviceManager.CreateDevice(DeviceInitInfo());
+	mCommandQueue.PushCommand<Commands::InitializeBackend>();
+	mCommandQueue.PushCommand<Commands::CreateDevice>();
 
-	while (true)
-		vDeviceManager.PollInputs();
+	size_t counter = 1000000000;
+	while (counter--);
 
-	vDeviceManager.DestroyDevice(hDevice);
-	vInstance.Terminate();
+	mCommandQueue.PushCommand<Commands::DestroyDevice>();
+	mCommandQueue.PushCommand<Commands::TerminateBackend>();
+
+	vBackendThread.join();
 }

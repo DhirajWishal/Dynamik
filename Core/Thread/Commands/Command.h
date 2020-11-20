@@ -12,10 +12,10 @@
 
 namespace DMK
 {
-	std::mutex __GlobalThreadCommandMutex = {};
-
 	namespace Threads
 	{
+		template<class Type> class Command;
+
 		/**
 		 * Base bject for the commands.
 		 */
@@ -30,6 +30,22 @@ namespace DMK
 			 * Default destructor.
 			 */
 			virtual ~CommandBase() {}
+
+			/**
+			 * Get the command type name.
+			 *
+			 * @return Const char pointer name.
+			 */
+			virtual const char* GetCommandName() const { return nullptr; }
+
+			/**
+			 * Cast and get the command as the derived type.
+			 *
+			 * @tparam Type: The type of the command.
+			 * @return The Command<Type> pointer.
+			 */
+			template<class Type>
+			constexpr Command<Type>* Derived() { return dynamic_cast<Command<Type>*>(this); }
 		};
 
 		/**
@@ -45,9 +61,32 @@ namespace DMK
 			Command() {}
 
 			/**
+			 * Construct the command by providing the command data (copy).
+			 *
+			 * @param command: The command data to initialize with.
+			 */
+			Command(const Type& command) : mData(command) {}
+
+			/**
+			 * Construct the command by providing the command data (move).
+			 *
+			 * @param command: The command data to initialize with.
+			 */
+			Command(Type&& command) : mData(std::move(command)) {}
+
+			/**
 			 * Default destructor.
 			 */
 			~Command() {}
+
+			typedef typename Type Type;	// The type of the command.
+
+			/**
+			 * Get the command type name.
+			 *
+			 * @return Const char pointer name.
+			 */
+			virtual const char* GetCommandName() const override final { return typeid(Type).name(); }
 
 			/**
 			 * Set command data (copy).
@@ -76,6 +115,21 @@ namespace DMK
 			 * @return Type reference.
 			 */
 			DMK_FORCEINLINE Type& Get() { return mData; }
+
+		public:
+			/**
+			 * Get the data pointer.
+			 *
+			 * @return The address of the stored data.
+			 */
+			Type* operator->() { return &mData; }
+
+			/**
+			 * Get the data pointer.
+			 *
+			 * @return The address of the stored data.
+			 */
+			const Type* operator->() const { return &mData; }
 
 		private:
 			Type mData = Type();	// Stored data.

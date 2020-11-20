@@ -7,7 +7,8 @@
 
 #include "Command.h"
 #include "Core/Types/StaticQueue.h"
-#include <array>
+
+#include <mutex>
 
 #define THREAD_MAX_COMMAND_COUNT	10
 
@@ -15,6 +16,9 @@ namespace DMK
 {
 	namespace Threads
 	{
+		// Command queue mutex.
+		static std::mutex __CommandQueueMutex = {};
+
 		/**
 		 * Command Queue for the Dynamik Engine.
 		 * This object is used to store commands in a queue which is submitted to the thread.
@@ -34,8 +38,69 @@ namespace DMK
 			 */
 			~CommandQueue() {}
 
+			/**
+			 * Push a new command to the command queue.
+			 * This method will wait till the command queue has an empty slot to push the data.
+			 *
+			 * @tparam Type: The type of the command.
+			 * @param command: The command data to be pushed with. Default is Type().
+			 */
+			template<class Type>
+			void PushCommand(const Type& command = Type())
+			{
+				// Wait till the command queue has space.
+				while (commandQueue.Size() >= CommandCount);
+
+				// Lock the queue and push the data.
+				std::lock_guard<std::mutex> _lock(__CommandQueueMutex);
+				commandQueue.Push(std::make_pair(typeid(Type).name(), new Command<Type>(std::move(command))));
+			}
+
+			/**
+			 * Get the next command name from the queue.
+			 *
+			 * @return The const char pointer name.
+			 */
+			const char* GetCommandName() const
+			{
+				// Lock the queue and get the command name.
+				std::lock_guard<std::mutex> _lock(__CommandQueueMutex);
+				return commandQueue.Get().first;
+			}
+
+			/**
+			 * Get the next command from the queue.
+			 *
+			 * @return CommandBase pointer.
+			 */
+			CommandBase* GetCommand() const
+			{
+				// Lock the queue and get the command.
+				std::lock_guard<std::mutex> _lock(__CommandQueueMutex);
+				return commandQueue.Get().second;
+			}
+
+			/**
+			 * Get the first command and pop it from the queue.
+			 *
+			 * @return CommandBase pointer.
+			 */
+			CommandBase* GetAndPop()
+			{
+				// Lock the queue and get the command.
+				std::lock_guard<std::mutex> _lock(__CommandQueueMutex);
+				return commandQueue.GetAndPop().second;
+			}
+
+			/**
+			 * Get the number of commands stored.
+			 *
+			 * @return The number of commands in the command queue.
+			 */
+			UI64 Count() const { return commandQueue.Size(); }
+
 		private:
-			StaticQueue<const char*, CommandCount> commandQueue;
+			StaticQueue<std::pair<const char*, CommandBase*>, CommandCount> commandQueue;	// Command Queue.
 		};
 	}
 }

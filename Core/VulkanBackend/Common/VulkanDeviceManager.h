@@ -65,6 +65,8 @@ namespace DMK
 
 		private:
 			VulkanInstance* pParentInstance = nullptr;	// Vulkan instance pointer.
+
+			bool isInitialized = false;	// State of the manager.
 		};
 	}
 }

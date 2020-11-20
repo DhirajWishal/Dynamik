@@ -148,7 +148,6 @@ namespace DMK
 		void VulkanDevice::TerminateDisplay()
 		{
 			glfwDestroyWindow(GetWindowHandle());
-			glfwTerminate();
 		}
 
 		void VulkanDevice::CreateSurface()
