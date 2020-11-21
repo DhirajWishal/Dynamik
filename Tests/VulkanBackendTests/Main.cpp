@@ -5,6 +5,7 @@
 #include "VulkanBackend/VulkanBackendFunction.h"
 
 #include "GraphicsCore/Commands/CoreCommands.h"
+#include "GraphicsCore/Commands/RenderTargetCommands.h"
 using namespace DMK::GraphicsCore;
 using namespace DMK::VulkanBackend;
 
@@ -39,19 +40,43 @@ using namespace DMK::VulkanBackend;
  * 4.4) Repeat 4.2) for a total count of 4.1).
  */
 
+DMK::Vector3 mExtent = { 1280.0f, 720.0f, 1.0f };
+
+RenderTargetAttachmentSpecification CreateSwapChainSpec()
+{
+	RenderTargetAttachmentSpecification spec = {};
+	spec.extent = mExtent;
+	spec.type = RenderTargetAttachmentType::RENDER_TARGET_ATTACHMENT_TYPE_SWAP_CHAIN;
+
+	return spec;
+}
+
+RenderTargetAttachmentSpecification CreateColorBufferSpec()
+{
+	RenderTargetAttachmentSpecification spec = {};
+	spec.extent = mExtent;
+	spec.type = RenderTargetAttachmentType::RENDER_TARGET_ATTACHMENT_TYPE_COLOR_BUFFER;
+
+	return spec;
+}
+
 int main()
 {
 	DMK::Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT> mCommandQueue = {};
 	DMK::Threads::CommandState mCommandState = DMK::Threads::CommandState::COMMAND_STATE_PENDING;
+	DeviceHandle mDeviceHandle = {};
 
 	std::thread vBackendThread(VulkanBackendFunction, &mCommandQueue);
 
 	mCommandQueue.PushCommand<Commands::InitializeBackend>(&mCommandState);
-	mCommandQueue.PushCommand<Commands::CreateDevice>(&mCommandState);
+	mCommandQueue.PushCommand<Commands::CreateDevice>(Commands::CreateDevice(&mDeviceHandle), &mCommandState);
 
-	size_t counter = 1000000000;
+	mCommandQueue.PushCommand<Commands::CreateRenderTarget>(Commands::CreateRenderTarget({ CreateSwapChainSpec(), CreateColorBufferSpec() }, mDeviceHandle));
+
+	size_t counter = -1ull;
 	while (counter--);
 
+	mCommandQueue.PushCommand<Commands::DestroyAllRenderTargets>(Commands::DestroyAllRenderTargets(mDeviceHandle));
 	mCommandQueue.PushCommand<Commands::DestroyDevice>();
 	mCommandQueue.PushCommand<Commands::TerminateBackend>();
 

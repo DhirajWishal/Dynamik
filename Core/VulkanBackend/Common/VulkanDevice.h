@@ -7,10 +7,14 @@
 #include "GraphicsCore/Backend/DeviceHandle.h"
 
 #include "Macros.h"
-#include "VulkanQueue.h"
+#include "Queue.h"
+
+#include "VulkanBackend/RenderTarget/SwapChain.h"
+#include "VulkanBackend/RenderTarget/ColorBuffer.h"
 
 #include <optional>
 #include <GLFW/glfw3.h>
+#include <vulkan/vulkan_beta.h>
 
 namespace DMK
 {
@@ -21,7 +25,7 @@ namespace DMK
 		/**
 		 * Structure containing support details for a Vulkan Swap Chain.
 		 */
-		struct VulkanSwapChainSupportDetails {
+		struct SwapChainSupportDetails {
 			VkSurfaceCapabilitiesKHR capabilities = {};		// Swap Chain capabilities.
 			std::vector<VkSurfaceFormatKHR> formats = {};	// Swap Chain formats.
 			std::vector<VkPresentModeKHR> presentModes = {};	// Swap Chain present modes.
@@ -54,6 +58,7 @@ namespace DMK
 
 			/**
 			 * Terminate the device.
+			 * This will terminate all the created resources and objects with it.
 			 */
 			void Terminate();
 
@@ -101,9 +106,9 @@ namespace DMK
 			/**
 			 * Get the Vulkan Queues.
 			 *
-			 * @return VulkanQueue object.
+			 * @return Queue object.
 			 */
-			DMK_FORCEINLINE VulkanQueue GetQueue() const { return vQueue; }
+			DMK_FORCEINLINE Queue GetQueue() const { return vQueue; }
 
 			/**
 			 * Get the init info of the device.
@@ -118,6 +123,13 @@ namespace DMK
 			 * @return The VulkanInstance object.
 			 */
 			DMK_FORCEINLINE VulkanInstance* GetParentInstance() const { return pInstance; }
+
+			/**
+			 * Get the Vulkan MSAA samples.
+			 *
+			 * @return VkSampleCountFlags enum.
+			 */
+			DMK_FORCEINLINE VkSampleCountFlags GetMsaaSamples() const { return vMsaaSamples; }
 
 		private:
 			/**
@@ -183,15 +195,24 @@ namespace DMK
 			DMK_FORCEINLINE VkPhysicalDeviceRayTracingFeaturesKHR GetPhysicalDeviceRayTracingFeatures() const { return vPhysicalDeviceRayTracingFeatures; }
 
 			/**
-			 * Query swap chain support details for this device.
+			 * Get the surface capabilities.
 			 *
-			 * @return VulkanSwapChainSupportDetails structure.
+			 * @return VkSurfaceCapabilitiesKHR structure.
 			 */
-			VulkanSwapChainSupportDetails QuerySwapChainSupportDetails();
+			DMK_FORCEINLINE VkSurfaceCapabilitiesKHR GetSurfaceCapabilities() const { return vSurfaceCapabilities; }
+
+			/**
+			 * Get the Swap Chain support details.
+			 *
+			 * @return SwapChainSupportDetails structure.
+			 */
+			DMK_FORCEINLINE SwapChainSupportDetails GetSwapChainSupportDetails() const { return vSwapChainSupportDetails; }
 
 			VkPhysicalDeviceProperties vPhysicalDeviceProperties = {};	// Physical device properties.
 			VkPhysicalDeviceRayTracingFeaturesKHR vPhysicalDeviceRayTracingFeatures = {};	// Ray tracing features.
 			VkPhysicalDeviceRayTracingPropertiesKHR vPhysicalDeviceRayTracingProperties = {};	// Ray tracing properties.
+			VkSurfaceCapabilitiesKHR vSurfaceCapabilities = {};	// Surface capabilities.
+			SwapChainSupportDetails vSwapChainSupportDetails = {};	// Vulkan Swap Chain support details.
 
 		private:
 			/**
@@ -202,10 +223,55 @@ namespace DMK
 			 */
 			bool IsPhysicalDeviceSuitable(VkPhysicalDevice vDevice);
 
-		private:
-			VulkanQueue vQueue = {};	// Vulkan queue object.
+			/* Render Target */
+		public:
+			/**
+			 * Create a Swap Chain object.
+			 *
+			 * @param spec: The render target attachment specification.
+			 * @return Vulkan Swap Chain handle.
+			 */
+			SwapChainHandle CreateSwapChain(GraphicsCore::RenderTargetAttachmentSpecification spec);
 
-			std::vector<const char*> instanceExtensions;	// Instance extensions.
+			/**
+			 * Destroy a created swap chain.
+			 *
+			 * @param vSwapChainHandle: The swap chain object handle to be destroyed.
+			 */
+			void DestroySwapChain(SwapChainHandle vSwapChainHandle);
+
+			/**
+			 * This method destroys all the created swap chain objects.
+			 */
+			void DestroyAllSwapChains();
+
+			std::vector<SwapChain> vSwapChains;	// All the created swap chains.
+
+			/**
+			 * Create a Color Buffer object.
+			 *
+			 * @param spec: The render target attachment specification.
+			 * @return Vulkan Color Buffer handle.
+			 */
+			ColorBufferHandle CreateColorBuffer(GraphicsCore::RenderTargetAttachmentSpecification spec);
+
+			/**
+			 * Destroy a created Color Buffer object.
+			 *
+			 * @param vColorBufferHandle: The handle of the color buffer to be destroyed.
+			 */
+			void DestroyColorBuffer(ColorBufferHandle vColorBufferHandle);
+
+			/**
+			 * This method will destroy all the created color buffers in this device.
+			 */
+			void DestroyAllColorBuffers();
+
+			std::vector<ColorBuffer> vColorBuffers;	// All the created color buffers.
+
+		private:
+			Queue vQueue = {};	// Vulkan queue object.
+
 			std::vector<const char*> deviceExtensions;	// Device extensions.
 
 			GLFWwindow* pWindowHandle = nullptr;	// The GLFW window pointer.
@@ -217,6 +283,9 @@ namespace DMK
 			VulkanInstance* pInstance = nullptr;	// The Vulkan instance pointer.
 
 			GraphicsCore::DeviceInitInfo initInfo = {};	// Initialize information of the device.
+
+			VkSampleCountFlags vMsaaSamples = VK_SAMPLE_COUNT_1_BIT;	// Vulkan Multi Sampling Anti Aliasing bits.
+
 			I8 frameIndex = 0;	// The current frame index.
 		};
 	}

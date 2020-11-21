@@ -58,12 +58,25 @@ namespace DMK
 			 */
 			void Initialize(const GraphicsEngineCreateInfo& initInfo);
 
+		public:
 			/**
 			 * Get the backend command queue.
 			 *
 			 * @return Threads::CommandQueue<> pointer.
 			 */
 			Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT>* GetCommandQueue() { return &mCommandQueue; }
+
+			/**
+			 * Initialize the Graphics Backend.
+			 *
+			 * By enabling validation, if any invalid data were to be passed, the backend API can detect it and
+			 * log it to the console. This ofcourse cost a little bit of performance. Enabling this is highly
+			 * recommended for Debugging the application and when shipping the product, we recommend disabling
+			 * API validation.
+			 * 
+			 * @param enableValidation: Boolean value to enable or disable validation. Default is true.
+			 */
+			void InitializeBackend(bool enableValidation = true);
 
 		private:
 			std::thread mBackendThread;	// Backend thread object.

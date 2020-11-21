@@ -54,6 +54,22 @@ namespace DMK
 			 */
 			void DestroyDevice(const GraphicsCore::DeviceHandle& deviceHandle);
 
+			/**
+			 * Get the Vulkan Device using its handle.
+			 *
+			 * @param deviceHandle: The device handle.
+			 * @return Vulkan Device object.
+			 */
+			VulkanDevice GetDevice(const GraphicsCore::DeviceHandle& deviceHandle);
+
+			/**
+			 * Get the Vulkan Device pointer using its handle.
+			 *
+			 * @param deviceHandle: The device handle.
+			 * @return Vulkan Device object pointer.
+			 */
+			VulkanDevice* GetDeviceAddress(const GraphicsCore::DeviceHandle& deviceHandle);
+
 		public:
 			/**
 			 * Poll events of all windows.

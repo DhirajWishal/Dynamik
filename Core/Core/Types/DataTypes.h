@@ -13,15 +13,15 @@
  * This file contains all the necessary data types and enums used in the Dynamik Engine.
  */
 
-typedef unsigned char UI8;			// unsigned 8 bit integer
-typedef unsigned short UI16;		// unsigned 16 bit integer
-typedef unsigned int UI32;			// unsigned 32 bit integer
-typedef unsigned long long UI64;	// unsigned 64 bit integer
+typedef unsigned char UI8;			// Unsigned 8 bit integer
+typedef unsigned short UI16;		// Unsigned 16 bit integer
+typedef unsigned int UI32;			// Unsigned 32 bit integer
+typedef unsigned long long UI64;	// Unsigned 64 bit integer
 
-typedef signed char SI8;			// signed 8 bit integer
-typedef signed short SI16;			// signed 16 bit integer
-typedef signed int SI32;			// signed 32 bit integer
-typedef signed long long SI64;		// signed 64 bit integer
+typedef signed char SI8;			// Signed 8 bit integer
+typedef signed short SI16;			// Signed 16 bit integer
+typedef signed int SI32;			// Signed 32 bit integer
+typedef signed long long SI64;		// Signed 64 bit integer
 
 typedef signed char I8;				// 8 bit integer
 typedef short I16;					// 16 bit integer
@@ -33,15 +33,15 @@ typedef std::string String;
 typedef std::wstring WString;
 typedef wchar_t wchar;
 
-typedef UI8 BYTE;					// byte of data
-typedef BYTE* BPTR;					// byte pointer
+typedef UI8 BYTE;					// Byte of data
+typedef BYTE* BPTR;					// Byte pointer
 
 namespace DMK
 {
 	/**
 	 * This contains all the virtual data types for the Dynamik Engine.
 	 */
-	enum class DataType : UI32 {
+	enum class DataType : UI8 {
 		DATA_TYPE_UNDEFINED = 0,	// Undefined type
 
 		DATA_TYPE_BYTE = 1,			// Translates to one byte
@@ -96,7 +96,7 @@ namespace DMK
 	 * B = Blue,
 	 * A = Alpha
 	 */
-	enum class Format : UI32 {
+	enum class Format : UI8 {
 		FORMAT_UNDEFINED,			// Undefined format
 
 		FORMAT_RG_4_UNORMAL_PACK8,

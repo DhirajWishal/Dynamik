@@ -5,6 +5,8 @@
 #include "Core/ErrorHandler/Logger.h"
 #include "VulkanBackend/VulkanBackendFunction.h"
 
+#include "GraphicsCore/Commands/CoreCommands.h"
+
 namespace DMK
 {
 	namespace GraphicsCore
@@ -25,6 +27,11 @@ namespace DMK
 				Logger::LogError(TEXT("Invalid Graphics Backend API type!"));
 				break;
 			}
+		}
+		
+		void Engine::InitializeBackend(bool enableValidation)
+		{
+			GetCommandQueue()->PushCommand<Commands::InitializeBackend>(Commands::InitializeBackend(enableValidation));
 		}
 	}
 }

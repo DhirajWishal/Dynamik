@@ -19,17 +19,17 @@ namespace DMK
 		 * Vulkan Queue obect.
 		 * Vulkan uses queues to perform tasks.
 		 */
-		class VulkanQueue {
+		class Queue {
 		public:
 			/**
 			 * Default constructor.
 			 */
-			VulkanQueue() = default;
+			Queue() = default;
 
 			/**
 			 * Default destructor.
 			 */
-			~VulkanQueue() {}
+			~Queue() {}
 
 			/**
 			 * Find Vulkan Queue families.

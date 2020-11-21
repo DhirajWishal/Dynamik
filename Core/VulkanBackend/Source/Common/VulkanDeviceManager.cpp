@@ -60,6 +60,16 @@ namespace DMK
 			Store::Remove(deviceHandle.mDeviceID);
 		}
 
+		VulkanDevice VulkanDeviceManager::GetDevice(const GraphicsCore::DeviceHandle& deviceHandle)
+		{
+			return Store::Get(deviceHandle.mDeviceID);
+		}
+
+		VulkanDevice* VulkanDeviceManager::GetDeviceAddress(const GraphicsCore::DeviceHandle& deviceHandle)
+		{
+			return Store::Location(deviceHandle.mDeviceID);
+		}
+
 		void VulkanDeviceManager::PollInputs()
 		{
 			if (isInitialized)

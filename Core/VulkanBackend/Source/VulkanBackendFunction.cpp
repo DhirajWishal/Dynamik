@@ -4,6 +4,8 @@
 #include "VulkanBackend/VulkanBackendFunction.h"
 
 #include "GraphicsCore/Commands/CoreCommands.h"
+#include "GraphicsCore/Commands/RenderTargetCommands.h"
+
 #include "VulkanBackend/Common/VulkanDeviceManager.h"
 
 #define TYPE_NAME(type)	typeid(type).name()
@@ -59,6 +61,8 @@ namespace DMK
 					// Terminate the backend.
 					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::TerminateBackend))
 					{
+						SET_COMMAND_STATE_EXECUTING(pCommand);
+
 						// Terminate the device manager.
 						vDeviceManager.Terminate();
 
@@ -68,6 +72,8 @@ namespace DMK
 						// Set the run state to false.
 						ShouldRun = false;
 
+						SET_COMMAND_STATE_SUCCESS(pCommand);
+
 						// Delete the command.
 						DELETE(GraphicsCore::Commands::TerminateBackend);
 					}
@@ -75,6 +81,8 @@ namespace DMK
 					// Create a new device command.
 					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::CreateDevice))
 					{
+						SET_COMMAND_STATE_EXECUTING(pCommand);
+
 						auto pCreateCommand = pCommand->Derived<GraphicsCore::Commands::CreateDevice>();
 
 						// If the device handle pointer is defined, provide data to it. Ignore if false.
@@ -83,6 +91,8 @@ namespace DMK
 						else
 							vDeviceManager.CreateDevice(pCreateCommand->Get().initInfo);
 
+						SET_COMMAND_STATE_SUCCESS(pCommand);
+
 						// Delete the command.
 						DELETE(GraphicsCore::Commands::CreateDevice);
 					}
@@ -90,11 +100,72 @@ namespace DMK
 					// Destroy a created device.
 					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::DestroyDevice))
 					{
+						SET_COMMAND_STATE_EXECUTING(pCommand);
+
 						// Destroy the device.
 						vDeviceManager.DestroyDevice(pCommand->Derived<GraphicsCore::Commands::DestroyDevice>()->Get().mDeviceHandle);
 
+						SET_COMMAND_STATE_SUCCESS(pCommand);
+
 						// Delete the command.
 						DELETE(GraphicsCore::Commands::DestroyDevice);
+					}
+
+					// Create a render target.
+					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::CreateRenderTarget))
+					{
+						SET_COMMAND_STATE_EXECUTING(pCommand);
+						auto pCreateCommand = pCommand->Derived<GraphicsCore::Commands::CreateRenderTarget>();
+						auto pDevice = vDeviceManager.GetDeviceAddress(pCreateCommand->Get().mDeviceHandle);
+
+						GraphicsCore::RenderTargetHandle mHandleRT = {};
+
+						// Resolve the attachments.
+						for (auto itr = pCreateCommand->Get().mAttachments.begin(); itr != pCreateCommand->Get().mAttachments.end(); itr++)
+						{
+							switch (itr->type)
+							{
+							case DMK::GraphicsCore::RenderTargetAttachmentType::RENDER_TARGET_ATTACHMENT_TYPE_SWAP_CHAIN:
+								// Create the swap chain.
+								mHandleRT.attachmentIDs.insert(mHandleRT.attachmentIDs.end(), pDevice->CreateSwapChain(*itr));
+								break;
+							case DMK::GraphicsCore::RenderTargetAttachmentType::RENDER_TARGET_ATTACHMENT_TYPE_COLOR_BUFFER:
+								// Create the color buffer.
+								mHandleRT.attachmentIDs.insert(mHandleRT.attachmentIDs.end(), pDevice->CreateColorBuffer(*itr));
+								break;
+							case DMK::GraphicsCore::RenderTargetAttachmentType::RENDER_TARGET_ATTACHMENT_TYPE_DEPTH_BUFFER:
+								break;
+							default:
+								Logger::LogError(TEXT("Invalid Render Target Attachment Type!"));
+								break;
+							}
+
+							mHandleRT.attachmentTypes.insert(mHandleRT.attachmentTypes.end(), itr->type);
+						}
+
+						// Set the handle data if the pointer is valid.
+						if (pCreateCommand->Get().pHandle)
+							*pCreateCommand->Get().pHandle = mHandleRT;
+
+						SET_COMMAND_STATE_SUCCESS(pCommand);
+					}
+
+					// Destroy all render targets.
+					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::DestroyAllRenderTargets))
+					{
+						SET_COMMAND_STATE_EXECUTING(pCommand);
+						auto pCreateCommand = pCommand->Derived<GraphicsCore::Commands::DestroyAllRenderTargets>();
+
+						// Get the required device.
+						auto pDevice = vDeviceManager.GetDeviceAddress(pCreateCommand->Get().mDeviceHandle);
+
+						// Destroy all swap chains.
+						pDevice->DestroyAllSwapChains();
+
+						// Destroy all color buffers.
+						pDevice->DestroyAllColorBuffers();
+
+						SET_COMMAND_STATE_SUCCESS(pCommand);
 					}
 
 					// If execution failed.

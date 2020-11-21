@@ -15,20 +15,20 @@ namespace DMK
 	namespace VulkanBackend
 	{
 		/**
-		 * Internal helper namespace.
+		 * Internal helpers namespace.
 		 */
-		namespace _Helper
+		namespace _Helpers
 		{
 			/**
 			 * Query swap chain support details.
 			 *
 			 * @param vPhysicalDevice: The physical device to be checked for.
 			 * @param vSurface: The surface to be checked with.
-			 * @return VulkanSwapChainSupportDetails structure.
+			 * @return SwapChainSupportDetails structure.
 			 */
-			VulkanSwapChainSupportDetails QuerySwapChainSupportDetails(VkPhysicalDevice vPhysicalDevice, VkSurfaceKHR vSurface)
+			SwapChainSupportDetails QuerySwapChainSupportDetails(VkPhysicalDevice vPhysicalDevice, VkSurfaceKHR vSurface)
 			{
-				VulkanSwapChainSupportDetails supportDetails = {};
+				SwapChainSupportDetails supportDetails = {};
 				vkGetPhysicalDeviceSurfaceCapabilitiesKHR(vPhysicalDevice, vSurface, &supportDetails.capabilities);
 
 				UI32 formatCount = 0;
@@ -36,7 +36,7 @@ namespace DMK
 
 				if (formatCount != 0)
 				{
-					supportDetails.formats.reserve(formatCount);
+					supportDetails.formats.resize(formatCount);
 					vkGetPhysicalDeviceSurfaceFormatsKHR(vPhysicalDevice, vSurface, &formatCount, supportDetails.formats.data());
 				}
 
@@ -45,11 +45,27 @@ namespace DMK
 
 				if (presentModeCount != 0)
 				{
-					supportDetails.presentModes.reserve(presentModeCount);
+					supportDetails.presentModes.resize(presentModeCount);
 					vkGetPhysicalDeviceSurfacePresentModesKHR(vPhysicalDevice, vSurface, &presentModeCount, supportDetails.presentModes.data());
 				}
 
 				return supportDetails;
+			}
+
+			VkSampleCountFlags GetMaxUsableSamples(VkPhysicalDevice vPhysicalDevice)
+			{
+				VkPhysicalDeviceProperties physicalDeviceProperties;
+				vkGetPhysicalDeviceProperties(vPhysicalDevice, &physicalDeviceProperties);
+
+				VkSampleCountFlags counts = physicalDeviceProperties.limits.framebufferColorSampleCounts & physicalDeviceProperties.limits.framebufferDepthSampleCounts;
+				if (counts & VK_SAMPLE_COUNT_64_BIT) { return VK_SAMPLE_COUNT_64_BIT; }
+				if (counts & VK_SAMPLE_COUNT_32_BIT) { return VK_SAMPLE_COUNT_32_BIT; }
+				if (counts & VK_SAMPLE_COUNT_16_BIT) { return VK_SAMPLE_COUNT_16_BIT; }
+				if (counts & VK_SAMPLE_COUNT_8_BIT) { return VK_SAMPLE_COUNT_8_BIT; }
+				if (counts & VK_SAMPLE_COUNT_4_BIT) { return VK_SAMPLE_COUNT_4_BIT; }
+				if (counts & VK_SAMPLE_COUNT_2_BIT) { return VK_SAMPLE_COUNT_2_BIT; }
+
+				return VK_SAMPLE_COUNT_1_BIT;
 			}
 		}
 
@@ -73,8 +89,6 @@ namespace DMK
 			// Enable ray tracing extensions.
 			if (initInfo.tryEnableRayTracing)
 			{
-				instanceExtensions.push_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
-
 				deviceExtensions.push_back(VK_KHR_MAINTENANCE2_EXTENSION_NAME);
 				deviceExtensions.push_back(VK_KHR_GET_MEMORY_REQUIREMENTS_2_EXTENSION_NAME);
 				deviceExtensions.push_back(VK_KHR_RAY_TRACING_EXTENSION_NAME);
@@ -95,6 +109,9 @@ namespace DMK
 
 		void VulkanDevice::Terminate()
 		{
+			// Terminate all Swap Chains.
+			DestroyAllSwapChains();
+
 			// Terminate logical device.
 			TerminateLogicalDevice();
 
@@ -251,6 +268,25 @@ namespace DMK
 			deviceProps2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2;
 			deviceProps2.pNext = &vPhysicalDeviceRayTracingProperties;
 			vkGetPhysicalDeviceProperties2(GetPhysicalDevice(), &deviceProps2);
+
+			// Get surface capabilities.
+			DMK_VK_ASSERT(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(GetPhysicalDevice(), GetSurface(), &vSurfaceCapabilities), "Failed to get Surface Capabilities");
+
+			// Get swap chain support details.
+			vSwapChainSupportDetails = _Helpers::QuerySwapChainSupportDetails(GetPhysicalDevice(), GetSurface());
+
+			// Initialize MSAA samples.
+			{
+				vMsaaSamples = vPhysicalDeviceProperties.limits.framebufferColorSampleCounts & vPhysicalDeviceProperties.limits.framebufferDepthSampleCounts;
+
+				if (vMsaaSamples & VK_SAMPLE_COUNT_64_BIT) vMsaaSamples = VK_SAMPLE_COUNT_64_BIT;
+				else if (vMsaaSamples & VK_SAMPLE_COUNT_32_BIT) vMsaaSamples = VK_SAMPLE_COUNT_32_BIT;
+				else if (vMsaaSamples & VK_SAMPLE_COUNT_16_BIT) vMsaaSamples = VK_SAMPLE_COUNT_16_BIT;
+				else if (vMsaaSamples & VK_SAMPLE_COUNT_8_BIT) vMsaaSamples = VK_SAMPLE_COUNT_8_BIT;
+				else if (vMsaaSamples & VK_SAMPLE_COUNT_4_BIT) vMsaaSamples = VK_SAMPLE_COUNT_4_BIT;
+				else if (vMsaaSamples & VK_SAMPLE_COUNT_2_BIT) vMsaaSamples = VK_SAMPLE_COUNT_2_BIT;
+				else vMsaaSamples = VK_SAMPLE_COUNT_1_BIT;
+			}
 		}
 
 		void VulkanDevice::TerminatePhysicalDevice()
@@ -349,22 +385,17 @@ namespace DMK
 			return requiredExtensions.empty();
 		}
 
-		VulkanSwapChainSupportDetails VulkanDevice::QuerySwapChainSupportDetails()
-		{
-			return _Helper::QuerySwapChainSupportDetails(GetPhysicalDevice(), GetSurface());
-		}
-
 		bool VulkanDevice::IsPhysicalDeviceSuitable(VkPhysicalDevice vDevice)
 		{
-			VulkanQueue _queue = {};
+			Queue _queue = {};
 			_queue.FindQueueFamilies(vDevice, GetSurface());
 
 			bool extensionsSupported = CheckDeviceExtensionSupport(vDevice, deviceExtensions);
 			bool swapChainAdequate = false;
 			if (extensionsSupported)
 			{
-				VulkanSwapChainSupportDetails swapChainSupport = _Helper::QuerySwapChainSupportDetails(vDevice, GetSurface());
-				swapChainAdequate = (swapChainSupport.formats.empty()) && (swapChainSupport.presentModes.empty());
+				SwapChainSupportDetails swapChainSupport = _Helpers::QuerySwapChainSupportDetails(vDevice, GetSurface());
+				swapChainAdequate = (!swapChainSupport.formats.empty()) && (!swapChainSupport.presentModes.empty());
 			}
 
 			VkPhysicalDeviceFeatures supportedFeatures;

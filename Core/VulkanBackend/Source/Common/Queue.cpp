@@ -1,13 +1,13 @@
 // Copyright 2020 Dhiraj Wishal
 // SPDX-License-Identifier: Apache-2.0
 
-#include "VulkanBackend/Common/VulkanQueue.h"
+#include "VulkanBackend/Common/Queue.h"
 
 namespace DMK
 {
 	namespace VulkanBackend
 	{
-		void VulkanQueue::FindQueueFamilies(VkPhysicalDevice vPhysicalDevice, VkSurfaceKHR vSurface)
+		void Queue::FindQueueFamilies(VkPhysicalDevice vPhysicalDevice, VkSurfaceKHR vSurface)
 		{
 			UI32 queueFamilyCount = 0;
 			vkGetPhysicalDeviceQueueFamilyProperties(vPhysicalDevice, &queueFamilyCount, nullptr);
@@ -36,7 +36,7 @@ namespace DMK
 			}
 		}
 
-		bool VulkanQueue::IsComplete()
+		bool Queue::IsComplete()
 		{
 			return graphicsFamily.has_value() && computeFamily.has_value() && transferFamily.has_value();
 		}
