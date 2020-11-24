@@ -60,6 +60,15 @@ RenderTargetAttachmentSpecification CreateColorBufferSpec()
 	return spec;
 }
 
+RenderTargetAttachmentSpecification CreateDepthBufferSpec()
+{
+	RenderTargetAttachmentSpecification spec = {};
+	spec.extent = mExtent;
+	spec.type = RenderTargetAttachmentType::RENDER_TARGET_ATTACHMENT_TYPE_DEPTH_BUFFER;
+
+	return spec;
+}
+
 int main()
 {
 	DMK::Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT> mCommandQueue = {};
@@ -71,9 +80,9 @@ int main()
 	mCommandQueue.PushCommand<Commands::InitializeBackend>(&mCommandState);
 	mCommandQueue.PushCommand<Commands::CreateDevice>(Commands::CreateDevice(&mDeviceHandle), &mCommandState);
 
-	mCommandQueue.PushCommand<Commands::CreateRenderTarget>(Commands::CreateRenderTarget({ CreateSwapChainSpec(), CreateColorBufferSpec() }, mDeviceHandle));
+	mCommandQueue.PushCommand<Commands::CreateRenderTarget>(Commands::CreateRenderTarget({ CreateSwapChainSpec(), CreateColorBufferSpec(), CreateDepthBufferSpec() }, mDeviceHandle));
 
-	size_t counter = -1ull;
+	size_t counter = std::numeric_limits<size_t>().max();
 	while (counter--);
 
 	mCommandQueue.PushCommand<Commands::DestroyAllRenderTargets>(Commands::DestroyAllRenderTargets(mDeviceHandle));

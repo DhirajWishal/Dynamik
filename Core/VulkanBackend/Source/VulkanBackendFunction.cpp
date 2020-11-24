@@ -134,6 +134,8 @@ namespace DMK
 								mHandleRT.attachmentIDs.insert(mHandleRT.attachmentIDs.end(), pDevice->CreateColorBuffer(*itr));
 								break;
 							case DMK::GraphicsCore::RenderTargetAttachmentType::RENDER_TARGET_ATTACHMENT_TYPE_DEPTH_BUFFER:
+								// Create the depth buffer.
+								mHandleRT.attachmentIDs.insert(mHandleRT.attachmentIDs.end(), pDevice->CreateDepthBuffer(*itr));
 								break;
 							default:
 								Logger::LogError(TEXT("Invalid Render Target Attachment Type!"));
@@ -164,6 +166,9 @@ namespace DMK
 
 						// Destroy all color buffers.
 						pDevice->DestroyAllColorBuffers();
+
+						// Destroy all depth buffers.
+						pDevice->DestroyAllDepthBuffers();
 
 						SET_COMMAND_STATE_SUCCESS(pCommand);
 					}

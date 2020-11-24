@@ -4,6 +4,7 @@
 -- File including all the core modules.
 
 group "Core"
+include "AudioCore/AudioCore.lua"
 include "Core/Core.lua"
 include "Graphics/Graphics.lua"
 include "GraphicsCore/GraphicsCore.lua"

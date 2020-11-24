@@ -3,6 +3,7 @@
 
 #include "VulkanBackend/RenderTarget/SwapChain.h"
 #include "VulkanBackend/Common/VulkanDevice.h"
+#include "VulkanBackend/Common/Utilities.h"
 
 namespace DMK
 {
@@ -41,115 +42,16 @@ namespace DMK
 			vSwapChains.clear();
 		}
 
-		namespace _Helpers
-		{
-			VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
-			{
-				for (const auto& availableFormat : availableFormats)
-					if (availableFormat.format == VK_FORMAT_B8G8R8A8_UNORM
-						&& availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
-						return availableFormat;
-
-				return availableFormats[0];
-			}
-
-			/**
-			 * Choose swap chain present mode.
-			 * This describes how the swap chain images should be presented to the screen buffer.
-			 *
-			 * @param availablePresentModes: All the available present modes.
-			 * @return VkPresentModeKHR enum.
-			 */
-			VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
-			{
-				VkPresentModeKHR bestMode = VK_PRESENT_MODE_FIFO_KHR;
-
-				for (const auto& availablePresentMode : availablePresentModes)
-				{
-					if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
-						return availablePresentMode;
-					else if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR)
-						bestMode = availablePresentMode;
-				}
-
-				return bestMode;
-			}
-
-			/**
-			 * Choose a swap chain extent.
-			 * This defines the width and height of every swap chain image.
-			 *
-			 * @param capabilities: The surface capabilities.
-			 * @param width: The prefered width of the image.
-			 * @param height: The prefered height of the image.
-			 * @return VkExtent2D structure.
-			 */
-			VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, UI32 width, UI32 height)
-			{
-				if (capabilities.currentExtent.width != std::numeric_limits<UI32>::max())
-					return capabilities.currentExtent;
-				else
-				{
-					VkExtent2D actualExtent = {
-						width,
-						height
-					};
-
-					if ((width >= capabilities.maxImageExtent.width) || (width <= capabilities.minImageExtent.width))
-					{
-						actualExtent.width = std::max(capabilities.minImageExtent.width,
-							std::min(capabilities.maxImageExtent.width, actualExtent.width));
-					}
-					if ((height >= capabilities.maxImageExtent.height) || (height <= capabilities.minImageExtent.height))
-					{
-						actualExtent.height = std::max(capabilities.minImageExtent.height,
-							std::min(capabilities.maxImageExtent.height, actualExtent.height));
-					}
-
-					return actualExtent;
-				}
-			}
-
-			std::vector<VkImageView> CreateImageViews(const std::vector<VkImage>& vImages, VkFormat imageFormat, VkDevice vDevice)
-			{
-				VkImageViewCreateInfo createInfo = {};
-				createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-				createInfo.flags = VK_NULL_HANDLE;
-				createInfo.pNext = VK_NULL_HANDLE;
-				createInfo.viewType = VkImageViewType::VK_IMAGE_VIEW_TYPE_2D;
-				createInfo.format = imageFormat;
-
-				VkImageSubresourceRange vSubRange = {};
-				vSubRange.baseArrayLayer = 1;
-				vSubRange.layerCount = 1;
-				vSubRange.levelCount = 1;
-				vSubRange.baseMipLevel = 0;
-
-				createInfo.subresourceRange = vSubRange;
-
-				std::vector<VkImageView> vImageViews(vImages.size());
-				UI8 counter = 0;
-				for (auto itr = vImages.begin(); itr != vImages.end(); itr++)
-				{
-					createInfo.image = *itr;
-					DMK_VK_ASSERT(vkCreateImageView(vDevice, &createInfo, nullptr, vImageViews.data() + counter), "Failed to create Vulkan Image Views for the Swap Chain images!");
-					counter++;
-				}
-
-				return vImageViews;
-			}
-		}
-
-		void SwapChain::Initialize(const VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec)
+		void SwapChain::Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec)
 		{
 			mSpecification = spec;
 
 			// Get the swap chain support details.
 			auto vSupport = vDevice.GetSwapChainSupportDetails();
 
-			VkSurfaceFormatKHR surfaceFormat = _Helpers::ChooseSwapSurfaceFormat(vSupport.formats);
-			VkPresentModeKHR presentMode = _Helpers::ChooseSwapPresentMode(vSupport.presentModes);
-			VkExtent2D scExtent = _Helpers::ChooseSwapExtent(vSupport.capabilities, static_cast<UI32>(spec.extent.width), static_cast<UI32>(spec.extent.height));
+			VkSurfaceFormatKHR surfaceFormat = Utilities::ChooseSwapSurfaceFormat(vSupport.formats);
+			VkPresentModeKHR presentMode = Utilities::ChooseSwapPresentMode(vSupport.presentModes);
+			VkExtent2D scExtent = Utilities::ChooseSwapExtent(vSupport.capabilities, static_cast<UI32>(spec.extent.width), static_cast<UI32>(spec.extent.height));
 
 			auto vCapabilities = vDevice.GetSurfaceCapabilities();
 
@@ -212,7 +114,7 @@ namespace DMK
 			DMK_VK_ASSERT(vkGetSwapchainImagesKHR(vDevice.GetLogicalDevice(), vSwapChain, &mBufferCount, vImages.data()), "Failed to get the Vulkan Swap Chain Images!");
 
 			vFormat = surfaceFormat.format;
-			vImageViews = std::move(_Helpers::CreateImageViews(vImages, vFormat, vDevice.GetLogicalDevice()));
+			vImageViews = std::move(Utilities::CreateImageViews(vImages, vFormat, vDevice.GetLogicalDevice()));
 		}
 
 		void SwapChain::Terminate(const VulkanDevice& vDevice)

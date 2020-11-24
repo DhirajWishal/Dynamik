@@ -6,11 +6,13 @@
 #include "Core/Macros/Global.h"
 #include "GraphicsCore/Backend/DeviceHandle.h"
 
+#include "CommandBuffer.h"
 #include "Macros.h"
 #include "Queue.h"
 
 #include "VulkanBackend/RenderTarget/SwapChain.h"
 #include "VulkanBackend/RenderTarget/ColorBuffer.h"
+#include "VulkanBackend/RenderTarget/DepthBuffer.h"
 
 #include <optional>
 #include <GLFW/glfw3.h>
@@ -223,6 +225,32 @@ namespace DMK
 			 */
 			bool IsPhysicalDeviceSuitable(VkPhysicalDevice vDevice);
 
+			/* Command Buffer */
+		public:
+			/**
+			 * Create a new command buffer.
+			 *
+			 * @param vCommandBufferLevel: The level of the command buffer. Default is VK_COMMAND_BUFFER_LEVEL_PRIMARY.
+			 * @return CommandBuffer object.
+			 */
+			CommandBuffer CreateCommandBuffer(VkCommandBufferLevel vCommandBufferLevel = VkCommandBufferLevel::VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+
+			/**
+			 * Flush commands recorded in a command buffer.
+			 *
+			 * @param vCommandBuffer: The command buffer to execute the commands.
+			 */
+			void FlushCommands(const CommandBuffer& vCommandBuffer);
+
+			/**
+			 * Terminate a created command pool.
+			 *
+			 * @param commandPoolIndex: The index of the command pool.
+			 */
+			void TerminateCommandPool(UI64 commandPoolIndex);
+
+			std::vector<CommandPool> vCommandPools;	// Command pools container.
+
 			/* Render Target */
 		public:
 			/**
@@ -268,6 +296,28 @@ namespace DMK
 			void DestroyAllColorBuffers();
 
 			std::vector<ColorBuffer> vColorBuffers;	// All the created color buffers.
+
+			/**
+			 * Create a Depth Buffer object.
+			 *
+			 * @param spec: The render target attachment specification.
+			 * @return Vulkan Depth Buffer handle.
+			 */
+			DepthBufferHandle CreateDepthBuffer(GraphicsCore::RenderTargetAttachmentSpecification spec);
+
+			/**
+			 * Destroy a created Depth Buffer object.
+			 *
+			 * @param vDepthBufferHandle: The handle of the depth buffer to be destroyed.
+			 */
+			void DestroyDepthBuffer(DepthBufferHandle vDepthBufferHandle);
+
+			/**
+			 * This method will destroy all the created depth buffers in this device.
+			 */
+			void DestroyAllDepthBuffers();
+
+			std::vector<DepthBuffer> vDepthBuffers;	// All the created depth buffers.
 
 		private:
 			Queue vQueue = {};	// Vulkan queue object.

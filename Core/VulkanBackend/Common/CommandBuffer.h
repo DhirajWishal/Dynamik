@@ -3,12 +3,46 @@
 
 #pragma once
 
-#include "VulkanDevice.h"
+#include "Core/Types/DataTypes.h"
+#include <vulkan/vulkan.h>
 
 namespace DMK
 {
 	namespace VulkanBackend
 	{
+		class VulkanDevice;
+
+		/**
+		 * Vulkan Command Pool object.
+		 */
+		class CommandPool {
+		public:
+			/**
+			 * Default constructor.
+			 */
+			CommandPool() {}
+
+			/**
+			 * Default destructor.
+			 */
+			~CommandPool() {}
+
+			/**
+			 * Initialize the command pool.
+			 *
+			 * @param vLogicalDevice: The Vulkan logical device handle.
+			 */
+			void Initialize(VkDevice vLogicalDevice);
+
+			/**
+			 * Terminate the command pool.
+			 */
+			void Terminate(VkDevice vLogicalDevice);
+
+			VkCommandPool vCommandPool = VK_NULL_HANDLE;	// Vulkan command pool handle.
+			UI64 allocatedCommandBufferCount = 0;	// The number of allocated command buffer count.
+		};
+
 		/**
 		 * Command Buffer object.
 		 * This object contains all the necessary functions a command buffer contains.
@@ -45,8 +79,13 @@ namespace DMK
 			void EndRecording();
 
 			/**
+			 * Reset the commands recorded in this command buffer.
+			 */
+			void Reset();
+
+			/**
 			 * Set a new layout to a image.
-			 * 
+			 *
 			 * @param vImage: The image to set the layout.
 			 * @param mipLevel: The mip map level.
 			 * @param layerCount: The number of layers in the image.
@@ -56,8 +95,8 @@ namespace DMK
 			 */
 			void SetImageLayout(const VkImage& vImage, UI32 mipLevel, UI32 layerCount, VkFormat vFormat, VkImageLayout vOldLayout, VkImageLayout vNewLayout);
 
-		private:
 			VkCommandBuffer vCommandBuffer = VK_NULL_HANDLE;	// Vulkan command buffer handle.
+			UI64 commandPoolIndex = 0;	// The index of the command pool.
 		};
 	}
 }

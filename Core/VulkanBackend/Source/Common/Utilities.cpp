@@ -1,3 +1,6 @@
+// Copyright 2020 Dhiraj Wishal
+// SPDX-License-Identifier: Apache-2.0
+
 #include "VulkanBackend/Common/Utilities.h"
 
 namespace DMK
@@ -19,121 +22,140 @@ namespace DMK
 				return 0;
 			}
 
-			void TransitionImageLayout(
-				VkCommandBuffer vCommandBuffer,
-				VkImage vImage,
-				VkImageLayout oldLayout, VkImageLayout newLayout,
-				UI32 mipLevels, UI32 layerCount, VkFormat vFormat)
+			VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
 			{
-				VkImageMemoryBarrier barrier = {};
-				barrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
-				barrier.oldLayout = oldLayout;
-				barrier.newLayout = newLayout;
-				barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-				barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-				barrier.image = vImage;
+				for (const auto& availableFormat : availableFormats)
+					if (availableFormat.format == VK_FORMAT_B8G8R8A8_UNORM
+						&& availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+						return availableFormat;
 
-				if (newLayout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL)
+				return availableFormats[0];
+			}
+
+			VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
+			{
+				VkPresentModeKHR bestMode = VK_PRESENT_MODE_FIFO_KHR;
+
+				for (const auto& availablePresentMode : availablePresentModes)
 				{
-					barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
-
-					if (vFormat == VK_FORMAT_D32_SFLOAT_S8_UINT || vFormat == VK_FORMAT_D24_UNORM_S8_UINT)
-						barrier.subresourceRange.aspectMask |= VK_IMAGE_ASPECT_STENCIL_BIT;
+					if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
+						return availablePresentMode;
+					else if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR)
+						bestMode = availablePresentMode;
 				}
+
+				return bestMode;
+			}
+
+			VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, UI32 width, UI32 height)
+			{
+				if (capabilities.currentExtent.width != std::numeric_limits<UI32>::max())
+					return capabilities.currentExtent;
 				else
-					barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-
-				barrier.subresourceRange.baseMipLevel = 0;
-				barrier.subresourceRange.levelCount = mipLevels;
-				barrier.subresourceRange.baseArrayLayer = 0;
-				barrier.subresourceRange.layerCount = layerCount;
-				barrier.srcAccessMask = 0; // TODO
-				barrier.dstAccessMask = 0; // TODO
-
-				VkPipelineStageFlags sourceStage = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;
-				VkPipelineStageFlags destinationStage = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;
-
-				switch (barrier.oldLayout)
 				{
-				case VK_IMAGE_LAYOUT_UNDEFINED:
-					//sourceStage = VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT;
-					barrier.srcAccessMask = 0;
-					break;
+					VkExtent2D actualExtent = {
+						width,
+						height
+					};
 
-				case VK_IMAGE_LAYOUT_PREINITIALIZED:
-					barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
-					break;
+					if ((width >= capabilities.maxImageExtent.width) || (width <= capabilities.minImageExtent.width))
+					{
+						actualExtent.width = std::max(capabilities.minImageExtent.width,
+							std::min(capabilities.maxImageExtent.width, actualExtent.width));
+					}
+					if ((height >= capabilities.maxImageExtent.height) || (height <= capabilities.minImageExtent.height))
+					{
+						actualExtent.height = std::max(capabilities.minImageExtent.height,
+							std::min(capabilities.maxImageExtent.height, actualExtent.height));
+					}
 
-				case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
-					barrier.srcAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-					break;
+					return actualExtent;
+				}
+			}
 
-				case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
-					barrier.srcAccessMask = VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
-					break;
+			std::vector<VkImageView> CreateImageViews(const std::vector<VkImage>& vImages, VkFormat imageFormat, VkDevice vDevice)
+			{
+				VkImageViewCreateInfo createInfo = {};
+				createInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+				createInfo.flags = VK_NULL_HANDLE;
+				createInfo.pNext = VK_NULL_HANDLE;
+				createInfo.viewType = VkImageViewType::VK_IMAGE_VIEW_TYPE_2D;
+				createInfo.format = imageFormat;
 
-				case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
-					barrier.srcAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
-					break;
+				VkImageSubresourceRange vSubRange = {};
+				vSubRange.baseArrayLayer = 1;
+				vSubRange.layerCount = 1;
+				vSubRange.levelCount = 1;
+				vSubRange.baseMipLevel = 0;
 
-				case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
-					//sourceStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
-					barrier.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-					break;
+				createInfo.subresourceRange = vSubRange;
 
-				case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
-					//destinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-					barrier.srcAccessMask = VK_ACCESS_SHADER_READ_BIT;
-					break;
-				default:
-					Logger::LogError(TEXT("Unsupported layout transition!"));
-					break;
+				std::vector<VkImageView> vImageViews(vImages.size());
+				UI8 counter = 0;
+				for (auto itr = vImages.begin(); itr != vImages.end(); itr++)
+				{
+					createInfo.image = *itr;
+					DMK_VK_ASSERT(vkCreateImageView(vDevice, &createInfo, nullptr, vImageViews.data() + counter), "Failed to create Vulkan Image Views for the Swap Chain images!");
+					counter++;
 				}
 
-				switch (barrier.newLayout)
+				return vImageViews;
+			}
+
+			VkDeviceMemory CreateImageMemory(const std::vector<VkImage>& vImages, VkPhysicalDevice vPhysicalDevice, VkDevice vLogicalDevice)
+			{
+				// Get memory requirements.
+				VkMemoryRequirements memRequirements = {};
+				vkGetImageMemoryRequirements(vLogicalDevice, vImages[0], &memRequirements);
+
+				// Memory allocate info.
+				VkMemoryAllocateInfo allocInfo = {};
+				allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+				allocInfo.allocationSize = memRequirements.size * vImages.size();
+				allocInfo.memoryTypeIndex = Utilities::FindMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, vPhysicalDevice);
+
+				// Allocate the image memory
+				VkDeviceMemory vImageMemory = VK_NULL_HANDLE;
+				DMK_VK_ASSERT(vkAllocateMemory(vLogicalDevice, &allocInfo, nullptr, &vImageMemory), "Failed to allocate image memory!");
+
+				// Bind the image to the image memory.
+				UI32 counter = 0;
+				while (counter < vImages.size())
 				{
-				case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
-					//destinationStage = VK_PIPELINE_STAGE_TRANSFER_BIT;
-					barrier.dstAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
-					break;
-
-				case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
-					barrier.dstAccessMask = VK_ACCESS_TRANSFER_READ_BIT;
-					break;
-
-				case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
-					//destinationStage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-					barrier.dstAccessMask = VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT;
-					break;
-
-				case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
-					//destinationStage = VK_PIPELINE_STAGE_EARLY_FRAGMENT_TESTS_BIT;
-					barrier.dstAccessMask = barrier.dstAccessMask | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT;
-					break;
-
-				case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
-					if (barrier.srcAccessMask == 0)
-						barrier.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT | VK_ACCESS_TRANSFER_WRITE_BIT;
-
-					barrier.dstAccessMask = VK_ACCESS_SHADER_READ_BIT;
-					//destinationStage = VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT;
-					break;
-
-				case VK_IMAGE_LAYOUT_GENERAL:
-					//destinationStage = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT;
-					break;
-				default:
-					Logger::LogError(TEXT("Unsupported layout transition!"));
-					break;
+					DMK_VK_ASSERT(vkBindImageMemory(vLogicalDevice, *(vImages.data() + counter), vImageMemory, memRequirements.size * counter), "Failed to bind image memory!");
+					counter++;
 				}
 
-				vkCmdPipelineBarrier(
-					vCommandBuffer,
-					sourceStage, destinationStage,
-					0,
-					0, nullptr,
-					0, nullptr,
-					1, &barrier
+				return vImageMemory;
+			}
+
+			VkFormat FindSupportedFormat(const std::vector<VkFormat>& vCandidateFormats, VkImageTiling vImageTiling, VkFormatFeatureFlags vFeatures, VkPhysicalDevice vPhysicalDevice)
+			{
+				// Go through the candidates and check if any suitable format is present.
+				for (auto itr = vCandidateFormats.begin(); itr != vCandidateFormats.end(); itr++) {
+					VkFormatProperties props;
+
+					vkGetPhysicalDeviceFormatProperties(vPhysicalDevice, *itr, &props);
+
+					if (vImageTiling == VK_IMAGE_TILING_LINEAR && (props.linearTilingFeatures & vFeatures) == vFeatures)
+						return *itr;
+
+					else if (vImageTiling == VK_IMAGE_TILING_OPTIMAL && (props.optimalTilingFeatures & vFeatures) == vFeatures)
+						return *itr;
+				}
+
+				// Assert and return VK_FORMAT_UNDEFINED.
+				Logger::LogError(TEXT("Failed to find supported format!"));
+				return VkFormat::VK_FORMAT_UNDEFINED;
+			}
+
+			VkFormat FindDepthFormat(const VkPhysicalDevice& vPhysicalDevice)
+			{
+				return FindSupportedFormat(
+					{ VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT },
+					VK_IMAGE_TILING_OPTIMAL,
+					VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT,
+					vPhysicalDevice
 				);
 			}
 		}

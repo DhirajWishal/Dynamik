@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{15A0C35D-0158-05AB-6A5F-DE065636A09B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AudioCore", "Core\AudioCore\AudioCore.vcxproj", "{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "Core\Core\Core.vcxproj", "{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Graphics", "Core\Graphics\Graphics.vcxproj", "{1653CE33-0220-293F-2B39-17E717655ECD}"
@@ -52,6 +54,24 @@ Global
 		Release|Windows = Release|Windows
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Debug|Mac.ActiveCfg = Debug Mac|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Debug|Mac.Build.0 = Debug Mac|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Debug|Unix.ActiveCfg = Debug Unix|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Debug|Unix.Build.0 = Debug Unix|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Debug|Windows.ActiveCfg = Debug Windows|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Debug|Windows.Build.0 = Debug Windows|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Distribution|Mac.ActiveCfg = Distribution Mac|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Distribution|Mac.Build.0 = Distribution Mac|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Distribution|Unix.ActiveCfg = Distribution Unix|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Distribution|Unix.Build.0 = Distribution Unix|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Distribution|Windows.ActiveCfg = Distribution Windows|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Distribution|Windows.Build.0 = Distribution Windows|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Release|Mac.ActiveCfg = Release Mac|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Release|Mac.Build.0 = Release Mac|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Release|Unix.ActiveCfg = Release Unix|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Release|Unix.Build.0 = Release Unix|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Release|Windows.ActiveCfg = Release Windows|x64
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A}.Release|Windows.Build.0 = Release Windows|x64
 		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}.Debug|Mac.ActiveCfg = Debug Mac|x64
 		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}.Debug|Mac.Build.0 = Debug Mac|x64
 		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}.Debug|Unix.ActiveCfg = Debug Unix|x64
@@ -327,6 +347,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{C030788E-2C9B-2C05-75D9-DDAAE1820A5A} = {15A0C35D-0158-05AB-6A5F-DE065636A09B}
 		{2EB4837C-1AEB-840D-C3D7-6A10AFED000F} = {15A0C35D-0158-05AB-6A5F-DE065636A09B}
 		{1653CE33-0220-293F-2B39-17E717655ECD} = {15A0C35D-0158-05AB-6A5F-DE065636A09B}
 		{BF92744A-ABF5-03EF-547B-3CA540BDCF71} = {15A0C35D-0158-05AB-6A5F-DE065636A09B}

@@ -36,7 +36,7 @@ namespace DMK
 			 * @param vDevice: The device in which to initialize.
 			 * @param spec: The render target attachment specification.
 			 */
-			virtual void Initialize(const VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec) {}
+			virtual void Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec) {}
 
 			/**
 			 * Terminate the render target attachment.

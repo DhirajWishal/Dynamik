@@ -81,7 +81,7 @@ namespace DMK
 			// Initialize the window/ display handle.
 			InitializeDisplay();
 
-			// Load validation layers.
+			// Load required extensions.
 			{
 				deviceExtensions.push_back(VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 			}

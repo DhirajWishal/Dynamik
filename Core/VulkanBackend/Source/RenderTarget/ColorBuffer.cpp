@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "VulkanBackend/RenderTarget/ColorBuffer.h"
-#include "VulkanBackend/RenderTarget/SwapChain.h"
 #include "VulkanBackend/Common/VulkanDevice.h"
 #include "VulkanBackend/Common/Utilities.h"
 
@@ -43,52 +42,13 @@ namespace DMK
 			vColorBuffers.clear();
 		}
 
-		namespace _Helpers
-		{
-			/**
-			 * Create image memory for the Color Buffer.
-			 * This creates one image memory block to fit all of the images.
-			 *
-			 * @param vImages: The images to be binded.
-			 * @param vPhysicalDevice: The physical device in which the memory is allocated to.
-			 * @param vLogicalDevice: The logical device to bind the memory to.
-			 * @return The Vulkan Device Memory handle.
-			 */
-			VkDeviceMemory CreateImageMemory(const std::vector<VkImage>& vImages, VkPhysicalDevice vPhysicalDevice, VkDevice vLogicalDevice)
-			{
-				// Get memory requirements.
-				VkMemoryRequirements memRequirements = {};
-				vkGetImageMemoryRequirements(vLogicalDevice, vImages[0], &memRequirements);
-
-				// Memory allocate info.
-				VkMemoryAllocateInfo allocInfo = {};
-				allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-				allocInfo.allocationSize = memRequirements.size * vImages.size();
-				allocInfo.memoryTypeIndex = Utilities::FindMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, vPhysicalDevice);
-
-				// Allocate the image memory
-				VkDeviceMemory vImageMemory = VK_NULL_HANDLE;
-				DMK_VK_ASSERT(vkAllocateMemory(vLogicalDevice, &allocInfo, nullptr, &vImageMemory), "Failed to allocate image memory!");
-
-				// Bind the image to the image memory.
-				UI32 counter = 0;
-				while (counter < vImages.size())
-				{
-					DMK_VK_ASSERT(vkBindImageMemory(vLogicalDevice, *(vImages.data() + counter), vImageMemory, memRequirements.size * counter), "Failed to bind image memory!");
-					counter++;
-				}
-
-				return vImageMemory;
-			}
-		}
-
-		void ColorBuffer::Initialize(const VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec)
+		void ColorBuffer::Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec)
 		{
 			mSpecification = spec;
 
 			// Get the swap chain support details.
 			auto vSwapChainSupport = vDevice.GetSwapChainSupportDetails();
-			vFormat = _Helpers::ChooseSwapSurfaceFormat(vSwapChainSupport.formats).format;
+			vFormat = Utilities::ChooseSwapSurfaceFormat(vSwapChainSupport.formats).format;
 
 			// Image create info structure.
 			VkImageCreateInfo createInfo = {};
@@ -124,10 +84,26 @@ namespace DMK
 			} while (counter != mBufferCount);
 
 			// Create the buffer memory.
-			vBufferMemory = _Helpers::CreateImageMemory(vImages, vDevice.GetPhysicalDevice(), vDevice.GetLogicalDevice());
+			vBufferMemory = Utilities::CreateImageMemory(vImages, vDevice.GetPhysicalDevice(), vDevice.GetLogicalDevice());
 
 			// Create the image views.
-			vImageViews = std::move(_Helpers::CreateImageViews(vImages, vFormat, vDevice.GetLogicalDevice()));
+			vImageViews = std::move(Utilities::CreateImageViews(vImages, vFormat, vDevice.GetLogicalDevice()));
+
+			// Set a new image layout.
+			{
+				// Create a new command buffer.
+				auto vCommandBuffer = vDevice.CreateCommandBuffer();
+
+				// Set image layout commands to all the images.
+				for (auto itr = vImages.begin(); itr != vImages.end(); itr++)
+					vCommandBuffer.SetImageLayout(*itr, 1, 1, vFormat, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+
+				// Flush commands.
+				vDevice.FlushCommands(vCommandBuffer);
+
+				// Terminate the command buffer and the command pool.
+				vDevice.TerminateCommandPool(vCommandBuffer.commandPoolIndex);
+			}
 		}
 
 		void ColorBuffer::Terminate(const VulkanDevice& vDevice)

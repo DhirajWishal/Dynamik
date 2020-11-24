@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Common/VulkanInstance.h"
+#include "Common/VulkanDevice.h"
 
 namespace DMK
 {

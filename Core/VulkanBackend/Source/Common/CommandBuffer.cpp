@@ -2,12 +2,94 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include "VulkanBackend/Common/CommandBuffer.h"
+#include "VulkanBackend/Common/VulkanDevice.h"
 
 namespace DMK
 {
 	namespace VulkanBackend
 	{
-		void CommandBuffer::BeginRecording(VkCommandBufferInheritanceInfo vInheritanceInfo = {})
+		CommandBuffer VulkanDevice::CreateCommandBuffer(VkCommandBufferLevel vCommandBufferLevel)
+		{
+			// Create new command pool.
+			CommandPool vCommandPool = {};
+
+			// Initialize it and insert it to the vector.
+			vCommandPool.Initialize(GetLogicalDevice());
+			vCommandPools.insert(vCommandPools.end(), std::move(vCommandPool));
+
+			// Setup command buffer.
+			CommandBuffer vCommandBuffer = {};
+			vCommandBuffer.commandPoolIndex = vCommandPools.size() - 1;
+
+			VkCommandBufferAllocateInfo allocateInfo = {};
+			allocateInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+			allocateInfo.pNext = VK_NULL_HANDLE;
+			allocateInfo.commandBufferCount = 1;
+			allocateInfo.commandPool = vCommandPool.vCommandPool;
+			allocateInfo.level = vCommandBufferLevel;
+
+			// Allocate command buffers.
+			DMK_VK_ASSERT(vkAllocateCommandBuffers(GetLogicalDevice(), &allocateInfo, &vCommandBuffer.vCommandBuffer), "Failed to allocate command buffers!");
+
+			return vCommandBuffer;
+		}
+
+		void VulkanDevice::FlushCommands(const CommandBuffer& vCommandBuffer)
+		{
+			// Submit the command buffer to execute the commands.
+			VkSubmitInfo submitInfo = {};
+			submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+			submitInfo.commandBufferCount = 1;
+			submitInfo.pCommandBuffers = &vCommandBuffer.vCommandBuffer;
+
+			// Create a fence.
+			VkFenceCreateInfo fenceCreateInfo = {};
+			fenceCreateInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+			fenceCreateInfo.flags = VK_NULL_HANDLE;
+			fenceCreateInfo.pNext = VK_NULL_HANDLE;
+
+			VkFence fence = VK_NULL_HANDLE;
+			DMK_VK_ASSERT(vkCreateFence(GetLogicalDevice(), &fenceCreateInfo, nullptr, &fence), "Failed to create fence!");
+
+			// Submit the queue.
+			DMK_VK_ASSERT(vkQueueSubmit(GetQueue().GetGraphicsQueue(), 1, &submitInfo, fence), "Failed to submit the process queue of the one time command buffer!");
+
+			// Wait for fence.
+			DMK_VK_ASSERT(vkWaitForFences(GetLogicalDevice(), 1, &fence, VK_TRUE, std::numeric_limits<UI32>::max()), "Failed to wait for fence to complete!");
+
+			// Destroy the created fence.
+			vkDestroyFence(GetLogicalDevice(), fence, nullptr);
+
+			// Free the allocated command buffers and pools.
+			vkFreeCommandBuffers(GetLogicalDevice(), vCommandPools.at(vCommandBuffer.commandPoolIndex).vCommandPool, 1, &vCommandBuffer.vCommandBuffer);
+		}
+
+		void VulkanDevice::TerminateCommandPool(UI64 commandPoolIndex)
+		{
+			// Terminate the command pool.
+			vCommandPools.at(commandPoolIndex).Terminate(GetLogicalDevice());
+
+			// Remove it from the vector.
+			vCommandPools.erase(vCommandPools.begin() + commandPoolIndex);
+		}
+
+		void CommandPool::Initialize(VkDevice vLogicalDevice)
+		{
+			VkCommandPoolCreateInfo initInfo = {};
+			initInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+			initInfo.flags = VK_NULL_HANDLE;
+			initInfo.pNext = VK_NULL_HANDLE;
+			initInfo.queueFamilyIndex;
+
+			DMK_VK_ASSERT(vkCreateCommandPool(vLogicalDevice, &initInfo, nullptr, &vCommandPool), "Failed to create Vulkan Command Pool!");
+		}
+
+		void CommandPool::Terminate(VkDevice vLogicalDevice)
+		{
+			vkDestroyCommandPool(vLogicalDevice, vCommandPool, nullptr);
+		}
+
+		void CommandBuffer::BeginRecording(VkCommandBufferInheritanceInfo vInheritanceInfo)
 		{
 			VkCommandBufferBeginInfo beginInfo = {};
 			beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -22,7 +104,12 @@ namespace DMK
 		{
 			DMK_VK_ASSERT(vkEndCommandBuffer(vCommandBuffer), "Failed to end command buffer recording!");
 		}
-		
+
+		void CommandBuffer::Reset()
+		{
+			DMK_VK_ASSERT(vkResetCommandBuffer(vCommandBuffer, 0), "Failed to reset command buffer records!");
+		}
+
 		void CommandBuffer::SetImageLayout(const VkImage& vImage, UI32 mipLevel, UI32 layerCount, VkFormat vFormat, VkImageLayout vOldLayout, VkImageLayout vNewLayout)
 		{
 			VkImageMemoryBarrier barrier = {};
