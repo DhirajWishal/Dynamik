@@ -7,6 +7,7 @@
 #include "GraphicsCore/Commands/RenderTargetCommands.h"
 
 #include "VulkanBackend/Common/VulkanDeviceManager.h"
+#include "VulkanBackend/Common/Utilities.h"
 
 namespace DMK
 {
@@ -75,13 +76,13 @@ namespace DMK
 					{
 						SET_COMMAND_EXECUTING(pCommand);
 
-						auto& pCreateCommand = pCommand->GetData<GraphicsCore::Commands::CreateDevice>();
+						auto& mCreateCommand = pCommand->GetData<GraphicsCore::Commands::CreateDevice>();
 
 						// If the device handle pointer is defined, provide data to it. Ignore if false.
-						if (pCreateCommand.pDeviceHandle)
-							*pCreateCommand.pDeviceHandle = vDeviceManager.CreateDevice(pCreateCommand.initInfo);
+						if (mCreateCommand.pDeviceHandle)
+							*mCreateCommand.pDeviceHandle = vDeviceManager.CreateDevice(mCreateCommand.initInfo);
 						else
-							vDeviceManager.CreateDevice(pCreateCommand.initInfo);
+							vDeviceManager.CreateDevice(mCreateCommand.initInfo);
 
 						SET_COMMAND_SUCCESS(pCommand);
 
@@ -107,27 +108,39 @@ namespace DMK
 					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::CreateRenderTarget))
 					{
 						SET_COMMAND_EXECUTING(pCommand);
-						auto& pCreateCommand = pCommand->GetData<GraphicsCore::Commands::CreateRenderTarget>();
-						auto pDevice = vDeviceManager.GetDeviceAddress(pCreateCommand.mDeviceHandle);
+						auto& mCreateCommand = pCommand->GetData<GraphicsCore::Commands::CreateRenderTarget>();
+						auto pDevice = vDeviceManager.GetDeviceAddress(mCreateCommand.mDeviceHandle);
+
+						// Select the best extent which is supported.
+						auto bestExtent = Utilities::ChooseSwapExtent(pDevice->GetSurfaceCapabilities(), static_cast<UI32>(mCreateCommand.mExtent.width), static_cast<UI32>(mCreateCommand.mExtent.height));
+
+						// Select the best buffer count which is supported.
+						auto vSupport = pDevice->GetSwapChainSupportDetails();
+						if (mCreateCommand.bufferCount > vSupport.capabilities.maxImageCount || mCreateCommand.bufferCount < vSupport.capabilities.minImageCount)
+						{
+							mCreateCommand.bufferCount = static_cast<UI64>(vSupport.capabilities.minImageCount) + 1;
+							if (vSupport.capabilities.maxImageCount > 0 && mCreateCommand.bufferCount > vSupport.capabilities.maxImageCount)
+								mCreateCommand.bufferCount = vSupport.capabilities.maxImageCount;
+						}
 
 						GraphicsCore::RenderTargetHandle mHandleRT = {};
 
 						// Resolve the attachments.
-						for (auto itr = pCreateCommand.mAttachments.begin(); itr != pCreateCommand.mAttachments.end(); itr++)
+						for (auto itr = mCreateCommand.mAttachments.begin(); itr != mCreateCommand.mAttachments.end(); itr++)
 						{
 							switch (itr->type)
 							{
 							case DMK::GraphicsCore::RenderTargetAttachmentType::SWAP_CHAIN:
 								// Create the swap chain.
-								mHandleRT.attachmentHandles.insert(mHandleRT.attachmentHandles.end(), pDevice->CreateSwapChain(*itr));
+								mHandleRT.attachmentHandles.insert(mHandleRT.attachmentHandles.end(), pDevice->CreateSwapChain(mCreateCommand.bufferCount, *itr, bestExtent));
 								break;
 							case DMK::GraphicsCore::RenderTargetAttachmentType::COLOR_BUFFER:
 								// Create the color buffer.
-								mHandleRT.attachmentHandles.insert(mHandleRT.attachmentHandles.end(), pDevice->CreateColorBuffer(*itr));
+								mHandleRT.attachmentHandles.insert(mHandleRT.attachmentHandles.end(), pDevice->CreateColorBuffer(mCreateCommand.bufferCount, *itr, bestExtent));
 								break;
 							case DMK::GraphicsCore::RenderTargetAttachmentType::DEPTH_BUFFER:
 								// Create the depth buffer.
-								mHandleRT.attachmentHandles.insert(mHandleRT.attachmentHandles.end(), pDevice->CreateDepthBuffer(*itr));
+								mHandleRT.attachmentHandles.insert(mHandleRT.attachmentHandles.end(), pDevice->CreateDepthBuffer(mCreateCommand.bufferCount, *itr, bestExtent));
 								break;
 							default:
 								Logger::LogError(TEXT("Invalid Render Target Attachment Type!"));
@@ -135,9 +148,56 @@ namespace DMK
 							}
 						}
 
+						// Create the render pass.
+						mHandleRT.mRenderPassID = pDevice->CreateRenderPass(mHandleRT.attachmentHandles);
+
+						// Create the frame buffer.
+						mHandleRT.mFrameBufferID = pDevice->CreateFrameBuffer(mHandleRT.mRenderPassID, mHandleRT.attachmentHandles, mCreateCommand.bufferCount, bestExtent);
+
 						// Set the handle data if the pointer is valid.
-						if (pCreateCommand.pHandle)
-							*pCreateCommand.pHandle = mHandleRT;
+						if (mCreateCommand.pHandle)
+							*mCreateCommand.pHandle = mHandleRT;
+
+						SET_COMMAND_SUCCESS(pCommand);
+					}
+
+					// Destroy a render target.
+					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::DestroyRenderTarget))
+					{
+						SET_COMMAND_EXECUTING(pCommand);
+						auto& mCreateCommand = pCommand->GetData<GraphicsCore::Commands::DestroyRenderTarget>();
+
+						// Get the required device.
+						auto pDevice = vDeviceManager.GetDeviceAddress(mCreateCommand.mDeviceHandle);
+
+						// Destroy all frame buffers.
+						pDevice->DestroyFrameBuffer(mCreateCommand.mHandle.mFrameBufferID);
+
+						// Destroy all render passes.
+						pDevice->DestroyRenderPass(mCreateCommand.mHandle.mRenderPassID);
+
+						// Terminate the attachments.
+						for (auto itr = mCreateCommand.mHandle.attachmentHandles.begin(); itr != mCreateCommand.mHandle.attachmentHandles.end(); itr++)
+						{
+							switch (itr->mType)
+							{
+							case DMK::GraphicsCore::RenderTargetAttachmentType::SWAP_CHAIN:
+								// Terminate the swap chain.
+								pDevice->DestroySwapChain(*itr);
+								break;
+							case DMK::GraphicsCore::RenderTargetAttachmentType::COLOR_BUFFER:
+								// Terminate the color buffer.
+								pDevice->DestroyColorBuffer(*itr);
+								break;
+							case DMK::GraphicsCore::RenderTargetAttachmentType::DEPTH_BUFFER:
+								// Terminate the depth buffer.
+								pDevice->DestroyDepthBuffer(*itr);
+								break;
+							default:
+								Logger::LogError(TEXT("Invalid Render Target Attachment Type!"));
+								break;
+							}
+						}
 
 						SET_COMMAND_SUCCESS(pCommand);
 					}
@@ -146,10 +206,16 @@ namespace DMK
 					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::DestroyAllRenderTargets))
 					{
 						SET_COMMAND_EXECUTING(pCommand);
-						auto& pCreateCommand = pCommand->GetData<GraphicsCore::Commands::DestroyAllRenderTargets>();
+						auto& mCreateCommand = pCommand->GetData<GraphicsCore::Commands::DestroyAllRenderTargets>();
 
 						// Get the required device.
-						auto pDevice = vDeviceManager.GetDeviceAddress(pCreateCommand.mDeviceHandle);
+						auto pDevice = vDeviceManager.GetDeviceAddress(mCreateCommand.mDeviceHandle);
+
+						// Destroy all frame buffers.
+						pDevice->DestroyAllFrameBuffers();
+
+						// Destroy all render passes.
+						pDevice->DestroyAllRenderPasses();
 
 						// Destroy all swap chains.
 						pDevice->DestroyAllSwapChains();

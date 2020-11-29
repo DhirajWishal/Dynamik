@@ -49,28 +49,18 @@ namespace DMK
 
 			VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities, UI32 width, UI32 height)
 			{
-				if (capabilities.currentExtent.width != std::numeric_limits<UI32>::max())
-					return capabilities.currentExtent;
-				else
-				{
-					VkExtent2D actualExtent = {
-						width,
-						height
-					};
+				VkExtent2D actualExtent = {
+					width,
+					height
+				};
 
-					if ((width >= capabilities.maxImageExtent.width) || (width <= capabilities.minImageExtent.width))
-					{
-						actualExtent.width = std::max(capabilities.minImageExtent.width,
-							std::min(capabilities.maxImageExtent.width, actualExtent.width));
-					}
-					if ((height >= capabilities.maxImageExtent.height) || (height <= capabilities.minImageExtent.height))
-					{
-						actualExtent.height = std::max(capabilities.minImageExtent.height,
-							std::min(capabilities.maxImageExtent.height, actualExtent.height));
-					}
+				if ((width >= capabilities.maxImageExtent.width) || (width <= capabilities.minImageExtent.width))
+					actualExtent.width = std::max(capabilities.minImageExtent.width, std::min(capabilities.maxImageExtent.width, actualExtent.width));
 
-					return actualExtent;
-				}
+				if ((height >= capabilities.maxImageExtent.height) || (height <= capabilities.minImageExtent.height))
+					actualExtent.height = std::max(capabilities.minImageExtent.height, std::min(capabilities.maxImageExtent.height, actualExtent.height));
+
+				return actualExtent;
 			}
 
 			std::vector<VkImageView> CreateImageViews(const std::vector<VkImage>& vImages, VkFormat imageFormat, VkDevice vDevice)

@@ -277,10 +277,12 @@ namespace DMK
 			/**
 			 * Create a Swap Chain object.
 			 *
+			 * @param bufferCount: The number of buffers to create.
 			 * @param spec: The render target attachment specification.
+			 * @param extent: The extent of the buffers.
 			 * @return Vulkan Swap Chain handle.
 			 */
-			GraphicsCore::RenderTargetAttachmentHandle CreateSwapChain(GraphicsCore::RenderTargetAttachmentSpecification spec);
+			GraphicsCore::RenderTargetAttachmentHandle CreateSwapChain(UI64 bufferCount, GraphicsCore::RenderTargetAttachmentSpecification spec, const VkExtent2D& extent);
 
 			/**
 			 * Destroy a created swap chain.
@@ -299,10 +301,12 @@ namespace DMK
 			/**
 			 * Create a Color Buffer object.
 			 *
+			 * @param bufferCount: The number of buffers to create.
 			 * @param spec: The render target attachment specification.
+			 * @param extent: The extent of the buffers.
 			 * @return Vulkan Color Buffer handle.
 			 */
-			GraphicsCore::RenderTargetAttachmentHandle CreateColorBuffer(GraphicsCore::RenderTargetAttachmentSpecification spec);
+			GraphicsCore::RenderTargetAttachmentHandle CreateColorBuffer(UI64 bufferCount, GraphicsCore::RenderTargetAttachmentSpecification spec, const VkExtent2D& extent);
 
 			/**
 			 * Destroy a created Color Buffer object.
@@ -321,10 +325,12 @@ namespace DMK
 			/**
 			 * Create a Depth Buffer object.
 			 *
+			 * @param bufferCount: The number of buffers to create.
 			 * @param spec: The render target attachment specification.
+			 * @param extent: The extent of the buffers.
 			 * @return Vulkan Depth Buffer handle.
 			 */
-			GraphicsCore::RenderTargetAttachmentHandle CreateDepthBuffer(GraphicsCore::RenderTargetAttachmentSpecification spec);
+			GraphicsCore::RenderTargetAttachmentHandle CreateDepthBuffer(UI64 bufferCount, GraphicsCore::RenderTargetAttachmentSpecification spec, const VkExtent2D& extent);
 
 			/**
 			 * Destroy a created Depth Buffer object.
@@ -369,9 +375,9 @@ namespace DMK
 			 * @param mRenderPassHandle: The render pass handle.
 			 * @param mAttachments: The render target attachments.
 			 * @param bufferCount: The number of frame buffer handles to create.
-			 * @param vExtent: The extent of the frame buffer.
+			 * @param extent: The extent of the buffers.
 			 */
-			FrameBufferHandle CreateFrameBuffer(const RenderPassHandle& mRenderPassHandle, const std::vector<GraphicsCore::RenderTargetAttachmentHandle>& mAttachments, UI64 bufferCount, VkExtent2D vExtent);
+			FrameBufferHandle CreateFrameBuffer(const RenderPassHandle& mRenderPassHandle, const std::vector<GraphicsCore::RenderTargetAttachmentHandle>& mAttachments, UI64 bufferCount, const VkExtent2D& extent);
 
 			/**
 			 * Terminate a frame buffer using its handle.

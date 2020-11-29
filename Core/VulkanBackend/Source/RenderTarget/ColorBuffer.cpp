@@ -9,13 +9,13 @@ namespace DMK
 {
 	namespace VulkanBackend
 	{
-		GraphicsCore::RenderTargetAttachmentHandle VulkanDevice::CreateColorBuffer(GraphicsCore::RenderTargetAttachmentSpecification spec)
+		GraphicsCore::RenderTargetAttachmentHandle VulkanDevice::CreateColorBuffer(UI64 bufferCount, GraphicsCore::RenderTargetAttachmentSpecification spec, const VkExtent2D& extent)
 		{
 			// Create the color buffer object.
 			ColorBuffer vColorBuffer = {};
 
 			// Initialize the buffer.
-			vColorBuffer.Initialize(*this, spec);
+			vColorBuffer.Initialize(*this, spec, bufferCount, extent);
 
 			// Insert it to the vector.
 			vColorBuffers.insert(vColorBuffers.end(), std::move(vColorBuffer));
@@ -41,7 +41,7 @@ namespace DMK
 			vColorBuffers.clear();
 		}
 
-		void ColorBuffer::Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec)
+		void ColorBuffer::Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec, UI64 bufferCount, const VkExtent2D& extent)
 		{
 			mSpecification = spec;
 			vSampleCount = vDevice.GetMsaaSamples();
@@ -56,9 +56,9 @@ namespace DMK
 			createInfo.flags = VK_NULL_HANDLE;
 			createInfo.pNext = VK_NULL_HANDLE;
 			createInfo.arrayLayers = 1;
-			createInfo.extent.width = static_cast<UI32>(spec.extent.width);
-			createInfo.extent.depth = static_cast<UI32>(spec.extent.depth);
-			createInfo.extent.height = static_cast<UI32>(spec.extent.height);
+			createInfo.extent.width = static_cast<UI32>(extent.width);
+			createInfo.extent.height = static_cast<UI32>(extent.height);
+			createInfo.extent.depth = 1;	// TODO
 			createInfo.format = vFormat;
 			createInfo.arrayLayers = 1;
 			createInfo.imageType = VK_IMAGE_TYPE_2D;
@@ -69,11 +69,7 @@ namespace DMK
 			createInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
 			createInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-			mBufferCount = vSwapChainSupport.capabilities.minImageCount + 1;
-			if (vSwapChainSupport.capabilities.maxImageCount > 0
-				&& mBufferCount > vSwapChainSupport.capabilities.maxImageCount)
-				mBufferCount = vSwapChainSupport.capabilities.maxImageCount;
-
+			mBufferCount = static_cast<UI32>(bufferCount);
 			vImages.resize(mBufferCount);
 			UI32 counter = 0;
 

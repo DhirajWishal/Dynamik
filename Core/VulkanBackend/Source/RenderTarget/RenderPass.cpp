@@ -104,11 +104,11 @@ namespace DMK
 
 			VkSubpassDescription vSubpass = {};
 			vSubpass.pipelineBindPoint = VK_PIPELINE_BIND_POINT_GRAPHICS;
-			vSubpass.colorAttachmentCount = vSubpassAttRefs.vColorAttachmentRefs.size();
+			vSubpass.colorAttachmentCount = static_cast<UI32>(vSubpassAttRefs.vColorAttachmentRefs.size());
 			vSubpass.pColorAttachments = vSubpassAttRefs.vColorAttachmentRefs.data();
-			vSubpass.pDepthStencilAttachment = vSubpassAttRefs.vDepthAttachmentRefs.data();
-			vSubpass.inputAttachmentCount = vSubpassAttRefs.vInputAttachments.size();
+			vSubpass.inputAttachmentCount = static_cast<UI32>(vSubpassAttRefs.vInputAttachments.size());
 			vSubpass.pInputAttachments = vSubpassAttRefs.vInputAttachments.data();
+			vSubpass.pDepthStencilAttachment = vSubpassAttRefs.vDepthAttachmentRefs.data();
 			vSubpass.pResolveAttachments = vSubpassAttRefs.vResolveAttachments.data();
 			vSubpass.preserveAttachmentCount = 0;
 			vSubpass.pPreserveAttachments = VK_NULL_HANDLE;

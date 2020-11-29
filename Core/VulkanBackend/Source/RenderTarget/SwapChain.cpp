@@ -9,13 +9,13 @@ namespace DMK
 {
 	namespace VulkanBackend
 	{
-		GraphicsCore::RenderTargetAttachmentHandle VulkanDevice::CreateSwapChain(GraphicsCore::RenderTargetAttachmentSpecification spec)
+		GraphicsCore::RenderTargetAttachmentHandle VulkanDevice::CreateSwapChain(UI64 bufferCount, GraphicsCore::RenderTargetAttachmentSpecification spec, const VkExtent2D& extent)
 		{
 			// Create the swap chain object.
 			SwapChain vSwapChain = {};
 
 			// Initialize the swap chain.
-			vSwapChain.Initialize(*this, spec);
+			vSwapChain.Initialize(*this, spec, bufferCount, extent);
 
 			// Add the swapchain to the store.
 			vSwapChains.insert(vSwapChains.end(), std::move(vSwapChain));
@@ -41,7 +41,7 @@ namespace DMK
 			vSwapChains.clear();
 		}
 
-		void SwapChain::Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec)
+		void SwapChain::Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec, UI64 bufferCount, const VkExtent2D& extent)
 		{
 			mSpecification = spec;
 			vSampleCount = vDevice.GetMsaaSamples();
@@ -51,7 +51,6 @@ namespace DMK
 
 			VkSurfaceFormatKHR surfaceFormat = Utilities::ChooseSwapSurfaceFormat(vSupport.formats);
 			VkPresentModeKHR presentMode = Utilities::ChooseSwapPresentMode(vSupport.presentModes);
-			VkExtent2D scExtent = Utilities::ChooseSwapExtent(vSupport.capabilities, static_cast<UI32>(spec.extent.width), static_cast<UI32>(spec.extent.height));
 
 			auto vCapabilities = vDevice.GetSurfaceCapabilities();
 
@@ -64,10 +63,7 @@ namespace DMK
 				? VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR
 				: VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR;
 
-			mBufferCount = vSupport.capabilities.minImageCount + 1;
-			if (vSupport.capabilities.maxImageCount > 0
-				&& mBufferCount > vSupport.capabilities.maxImageCount)
-				mBufferCount = vSupport.capabilities.maxImageCount;
+			mBufferCount = static_cast<UI32>(bufferCount);
 
 			// Swap Chain create info.
 			VkSwapchainCreateInfoKHR createInfo = {};
@@ -76,7 +72,7 @@ namespace DMK
 			createInfo.minImageCount = mBufferCount;
 			createInfo.imageFormat = surfaceFormat.format;
 			createInfo.imageColorSpace = surfaceFormat.colorSpace;
-			createInfo.imageExtent = scExtent;
+			createInfo.imageExtent = extent;
 			createInfo.imageArrayLayers = 1;
 			createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 			//createInfo.imageUsage = VK_IMAGE_USAGE_TRANSFER_DST_BIT;

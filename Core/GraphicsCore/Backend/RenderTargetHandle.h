@@ -23,7 +23,6 @@ namespace DMK
 		 * This describes how a render target attachment is defined.
 		 */
 		struct RenderTargetAttachmentSpecification {
-			Vector3 extent = Vector3::ZeroAll;	// Extent of the attachment in the frame buffer.
 			Format format = Format::UNDEFINED;	// Format of the attachment.
 			RenderTargetAttachmentType type = RenderTargetAttachmentType::SWAP_CHAIN;	// Attachment Type.
 		};
@@ -75,6 +74,10 @@ namespace DMK
 			~RenderTargetHandle() {}
 
 			std::vector<RenderTargetAttachmentHandle> attachmentHandles;	// Attachment handles.
+
+			UI64 mRenderPassID = 0;	// The render pass ID.
+			UI64 mFrameBufferID = 0;	// The frane buffer ID.
+
 			UI64 mRenderTargetID = 0;	// Render target ID.
 		};
 	}

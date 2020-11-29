@@ -9,13 +9,13 @@ namespace DMK
 {
 	namespace VulkanBackend
 	{
-		FrameBufferHandle VulkanDevice::CreateFrameBuffer(const RenderPassHandle& mRenderPassHandle, const std::vector<GraphicsCore::RenderTargetAttachmentHandle>& mAttachments, UI64 bufferCount, VkExtent2D vExtent)
+		FrameBufferHandle VulkanDevice::CreateFrameBuffer(const RenderPassHandle& mRenderPassHandle, const std::vector<GraphicsCore::RenderTargetAttachmentHandle>& mAttachments, UI64 bufferCount, const VkExtent2D& extent)
 		{
 			// Create the frame buffer object.
 			FrameBuffer vFrameBuffer = {};
 
 			// Initialize the buffer.
-			vFrameBuffer.Initialize(*this, mRenderPassHandle, mAttachments, bufferCount, vExtent);
+			vFrameBuffer.Initialize(*this, mRenderPassHandle, mAttachments, bufferCount, extent);
 
 			// Add the frame buffer to the vector and return its handle.
 			vFrameBuffers.insert(vFrameBuffers.end(), std::move(vFrameBuffer));
@@ -41,10 +41,9 @@ namespace DMK
 			vFrameBuffers.clear();
 		}
 
-		void FrameBuffer::Initialize(const VulkanDevice& vDevice, const RenderPassHandle& mRenderPassHandle, const std::vector<GraphicsCore::RenderTargetAttachmentHandle>& mAttachments)
+		void FrameBuffer::Initialize(const VulkanDevice& vDevice, const RenderPassHandle& mRenderPassHandle, const std::vector<GraphicsCore::RenderTargetAttachmentHandle>& mAttachments, UI64 bufferCount, const VkExtent2D& extent)
 		{
-			this->vExtent = vExtent;
-			UI64 bufferCount = 0;
+			this->vExtent = extent;
 
 			// Check if the frame buffer count is valid.
 			if (!bufferCount)
@@ -63,7 +62,7 @@ namespace DMK
 			vFBCreate.pNext = VK_NULL_HANDLE;
 			vFBCreate.layers = 1;
 			vFBCreate.renderPass = *(vDevice.vRenderPasses.data() + mRenderPassHandle);
-			vFBCreate.attachmentCount = bufferCount;
+			vFBCreate.attachmentCount = static_cast<UI32>(bufferCount);
 			vFBCreate.width = vExtent.width;
 			vFBCreate.height = vExtent.height;
 

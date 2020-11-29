@@ -29,8 +29,10 @@ namespace DMK
 			 *
 			 * @param vDevice: The device in which to initialize.
 			 * @param spec: The render target attachment specification.
+			 * @param bufferCount: The number of images (buffers) to create.
+			 * @param extent: The extent of the buffer.
 			 */
-			virtual void Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec) override final;
+			virtual void Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec, UI64 bufferCount, const VkExtent2D& extent) override final;
 
 			/**
 			 * Terminate the render target attachment.
@@ -51,7 +53,7 @@ namespace DMK
 			 *
 			 * @return VkImageLayout enum.
 			 */
-			virtual VkImageLayout GetAttachmentLayout() const const override final;
+			virtual VkImageLayout GetAttachmentLayout() const override final;
 
 		private:
 			VkDeviceMemory vBufferMemory = VK_NULL_HANDLE;	// Vulkan buffer memory handle.

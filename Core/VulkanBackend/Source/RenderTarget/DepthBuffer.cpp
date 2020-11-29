@@ -9,13 +9,13 @@ namespace DMK
 {
 	namespace VulkanBackend
 	{
-		GraphicsCore::RenderTargetAttachmentHandle VulkanDevice::CreateDepthBuffer(GraphicsCore::RenderTargetAttachmentSpecification spec)
+		GraphicsCore::RenderTargetAttachmentHandle VulkanDevice::CreateDepthBuffer(UI64 bufferCount, GraphicsCore::RenderTargetAttachmentSpecification spec, const VkExtent2D& extent)
 		{
 			// Create the depth buffer object.
 			DepthBuffer vDepthBuffer = {};
 
 			// Initialize the buffer.
-			vDepthBuffer.Initialize(*this, spec);
+			vDepthBuffer.Initialize(*this, spec, bufferCount, extent);
 
 			// Insert it to the vector.
 			vDepthBuffers.insert(vDepthBuffers.end(), std::move(vDepthBuffer));
@@ -41,7 +41,7 @@ namespace DMK
 			vDepthBuffers.clear();
 		}
 
-		void DepthBuffer::Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec)
+		void DepthBuffer::Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec, UI64 bufferCount, const VkExtent2D& extent)
 		{
 			mSpecification = spec;
 			vFormat = Utilities::FindDepthFormat(vDevice);
@@ -52,9 +52,9 @@ namespace DMK
 			createInfo.flags = VK_NULL_HANDLE;
 			createInfo.pNext = VK_NULL_HANDLE;
 			createInfo.arrayLayers = 1;
-			createInfo.extent.width = static_cast<UI32>(spec.extent.width);
-			createInfo.extent.depth = static_cast<UI32>(spec.extent.depth);
-			createInfo.extent.height = static_cast<UI32>(spec.extent.height);
+			createInfo.extent.width = static_cast<UI32>(extent.width);
+			createInfo.extent.height = static_cast<UI32>(extent.height);
+			createInfo.extent.depth = 1;	// TODO
 			createInfo.format = vFormat;
 			createInfo.arrayLayers = 1;
 			createInfo.imageType = VK_IMAGE_TYPE_2D;
@@ -65,13 +65,7 @@ namespace DMK
 			createInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
 			createInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-			// Get the swap chain support details.
-			auto vSwapChainSupport = vDevice.GetSwapChainSupportDetails();
-			mBufferCount = vSwapChainSupport.capabilities.minImageCount + 1;
-			if (vSwapChainSupport.capabilities.maxImageCount > 0
-				&& mBufferCount > vSwapChainSupport.capabilities.maxImageCount)
-				mBufferCount = vSwapChainSupport.capabilities.maxImageCount;
-
+			mBufferCount = static_cast<UI32>(bufferCount);
 			vImages.resize(mBufferCount);
 			UI32 counter = 0;
 

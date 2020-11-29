@@ -45,7 +45,6 @@ DMK::Vector3 mExtent = { 1280.0f, 720.0f, 1.0f };
 RenderTargetAttachmentSpecification CreateSwapChainSpec()
 {
 	RenderTargetAttachmentSpecification spec = {};
-	spec.extent = mExtent;
 	spec.type = RenderTargetAttachmentType::SWAP_CHAIN;
 
 	return spec;
@@ -54,7 +53,6 @@ RenderTargetAttachmentSpecification CreateSwapChainSpec()
 RenderTargetAttachmentSpecification CreateColorBufferSpec()
 {
 	RenderTargetAttachmentSpecification spec = {};
-	spec.extent = mExtent;
 	spec.type = RenderTargetAttachmentType::COLOR_BUFFER;
 
 	return spec;
@@ -63,7 +61,6 @@ RenderTargetAttachmentSpecification CreateColorBufferSpec()
 RenderTargetAttachmentSpecification CreateDepthBufferSpec()
 {
 	RenderTargetAttachmentSpecification spec = {};
-	spec.extent = mExtent;
 	spec.type = RenderTargetAttachmentType::DEPTH_BUFFER;
 
 	return spec;
@@ -80,12 +77,14 @@ int main()
 	mCommandQueue.PushCommand<Commands::InitializeBackend>(&mCommandState);
 	mCommandQueue.PushCommand<Commands::CreateDevice>(Commands::CreateDevice(&mDeviceHandle), &mCommandState);
 
-	mCommandQueue.PushCommand<Commands::CreateRenderTarget>(Commands::CreateRenderTarget({ CreateSwapChainSpec(), CreateColorBufferSpec(), CreateDepthBufferSpec() }, mDeviceHandle));
+	DMK::GraphicsCore::RenderTargetHandle mRenderTargetHandle = {};
+	mCommandQueue.PushCommand<Commands::CreateRenderTarget>(Commands::CreateRenderTarget(0, mExtent, { CreateSwapChainSpec(), CreateColorBufferSpec(), CreateDepthBufferSpec() }, mDeviceHandle, &mRenderTargetHandle));
 
-	size_t counter = std::numeric_limits<size_t>().max();
+	size_t counter = 1000;
+	//size_t counter = std::numeric_limits<size_t>().max();
 	while (counter--);
 
-	mCommandQueue.PushCommand<Commands::DestroyAllRenderTargets>(Commands::DestroyAllRenderTargets(mDeviceHandle));
+	mCommandQueue.PushCommand<Commands::DestroyRenderTarget>(Commands::DestroyRenderTarget(mRenderTargetHandle, mDeviceHandle));
 	mCommandQueue.PushCommand<Commands::DestroyDevice>();
 	mCommandQueue.PushCommand<Commands::TerminateBackend>();
 
