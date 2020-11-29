@@ -13,6 +13,8 @@
 #include "VulkanBackend/RenderTarget/SwapChain.h"
 #include "VulkanBackend/RenderTarget/ColorBuffer.h"
 #include "VulkanBackend/RenderTarget/DepthBuffer.h"
+#include "VulkanBackend/RenderTarget/RenderPass.h"
+#include "VulkanBackend/RenderTarget/FrameBuffer.h"
 
 #include <optional>
 #include <GLFW/glfw3.h>
@@ -133,6 +135,25 @@ namespace DMK
 			 */
 			DMK_FORCEINLINE VkSampleCountFlags GetMsaaSamples() const { return vMsaaSamples; }
 
+			/**
+			 * Vulkan Queue operator.
+			 */
+			operator Queue() const { return vQueue; }
+
+			/**
+			 * Vulkan Surface operator.
+			 */
+			operator VkSurfaceKHR() const { return vSurface; }
+
+			/**
+			 * Vulkan Physical Device operator.
+			 */
+			operator VkPhysicalDevice() const { return vPhysicalDevice; }
+
+			/**
+			 * Vulkan Device (logical) operator.
+			 */
+			operator VkDevice() const { return vLogicalDevice; }
 		private:
 			/**
 			 * Initialize the display object.
@@ -259,14 +280,14 @@ namespace DMK
 			 * @param spec: The render target attachment specification.
 			 * @return Vulkan Swap Chain handle.
 			 */
-			SwapChainHandle CreateSwapChain(GraphicsCore::RenderTargetAttachmentSpecification spec);
+			GraphicsCore::RenderTargetAttachmentHandle CreateSwapChain(GraphicsCore::RenderTargetAttachmentSpecification spec);
 
 			/**
 			 * Destroy a created swap chain.
 			 *
 			 * @param vSwapChainHandle: The swap chain object handle to be destroyed.
 			 */
-			void DestroySwapChain(SwapChainHandle vSwapChainHandle);
+			void DestroySwapChain(GraphicsCore::RenderTargetAttachmentHandle vSwapChainHandle);
 
 			/**
 			 * This method destroys all the created swap chain objects.
@@ -281,14 +302,14 @@ namespace DMK
 			 * @param spec: The render target attachment specification.
 			 * @return Vulkan Color Buffer handle.
 			 */
-			ColorBufferHandle CreateColorBuffer(GraphicsCore::RenderTargetAttachmentSpecification spec);
+			GraphicsCore::RenderTargetAttachmentHandle CreateColorBuffer(GraphicsCore::RenderTargetAttachmentSpecification spec);
 
 			/**
 			 * Destroy a created Color Buffer object.
 			 *
 			 * @param vColorBufferHandle: The handle of the color buffer to be destroyed.
 			 */
-			void DestroyColorBuffer(ColorBufferHandle vColorBufferHandle);
+			void DestroyColorBuffer(GraphicsCore::RenderTargetAttachmentHandle vColorBufferHandle);
 
 			/**
 			 * This method will destroy all the created color buffers in this device.
@@ -303,14 +324,14 @@ namespace DMK
 			 * @param spec: The render target attachment specification.
 			 * @return Vulkan Depth Buffer handle.
 			 */
-			DepthBufferHandle CreateDepthBuffer(GraphicsCore::RenderTargetAttachmentSpecification spec);
+			GraphicsCore::RenderTargetAttachmentHandle CreateDepthBuffer(GraphicsCore::RenderTargetAttachmentSpecification spec);
 
 			/**
 			 * Destroy a created Depth Buffer object.
 			 *
 			 * @param vDepthBufferHandle: The handle of the depth buffer to be destroyed.
 			 */
-			void DestroyDepthBuffer(DepthBufferHandle vDepthBufferHandle);
+			void DestroyDepthBuffer(GraphicsCore::RenderTargetAttachmentHandle vDepthBufferHandle);
 
 			/**
 			 * This method will destroy all the created depth buffers in this device.
@@ -318,6 +339,53 @@ namespace DMK
 			void DestroyAllDepthBuffers();
 
 			std::vector<DepthBuffer> vDepthBuffers;	// All the created depth buffers.
+
+			/**
+			 * Create a new render pass and return its handle.
+			 *
+			 * @param mAttachments: The render target attachment handles.
+			 * @return The render pass handle.
+			 */
+			RenderPassHandle CreateRenderPass(const std::vector<GraphicsCore::RenderTargetAttachmentHandle>& mAttachments, std::vector<VkSubpassDependency> vDependencies = { RenderPass::CreateDefaultSubpassDependency() });
+
+			/**
+			 * Terminate a created render pass object.
+			 *
+			 * @param mHandle: The handle of the render pass.
+			 */
+			void DestroyRenderPass(const RenderPassHandle& mHandle);
+
+			/**
+			 * Destroy all the created render passes.
+			 */
+			void DestroyAllRenderPasses();
+
+			std::vector<RenderPass> vRenderPasses;	// All the created render passes.
+
+			/**
+			 * Create a new frame buffer and return its handle.
+			 * The frame buffer structure contains all the Vulkan Frame Buffer handles.
+			 *
+			 * @param mRenderPassHandle: The render pass handle.
+			 * @param mAttachments: The render target attachments.
+			 * @param bufferCount: The number of frame buffer handles to create.
+			 * @param vExtent: The extent of the frame buffer.
+			 */
+			FrameBufferHandle CreateFrameBuffer(const RenderPassHandle& mRenderPassHandle, const std::vector<GraphicsCore::RenderTargetAttachmentHandle>& mAttachments, UI64 bufferCount, VkExtent2D vExtent);
+
+			/**
+			 * Terminate a frame buffer using its handle.
+			 *
+			 * @param mHandle: The frame buffer handle.
+			 */
+			void DestroyFrameBuffer(const FrameBufferHandle& mHandle);
+
+			/**
+			 * Destroy all the created frame buffers.
+			 */
+			void DestroyAllFrameBuffers();
+
+			std::vector<FrameBuffer> vFrameBuffers;	// All the created frame buffers.
 
 		private:
 			Queue vQueue = {};	// Vulkan queue object.

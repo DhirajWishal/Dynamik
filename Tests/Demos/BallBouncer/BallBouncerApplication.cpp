@@ -5,12 +5,12 @@
 
 DMK::Engine::ServiceInitializationFlags BallBouncerApplciation::GetServiceInitializationFlags() const
 {
-	return DMK::Engine::ServiceInitializationFlags::SERVICE_INITIALIZEATION_FLAG_ASSET_STORE;
+	return DMK::Engine::ServiceInitializationFlags::ASSET_STORE;
 }
 
 DMK::Engine::SystemInitializationFlags BallBouncerApplciation::GetSystemInitializationFlags() const
 {
-	return DMK::Engine::SystemInitializationFlags::SYSTEM_INITIALIZATION_FLAG_GRAPHICS;
+	return DMK::Engine::SystemInitializationFlags::GRAPHICS;
 }
 
 void BallBouncerApplciation::InitializeGame()

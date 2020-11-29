@@ -39,14 +39,22 @@ namespace DMK
 			 */
 			virtual void Terminate(const VulkanDevice& vDevice) override final;
 
+			/**
+			 * Get the attachment description of the attachment.
+			 *
+			 * @return VkAttachmentDescription structure.
+			 */
+			virtual VkAttachmentDescription GetAttachmentDescription() const override final;
+
+			/**
+			 * Get the attachment layout.
+			 *
+			 * @return VkImageLayout enum.
+			 */
+			virtual VkImageLayout GetAttachmentLayout() const const override final;
+
 		private:
 			VkDeviceMemory vBufferMemory = VK_NULL_HANDLE;	// Vulkan buffer memory handle.
 		};
-
-		/**
-		 * Vulkan Depth Buffer Handle.
-		 * This is just a unsigned 64 bit integer.
-		 */
-		typedef UI64 DepthBufferHandle;
 	}
 }

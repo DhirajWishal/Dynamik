@@ -9,7 +9,7 @@ namespace DMK
 {
 	namespace VulkanBackend
 	{
-		DepthBufferHandle VulkanDevice::CreateDepthBuffer(GraphicsCore::RenderTargetAttachmentSpecification spec)
+		GraphicsCore::RenderTargetAttachmentHandle VulkanDevice::CreateDepthBuffer(GraphicsCore::RenderTargetAttachmentSpecification spec)
 		{
 			// Create the depth buffer object.
 			DepthBuffer vDepthBuffer = {};
@@ -20,17 +20,16 @@ namespace DMK
 			// Insert it to the vector.
 			vDepthBuffers.insert(vDepthBuffers.end(), std::move(vDepthBuffer));
 
-			return vDepthBuffers.size() - 1;
+			return GraphicsCore::RenderTargetAttachmentHandle(vDepthBuffers.size() - 1, GraphicsCore::RenderTargetAttachmentType::DEPTH_BUFFER);
 		}
 
-		void VulkanDevice::DestroyDepthBuffer(DepthBufferHandle vDepthBufferHandle)
+		void VulkanDevice::DestroyDepthBuffer(GraphicsCore::RenderTargetAttachmentHandle vDepthBufferHandle)
 		{
 			// Get and terminate the color buffer.
-			auto vDepthBuffer = vDepthBuffers.at(vDepthBufferHandle);
-			vDepthBuffer.Terminate(*this);
+			(vDepthBuffers.data() + vDepthBufferHandle.mHandle)->Terminate(*this);
 
 			// Remove it from the vector.
-			vDepthBuffers.erase(vDepthBuffers.begin() + vDepthBufferHandle);
+			vDepthBuffers.erase(vDepthBuffers.begin() + vDepthBufferHandle.mHandle);
 		}
 
 		void VulkanDevice::DestroyAllDepthBuffers()
@@ -45,7 +44,7 @@ namespace DMK
 		void DepthBuffer::Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec)
 		{
 			mSpecification = spec;
-			vFormat = Utilities::FindDepthFormat(vDevice.GetPhysicalDevice());
+			vFormat = Utilities::FindDepthFormat(vDevice);
 
 			// Image create info structure.
 			VkImageCreateInfo createInfo = {};
@@ -78,15 +77,15 @@ namespace DMK
 
 			// Create the necessary color buffers.
 			do {
-				DMK_VK_ASSERT(vkCreateImage(vDevice.GetLogicalDevice(), &createInfo, nullptr, &vImages.at(counter)), "Failed to create Vulkan Color Buffer image!");
+				DMK_VK_ASSERT(vkCreateImage(vDevice, &createInfo, nullptr, &vImages.at(counter)), "Failed to create Vulkan Color Buffer image!");
 				counter++;
 			} while (counter != mBufferCount);
 
 			// Create the buffer memory.
-			vBufferMemory = Utilities::CreateImageMemory(vImages, vDevice.GetPhysicalDevice(), vDevice.GetLogicalDevice());
+			vBufferMemory = Utilities::CreateImageMemory(vImages, vDevice, vDevice);
 
 			// Create the image views.
-			vImageViews = std::move(Utilities::CreateImageViews(vImages, vFormat, vDevice.GetLogicalDevice()));
+			vImageViews = std::move(Utilities::CreateImageViews(vImages, vFormat, vDevice));
 
 			// Set a new image layout.
 			{
@@ -109,14 +108,35 @@ namespace DMK
 		{
 			// Destroy the images.
 			for (auto itr = vImages.begin(); itr != vImages.end(); itr++)
-				vkDestroyImage(vDevice.GetLogicalDevice(), *itr, nullptr);
+				vkDestroyImage(vDevice, *itr, nullptr);
 
 			// Free the device memory.
-			vkFreeMemory(vDevice.GetLogicalDevice(), vBufferMemory, nullptr);
+			vkFreeMemory(vDevice, vBufferMemory, nullptr);
 
 			// Destroy the image views.
 			for (auto itr = vImageViews.begin(); itr != vImageViews.end(); itr++)
-				vkDestroyImageView(vDevice.GetLogicalDevice(), *itr, nullptr);
+				vkDestroyImageView(vDevice, *itr, nullptr);
+		}
+
+		VkAttachmentDescription DepthBuffer::GetAttachmentDescription() const
+		{
+			VkAttachmentDescription vDesc = {};
+			vDesc.flags = VK_NULL_HANDLE;
+			vDesc.format = vFormat;
+			vDesc.samples = static_cast<VkSampleCountFlagBits>(vSampleCount);
+			vDesc.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+			vDesc.finalLayout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
+			vDesc.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+			vDesc.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+			vDesc.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+			vDesc.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+
+			return vDesc;
+		}
+
+		VkImageLayout DepthBuffer::GetAttachmentLayout() const
+		{
+			return VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL;
 		}
 	}
 }

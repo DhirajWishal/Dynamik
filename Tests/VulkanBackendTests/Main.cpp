@@ -46,7 +46,7 @@ RenderTargetAttachmentSpecification CreateSwapChainSpec()
 {
 	RenderTargetAttachmentSpecification spec = {};
 	spec.extent = mExtent;
-	spec.type = RenderTargetAttachmentType::RENDER_TARGET_ATTACHMENT_TYPE_SWAP_CHAIN;
+	spec.type = RenderTargetAttachmentType::SWAP_CHAIN;
 
 	return spec;
 }
@@ -55,7 +55,7 @@ RenderTargetAttachmentSpecification CreateColorBufferSpec()
 {
 	RenderTargetAttachmentSpecification spec = {};
 	spec.extent = mExtent;
-	spec.type = RenderTargetAttachmentType::RENDER_TARGET_ATTACHMENT_TYPE_COLOR_BUFFER;
+	spec.type = RenderTargetAttachmentType::COLOR_BUFFER;
 
 	return spec;
 }
@@ -64,7 +64,7 @@ RenderTargetAttachmentSpecification CreateDepthBufferSpec()
 {
 	RenderTargetAttachmentSpecification spec = {};
 	spec.extent = mExtent;
-	spec.type = RenderTargetAttachmentType::RENDER_TARGET_ATTACHMENT_TYPE_DEPTH_BUFFER;
+	spec.type = RenderTargetAttachmentType::DEPTH_BUFFER;
 
 	return spec;
 }
@@ -72,7 +72,7 @@ RenderTargetAttachmentSpecification CreateDepthBufferSpec()
 int main()
 {
 	DMK::Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT> mCommandQueue = {};
-	DMK::Threads::CommandState mCommandState = DMK::Threads::CommandState::COMMAND_STATE_PENDING;
+	DMK::Threads::CommandState mCommandState = DMK::Threads::CommandState::PENDING;
 	DeviceHandle mDeviceHandle = {};
 
 	std::thread vBackendThread(VulkanBackendFunction, &mCommandQueue);

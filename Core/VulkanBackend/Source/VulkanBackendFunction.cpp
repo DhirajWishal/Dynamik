@@ -8,14 +8,6 @@
 
 #include "VulkanBackend/Common/VulkanDeviceManager.h"
 
-#define TYPE_NAME(type)	typeid(type).name()
-#define DELETE(type)	delete pCommand->Derived<type>(), pCommand = nullptr
-
-#define SET_COMMAND_STATE_PENDING(command)		command->SetState(Threads::CommandState::COMMAND_STATE_PENDING)
-#define SET_COMMAND_STATE_EXECUTING(command)	command->SetState(Threads::CommandState::COMMAND_STATE_EXECUTING)
-#define SET_COMMAND_STATE_SUCCESS(command)		command->SetState(Threads::CommandState::COMMAND_STATE_SUCCESS)
-#define SET_COMMAND_STATE_FAILED(command)		command->SetState(Threads::CommandState::COMMAND_STATE_FAILED)
-
 namespace DMK
 {
 	namespace VulkanBackend
@@ -29,7 +21,7 @@ namespace DMK
 			VulkanDeviceManager vDeviceManager = {};
 
 			// State of the main loop.
-			bool ShouldRun = true;
+			bool bShouldRun = true;
 
 			// Iterate through the commands and execute them.
 			do
@@ -39,29 +31,29 @@ namespace DMK
 				{
 					// Get the first command.
 					auto pCommand = pCommandQueue->GetAndPop();
-					SET_COMMAND_STATE_PENDING(pCommand);
+					SET_COMMAND_PENDING(pCommand);
 
 					// Initialize backend (Vulkan Instance) command.
 					if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::InitializeBackend))
 					{
-						SET_COMMAND_STATE_EXECUTING(pCommand);
+						SET_COMMAND_EXECUTING(pCommand);
 
 						// Initialize the instance.
-						vInstance.Initialize(pCommand->Derived<GraphicsCore::Commands::InitializeBackend>()->Get().enableValidation);
+						vInstance.Initialize(pCommand->GetData<GraphicsCore::Commands::InitializeBackend>().enableValidation);
 
 						// Initialize the device manager.
 						vDeviceManager.Initialize(&vInstance);
 
-						SET_COMMAND_STATE_SUCCESS(pCommand);
+						SET_COMMAND_SUCCESS(pCommand);
 
 						// Delete the command.
-						DELETE(GraphicsCore::Commands::InitializeBackend);
+						DELETE_COMMAND(pCommand, GraphicsCore::Commands::InitializeBackend);
 					}
 
 					// Terminate the backend.
 					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::TerminateBackend))
 					{
-						SET_COMMAND_STATE_EXECUTING(pCommand);
+						SET_COMMAND_EXECUTING(pCommand);
 
 						// Terminate the device manager.
 						vDeviceManager.Terminate();
@@ -70,96 +62,94 @@ namespace DMK
 						vInstance.Terminate();
 
 						// Set the run state to false.
-						ShouldRun = false;
+						bShouldRun = false;
 
-						SET_COMMAND_STATE_SUCCESS(pCommand);
+						SET_COMMAND_SUCCESS(pCommand);
 
 						// Delete the command.
-						DELETE(GraphicsCore::Commands::TerminateBackend);
+						DELETE_COMMAND(pCommand, GraphicsCore::Commands::TerminateBackend);
 					}
 
 					// Create a new device command.
 					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::CreateDevice))
 					{
-						SET_COMMAND_STATE_EXECUTING(pCommand);
+						SET_COMMAND_EXECUTING(pCommand);
 
-						auto pCreateCommand = pCommand->Derived<GraphicsCore::Commands::CreateDevice>();
+						auto& pCreateCommand = pCommand->GetData<GraphicsCore::Commands::CreateDevice>();
 
 						// If the device handle pointer is defined, provide data to it. Ignore if false.
-						if (pCreateCommand->Get().pDeviceHandle)
-							*pCreateCommand->Get().pDeviceHandle = vDeviceManager.CreateDevice(pCreateCommand->Get().initInfo);
+						if (pCreateCommand.pDeviceHandle)
+							*pCreateCommand.pDeviceHandle = vDeviceManager.CreateDevice(pCreateCommand.initInfo);
 						else
-							vDeviceManager.CreateDevice(pCreateCommand->Get().initInfo);
+							vDeviceManager.CreateDevice(pCreateCommand.initInfo);
 
-						SET_COMMAND_STATE_SUCCESS(pCommand);
+						SET_COMMAND_SUCCESS(pCommand);
 
 						// Delete the command.
-						DELETE(GraphicsCore::Commands::CreateDevice);
+						DELETE_COMMAND(pCommand, GraphicsCore::Commands::CreateDevice);
 					}
 
 					// Destroy a created device.
 					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::DestroyDevice))
 					{
-						SET_COMMAND_STATE_EXECUTING(pCommand);
+						SET_COMMAND_EXECUTING(pCommand);
 
 						// Destroy the device.
-						vDeviceManager.DestroyDevice(pCommand->Derived<GraphicsCore::Commands::DestroyDevice>()->Get().mDeviceHandle);
+						vDeviceManager.DestroyDevice(pCommand->GetData<GraphicsCore::Commands::DestroyDevice>().mDeviceHandle);
 
-						SET_COMMAND_STATE_SUCCESS(pCommand);
+						SET_COMMAND_SUCCESS(pCommand);
 
 						// Delete the command.
-						DELETE(GraphicsCore::Commands::DestroyDevice);
+						DELETE_COMMAND(pCommand, GraphicsCore::Commands::DestroyDevice);
 					}
 
 					// Create a render target.
 					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::CreateRenderTarget))
 					{
-						SET_COMMAND_STATE_EXECUTING(pCommand);
-						auto pCreateCommand = pCommand->Derived<GraphicsCore::Commands::CreateRenderTarget>();
-						auto pDevice = vDeviceManager.GetDeviceAddress(pCreateCommand->Get().mDeviceHandle);
+						SET_COMMAND_EXECUTING(pCommand);
+						auto& pCreateCommand = pCommand->GetData<GraphicsCore::Commands::CreateRenderTarget>();
+						auto pDevice = vDeviceManager.GetDeviceAddress(pCreateCommand.mDeviceHandle);
 
 						GraphicsCore::RenderTargetHandle mHandleRT = {};
 
 						// Resolve the attachments.
-						for (auto itr = pCreateCommand->Get().mAttachments.begin(); itr != pCreateCommand->Get().mAttachments.end(); itr++)
+						for (auto itr = pCreateCommand.mAttachments.begin(); itr != pCreateCommand.mAttachments.end(); itr++)
 						{
 							switch (itr->type)
 							{
-							case DMK::GraphicsCore::RenderTargetAttachmentType::RENDER_TARGET_ATTACHMENT_TYPE_SWAP_CHAIN:
+							case DMK::GraphicsCore::RenderTargetAttachmentType::SWAP_CHAIN:
 								// Create the swap chain.
-								mHandleRT.attachmentIDs.insert(mHandleRT.attachmentIDs.end(), pDevice->CreateSwapChain(*itr));
+								mHandleRT.attachmentHandles.insert(mHandleRT.attachmentHandles.end(), pDevice->CreateSwapChain(*itr));
 								break;
-							case DMK::GraphicsCore::RenderTargetAttachmentType::RENDER_TARGET_ATTACHMENT_TYPE_COLOR_BUFFER:
+							case DMK::GraphicsCore::RenderTargetAttachmentType::COLOR_BUFFER:
 								// Create the color buffer.
-								mHandleRT.attachmentIDs.insert(mHandleRT.attachmentIDs.end(), pDevice->CreateColorBuffer(*itr));
+								mHandleRT.attachmentHandles.insert(mHandleRT.attachmentHandles.end(), pDevice->CreateColorBuffer(*itr));
 								break;
-							case DMK::GraphicsCore::RenderTargetAttachmentType::RENDER_TARGET_ATTACHMENT_TYPE_DEPTH_BUFFER:
+							case DMK::GraphicsCore::RenderTargetAttachmentType::DEPTH_BUFFER:
 								// Create the depth buffer.
-								mHandleRT.attachmentIDs.insert(mHandleRT.attachmentIDs.end(), pDevice->CreateDepthBuffer(*itr));
+								mHandleRT.attachmentHandles.insert(mHandleRT.attachmentHandles.end(), pDevice->CreateDepthBuffer(*itr));
 								break;
 							default:
 								Logger::LogError(TEXT("Invalid Render Target Attachment Type!"));
 								break;
 							}
-
-							mHandleRT.attachmentTypes.insert(mHandleRT.attachmentTypes.end(), itr->type);
 						}
 
 						// Set the handle data if the pointer is valid.
-						if (pCreateCommand->Get().pHandle)
-							*pCreateCommand->Get().pHandle = mHandleRT;
+						if (pCreateCommand.pHandle)
+							*pCreateCommand.pHandle = mHandleRT;
 
-						SET_COMMAND_STATE_SUCCESS(pCommand);
+						SET_COMMAND_SUCCESS(pCommand);
 					}
 
 					// Destroy all render targets.
 					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::DestroyAllRenderTargets))
 					{
-						SET_COMMAND_STATE_EXECUTING(pCommand);
-						auto pCreateCommand = pCommand->Derived<GraphicsCore::Commands::DestroyAllRenderTargets>();
+						SET_COMMAND_EXECUTING(pCommand);
+						auto& pCreateCommand = pCommand->GetData<GraphicsCore::Commands::DestroyAllRenderTargets>();
 
 						// Get the required device.
-						auto pDevice = vDeviceManager.GetDeviceAddress(pCreateCommand->Get().mDeviceHandle);
+						auto pDevice = vDeviceManager.GetDeviceAddress(pCreateCommand.mDeviceHandle);
 
 						// Destroy all swap chains.
 						pDevice->DestroyAllSwapChains();
@@ -170,13 +160,13 @@ namespace DMK
 						// Destroy all depth buffers.
 						pDevice->DestroyAllDepthBuffers();
 
-						SET_COMMAND_STATE_SUCCESS(pCommand);
+						SET_COMMAND_SUCCESS(pCommand);
 					}
 
 					// If execution failed.
 					if (pCommand)
 					{
-						SET_COMMAND_STATE_FAILED(pCommand);
+						SET_COMMAND_FAILED(pCommand);
 
 						// Delete the command.
 						delete pCommand;
@@ -185,7 +175,7 @@ namespace DMK
 
 				// Poll inputs.
 				vDeviceManager.PollInputs();
-			} while (ShouldRun);
+			} while (bShouldRun);
 		}
 	}
 }

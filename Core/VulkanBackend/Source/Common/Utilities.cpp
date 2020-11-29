@@ -144,7 +144,7 @@ namespace DMK
 						return *itr;
 				}
 
-				// Assert and return VK_FORMAT_UNDEFINED.
+				// Assert and return VK_UNDEFINED.
 				Logger::LogError(TEXT("Failed to find supported format!"));
 				return VkFormat::VK_FORMAT_UNDEFINED;
 			}

@@ -42,20 +42,26 @@ namespace DMK
 			virtual void Terminate(const VulkanDevice& vDevice) override final;
 
 			/**
-			 * Get the Swap Chain handle.
+			 * Get the attachment description of the attachment.
 			 *
-			 * @return Vulkan Swap Chain handle.
+			 * @return VkAttachmentDescription structure.
 			 */
-			VkSwapchainKHR GetSwapChain() const { return vSwapChain; }
+			virtual VkAttachmentDescription GetAttachmentDescription() const override final;
+
+			/**
+			 * Get the attachment layout.
+			 *
+			 * @return VkImageLayout enum.
+			 */
+			virtual VkImageLayout GetAttachmentLayout() const override final;
+
+			/**
+			 * Vulkan Swap Chain KHR operator.
+			 */
+			operator VkSwapchainKHR() const { return vSwapChain; }
 
 			GraphicsCore::ViewPort mViewPort = {};	// View port to which the swap chain is rendered.
 			VkSwapchainKHR vSwapChain = VK_NULL_HANDLE;	// Vulkan Swap Chain handle.
 		};
-
-		/**
-		 * The Vulkan Swap Chain Handle.
-		 * The handle is just an unsigned 64 bit integer.
-		 */
-		typedef UI64 SwapChainHandle;
 	}
 }

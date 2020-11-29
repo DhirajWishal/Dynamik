@@ -19,11 +19,11 @@ namespace DMK
 		 * This defines the states of a given command.
 		 */
 		enum class CommandState : UI8 {
-			COMMAND_STATE_PENDING,		// Command is waiting in the queue.
-			COMMAND_STATE_EXECUTING,	// Command is being executed.
-			COMMAND_STATE_SUCCESS,		// Command execution was successful.
-			COMMAND_STATE_FAILED,		// Command execution failed.
-			COMMAND_STATE_INVALID		// Invalid command was passed.
+			PENDING,		// Command is waiting in the queue.
+			EXECUTING,	// Command is being executed.
+			SUCCESS,		// Command execution was successful.
+			FAILED,		// Command execution failed.
+			INVALID		// Invalid command was passed.
 		};
 
 		/**
@@ -56,6 +56,24 @@ namespace DMK
 			 */
 			template<class Type>
 			constexpr Command<Type>* Derived() { return dynamic_cast<Command<Type>*>(this); }
+
+			/**
+			 * Get the data stored in the command.
+			 *
+			 * @tparam Type: The type of the command.
+			 * @return The command type.
+			 */
+			template<class Type>
+			constexpr Type& GetData() { return Derived<Type>()->Get(); }
+
+			/**
+			 * Get the data stored in the command.
+			 *
+			 * @tparam Type: The type of the command.
+			 * @return The command type.
+			 */
+			template<class Type>
+			constexpr const Type GetData() const { return Derived<Type>()->Get(); }
 
 			/**
 			 * Set the command state if the command state is valid.

@@ -9,7 +9,7 @@ namespace DMK
 {
 	namespace VulkanBackend
 	{
-		SwapChainHandle VulkanDevice::CreateSwapChain(GraphicsCore::RenderTargetAttachmentSpecification spec)
+		GraphicsCore::RenderTargetAttachmentHandle VulkanDevice::CreateSwapChain(GraphicsCore::RenderTargetAttachmentSpecification spec)
 		{
 			// Create the swap chain object.
 			SwapChain vSwapChain = {};
@@ -20,17 +20,16 @@ namespace DMK
 			// Add the swapchain to the store.
 			vSwapChains.insert(vSwapChains.end(), std::move(vSwapChain));
 
-			return vSwapChains.size() - 1;
+			return GraphicsCore::RenderTargetAttachmentHandle(vSwapChains.size() - 1, GraphicsCore::RenderTargetAttachmentType::SWAP_CHAIN);
 		}
 
-		void VulkanDevice::DestroySwapChain(SwapChainHandle vSwapChainHandle)
+		void VulkanDevice::DestroySwapChain(GraphicsCore::RenderTargetAttachmentHandle vSwapChainHandle)
 		{
 			// get and terminate the swap chain.
-			auto vSwapChain = vSwapChains.at(vSwapChainHandle);
-			vSwapChain.Terminate(*this);
+			(vSwapChains.data() + vSwapChainHandle.mHandle)->Terminate(*this);
 
 			// Remove it from the vector.
-			vSwapChains.erase(vSwapChains.begin() + vSwapChainHandle);
+			vSwapChains.erase(vSwapChains.begin() + vSwapChainHandle.mHandle);
 		}
 
 		void VulkanDevice::DestroyAllSwapChains()
@@ -45,6 +44,7 @@ namespace DMK
 		void SwapChain::Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec)
 		{
 			mSpecification = spec;
+			vSampleCount = vDevice.GetMsaaSamples();
 
 			// Get the swap chain support details.
 			auto vSupport = vDevice.GetSwapChainSupportDetails();
@@ -106,29 +106,50 @@ namespace DMK
 			createInfo.oldSwapchain = VK_NULL_HANDLE;
 
 			// Create the Vulkan Swap Chain.
-			DMK_VK_ASSERT(vkCreateSwapchainKHR(vDevice.GetLogicalDevice(), &createInfo, nullptr, &vSwapChain), "Failed to create the Vulkan Swap Chain!");
+			DMK_VK_ASSERT(vkCreateSwapchainKHR(vDevice, &createInfo, nullptr, &vSwapChain), "Failed to create the Vulkan Swap Chain!");
 
 			vImages.resize(mBufferCount);
 
 			// Get the swap chain images.
-			DMK_VK_ASSERT(vkGetSwapchainImagesKHR(vDevice.GetLogicalDevice(), vSwapChain, &mBufferCount, vImages.data()), "Failed to get the Vulkan Swap Chain Images!");
+			DMK_VK_ASSERT(vkGetSwapchainImagesKHR(vDevice, vSwapChain, &mBufferCount, vImages.data()), "Failed to get the Vulkan Swap Chain Images!");
 
 			vFormat = surfaceFormat.format;
-			vImageViews = std::move(Utilities::CreateImageViews(vImages, vFormat, vDevice.GetLogicalDevice()));
+			vImageViews = std::move(Utilities::CreateImageViews(vImages, vFormat, vDevice));
 		}
 
 		void SwapChain::Terminate(const VulkanDevice& vDevice)
 		{
 			// Terminate the image views.
 			for (auto itr = vImageViews.begin(); itr != vImageViews.end(); itr++)
-				vkDestroyImageView(vDevice.GetLogicalDevice(), *itr, nullptr);
+				vkDestroyImageView(vDevice, *itr, nullptr);
 
 			vImageViews.clear();
 
 			// Terminate the Swap Chain.
-			vkDestroySwapchainKHR(vDevice.GetLogicalDevice(), GetSwapChain(), nullptr);
+			vkDestroySwapchainKHR(vDevice, vSwapChain, nullptr);
 			vSwapChain = VK_NULL_HANDLE;
 			vImages.clear();
+		}
+
+		VkAttachmentDescription SwapChain::GetAttachmentDescription() const
+		{
+			VkAttachmentDescription vDesc = {};
+			vDesc.flags = VK_NULL_HANDLE;
+			vDesc.format = vFormat;
+			vDesc.samples = VK_SAMPLE_COUNT_1_BIT;
+			vDesc.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+			vDesc.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+			vDesc.loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+			vDesc.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+			vDesc.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+			vDesc.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+
+			return vDesc;
+		}
+
+		VkImageLayout SwapChain::GetAttachmentLayout() const
+		{
+			return VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 		}
 	}
 }

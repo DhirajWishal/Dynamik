@@ -124,7 +124,7 @@ namespace DMK
 			{
 				barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
 
-				if (vFormat == VK_FORMAT_D32_SFLOAT_S8_UINT || vFormat == VK_FORMAT_D24_UNORM_S8_UINT)
+				if (vFormat == VK_D32_SFLOAT_S8_UINT || vFormat == VK_D24_UNORM_S8_UINT)
 					barrier.subresourceRange.aspectMask |= VK_IMAGE_ASPECT_STENCIL_BIT;
 			}
 			else

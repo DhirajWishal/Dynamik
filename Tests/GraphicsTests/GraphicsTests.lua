@@ -7,6 +7,8 @@ project "GraphicsTests"
 	kind "ConsoleApp"
 	cppdialect "C++17"
 	language "C++"
+	staticruntime "On"
+	systemversion "latest"
 
 	targetdir "$(SolutionDir)Builds/Tests/Binaries/$(Configuration)-$(Platform)/$(ProjectName)"
 	objdir "$(SolutionDir)Builds/Tests/Intermediate/$(Configuration)-$(Platform)/$(ProjectName)"
@@ -25,11 +27,3 @@ project "GraphicsTests"
 	links {
 		"Graphics",
 	}
-
-	filter "system:windows"
-		staticruntime "On"
-		systemversion "latest"
-
-		defines {
-			"DMK_PLATFORM_WINDOWS"
-		}

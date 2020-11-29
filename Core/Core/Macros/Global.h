@@ -7,3 +7,5 @@
 #define DMK_FORCEINLINE		__forceinline
 
 #define BIT_SHIFT(count)	(1 << count)
+
+#define TYPE_NAME(type)	typeid(type).name()

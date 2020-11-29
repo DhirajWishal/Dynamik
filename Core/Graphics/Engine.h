@@ -16,9 +16,9 @@ namespace DMK
 		 * Graphics Backend API enum.
 		 */
 		enum class GraphicsBackendAPI {
-			GRAPHICS_BACKEND_API_VULKAN,
-			GRAPHICS_BACKEND_API_DIRECT_X,
-			GRAPHICS_BACKEND_API_WEB_GPU,
+			VULKAN,
+			DIRECT_X,
+			WEB_GPU,
 		};
 
 		/**
@@ -26,7 +26,7 @@ namespace DMK
 		 * This structure defines how the graphics engine should be initialized.
 		 */
 		struct GraphicsEngineCreateInfo {
-			GraphicsBackendAPI backendAPI = GraphicsBackendAPI::GRAPHICS_BACKEND_API_VULKAN;	// Backend API.
+			GraphicsBackendAPI backendAPI = GraphicsBackendAPI::VULKAN;	// Backend API.
 
 			bool enableValidation = true;	// Enable API validation.
 			bool tryEnableRayTracing = true;	// Try and enable ray tracing. If not supported, compute shaders are used.

@@ -9,7 +9,7 @@ namespace DMK
 {
 	namespace VulkanBackend
 	{
-		ColorBufferHandle VulkanDevice::CreateColorBuffer(GraphicsCore::RenderTargetAttachmentSpecification spec)
+		GraphicsCore::RenderTargetAttachmentHandle VulkanDevice::CreateColorBuffer(GraphicsCore::RenderTargetAttachmentSpecification spec)
 		{
 			// Create the color buffer object.
 			ColorBuffer vColorBuffer = {};
@@ -20,17 +20,16 @@ namespace DMK
 			// Insert it to the vector.
 			vColorBuffers.insert(vColorBuffers.end(), std::move(vColorBuffer));
 
-			return vColorBuffers.size() - 1;
+			return GraphicsCore::RenderTargetAttachmentHandle(vColorBuffers.size() - 1, GraphicsCore::RenderTargetAttachmentType::COLOR_BUFFER);
 		}
 
-		void VulkanDevice::DestroyColorBuffer(ColorBufferHandle vColorBufferHandle)
+		void VulkanDevice::DestroyColorBuffer(GraphicsCore::RenderTargetAttachmentHandle vColorBufferHandle)
 		{
 			// Get and terminate the color buffer.
-			auto vColorBuffer = vColorBuffers.at(vColorBufferHandle);
-			vColorBuffer.Terminate(*this);
+			(vColorBuffers.data() + vColorBufferHandle.mHandle)->Terminate(*this);
 
 			// Remove it from the vector.
-			vColorBuffers.erase(vColorBuffers.begin() + vColorBufferHandle);
+			vColorBuffers.erase(vColorBuffers.begin() + vColorBufferHandle.mHandle);
 		}
 
 		void VulkanDevice::DestroyAllColorBuffers()
@@ -45,6 +44,7 @@ namespace DMK
 		void ColorBuffer::Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec)
 		{
 			mSpecification = spec;
+			vSampleCount = vDevice.GetMsaaSamples();
 
 			// Get the swap chain support details.
 			auto vSwapChainSupport = vDevice.GetSwapChainSupportDetails();
@@ -79,15 +79,15 @@ namespace DMK
 
 			// Create the necessary color buffers.
 			do {
-				DMK_VK_ASSERT(vkCreateImage(vDevice.GetLogicalDevice(), &createInfo, nullptr, &vImages.at(counter)), "Failed to create Vulkan Color Buffer image!");
+				DMK_VK_ASSERT(vkCreateImage(vDevice, &createInfo, nullptr, &vImages.at(counter)), "Failed to create Vulkan Color Buffer image!");
 				counter++;
 			} while (counter != mBufferCount);
 
 			// Create the buffer memory.
-			vBufferMemory = Utilities::CreateImageMemory(vImages, vDevice.GetPhysicalDevice(), vDevice.GetLogicalDevice());
+			vBufferMemory = Utilities::CreateImageMemory(vImages, vDevice, vDevice);
 
 			// Create the image views.
-			vImageViews = std::move(Utilities::CreateImageViews(vImages, vFormat, vDevice.GetLogicalDevice()));
+			vImageViews = std::move(Utilities::CreateImageViews(vImages, vFormat, vDevice));
 
 			// Set a new image layout.
 			{
@@ -110,14 +110,35 @@ namespace DMK
 		{
 			// Destroy the images.
 			for (auto itr = vImages.begin(); itr != vImages.end(); itr++)
-				vkDestroyImage(vDevice.GetLogicalDevice(), *itr, nullptr);
+				vkDestroyImage(vDevice, *itr, nullptr);
 
 			// Free the device memory.
-			vkFreeMemory(vDevice.GetLogicalDevice(), vBufferMemory, nullptr);
+			vkFreeMemory(vDevice, vBufferMemory, nullptr);
 
 			// Destroy the image views.
 			for (auto itr = vImageViews.begin(); itr != vImageViews.end(); itr++)
-				vkDestroyImageView(vDevice.GetLogicalDevice(), *itr, nullptr);
+				vkDestroyImageView(vDevice, *itr, nullptr);
+		}
+
+		VkAttachmentDescription ColorBuffer::GetAttachmentDescription() const
+		{
+			VkAttachmentDescription vDesc = {};
+			vDesc.flags = VK_NULL_HANDLE;
+			vDesc.format = vFormat;
+			vDesc.samples = static_cast<VkSampleCountFlagBits>(vSampleCount);
+			vDesc.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+			vDesc.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+			vDesc.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
+			vDesc.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+			vDesc.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+			vDesc.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+
+			return vDesc;
+		}
+
+		VkImageLayout ColorBuffer::GetAttachmentLayout() const
+		{
+			return VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 		}
 	}
 }

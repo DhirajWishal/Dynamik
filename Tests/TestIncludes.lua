@@ -4,11 +4,13 @@
 -- File including all the test modules.
 
 group "Tests"
+include "AudioTests/AudioTests.lua"
 include "CoreTests/CoreTests.lua"
 include "GameLibraryTests/GameLibraryTests.lua"
 include "GraphicsTests/GraphicsTests.lua"
 include "InputTests/InputTests.lua"
 include "ThreadTests/ThreadTests.lua"
 include "VulkanBackendTests/VulkanBackendTests.lua"
+include "XAudio2BackendTests/XAudio2BackendTests.lua"
 
 include "Demos/DemosIncludes.lua"

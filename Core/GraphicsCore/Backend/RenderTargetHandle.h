@@ -13,9 +13,9 @@ namespace DMK
 		 * Render Target Attachmen Type enum.
 		 */
 		enum class RenderTargetAttachmentType : UI8 {
-			RENDER_TARGET_ATTACHMENT_TYPE_SWAP_CHAIN,
-			RENDER_TARGET_ATTACHMENT_TYPE_COLOR_BUFFER,
-			RENDER_TARGET_ATTACHMENT_TYPE_DEPTH_BUFFER,
+			SWAP_CHAIN,
+			COLOR_BUFFER,
+			DEPTH_BUFFER,
 		};
 
 		/**
@@ -24,8 +24,31 @@ namespace DMK
 		 */
 		struct RenderTargetAttachmentSpecification {
 			Vector3 extent = Vector3::ZeroAll;	// Extent of the attachment in the frame buffer.
-			Format format = Format::FORMAT_UNDEFINED;	// Format of the attachment.
-			RenderTargetAttachmentType type = RenderTargetAttachmentType::RENDER_TARGET_ATTACHMENT_TYPE_SWAP_CHAIN;	// Attachment Type.
+			Format format = Format::UNDEFINED;	// Format of the attachment.
+			RenderTargetAttachmentType type = RenderTargetAttachmentType::SWAP_CHAIN;	// Attachment Type.
+		};
+
+		/**
+		 * Render Target Attachment Handle structure.
+		 * This contains information about a single render target attachment handle.
+		 */
+		struct RenderTargetAttachmentHandle {
+			/**
+			 * Default constructor.
+			 */
+			RenderTargetAttachmentHandle() = default;
+
+			/**
+			 * Construct the structure using the handle and the type.
+			 *
+			 * @param mHandle: The attachment handle.
+			 * @param mType: The attachment type.
+			 */
+			RenderTargetAttachmentHandle(UI64 mHandle, RenderTargetAttachmentType mType)
+				: mHandle(mHandle), mType(mType) {}
+
+			UI64 mHandle = 0;	// The attachment handle.
+			RenderTargetAttachmentType mType = RenderTargetAttachmentType::SWAP_CHAIN;	// Attachment type.
 		};
 
 		/**
@@ -51,8 +74,7 @@ namespace DMK
 			 */
 			~RenderTargetHandle() {}
 
-			std::vector<RenderTargetAttachmentType> attachmentTypes;	// Attachment types.
-			std::vector<UI64> attachmentIDs;	// Attachment IDs.
+			std::vector<RenderTargetAttachmentHandle> attachmentHandles;	// Attachment handles.
 			UI64 mRenderTargetID = 0;	// Render target ID.
 		};
 	}

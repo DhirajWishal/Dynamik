@@ -31,6 +31,13 @@ namespace DMK
 			virtual ~RenderTargetAttachment() {}
 
 			/**
+			 * Get the render attachment type.
+			 * 
+			 * @return GraphicsCore::RenderTargetAttachmentType enum.
+			 */
+			GraphicsCore::RenderTargetAttachmentType GetAttachmentType() const { return mSpecification.type; }
+
+			/**
 			 * Initialize the attachment.
 			 *
 			 * @param vDevice: The device in which to initialize.
@@ -45,12 +52,27 @@ namespace DMK
 			 */
 			virtual void Terminate(const VulkanDevice& vDevice) {}
 
+			/**
+			 * Get the attachment description of the attachment.
+			 *
+			 * @return VkAttachmentDescription structure.
+			 */
+			virtual VkAttachmentDescription GetAttachmentDescription() const { return VkAttachmentDescription(); }
+
+			/**
+			 * Get the attachment layout.
+			 *
+			 * @return VkImageLayout enum.
+			 */
+			virtual VkImageLayout GetAttachmentLayout() const { return VkImageLayout::VK_IMAGE_LAYOUT_UNDEFINED; }
+
 			GraphicsCore::RenderTargetAttachmentSpecification mSpecification = {};	// Attachment specification.
 
 			std::vector<VkImage> vImages;	// Vulkan Image handles.
 			std::vector<VkImageView> vImageViews;	// Vulkan Image Views.
 
 			VkFormat vFormat = VkFormat::VK_FORMAT_UNDEFINED;	// Format of the render target image.
+			VkSampleCountFlags vSampleCount = VK_SAMPLE_COUNT_64_BIT;	// MSAA sample count.
 			UI32 mBufferCount = 0;	// The number of elements in the buffer.
 		};
 	}

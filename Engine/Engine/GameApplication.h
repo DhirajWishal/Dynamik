@@ -16,8 +16,8 @@ namespace DMK
 		 * These flags are used to initialize the required services.
 		 */
 		enum class ServiceInitializationFlags {
-			SERVICE_INITIALIZEATION_FLAG_SHADER_TOOLS = BIT_SHIFT(0),
-			SERVICE_INITIALIZEATION_FLAG_ASSET_STORE = BIT_SHIFT(1),
+			SHADER_TOOLS = BIT_SHIFT(0),
+			ASSET_STORE = BIT_SHIFT(1),
 		};
 
 		/**
@@ -25,10 +25,10 @@ namespace DMK
 		 * These flags are used to initialize the required systems.
 		 */
 		enum class SystemInitializationFlags {
-			SYSTEM_INITIALIZATION_FLAG_GRAPHICS = BIT_SHIFT(0),
-			SYSTEM_INITIALIZATION_FLAG_AUDIO = BIT_SHIFT(1),
-			SYSTEM_INITIALIZATION_FLAG_PHYSICS = BIT_SHIFT(2),
-			SYSTEM_INITIALIZATION_FLAG_NETWORK = BIT_SHIFT(3),
+			GRAPHICS = BIT_SHIFT(0),
+			AUDIO = BIT_SHIFT(1),
+			PHYSICS = BIT_SHIFT(2),
+			NETWORK = BIT_SHIFT(3),
 		};
 
 		/**
