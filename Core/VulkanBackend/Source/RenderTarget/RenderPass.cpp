@@ -41,6 +41,11 @@ namespace DMK
 			vRenderPasses.clear();
 		}
 
+		RenderPass* VulkanDevice::GetRenderPass(RenderPassHandle mHandle) const
+		{
+			return const_cast<RenderPass*>(vRenderPasses.data() + mHandle);
+		}
+
 		/**
 		 * Subpass Attachment References.
 		 */

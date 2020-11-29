@@ -127,23 +127,22 @@ namespace DMK
  */
 #define DELETE_COMMAND(command, type)		delete command->Derived<type>(), command = nullptr
 
-/**
- * Macro to set the command state to pending.
- */
+ /**
+  * Macro to set the command state to pending.
+  */
 #define SET_COMMAND_PENDING(command)		command->SetState(Threads::CommandState::PENDING)
 
-/**
- * Macro to set the command state to executing.
- */
+  /**
+   * Macro to set the command state to executing.
+   */
 #define SET_COMMAND_EXECUTING(command)		command->SetState(Threads::CommandState::EXECUTING)
 
-/**
- * Macro to set the command state to success.
- */
+   /**
+	* Macro to set the command state to success.
+	*/
 #define SET_COMMAND_SUCCESS(command)		command->SetState(Threads::CommandState::SUCCESS)
 
-/**
- * Macro to set the command state to failed.
- */
+	/**
+	 * Macro to set the command state to failed.
+	 */
 #define SET_COMMAND_FAILED(command)			command->SetState(Threads::CommandState::FAILED)
-

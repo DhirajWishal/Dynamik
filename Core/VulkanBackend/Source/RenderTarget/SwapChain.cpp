@@ -41,6 +41,11 @@ namespace DMK
 			vSwapChains.clear();
 		}
 
+		SwapChain* VulkanDevice::GetSwapChain(GraphicsCore::RenderTargetAttachmentHandle mHandle) const
+		{
+			return const_cast<SwapChain*>(vSwapChains.data() + mHandle.mHandle);
+		}
+
 		void SwapChain::Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec, UI64 bufferCount, const VkExtent2D& extent)
 		{
 			mSpecification = spec;

@@ -41,6 +41,11 @@ namespace DMK
 			vDepthBuffers.clear();
 		}
 
+		DepthBuffer* VulkanDevice::GetDepthBuffer(GraphicsCore::RenderTargetAttachmentHandle mHandle) const
+		{
+			return const_cast<DepthBuffer*>(vDepthBuffers.data() + mHandle.mHandle);
+		}
+
 		void DepthBuffer::Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec, UI64 bufferCount, const VkExtent2D& extent)
 		{
 			mSpecification = spec;

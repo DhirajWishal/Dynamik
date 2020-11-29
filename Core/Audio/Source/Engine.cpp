@@ -29,7 +29,7 @@ namespace DMK
 #ifdef DMK_DEBUG
 			GetCommandQueue()->PushCommand<AudioCore::Commands::InitializeBackend>(AudioCore::Commands::InitializeBackend(true));
 
-#else 
+#else
 			GetCommandQueue()->PushCommand<AudioCore::Commands::InitializeBackend>(AudioCore::Commands::InitializeBackend(false));
 
 #endif	// DMK_DEBUG

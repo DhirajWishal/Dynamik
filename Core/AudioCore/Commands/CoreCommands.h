@@ -26,7 +26,6 @@ namespace DMK
 				 */
 				InitializeBackend(bool enableDebugging) : enableDebugging(enableDebugging) {}
 
-
 				bool enableDebugging = true;	// Enable backend API debugging.
 			};
 

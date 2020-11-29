@@ -8,8 +8,6 @@
 #include <iostream>
 #include <set>
 
-#include <GLFW/glfw3.h>
-
 namespace DMK
 {
 	namespace VulkanBackend
@@ -111,6 +109,18 @@ namespace DMK
 		{
 			// Terminate all Swap Chains.
 			DestroyAllSwapChains();
+
+			// Terminate all color buffers.
+			DestroyAllColorBuffers();
+
+			// Terminate all depth buffers.
+			DestroyAllDepthBuffers();
+
+			// Terminate all render passes.
+			DestroyAllRenderPasses();
+
+			// Terminate all frame buffers.
+			DestroyAllFrameBuffers();
 
 			// Terminate logical device.
 			TerminateLogicalDevice();

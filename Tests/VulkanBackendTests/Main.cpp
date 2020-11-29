@@ -77,11 +77,11 @@ int main()
 	mCommandQueue.PushCommand<Commands::InitializeBackend>(&mCommandState);
 	mCommandQueue.PushCommand<Commands::CreateDevice>(Commands::CreateDevice(&mDeviceHandle), &mCommandState);
 
-	DMK::GraphicsCore::RenderTargetHandle mRenderTargetHandle = {};
+	RenderTargetHandle mRenderTargetHandle = {};
 	mCommandQueue.PushCommand<Commands::CreateRenderTarget>(Commands::CreateRenderTarget(0, mExtent, { CreateSwapChainSpec(), CreateColorBufferSpec(), CreateDepthBufferSpec() }, mDeviceHandle, &mRenderTargetHandle));
 
-	size_t counter = 1000;
-	//size_t counter = std::numeric_limits<size_t>().max();
+	//size_t counter = 1000;
+	size_t counter = std::numeric_limits<size_t>().max();
 	while (counter--);
 
 	mCommandQueue.PushCommand<Commands::DestroyRenderTarget>(Commands::DestroyRenderTarget(mRenderTargetHandle, mDeviceHandle));

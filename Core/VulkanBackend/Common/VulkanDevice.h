@@ -37,6 +37,8 @@ namespace DMK
 
 		/**
 		 * Vulkan Device for Dynamik.
+		 * This object creates all the device bound objects and structures and stores them which can be accessed by
+		 * handles.
 		 *
 		 * This uses GLFW to create and manage the window and inputs.
 		 */
@@ -154,6 +156,7 @@ namespace DMK
 			 * Vulkan Device (logical) operator.
 			 */
 			operator VkDevice() const { return vLogicalDevice; }
+
 		private:
 			/**
 			 * Initialize the display object.
@@ -296,6 +299,14 @@ namespace DMK
 			 */
 			void DestroyAllSwapChains();
 
+			/**
+			 * Get a swap chain from the store.
+			 *
+			 * @param mHandle: The handle of the swap chain.
+			 * @return Vulkan Swap Chain pointer.
+			 */
+			SwapChain* GetSwapChain(GraphicsCore::RenderTargetAttachmentHandle mHandle) const;
+
 			std::vector<SwapChain> vSwapChains;	// All the created swap chains.
 
 			/**
@@ -319,6 +330,14 @@ namespace DMK
 			 * This method will destroy all the created color buffers in this device.
 			 */
 			void DestroyAllColorBuffers();
+
+			/**
+			 * Get a color buffer from the store.
+			 *
+			 * @param mHandle: The handle of the swap chain.
+			 * @return Vulkan Color Buffer pointer.
+			 */
+			ColorBuffer* GetColorBuffer(GraphicsCore::RenderTargetAttachmentHandle mHandle) const;
 
 			std::vector<ColorBuffer> vColorBuffers;	// All the created color buffers.
 
@@ -344,6 +363,14 @@ namespace DMK
 			 */
 			void DestroyAllDepthBuffers();
 
+			/**
+			 * Get a depth buffer from the store.
+			 *
+			 * @param mHandle: The handle of the swap chain.
+			 * @return Vulkan Depth Buffer pointer.
+			 */
+			DepthBuffer* GetDepthBuffer(GraphicsCore::RenderTargetAttachmentHandle mHandle) const;
+
 			std::vector<DepthBuffer> vDepthBuffers;	// All the created depth buffers.
 
 			/**
@@ -365,6 +392,14 @@ namespace DMK
 			 * Destroy all the created render passes.
 			 */
 			void DestroyAllRenderPasses();
+
+			/**
+			 * Get a render pass from the store.
+			 *
+			 * @param mHandle: The handle of the render pass.
+			 * @return The render pass pointer.
+			 */
+			RenderPass* GetRenderPass(RenderPassHandle mHandle) const;
 
 			std::vector<RenderPass> vRenderPasses;	// All the created render passes.
 
@@ -391,7 +426,18 @@ namespace DMK
 			 */
 			void DestroyAllFrameBuffers();
 
+			/**
+			 * Get a frame buffer from the store.
+			 *
+			 * @param mHandle: The frame buffer handle.
+			 * @return The frame buffer object pointer.
+			 */
+			FrameBuffer* GetFrameBuffer(FrameBufferHandle mHandle) const;
+
 			std::vector<FrameBuffer> vFrameBuffers;	// All the created frame buffers.
+
+			/* Raster Graphics */
+		public:
 
 		private:
 			Queue vQueue = {};	// Vulkan queue object.

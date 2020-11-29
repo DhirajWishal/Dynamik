@@ -41,6 +41,11 @@ namespace DMK
 			vColorBuffers.clear();
 		}
 
+		ColorBuffer* VulkanDevice::GetColorBuffer(GraphicsCore::RenderTargetAttachmentHandle mHandle) const
+		{
+			return const_cast<ColorBuffer*>(vColorBuffers.data() + mHandle.mHandle);
+		}
+
 		void ColorBuffer::Initialize(VulkanDevice& vDevice, const GraphicsCore::RenderTargetAttachmentSpecification& spec, UI64 bufferCount, const VkExtent2D& extent)
 		{
 			mSpecification = spec;

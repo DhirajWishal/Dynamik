@@ -5,7 +5,14 @@ using namespace DMK::GraphicsCore;
 
 int main()
 {
-	Engine graphicsEngine = {};
+	Engine mGraphicsEngine = {};
+	mGraphicsEngine.Initialize(GraphicsEngineCreateInfo());
+	mGraphicsEngine.InitializeBackend();
+
+	size_t counter = std::numeric_limits<size_t>::max();
+	while (counter--);
+
+	mGraphicsEngine.Terminate();
 
 	return 0;
 }

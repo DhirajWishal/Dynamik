@@ -108,13 +108,13 @@ namespace DMK
  * @param GameApplication: The inherited game application class.
  * @param __VA_ARGS__: The arguments to be supplied to the class costructor.
  */
-#define SETUP_GAME_APPLICATION(GameApplication, ...)															\
-														int main(int argc, char** argv)							\
-														{														\
-															GameApplication application{__VA_ARGS__};			\
-															application.Initialize();							\
-															application.Execute();								\
-															application.Terminate();							\
-														}
+#define SETUP_GAME_APPLICATION(GameApplication, ...)		\
+	int main(int argc, char** argv)							\
+	{														\
+		GameApplication application{__VA_ARGS__};			\
+		application.Initialize();							\
+		application.Execute();								\
+		application.Terminate();							\
+	}
 
 #endif // !_DYNAMIK_ENGINE_GAME_APPLICATION_H

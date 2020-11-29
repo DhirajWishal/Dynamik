@@ -28,10 +28,16 @@ namespace DMK
 				break;
 			}
 		}
-		
+
 		void Engine::InitializeBackend(bool enableValidation)
 		{
 			GetCommandQueue()->PushCommand<Commands::InitializeBackend>(Commands::InitializeBackend(enableValidation));
+		}
+
+		void Engine::Terminate()
+		{
+			GetCommandQueue()->PushCommand<GraphicsCore::Commands::TerminateBackend>();
+			mBackendThread.join();
 		}
 	}
 }

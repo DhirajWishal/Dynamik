@@ -143,7 +143,6 @@ namespace DMK
 						delete pCommand;
 					}
 				}
-
 			} while (bShouldRun);
 		}
 	}

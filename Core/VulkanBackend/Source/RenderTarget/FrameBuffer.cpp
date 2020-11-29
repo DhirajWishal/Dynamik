@@ -41,6 +41,11 @@ namespace DMK
 			vFrameBuffers.clear();
 		}
 
+		FrameBuffer* VulkanDevice::GetFrameBuffer(FrameBufferHandle mHandle) const
+		{
+			return const_cast<FrameBuffer*>(vFrameBuffers.data() + mHandle);
+		}
+
 		void FrameBuffer::Initialize(const VulkanDevice& vDevice, const RenderPassHandle& mRenderPassHandle, const std::vector<GraphicsCore::RenderTargetAttachmentHandle>& mAttachments, UI64 bufferCount, const VkExtent2D& extent)
 		{
 			this->vExtent = extent;

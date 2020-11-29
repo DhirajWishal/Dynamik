@@ -32,7 +32,7 @@ namespace DMK
 
 			/**
 			 * Get the render attachment type.
-			 * 
+			 *
 			 * @return GraphicsCore::RenderTargetAttachmentType enum.
 			 */
 			GraphicsCore::RenderTargetAttachmentType GetAttachmentType() const { return mSpecification.type; }

@@ -14,7 +14,6 @@ namespace DMK
 	 */
 	template<class Type = wchar>
 	class FilePath {
-
 		/**
 		 * Check if the base type is accepted.
 		 */
@@ -32,6 +31,31 @@ namespace DMK
 		FilePath() = default;
 
 		/**
+		 * Construct the object using the file path.
+		 *
+		 * @param pPath: The path to be stored.
+		 */
+		FilePath(const Char* pPath) : pString(pPath) {}
+
+		/**
+		 * Copy constructor.
+		 *
+		 * @param fPath: The other file path object.
+		 */
+		FilePath(const FilePath& fPath) : pString(fPath.pString) {}
+
+		/**
+		 * Move constructor.
+		 *
+		 * @param fPath: The other file path object.
+		 */
+		FilePath(const FilePath&& fPath) : pString(fPath.pString)
+		{
+			// Clear the data of the other string.
+			fPath.pString = nullptr;
+		}
+
+		/**
 		 * Default destructor.
 		 */
 		~FilePath() {}
@@ -45,6 +69,20 @@ namespace DMK
 		{
 			StringT(pString).find_first_of(".");
 		}
+
+		/**
+		 * Check if the stored string has data or not.
+		 *
+		 * @return Boolean value.
+		 */
+		bool HasValue() const { return pString != nullptr; }
+
+		/**
+		 * Get the string stored in the object as a std::basic_string<Char> type.
+		 *
+		 * @return StringT object with the string data.
+		 */
+		StringT GetAsStringType() const { return StringT(pString); }
 
 	private:
 		Char* pString = nullptr;	// The string path.

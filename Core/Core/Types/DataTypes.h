@@ -42,11 +42,11 @@ namespace DMK
 	 * This contains all the virtual data types for the Dynamik Engine.
 	 */
 	enum class DataType : UI8 {
-		UNDEFINED = 0,	// Undefined type
+		UNDEFINED = 0,		// Undefined type
 
 		BYTE = 1,			// Translates to one byte
 
-		I8 = 1,			// Translates to 8 bit integer
+		I8 = 1,				// Translates to 8 bit integer
 		UI8 = 1,			// Translates to 8 bit unsigned integer
 		SI8 = 1,			// Translates to 8 bit signed integer
 		I16 = 2,			// Translates to 16 bit integer
@@ -59,7 +59,7 @@ namespace DMK
 		UI64 = 8,			// Translates to 64 bit unsigned integer
 		SI64 = 8,			// Translates to 64 bit signed integer
 
-		FLOAT = 4,		// Translates to 32 bit float
+		FLOAT = 4,			// Translates to 32 bit float
 		F64 = 4,			// Translates to 64 bit float
 		D64 = 8,			// Translates to 64 bit double
 		CHAR = 1,			// Translates to 8 bit char
@@ -69,24 +69,24 @@ namespace DMK
 
 		VEC1 = 4,			// Translates to 4 bit vector (1 float)
 		VEC2 = 8,			// Translates to 8 bit vector (2 floats)
-		VEC3 = 16,		// Translates to 16 bit vector (3 floats)
-		VEC4 = 16,		// Translates to 16 bit vector (4 floats)
-		UVEC1 = 4,		// Translates to 4 bit unsigned vector (1 float)
-		UVEC2 = 8,		// Translates to 8 bit unsigned vector (2 floats)
-		UVEC3 = 16,		// Translates to 16 bit unsigned vector (3 floats)
-		UVEC4 = 16,		// Translates to 16 bit unsigned vector (4 floats)
-		SVEC1 = 4,		// Translates to 4 bit signed vector (1 float)
-		SVEC2 = 8,		// Translates to 8 bit signed vector (2 floats)
-		SVEC3 = 16,		// Translates to 16 bit signed vector (3 floats)
-		SVEC4 = 16,		// Translates to 16 bit signed vector (4 floats)
-		BVEC1 = 1,		// Translates to 4 bit boolean vector (1 float)
-		BVEC2 = 2,		// Translates to 8 bit boolean vector (2 floats)
-		BVEC3 = 3,		// Translates to 16 bit boolean vector (3 floats)
-		BVEC4 = 4,		// Translates to 16 bit boolean vector (4 floats)
+		VEC3 = 16,			// Translates to 16 bit vector (3 floats)
+		VEC4 = 16,			// Translates to 16 bit vector (4 floats)
+		UVEC1 = 4,			// Translates to 4 bit unsigned vector (1 float)
+		UVEC2 = 8,			// Translates to 8 bit unsigned vector (2 floats)
+		UVEC3 = 16,			// Translates to 16 bit unsigned vector (3 floats)
+		UVEC4 = 16,			// Translates to 16 bit unsigned vector (4 floats)
+		SVEC1 = 4,			// Translates to 4 bit signed vector (1 float)
+		SVEC2 = 8,			// Translates to 8 bit signed vector (2 floats)
+		SVEC3 = 16,			// Translates to 16 bit signed vector (3 floats)
+		SVEC4 = 16,			// Translates to 16 bit signed vector (4 floats)
+		BVEC1 = 1,			// Translates to 4 bit boolean vector (1 float)
+		BVEC2 = 2,			// Translates to 8 bit boolean vector (2 floats)
+		BVEC3 = 3,			// Translates to 16 bit boolean vector (3 floats)
+		BVEC4 = 4,			// Translates to 16 bit boolean vector (4 floats)
 
-		MAT2 = 16,		// Translates to 16 bit matrix (2x2)
-		MAT3 = 36,		// Translates to 36 bit matrix (3x3)
-		MAT4 = 64,		// Translates to 64 bit matrix (4x4)
+		MAT2 = 16,			// Translates to 16 bit matrix (2x2)
+		MAT3 = 36,			// Translates to 36 bit matrix (3x3)
+		MAT4 = 64,			// Translates to 64 bit matrix (4x4)
 	};
 
 	/**
@@ -97,7 +97,7 @@ namespace DMK
 	 * A = Alpha
 	 */
 	enum class Format : UI8 {
-		UNDEFINED,			// Undefined format
+		UNDEFINED,						// Undefined format
 
 		RG_4_UNORMAL_PACK8,
 		RGBA_4_UNORMAL_PACK16,

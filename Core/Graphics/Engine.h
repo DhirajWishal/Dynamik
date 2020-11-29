@@ -29,7 +29,7 @@ namespace DMK
 			GraphicsBackendAPI backendAPI = GraphicsBackendAPI::VULKAN;	// Backend API.
 
 			bool enableValidation = true;	// Enable API validation.
-			bool tryEnableRayTracing = true;	// Try and enable ray tracing. If not supported, compute shaders are used.
+			bool tryEnableRayTracing = false;	// Try and enable ray tracing. If not supported, compute shaders are used.
 		};
 
 		/**
@@ -58,6 +58,11 @@ namespace DMK
 			 */
 			void Initialize(const GraphicsEngineCreateInfo& initInfo);
 
+			/**
+			 * Terminate the engine.
+			 */
+			void Terminate();
+
 		public:
 			/**
 			 * Get the backend command queue.
@@ -73,7 +78,7 @@ namespace DMK
 			 * log it to the console. This ofcourse cost a little bit of performance. Enabling this is highly
 			 * recommended for Debugging the application and when shipping the product, we recommend disabling
 			 * API validation.
-			 * 
+			 *
 			 * @param enableValidation: Boolean value to enable or disable validation. Default is true.
 			 */
 			void InitializeBackend(bool enableValidation = true);

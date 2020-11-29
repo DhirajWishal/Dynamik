@@ -140,7 +140,6 @@ namespace DMK
 						default:
 							return HRESULT_FROM_WIN32(ERROR_NOT_SUPPORTED);
 						}
-
 					}
 					break;
 

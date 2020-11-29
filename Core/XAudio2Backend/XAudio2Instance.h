@@ -83,7 +83,7 @@ namespace DMK
 
 			/**
 			 * Get audio cache using its handle.
-			 * 
+			 *
 			 * @param mHandle: The audio object handle.
 			 */
 			AudioCore::AudioObjectCache GetAudioCache(const AudioCore::AudioObjectHandle& mHandle);
