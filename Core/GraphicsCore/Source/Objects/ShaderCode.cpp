@@ -3,6 +3,7 @@
 
 #include "GraphicsCore/Objects/ShaderCode.h"
 #include "Core/ErrorHandler/Logger.h"
+#include "Core/Hash/Hasher.h"
 
 #include "ShaderTools/SPIR-V/Reflection.h"
 
@@ -12,6 +13,11 @@ namespace DMK
 {
 	namespace GraphicsCore
 	{
+		UI64 ShaderCode::Hash() const
+		{
+			return Hasher::GetHash(mShaderCode.data(), mShaderCode.size() * sizeof(UI32));
+		}
+
 		void ShaderCode::LoadCode(const char* pAsset, ShaderCodeType mType, ShaderLocation mLocation)
 		{
 			this->mType = mType;
@@ -35,6 +41,9 @@ namespace DMK
 
 			// Close the shader file.
 			file.close();
+
+			// Perform code reflection.
+			PerformReflection();
 		}
 
 		void ShaderCode::PerformReflection()

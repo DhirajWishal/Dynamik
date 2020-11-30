@@ -47,6 +47,8 @@ namespace DMK
 		struct ShaderAttribute {
 			String mName = {};	// The name of the attribute.
 			UI64 mLocation = 0;	// Location of the attribute.
+			UI64 mBinding = 0;	// Binding of the attribute.
+			UI64 mOffset = 0;	// Offset of the attribute.
 			UI64 mLayerCount = 1;	// Array count.
 			DataType mDataType = DataType::UNDEFINED;	// Attribute type.
 
@@ -94,6 +96,13 @@ namespace DMK
 			 * @return ShaderLocation enum.
 			 */
 			ShaderLocation GetLocation() const { return mLocation; }
+
+			/**
+			 * Produce a hash using the shader code.
+			 * 
+			 * @return UI64 integer.
+			 */
+			UI64 Hash() const;
 
 			/**
 			 * Load shader code from a file.

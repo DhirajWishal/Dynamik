@@ -8,7 +8,5 @@ int main()
 	DMK::GraphicsCore::ShaderCode mShaderCode;
 	mShaderCode.LoadCode("..\\..\\Assets\\Shaders\\SkyBox\\Cinematic\\vert.spv", DMK::GraphicsCore::ShaderCodeType::SPIR_V, DMK::GraphicsCore::ShaderLocation::VERTEX);
 
-	mShaderCode.PerformReflection();
-
 	return 0;
 }

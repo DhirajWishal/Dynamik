@@ -57,7 +57,7 @@ namespace DMK
 			{
 				// Create the storage buffer object.
 				GraphicsCore::Uniform mUniform(GraphicsCore::UniformType::STORAGE_BUFFER, mCompiler.get_decoration(resource.id, spv::DecorationBinding));
-			
+
 				// Resolve the uniform attributes.
 				for (UI32 index = 0; index < mCompiler.get_type(resource.base_type_id).member_types.size(); index++)
 				{
@@ -74,11 +74,12 @@ namespace DMK
 			}
 
 			// Resolve shader inputs.
+			GraphicsCore::ShaderAttribute mInputAttribute = {};
 			for (auto& resource : mResources.stage_inputs)
 			{
 				// Create the input attribute.
-				GraphicsCore::ShaderAttribute mInputAttribute = {};
 				mInputAttribute.mLocation = mCompiler.get_decoration(resource.id, spv::DecorationLocation);
+				mInputAttribute.mBinding = mCompiler.get_decoration(resource.id, spv::DecorationBinding);
 				mInputAttribute.mName = std::move(mCompiler.get_name(resource.id));
 
 				auto& Ty = mCompiler.get_type(resource.base_type_id);
@@ -86,15 +87,18 @@ namespace DMK
 				mInputAttribute.mDataType = static_cast<DataType>((Ty.width / 8) * (Ty.vecsize == 3 ? 4 : Ty.vecsize));
 
 				mDigest.mInputAttributes.insert(mDigest.mInputAttributes.end(), std::move(mInputAttribute));
+
+				mInputAttribute.mOffset += mInputAttribute.mLayerCount * (Ty.width / 8) * (Ty.vecsize == 3 ? 4 : Ty.vecsize);
 			}
 
 
 			// Resolve shader outputs.
+			GraphicsCore::ShaderAttribute mOutputAttribute = {};
 			for (auto& resource : mResources.stage_outputs)
 			{
 				// Create the output attribute.
-				GraphicsCore::ShaderAttribute mOutputAttribute = {};
 				mOutputAttribute.mLocation = mCompiler.get_decoration(resource.id, spv::DecorationLocation);
+				mOutputAttribute.mBinding = mCompiler.get_decoration(resource.id, spv::DecorationBinding);
 				mOutputAttribute.mName = std::move(mCompiler.get_name(resource.id));
 
 				auto& Ty = mCompiler.get_type(resource.base_type_id);
@@ -102,6 +106,8 @@ namespace DMK
 				mOutputAttribute.mDataType = static_cast<DataType>((Ty.width / 8) * (Ty.vecsize == 3 ? 4 : Ty.vecsize));
 
 				mDigest.mOutputAttributes.insert(mDigest.mOutputAttributes.end(), std::move(mOutputAttribute));
+
+				mOutputAttribute.mOffset += mOutputAttribute.mLayerCount * (Ty.width / 8) * (Ty.vecsize == 3 ? 4 : Ty.vecsize);
 			}
 
 			// Resolve storage images.
@@ -141,7 +147,7 @@ namespace DMK
 			{
 				// Create the acceleration structure uniform.
 				GraphicsCore::Uniform mUniform(GraphicsCore::UniformType::ACCELERATION_STRUCTURE, mCompiler.get_decoration(resource.id, spv::DecorationBinding));
-				
+
 				// Resolve the structure attributes.
 				for (UI32 index = 0; index < mCompiler.get_type(resource.base_type_id).member_types.size(); index++)
 				{

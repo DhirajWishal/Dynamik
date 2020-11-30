@@ -35,16 +35,6 @@ workspace "Dynamik"
 		defines { "DMK_DISTRIBUTION" }
 		optimize "On"
 
-outputDir = "$(Configuration)-$(Platform)"
-solutionDir = "$(SolutionDir)"
-configurationMacro = "$(Configuration)"
-platformMacro = "$(Platform)"
-projectNameMacro = "$(ProjectName)"
-
-engineSourcePath = "$(SolutionDir)Engine/Source/"
-engineOutputDir = "$(SolutionDir)Builds/Engine/"
-engineOutputBinaryDir = "Binaries/"
-engineOutputIntermediateDir = "Intermediate/"
 
 -- Libraries
 IncludeDir = {}
@@ -59,6 +49,7 @@ IncludeDir["SPIRVTools"] = "$(SolutionDir)Dependencies/ThirdParty/SPIRV-Tools/in
 IncludeDir["glslang"] = "$(SolutionDir)Dependencies/ThirdParty/glslang/"
 IncludeDir["FreeImage"] = "$(SolutionDir)Dependencies/ThirdParty/FreeImage/Include"
 IncludeDir["SDL2"] = "$(SolutionDir)Dependencies/ThirdParty/SDL2-2.0.12/include"
+IncludeDir["xxhash"] = "$(SolutionDir)Dependencies/ThirdParty/xxhash/include"
 
 IncludeDir["boost"] = "E:/Dynamik/Libraries/boost_1_70_0"
 IncludeDir["jpeg"] = "$(SolutionDir)Dependencies/ThirdParty/gil/jpeg-6b"
@@ -76,6 +67,7 @@ IncludeLib["boost"] = "E:/Dynamik/Libraries/boost_1_70_0/stage/lib"
 IncludeLib["Assimp"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/Assimp"
 IncludeLib["SPIRVTools"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/SPIRV-Tools/"
 IncludeLib["SDL2"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/SDL2-2.0.12/bin/x64/"
+IncludeLib["xxhash"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/xxhash/lib/"
 
 IncludeLib["zlib"] = ""	-- TODO
 IncludeLib["glslang"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/glslang/"

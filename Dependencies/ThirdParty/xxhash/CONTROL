@@ -1,0 +1,8 @@
+Package: xxhash
+Version: 0.8.0
+Port-Version: 1
+Architecture: x64-windows
+Multi-Arch: same
+Abi: b7152e4d01b469b56fccf328466a867c372d9406
+Description: Extremely fast hash algorithm
+Type: Port

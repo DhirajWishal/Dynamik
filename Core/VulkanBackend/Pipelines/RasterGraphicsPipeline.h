@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "GraphicsCore/Backend/PipelineHandle.h"
 #include "VulkanBackend/Common/VulkanDevice.h"
 
 namespace DMK
@@ -25,6 +26,14 @@ namespace DMK
 			 * Default destructor.
 			 */
 			~RasterGraphicsPipeline() {}
+
+			/**
+			 * Initialize the pipeline.
+			 * 
+			 * @param vDevice: The Vulkan device object.
+			 * @param spec: The pipeline specification.
+			 */
+			void Initialize(const VulkanDevice& vDevice, const GraphicsCore::PipelineSpecification& spec);
 
 			/**
 			 * Vulkan pipeline layout operator.

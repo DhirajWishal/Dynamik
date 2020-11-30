@@ -3,6 +3,7 @@
 
 #include "VulkanBackend/Common/VulkanDeviceManager.h"
 #include "VulkanBackend/VulkanBackendFunction.h"
+#include "VulkanBackend/Common/ShaderModule.h"
 
 #include "GraphicsCore/Commands/CoreCommands.h"
 #include "GraphicsCore/Commands/RenderTargetCommands.h"
@@ -89,4 +90,10 @@ int main()
 	mCommandQueue.PushCommand<Commands::TerminateBackend>();
 
 	vBackendThread.join();
+
+	//ShaderCode mShaderCode = {};
+	//mShaderCode.LoadCode("..\\..\\Assets\\Shaders\\SkyBox\\Cinematic\\vert.spv", DMK::GraphicsCore::ShaderCodeType::SPIR_V, DMK::GraphicsCore::ShaderLocation::VERTEX);
+	//
+	//ShaderModule vShaderModule = {};
+	//vShaderModule.Initialize(VulkanDevice(), mShaderCode);
 }

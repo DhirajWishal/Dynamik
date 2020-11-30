@@ -34,7 +34,7 @@ namespace DMK
 				hashVector.insert(hashVector.end(), mod, 0);
 		}
 
-		int count = hashVector.size() / CHUNK_SIZE;
+		size_t count = hashVector.size() / CHUNK_SIZE;
 		__declspec(align(16)) unsigned __int64 hashBlock[CHUNK_SIZE] = { hash, hash };
 		auto dataPtr = hashVector.data();
 

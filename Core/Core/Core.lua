@@ -28,10 +28,13 @@ project "Core"
 
 	includedirs {
 		"$(SolutionDir)Core/",
+		"%{IncludeDir.xxhash}",
 	}
 
 	libdirs {
+		"%{IncludeLib.xxhash}",
 	}
 
 	links { 
+		"xxhash"
 	}
