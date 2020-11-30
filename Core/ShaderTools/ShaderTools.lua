@@ -1,9 +1,9 @@
 -- Copyright 2020 Dhiraj Wishal
 -- SPDX-License-Identifier: Apache-2.0
 
----------- Thread project description ----------
+---------- Shader Tools project description ----------
 
-project "Thread"
+project "ShaderTools"
 	kind "StaticLib"
 	language "C++"
 	systemversion "latest"
@@ -28,10 +28,12 @@ project "Thread"
 
 	includedirs {
 		"$(SolutionDir)Core/",
+		"$(SolutionDir)Dependencies/ThirdParty/SPIRV-Cross",
 	}
 
 	libdirs {
 	}
 
 	links { 
+		"SPIRV-Cross",
 	}

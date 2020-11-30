@@ -14,6 +14,6 @@ namespace DMK
 		 * This function enables the XAudio2Backend module to be executed on another thread. The function is
 		 * executed by the Audio engine.
 		 */
-		void XAudio2BackendFunction(Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT>* pCommandQueue);
+		void XAudio2BackendFunction(Thread::CommandQueue<THREAD_MAX_COMMAND_COUNT>* pCommandQueue);
 	}
 }

@@ -68,8 +68,8 @@ RenderTargetAttachmentSpecification CreateDepthBufferSpec()
 
 int main()
 {
-	DMK::Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT> mCommandQueue = {};
-	DMK::Threads::CommandState mCommandState = DMK::Threads::CommandState::PENDING;
+	DMK::Thread::CommandQueue<THREAD_MAX_COMMAND_COUNT> mCommandQueue = {};
+	DMK::Thread::CommandState mCommandState = DMK::Thread::CommandState::PENDING;
 	DeviceHandle mDeviceHandle = {};
 
 	std::thread vBackendThread(VulkanBackendFunction, &mCommandQueue);

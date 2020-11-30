@@ -10,7 +10,7 @@
 
 namespace DMK
 {
-	namespace Threads
+	namespace Thread
 	{
 		/**
 		 * Thread handle for the Dynamik Engine.

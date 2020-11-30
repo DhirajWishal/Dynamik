@@ -67,9 +67,9 @@ namespace DMK
 			/**
 			 * Get the backend command queue.
 			 *
-			 * @return Threads::CommandQueue<> pointer.
+			 * @return Thread::CommandQueue<> pointer.
 			 */
-			Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT>* GetCommandQueue() { return &mCommandQueue; }
+			Thread::CommandQueue<THREAD_MAX_COMMAND_COUNT>* GetCommandQueue() { return &mCommandQueue; }
 
 			/**
 			 * Initialize the Graphics Backend.
@@ -85,7 +85,7 @@ namespace DMK
 
 		private:
 			std::thread mBackendThread;	// Backend thread object.
-			Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT> mCommandQueue;	// Backend command queue.
+			Thread::CommandQueue<THREAD_MAX_COMMAND_COUNT> mCommandQueue;	// Backend command queue.
 		};
 	}
 }

@@ -91,7 +91,7 @@ group "Studio"
 --include "Studio/Application/Application.lua"
 
 group "Third Party"
+include "Dependencies/ThirdParty/SPIRV-Cross/SPIRV-Cross.lua"
 --include "Dependencies/ThirdParty/imgui/imgui.lua"
---include "Dependencies/ThirdParty/SPIRV-Cross/SPIRV-Cross.lua"
 
 group ""

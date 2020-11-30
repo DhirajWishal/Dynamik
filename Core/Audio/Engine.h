@@ -53,13 +53,13 @@ namespace DMK
 			/**
 			 * Get the command queue of the Audio Engine.
 			 *
-			 * @return Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT> pointer.
+			 * @return Thread::CommandQueue<THREAD_MAX_COMMAND_COUNT> pointer.
 			 */
-			Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT>* GetCommandQueue() const { return const_cast<Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT>*>(&mCommandQueue); }
+			Thread::CommandQueue<THREAD_MAX_COMMAND_COUNT>* GetCommandQueue() const { return const_cast<Thread::CommandQueue<THREAD_MAX_COMMAND_COUNT>*>(&mCommandQueue); }
 
 		private:
 			std::thread mBackendThread;	// The backend thread.
-			Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT> mCommandQueue;
+			Thread::CommandQueue<THREAD_MAX_COMMAND_COUNT> mCommandQueue;
 
 			AudioBackendType mBackendType = AudioBackendType::UNDEFINED;	// Backend type.
 		};

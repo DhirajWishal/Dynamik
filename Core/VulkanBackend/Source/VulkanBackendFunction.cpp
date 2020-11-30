@@ -13,7 +13,7 @@ namespace DMK
 {
 	namespace VulkanBackend
 	{
-		void VulkanBackendFunction(Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT>* pCommandQueue)
+		void VulkanBackendFunction(Thread::CommandQueue<THREAD_MAX_COMMAND_COUNT>* pCommandQueue)
 		{
 			// Setup the Vulkan Instance.
 			VulkanInstance vInstance = {};

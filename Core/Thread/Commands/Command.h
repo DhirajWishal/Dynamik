@@ -10,7 +10,7 @@
 
 namespace DMK
 {
-	namespace Threads
+	namespace Thread
 	{
 		template<class Type> class Command;
 

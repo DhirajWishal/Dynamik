@@ -35,19 +35,5 @@ project "GraphicsCore"
 
 	links { 
 		"Core",
+		"ShaderTools",
 	}
-
-	filter "system:windows"
-		defines {
-			"DMK_PLATFORM_WINDOWS",
-		}
-
-	filter "system:linux"
-		defines {
-			"DMK_PLATFORM_LINUX",
-		}
-
-	filter "system:macosx"
-		defines {
-			"DMK_PLATFORM_MAC",
-		}

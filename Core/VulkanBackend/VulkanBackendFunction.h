@@ -15,6 +15,6 @@ namespace DMK
 		 *
 		 * @param pCommandQueu: The command queue object pointer.
 		 */
-		void VulkanBackendFunction(Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT>* pCommandQueue);
+		void VulkanBackendFunction(Thread::CommandQueue<THREAD_MAX_COMMAND_COUNT>* pCommandQueue);
 	}
 }

@@ -2,7 +2,6 @@
 -- SPDX-License-Identifier: Apache-2.0
 
 ---------- Dynamik Engine Support Library: SPIRV-Cross ----------
--- This library is cloned from https://github.com/ocornut/imgui --
 
 project "SPIRV-Cross"
 	kind "StaticLib"
@@ -24,21 +23,5 @@ project "SPIRV-Cross"
 	}
 
 	includedirs {
-		"$(SolutionDir)Dependencies/Libraries/Local",
-		"$(SolutionDir)Engine/ThirdParty/SPIRV-Cross",
+		"$(SolutionDir)Dependencies/ThirdParty/SPIRV-Cross",
 	}
-
-	filter "system:windows"
-		defines {
-			"DMK_PLATFORM_WINDOWS",
-		}
-
-	filter "system:linux"
-		defines {
-			"DMK_PLATFORM_LINUX",
-		}
-
-	filter "system:macosx"
-		defines {
-			"DMK_PLATFORM_MAC",
-		}

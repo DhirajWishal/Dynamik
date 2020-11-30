@@ -1,9 +1,9 @@
 -- Copyright 2020 Dhiraj Wishal
 -- SPDX-License-Identifier: Apache-2.0
 
----------- XAudio2 Backend Tests project description ----------
+---------- Shader Tools Tests project description ----------
 
-project "XAudio2BackendTests"
+project "ShaderToolsTests"
 	kind "ConsoleApp"
 	cppdialect "C++17"
 	language "C++"
@@ -25,5 +25,5 @@ project "XAudio2BackendTests"
 	}
 
 	links {
-		"XAudio2Backend",
+		"GraphicsCore",
 	}

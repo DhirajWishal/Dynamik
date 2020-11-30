@@ -12,7 +12,7 @@
 
 namespace DMK
 {
-	namespace Threads
+	namespace Thread
 	{
 		// Command queue mutex.
 		static std::mutex __CommandQueueMutex = {};
@@ -130,19 +130,19 @@ namespace DMK
  /**
   * Macro to set the command state to pending.
   */
-#define SET_COMMAND_PENDING(command)		command->SetState(Threads::CommandState::PENDING)
+#define SET_COMMAND_PENDING(command)		command->SetState(Thread::CommandState::PENDING)
 
   /**
    * Macro to set the command state to executing.
    */
-#define SET_COMMAND_EXECUTING(command)		command->SetState(Threads::CommandState::EXECUTING)
+#define SET_COMMAND_EXECUTING(command)		command->SetState(Thread::CommandState::EXECUTING)
 
    /**
 	* Macro to set the command state to success.
 	*/
-#define SET_COMMAND_SUCCESS(command)		command->SetState(Threads::CommandState::SUCCESS)
+#define SET_COMMAND_SUCCESS(command)		command->SetState(Thread::CommandState::SUCCESS)
 
 	/**
 	 * Macro to set the command state to failed.
 	 */
-#define SET_COMMAND_FAILED(command)			command->SetState(Threads::CommandState::FAILED)
+#define SET_COMMAND_FAILED(command)			command->SetState(Thread::CommandState::FAILED)

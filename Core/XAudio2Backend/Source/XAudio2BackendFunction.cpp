@@ -12,7 +12,7 @@ namespace DMK
 {
 	namespace XAudio2Backend
 	{
-		void XAudio2BackendFunction(Threads::CommandQueue<THREAD_MAX_COMMAND_COUNT>* pCommandQueue)
+		void XAudio2BackendFunction(Thread::CommandQueue<THREAD_MAX_COMMAND_COUNT>* pCommandQueue)
 		{
 			// Create the instance object.
 			XAudio2Instance mInstance = {};
