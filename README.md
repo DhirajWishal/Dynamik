@@ -1,4 +1,4 @@
-![Dynamik Engine Logo](https://github.com/DhirajWishal/Dynamik/blob/master/Dependencies/Assets/icons/Samples/DynamikL.png)
+![Dynamik Engine Logo](https://github.com/DhirajWishal/DynamikEngine/blob/master/Dependencies/Assets/icons/Samples/DynamikL.png)
 # 
 Dynamik Engine is a community driven, high performance, game engine currently at its early stages and 
 is primarily targeted on 3D FPS games.

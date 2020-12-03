@@ -4,6 +4,7 @@
 #pragma once
 
 #include "GraphicsCore/Objects/ShaderCode.h"
+#include "Core/Hash/Hasher.h"
 
 namespace DMK
 {
@@ -59,4 +60,23 @@ namespace DMK
 			PipelineType mType = PipelineType::UNDEFINED;	// The pipeline type.
 		};
 	}
+}
+
+namespace std
+{
+	template<>
+	struct hash<DMK::GraphicsCore::PipelineSpecification> {
+		const size_t operator()(const DMK::GraphicsCore::PipelineSpecification& spec) const
+		{
+			size_t hash = 0;
+			for (auto itr = spec.mShaders.begin(); itr != spec.mShaders.end(); itr++)
+			{
+				auto codeHash = itr->Hash();
+				hash = DMK::Hasher::GetHash(&codeHash, sizeof(codeHash), hash);
+			}
+
+			UI64 type = static_cast<UI64>(spec.mType);
+			return DMK::Hasher::GetHash(&type, sizeof(UI64), hash);
+		}
+	};
 }

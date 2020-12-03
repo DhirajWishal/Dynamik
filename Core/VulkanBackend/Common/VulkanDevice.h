@@ -18,7 +18,7 @@
 
 #include <optional>
 #include <GLFW/glfw3.h>
-#include <vulkan/vulkan_beta.h>
+#include <vulkan/vulkan_beta.h>												
 
 namespace DMK
 {
@@ -436,7 +436,7 @@ namespace DMK
 
 			std::vector<FrameBuffer> vFrameBuffers;	// All the created frame buffers.
 
-			/* Raster Graphics */
+			/* Buffers */
 		public:
 
 		private:

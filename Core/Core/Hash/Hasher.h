@@ -16,6 +16,7 @@ namespace DMK
 		 * @param pData: The data pointer.
 		 * @param size: The size of the data block.
 		 * @param seed: The seed to generate the hash from. Default is 0.
+		 * @return The hash as UI64.
 		 */
 		UI64 GetHash(const void* pData, UI64 size, UI64 seed = 0);
 	}
