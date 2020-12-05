@@ -17,14 +17,7 @@ namespace DMK
 		 */
 		class CommandPool {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			CommandPool() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~CommandPool() {}
 
 			/**
@@ -49,14 +42,7 @@ namespace DMK
 		 */
 		class CommandBuffer {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			CommandBuffer() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~CommandBuffer() {}
 
 			/**
@@ -94,6 +80,15 @@ namespace DMK
 			 * @param vNewLayout: The new layout to be set.
 			 */
 			void SetImageLayout(const VkImage& vImage, UI32 mipLevel, UI32 layerCount, VkFormat vFormat, VkImageLayout vOldLayout, VkImageLayout vNewLayout);
+
+			/**
+			 * Copy buffer data from source to destination.
+			 *
+			 * @param vSrcBuffer: The source buffer.
+			 * @param vDstBuffer: The destination buffer.
+			 * @param vBufferCopy: The buffer copy information structure.
+			 */
+			void CopyBuffer(const VkBuffer& vSrcBuffer, const VkBuffer& vDstBuffer, const VkBufferCopy& vBufferCopy);
 
 			VkCommandBuffer vCommandBuffer = VK_NULL_HANDLE;	// Vulkan command buffer handle.
 			UI64 commandPoolIndex = 0;	// The index of the command pool.

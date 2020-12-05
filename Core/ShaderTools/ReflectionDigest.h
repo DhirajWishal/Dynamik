@@ -16,9 +16,6 @@ namespace DMK
 		 */
 		class ReflectionDigest {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			ReflectionDigest() {}
 
 			/**
@@ -29,9 +26,6 @@ namespace DMK
 			ReflectionDigest(const ReflectionDigest& other)
 				: mUniforms(other.mUniforms), mInputAttributes(other.mInputAttributes), mOutputAttributes(other.mOutputAttributes) {}
 
-			/**
-			 * Default destructor.
-			 */
 			~ReflectionDigest() {}
 
 			/**

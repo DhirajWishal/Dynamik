@@ -25,9 +25,6 @@ namespace DMK
 	class Matrix44 : public Matrix<Matrix44>
 	{
 	public:
-		/**
-		 * Default constructor.
-		 */
 		Matrix44();
 
 		/**
@@ -87,9 +84,6 @@ namespace DMK
 		 */
 		Matrix44(std::initializer_list<float> list);
 
-		/**
-		 * Default destructor.
-		 */
 		~Matrix44() {}
 
 		/**

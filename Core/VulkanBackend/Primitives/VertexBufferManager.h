@@ -18,14 +18,7 @@ namespace DMK
 		 */
 		class VertexBufferManager {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			VertexBufferManager() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~VertexBufferManager() {}
 
 			/**
@@ -38,6 +31,25 @@ namespace DMK
 			 * @return Vertex Buffer Handle.
 			 */
 			GraphicsCore::VertexBufferHandle TryCreateBuffer(const VulkanDevice& vDevice, GraphicsCore::VertexBufferObject&& vertexBuffer);
+
+		private:
+			/**
+			 * Create a new buffer to store data.
+			 *
+			 * @param vDevice: The Vulkan Device object.
+			 * @param vertexBuffer: The vertex buffer object to move data from.
+			 */
+			GraphicsCore::VertexBufferHandle CreateNewBuffer(const VulkanDevice& vDevice, GraphicsCore::VertexBufferObject&& vertexBuffer);
+
+			/**
+			 * Extend an existing buffer and insert data to it and return a handle.
+			 * 
+			 * @param vDevice: The Vulkan device object.
+			 * @param vertexBuffer: The vertex buffer object to move data from.
+			 * @param pBuffer: The vertex buffer pointer.
+			 * @return VertexBufferHandle.
+			 */
+			GraphicsCore::VertexBufferHandle ExtendInsert(const VulkanDevice& vDevice, GraphicsCore::VertexBufferObject&& vertexBuffer, VertexBuffer* pBuffer);
 
 			std::unordered_map<UI64, VertexBuffer> mBufferMap;	// The vertex buffer map.
 		};

@@ -17,14 +17,7 @@ namespace DMK
 		 */
 		class ShaderModule {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			ShaderModule() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~ShaderModule() {}
 
 			/**

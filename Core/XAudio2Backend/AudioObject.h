@@ -17,14 +17,7 @@ namespace DMK
 		 */
 		class AudioObject {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			AudioObject() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~AudioObject() {}
 
 			/**

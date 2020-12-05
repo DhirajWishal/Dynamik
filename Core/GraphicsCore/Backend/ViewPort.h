@@ -15,9 +15,6 @@ namespace DMK
 		 * This object contains information about the view port which is created by a device.
 		 */
 		struct ViewPort {
-			/**
-			 * Default constructor.
-			 */
 			ViewPort() = default;
 
 			/**

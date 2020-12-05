@@ -20,14 +20,7 @@ namespace DMK
 		 */
 		class RenderTargetAttachment {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			RenderTargetAttachment() {}
-
-			/**
-			 * Default destructor.
-			 */
 			virtual ~RenderTargetAttachment() {}
 
 			/**

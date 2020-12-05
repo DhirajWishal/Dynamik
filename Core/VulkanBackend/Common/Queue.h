@@ -21,14 +21,7 @@ namespace DMK
 		 */
 		class Queue {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			Queue() = default;
-
-			/**
-			 * Default destructor.
-			 */
 			~Queue() {}
 
 			/**

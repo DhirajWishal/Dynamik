@@ -44,14 +44,7 @@ namespace DMK
 		 */
 		class VulkanDevice {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			VulkanDevice() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~VulkanDevice() {}
 
 			/**
@@ -265,6 +258,15 @@ namespace DMK
 			 * @param vCommandBuffer: The command buffer to execute the commands.
 			 */
 			void FlushCommands(const CommandBuffer& vCommandBuffer);
+
+			/**
+			 * Terminate a command buffer.
+			 * This method flushes the commands (executes them) before terminating them and the command pool which
+			 * they are built on.
+			 *
+			 * @param vCommandBuffer: The command buffer object.
+			 */
+			void TerminateCommandBuffer(const CommandBuffer& vCommandBuffer);
 
 			/**
 			 * Terminate a created command pool.

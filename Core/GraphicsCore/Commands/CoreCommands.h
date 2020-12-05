@@ -17,9 +17,6 @@ namespace DMK
 			 * This command carry the information to initialize the selected graphics backend.
 			 */
 			struct InitializeBackend {
-				/**
-				 * Default constructor.
-				 */
 				InitializeBackend() = default;
 
 				/**
@@ -44,9 +41,6 @@ namespace DMK
 			 * This command caries information and instruct the backend to create a new device and provide its ID.
 			 */
 			struct CreateDevice {
-				/**
-				 * Default constructor.
-				 */
 				CreateDevice() = default;
 
 				/**
@@ -83,9 +77,6 @@ namespace DMK
 			 * This command instruct the backend to destroy a specific device and all the data with it.
 			 */
 			struct DestroyDevice {
-				/**
-				 * Default constructor.
-				 */
 				DestroyDevice() = default;
 
 				/**

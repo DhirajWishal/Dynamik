@@ -14,9 +14,6 @@ namespace DMK
 			 * This initializes the required audio backend.
 			 */
 			struct InitializeBackend {
-				/**
-				 * Default constructor.
-				 */
 				InitializeBackend() = default;
 
 				/**

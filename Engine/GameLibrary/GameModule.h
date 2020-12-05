@@ -18,14 +18,7 @@ namespace DMK
 		 */
 		class GameModule : public EntityStore {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			GameModule() {}
-
-			/**
-			 * Default destructor.
-			 */
 			virtual ~GameModule() {}
 
 			/**

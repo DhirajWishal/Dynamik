@@ -32,9 +32,6 @@ namespace DMK
 		 * This contains information about a single render target attachment handle.
 		 */
 		struct RenderTargetAttachmentHandle {
-			/**
-			 * Default constructor.
-			 */
 			RenderTargetAttachmentHandle() = default;
 
 			/**
@@ -56,9 +53,6 @@ namespace DMK
 		 */
 		class RenderTargetHandle {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			RenderTargetHandle() {}
 
 			/**
@@ -68,9 +62,6 @@ namespace DMK
 			 */
 			RenderTargetHandle(const UI64& ID) : mRenderTargetID(ID) {}
 
-			/**
-			 * Default destructor.
-			 */
 			~RenderTargetHandle() {}
 
 			std::vector<RenderTargetAttachmentHandle> attachmentHandles;	// Attachment handles.

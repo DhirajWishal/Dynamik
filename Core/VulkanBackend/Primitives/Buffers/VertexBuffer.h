@@ -15,14 +15,7 @@ namespace DMK
 		 */
 		class VertexBuffer : public Buffer {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			VertexBuffer() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~VertexBuffer() {}
 
 			/**

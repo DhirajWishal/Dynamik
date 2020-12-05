@@ -15,14 +15,7 @@ namespace DMK
 		 */
 		class SPIRVReflection {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			SPIRVReflection() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~SPIRVReflection() {}
 
 			/**

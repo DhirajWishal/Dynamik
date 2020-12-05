@@ -27,9 +27,6 @@ namespace DMK
 		 * This holds information about a single key.
 		 */
 		struct Key {
-			/**
-			 * Default constructor.
-			 */
 			Key() = default;
 
 			/**
@@ -94,14 +91,7 @@ namespace DMK
 		 */
 		class KeyInputSupplier : public InputSupplier {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			KeyInputSupplier() : InputSupplier("KeyInputSupplier") {}
-
-			/**
-			 * Default destructor.
-			 */
 			virtual ~KeyInputSupplier() {}
 
 			/* All the supported keys. */

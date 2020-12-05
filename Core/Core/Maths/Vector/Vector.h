@@ -184,14 +184,7 @@ namespace DMK
 			return (*this)();
 		}
 
-		/**
-		 * Default constuctor.
-		 */
 		inline Vector() {}
-
-		/**
-		 * Default destructor.
-		 */
 		inline ~Vector() {}
 
 		/**

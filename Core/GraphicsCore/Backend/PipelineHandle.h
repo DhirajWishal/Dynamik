@@ -14,7 +14,7 @@ namespace DMK
 		 * Pipeline Type enum.
 		 */
 		enum class PipelineType : UI8 {
-			UNDEFINED,
+			UNDEFINED,		// Undefined pipeline.
 			GRAPHICS,		// Raster Graphics
 			COMPUTE,		// Compute 
 			RAY_TRACING,	// Ray Tracing (only if the device is supported).
@@ -36,14 +36,7 @@ namespace DMK
 		 */
 		class PipelineObjectHandle {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			PipelineObjectHandle() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~PipelineObjectHandle() {}
 
 			PipelineSpecification mSpecification = {};	// Specification.

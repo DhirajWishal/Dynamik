@@ -17,14 +17,7 @@ namespace DMK
 			 */
 			class VulkanBackend {
 			public:
-				/**
-				 * Default constructor.
-				 */
 				VulkanBackend() {}
-
-				/**
-				 * Default destructor.
-				 */
 				~VulkanBackend() {}
 			};
 		}

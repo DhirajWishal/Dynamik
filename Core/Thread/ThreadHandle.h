@@ -19,14 +19,7 @@ namespace DMK
 		 */
 		class ThreadHandle {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			ThreadHandle() {}
-
-			/**
-			 * Default destructor.
-			 */
 			virtual ~ThreadHandle() {}
 
 			/**

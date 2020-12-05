@@ -26,14 +26,7 @@ namespace DMK
 		template<UI64 CommandCount = THREAD_MAX_COMMAND_COUNT>
 		class CommandQueue {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			CommandQueue() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~CommandQueue() {}
 
 			/**

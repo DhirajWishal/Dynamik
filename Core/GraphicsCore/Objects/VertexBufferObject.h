@@ -52,6 +52,13 @@ namespace DMK
 			VertexAttribute(VertexAttributeType type = VertexAttributeType::UNDEFINED, DataType dataType = DataType::UNDEFINED, UI64 layerCount = 1)
 				: mType(type), mDataType(dataType), mLayers(layerCount) {}
 
+			/**
+			 * Get the size of the attribute.
+			 *
+			 * @return The size in bytes.
+			 */
+			UI64 Size() const { return static_cast<UI64>(mDataType) * mLayers; }
+
 			UI64 mLayers = 1;	// Layer count.
 			VertexAttributeType mType = VertexAttributeType::UNDEFINED;	// Attribute type.
 			DataType mDataType = DataType::UNDEFINED;	// Data type.
@@ -65,20 +72,34 @@ namespace DMK
 		 */
 		class VertexBufferObject {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			VertexBufferObject() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~VertexBufferObject() {}
 
 			/**
 			 * Get the hash of the layout.
 			 */
 			UI64 LayoutHash() const;
+
+			/**
+			 * Get the data store pointer.
+			 *
+			 * @return The pointer.
+			 */
+			void* Data() const { return pDataStore; }
+
+			/**
+			 * Get the size of the layout.
+			 *
+			 * @return The size in bytes.
+			 */
+			UI64 LayoutSize() const;
+
+			/**
+			 * Get the size of the buffer.
+			 *
+			 * @return The size in bytes.
+			 */
+			UI64 Size() const { return mSize; }
 
 			/**
 			 * Add an attribute to the vertex buffer's layout.
@@ -99,7 +120,22 @@ namespace DMK
 			 */
 			void SetAttributes(std::vector<VertexAttribute>&& attributes);
 
+		public:
+			/**
+			 * Initialize the vertex buffer.
+			 */
+			void Initialize();
+
+			/**
+			 * Terminate the vertex buffer.
+			 */
+			void Terminate();
+
+		public:
 			std::vector<VertexAttribute> mAttributes;	// The vertex attributes.
+
+			void* pDataStore = nullptr;	// The data store pointer.
+			UI64 mSize = 0;	// The size of the buffer.
 		};
 
 		/**
@@ -119,9 +155,6 @@ namespace DMK
 			 */
 			VertexBufferHandle(UI64 handle = 0, UI64 size = 0) : mHandle(handle), mSize(size) {}
 
-			/**
-			 * Default destructor.
-			 */
 			~VertexBufferHandle() {}
 
 			/**

@@ -26,9 +26,6 @@ namespace DMK
 	 */
 	class Vector3 : public Vector<Vector3> {
 	public:
-		/**
-		 * Default constructor.
-		 */
 		Vector3() : x(0.0f), y(0.0f), z(0.0f), w(0.0f) {}
 
 		/**
@@ -69,9 +66,6 @@ namespace DMK
 		 */
 		Vector3(const float* ptr);
 
-		/**
-		 * Default destructor.
-		 */
 		~Vector3() {}
 
 		/**

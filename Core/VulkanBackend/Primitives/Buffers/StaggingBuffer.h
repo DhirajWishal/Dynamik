@@ -15,14 +15,7 @@ namespace DMK
 		 */
 		class StaggingBuffer : public Buffer {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			StaggingBuffer() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~StaggingBuffer() {}
 
 			/**

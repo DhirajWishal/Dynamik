@@ -26,14 +26,7 @@ namespace DMK
 		 */
 		class Engine {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			Engine() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~Engine() {}
 
 			/**

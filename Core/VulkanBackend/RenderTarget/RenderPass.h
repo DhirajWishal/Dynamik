@@ -14,14 +14,7 @@ namespace DMK
 		 */
 		class RenderPass {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			RenderPass() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~RenderPass() {}
 
 			/**

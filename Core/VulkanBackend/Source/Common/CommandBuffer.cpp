@@ -64,6 +64,12 @@ namespace DMK
 			vkFreeCommandBuffers(GetLogicalDevice(), vCommandPools.at(vCommandBuffer.commandPoolIndex).vCommandPool, 1, &vCommandBuffer.vCommandBuffer);
 		}
 
+		void VulkanDevice::TerminateCommandBuffer(const CommandBuffer& vCommandBuffer)
+		{
+			FlushCommands(vCommandBuffer);
+			TerminateCommandPool(vCommandBuffer.commandPoolIndex);
+		}
+
 		void VulkanDevice::TerminateCommandPool(UI64 commandPoolIndex)
 		{
 			// Terminate the command pool.
@@ -222,6 +228,11 @@ namespace DMK
 				0, nullptr,
 				1, &barrier
 			);
+		}
+		
+		void CommandBuffer::CopyBuffer(const VkBuffer& vSrcBuffer, const VkBuffer& vDstBuffer, const VkBufferCopy& vBufferCopy)
+		{
+			vkCmdCopyBuffer(vCommandBuffer, vSrcBuffer, vDstBuffer, 1, &vBufferCopy);
 		}
 	}
 }

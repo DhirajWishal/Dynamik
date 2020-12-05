@@ -28,66 +28,24 @@ namespace DMK
 		 */
 		class AudioObjectHandle {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			AudioObjectHandle() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~AudioObjectHandle() {}
 
-			/**
-			 * Get the name of the audio object.
-			 *
-			 * @return Const char pointer.
-			 */
 			const char* GetName() const { return pName; }
-
-			/**
-			 * Get the audio object handle.
-			 *
-			 * @return The handle unsigned integer.
-			 */
 			UI64 GetHandle() const { return mHandle; }
-
-			/**
-			 * Get the length of the audio.
-			 *
-			 * @return The length in miliseconds.
-			 */
 			UI64 GetLength() const { return mLength; }
-
-			/**
-			 * Get the sample rate.
-			 *
-			 * @return The sample rate in Hz.
-			 */
 			UI64 GetSampleRate() const { return mSampleRate; }
-
-			/**
-			 * Get the number of bytes played per second.
-			 *
-			 * @return The number of bytes per second.
-			 */
 			UI64 GetBytesPerSecond() const { return mBytesPerSecond; }
-
-			/**
-			 * Get the audio format.
-			 *
-			 * @return AudioFileFormat enum.
-			 */
 			AudioFileFormat GetFormat() const { return mFormat; }
 
-			const char* pName = nullptr;	// The audio file name.
-			UI64 mHandle = 0;	// Audio object handle.
+			const char* pName = nullptr;
+			UI64 mHandle = 0;
 
-			UI64 mLength = 0;	// Length of the audio.
-			UI64 mSampleRate = 0;	// The sample rate of the audio.
-			UI64 mBytesPerSecond = 0;	// The number of bytes played per second.
+			UI64 mLength = 0;
+			UI64 mSampleRate = 0;
+			UI64 mBytesPerSecond = 0;
 
-			AudioFileFormat mFormat = AudioFileFormat::UNDEFINED;	// Audio file format.
+			AudioFileFormat mFormat = AudioFileFormat::UNDEFINED;
 		};
 
 		/**

@@ -71,9 +71,6 @@ namespace DMK
 			Uniform(UniformType mType = UniformType::UNIFORM_BUFFER, UI64 mBinding = 0)
 				: mType(mType), mBinding(mBinding) {}
 
-			/**
-			 * Default destructor.
-			 */
 			~Uniform() {}
 
 			/**

@@ -16,14 +16,7 @@ namespace DMK
 		 */
 		class SwapChain : public RenderTargetAttachment {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			SwapChain() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~SwapChain() {}
 
 			/**

@@ -26,9 +26,6 @@ namespace DMK
 		 * Button structure to hold the button information of the input.
 		 */
 		struct Button {
-			/**
-			 * Default constructor.
-			 */
 			Button() = default;
 
 			/**
@@ -46,9 +43,6 @@ namespace DMK
 		 * Scroll structure to hold the information about the mouse scroll.
 		 */
 		struct Scroll {
-			/**
-			 * Default constructor.
-			 */
 			Scroll() = default;
 
 			/**
@@ -72,9 +66,6 @@ namespace DMK
 		 * Position structure to store the mouse cursor position.
 		 */
 		struct Position {
-			/**
-			 * Default constructor.
-			 */
 			Position() = default;
 
 			/**
@@ -101,14 +92,7 @@ namespace DMK
 		 */
 		class MouseInputSupplier : public InputSupplier {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			MouseInputSupplier() : InputSupplier("MouseInputSupplier") {}
-
-			/**
-			 * Default destructor.
-			 */
 			virtual ~MouseInputSupplier() {}
 
 			/* All supported mouse inputs. */

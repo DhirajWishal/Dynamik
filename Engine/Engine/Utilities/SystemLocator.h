@@ -17,14 +17,7 @@ namespace DMK
 		 */
 		class SystemLocator {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			SystemLocator() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~SystemLocator() {}
 		};
 	}

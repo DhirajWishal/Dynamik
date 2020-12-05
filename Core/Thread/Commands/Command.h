@@ -31,14 +31,7 @@ namespace DMK
 		 */
 		class CommandBase {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			CommandBase(CommandState* pCommandState = nullptr) : pComandState(pCommandState) {}
-
-			/**
-			 * Default destructor.
-			 */
 			virtual ~CommandBase() {}
 
 			/**
@@ -118,9 +111,6 @@ namespace DMK
 			Command(Type&& command, CommandState* pCommandState = nullptr)
 				: mData(std::move(command)), CommandBase(pCommandState) {}
 
-			/**
-			 * Default destructor.
-			 */
 			~Command() {}
 
 			typedef typename Type Type;	// The type of the command.

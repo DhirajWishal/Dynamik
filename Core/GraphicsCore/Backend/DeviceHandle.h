@@ -30,9 +30,6 @@ namespace DMK
 		 */
 		class DeviceHandle {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			DeviceHandle() = default;
 
 			/**
@@ -42,9 +39,6 @@ namespace DMK
 			 */
 			DeviceHandle(const UI64& ID) : mDeviceID(ID) {}
 
-			/**
-			 * Default destructor.
-			 */
 			~DeviceHandle() {}
 
 			UI64 mDeviceID = 0;	// Device ID of the API.

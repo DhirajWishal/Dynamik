@@ -16,14 +16,7 @@ namespace DMK
 		 */
 		class VulkanDeviceManager {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			VulkanDeviceManager() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~VulkanDeviceManager() {}
 
 			/**

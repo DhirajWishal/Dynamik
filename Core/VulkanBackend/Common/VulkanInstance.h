@@ -15,14 +15,7 @@ namespace DMK
 		 */
 		class VulkanInstance {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			VulkanInstance() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~VulkanInstance() {}
 
 			/**

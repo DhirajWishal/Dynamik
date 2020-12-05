@@ -23,9 +23,6 @@ namespace DMK
 			 * - Swap Chain, Depth Buffer, Color Buffer.
 			 */
 			struct CreateRenderTarget {
-				/**
-				 * Default constructor.
-				 */
 				CreateRenderTarget() = default;
 
 				/**
@@ -70,9 +67,6 @@ namespace DMK
 			 * This command destroys all the created render targets in the backend in a given device.
 			 */
 			struct DestroyAllRenderTargets {
-				/**
-				 * Default constructor.
-				 */
 				DestroyAllRenderTargets() = default;
 
 				/**

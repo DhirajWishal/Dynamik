@@ -44,6 +44,29 @@ namespace DMK
 			UnmapMemory(vDevice);
 		}
 
+		void Buffer::CopyBuffer(VulkanDevice& vDevice, const Buffer* pBuffer)
+		{
+			// Check if the buffer is able to copy data to.
+			if (this->mSize < pBuffer->mSize)
+			{
+				Logger::LogError(TEXT("The buffer size is not sufficient to copy data!"));
+				return;
+			}
+
+			VkBufferCopy vCopy = {};
+			vCopy.dstOffset = 0;
+			vCopy.srcOffset = 0;
+			vCopy.size = pBuffer->Size();
+
+			auto vCommandBuffer = vDevice.CreateCommandBuffer();
+			vCommandBuffer.CopyBuffer(pBuffer->vBuffer, this->vBuffer, vCopy);
+			vDevice.TerminateCommandBuffer(vCommandBuffer);
+		}
+
+		void Buffer::MoveBuffer(const VulkanDevice& vDevice, const Buffer* pBuffer)
+		{
+		}
+
 		void Buffer::Extend(const VulkanDevice& vDevice, UI64 size)
 		{
 			// Check if the buffer was allocated before.

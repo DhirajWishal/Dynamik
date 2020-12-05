@@ -73,14 +73,7 @@ namespace DMK
 		 */
 		class ShaderCode {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			ShaderCode() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~ShaderCode() {}
 
 			/**

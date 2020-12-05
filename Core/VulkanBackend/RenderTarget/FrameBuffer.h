@@ -14,14 +14,7 @@ namespace DMK
 		 */
 		class FrameBuffer {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			FrameBuffer() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~FrameBuffer() {}
 
 			/**

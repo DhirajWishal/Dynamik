@@ -29,14 +29,7 @@ namespace DMK
 			};
 
 		public:
-			/**
-			 * Default constructor.
-			 */
 			PipelineManager() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~PipelineManager() {}
 
 			/**

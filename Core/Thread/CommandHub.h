@@ -12,14 +12,7 @@ namespace DMK
 		 */
 		class CommandHub {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			CommandHub() {}
-
-			/**
-			 * Default destructor.
-			 */
 			virtual ~CommandHub() {}
 		};
 	}

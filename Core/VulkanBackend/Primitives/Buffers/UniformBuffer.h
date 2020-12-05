@@ -14,14 +14,7 @@ namespace DMK
 		 */
 		class UniformBuffer : public Buffer {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			UniformBuffer() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~UniformBuffer() {}
 
 			/**

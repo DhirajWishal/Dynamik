@@ -25,9 +25,6 @@ namespace DMK
 		using Char = Type;
 		using StringT = std::basic_string<Char>;
 	public:
-		/**
-		 * Default constructor.
-		 */
 		FilePath() = default;
 
 		/**
@@ -55,9 +52,6 @@ namespace DMK
 			fPath.pString = nullptr;
 		}
 
-		/**
-		 * Default destructor.
-		 */
 		~FilePath() {}
 
 		/**

@@ -16,14 +16,7 @@ namespace DMK
 		 */
 		class GraphicsComponent {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			GraphicsComponent() {}
-
-			/**
-			 * Default destructor.
-			 */
 			virtual ~GraphicsComponent() {}
 
 			/**

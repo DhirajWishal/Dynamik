@@ -18,14 +18,7 @@ namespace DMK
 		 */
 		class RasterGraphicsPipeline {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			RasterGraphicsPipeline() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~RasterGraphicsPipeline() {}
 
 			/**

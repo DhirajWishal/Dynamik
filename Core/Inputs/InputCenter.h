@@ -17,14 +17,7 @@ namespace DMK
 		 */
 		class InputCenter {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			InputCenter() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~InputCenter() {}
 
 			/**

@@ -25,9 +25,6 @@ namespace DMK
 	class Matrix33 : public Matrix<Matrix33>
 	{
 	public:
-		/**
-		 * Default constructor.
-		 */
 		Matrix33();
 
 		/**
@@ -78,9 +75,6 @@ namespace DMK
 		 */
 		Matrix33(std::initializer_list<float> list);
 
-		/**
-		 * Default constructor.
-		 */
 		~Matrix33() {}
 
 		/**

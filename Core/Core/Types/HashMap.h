@@ -52,9 +52,6 @@ namespace DMK
 		typedef std::vector<EntryContainer> EntryVector;	// Vector containing the entry containers.
 
 	public:
-		/**
-		 * Default constructor.
-		 */
 		HashMap() = default;
 
 		/**
@@ -71,9 +68,6 @@ namespace DMK
 		 */
 		HashMap(HashMap<Key, Value, ChunkSize>&& other) : mEntries(std::move(other.mEntries)) { other.mEntries = {}; }
 
-		/**
-		 * Default destructor.
-		 */
 		~HashMap() { FastClear(); }
 
 		/**
@@ -323,9 +317,6 @@ namespace DMK
 		 */
 		class Iterator {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			Iterator() = default;
 
 			/**
@@ -344,9 +335,6 @@ namespace DMK
 			Iterator(EntryContainer* pContainer, I64 entryIndex)
 				: pContainer(pContainer), entryIndex(entryIndex) {}
 
-			/**
-			 * Default destructor.
-			 */
 			~Iterator() {}
 
 			/**
@@ -594,9 +582,6 @@ namespace DMK
 		 */
 		class ConstIterator {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			ConstIterator() = default;
 
 			/**
@@ -615,9 +600,6 @@ namespace DMK
 			ConstIterator(EntryContainer* pContainer, I64 entryIndex)
 				: pContainer(pContainer), entryIndex(entryIndex) {}
 
-			/**
-			 * Default destructor.
-			 */
 			~ConstIterator() {}
 
 			/**

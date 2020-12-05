@@ -15,14 +15,7 @@ namespace DMK
 		 */
 		class IndexBuffer : public Buffer {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			IndexBuffer() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~IndexBuffer() {}
 
 			/**

@@ -52,14 +52,7 @@ namespace DMK
 		 */
 		class GameApplication {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			GameApplication() {}
-
-			/**
-			 * Default destructor.
-			 */
 			virtual ~GameApplication() {}
 
 			/**

@@ -25,14 +25,7 @@ namespace DMK
 			friend GameEntity;
 
 		public:
-			/**
-			 * Default constructor.
-			 */
 			StaticMeshObject() {}
-
-			/**
-			 * Deafult destructor.
-			 */
 			~StaticMeshObject() {}
 
 			/**

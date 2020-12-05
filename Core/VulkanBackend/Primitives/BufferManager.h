@@ -18,14 +18,7 @@ namespace DMK
 		 */
 		class BufferManager {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			BufferManager() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~BufferManager() {}
 		};
 	}

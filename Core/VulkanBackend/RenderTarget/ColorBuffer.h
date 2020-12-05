@@ -15,14 +15,7 @@ namespace DMK
 		 */
 		class ColorBuffer : public RenderTargetAttachment {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			ColorBuffer() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~ColorBuffer() {}
 
 			/**

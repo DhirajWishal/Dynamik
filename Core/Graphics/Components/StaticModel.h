@@ -17,14 +17,7 @@ namespace DMK
 		 */
 		class StaticModel {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			StaticModel() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~StaticModel() {}
 
 			std::vector<GraphicsCore::StaticMeshObject> mStaticMeshes;

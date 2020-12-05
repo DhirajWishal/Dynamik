@@ -19,14 +19,7 @@ namespace DMK
 		 */
 		class EntityContainerBase {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			EntityContainerBase() {}
-
-			/**
-			 * Default destructor.
-			 */
 			virtual ~EntityContainerBase() {}
 
 			/**
@@ -55,14 +48,7 @@ namespace DMK
 			typedef std::vector<Type> Container;
 
 		public:
-			/**
-			 * Default constructor.
-			 */
 			EntityContainer() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~EntityContainer() {}
 
 			/**

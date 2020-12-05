@@ -23,9 +23,6 @@ namespace DMK
 			 */
 			InputSupplier(const char* sName) : pSupplierName(sName) {}
 
-			/**
-			 * Default destructor.
-			 */
 			virtual ~InputSupplier() {}
 
 			/**

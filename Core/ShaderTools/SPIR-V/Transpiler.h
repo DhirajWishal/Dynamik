@@ -15,14 +15,7 @@ namespace DMK
 		 */
 		class SPIRVTranspiler {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			SPIRVTranspiler() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~SPIRVTranspiler() {}
 
 			/**

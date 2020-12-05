@@ -17,14 +17,7 @@ namespace DMK
 		 */
 		class Buffer {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			Buffer() {}
-
-			/**
-			 * Default destructor.
-			 */
 			virtual ~Buffer() {}
 
 			/**
@@ -88,6 +81,22 @@ namespace DMK
 			 * @param size: The size of the data to be copied in bytes.
 			 */
 			void MoveData(const VulkanDevice& vDevice, const void* pData, UI64 size, UI64 offset = 0);
+
+			/**
+			 * Copy data to this buffer using another buffer.
+			 *
+			 * @param vDevice: The Vulkan device object.
+			 * @param pBuffer: The other buffer pointer.
+			 */
+			void CopyBuffer(VulkanDevice& vDevice, const Buffer* pBuffer);
+
+			/**
+			 * Move data to this buffer using another buffer.
+			 *
+			 * @param vDevice: The Vulkan device object.
+			 * @param pBuffer: The other buffer pointer.
+			 */
+			void MoveBuffer(const VulkanDevice& vDevice, const Buffer* pBuffer);
 
 			/**
 			 * Extend the buffer by a new size.

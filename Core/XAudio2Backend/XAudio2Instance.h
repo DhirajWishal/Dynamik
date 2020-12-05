@@ -19,14 +19,7 @@ namespace DMK
 		 */
 		class XAudio2Instance {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			XAudio2Instance() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~XAudio2Instance() {}
 
 			/**

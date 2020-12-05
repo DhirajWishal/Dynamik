@@ -26,9 +26,6 @@ namespace DMK
 	class Vector2 : public Vector<Vector2>
 	{
 	public:
-		/**
-		 * Default constructor.
-		 */
 		Vector2() : x(0.0f), y(0.0f) {}
 
 		/**
@@ -54,9 +51,6 @@ namespace DMK
 		 */
 		Vector2(std::initializer_list<float> list);
 
-		/**
-		 * Default destructor.
-		 */
 		~Vector2() {}
 
 		/**

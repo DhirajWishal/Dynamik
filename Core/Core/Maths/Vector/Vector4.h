@@ -26,9 +26,6 @@ namespace DMK
 	 */
 	class Vector4 : public Vector<Vector4> {
 	public:
-		/**
-		 * Default constructor.
-		 */
 		Vector4() : r(0.0f), g(0.0f), b(0.0f), a(0.0f) {}
 
 		/**
@@ -70,9 +67,6 @@ namespace DMK
 		 */
 		Vector4(const float* ptr);
 
-		/**
-		 * Default destructor.
-		 */
 		~Vector4() {}
 
 		/**

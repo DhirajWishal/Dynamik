@@ -14,14 +14,7 @@ namespace DMK
 		 */
 		class DepthBuffer : public RenderTargetAttachment {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			DepthBuffer() {}
-
-			/**
-			 * Default destructor.
-			 */
 			~DepthBuffer() {}
 
 			/**

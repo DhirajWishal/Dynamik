@@ -18,14 +18,7 @@ namespace DMK
 		 */
 		class EntityStore {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			EntityStore() {}
-
-			/**
-			 * Default destructor.
-			 */
 			virtual ~EntityStore() {}
 
 			/**

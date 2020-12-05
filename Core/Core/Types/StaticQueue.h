@@ -18,14 +18,7 @@ namespace DMK
 	template<class Type, UI64 ElementCount>
 	class StaticQueue {
 	public:
-		/**
-		 * Default constructor.
-		 */
 		StaticQueue() = default;
-
-		/**
-		 * Default destructor.
-		 */
 		~StaticQueue() {}
 
 		/**

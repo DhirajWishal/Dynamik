@@ -25,14 +25,7 @@ namespace DMK
 		 */
 		class GameEntity {
 		public:
-			/**
-			 * Default constructor.
-			 */
 			GameEntity() {}
-
-			/**
-			 * Default destructor.
-			 */
 			virtual ~GameEntity() {}
 
 		public:
