@@ -10,7 +10,7 @@ DMK::Engine::ServiceInitializationFlags BallBouncerApplciation::GetServiceInitia
 
 DMK::Engine::SystemInitializationFlags BallBouncerApplciation::GetSystemInitializationFlags() const
 {
-	return DMK::Engine::SystemInitializationFlags::GRAPHICS;
+	return DMK::Engine::SystemInitializationFlags::GRAPHICS | DMK::Engine::SystemInitializationFlags::AUDIO;
 }
 
 void BallBouncerApplciation::InitializeGame()

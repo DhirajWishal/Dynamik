@@ -69,6 +69,13 @@ namespace DMK
 			constexpr const Type GetData() const { return Derived<Type>()->Get(); }
 
 			/**
+			 * Get the raw data pointer.
+			 * 
+			 * @return Void pointer.
+			 */
+			virtual void* Data() const { return nullptr; }
+
+			/**
 			 * Set the command state if the command state is valid.
 			 *
 			 * @param state: The state of the command.
@@ -127,28 +134,35 @@ namespace DMK
 			 *
 			 * @param data: The data to be set.
 			 */
-			DMK_FORCEINLINE void Set(const Type& data) { mData = data; }
+			void Set(const Type& data) { mData = data; }
 
 			/**
 			 * Set command data (move).
 			 *
 			 * @param data: The data to be set.
 			 */
-			DMK_FORCEINLINE void Set(Type&& data) { mData = std::move(data); }
+			void Set(Type&& data) { mData = std::move(data); }
 
 			/**
 			 * Get data from the command.
 			 *
 			 * @return const Type.
 			 */
-			DMK_FORCEINLINE const Type Get() const { return mData; }
+			const Type Get() const { return mData; }
 
 			/**
 			 * Get data from the command.
 			 *
 			 * @return Type reference.
 			 */
-			DMK_FORCEINLINE Type& Get() { return mData; }
+			Type& Get() { return mData; }
+
+			/**
+			 * Get the raw data pointer.
+			 *
+			 * @return Void pointer.
+			 */
+			virtual void* Data() const override final { return const_cast<Type*>(&mData); }
 
 		public:
 			/**

@@ -139,44 +139,6 @@ namespace DMK
 		};
 
 		/**
-		 * Vertex Buffer Handle object.
-		 * This object stores information about a single vertex buffer object.
-		 */
-		class VertexBufferHandle {
-		public:
-			VertexBufferHandle(const VertexBufferHandle&) = delete;
-			VertexBufferHandle(VertexBufferHandle&&) = delete;
-
-			/**
-			 * Constrct the handle using the handle and the size.
-			 *
-			 * @param handle: The handle to be set. Default is 0.
-			 * @param size: The size of the handle to be set. Default is 0.
-			 */
-			VertexBufferHandle(UI64 handle = 0, UI64 size = 0) : mHandle(handle), mSize(size) {}
-
-			~VertexBufferHandle() {}
-
-			/**
-			 * Get the stored handle data.
-			 *
-			 * @return Handle integer.
-			 */
-			UI64 GetHandle() const { return mHandle; }
-
-			/**
-			 * Get the size of the buffer pointed by the handle.
-			 *
-			 * @return The size in bytes.
-			 */
-			UI64 GetSize() const { return mSize; }
-
-		private:
-			UI64 mHandle = 0;	// The vertex buffer handle.
-			UI64 mSize = 0;
-		};
-
-		/**
 		 * Vertex Presents are pre defined vertex layouts which can be used to create Vertex Buffer Objects.
 		 */
 		namespace VertexPresets

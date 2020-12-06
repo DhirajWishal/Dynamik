@@ -6,6 +6,7 @@
 #define _DYNAMIK_ENGINE_GAME_APPLICATION_H
 
 #include "Core/Macros/Global.h"
+#include "Core/Types/DataTypes.h"
 
 namespace DMK
 {
@@ -15,7 +16,7 @@ namespace DMK
 		 * Service initialization flags.
 		 * These flags are used to initialize the required services.
 		 */
-		enum class ServiceInitializationFlags {
+		enum class ServiceInitializationFlags : UI8 {
 			SHADER_TOOLS = BIT_SHIFT(0),
 			ASSET_STORE = BIT_SHIFT(1),
 		};
@@ -24,7 +25,7 @@ namespace DMK
 		 * System initialization flags.
 		 * These flags are used to initialize the required systems.
 		 */
-		enum class SystemInitializationFlags {
+		enum class SystemInitializationFlags : UI8 {
 			GRAPHICS = BIT_SHIFT(0),
 			AUDIO = BIT_SHIFT(1),
 			PHYSICS = BIT_SHIFT(2),
@@ -91,6 +92,16 @@ namespace DMK
 			 */
 			virtual void InitializeGame() {}
 		};
+
+		DMK_FORCEINLINE ServiceInitializationFlags operator|(const ServiceInitializationFlags& lhs, const ServiceInitializationFlags& rhs)
+		{
+			return static_cast<ServiceInitializationFlags>(static_cast<UI8>(lhs) | static_cast<UI8>(rhs));
+		}
+
+		DMK_FORCEINLINE SystemInitializationFlags operator|(const SystemInitializationFlags& lhs, const SystemInitializationFlags& rhs)
+		{
+			return static_cast<SystemInitializationFlags>(static_cast<UI8>(lhs) | static_cast<UI8>(rhs));
+		}
 	}
 }
 

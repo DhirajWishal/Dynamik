@@ -8,7 +8,7 @@ namespace DMK
 {
 	namespace VulkanBackend
 	{
-		GraphicsCore::VertexBufferHandle VertexBufferManager::TryCreateBuffer(const VulkanDevice& vDevice, GraphicsCore::VertexBufferObject&& vertexBuffer)
+		GraphicsCore::BufferHandle VertexBufferManager::TryCreateBuffer(const VulkanDevice& vDevice, GraphicsCore::VertexBufferObject&& vertexBuffer)
 		{
 			// Check if the buffer layout is available. If not, create a new buffer and register the layout.
 			if (mBufferMap.find(vertexBuffer.LayoutHash()) != mBufferMap.end())
@@ -16,10 +16,10 @@ namespace DMK
 			else
 				return ExtendInsert(vDevice, std::move(vertexBuffer), &mBufferMap[vertexBuffer.LayoutHash()]);
 
-			return GraphicsCore::VertexBufferHandle();
+			return GraphicsCore::BufferHandle(GraphicsCore::BufferType::VERTEX, 0, 0);
 		}
 
-		GraphicsCore::VertexBufferHandle VertexBufferManager::CreateNewBuffer(const VulkanDevice& vDevice, GraphicsCore::VertexBufferObject&& vertexBuffer)
+		GraphicsCore::BufferHandle VertexBufferManager::CreateNewBuffer(const VulkanDevice& vDevice, GraphicsCore::VertexBufferObject&& vertexBuffer)
 		{
 			auto hash = vertexBuffer.LayoutHash();
 			auto size = vertexBuffer.Size();
@@ -30,10 +30,10 @@ namespace DMK
 
 			vertexBuffer.Terminate();
 
-			return GraphicsCore::VertexBufferHandle(hash, size);
+			return GraphicsCore::BufferHandle(GraphicsCore::BufferType::VERTEX, hash, size);
 		}
 
-		GraphicsCore::VertexBufferHandle VertexBufferManager::ExtendInsert(const VulkanDevice& vDevice, GraphicsCore::VertexBufferObject&& vertexBuffer, VertexBuffer* pBuffer)
+		GraphicsCore::BufferHandle VertexBufferManager::ExtendInsert(const VulkanDevice& vDevice, GraphicsCore::VertexBufferObject&& vertexBuffer, VertexBuffer* pBuffer)
 		{
 			auto hash = vertexBuffer.LayoutHash();
 			auto size = vertexBuffer.Size();
@@ -44,7 +44,7 @@ namespace DMK
 
 			vertexBuffer.Terminate();
 
-			return GraphicsCore::VertexBufferHandle(hash, size);
+			return GraphicsCore::BufferHandle(GraphicsCore::BufferType::VERTEX, hash, size, oldSize);
 		}
 	}
 }

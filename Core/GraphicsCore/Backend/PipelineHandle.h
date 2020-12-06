@@ -28,6 +28,11 @@ namespace DMK
 			std::vector<ShaderCode> mShaders;	// Shaders of the pipeline.
 
 			PipelineType mType = PipelineType::UNDEFINED;	// Pipeline type.
+
+			bool operator==(const PipelineSpecification& spec) const
+			{
+				return mShaders == spec.mShaders && mType == spec.mType;
+			}
 		};
 
 		/**

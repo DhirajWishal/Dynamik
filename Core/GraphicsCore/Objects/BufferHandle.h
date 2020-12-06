@@ -7,7 +7,7 @@
 
 namespace DMK
 {
-	namespace VulkanBackend
+	namespace GraphicsCore
 	{
 		/**
 		 * Buffer Type enum.
@@ -27,6 +27,18 @@ namespace DMK
 		class BufferHandle {
 		public:
 			BufferHandle() {}
+
+			/**
+			 * Construct the handle using the type, handle, size and optionally the offset.
+			 * 
+			 * @param type: The type of the buffer.
+			 * @param handle: The buffer handle.
+			 * @param size: The size of the buffer.
+			 * @param offset: The offset of the buffer. Default is 0.
+			 */
+			BufferHandle(BufferType type, UI64 handle, UI64 size, UI64 offset = 0)
+				: mType(type), mHandle(handle), mSize(size), mOffset(offset) {}
+
 			~BufferHandle() {}
 
 			UI64 GetHandle() const { return mHandle; }

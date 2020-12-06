@@ -7,8 +7,12 @@
 
 #include "GraphicsCore/Commands/CoreCommands.h"
 #include "GraphicsCore/Commands/RenderTargetCommands.h"
+#include "GraphicsCore/Commands/BufferCommands.h"
 using namespace DMK::GraphicsCore;
 using namespace DMK::VulkanBackend;
+
+#include "Core/Benchmark/Timer.h"
+#include "Thread/Utilities.h"
 
 #include <thread>
 
@@ -67,6 +71,25 @@ RenderTargetAttachmentSpecification CreateDepthBufferSpec()
 	return spec;
 }
 
+const wchar* GetStateName(DMK::Thread::CommandState state)
+{
+	switch (state)
+	{
+	case DMK::Thread::CommandState::PENDING:
+		return L"Pending \n";
+	case DMK::Thread::CommandState::EXECUTING:
+		return L"Executing \n";
+	case DMK::Thread::CommandState::SUCCESS:
+		return L"Success \n";
+	case DMK::Thread::CommandState::FAILED:
+		return L"Failed \n";
+	case DMK::Thread::CommandState::INVALID:
+		return L"Invalid \n";
+	}
+
+	return L"";
+}
+
 int main()
 {
 	DMK::Thread::CommandQueue<THREAD_MAX_COMMAND_COUNT> mCommandQueue = {};
@@ -76,13 +99,24 @@ int main()
 	std::thread vBackendThread(VulkanBackendFunction, &mCommandQueue);
 
 	mCommandQueue.PushCommand<Commands::InitializeBackend>(&mCommandState);
-	mCommandQueue.PushCommand<Commands::CreateDevice>(Commands::CreateDevice(&mDeviceHandle), &mCommandState);
+	mCommandQueue.PushCommand<Commands::CreateDevice>(Commands::CreateDevice(&mDeviceHandle));
 
 	RenderTargetHandle mRenderTargetHandle = {};
-	mCommandQueue.PushCommand<Commands::CreateRenderTarget>(Commands::CreateRenderTarget(0, mExtent, { CreateSwapChainSpec(), CreateColorBufferSpec(), CreateDepthBufferSpec() }, mDeviceHandle, &mRenderTargetHandle));
+	mCommandQueue.PushCommand<Commands::CreateRenderTarget>(Commands::CreateRenderTarget(0, mExtent, { CreateSwapChainSpec(), CreateColorBufferSpec(), CreateDepthBufferSpec() }, mDeviceHandle, &mRenderTargetHandle), &mCommandState);
 
-	//size_t counter = 1000;
-	size_t counter = std::numeric_limits<size_t>().max();
+	while (mCommandState != DMK::Thread::CommandState::SUCCESS) DMK::Thread::Utilities::Sleep(1);
+
+	{
+		DMK::Benchmark::Timer timer;
+		BufferHandle mBufferHandle = {};
+		mCommandState = DMK::Thread::CommandState::PENDING;
+		mCommandQueue.PushCommand<Commands::CreateBufferCommand>(Commands::CreateBufferCommand(BufferType::STAGGING, 20, mDeviceHandle, &mBufferHandle), &mCommandState);
+
+		while (mCommandState != DMK::Thread::CommandState::SUCCESS) DMK::Thread::Utilities::Sleep(1);
+	}
+
+	size_t counter = 1000;
+	//size_t counter = std::numeric_limits<size_t>().max();
 	while (counter--);
 
 	mCommandQueue.PushCommand<Commands::DestroyRenderTarget>(Commands::DestroyRenderTarget(mRenderTargetHandle, mDeviceHandle));

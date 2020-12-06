@@ -27,5 +27,6 @@ project "VulkanBackendTests"
 	}
 
 	links {
+		"Thread",
 		"VulkanBackend",
 	}

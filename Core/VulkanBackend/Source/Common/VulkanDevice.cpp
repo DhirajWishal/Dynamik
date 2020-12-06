@@ -107,6 +107,9 @@ namespace DMK
 
 		void VulkanDevice::Terminate()
 		{
+			// Terminate all buffers.
+			DestroyAllBuffers();
+
 			// Terminate all Swap Chains.
 			DestroyAllSwapChains();
 
@@ -415,6 +418,108 @@ namespace DMK
 				&& extensionsSupported
 				&& swapChainAdequate
 				&& supportedFeatures.samplerAnisotropy;
+		}
+
+		GraphicsCore::BufferHandle VulkanDevice::CreateBuffer(GraphicsCore::BufferType type, UI64 size)
+		{
+			switch (type)
+			{
+			case DMK::GraphicsCore::BufferType::UNIFORM_DATA:
+			{
+				UniformBuffer buffer = {};
+				buffer.Initialize(*this, size);
+
+				mUniformBuffers.insert(mUniformBuffers.end(), std::move(buffer));
+				return GraphicsCore::BufferHandle(type, mUniformBuffers.size() - 1, size);
+			}
+			break;
+
+			case DMK::GraphicsCore::BufferType::STAGGING:
+			{
+				StaggingBuffer buffer = {};
+				buffer.Initialize(*this, size);
+
+				mStaggingBuffers.insert(mStaggingBuffers.end(), std::move(buffer));
+				return GraphicsCore::BufferHandle(type, mStaggingBuffers.size() - 1, size);
+			}
+			break;
+
+			default:
+				Logger::LogError(TEXT("Invalid or unsupported buffer type!"));
+				break;
+			}
+
+			return GraphicsCore::BufferHandle();
+		}
+
+		void VulkanDevice::DestroyBuffer(const GraphicsCore::BufferHandle& handle)
+		{
+#define TERMINATE_AND_ERASE_BUFFER(bArray)						\
+	(bArray.data() + handle.GetHandle())->Terminate(*this);		\
+	bArray.erase(bArray.begin() + handle.GetHandle())
+
+			switch (handle.GetType())
+			{
+			case DMK::GraphicsCore::BufferType::UNIFORM_DATA:
+				TERMINATE_AND_ERASE_BUFFER(mUniformBuffers);
+				break;
+
+			case DMK::GraphicsCore::BufferType::STAGGING:
+				TERMINATE_AND_ERASE_BUFFER(mStaggingBuffers);
+				break;
+
+			default:
+				Logger::LogError(TEXT("Invalid or unsupported buffer type!"));
+				break;
+			}
+		}
+
+		void VulkanDevice::DestroyAllBuffers(GraphicsCore::BufferType type)
+		{
+#define TERMINATE_BUFFER_AND_CLEAR(bArray)												\
+	for(auto itr = bArray.begin(); itr != bArray.end(); itr++)							\
+			itr->Terminate(*this);														\
+	bArray.clear()
+
+			switch (type)
+			{
+			case DMK::GraphicsCore::BufferType::UNDEFINED:
+				TERMINATE_BUFFER_AND_CLEAR(mUniformBuffers);
+				TERMINATE_BUFFER_AND_CLEAR(mStaggingBuffers);
+				break;
+
+			case DMK::GraphicsCore::BufferType::UNIFORM_DATA:
+				TERMINATE_BUFFER_AND_CLEAR(mUniformBuffers);
+				break;
+
+			case DMK::GraphicsCore::BufferType::STAGGING:
+				TERMINATE_BUFFER_AND_CLEAR(mStaggingBuffers);
+				break;
+
+			default:
+				Logger::LogError(TEXT("Invalid or unsupported buffer type!"));
+				break;
+			}
+		}
+
+		void VulkanDevice::SubmitDataToBuffer(const GraphicsCore::BufferHandle& handle, void* pData, UI64 size, UI64 offset)
+		{
+			switch (handle.GetType())
+			{
+			case DMK::GraphicsCore::BufferType::VERTEX:
+				break;
+			case DMK::GraphicsCore::BufferType::INDEX:
+				break;
+			case DMK::GraphicsCore::BufferType::UNIFORM_DATA:
+				(mUniformBuffers.data() + handle.GetHandle())->CopyData(*this, pData, size, offset);
+				break;
+			case DMK::GraphicsCore::BufferType::STAGGING:
+				(mStaggingBuffers.data() + handle.GetHandle())->CopyData(*this, pData, size, offset);
+				break;
+			default:
+				Logger::LogError(TEXT("Invalid buffer type!"));
+				break;
+			}
 		}
 	}
 }

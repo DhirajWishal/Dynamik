@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "CommandBase.h"
 #include "GraphicsCore/Backend/RenderTargetHandle.h"
 #include "GraphicsCore/Backend/DeviceHandle.h"
 
@@ -22,8 +23,8 @@ namespace DMK
 			 * For 3D rendering context;
 			 * - Swap Chain, Depth Buffer, Color Buffer.
 			 */
-			struct CreateRenderTarget {
-				CreateRenderTarget() = default;
+			struct CreateRenderTarget : public CommandBase {
+				CreateRenderTarget() : CommandBase(CommandType::CREATE_RENDER_TARGET) {}
 
 				/**
 				 * Create the render target using the attachments.
@@ -36,7 +37,7 @@ namespace DMK
 				 * @param pHandle: The Render Target Handle pointer.
 				 */
 				CreateRenderTarget(UI64 bufferCount, const Vector3& mExtent, const std::vector<RenderTargetAttachmentSpecification>& attachments, const DeviceHandle& deviceHandle, RenderTargetHandle* pHandle = nullptr)
-					:bufferCount(bufferCount), mExtent(mExtent), mAttachments(attachments), mDeviceHandle(deviceHandle), pHandle(pHandle) {}
+					: CommandBase(CommandType::CREATE_RENDER_TARGET), bufferCount(bufferCount), mExtent(mExtent), mAttachments(attachments), mDeviceHandle(deviceHandle), pHandle(pHandle) {}
 
 				std::vector<RenderTargetAttachmentSpecification> mAttachments;	// RT attachments.
 				Vector3 mExtent = Vector3::ZeroAll;	// Extent of the attachment in the frame buffer.
@@ -49,14 +50,15 @@ namespace DMK
 			 * Destroy Render Target command.
 			 * This command terminates a created render pass object.
 			 */
-			struct DestroyRenderTarget {
+			struct DestroyRenderTarget : public CommandBase {
 				/**
 				 * Construct the command using the render target handle and the device handle.
 				 *
 				 * @param mHandle: The render target handle.
 				 * @param mDeviceHandle: The device handle in which the render target was created.
 				 */
-				DestroyRenderTarget(const RenderTargetHandle& mHandle, const DeviceHandle& mDeviceHandle) : mHandle(mHandle), mDeviceHandle(mDeviceHandle) {}
+				DestroyRenderTarget(const RenderTargetHandle& mHandle, const DeviceHandle& mDeviceHandle)
+					: CommandBase(CommandType::DESTROY_RENDER_TARGET), mHandle(mHandle), mDeviceHandle(mDeviceHandle) {}
 
 				RenderTargetHandle mHandle = {};	// The render target handle.
 				DeviceHandle mDeviceHandle = {};	// The device handle of the render target.
@@ -66,15 +68,16 @@ namespace DMK
 			 * Destroy All Render Targets command.
 			 * This command destroys all the created render targets in the backend in a given device.
 			 */
-			struct DestroyAllRenderTargets {
-				DestroyAllRenderTargets() = default;
+			struct DestroyAllRenderTargets : public CommandBase {
+				DestroyAllRenderTargets() : CommandBase(CommandType::DESTROY_ALL_RENDER_TARGETS) {}
 
 				/**
 				 * Construct the command using the device handle.
 				 *
 				 * @param deviceHandle: The device handle to be initialize with.
 				 */
-				DestroyAllRenderTargets(const DeviceHandle& deviceHandle) : mDeviceHandle(deviceHandle) {}
+				DestroyAllRenderTargets(const DeviceHandle& deviceHandle)
+					: CommandBase(CommandType::DESTROY_ALL_RENDER_TARGETS), mDeviceHandle(deviceHandle) {}
 
 				DeviceHandle mDeviceHandle = {};	// Device handle.
 			};

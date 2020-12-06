@@ -16,9 +16,13 @@
 #include "VulkanBackend/RenderTarget/RenderPass.h"
 #include "VulkanBackend/RenderTarget/FrameBuffer.h"
 
+#include "VulkanBackend/Primitives/Buffers/StaggingBuffer.h"
+#include "VulkanBackend/Primitives/Buffers/UniformBuffer.h"
+#include "VulkanBackend/Primitives/VertexBufferManager.h"
+
 #include <optional>
 #include <GLFW/glfw3.h>
-#include <vulkan/vulkan_beta.h>												
+#include <vulkan/vulkan_beta.h>							
 
 namespace DMK
 {
@@ -440,6 +444,43 @@ namespace DMK
 
 			/* Buffers */
 		public:
+			/**
+			 * Create a buffer.
+			 *
+			 * @param type: The buffer type.
+			 * @param size: The size of the buffer.
+			 * @return The buffer handle.
+			 */
+			GraphicsCore::BufferHandle CreateBuffer(GraphicsCore::BufferType type, UI64 size);
+
+			/**
+			 * Destroy a buffer.
+			 *
+			 * @param handle: The buffer handle.
+			 */
+			void DestroyBuffer(const GraphicsCore::BufferHandle& handle);
+
+			/**
+			 * Destroy all buffers of a specific type.
+			 * If the type is UNDEFINED, all the buffers are terminated (buffers of all types).
+			 *
+			 * @param type: The buffer type.
+			 */
+			void DestroyAllBuffers(GraphicsCore::BufferType type = GraphicsCore::BufferType::UNDEFINED);
+
+			/**
+			 * Submit data to the buffer.
+			 *
+			 * @param handle: The buffer handle.
+			 * @param pData: The data pointer.
+			 * @param size: The size of the data block to be submitted.
+			 * @param offset: The offset of the buffer to be submitted to.
+			 */
+			void SubmitDataToBuffer(const GraphicsCore::BufferHandle& handle, void* pData, UI64 size, UI64 offset);
+
+			VertexBufferManager mVertexBuffermanager = {};	// The vertex buffer manager.
+			std::vector<StaggingBuffer> mStaggingBuffers;	// All the stagging buffers owned by the device.
+			std::vector<UniformBuffer> mUniformBuffers;	// All the uniform buffers owned by the device.
 
 		private:
 			Queue vQueue = {};	// Vulkan queue object.

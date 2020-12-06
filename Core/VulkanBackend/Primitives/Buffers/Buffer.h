@@ -4,6 +4,7 @@
 #pragma once
 
 #include "GraphicsCore/Objects/BufferHandle.h"
+#include <vulkan/vulkan.h>
 
 namespace DMK
 {

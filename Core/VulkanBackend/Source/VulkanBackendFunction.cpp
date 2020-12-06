@@ -5,6 +5,7 @@
 
 #include "GraphicsCore/Commands/CoreCommands.h"
 #include "GraphicsCore/Commands/RenderTargetCommands.h"
+#include "GraphicsCore/Commands/BufferCommands.h"
 
 #include "VulkanBackend/Common/VulkanDeviceManager.h"
 #include "VulkanBackend/Common/Utilities.h"
@@ -34,8 +35,9 @@ namespace DMK
 					auto pCommand = pCommandQueue->GetAndPop();
 					SET_COMMAND_PENDING(pCommand);
 
-					// Initialize backend (Vulkan Instance) command.
-					if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::InitializeBackend))
+					switch (static_cast<GraphicsCore::Commands::CommandBase*>(pCommand->Data())->mCommandType)
+					{
+					case DMK::GraphicsCore::Commands::CommandType::INITIALIZE_BACKEND:
 					{
 						SET_COMMAND_EXECUTING(pCommand);
 
@@ -50,9 +52,9 @@ namespace DMK
 						// Delete the command.
 						DELETE_COMMAND(pCommand, GraphicsCore::Commands::InitializeBackend);
 					}
+					break;
 
-					// Terminate the backend.
-					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::TerminateBackend))
+					case DMK::GraphicsCore::Commands::CommandType::TERMINATE_BACKEND:
 					{
 						SET_COMMAND_EXECUTING(pCommand);
 
@@ -70,9 +72,9 @@ namespace DMK
 						// Delete the command.
 						DELETE_COMMAND(pCommand, GraphicsCore::Commands::TerminateBackend);
 					}
+					break;
 
-					// Create a new device command.
-					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::CreateDevice))
+					case DMK::GraphicsCore::Commands::CommandType::CREATE_DEVICE:
 					{
 						SET_COMMAND_EXECUTING(pCommand);
 
@@ -89,9 +91,9 @@ namespace DMK
 						// Delete the command.
 						DELETE_COMMAND(pCommand, GraphicsCore::Commands::CreateDevice);
 					}
+					break;
 
-					// Destroy a created device.
-					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::DestroyDevice))
+					case DMK::GraphicsCore::Commands::CommandType::DESTROY_DEVICE:
 					{
 						SET_COMMAND_EXECUTING(pCommand);
 
@@ -103,9 +105,9 @@ namespace DMK
 						// Delete the command.
 						DELETE_COMMAND(pCommand, GraphicsCore::Commands::DestroyDevice);
 					}
+					break;
 
-					// Create a render target.
-					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::CreateRenderTarget))
+					case DMK::GraphicsCore::Commands::CommandType::CREATE_RENDER_TARGET:
 					{
 						SET_COMMAND_EXECUTING(pCommand);
 						auto& mCreateCommand = pCommand->GetData<GraphicsCore::Commands::CreateRenderTarget>();
@@ -159,10 +161,13 @@ namespace DMK
 							*mCreateCommand.pHandle = mHandleRT;
 
 						SET_COMMAND_SUCCESS(pCommand);
-					}
 
-					// Destroy a render target.
-					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::DestroyRenderTarget))
+						// Delete the command.
+						DELETE_COMMAND(pCommand, GraphicsCore::Commands::CreateRenderTarget);
+					}
+					break;
+
+					case DMK::GraphicsCore::Commands::CommandType::DESTROY_RENDER_TARGET:
 					{
 						SET_COMMAND_EXECUTING(pCommand);
 						auto& mCreateCommand = pCommand->GetData<GraphicsCore::Commands::DestroyRenderTarget>();
@@ -200,10 +205,13 @@ namespace DMK
 						}
 
 						SET_COMMAND_SUCCESS(pCommand);
-					}
 
-					// Destroy all render targets.
-					else if (pCommand->GetCommandName() == TYPE_NAME(GraphicsCore::Commands::DestroyAllRenderTargets))
+						// Delete the command.
+						DELETE_COMMAND(pCommand, GraphicsCore::Commands::DestroyRenderTarget);
+					}
+					break;
+
+					case DMK::GraphicsCore::Commands::CommandType::DESTROY_ALL_RENDER_TARGETS:
 					{
 						SET_COMMAND_EXECUTING(pCommand);
 						auto& mCreateCommand = pCommand->GetData<GraphicsCore::Commands::DestroyAllRenderTargets>();
@@ -227,11 +235,59 @@ namespace DMK
 						pDevice->DestroyAllDepthBuffers();
 
 						SET_COMMAND_SUCCESS(pCommand);
+
+						// Delete the command.
+						DELETE_COMMAND(pCommand, GraphicsCore::Commands::DestroyAllRenderTargets);
+					}
+					break;
+
+					case DMK::GraphicsCore::Commands::CommandType::CREATE_BUFFER:
+					{
+						SET_COMMAND_EXECUTING(pCommand);
+						auto& mCreateCommand = pCommand->GetData<GraphicsCore::Commands::CreateBufferCommand>();
+
+						// Get the required device.
+						auto pDevice = vDeviceManager.GetDeviceAddress(mCreateCommand.mDeviceHandle);
+
+						if (mCreateCommand.pHandle)
+							*mCreateCommand.pHandle = pDevice->CreateBuffer(mCreateCommand.mType, mCreateCommand.mSize);
+						else
+							pDevice->CreateBuffer(mCreateCommand.mType, mCreateCommand.mSize);
+
+						SET_COMMAND_SUCCESS(pCommand);
+
+						// Delete the command.
+						DELETE_COMMAND(pCommand, GraphicsCore::Commands::CreateBufferCommand);
+					}
+					break;
+
+					case DMK::GraphicsCore::Commands::CommandType::SUBMIT_DATA_TO_BUFFER:
+					{
+
+					}
+					break;
+
+					case DMK::GraphicsCore::Commands::CommandType::DESTROY_BUFFER:
+					{
+
+					}
+					break;
+
+					case DMK::GraphicsCore::Commands::CommandType::DESTROY_ALL_BUFFERS:
+					{
+
+					}
+					break;
+
+					default:
+						Logger::LogError(TEXT("Invalid or undefined command type!"));
+						break;
 					}
 
 					// If execution failed.
 					if (pCommand)
 					{
+						Logger::LogError(TEXT("Failed command execution!"));
 						SET_COMMAND_FAILED(pCommand);
 
 						// Delete the command.

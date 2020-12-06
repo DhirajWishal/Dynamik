@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Buffers/VertexBuffer.h"
+#include "GraphicsCore/Objects/BufferHandle.h"
 #include "GraphicsCore/Objects/VertexBufferObject.h"
 
 namespace DMK
@@ -28,9 +29,9 @@ namespace DMK
 			 *
 			 * @param vDevice: The Vulkan device which the buffer is bound to.
 			 * @param vertexBuffer: The vertex buffer object to initialize the data with.
-			 * @return Vertex Buffer Handle.
+			 * @return Buffer Handle.
 			 */
-			GraphicsCore::VertexBufferHandle TryCreateBuffer(const VulkanDevice& vDevice, GraphicsCore::VertexBufferObject&& vertexBuffer);
+			GraphicsCore::BufferHandle TryCreateBuffer(const VulkanDevice& vDevice, GraphicsCore::VertexBufferObject&& vertexBuffer);
 
 		private:
 			/**
@@ -38,8 +39,9 @@ namespace DMK
 			 *
 			 * @param vDevice: The Vulkan Device object.
 			 * @param vertexBuffer: The vertex buffer object to move data from.
+			 * @return The buffer handle.
 			 */
-			GraphicsCore::VertexBufferHandle CreateNewBuffer(const VulkanDevice& vDevice, GraphicsCore::VertexBufferObject&& vertexBuffer);
+			GraphicsCore::BufferHandle CreateNewBuffer(const VulkanDevice& vDevice, GraphicsCore::VertexBufferObject&& vertexBuffer);
 
 			/**
 			 * Extend an existing buffer and insert data to it and return a handle.
@@ -47,9 +49,9 @@ namespace DMK
 			 * @param vDevice: The Vulkan device object.
 			 * @param vertexBuffer: The vertex buffer object to move data from.
 			 * @param pBuffer: The vertex buffer pointer.
-			 * @return VertexBufferHandle.
+			 * @return BufferHandle.
 			 */
-			GraphicsCore::VertexBufferHandle ExtendInsert(const VulkanDevice& vDevice, GraphicsCore::VertexBufferObject&& vertexBuffer, VertexBuffer* pBuffer);
+			GraphicsCore::BufferHandle ExtendInsert(const VulkanDevice& vDevice, GraphicsCore::VertexBufferObject&& vertexBuffer, VertexBuffer* pBuffer);
 
 			std::unordered_map<UI64, VertexBuffer> mBufferMap;	// The vertex buffer map.
 		};

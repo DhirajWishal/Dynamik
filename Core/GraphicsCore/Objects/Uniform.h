@@ -59,6 +59,13 @@ namespace DMK
 				 * @return The size of the uniform in bytes.
 				 */
 				UI64 Size() const { return GetTypeSize() * mLayerCount; }
+
+				bool operator==(const UniformAttribute& attr) const
+				{
+					return mOffset == attr.mOffset
+						&& mLayerCount == attr.mLayerCount
+						&& mDataType == attr.mDataType;
+				}
 			};
 
 		public:
@@ -147,6 +154,16 @@ namespace DMK
 			 * Terminate the uniform.
 			 */
 			void Terminate();
+
+		public:
+			bool operator==(const Uniform& uni) const
+			{
+				return mAttributeMap == uni.mAttributeMap
+					&& pDataStore == uni.pDataStore
+					&& mSize == uni.mSize
+					&& mBinding == uni.mBinding
+					&& mType == uni.mType;
+			}
 
 		private:
 			std::unordered_map<String, UniformAttribute> mAttributeMap;	// The attribute map.

@@ -65,6 +65,16 @@ namespace DMK
 			 * @return The size of the attribute in bytes.
 			 */
 			UI64 Size() const { return GetTypeSize() * mLayerCount; }
+
+			bool operator==(const ShaderAttribute& attrib) const
+			{
+				return mName == attrib.mName
+					&& mLocation == attrib.mLocation
+					&& mBinding == attrib.mBinding
+					&& mOffset == attrib.mOffset
+					&& mLayerCount == attrib.mLayerCount
+					&& mDataType == attrib.mDataType;
+			}
 		};
 
 		/**
@@ -92,7 +102,7 @@ namespace DMK
 
 			/**
 			 * Produce a hash using the shader code.
-			 * 
+			 *
 			 * @return UI64 integer.
 			 */
 			UI64 Hash() const;
@@ -111,6 +121,17 @@ namespace DMK
 			 * Reflection identifies the uniforms, inputs and other attributes present in the shader.
 			 */
 			void PerformReflection();
+
+		public:
+			bool operator==(const ShaderCode& code) const
+			{
+				return mUniforms == code.mUniforms
+					&& mInputAttributes == code.mInputAttributes
+					&& mOutputAttributes == code.mOutputAttributes
+					&& mShaderCode == code.mShaderCode
+					&& mType == code.mType
+					&& mLocation == code.mLocation;
+			}
 
 		public:
 			std::vector<GraphicsCore::Uniform> mUniforms;	// All the uniforms the shader had.
