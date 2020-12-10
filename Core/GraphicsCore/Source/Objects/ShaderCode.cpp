@@ -13,6 +13,18 @@ namespace DMK
 {
 	namespace GraphicsCore
 	{
+		ShaderCode::ShaderCode(const ShaderCode& other)
+			: mType(other.mType), mLocation(other.mLocation), mInputAttributes(other.mInputAttributes),
+			mOutputAttributes(other.mOutputAttributes), mShaderCode(other.mShaderCode), mUniforms(other.mUniforms)
+		{
+		}
+
+		ShaderCode::ShaderCode(ShaderCode&& other) noexcept
+			: mType(other.mType), mLocation(other.mLocation), mInputAttributes(std::move(other.mInputAttributes)),
+			mOutputAttributes(std::move(other.mOutputAttributes)), mShaderCode(std::move(other.mShaderCode)), mUniforms(std::move(other.mUniforms))
+		{
+		}
+
 		UI64 ShaderCode::Hash() const
 		{
 			return Hasher::GetHash(mShaderCode.data(), mShaderCode.size() * sizeof(UI32));
@@ -73,6 +85,30 @@ namespace DMK
 			this->mUniforms = std::move(mReflectionDigest.mUniforms);
 			this->mInputAttributes = std::move(mReflectionDigest.mInputAttributes);
 			this->mOutputAttributes = std::move(mReflectionDigest.mOutputAttributes);
+		}
+
+		ShaderCode& ShaderCode::operator=(const ShaderCode& other)
+		{
+			this->mType = other.mType;
+			this->mLocation = other.mLocation;
+			this->mInputAttributes = other.mInputAttributes;
+			this->mOutputAttributes = other.mOutputAttributes;
+			this->mShaderCode = other.mShaderCode;
+			this->mUniforms = other.mUniforms;
+
+			return *this;
+		}
+
+		ShaderCode& ShaderCode::operator=(ShaderCode&& other) noexcept
+		{
+			this->mType = other.mType;
+			this->mLocation = other.mLocation;
+			this->mInputAttributes = std::move(other.mInputAttributes);
+			this->mOutputAttributes = std::move(other.mOutputAttributes);
+			this->mShaderCode = std::move(other.mShaderCode);
+			this->mUniforms = std::move(other.mUniforms);
+
+			return *this;
 		}
 	}
 }

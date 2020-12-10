@@ -1,7 +1,7 @@
 // Copyright 2020 Dhiraj Wishal
 // SPDX-License-Identifier: Apache-2.0
 
-#include "VulkanBackend/Primitives/Buffers/Buffer.h"
+#include "VulkanBackend/Primitives/Buffers/VulkanBuffer.h"
 #include "VulkanBackend/Common/VulkanDevice.h"
 #include "VulkanBackend/Common/Utilities.h"
 
@@ -12,39 +12,13 @@ namespace DMK
 {
 	namespace VulkanBackend
 	{
-		void Buffer::Terminate(const VulkanDevice& vDevice)
+		void VulkanBuffer::Terminate(GraphicsCore::Device* pDevice)
 		{
-			// Check if the size, buffer and buffer memory are valid.
-			if (!mSize || vBuffer == VK_NULL_HANDLE || vBufferMemory == VK_NULL_HANDLE)
-				return;
-
-			vkDestroyBuffer(vDevice, vBuffer, nullptr);
-			vkFreeMemory(vDevice, vBufferMemory, nullptr);
+			vkDestroyBuffer(pDevice->Derive<VulkanDevice>()->GetLogicalDevice(), this->vBuffer, nullptr);
+			vkFreeMemory(pDevice->Derive<VulkanDevice>()->GetLogicalDevice(), this->vBufferMemory, nullptr);
 		}
-
-		void Buffer::CopyData(const VulkanDevice& vDevice, const void* pData, UI64 size, UI64 offset)
-		{
-			// Check if the size, buffer and buffer memory are valid.
-			if (!mSize || !size || (size + offset) > mSize || !vBuffer || !vBufferMemory)
-				return;
-
-			auto pDataStore = MapMemory(vDevice, size, offset);
-			MemoryFunctions::CopyData(pDataStore, pData, size);
-			UnmapMemory(vDevice);
-		}
-
-		void Buffer::MoveData(const VulkanDevice& vDevice, const void* pData, UI64 size, UI64 offset)
-		{
-			// Check if the size, buffer and buffer memory are valid.
-			if (!mSize || !size || (size + offset) > mSize || !vBuffer || !vBufferMemory)
-				return;
-
-			auto pDataStore = MapMemory(vDevice, size, offset);
-			MemoryFunctions::MoveData(pDataStore, pData, size);
-			UnmapMemory(vDevice);
-		}
-
-		void Buffer::CopyBuffer(VulkanDevice& vDevice, const Buffer* pBuffer)
+		
+		void VulkanBuffer::CopyBuffer(GraphicsCore::Device* pDevice, const Buffer* pBuffer)
 		{
 			// Check if the buffer is able to copy data to.
 			if (this->mSize < pBuffer->mSize)
@@ -58,52 +32,52 @@ namespace DMK
 			vCopy.srcOffset = 0;
 			vCopy.size = pBuffer->Size();
 
-			auto vCommandBuffer = vDevice.CreateCommandBuffer();
-			vCommandBuffer.CopyBuffer(pBuffer->vBuffer, this->vBuffer, vCopy);
-			vDevice.TerminateCommandBuffer(vCommandBuffer);
+			auto vCommandBuffer = pDevice->Derive<VulkanDevice>()->CreateCommandBuffer();
+			vCommandBuffer.CopyBuffer(pBuffer->Derive<VulkanBuffer>()->vBuffer, this->vBuffer, vCopy);
+			pDevice->Derive<VulkanDevice>()->TerminateCommandBuffer(vCommandBuffer);
 		}
 
-		void Buffer::MoveBuffer(const VulkanDevice& vDevice, const Buffer* pBuffer)
+		void VulkanBuffer::MoveBuffer(GraphicsCore::Device* pDevice, const Buffer* pBuffer)
 		{
 		}
 
-		void Buffer::Extend(const VulkanDevice& vDevice, UI64 size)
+		void VulkanBuffer::Extend(GraphicsCore::Device* pDevice, UI64 size)
 		{
 			// Check if the buffer was allocated before.
 			if (mSize && vBuffer && vBufferMemory)
 			{
 				// Create the stagging buffer, initialize it and move data to it.
 				StaggingBuffer vStaggingBuffer = {};
-				vStaggingBuffer.Initialize(vDevice, mSize);
-				vStaggingBuffer.MoveData(vDevice, this->MapMemory(vDevice, mSize, 0), mSize, 0);
-				this->UnmapMemory(vDevice);
+				vStaggingBuffer.Initialize(pDevice, mSize);
+				vStaggingBuffer.MoveData(pDevice, this->MapMemory(pDevice, mSize, 0), mSize, 0);
+				this->UnmapMemory(pDevice);
 
 				// Terminate the old buffer.
-				Terminate(vDevice);
+				Terminate(pDevice);
 
 				// Initialize the buffer to the new size.
-				Initialize(vDevice, mSize + size);
+				Initialize(pDevice, mSize + size);
 
 				// Copy data from the stagging buffer to this buffer.
-				MoveData(vDevice, vStaggingBuffer.MapMemory(vDevice, mSize, 0), mSize, 0);
-				vStaggingBuffer.UnmapMemory(vDevice);
+				MoveData(pDevice, vStaggingBuffer.MapMemory(pDevice, mSize, 0), mSize, 0);
+				vStaggingBuffer.UnmapMemory(pDevice);
 
 				// Terminate the stagging buffer.
-				vStaggingBuffer.Terminate(vDevice);
+				vStaggingBuffer.Terminate(pDevice);
 			}
 			else
 			{
 				// Terminate the old buffer.
-				Terminate(vDevice);
+				Terminate(pDevice);
 
 				// Initialize the buffer to the new size.
-				Initialize(vDevice, mSize + size);
+				Initialize(pDevice, mSize + size);
 			}
 
 			mSize += size;
 		}
 
-		VkBuffer Buffer::CreateBuffer(const VulkanDevice& vDevice, UI64 size, VkBufferUsageFlags usageFlags)
+		VkBuffer VulkanBuffer::CreateBuffer(VkDevice vDevice, UI64 size, VkBufferUsageFlags usageFlags)
 		{
 			// Check if the size is valid.
 			if (!size)
@@ -126,7 +100,7 @@ namespace DMK
 			return vBuffer;
 		}
 
-		VkDeviceMemory Buffer::CreateBufferMemory(const VulkanDevice& vDevice, VkBuffer vBuffer, VkMemoryPropertyFlags memoryProperties)
+		VkDeviceMemory VulkanBuffer::CreateBufferMemory(VkDevice vDevice, VkPhysicalDevice vPhysicalDevice, VkBuffer vBuffer, VkMemoryPropertyFlags memoryProperties)
 		{
 			VkMemoryRequirements memRequirements = {};
 			vkGetBufferMemoryRequirements(vDevice, vBuffer, &memRequirements);
@@ -134,7 +108,7 @@ namespace DMK
 			VkMemoryAllocateInfo allocInfo = {};
 			allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
 			allocInfo.allocationSize = memRequirements.size;
-			allocInfo.memoryTypeIndex = Utilities::FindMemoryType(memRequirements.memoryTypeBits, memoryProperties, vDevice);
+			allocInfo.memoryTypeIndex = Utilities::FindMemoryType(memRequirements.memoryTypeBits, memoryProperties, vPhysicalDevice);
 
 			VkDeviceMemory vBufferMemory = VK_NULL_HANDLE;
 			DMK_VK_ASSERT(vkAllocateMemory(vDevice, &allocInfo, nullptr, &vBufferMemory), "Failed to allocate buffer memory!");

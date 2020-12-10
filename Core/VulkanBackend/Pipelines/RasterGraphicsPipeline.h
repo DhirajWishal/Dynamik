@@ -18,7 +18,7 @@ namespace DMK
 		 */
 		class RasterGraphicsPipeline {
 		public:
-			RasterGraphicsPipeline() {}
+			RasterGraphicsPipeline();
 			~RasterGraphicsPipeline() {}
 
 			/**
@@ -27,11 +27,12 @@ namespace DMK
 			 * @param vDevice: The Vulkan device object.
 			 * @param spec: The pipeline specification.
 			 * @param shaders: The shaders the pipeline uses.
+			 * @param vRenderPass: The render pass the pipeline feeds to.
 			 * @param pParent: The parent pipeline handle to derive this pipeline from. Default is nullptr. If a
 			 *	      parent pipeline is not defined, this pipeline will be used as the parent for any future
 			 *        suitable pipelines.
 			 */
-			void Initialize(const VulkanDevice& vDevice, const GraphicsCore::PipelineSpecification& spec, std::vector<ShaderModule>&& shaders, const RasterGraphicsPipeline* pParent = nullptr);
+			void Initialize(const VulkanDevice& vDevice, const GraphicsCore::PipelineSpecification& spec, std::vector<ShaderModule>&& shaders, const RenderPass& vRenderPass, const RasterGraphicsPipeline* pParent = nullptr);
 
 			/**
 			 * Vulkan pipeline layout operator.
@@ -44,9 +45,23 @@ namespace DMK
 			operator VkPipeline() const;
 
 		private:
+			void CreateDescriptorSetLayout(const VulkanDevice& vDevice, std::vector<VkDescriptorSetLayoutBinding>&& bindings);
+			void CreatePipelineLayout(const VulkanDevice& vDevice, std::vector<VkPushConstantRange>&& pushConstantRanges);
+
+		private:
+			VkPipelineInputAssemblyStateCreateInfo vInputAssemblyStateInfo = {};
+			VkPipelineTessellationStateCreateInfo vTessellationStateInfo = {};
+			VkPipelineViewportStateCreateInfo vViewPortStateInfo = {};
+			VkPipelineRasterizationStateCreateInfo vRasterizationStateinfo = {};
+			VkPipelineMultisampleStateCreateInfo vMultisampleStateInfo = {};
+			VkPipelineDepthStencilStateCreateInfo vDepthStencilStateInfo = {};
+			VkPipelineColorBlendStateCreateInfo vColorBlendStateInfo = {};
+
 			std::vector<ShaderModule> mShaders;	// The shaders used by the pipeline.
 			VkPipelineLayout vLayout = VK_NULL_HANDLE;	// Vulkan pipeline layout handle.
 			VkPipeline vPipeline = VK_NULL_HANDLE;	// Vulkan pipeline handle.
+
+			VkDescriptorSetLayout vDescriptorSetLayout = VK_NULL_HANDLE;	// Vulkan descriptor set layout.
 		};
 	}
 }

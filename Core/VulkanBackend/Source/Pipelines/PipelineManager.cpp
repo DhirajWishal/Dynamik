@@ -35,13 +35,13 @@ namespace DMK
 				handle.mHandle = mRasterGraphicsPipelines.size();
 
 				// Check if the pipeline can be derived from a parent.
-				if (mPipelineMap.find(spec) != mPipelineMap.end())
-					pipeline.Initialize(vDevice, spec, std::move(shaders), mRasterGraphicsPipelines.data() + mPipelineMap[spec].mIndex);
-				else
-				{
-					pipeline.Initialize(vDevice, spec, std::move(shaders), nullptr);
-					mPipelineMap.emplace(std::make_pair(std::move(spec), PipelineIndex(handle.mHandle, spec.mType)));
-				}
+				//if (mPipelineMap.find(spec) != mPipelineMap.end())
+				//	pipeline.Initialize(vDevice, spec, std::move(shaders), mRasterGraphicsPipelines.data() + mPipelineMap[spec].mIndex);
+				//else
+				//{
+				//	pipeline.Initialize(vDevice, spec, std::move(shaders), nullptr);
+				//	mPipelineMap.emplace(std::make_pair(std::move(spec), PipelineIndex(handle.mHandle, spec.mType)));
+				//}
 
 				// Insert the pipeline to the vector.
 				mRasterGraphicsPipelines.insert(mRasterGraphicsPipelines.end(), std::move(pipeline));

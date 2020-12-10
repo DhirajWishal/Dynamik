@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include "GraphicsCore/Backend/Instance.h"
 #include "VulkanDevice.h"
 
 namespace DMK
@@ -13,7 +14,7 @@ namespace DMK
 		 * Vulkan Instance object.
 		 * This object stores information and the state of the Vulkan Instance along with its debuger.
 		 */
-		class VulkanInstance {
+		class VulkanInstance : public GraphicsCore::Instance {
 		public:
 			VulkanInstance() {}
 			~VulkanInstance() {}
@@ -21,12 +22,19 @@ namespace DMK
 			/**
 			 * Initialize the backend instance.
 			 */
-			void Initialize(bool enableValidation);
+			void Initialize(bool enableValidation) override final;
 
 			/**
 			 * Terminate the backend instance.
 			 */
-			void Terminate();
+			void Terminate() override final;
+
+			/**
+			 * Create a new device.
+			 *
+			 * @param initInfo: The device initialization information.
+			 */
+			virtual GraphicsCore::Device* CreateDevice(const GraphicsCore::DeviceInitInfo& initInfo) override final;
 
 		public:
 			/**
@@ -79,6 +87,7 @@ namespace DMK
 		public:
 			std::vector<const char*> validationLayers;	// Validation layers.
 			std::vector<const char*> instanceExtensions;	// Instance extensions.
+			std::vector<VulkanDevice> mDevices;
 
 			VkInstance vInstance = VK_NULL_HANDLE;	// Vulkan instance handle.
 			VkDebugUtilsMessengerEXT vDebugMessenger = VK_NULL_HANDLE;	// Vulkan debug messenger handle.

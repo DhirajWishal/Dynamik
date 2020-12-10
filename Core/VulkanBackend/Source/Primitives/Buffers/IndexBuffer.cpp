@@ -8,13 +8,13 @@ namespace DMK
 {
 	namespace VulkanBackend
 	{
-		void IndexBuffer::Initialize(const VulkanDevice& vDevice, UI64 size)
+		void IndexBuffer::Initialize(GraphicsCore::Device* pDevice, UI64 size)
 		{
-			vBuffer = CreateBuffer(vDevice, size, VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT);
-			vBufferMemory = CreateBufferMemory(vDevice, vBuffer, VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+			vBuffer = CreateBuffer(pDevice->Derive<VulkanDevice>()->GetLogicalDevice(), size, VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT);
+			vBufferMemory = CreateBufferMemory(pDevice->Derive<VulkanDevice>()->GetLogicalDevice(), pDevice->Derive<VulkanDevice>()->GetPhysicalDevice(), vBuffer, VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 		}
 
-		void* IndexBuffer::MapMemory(const VulkanDevice& vDevice, UI64 size, UI64 offset)
+		void* IndexBuffer::MapMemory(GraphicsCore::Device* pDevice, UI64 size, UI64 offset)
 		{
 			// Check if the size and/ or offset is valid.
 			if (size >= mSize || (size + offset) >= mSize)
@@ -24,14 +24,14 @@ namespace DMK
 			}
 
 			void* pData = nullptr;
-			DMK_VK_ASSERT(vkMapMemory(vDevice, vBufferMemory, offset, size, 0, &pData), "Failed to map buffer memory!");
+			DMK_VK_ASSERT(vkMapMemory(pDevice->Derive<VulkanDevice>()->GetLogicalDevice(), vBufferMemory, offset, size, 0, &pData), "Failed to map buffer memory!");
 
 			return pData;
 		}
 
-		void IndexBuffer::UnmapMemory(const VulkanDevice& vDevice)
+		void IndexBuffer::UnmapMemory(GraphicsCore::Device* pDevice)
 		{
-			vkUnmapMemory(vDevice, vBufferMemory);
+			vkUnmapMemory(pDevice->Derive<VulkanDevice>()->GetLogicalDevice(), vBufferMemory);
 		}
 	}
 }

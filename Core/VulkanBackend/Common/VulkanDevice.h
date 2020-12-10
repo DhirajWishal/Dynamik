@@ -4,11 +4,12 @@
 #pragma once
 
 #include "Core/Macros/Global.h"
-#include "GraphicsCore/Backend/DeviceHandle.h"
+#include "GraphicsCore/Backend/Device.h"
 
 #include "CommandBuffer.h"
 #include "Macros.h"
 #include "Queue.h"
+#include "ShaderModule.h"
 
 #include "VulkanBackend/RenderTarget/SwapChain.h"
 #include "VulkanBackend/RenderTarget/ColorBuffer.h"
@@ -19,6 +20,7 @@
 #include "VulkanBackend/Primitives/Buffers/StaggingBuffer.h"
 #include "VulkanBackend/Primitives/Buffers/UniformBuffer.h"
 #include "VulkanBackend/Primitives/VertexBufferManager.h"
+
 
 #include <optional>
 #include <GLFW/glfw3.h>
@@ -46,7 +48,7 @@ namespace DMK
 		 *
 		 * This uses GLFW to create and manage the window and inputs.
 		 */
-		class VulkanDevice {
+		class VulkanDevice : public GraphicsCore::Device {
 		public:
 			VulkanDevice() {}
 			~VulkanDevice() {}
@@ -57,14 +59,40 @@ namespace DMK
 			 * @param initInfo: The DeviceInitInfo structure contining the initialization information.
 			 * @param pInstance: The instance which the device belongs to.
 			 */
-			void Initialize(const GraphicsCore::DeviceInitInfo& initInfo, VulkanInstance* pInstance);
+			virtual void Initialize(const GraphicsCore::DeviceInitInfo& initInfo, GraphicsCore::Instance* pInstance) override final;
 
 			/**
 			 * Terminate the device.
 			 * This will terminate all the created resources and objects with it.
 			 */
-			void Terminate();
+			virtual void Terminate() override final;
 
+		public:
+			/**
+			 * Create a buffer object.
+			 *
+			 * @param type: The type of the buffer.
+			 * @param size: The size of the buffer in bytes.
+			 * @return The buffer reference.
+			 */
+			virtual GraphicsCore::BufferRef CreateBuffer(GraphicsCore::BufferType type, UI64 size) override final;
+
+			/**
+			 * Get the buffer pointer from the device.
+			 *
+			 * @param ref: The buffer reference.
+			 * @return The buffer pointer.
+			 */
+			virtual GraphicsCore::Buffer* GetBuffer(const GraphicsCore::BufferRef& ref) override final;
+
+			/**
+			 * Terminate the buffer.
+			 *
+			 * @param ref: The buffer ref.
+			 */
+			virtual void TerminateBuffer(const GraphicsCore::BufferRef& ref) override final;
+
+		public:
 			/**
 			 * Begin a new frame.
 			 *
@@ -442,17 +470,12 @@ namespace DMK
 
 			std::vector<FrameBuffer> vFrameBuffers;	// All the created frame buffers.
 
+			/* Shaders */
+		public:
+			ShaderModule CreateShaderModule(const GraphicsCore::ShaderCode& code);
+
 			/* Buffers */
 		public:
-			/**
-			 * Create a buffer.
-			 *
-			 * @param type: The buffer type.
-			 * @param size: The size of the buffer.
-			 * @return The buffer handle.
-			 */
-			GraphicsCore::BufferHandle CreateBuffer(GraphicsCore::BufferType type, UI64 size);
-
 			/**
 			 * Destroy a buffer.
 			 *

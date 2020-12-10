@@ -4,7 +4,6 @@
 #pragma once
 
 #include "CommandBase.h"
-#include "GraphicsCore/Backend/DeviceHandle.h"
 
 namespace DMK
 {

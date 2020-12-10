@@ -49,6 +49,17 @@ namespace DMK
 			TerminateInstance();
 		}
 
+		GraphicsCore::Device* VulkanInstance::CreateDevice(const GraphicsCore::DeviceInitInfo& initInfo)
+		{
+			auto index = mDevices.size();
+
+			VulkanDevice device = {};
+			device.Initialize(initInfo, this);
+			mDevices.insert(mDevices.end(), std::move(device));
+
+			return mDevices.data() + index;
+		}
+
 		/**
 		 * Check if the requested validation layers are supported.
 		 *

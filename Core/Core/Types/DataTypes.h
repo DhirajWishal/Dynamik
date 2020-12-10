@@ -332,4 +332,40 @@ namespace DMK
 		ASTC_12x12_UNORM_BLOCK,
 		ASTC_12x12_SRGB_BLOCK,
 	};
+
+	/**
+	 * Compare Operator enum.
+	 */
+	enum class CompareOperator : UI8 {
+		DONT_COMPARE,
+		LESS,
+		EQUAL,
+		LESS_OR_EQUAL,
+		GREATER,
+		NOT_EQUAL,
+		GREATER_OR_EQUAL,
+		ALWAYS_TRUE
+	};
+
+	/**
+	 * Logic Operator enum.
+	 */
+	enum class LogicOperator : UI8 {
+		CLEAR,
+		AND,
+		AND_REVERSE,
+		COPY ,
+		AND_INVERTED,
+		NO_OP,
+		XOR,
+		OR ,
+		NOR,
+		EQUIVALENT,
+		INVERT,
+		OR_REVERSE,
+		COPY_INVERTED,
+		OR_INVERTED,
+		NAND,
+		SET,
+	};
 }

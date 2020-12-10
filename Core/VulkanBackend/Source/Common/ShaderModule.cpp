@@ -8,145 +8,156 @@ namespace DMK
 {
 	namespace VulkanBackend
 	{
-		/**
-		 * Get VkShaderStageFlags from GraphicsCore::ShaderLocation.
-		 *
-		 * @param location: The shader location.
-		 * @return VkShaderStageFlags enum.
-		 */
-		DMK_FORCEINLINE VkShaderStageFlags GetShaderStageFlag(GraphicsCore::ShaderLocation location)
+		namespace _Helpers
 		{
-			switch (location)
+			/**
+			 * Get VkShaderStageFlags from GraphicsCore::ShaderLocation.
+			 *
+			 * @param location: The shader location.
+			 * @return VkShaderStageFlags enum.
+			 */
+			DMK_FORCEINLINE VkShaderStageFlags GetShaderStageFlag(GraphicsCore::ShaderLocation location)
 			{
-			case DMK::GraphicsCore::ShaderLocation::ALL:
+				switch (location)
+				{
+				case DMK::GraphicsCore::ShaderLocation::ALL:
+					return VkShaderStageFlagBits::VK_SHADER_STAGE_ALL;
+
+				case DMK::GraphicsCore::ShaderLocation::VERTEX:
+					return VkShaderStageFlagBits::VK_SHADER_STAGE_VERTEX_BIT;
+
+				case DMK::GraphicsCore::ShaderLocation::TESSELLATION:
+					return VkShaderStageFlagBits::VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT | VkShaderStageFlagBits::VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
+
+				case DMK::GraphicsCore::ShaderLocation::GEOMETRY:
+					return VkShaderStageFlagBits::VK_SHADER_STAGE_GEOMETRY_BIT;
+
+				case DMK::GraphicsCore::ShaderLocation::FRAGMENT:
+					return VkShaderStageFlagBits::VK_SHADER_STAGE_FRAGMENT_BIT;
+
+				case DMK::GraphicsCore::ShaderLocation::COMPUTE:
+					return VkShaderStageFlagBits::VK_SHADER_STAGE_COMPUTE_BIT;
+
+				case DMK::GraphicsCore::ShaderLocation::ALL_GRAPHICS:
+					return VkShaderStageFlagBits::VK_SHADER_STAGE_ALL_GRAPHICS;
+
+				case DMK::GraphicsCore::ShaderLocation::RAY_GEN:
+					return VkShaderStageFlagBits::VK_SHADER_STAGE_RAYGEN_BIT_KHR | VkShaderStageFlagBits::VK_SHADER_STAGE_RAYGEN_BIT_NV;
+
+				case DMK::GraphicsCore::ShaderLocation::ANY_HIT:
+					return VkShaderStageFlagBits::VK_SHADER_STAGE_ANY_HIT_BIT_KHR | VkShaderStageFlagBits::VK_SHADER_STAGE_ANY_HIT_BIT_NV;
+
+				case DMK::GraphicsCore::ShaderLocation::CLOSEST_HIT:
+					return VkShaderStageFlagBits::VK_SHADER_STAGE_CLOSEST_HIT_BIT_KHR | VkShaderStageFlagBits::VK_SHADER_STAGE_CLOSEST_HIT_BIT_NV;
+
+				case DMK::GraphicsCore::ShaderLocation::MISS:
+					return VkShaderStageFlagBits::VK_SHADER_STAGE_MISS_BIT_KHR | VkShaderStageFlagBits::VK_SHADER_STAGE_MISS_BIT_NV;
+
+				case DMK::GraphicsCore::ShaderLocation::INTERSECTION:
+					return VkShaderStageFlagBits::VK_SHADER_STAGE_INTERSECTION_BIT_KHR | VkShaderStageFlagBits::VK_SHADER_STAGE_INTERSECTION_BIT_NV;
+
+				case DMK::GraphicsCore::ShaderLocation::CALLABLE:
+					return VkShaderStageFlagBits::VK_SHADER_STAGE_CALLABLE_BIT_KHR | VkShaderStageFlagBits::VK_SHADER_STAGE_CALLABLE_BIT_NV;
+
+				case DMK::GraphicsCore::ShaderLocation::TASK:
+					return VkShaderStageFlagBits::VK_SHADER_STAGE_TASK_BIT_NV;
+
+				case DMK::GraphicsCore::ShaderLocation::MESH:
+					return VkShaderStageFlagBits::VK_SHADER_STAGE_MESH_BIT_NV;
+
+				default:
+					Logger::LogError(TEXT("Invalid Shader Location!"));
+
+				}
+
 				return VkShaderStageFlagBits::VK_SHADER_STAGE_ALL;
-
-			case DMK::GraphicsCore::ShaderLocation::VERTEX:
-				return VkShaderStageFlagBits::VK_SHADER_STAGE_VERTEX_BIT;
-
-			case DMK::GraphicsCore::ShaderLocation::TESSELLATION:
-				return VkShaderStageFlagBits::VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT | VkShaderStageFlagBits::VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT;
-
-			case DMK::GraphicsCore::ShaderLocation::GEOMETRY:
-				return VkShaderStageFlagBits::VK_SHADER_STAGE_GEOMETRY_BIT;
-
-			case DMK::GraphicsCore::ShaderLocation::FRAGMENT:
-				return VkShaderStageFlagBits::VK_SHADER_STAGE_FRAGMENT_BIT;
-
-			case DMK::GraphicsCore::ShaderLocation::COMPUTE:
-				return VkShaderStageFlagBits::VK_SHADER_STAGE_COMPUTE_BIT;
-
-			case DMK::GraphicsCore::ShaderLocation::ALL_GRAPHICS:
-				return VkShaderStageFlagBits::VK_SHADER_STAGE_ALL_GRAPHICS;
-
-			case DMK::GraphicsCore::ShaderLocation::RAY_GEN:
-				return VkShaderStageFlagBits::VK_SHADER_STAGE_RAYGEN_BIT_KHR | VkShaderStageFlagBits::VK_SHADER_STAGE_RAYGEN_BIT_NV;
-
-			case DMK::GraphicsCore::ShaderLocation::ANY_HIT:
-				return VkShaderStageFlagBits::VK_SHADER_STAGE_ANY_HIT_BIT_KHR | VkShaderStageFlagBits::VK_SHADER_STAGE_ANY_HIT_BIT_NV;
-
-			case DMK::GraphicsCore::ShaderLocation::CLOSEST_HIT:
-				return VkShaderStageFlagBits::VK_SHADER_STAGE_CLOSEST_HIT_BIT_KHR | VkShaderStageFlagBits::VK_SHADER_STAGE_CLOSEST_HIT_BIT_NV;
-
-			case DMK::GraphicsCore::ShaderLocation::MISS:
-				return VkShaderStageFlagBits::VK_SHADER_STAGE_MISS_BIT_KHR | VkShaderStageFlagBits::VK_SHADER_STAGE_MISS_BIT_NV;
-
-			case DMK::GraphicsCore::ShaderLocation::INTERSECTION:
-				return VkShaderStageFlagBits::VK_SHADER_STAGE_INTERSECTION_BIT_KHR | VkShaderStageFlagBits::VK_SHADER_STAGE_INTERSECTION_BIT_NV;
-
-			case DMK::GraphicsCore::ShaderLocation::CALLABLE:
-				return VkShaderStageFlagBits::VK_SHADER_STAGE_CALLABLE_BIT_KHR | VkShaderStageFlagBits::VK_SHADER_STAGE_CALLABLE_BIT_NV;
-
-			case DMK::GraphicsCore::ShaderLocation::TASK:
-				return VkShaderStageFlagBits::VK_SHADER_STAGE_TASK_BIT_NV;
-
-			case DMK::GraphicsCore::ShaderLocation::MESH:
-				return VkShaderStageFlagBits::VK_SHADER_STAGE_MESH_BIT_NV;
-
-			default:
-				Logger::LogError(TEXT("Invalid Shader Location!"));
-
 			}
 
-			return VkShaderStageFlagBits::VK_SHADER_STAGE_ALL;
-		}
-
-		/**
-		 * Get the VkDescriptorType using GraphicsCore::UniformType.
-		 *
-		 * @param type: The uniform type.
-		 * @return VkDescriptorType enum.
-		 */
-		DMK_FORCEINLINE VkDescriptorType GetDescriptorType(GraphicsCore::UniformType type)
-		{
-			switch (type)
+			/**
+			 * Get the VkDescriptorType using GraphicsCore::UniformType.
+			 *
+			 * @param type: The uniform type.
+			 * @return VkDescriptorType enum.
+			 */
+			DMK_FORCEINLINE VkDescriptorType GetDescriptorType(GraphicsCore::UniformType type)
 			{
-			case GraphicsCore::UniformType::UNIFORM_BUFFER:
+				switch (type)
+				{
+				case GraphicsCore::UniformType::UNIFORM_BUFFER:
+					return VkDescriptorType::VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+
+				case GraphicsCore::UniformType::STORAGE_BUFFER:
+					return VkDescriptorType::VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+
+				case GraphicsCore::UniformType::UNIFORM_BUFFER_DYNAMIC:
+					return VkDescriptorType::VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
+
+				case GraphicsCore::UniformType::STORAGE_BUFFER_DYNAMIC:
+					return VkDescriptorType::VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC;
+
+				case GraphicsCore::UniformType::UNIFORM_TEXEL_BUFFER:
+					return VkDescriptorType::VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER;
+
+				case GraphicsCore::UniformType::STORAGE_TEXEL_BUFFER:
+					return VkDescriptorType::VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER;
+
+				case GraphicsCore::UniformType::INPUT_ATTACHMENT:
+					return VkDescriptorType::VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
+
+				case GraphicsCore::UniformType::STORAGE_IMAGE:
+					return VkDescriptorType::VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
+
+				case GraphicsCore::UniformType::CONSTANT:
+					break;	/* Doesn't have to do anything here. */
+
+				case GraphicsCore::UniformType::SAMPLER_2D:
+					return VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+
+				case GraphicsCore::UniformType::SAMPLER_CUBE:
+					return VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+
+				case GraphicsCore::UniformType::SAMPLER_2D_ARRAY:
+					return VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+
+				case GraphicsCore::UniformType::SAMPLER_CUBE_ARRAY:
+					return VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+
+				case GraphicsCore::UniformType::ACCELERATION_STRUCTURE:
+					return VkDescriptorType::VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_KHR;
+
+				default:
+					Logger::LogError(TEXT("Invalid Uniform type!"));
+					break;
+				}
+
 				return VkDescriptorType::VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-
-			case GraphicsCore::UniformType::STORAGE_BUFFER:
-				return VkDescriptorType::VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
-
-			case GraphicsCore::UniformType::UNIFORM_BUFFER_DYNAMIC:
-				return VkDescriptorType::VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC;
-
-			case GraphicsCore::UniformType::STORAGE_BUFFER_DYNAMIC:
-				return VkDescriptorType::VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC;
-
-			case GraphicsCore::UniformType::UNIFORM_TEXEL_BUFFER:
-				return VkDescriptorType::VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER;
-
-			case GraphicsCore::UniformType::STORAGE_TEXEL_BUFFER:
-				return VkDescriptorType::VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER;
-
-			case GraphicsCore::UniformType::INPUT_ATTACHMENT:
-				return VkDescriptorType::VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT;
-
-			case GraphicsCore::UniformType::STORAGE_IMAGE:
-				return VkDescriptorType::VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
-
-			case GraphicsCore::UniformType::CONSTANT:
-				break;	/* Doesn't have to do anything here. */
-
-			case GraphicsCore::UniformType::SAMPLER_2D:
-				return VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-
-			case GraphicsCore::UniformType::SAMPLER_CUBE:
-				return VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-
-			case GraphicsCore::UniformType::SAMPLER_2D_ARRAY:
-				return VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-
-			case GraphicsCore::UniformType::SAMPLER_CUBE_ARRAY:
-				return VkDescriptorType::VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-
-			case GraphicsCore::UniformType::ACCELERATION_STRUCTURE:
-				return VkDescriptorType::VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_KHR;
-
-			default:
-				Logger::LogError(TEXT("Invalid Uniform type!"));
-				break;
 			}
 
-			return VkDescriptorType::VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+			/**
+			 * Get VkFormat using DataType.
+			 *
+			 * @param type: The type.
+			 * @return VkFormat enum.
+			 */
+			DMK_FORCEINLINE VkFormat GetFormat(DataType type)
+			{
+				if (type == DataType::VEC3)
+					return VkFormat::VK_FORMAT_R32G32B32A32_SFLOAT;
+				else if (type == DataType::VEC2)
+					return VkFormat::VK_FORMAT_R32G32_SFLOAT;
+				else if (type == DataType::I32)
+					return VkFormat::VK_FORMAT_R32_SFLOAT;
+
+				return VkFormat::VK_FORMAT_UNDEFINED;
+			}
 		}
 
-		/**
-		 * Get VkFormat using DataType.
-		 *
-		 * @param type: The type.
-		 * @return VkFormat enum.
-		 */
-		DMK_FORCEINLINE VkFormat GetFormat(DataType type)
+		ShaderModule VulkanDevice::CreateShaderModule(const GraphicsCore::ShaderCode& code)
 		{
-			if (type == DataType::VEC3 || type == DataType::VEC4)
-				return VkFormat::VK_FORMAT_R32G32B32A32_SFLOAT;
-			else if (type == DataType::VEC2)
-				return VkFormat::VK_FORMAT_R32G32_SFLOAT;
-			else if (type == DataType::I32 || type == DataType::UI32 || type == DataType::SI32 || type == DataType::FLOAT)
-				return VkFormat::VK_FORMAT_R32_SFLOAT;
+			ShaderModule vShaderModule = {};
+			vShaderModule.Initialize(*this, code);
 
-			return VkFormat::VK_FORMAT_UNDEFINED;
+			return vShaderModule;
 		}
 
 		void ShaderModule::Initialize(const VulkanDevice& vDevice, const GraphicsCore::ShaderCode& shaderCode)
@@ -157,6 +168,7 @@ namespace DMK
 			vCInfo.pNext = VK_NULL_HANDLE;
 			vCInfo.codeSize = static_cast<UI32>(shaderCode.mShaderCode.size());
 			vCInfo.pCode = shaderCode.mShaderCode.data();
+			vShaderStage = _Helpers::GetShaderStageFlag(shaderCode.GetLocation());
 
 			// Create the shader module.
 			DMK_VK_ASSERT(vkCreateShaderModule(vDevice, &vCInfo, nullptr, &vShaderModule), "Failed to create Vulkan Shader Module!");
@@ -164,14 +176,15 @@ namespace DMK
 			// Resolve descriptor set layout bindings and pool sizes.
 			{
 				VkDescriptorSetLayoutBinding vBinding = {};
-				vBinding.stageFlags = GetShaderStageFlag(shaderCode.GetLocation());
+				vBinding.stageFlags = vShaderStage;
 				vBinding.pImmutableSamplers = VK_NULL_HANDLE;
+				vBinding.descriptorCount = 1;
 
 				VkDescriptorPoolSize vPoolSize = {};
-				vPoolSize.descriptorCount = 0;
+				vPoolSize.descriptorCount = 1;
 
 				VkPushConstantRange vPCRange = {};
-				vPCRange.stageFlags = GetShaderStageFlag(shaderCode.GetLocation());
+				vPCRange.stageFlags = vShaderStage;
 				vPCRange.offset = 0;
 
 				for (auto itr = shaderCode.mUniforms.begin(); itr != shaderCode.mUniforms.end(); itr++)
@@ -187,7 +200,7 @@ namespace DMK
 					else
 					{
 						vBinding.binding = static_cast<UI32>(itr->GetBinding());
-						vBinding.descriptorType = GetDescriptorType(itr->GetType());
+						vBinding.descriptorType = _Helpers::GetDescriptorType(itr->GetType());
 						vPoolSize.type = vBinding.descriptorType;
 
 						vLayoutBindings.insert(vLayoutBindings.end(), vBinding);
@@ -213,7 +226,7 @@ namespace DMK
 					vAttribute.binding = static_cast<UI32>(itr->mBinding);
 					vAttribute.location = static_cast<UI32>(itr->mLocation);
 					vAttribute.offset = static_cast<UI32>(itr->mOffset);
-					vAttribute.format = GetFormat(itr->mDataType);
+					vAttribute.format = _Helpers::GetFormat(itr->mDataType);
 					vInputAttributes.insert(vInputAttributes.end(), std::move(vAttribute));
 
 					vBinding.binding = static_cast<UI32>(itr->mBinding);

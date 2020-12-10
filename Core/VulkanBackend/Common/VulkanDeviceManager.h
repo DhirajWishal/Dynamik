@@ -3,7 +3,6 @@
 
 #pragma once
 
-#include "GraphicsCore/Backend/DeviceHandle.h"
 #include "VulkanInstance.h"
 
 namespace DMK

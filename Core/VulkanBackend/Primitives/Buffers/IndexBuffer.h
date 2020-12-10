@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "Buffer.h"
+#include "VulkanBuffer.h"
 
 namespace DMK
 {
@@ -13,36 +13,15 @@ namespace DMK
 		 * Vulkan Index Buffer object.
 		 * This buffer is used to store index data.
 		 */
-		class IndexBuffer : public Buffer {
+		class IndexBuffer : public VulkanBuffer {
 		public:
-			IndexBuffer() {}
+			IndexBuffer() : VulkanBuffer(GraphicsCore::BufferType::INDEX) {}
 			~IndexBuffer() {}
 
-			/**
-			 * Initailize the buffer.
-			 *
-			 * @param vDevice: The Vulkan device object.
-			 * @param size: The size of the buffer in bytes.
-			 */
-			virtual void Initialize(const VulkanDevice& vDevice, UI64 size) override final;
+			virtual void Initialize(GraphicsCore::Device* pDevice, UI64 size) override final;
 
-			/**
-			 * Map the buffer's device memory to the local address space and return its address.
-			 * If the size or the offset is invalid, nullptr will be returned with an error logged to the console.
-			 *
-			 * @param vDevice: The device the buffer is bound to.
-			 * @param size: The size of the mapping.
-			 * @param offset: The offset of the buffer data to be mapped. Default is 0.
-			 * @return The data pointer.
-			 */
-			virtual void* MapMemory(const VulkanDevice& vDevice, UI64 size, UI64 offset = 0) override final;
-
-			/**
-			 * Unmap the mapped buffer memory.
-			 *
-			 * @param vDevice: The device the buffer is bound to.
-			 */
-			virtual void UnmapMemory(const VulkanDevice& vDevice) override final;
+			virtual void* MapMemory(GraphicsCore::Device* pDevice, UI64 size, UI64 offset = 0) override final;
+			virtual void UnmapMemory(GraphicsCore::Device* pDevice) override final;
 		};
 	}
 }

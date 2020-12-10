@@ -17,7 +17,7 @@ namespace DMK
 		 */
 		enum class GraphicsBackendAPI {
 			VULKAN,
-			DIRECT_X,
+			DIRECT_X_12,
 			WEB_GPU,
 		};
 
@@ -63,6 +63,19 @@ namespace DMK
 			 * @return Thread::CommandQueue<> pointer.
 			 */
 			Thread::CommandQueue<THREAD_MAX_COMMAND_COUNT>* GetCommandQueue() { return &mCommandQueue; }
+
+			/**
+			 * Issue a command to the engine. This command will directly be passed to the backend.
+			 *
+			 * @tparam Type: The type of the command.
+			 * @param initializer: The initialization values. Default is Type().
+			 * @param pState: The state feedback variable pointer. Default is nullptr.
+			 */
+			template<class Type>
+			void IssueCommand(const Type& initializer = Type(), Thread::CommandState* pState = nullptr)
+			{
+				GetCommandQueue()->PushCommand(initializer, pState);
+			}
 
 			/**
 			 * Initialize the Graphics Backend.

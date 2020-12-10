@@ -71,10 +71,10 @@ namespace DMK
 		////	Vulkan Device Definitions
 		///////////////////////////////////////////////////////////////////////////////////////////////////
 
-		void VulkanDevice::Initialize(const GraphicsCore::DeviceInitInfo& initInfo, VulkanInstance* pInstance)
+		void VulkanDevice::Initialize(const GraphicsCore::DeviceInitInfo& initInfo, GraphicsCore::Instance* pInstance)
 		{
 			this->initInfo = initInfo;
-			this->pInstance = pInstance;
+			this->pInstance = pInstance->Derive<VulkanInstance>();
 
 			// Initialize the window/ display handle.
 			InitializeDisplay();
@@ -136,6 +136,93 @@ namespace DMK
 
 			// Terminate the display.
 			TerminateDisplay();
+		}
+
+		GraphicsCore::BufferRef VulkanDevice::CreateBuffer(GraphicsCore::BufferType type, UI64 size)
+		{
+			switch (type)
+			{
+			case DMK::GraphicsCore::BufferType::VERTEX:
+				break;
+
+			case DMK::GraphicsCore::BufferType::INDEX:
+				break;
+
+			case DMK::GraphicsCore::BufferType::UNIFORM_DATA:
+			{
+				UniformBuffer buffer = {};
+				buffer.Initialize(this, size);
+
+				mUniformBuffers.insert(mUniformBuffers.end(), std::move(buffer));
+
+				return GraphicsCore::BufferRef(type, mUniformBuffers.size() - 1, size, 0);
+			}
+
+			case DMK::GraphicsCore::BufferType::STAGGING:
+			{
+				StaggingBuffer buffer = {};
+				buffer.Initialize(this, size);
+
+				mStaggingBuffers.insert(mStaggingBuffers.end(), std::move(buffer));
+
+				return GraphicsCore::BufferRef(type, mStaggingBuffers.size() - 1, size, 0);
+			}
+
+			default:
+				Logger::LogError(TEXT("Undefined or invalid buffer type!"));
+				break;
+			}
+
+			return GraphicsCore::BufferRef();
+		}
+
+		GraphicsCore::Buffer* VulkanDevice::GetBuffer(const GraphicsCore::BufferRef& ref)
+		{
+			switch (ref.mType)
+			{
+			case DMK::GraphicsCore::BufferType::VERTEX:
+				break;
+			case DMK::GraphicsCore::BufferType::INDEX:
+				break;
+			case DMK::GraphicsCore::BufferType::UNIFORM_DATA:
+				return mUniformBuffers.data() + ref.mHandle;
+
+			case DMK::GraphicsCore::BufferType::STAGGING:
+				return mStaggingBuffers.data() + ref.mHandle;
+
+			default:
+				Logger::LogError(TEXT("Undefined or invalid buffer type!"));
+				break;
+			}
+
+			return nullptr;
+		}
+
+		void VulkanDevice::TerminateBuffer(const GraphicsCore::BufferRef& ref)
+		{
+			auto pBuffer = GetBuffer(ref);
+			pBuffer->Terminate(this);
+
+			switch (ref.mType)
+			{
+			case DMK::GraphicsCore::BufferType::VERTEX:
+				break;
+
+			case DMK::GraphicsCore::BufferType::INDEX:
+				break;
+
+			case DMK::GraphicsCore::BufferType::UNIFORM_DATA:
+				mUniformBuffers.erase(mUniformBuffers.begin() + ref.mHandle);
+				break;
+
+			case DMK::GraphicsCore::BufferType::STAGGING:
+				mStaggingBuffers.erase(mStaggingBuffers.begin() + ref.mHandle);
+				break;
+
+			default:
+				Logger::LogError(TEXT("Undefined or invalid buffer type!"));
+				break;
+			}
 		}
 
 		I8 VulkanDevice::BeginFrame()
@@ -420,42 +507,10 @@ namespace DMK
 				&& supportedFeatures.samplerAnisotropy;
 		}
 
-		GraphicsCore::BufferHandle VulkanDevice::CreateBuffer(GraphicsCore::BufferType type, UI64 size)
-		{
-			switch (type)
-			{
-			case DMK::GraphicsCore::BufferType::UNIFORM_DATA:
-			{
-				UniformBuffer buffer = {};
-				buffer.Initialize(*this, size);
-
-				mUniformBuffers.insert(mUniformBuffers.end(), std::move(buffer));
-				return GraphicsCore::BufferHandle(type, mUniformBuffers.size() - 1, size);
-			}
-			break;
-
-			case DMK::GraphicsCore::BufferType::STAGGING:
-			{
-				StaggingBuffer buffer = {};
-				buffer.Initialize(*this, size);
-
-				mStaggingBuffers.insert(mStaggingBuffers.end(), std::move(buffer));
-				return GraphicsCore::BufferHandle(type, mStaggingBuffers.size() - 1, size);
-			}
-			break;
-
-			default:
-				Logger::LogError(TEXT("Invalid or unsupported buffer type!"));
-				break;
-			}
-
-			return GraphicsCore::BufferHandle();
-		}
-
 		void VulkanDevice::DestroyBuffer(const GraphicsCore::BufferHandle& handle)
 		{
 #define TERMINATE_AND_ERASE_BUFFER(bArray)						\
-	(bArray.data() + handle.GetHandle())->Terminate(*this);		\
+	(bArray.data() + handle.GetHandle())->Terminate(this);		\
 	bArray.erase(bArray.begin() + handle.GetHandle())
 
 			switch (handle.GetType())
@@ -478,7 +533,7 @@ namespace DMK
 		{
 #define TERMINATE_BUFFER_AND_CLEAR(bArray)												\
 	for(auto itr = bArray.begin(); itr != bArray.end(); itr++)							\
-			itr->Terminate(*this);														\
+			itr->Terminate(this);														\
 	bArray.clear()
 
 			switch (type)
@@ -511,10 +566,10 @@ namespace DMK
 			case DMK::GraphicsCore::BufferType::INDEX:
 				break;
 			case DMK::GraphicsCore::BufferType::UNIFORM_DATA:
-				(mUniformBuffers.data() + handle.GetHandle())->CopyData(*this, pData, size, offset);
+				(mUniformBuffers.data() + handle.GetHandle())->CopyData(this, pData, size, offset);
 				break;
 			case DMK::GraphicsCore::BufferType::STAGGING:
-				(mStaggingBuffers.data() + handle.GetHandle())->CopyData(*this, pData, size, offset);
+				(mStaggingBuffers.data() + handle.GetHandle())->CopyData(this, pData, size, offset);
 				break;
 			default:
 				Logger::LogError(TEXT("Invalid buffer type!"));

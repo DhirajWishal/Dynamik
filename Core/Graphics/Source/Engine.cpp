@@ -19,10 +19,13 @@ namespace DMK
 			case DMK::GraphicsCore::GraphicsBackendAPI::VULKAN:
 				mBackendThread.swap(std::thread(VulkanBackend::VulkanBackendFunction, &mCommandQueue));
 				break;
-			case DMK::GraphicsCore::GraphicsBackendAPI::DIRECT_X:
+
+			case DMK::GraphicsCore::GraphicsBackendAPI::DIRECT_X_12:
 				break;
+
 			case DMK::GraphicsCore::GraphicsBackendAPI::WEB_GPU:
 				break;
+
 			default:
 				Logger::LogError(TEXT("Invalid Graphics Backend API type!"));
 				break;

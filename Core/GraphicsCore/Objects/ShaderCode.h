@@ -84,6 +84,8 @@ namespace DMK
 		class ShaderCode {
 		public:
 			ShaderCode() {}
+			ShaderCode(const ShaderCode& other);
+			ShaderCode(ShaderCode&& other) noexcept;
 			~ShaderCode() {}
 
 			/**
@@ -123,6 +125,9 @@ namespace DMK
 			void PerformReflection();
 
 		public:
+			ShaderCode& operator=(const ShaderCode& other);
+			ShaderCode& operator=(ShaderCode&& other) noexcept;
+
 			bool operator==(const ShaderCode& code) const
 			{
 				return mUniforms == code.mUniforms

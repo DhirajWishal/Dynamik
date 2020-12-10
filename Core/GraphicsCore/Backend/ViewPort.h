@@ -69,6 +69,17 @@ namespace DMK
 			 */
 			DMK_FORCEINLINE std::pair<UI32, UI32> GetSize() { return { width, height }; }
 
+		public:
+			bool operator==(const ViewPort& viewPort) const
+			{
+				return pDevice == viewPort.pDevice
+					&& xOffset == viewPort.xOffset
+					&& yOffset == viewPort.yOffset
+					&& width == viewPort.width
+					&& height == viewPort.height;
+			}
+
+		public:
 			class GDevice* pDevice = nullptr;	// The device which created the viewport.
 
 			float xOffset = 0.0f, yOffset = 0.0f;	// Offsets of the view port in the window space.

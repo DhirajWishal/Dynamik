@@ -6,9 +6,12 @@
 #include "GraphicsCore/Commands/CoreCommands.h"
 #include "GraphicsCore/Commands/RenderTargetCommands.h"
 #include "GraphicsCore/Commands/BufferCommands.h"
+#include "GraphicsCore/Commands/PipelineCommands.h"
 
 #include "VulkanBackend/Common/VulkanDeviceManager.h"
 #include "VulkanBackend/Common/Utilities.h"
+
+#include "VulkanBackend/Pipelines/RasterGraphicsPipeline.h"
 
 namespace DMK
 {
@@ -134,15 +137,15 @@ namespace DMK
 							{
 							case DMK::GraphicsCore::RenderTargetAttachmentType::SWAP_CHAIN:
 								// Create the swap chain.
-								mHandleRT.attachmentHandles.insert(mHandleRT.attachmentHandles.end(), pDevice->CreateSwapChain(mCreateCommand.bufferCount, *itr, bestExtent));
+								mHandleRT.mAttachmentHandles.insert(mHandleRT.mAttachmentHandles.end(), pDevice->CreateSwapChain(mCreateCommand.bufferCount, *itr, bestExtent));
 								break;
 							case DMK::GraphicsCore::RenderTargetAttachmentType::COLOR_BUFFER:
 								// Create the color buffer.
-								mHandleRT.attachmentHandles.insert(mHandleRT.attachmentHandles.end(), pDevice->CreateColorBuffer(mCreateCommand.bufferCount, *itr, bestExtent));
+								mHandleRT.mAttachmentHandles.insert(mHandleRT.mAttachmentHandles.end(), pDevice->CreateColorBuffer(mCreateCommand.bufferCount, *itr, bestExtent));
 								break;
 							case DMK::GraphicsCore::RenderTargetAttachmentType::DEPTH_BUFFER:
 								// Create the depth buffer.
-								mHandleRT.attachmentHandles.insert(mHandleRT.attachmentHandles.end(), pDevice->CreateDepthBuffer(mCreateCommand.bufferCount, *itr, bestExtent));
+								mHandleRT.mAttachmentHandles.insert(mHandleRT.mAttachmentHandles.end(), pDevice->CreateDepthBuffer(mCreateCommand.bufferCount, *itr, bestExtent));
 								break;
 							default:
 								Logger::LogError(TEXT("Invalid Render Target Attachment Type!"));
@@ -151,10 +154,10 @@ namespace DMK
 						}
 
 						// Create the render pass.
-						mHandleRT.mRenderPassID = pDevice->CreateRenderPass(mHandleRT.attachmentHandles);
+						mHandleRT.mRenderPassID = pDevice->CreateRenderPass(mHandleRT.mAttachmentHandles);
 
 						// Create the frame buffer.
-						mHandleRT.mFrameBufferID = pDevice->CreateFrameBuffer(mHandleRT.mRenderPassID, mHandleRT.attachmentHandles, mCreateCommand.bufferCount, bestExtent);
+						mHandleRT.mFrameBufferID = pDevice->CreateFrameBuffer(mHandleRT.mRenderPassID, mHandleRT.mAttachmentHandles, mCreateCommand.bufferCount, bestExtent);
 
 						// Set the handle data if the pointer is valid.
 						if (mCreateCommand.pHandle)
@@ -182,7 +185,7 @@ namespace DMK
 						pDevice->DestroyRenderPass(mCreateCommand.mHandle.mRenderPassID);
 
 						// Terminate the attachments.
-						for (auto itr = mCreateCommand.mHandle.attachmentHandles.begin(); itr != mCreateCommand.mHandle.attachmentHandles.end(); itr++)
+						for (auto itr = mCreateCommand.mHandle.mAttachmentHandles.begin(); itr != mCreateCommand.mHandle.mAttachmentHandles.end(); itr++)
 						{
 							switch (itr->mType)
 							{
@@ -274,6 +277,36 @@ namespace DMK
 					break;
 
 					case DMK::GraphicsCore::Commands::CommandType::DESTROY_ALL_BUFFERS:
+					{
+
+					}
+					break;
+
+					case DMK::GraphicsCore::Commands::CommandType::CREATE_GRAPHICS_PIPELINE:
+					{
+						SET_COMMAND_EXECUTING(pCommand);
+						auto& mCreateCommand = pCommand->GetData<GraphicsCore::Commands::CreateGraphicsPipelineCommand>();
+
+						// Get the required device.
+						auto pDevice = vDeviceManager.GetDeviceAddress(mCreateCommand.mDeviceHandle);
+
+						std::vector<ShaderModule> vShaderModules;
+						for (auto itr = mCreateCommand.mSpec.mShaders.begin(); itr != mCreateCommand.mSpec.mShaders.end(); itr++)
+							vShaderModules.insert(vShaderModules.end(), pDevice->CreateShaderModule(*itr));
+
+						// TODO
+						RasterGraphicsPipeline mPipeline = {};
+						mPipeline.Initialize(vDeviceManager.GetDevice(mCreateCommand.mDeviceHandle), mCreateCommand.mSpec, std::move(vShaderModules), *pDevice->GetRenderPass(mCreateCommand.mRenderTargetHandle.mRenderPassID));
+					}
+					break;
+
+					case DMK::GraphicsCore::Commands::CommandType::CREATE_RAY_TRACING_PIPELINE:
+					{
+
+					}
+					break;
+
+					case DMK::GraphicsCore::Commands::CommandType::CREATE_COMPUTE_PIPELINE:
 					{
 
 					}

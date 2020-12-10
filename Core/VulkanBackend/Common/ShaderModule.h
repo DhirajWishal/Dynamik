@@ -39,6 +39,7 @@ namespace DMK
 			std::vector<VkDescriptorPoolSize> vDescriptorPoolSizes;	// Descriptor pool sizes.
 			std::vector<VkPushConstantRange> vPushConstantRanges;	// Push constant ranges.
 			VkShaderModule vShaderModule = VK_NULL_HANDLE;	// Vulkan shader module.
+			VkShaderStageFlags vShaderStage = VkShaderStageFlagBits::VK_SHADER_STAGE_ALL;
 		};
 	}
 }

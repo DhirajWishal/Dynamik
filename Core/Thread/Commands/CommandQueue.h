@@ -21,6 +21,11 @@ namespace DMK
 		 * Command Queue for the Dynamik Engine.
 		 * This object is used to store commands in a queue which is submitted to the thread.
 		 *
+		 * The thread will have 3 main states,
+		 * - Pending: Command is issued but the thread has not picked it yet.
+		 * - Executing: The command is being executed.
+		 * - Result/ Exit: The command is executed and its state will be returned.
+		 *
 		 * @tparam CommandCount: The maximum number of commands which can be stored.
 		 */
 		template<UI64 CommandCount = THREAD_MAX_COMMAND_COUNT>
@@ -40,11 +45,11 @@ namespace DMK
 			void PushCommand(CommandState* pState = nullptr)
 			{
 				// Wait till the command queue has space.
-				while (commandQueue.Size() >= CommandCount);
+				while (mCommandQueue.Size() >= CommandCount || mLockDown);
 
 				// Lock the queue and push the data.
 				std::lock_guard<std::mutex> _lock(__CommandQueueMutex);
-				commandQueue.Push(std::make_pair(typeid(Type).name(), new Command<Type>(Type(), pState)));
+				mCommandQueue.Push(std::make_pair(typeid(Type).name(), new Command<Type>(Type(), pState)));
 			}
 
 			/**
@@ -59,11 +64,11 @@ namespace DMK
 			void PushCommand(const Type& command, CommandState* pState = nullptr)
 			{
 				// Wait till the command queue has space.
-				while (commandQueue.Size() >= CommandCount);
+				while (mCommandQueue.Size() >= CommandCount);
 
 				// Lock the queue and push the data.
 				std::lock_guard<std::mutex> _lock(__CommandQueueMutex);
-				commandQueue.Push(std::make_pair(typeid(Type).name(), new Command<Type>(std::move(command), pState)));
+				mCommandQueue.Push(std::make_pair(typeid(Type).name(), new Command<Type>(std::move(command), pState)));
 			}
 
 			/**
@@ -75,7 +80,7 @@ namespace DMK
 			{
 				// Lock the queue and get the command name.
 				std::lock_guard<std::mutex> _lock(__CommandQueueMutex);
-				return commandQueue.Get().first;
+				return mCommandQueue.Get().first;
 			}
 
 			/**
@@ -87,7 +92,7 @@ namespace DMK
 			{
 				// Lock the queue and get the command.
 				std::lock_guard<std::mutex> _lock(__CommandQueueMutex);
-				return commandQueue.Get().second;
+				return mCommandQueue.Get().second;
 			}
 
 			/**
@@ -99,7 +104,7 @@ namespace DMK
 			{
 				// Lock the queue and get the command.
 				std::lock_guard<std::mutex> _lock(__CommandQueueMutex);
-				return commandQueue.GetAndPop().second;
+				return mCommandQueue.GetAndPop().second;
 			}
 
 			/**
@@ -107,10 +112,32 @@ namespace DMK
 			 *
 			 * @return The number of commands in the command queue.
 			 */
-			UI64 Count() const { return commandQueue.Size(); }
+			UI64 Count() const
+			{
+				if (mLockDown)
+					mLockDown = false;
+
+				return mCommandQueue.Size();
+			}
+
+			/**
+			 * Synchronize the threads.
+			 * Once the parent thread calls to synchronize the thread, the parent thread will be held until the
+			 * child has completed any command which it was working on prior to calling this method. And once the
+			 * child has completed it, both the threads are released at the same time.
+			 *
+			 * When this method is called, once the child thread calls the Count() method, the synchronization will
+			 * be reset.
+			 */
+			void Synchronize()
+			{
+				mLockDown = true;
+				while (mLockDown);
+			}
 
 		private:
-			StaticQueue<std::pair<const char*, CommandBase*>, CommandCount> commandQueue;	// Command Queue.
+			StaticQueue<std::pair<const char*, CommandBase*>, CommandCount> mCommandQueue;	// Command Queue.
+			bool mLockDown = false;
 		};
 	}
 }
