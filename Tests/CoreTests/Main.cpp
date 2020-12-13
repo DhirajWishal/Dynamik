@@ -1,17 +1,21 @@
 // Copyright 2020 Dhiraj Wishal
 // SPDX-License-Identifier: Apache-2.0
 
-#include "Core/Types/HashMap.h"
+#include "Core/Types/SparseSet.h"
+
+#include <cstdlib>
+#include <iostream>
+#include <random>
 
 int main()
 {
-	DMK::HashMap<int, int> hash;
-	for (int i = 0; i < 100; i++)
-		hash[i] = i;
+	DMK::SparseSet<String> denseMap;
 
-	for (int i = 0; i < 100; i++)
-		printf("%d. %d\n", i, hash[i]);
+	auto a = denseMap.Insert("HelloWorld! 1");
+	auto b = denseMap.Insert("HelloWorld! 2");
+	auto c = denseMap.Insert("HelloWorld! 3");
 
-	DMK::HashMap<int, int> h2;
-	h2.Append(hash.Begin(), hash.End());
+	denseMap.Remove(b);
+
+	denseMap.Clear();
 }

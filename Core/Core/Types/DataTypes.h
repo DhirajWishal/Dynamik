@@ -369,3 +369,5 @@ namespace DMK
 		SET,
 	};
 }
+
+#define INSERT_TO_VECTOR(vector, ...)	vector.insert(vector.end(), __VA_ARGS__)
