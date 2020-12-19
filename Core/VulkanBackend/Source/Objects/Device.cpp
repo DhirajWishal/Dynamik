@@ -15,39 +15,6 @@ namespace DMK
 		namespace _Helpers
 		{
 			/**
-			 * Query swap chain support details.
-			 *
-			 * @param vPhysicalDevice: The physical device to be checked for.
-			 * @param vSurface: The surface to be checked with.
-			 * @return SwapChainSupportDetails structure.
-			 */
-			SwapChainSupportDetails QuerySwapChainSupportDetails(VkPhysicalDevice vPhysicalDevice, VkSurfaceKHR vSurface)
-			{
-				SwapChainSupportDetails supportDetails = {};
-				vkGetPhysicalDeviceSurfaceCapabilitiesKHR(vPhysicalDevice, vSurface, &supportDetails.capabilities);
-
-				UI32 formatCount = 0;
-				vkGetPhysicalDeviceSurfaceFormatsKHR(vPhysicalDevice, vSurface, &formatCount, nullptr);
-
-				if (formatCount != 0)
-				{
-					supportDetails.formats.resize(formatCount);
-					vkGetPhysicalDeviceSurfaceFormatsKHR(vPhysicalDevice, vSurface, &formatCount, supportDetails.formats.data());
-				}
-
-				UI32 presentModeCount = 0;
-				vkGetPhysicalDeviceSurfacePresentModesKHR(vPhysicalDevice, vSurface, &presentModeCount, nullptr);
-
-				if (presentModeCount != 0)
-				{
-					supportDetails.presentModes.resize(presentModeCount);
-					vkGetPhysicalDeviceSurfacePresentModesKHR(vPhysicalDevice, vSurface, &presentModeCount, supportDetails.presentModes.data());
-				}
-
-				return supportDetails;
-			}
-
-			/**
 			 * Get the max usable sample count of a physical device.
 			 *
 			 * @param vPhysicalDevice: The physical device.
@@ -117,20 +84,20 @@ namespace DMK
 			 */
 			bool IsPhysicalDeviceSuitable(VkPhysicalDevice vDevice, VkSurfaceKHR vSurface, const std::vector<const char*>& deviceExtensions)
 			{
-				VulkanQueue _queue = CreateTempQueue(vDevice);
+				VulkanQueue _queue = VulkanQueue::Create(vDevice);
 
 				bool extensionsSupported = _Helpers::CheckDeviceExtensionSupport(vDevice, deviceExtensions);
 				bool swapChainAdequate = false;
 				if (extensionsSupported)
 				{
-					SwapChainSupportDetails swapChainSupport = _Helpers::QuerySwapChainSupportDetails(vDevice, vSurface);
+					SwapChainSupportDetails swapChainSupport = SwapChainSupportDetails::Query(vDevice, vSurface);
 					swapChainAdequate = (!swapChainSupport.formats.empty()) && (!swapChainSupport.presentModes.empty());
 				}
 
 				VkPhysicalDeviceFeatures supportedFeatures;
 				vkGetPhysicalDeviceFeatures(vDevice, &supportedFeatures);
 
-				return IsQueueComplete(_queue)
+				return VulkanQueue::IsComplete(_queue)
 					&& extensionsSupported
 					&& swapChainAdequate
 					&& supportedFeatures.samplerAnisotropy;
@@ -232,18 +199,16 @@ namespace DMK
 			 * @param validationLayers: The validation layers to use.
 			 * @param deviceExtensions: The device extensions to use.
 			 * @param vPhysicalDevice: The physical device which the logical device is bound to.
-			 * @param vQueueIndex: The queue index.
+			 * @param vQueue: The Vulkan queue.
 			 * @return VkDevice handle.
 			 */
-			VkDevice CreateLogicalDevice(bool enableValidation, const std::vector<const char*>& validationLayers, const std::vector<const char*>& deviceExtensions, VkPhysicalDevice vPhysicalDevice, VulkanQueue::Index vQueueIndex)
+			VkDevice CreateLogicalDevice(bool enableValidation, const std::vector<const char*>& validationLayers, const std::vector<const char*>& deviceExtensions, VkPhysicalDevice vPhysicalDevice, VulkanQueue vQueue)
 			{
-				auto& queue = VulkanQueue::Store::Get(vQueueIndex);
-
 				std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
 				std::set<UI32> uniqueQueueFamilies = {
-					queue.mGraphicsFamily.value(),
-					queue.mComputeFamily.value(),
-					queue.mTransferFamily.value()
+					vQueue.mGraphicsFamily.value(),
+					vQueue.mComputeFamily.value(),
+					vQueue.mTransferFamily.value()
 				};
 
 				float queuePriority = 1.0f;
@@ -288,46 +253,72 @@ namespace DMK
 				// Create queues.
 				{
 					// Graphics Queue.
-					vkGetDeviceQueue(vLogicalDevice, queue.mGraphicsFamily.value(), 0, &queue.vGraphicsQueue);
+					vkGetDeviceQueue(vLogicalDevice, vQueue.mGraphicsFamily.value(), 0, &vQueue.vGraphicsQueue);
 
 					// Compute Queue.
-					vkGetDeviceQueue(vLogicalDevice, queue.mComputeFamily.value(), 0, &queue.vComputeQueue);
+					vkGetDeviceQueue(vLogicalDevice, vQueue.mComputeFamily.value(), 0, &vQueue.vComputeQueue);
 
 					// Transfer Queue.
-					vkGetDeviceQueue(vLogicalDevice, queue.mTransferFamily.value(), 0, &queue.vTransferQueue);
+					vkGetDeviceQueue(vLogicalDevice, vQueue.mTransferFamily.value(), 0, &vQueue.vTransferQueue);
 				}
 
 				return vLogicalDevice;
 			}
 		}
 
-		VulkanDevice::Index CreateDevice(const VulkanInstance::Index& vInstanceIndex, const VulkanDisplay::Index& vDisplayIndex)
+		SwapChainSupportDetails SwapChainSupportDetails::Query(VkPhysicalDevice vPhysicalDevice, VkSurfaceKHR vSurface)
 		{
-			auto& instance = VulkanInstance::Store::Get(vInstanceIndex);
-			auto& display = VulkanDisplay::Store::Get(vDisplayIndex);
+			SwapChainSupportDetails supportDetails = {};
+			vkGetPhysicalDeviceSurfaceCapabilitiesKHR(vPhysicalDevice, vSurface, &supportDetails.capabilities);
 
-			std::vector<const char*> deviceExtensions;
-			INSERT_TO_VECTOR(deviceExtensions, VK_KHR_SWAPCHAIN_EXTENSION_NAME);
+			UI32 formatCount = 0;
+			vkGetPhysicalDeviceSurfaceFormatsKHR(vPhysicalDevice, vSurface, &formatCount, nullptr);
 
-			VulkanDevice device = {};
-			device.vSurface = _Helpers::CreateSurface(instance.vInstance, display);
-			device.vPhysicalDevice = _Helpers::CreatePhysicalDevice(instance.vInstance, device.vSurface, deviceExtensions);
-			device.vSampleCount = _Helpers::GetMaxUsableSamples(device.vPhysicalDevice);
-			device.vQueueIndex = CreateQueue(device.vPhysicalDevice);
-			device.vLogicalDevice = _Helpers::CreateLogicalDevice(instance.vDebugMessenger, instance.mValidationLayers, deviceExtensions, device.vPhysicalDevice, device.vQueueIndex);
+			if (formatCount != 0)
+			{
+				supportDetails.formats.resize(formatCount);
+				vkGetPhysicalDeviceSurfaceFormatsKHR(vPhysicalDevice, vSurface, &formatCount, supportDetails.formats.data());
+			}
 
-			return VulkanDevice::Store::Insert(std::move(device));
+			UI32 presentModeCount = 0;
+			vkGetPhysicalDeviceSurfacePresentModesKHR(vPhysicalDevice, vSurface, &presentModeCount, nullptr);
+
+			if (presentModeCount != 0)
+			{
+				supportDetails.presentModes.resize(presentModeCount);
+				vkGetPhysicalDeviceSurfacePresentModesKHR(vPhysicalDevice, vSurface, &presentModeCount, supportDetails.presentModes.data());
+			}
+
+			return supportDetails;
 		}
 
-		void DestroyDevice(const VulkanInstance::Index& vInstanceIndex, const VulkanDevice::Index& vDeviceIndex)
+		VulkanDevice VulkanDevice::Create(const VulkanInstance& vInstance, const VulkanDisplay& vDisplay)
 		{
-			auto& instance = VulkanInstance::Store::Get(vInstanceIndex);
-			auto& device = VulkanDevice::Store::Get(vDeviceIndex);
+			std::vector<const char*> deviceExtensions;
+			INSERT_INTO_VECTOR(deviceExtensions, VK_KHR_SWAPCHAIN_EXTENSION_NAME);
 
-			vkDestroySurfaceKHR(instance.vInstance, device.vSurface, nullptr);
+			VulkanDevice device = {};
+			device.vSurface = _Helpers::CreateSurface(vInstance.vInstance, vDisplay);
+			device.vPhysicalDevice = _Helpers::CreatePhysicalDevice(vInstance.vInstance, device.vSurface, deviceExtensions);
+			device.vSampleCount = _Helpers::GetMaxUsableSamples(device.vPhysicalDevice);
+			device.vQueue = VulkanQueue::Create(device.vPhysicalDevice);
+			device.vLogicalDevice = _Helpers::CreateLogicalDevice(vInstance.vDebugMessenger, vInstance.mValidationLayers, deviceExtensions, device.vPhysicalDevice, device.vQueue);
+
+			return device;
+		}
+
+		void VulkanDevice::Destroy(const VulkanInstance& vInstance, const VulkanDevice& device)
+		{
+			vkDestroySurfaceKHR(vInstance.vInstance, device.vSurface, nullptr);
 			vkDestroyDevice(device.vLogicalDevice, nullptr);
+		}
+		
+		VkSurfaceCapabilitiesKHR VulkanDevice::GetSurfaceCapabilities(VkPhysicalDevice vPhysicalDevice, VkSurfaceKHR vSurface)
+		{
+			VkSurfaceCapabilitiesKHR vCapabilities = {};
+			DMK_VK_ASSERT(vkGetPhysicalDeviceSurfaceCapabilitiesKHR(vPhysicalDevice, vSurface, &vCapabilities), "Failed to get Surface Capabilities!");
 
-			VulkanDevice::Store::Remove(vDeviceIndex);
+			return vCapabilities;
 		}
 	}
 }

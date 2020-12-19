@@ -5,6 +5,7 @@
 
 #include "Core/Macros/Global.h"
 #include "Core/Types/DataTypes.h"
+#include "BackendHandles.h"
 
 namespace DMK
 {
@@ -18,25 +19,30 @@ namespace DMK
 			ViewPort() = default;
 
 			/**
-			 * Construct the view port using the device which it was created with.
+			 * Construct the view port using the device handle, size and offsets.
 			 *
-			 * @param pDevice: The device which created it.
+			 * @param deviceHandle: The device handle which created it.
+			 * @param width: The width of the view port.
+			 * @param height: The height of the view port.
+			 * @param xOffset: The X offset of the view port.
+			 * @param yOffset: The Y offset of the view port.
 			 */
-			ViewPort(class GDevice* pDevice) : pDevice(pDevice) {}
+			ViewPort(const DeviceHandle& deviceHandle, UI32 width = 0, UI32 height = 0, float xOffset = 0.0f, float yOffset = 0.0f)
+				: mDeviceHandle(deviceHandle), mWidth(width), mHeight(height), mXOffset(xOffset), mYOffset(yOffset) {}
 
 			/**
-			 * Set the device of the view port.
+			 * Set the device handle of the view port.
 			 *
-			 * @param pDevice: The device which created the view port.
+			 * @param deviceHandle: The device handle which created the view port.
 			 */
-			DMK_FORCEINLINE void SetDevice(class GDevice* pDevice) { this->pDevice = pDevice; }
+			void SetDeviceHandle(const DeviceHandle& deviceHandle) { this->mDeviceHandle = deviceHandle; }
 
 			/**
-			 * Get the device of the view port.
+			 * Get the device handle of the view port.
 			 *
-			 * @return GDevice class pointer.
+			 * @return DeviceHandle handle.
 			 */
-			DMK_FORCEINLINE class GDevice* GetDevice() const { this->pDevice; }
+			DeviceHandle GetDevice() const { this->mDeviceHandle; }
 
 			/**
 			 * Set the offsets of the view port.
@@ -45,14 +51,14 @@ namespace DMK
 			 * @param xOffset: The xOffset of the view port.
 			 * @param yOffset: The yOffset of the view port.
 			 */
-			DMK_FORCEINLINE void SetOffsets(float xOffset, float yOffset) { this->xOffset = xOffset, this->yOffset = yOffset; }
+			void SetOffsets(float xOffset, float yOffset) { this->mXOffset = xOffset, this->mYOffset = yOffset; }
 
 			/**
 			 * Get the offsets of the view port.
 			 *
 			 * @return std::pair<float, float> containing the xOffset and yOffset.
 			 */
-			DMK_FORCEINLINE std::pair<float, float> GetOffsets() const { return { xOffset, yOffset }; }
+			std::pair<float, float> GetOffsets() const { return { mXOffset, mYOffset }; }
 
 			/**
 			 * Set the size of the viewport.
@@ -60,30 +66,29 @@ namespace DMK
 			 * @param width: The width of the viewport.
 			 * @param height: The height of the viewport.
 			 */
-			DMK_FORCEINLINE void SetSize(UI32 width, UI32 height) { this->width = width, this->height = height; }
+			void SetSize(UI32 width, UI32 height) { this->mWidth = width, this->mHeight = height; }
 
 			/**
 			 * Get the width and height of the view port.
 			 *
 			 * @return std::pair<UI32, UI32> containing the width and height.
 			 */
-			DMK_FORCEINLINE std::pair<UI32, UI32> GetSize() { return { width, height }; }
+			std::pair<UI32, UI32> GetSize() { return { mWidth, mHeight }; }
 
 		public:
 			bool operator==(const ViewPort& viewPort) const
 			{
-				return pDevice == viewPort.pDevice
-					&& xOffset == viewPort.xOffset
-					&& yOffset == viewPort.yOffset
-					&& width == viewPort.width
-					&& height == viewPort.height;
+				return mDeviceHandle == viewPort.mDeviceHandle
+					&& mXOffset == viewPort.mXOffset
+					&& mYOffset == viewPort.mYOffset
+					&& mWidth == viewPort.mWidth
+					&& mHeight == viewPort.mHeight;
 			}
 
 		public:
-			class GDevice* pDevice = nullptr;	// The device which created the viewport.
-
-			float xOffset = 0.0f, yOffset = 0.0f;	// Offsets of the view port in the window space.
-			UI32 width = 0, height = 0;	// Width and Height of the view port.
+			float mXOffset = 0.0f, mYOffset = 0.0f;	// Offsets of the view port in the window space.
+			UI32 mWidth = 0, mHeight = 0;	// Width and Height of the view port.
+			DeviceHandle mDeviceHandle = 0;	// The device the view port is created on.
 		};
 	}
 }

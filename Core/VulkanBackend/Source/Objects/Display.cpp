@@ -7,9 +7,11 @@ namespace DMK
 {
 	namespace VulkanBackend
 	{
-		VulkanDisplay::Index CreateDisplay(UI32 width, UI32 height, const char* pTitle, Inputs::InputCenter* pInputCenter)
+		VulkanDisplay VulkanDisplay::Create(UI32 width, UI32 height, const char* pTitle, Inputs::InputCenter* pInputCenter)
 		{
 			VulkanDisplay display = {};
+
+			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
 #ifdef DMK_DEBUG
 			display.pWindowHandle = glfwCreateWindow(width, height, pTitle, nullptr, nullptr);
@@ -29,15 +31,12 @@ namespace DMK
 
 #endif // DMK_DEBUG
 
-			return VulkanDisplay::Store::Insert(std::move(display));
+			return display;
 		}
 
-		void DestroyDisplay(const VulkanDisplay::Index& vIndex)
+		void VulkanDisplay::Destroy(const VulkanDisplay& display)
 		{
-			VulkanDisplay& display = VulkanDisplay::Store::Get(vIndex);
-
 			glfwDestroyWindow(display.pWindowHandle);
-			VulkanDisplay::Store::Remove(vIndex);
 		}
 	}
 }

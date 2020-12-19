@@ -18,6 +18,15 @@ namespace DMK
 			VkSurfaceCapabilitiesKHR capabilities = {};			// Swap Chain capabilities.
 			std::vector<VkSurfaceFormatKHR> formats = {};		// Swap Chain formats.
 			std::vector<VkPresentModeKHR> presentModes = {};	// Swap Chain present modes.
+
+			/**
+			 * Query swap chain support details.
+			 *
+			 * @param vPhysicalDevice: The physical device to be checked for.
+			 * @param vSurface: The surface to be checked with.
+			 * @return SwapChainSupportDetails structure.
+			 */
+			static SwapChainSupportDetails Query(VkPhysicalDevice vPhysicalDevice, VkSurfaceKHR vSurface);
 		};
 
 		/**
@@ -25,33 +34,18 @@ namespace DMK
 		 * This object stores information about a single Vulkan Device.
 		 */
 		struct VulkanDevice {
-			using Index = UI8;
-			using Store = StaticSparseSet<VulkanDevice, Index>;
-
-			VulkanQueue::Index vQueueIndex = 0;
+			VulkanQueue vQueue = {};
 
 			VkPhysicalDevice vPhysicalDevice = VK_NULL_HANDLE;
 			VkDevice vLogicalDevice = VK_NULL_HANDLE;
 			VkSurfaceKHR vSurface = VK_NULL_HANDLE;
 
 			VkSampleCountFlags vSampleCount = VK_SAMPLE_COUNT_64_BIT;
+
+			static VulkanDevice Create(const VulkanInstance& vInstance, const VulkanDisplay& vDisplay);
+			static void Destroy(const VulkanInstance& vInstance, const VulkanDevice& device);
+
+			static VkSurfaceCapabilitiesKHR GetSurfaceCapabilities(VkPhysicalDevice vPhysicalDevice, VkSurfaceKHR vSurface);
 		};
-
-		/**
-		 * Create a new device.
-		 *
-		 * @param vInstanceIndex: The instance index to which the device is created.
-		 * @param vDisplayIndex: The idnex of the display.
-		 * @return The Vulkan Device index.
-		 */
-		VulkanDevice::Index CreateDevice(const VulkanInstance::Index& vInstanceIndex, const VulkanDisplay::Index& vDisplayIndex);
-
-		/**
-		 * Destroy a created device.
-		 *
-		 * @param vInstanceIndex: The index of the index the device is bound to.
-		 * @param vDeviceIndex: The index of the device.
-		 */
-		void DestroyDevice(const VulkanInstance::Index& vInstanceIndex, const VulkanDevice::Index& vDeviceIndex);
 	}
 }

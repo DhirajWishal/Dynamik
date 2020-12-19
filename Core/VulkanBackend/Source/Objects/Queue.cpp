@@ -7,7 +7,7 @@ namespace DMK
 {
 	namespace VulkanBackend
 	{
-		VulkanQueue CreateTempQueue(const VkPhysicalDevice& vPhysicalDevice)
+		VulkanQueue VulkanQueue::Create(const VkPhysicalDevice& vPhysicalDevice)
 		{
 			VulkanQueue queue = {};
 			UI32 queueFamilyCount = 0;
@@ -34,7 +34,7 @@ namespace DMK
 						queue.mTransferFamily = i;
 
 					// Escape from the loop if the queues were found.
-					if (IsQueueComplete(queue))
+					if (IsComplete(queue))
 						break;
 				}
 			}
@@ -42,19 +42,9 @@ namespace DMK
 			return queue;
 		}
 
-		VulkanQueue::Index CreateQueue(const VkPhysicalDevice& vPhysicalDevice)
-		{
-			return VulkanQueue::Store::Insert(CreateTempQueue(vPhysicalDevice));
-		}
-
-		bool IsQueueComplete(const VulkanQueue& vQueue)
+		bool VulkanQueue::IsComplete(const VulkanQueue& vQueue)
 		{
 			return vQueue.mGraphicsFamily.has_value() && vQueue.mComputeFamily.has_value() && vQueue.mTransferFamily.has_value();
-		}
-
-		bool IsQueueComplete(const VulkanQueue::Index& vIndex)
-		{
-			return IsQueueComplete(VulkanQueue::Store::Get(vIndex));
 		}
 	}
 }

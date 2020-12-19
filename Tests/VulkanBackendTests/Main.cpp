@@ -1,44 +1,78 @@
 // Copyright 2020 Dhiraj Wishal
 // SPDX-License-Identifier: Apache-2.0
 
-#include "VulkanBackend/Objects/Instance.h"
-#include "VulkanBackend/Objects/Display.h"
-#include "VulkanBackend/Objects/Device.h"
-using namespace DMK::VulkanBackend;
+#include "VulkanBackend/VulkanBackendAdapter.h"
+#include "ShaderTools/SPIR-V/Transpiler.h"
 
 #include "Core/Benchmark/Timer.h"
 #include "Thread/Utilities.h"
 
 int main()
 {
-	DMK::VulkanBackend::InitializeGLFW();
+	DMK::VulkanBackend::VulkanBackendAdapter adapter = {};
 
-	UI8 instanceID = 0;
-	UI8 displayID = 0;
-	UI8 deviceID = 0;
+	DMK::GraphicsCore::DisplayHandle displayID = 0;
+	DMK::GraphicsCore::DeviceHandle deviceID = 0;
+	DMK::GraphicsCore::RenderTargetHandle renderTargetHandle;
+
 
 	{
 		DMK::Benchmark::Timer timer;
 #ifdef DMK_DEBUG
-		instanceID = DMK::VulkanBackend::CreateInstance(true);
+		adapter.Initialize(true);
 
 #else
-		instanceID = DMK::VulkanBackend::CreateInstance(false);
+		adapter.Initialize(false);
 
 #endif // DMK_DEBUG
 
-		displayID = DMK::VulkanBackend::CreateDisplay(1280, 720, "Dynamik Engine: Vulkan Backend Tests");
-		deviceID = DMK::VulkanBackend::CreateDevice(instanceID, displayID);
+		displayID = adapter.CreateDisplay(1280, 720, "Dynamik Engine: Vulkan Backend Tests");
+		deviceID = adapter.CreateDevice(displayID);
+		renderTargetHandle = adapter.CreateRenderTarget(deviceID, DMK::GraphicsCore::RenderTargetType::SCREEN_BOUND_3D, DMK::GraphicsCore::ViewPort(deviceID, 1280, 720));
 	}
 
 	DMK::Thread::Utilities::Sleep(5000000);
 
 	{
 		DMK::Benchmark::Timer timer;
-		DMK::VulkanBackend::DestroyDevice(instanceID, deviceID);
-		DMK::VulkanBackend::DestroyDisplay(displayID);
-		DMK::VulkanBackend::DestroyInstance(instanceID);
+		adapter.DestroyDevice(deviceID);
+		adapter.DestroyDisplay(displayID);
+		adapter.Terminate();
 	}
-
-	DMK::VulkanBackend::TerminateGLFW();
 }
+
+
+/**
+ * auto pDevice = GetGraphicsEngine()->CreateNewDevice(DefaultWindowData());
+ * 
+ * // Create the render target with the buffer count of 1.
+ * auto pRenderTarget = pDevice->CreateRenderTarget(RenderTargetType::OFF_SCREEN_3D, GetDefaultExtent(), 1);
+ * 
+ * auto pPipeline = pRenderTarget->CreateRasterPipeline({ GetVertexShader(), GetFragmentShader() }, GetDefaultRasterPipelineSpec());
+ * 
+ * auto pVertexBuffer = pDevice->CreateVertexBuffer(GetVertexBufferObject());
+ * auto pIndexBuffer = pDevice->CreateIndexBuffer(GetIndexBufferObject());
+ * auto pTexture = pDevice->CreateImage(ImageType::2D, GetDefaultTexture());
+ * 
+ * pRenderTarget->AddToRenderList({ pVertexBuffer, pIndexBuffer }, { pTexture }, pPipeline);
+ * 
+ * // OR
+ * 
+ * pRenderTarget->AddCustomRenderCommand(
+ *		[=](CommandBuffer* pCommandBuffer, RenderResource* pRenderResource)
+ *		{
+ *			pCommandBuffer->BindPipeline(pRenderResource->GetPipeline());
+ *			pCommandBuffer->BindVertexBuffer(pRenderResource->GetVertexBuffer());
+ *			pCommandBuffer->DrawIndexed(pRenderResource->GetIndexBuffer());
+ *		}
+ * );
+ * 
+ * GetGraphicsEngine()->Execute(pRenderTarget); 
+ * 
+ * auto pTexture = pRenderTarget->GetRenderAsImage();
+ * 
+ * pDevice->DestroyRenderTarget(pRenderTarget);
+ * pDevice->DestroyVertexBuffer(pVertexBuffer);
+ * pDevice->DestroyIndexBuffer(pIndexBuffer);
+ * pDevice->DestroyImage(pTexture);
+ */

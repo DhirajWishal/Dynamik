@@ -46,7 +46,7 @@ namespace DMK
 			}
 
 			// Load data to the vector.
-			I64 fileSize = (I64)file.tellg();
+			I64 fileSize = static_cast<I64>(file.tellg());
 			mShaderCode.resize(fileSize);
 			file.seekg(0);
 			file.read(reinterpret_cast<char*>(mShaderCode.data()), fileSize);

@@ -5,9 +5,9 @@
 #include "VulkanBackend/Macros.h"
 #include "Core/ErrorHandler/Logger.h"
 #include "Core/Types/Utilities.h"
+#include "VulkanBackend/Objects/Display.h"
 
 #include <iostream>
-#include <GLFW/glfw3.h>
 
 namespace DMK
 {
@@ -67,13 +67,15 @@ namespace DMK
 			 *
 			 * @return std::vector<const char*> containing the required extensions.
 			 */
-			std::vector<const char*> GetRequiredInstanceExtensions()
+			std::vector<const char*> GetRequiredInstanceExtensions(bool enableValidation)
 			{
 				UI32 glfwExtentionCount = 0;
 				const char** glfwExtensions = nullptr;
 				glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtentionCount);
 				std::vector<const char*> extentions(glfwExtensions, glfwExtensions + glfwExtentionCount);
-				extentions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+
+				if (enableValidation)
+					INSERT_INTO_VECTOR(extentions, VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 
 				//if (pushDescriptorsSupported)
 				//	extentions.push_back(VK_KHR_PUSH_DESCRIPTOR_EXTENSION_NAME);
@@ -167,7 +169,7 @@ namespace DMK
 			 * @param validationLayers: The validation layers to use.
 			 * @return VkInstance handle.
 			 */
-			VkInstance CreateVkInstance(bool enableValidation, const std::vector<const char*>& validationLayers)
+			VkInstance CreateInstance(bool enableValidation, const std::vector<const char*>& validationLayers)
 			{
 				// Check if the validation layers are supported.
 				if (enableValidation && !CheckValidationLayerSupport(validationLayers))
@@ -176,9 +178,9 @@ namespace DMK
 				// Application info.
 				VkApplicationInfo appInfo = {};
 				appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-				appInfo.pApplicationName = "MinecraftClone";
+				appInfo.pApplicationName = "Dynamik Engine";
 				appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-				appInfo.pEngineName = "MinecraftClone";
+				appInfo.pEngineName = "Dynamik";
 				appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
 				appInfo.apiVersion = VK_API_VERSION_1_2;
 
@@ -188,7 +190,7 @@ namespace DMK
 				createInfo.pApplicationInfo = &appInfo;
 
 				// Get and insert the required instance extensions.
-				auto requiredExtensions = GetRequiredInstanceExtensions();
+				std::vector<const char*> requiredExtensions = std::move(GetRequiredInstanceExtensions(enableValidation));
 				createInfo.enabledExtensionCount = static_cast<UI32>(requiredExtensions.size());
 				createInfo.ppEnabledExtensionNames = requiredExtensions.data();
 
@@ -200,7 +202,7 @@ namespace DMK
 					createInfo.ppEnabledLayerNames = validationLayers.data();
 
 					debugCreateInfo = CreateDebugMessengerCreateInfo();
-					createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
+					createInfo.pNext = static_cast<VkDebugUtilsMessengerCreateInfoEXT*>(&debugCreateInfo);
 				}
 				else
 				{
@@ -221,7 +223,7 @@ namespace DMK
 			 * @param vInstance: The instance the debugger is created to.
 			 * @return VkDebugUtilsMessengerEXT handle.
 			 */
-			VkDebugUtilsMessengerEXT CreateVkDebugUtilsMessenger(VkInstance vInstance)
+			VkDebugUtilsMessengerEXT CreateDebugUtilsMessenger(VkInstance vInstance)
 			{
 				VkDebugUtilsMessengerCreateInfoEXT createInfo = CreateDebugMessengerCreateInfo();
 
@@ -235,52 +237,43 @@ namespace DMK
 			}
 		}
 
+		VulkanInstance VulkanInstance::Create(bool enableValidation)
+		{
+			VulkanInstance instance = {};
+			if (enableValidation)
+				INSERT_INTO_VECTOR(instance.mValidationLayers, "VK_LAYER_KHRONOS_validation");
+
+			instance.vInstance = _Helpers::CreateInstance(enableValidation, instance.mValidationLayers);
+
+			if (enableValidation)
+				instance.vDebugMessenger = _Helpers::CreateDebugUtilsMessenger(instance.vInstance);
+
+			return instance;
+		}
+
+		void VulkanInstance::Destroy(const VulkanInstance& vInstance)
+		{
+			if (vInstance.vDebugMessenger)
+			{
+				auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(vInstance.vInstance, "vkDestroyDebugUtilsMessengerEXT");
+
+				if (func != nullptr)
+					func(vInstance.vInstance, vInstance.vDebugMessenger, nullptr);
+			}
+
+			vkDestroyInstance(vInstance.vInstance, nullptr);
+		}
+
 		void InitializeGLFW()
 		{
+			glfwSetErrorCallback(_Helpers::GLFWErrorCallback);
+
 			glfwInit();
-			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-			glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
 		}
 
 		void TerminateGLFW()
 		{
 			glfwTerminate();
-		}
-
-		VulkanInstance::Index CreateInstance(bool enableValidation)
-		{
-			VulkanInstance instance = {};
-			if (enableValidation)
-			{
-				instance.mValidationLayers.push_back("VK_LAYER_KHRONOS_validation");
-			}
-
-			instance.vInstance = _Helpers::CreateVkInstance(enableValidation, instance.mValidationLayers);
-
-			if (enableValidation)
-				instance.vDebugMessenger = _Helpers::CreateVkDebugUtilsMessenger(instance.vInstance);
-
-			return VulkanInstance::Store::Insert(std::move(instance));
-		}
-
-		void DestroyInstance(const VulkanInstance::Index& vInstance)
-		{
-			VulkanInstance& instance = VulkanInstance::Store::Get(vInstance);
-
-			if (instance.vDebugMessenger)
-			{
-				auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance.vInstance, "vkDestroyDebugUtilsMessengerEXT");
-
-				if (func != nullptr)
-					func(instance.vInstance, instance.vDebugMessenger, nullptr);
-			}
-
-			vkDestroyInstance(instance.vInstance, nullptr);
-
-			VulkanInstance::Store::Remove(vInstance);
 		}
 	}
 }
