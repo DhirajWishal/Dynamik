@@ -1,46 +1,26 @@
 // Copyright 2020 Dhiraj Wishal
 // SPDX-License-Identifier: Apache-2.0
 
-#include "VulkanBackend/VulkanBackendAdapter.h"
 #include "ShaderTools/SPIR-V/Transpiler.h"
+#include "VulkanBackend/VulkanInstance.h"
 
 #include "Core/Benchmark/Timer.h"
 #include "Thread/Utilities.h"
 
 int main()
 {
-	DMK::VulkanBackend::VulkanBackendAdapter adapter = {};
+	DMK::VulkanBackend::VulkanInstance instance = {};
+	instance.Initialize(true);
 
-	DMK::GraphicsCore::DisplayHandle displayID = 0;
-	DMK::GraphicsCore::DeviceHandle deviceID = 0;
-	DMK::GraphicsCore::RenderTargetHandle renderTargetHandle;
+	auto pDisplay = instance.CreateDisplay(1280, 720, "Dynamik Engine: Vulkan Tests");
+	auto pDevice = pDisplay->CreateDevice();
 
+	DMK::Thread::Utilities::Sleep(10000000);
 
-	{
-		DMK::Benchmark::Timer timer;
-#ifdef DMK_DEBUG
-		adapter.Initialize(true);
-
-#else
-		adapter.Initialize(false);
-
-#endif // DMK_DEBUG
-
-		displayID = adapter.CreateDisplay(1280, 720, "Dynamik Engine: Vulkan Backend Tests");
-		deviceID = adapter.CreateDevice(displayID);
-		renderTargetHandle = adapter.CreateRenderTarget(deviceID, DMK::GraphicsCore::RenderTargetType::SCREEN_BOUND_3D, DMK::GraphicsCore::ViewPort(deviceID, 1280, 720));
-	}
-
-	DMK::Thread::Utilities::Sleep(5000000);
-
-	{
-		DMK::Benchmark::Timer timer;
-		adapter.DestroyDevice(deviceID);
-		adapter.DestroyDisplay(displayID);
-		adapter.Terminate();
-	}
+	pDisplay->DestroyDevice(pDevice);
+	instance.DestroyDisplay(pDisplay);
+	instance.Terminate();
 }
-
 
 /**
  * auto pDevice = GetGraphicsEngine()->CreateNewDevice(DefaultWindowData());

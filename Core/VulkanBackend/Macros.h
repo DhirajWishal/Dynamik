@@ -12,7 +12,14 @@
  * @param exp: The expression.
  * @param msg: The message to be logged if failed.
  */
-#define DMK_VK_ASSERT(exp, msg)		if (exp != VK_SUCCESS)	::DMK::Logger::LogError(TEXT(msg))
+#ifdef DMK_DEBUG
+#define DMK_VK_ASSERT(exp, msg)		if (exp != VK_SUCCESS)	::DMK::Logger::LogError(TEXT(msg)) 
+
+#else
+#define DMK_VK_ASSERT(exp, msg)		exp
+
+#endif // DMK_DEBUG
+
 
  /**
   * Get VkBool32 macro.

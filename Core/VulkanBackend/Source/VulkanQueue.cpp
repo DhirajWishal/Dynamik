@@ -1,15 +1,14 @@
 // Copyright 2020 Dhiraj Wishal
 // SPDX-License-Identifier: Apache-2.0
 
-#include "VulkanBackend/Objects/Queue.h"
+#include "VulkanBackend/VulkanQueue.h"
 
 namespace DMK
 {
 	namespace VulkanBackend
 	{
-		VulkanQueue VulkanQueue::Create(const VkPhysicalDevice& vPhysicalDevice)
+		void VulkanQueue::Initialize(VkPhysicalDevice vPhysicalDevice, VkSurfaceKHR vSurface)
 		{
-			VulkanQueue queue = {};
 			UI32 queueFamilyCount = 0;
 			vkGetPhysicalDeviceQueueFamilyProperties(vPhysicalDevice, &queueFamilyCount, nullptr);
 
@@ -23,28 +22,26 @@ namespace DMK
 				{
 					// Set graphics family.
 					if (itr->queueFlags & VK_QUEUE_GRAPHICS_BIT)
-						queue.mGraphicsFamily = i;
+						mGraphicsFamily = i;
 
 					// Set compute family.
 					if (itr->queueFlags & VK_QUEUE_COMPUTE_BIT)
-						queue.mComputeFamily = i;
+						mComputeFamily = i;
 
 					// Set transfer family.
 					if (itr->queueFlags & VK_QUEUE_TRANSFER_BIT)
-						queue.mTransferFamily = i;
+						mTransferFamily = i;
 
 					// Escape from the loop if the queues were found.
-					if (IsComplete(queue))
+					if (IsComplete())
 						break;
 				}
 			}
-
-			return queue;
 		}
-
-		bool VulkanQueue::IsComplete(const VulkanQueue& vQueue)
+		
+		bool VulkanQueue::IsComplete() const
 		{
-			return vQueue.mGraphicsFamily.has_value() && vQueue.mComputeFamily.has_value() && vQueue.mTransferFamily.has_value();
+			return mGraphicsFamily.has_value() && mComputeFamily.has_value() && mTransferFamily.has_value();
 		}
 	}
 }

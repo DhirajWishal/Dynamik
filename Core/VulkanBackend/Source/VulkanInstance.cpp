@@ -1,13 +1,15 @@
 // Copyright 2020 Dhiraj Wishal
 // SPDX-License-Identifier: Apache-2.0
 
-#include "VulkanBackend/Objects/Instance.h"
+#include "VulkanBackend/VulkanInstance.h"
 #include "VulkanBackend/Macros.h"
 #include "Core/ErrorHandler/Logger.h"
 #include "Core/Types/Utilities.h"
-#include "VulkanBackend/Objects/Display.h"
+
+#include "VulkanBackend/VulkanDisplay.h"
 
 #include <iostream>
+#include <GLFW/glfw3.h>
 
 namespace DMK
 {
@@ -161,119 +163,123 @@ namespace DMK
 
 				return createInfo;
 			}
-
-			/**
-			 * Create a VkInstance handle.
-			 *
-			 * @param enableValidation: Boolean to enable validation or not.
-			 * @param validationLayers: The validation layers to use.
-			 * @return VkInstance handle.
-			 */
-			VkInstance CreateInstance(bool enableValidation, const std::vector<const char*>& validationLayers)
-			{
-				// Check if the validation layers are supported.
-				if (enableValidation && !CheckValidationLayerSupport(validationLayers))
-					Logger::LogError(TEXT("Requested validation layers are not available!"));
-
-				// Application info.
-				VkApplicationInfo appInfo = {};
-				appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-				appInfo.pApplicationName = "Dynamik Engine";
-				appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-				appInfo.pEngineName = "Dynamik";
-				appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
-				appInfo.apiVersion = VK_API_VERSION_1_2;
-
-				// Instance create info.
-				VkInstanceCreateInfo createInfo = {};
-				createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-				createInfo.pApplicationInfo = &appInfo;
-
-				// Get and insert the required instance extensions.
-				std::vector<const char*> requiredExtensions = std::move(GetRequiredInstanceExtensions(enableValidation));
-				createInfo.enabledExtensionCount = static_cast<UI32>(requiredExtensions.size());
-				createInfo.ppEnabledExtensionNames = requiredExtensions.data();
-
-				// Initialize debugger.
-				VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo = {};
-				if (enableValidation)
-				{
-					createInfo.enabledLayerCount = static_cast<UI32>(validationLayers.size());
-					createInfo.ppEnabledLayerNames = validationLayers.data();
-
-					debugCreateInfo = CreateDebugMessengerCreateInfo();
-					createInfo.pNext = static_cast<VkDebugUtilsMessengerCreateInfoEXT*>(&debugCreateInfo);
-				}
-				else
-				{
-					createInfo.enabledLayerCount = 0;
-					createInfo.pNext = nullptr;
-				}
-
-				// Create the instance handle.
-				VkInstance vInstance = VK_NULL_HANDLE;
-				DMK_VK_ASSERT(vkCreateInstance(&createInfo, nullptr, &vInstance), "Failed to create instance!");
-
-				return vInstance;
-			}
-
-			/**
-			 * Create a VkDebugUtilsMessengerEXT handle.
-			 *
-			 * @param vInstance: The instance the debugger is created to.
-			 * @return VkDebugUtilsMessengerEXT handle.
-			 */
-			VkDebugUtilsMessengerEXT CreateDebugUtilsMessenger(VkInstance vInstance)
-			{
-				VkDebugUtilsMessengerCreateInfoEXT createInfo = CreateDebugMessengerCreateInfo();
-
-				auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(vInstance, "vkCreateDebugUtilsMessengerEXT");
-
-				// Create the debug messenger handle.
-				VkDebugUtilsMessengerEXT vDebugMessenger = VK_NULL_HANDLE;
-				DMK_VK_ASSERT(func(vInstance, &createInfo, nullptr, &vDebugMessenger), "Failed to create the debug messenger!");
-
-				return vDebugMessenger;
-			}
 		}
 
-		VulkanInstance VulkanInstance::Create(bool enableValidation)
+		void VulkanInstance::Initialize(bool enableValidation)
 		{
-			VulkanInstance instance = {};
-			if (enableValidation)
-				INSERT_INTO_VECTOR(instance.mValidationLayers, "VK_LAYER_KHRONOS_validation");
+			this->mEnableValidation = enableValidation;
 
-			instance.vInstance = _Helpers::CreateInstance(enableValidation, instance.mValidationLayers);
+			InitializeGLFW();
 
 			if (enableValidation)
-				instance.vDebugMessenger = _Helpers::CreateDebugUtilsMessenger(instance.vInstance);
+				INSERT_INTO_VECTOR(mValidationLayers, "VK_LAYER_KHRONOS_validation");
 
-			return instance;
+			CreateInstance();
+
+			if (enableValidation)
+				CreateDebugMessenger();
 		}
 
-		void VulkanInstance::Destroy(const VulkanInstance& vInstance)
+		void VulkanInstance::Terminate()
 		{
-			if (vInstance.vDebugMessenger)
-			{
-				auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(vInstance.vInstance, "vkDestroyDebugUtilsMessengerEXT");
+			if (mValidationLayers.size())
+				DestroyDebugMessenger();
 
-				if (func != nullptr)
-					func(vInstance.vInstance, vInstance.vDebugMessenger, nullptr);
-			}
+			DestroyInstance();
 
-			vkDestroyInstance(vInstance.vInstance, nullptr);
+			TerminateGLFW();
 		}
 
-		void InitializeGLFW()
+		GraphicsCore::Display* VulkanInstance::CreateDisplay(UI32 width, UI32 height, const char* pTitle)
 		{
-			glfwSetErrorCallback(_Helpers::GLFWErrorCallback);
+			VulkanDisplay* pDisplay = new VulkanDisplay();
+			pDisplay->Initialize(this, width, height, pTitle);
 
+			return pDisplay;
+		}
+
+		void VulkanInstance::DestroyDisplay(GraphicsCore::Display* pDisplay)
+		{
+			pDisplay->Terminate();
+			delete pDisplay;
+		}
+
+		void VulkanInstance::InitializeGLFW()
+		{
 			glfwInit();
 		}
 
-		void TerminateGLFW()
+		void VulkanInstance::TerminateGLFW()
 		{
 			glfwTerminate();
+		}
+
+		void VulkanInstance::CreateInstance()
+		{
+			// Check if the validation layers are supported.
+			if (mEnableValidation && !_Helpers::CheckValidationLayerSupport(mValidationLayers))
+				Logger::LogError(TEXT("Requested validation layers are not available!"));
+
+			// Application info.
+			VkApplicationInfo appInfo = {};
+			appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+			appInfo.pApplicationName = "Dynamik Engine";
+			appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
+			appInfo.pEngineName = "Dynamik";
+			appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
+			appInfo.apiVersion = VK_API_VERSION_1_2;
+
+			// Instance create info.
+			VkInstanceCreateInfo createInfo = {};
+			createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+			createInfo.pApplicationInfo = &appInfo;
+
+			// Get and insert the required instance extensions.
+			std::vector<const char*> requiredExtensions = std::move(_Helpers::GetRequiredInstanceExtensions(mEnableValidation));
+			createInfo.enabledExtensionCount = static_cast<UI32>(requiredExtensions.size());
+			createInfo.ppEnabledExtensionNames = requiredExtensions.data();
+
+			// Initialize debugger.
+			VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo = {};
+			if (mEnableValidation)
+			{
+				createInfo.enabledLayerCount = static_cast<UI32>(mValidationLayers.size());
+				createInfo.ppEnabledLayerNames = mValidationLayers.data();
+
+				debugCreateInfo = _Helpers::CreateDebugMessengerCreateInfo();
+				createInfo.pNext = static_cast<VkDebugUtilsMessengerCreateInfoEXT*>(&debugCreateInfo);
+			}
+			else
+			{
+				createInfo.enabledLayerCount = 0;
+				createInfo.pNext = nullptr;
+			}
+
+			// Create the instance handle.
+			DMK_VK_ASSERT(vkCreateInstance(&createInfo, nullptr, &vInstance), "Failed to create instance!");
+		}
+
+		void VulkanInstance::DestroyInstance()
+		{
+			vkDestroyInstance(vInstance, nullptr);
+		}
+
+		void VulkanInstance::CreateDebugMessenger()
+		{
+			VkDebugUtilsMessengerCreateInfoEXT createInfo = _Helpers::CreateDebugMessengerCreateInfo();
+
+			auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(vInstance, "vkCreateDebugUtilsMessengerEXT");
+
+			// Create the debug messenger handle.
+			DMK_VK_ASSERT(func(vInstance, &createInfo, nullptr, &vDebugUtilsMessenger), "Failed to create the debug messenger!");
+		}
+
+		void VulkanInstance::DestroyDebugMessenger()
+		{
+			auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(vInstance, "vkDestroyDebugUtilsMessengerEXT");
+
+			if (func != nullptr)
+				func(vInstance, vDebugUtilsMessenger, nullptr);
 		}
 	}
 }

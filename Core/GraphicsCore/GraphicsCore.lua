@@ -35,5 +35,6 @@ project "GraphicsCore"
 
 	links { 
 		"Core",
+		"Inputs",
 		"ShaderTools",
 	}

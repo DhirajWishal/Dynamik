@@ -1,9 +1,10 @@
 // Copyright 2020 Dhiraj Wishal
 // SPDX-License-Identifier: Apache-2.0
 
-#include "VulkanBackend/Objects/SwapChain.h"
-#include "VulkanBackend/Objects/Device.h"
+#include "VulkanBackend/RenderTarget/VulkanSwapChain.h"
 #include "VulkanBackend/Macros.h"
+#include "VulkanBackend/VulkanDevice.h"
+#include "VulkanBackend/VulkanDisplay.h"
 
 namespace DMK
 {
@@ -82,13 +83,13 @@ namespace DMK
 			}
 		}
 
-		VulkanSwapChain VulkanSwapChain::Create(const VulkanDevice& vDevice, const GraphicsCore::ViewPort& viewPort)
+		void VulkanSwapChain::Initialize(VulkanDevice* pDevice, Vector2 extent, UI32 bufferCount)
 		{
-			SwapChainSupportDetails& vSupport = SwapChainSupportDetails::Query(vDevice.vPhysicalDevice, vDevice.vSurface);
+			SwapChainSupportDetails& vSupport = pDevice->GetSwapChainSupportDetails();
 			VkSurfaceFormatKHR surfaceFormat = _Helpers::ChooseSwapSurfaceFormat(vSupport.formats);
 			VkPresentModeKHR presentMode = _Helpers::ChooseSwapPresentMode(vSupport.presentModes);
 
-			auto& vCapabilities = VulkanDevice::GetSurfaceCapabilities(vDevice.vPhysicalDevice, vDevice.vSurface);
+			auto& vCapabilities = pDevice->GetSurfaceCapabilities();
 			VkCompositeAlphaFlagBitsKHR surfaceComposite = static_cast<VkCompositeAlphaFlagBitsKHR>(vCapabilities.supportedCompositeAlpha);
 			surfaceComposite = (surfaceComposite & VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR)
 				? VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR
@@ -107,20 +108,20 @@ namespace DMK
 			vCI.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
 			vCI.flags = VK_NULL_HANDLE;
 			vCI.pNext = VK_NULL_HANDLE;
-			vCI.surface = vDevice.vSurface;
+			vCI.surface = pDevice->GetDisplay()->Derive<VulkanDisplay>()->GetSurface();
 			vCI.minImageCount = bufferCount;
 			vCI.imageFormat = surfaceFormat.format;
 			vCI.imageColorSpace = surfaceFormat.colorSpace;
-			vCI.imageExtent = { viewPort.mWidth, viewPort.mHeight };
+			vCI.imageExtent = { static_cast<UI32>(extent.x), static_cast<UI32>(extent.y) };
 			vCI.imageArrayLayers = 1;
 			vCI.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
 			UI32 queueFamilyindices[2] = {
-					vDevice.vQueue.mGraphicsFamily.value(),
-					vDevice.vQueue.mTransferFamily.value()
+					pDevice->GetQueue().mGraphicsFamily.value(),
+					pDevice->GetQueue().mTransferFamily.value()
 			};
 
-			if (vDevice.vQueue.mGraphicsFamily != vDevice.vQueue.mTransferFamily)
+			if (pDevice->GetQueue().mGraphicsFamily != pDevice->GetQueue().mTransferFamily)
 			{
 				vCI.imageSharingMode = VK_SHARING_MODE_CONCURRENT;
 				vCI.queueFamilyIndexCount = 2;
@@ -139,19 +140,26 @@ namespace DMK
 			vCI.clipped = VK_TRUE;
 			vCI.oldSwapchain = VK_NULL_HANDLE;
 
-			VulkanSwapChain vSwapChain = {};
-			DMK_VK_ASSERT(vkCreateSwapchainKHR(vDevice.vLogicalDevice, &vCI, nullptr, &vSwapChain.vSwapChain), "Failed to create the Vulkan Swap Chain!");
+			DMK_VK_ASSERT(vkCreateSwapchainKHR(pDevice->GetLogicalDevice(), &vCI, nullptr, &vSwapChain), "Failed to create the Vulkan Swap Chain!");
 
-			vSwapChain.mImages.resize(vCI.minImageCount);
-			DMK_VK_ASSERT(vkGetSwapchainImagesKHR(vDevice.vLogicalDevice, vSwapChain.vSwapChain, &vCI.minImageCount, vSwapChain.mImages.data()), "Failed to get the Vulkan Swap Chain Images!");
+			vImages.resize(vCI.minImageCount);
+			DMK_VK_ASSERT(vkGetSwapchainImagesKHR(pDevice->GetLogicalDevice(), vSwapChain, &vCI.minImageCount, vImages.data()), "Failed to get the Vulkan Swap Chain Images!");
 
-			vSwapChain.mImageViews = std::move(_Helpers::CreateImageViews(vSwapChain.mImages, vCI.imageFormat, vDevice.vLogicalDevice));
-
-			return vSwapChain;
+			vImageViews = std::move(_Helpers::CreateImageViews(vImages, vCI.imageFormat, pDevice->GetLogicalDevice()));
 		}
 
-		void VulkanSwapChain::Destroy(const VulkanDevice& vDevice, const VulkanSwapChain& vSwapChain)
+		void VulkanSwapChain::Terminate(VulkanDevice* pDevice)
 		{
+			// Terminate the image views.
+			for (auto itr = vImageViews.begin(); itr != vImageViews.end(); itr++)
+				vkDestroyImageView(pDevice->GetLogicalDevice(), *itr, nullptr);
+
+			vImageViews.clear();
+
+			// Terminate the Swap Chain.
+			vkDestroySwapchainKHR(pDevice->GetLogicalDevice(), vSwapChain, nullptr);
+			vSwapChain = VK_NULL_HANDLE;
+			vImages.clear();
 		}
 	}
 }
