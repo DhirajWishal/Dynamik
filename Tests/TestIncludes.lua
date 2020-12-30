@@ -4,6 +4,7 @@
 -- File including all the test modules.
 
 group "Tests"
+include "AssetLoaderTests/AssetLoaderTests.lua"
 include "AudioTests/AudioTests.lua"
 include "CoreTests/CoreTests.lua"
 include "GameLibraryTests/GameLibraryTests.lua"

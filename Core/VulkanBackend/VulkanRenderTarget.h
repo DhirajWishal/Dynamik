@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "GraphicsCore/Backend/RenderTarget.h"
+#include "RenderTarget/VulkanFrameBuffer.h"
 
 namespace DMK
 {
@@ -13,6 +13,8 @@ namespace DMK
 		public:
 			VulkanRenderTarget(GraphicsCore::RenderTargetType type) : RenderTarget(type) {}
 			virtual ~VulkanRenderTarget() {}
+
+			VulkanFrameBuffer mFrameBuffer = {};
 		};
 	}
 }

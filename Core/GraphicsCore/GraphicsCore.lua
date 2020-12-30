@@ -28,6 +28,7 @@ project "GraphicsCore"
 
 	includedirs {
 		"$(SolutionDir)Core/",
+		"%{IncludeDir.stb}",
 	}
 
 	libdirs {

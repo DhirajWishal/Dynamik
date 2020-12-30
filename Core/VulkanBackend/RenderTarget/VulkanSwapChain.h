@@ -3,8 +3,7 @@
 
 #pragma once
 
-#include "Core/Maths/Vector/Vector2.h"
-#include <vulkan/vulkan.h>
+#include "VulkanRenderTargetAttachment.h"
 
 namespace DMK
 {
@@ -12,18 +11,18 @@ namespace DMK
 	{
 		class VulkanDevice;
 
-		class VulkanSwapChain {
+		class VulkanSwapChain final : public VulkanRenderTargetAttachment {
 		public:
-			VulkanSwapChain() {}
+			VulkanSwapChain() : VulkanRenderTargetAttachment(DMK_RT_SWAP_CHAIN_ATTACHMENT) {}
 			~VulkanSwapChain() {}
 
-			void Initialize(VulkanDevice* pDevice, Vector2 extent, UI32 bufferCount);
-			void Terminate(VulkanDevice* pDevice);
+			virtual void Initialize(VulkanDevice* pDevice, Vector2 extent, UI32 bufferCount) override final;
+			virtual void Terminate(VulkanDevice* pDevice) override final;
+
+			virtual VkAttachmentDescription GetAttachmentDescription() const override final;
+			virtual VkImageLayout GetAttachmentLayout() const override final;
 
 		private:
-			std::vector<VkImage> vImages;
-			std::vector<VkImageView> vImageViews;
-
 			VkSwapchainKHR vSwapChain = VK_NULL_HANDLE;
 		};
 	}

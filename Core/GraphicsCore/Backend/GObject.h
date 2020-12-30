@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Core/Types/DataTypes.h"
+#include "Core/Macros/Global.h"
 
 namespace DMK
 {

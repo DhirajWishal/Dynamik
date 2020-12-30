@@ -11,6 +11,7 @@
 #define DMK_RT_COLOR_BUFFER_ATTACHMENT		BIT_SHIFT(1)
 #define DMK_RT_DEPTH_BUFFER_ATTACHMENT		BIT_SHIFT(2)
 #define DMK_RT_RAY_TRACER_ATTACHMENT		BIT_SHIFT(3)
+
 #define DMK_RT_BUFFER_COUNT_MAX				std::numeric_limits<UI32>::max()
 
 namespace DMK
@@ -21,7 +22,7 @@ namespace DMK
 
 		/**
 		 * Render Target Type enum.
-		 * This defines the type of the render target.
+		 * This defines the type of the render target (the attachments the render target contains).
 		 */
 		enum class RenderTargetType : UI8 {
 			UNDEFINED = 0,

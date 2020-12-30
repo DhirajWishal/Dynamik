@@ -99,10 +99,12 @@ namespace DMK
 				? VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR
 				: VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR;
 
-			UI32 bufferCount = vCapabilities.minImageCount + 1;
-			if (vCapabilities.maxImageCount > 0
-				&& bufferCount > vCapabilities.maxImageCount)
-				bufferCount = vCapabilities.maxImageCount;
+			//UI32 bufferCount = vCapabilities.minImageCount + 1;
+			//if (vCapabilities.maxImageCount > 0
+			//	&& bufferCount > vCapabilities.maxImageCount)
+			//	bufferCount = vCapabilities.maxImageCount;
+
+			vFormat = surfaceFormat.format;
 
 			VkSwapchainCreateInfoKHR vCI = {};
 			vCI.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
@@ -110,7 +112,7 @@ namespace DMK
 			vCI.pNext = VK_NULL_HANDLE;
 			vCI.surface = pDevice->GetDisplay()->Derive<VulkanDisplay>()->GetSurface();
 			vCI.minImageCount = bufferCount;
-			vCI.imageFormat = surfaceFormat.format;
+			vCI.imageFormat = vFormat;
 			vCI.imageColorSpace = surfaceFormat.colorSpace;
 			vCI.imageExtent = { static_cast<UI32>(extent.x), static_cast<UI32>(extent.y) };
 			vCI.imageArrayLayers = 1;
@@ -160,6 +162,27 @@ namespace DMK
 			vkDestroySwapchainKHR(pDevice->GetLogicalDevice(), vSwapChain, nullptr);
 			vSwapChain = VK_NULL_HANDLE;
 			vImages.clear();
+		}
+
+		VkAttachmentDescription VulkanSwapChain::GetAttachmentDescription() const
+		{
+			VkAttachmentDescription vDesc = {};
+			vDesc.flags = VK_NULL_HANDLE;
+			vDesc.format = vFormat;
+			vDesc.samples = VK_SAMPLE_COUNT_1_BIT;
+			vDesc.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
+			vDesc.finalLayout = VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
+			vDesc.loadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+			vDesc.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
+			vDesc.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
+			vDesc.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
+
+			return vDesc;
+		}
+
+		VkImageLayout VulkanSwapChain::GetAttachmentLayout() const
+		{
+			return VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
 		}
 	}
 }

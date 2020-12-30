@@ -29,4 +29,5 @@ project "VulkanBackendTests"
 	links {
 		"Thread",
 		"VulkanBackend",
+		"AssetLoader",
 	}

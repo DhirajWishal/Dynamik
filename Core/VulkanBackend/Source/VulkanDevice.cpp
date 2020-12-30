@@ -176,36 +176,36 @@ namespace DMK
 			}
 
 #ifdef DMK_DEBUG
-			printf("\n\t---------- VULKAN PHYSICAL DEVICE INFO ----------\n");
-			printf("API Version: %I32d\n", vPhysicalDeviceProperties.apiVersion);
-			printf("Driver Version: %I32d\n", vPhysicalDeviceProperties.driverVersion);
-			printf("Vendor ID: %I32d\n", vPhysicalDeviceProperties.vendorID);
-			printf("Device ID: %I32d\n", vPhysicalDeviceProperties.deviceID);
+			wprintf(TEXT("\n\t---------- VULKAN PHYSICAL DEVICE INFO ----------\n"));
+			wprintf(TEXT("API Version: %I32d\n"), vPhysicalDeviceProperties.apiVersion);
+			wprintf(TEXT("Driver Version: %I32d\n"), vPhysicalDeviceProperties.driverVersion);
+			wprintf(TEXT("Vendor ID: %I32d\n"), vPhysicalDeviceProperties.vendorID);
+			wprintf(TEXT("Device ID: %I32d\n"), vPhysicalDeviceProperties.deviceID);
 
 			switch (vPhysicalDeviceProperties.deviceType)
 			{
 			case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_OTHER:
-				printf("Device Type: Other GPU\n");
+				wprintf(TEXT("Device Type: Other GPU\n"));
 				break;
 			case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU:
-				printf("Device Type: Discrete GPU (dedicated)\n");
+				wprintf(TEXT("Device Type: Discrete GPU (dedicated)\n"));
 				break;
 			case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU:
-				printf("Device Type: Integrated GPU (onboard)\n");
+				wprintf(TEXT("Device Type: Integrated GPU (onboard)\n"));
 				break;
 			case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU:
-				printf("Device Type: Virtual GPU\n");
+				wprintf(TEXT("Device Type: Virtual GPU\n"));
 				break;
 			case VkPhysicalDeviceType::VK_PHYSICAL_DEVICE_TYPE_CPU:
-				printf("Device Type: CPU\n");
+				wprintf(TEXT("Device Type: CPU\n"));
 				break;
 			default:
-				printf("Device Type: *UNIDENTIFIED\n");
+				wprintf(TEXT("Device Type: *UNIDENTIFIED\n"));
 				break;
 			}
 
-			printf("Device Name: %s\n", vPhysicalDeviceProperties.deviceName);
-			printf("\t-------------------------------------------------\n\n");
+			wprintf(TEXT("Device Name: %hs\n"), vPhysicalDeviceProperties.deviceName);
+			wprintf(TEXT("\t-------------------------------------------------\n\n"));
 
 #endif	// DMK_DEBUG
 

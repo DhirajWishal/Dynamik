@@ -4,6 +4,7 @@
 -- File including all the core modules.
 
 group "Core"
+include "AssetLoader/AssetLoader.lua"
 include "Audio/Audio.lua"
 include "AudioCore/AudioCore.lua"
 include "Core/Core.lua"

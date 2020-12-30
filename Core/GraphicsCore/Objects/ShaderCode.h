@@ -13,10 +13,7 @@ namespace DMK
 		 * Shader Code Type enum.
 		 */
 		enum class ShaderCodeType : UI8 {
-			UNDEFINED,
-			SPIR_V,
-			GLSL,
-			HLSL,
+			UNDEFINED, SPIR_V, GLSL, HLSL,
 		};
 
 		/**
