@@ -21,12 +21,14 @@ namespace DMK
 		 */
 		enum class ShaderLocation : UI8 {
 			ALL,
+
 			VERTEX,
 			TESSELLATION,
 			GEOMETRY,
 			FRAGMENT,
 			COMPUTE,
 			ALL_GRAPHICS,
+
 			RAY_GEN,
 			ANY_HIT,
 			CLOSEST_HIT,

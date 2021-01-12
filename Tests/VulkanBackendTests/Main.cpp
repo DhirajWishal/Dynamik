@@ -13,7 +13,6 @@ int main()
 {
 	auto image = DMK::AssetLoader::LoadImageData("E:\\Dynamik\\Version\\DynamikEngine\\Assets\\Textures\\SkyBox\\back.jpg");
 
-
 	DMK::VulkanBackend::VulkanInstance instance = {};
 
 #ifdef DMK_DEBUG
@@ -24,11 +23,10 @@ int main()
 
 #endif // DMK_DEBUG
 
-
 	auto pDisplay = instance.CreateDisplay(1280, 720, "Dynamik Engine: Vulkan Tests");
 	auto pDevice = pDisplay->CreateDevice();
 
-	DMK::Thread::Utilities::Sleep(10000000);
+	DMK::Thread::Utilities::Sleep(GET_NANOSECONDS_FROM_SECONDS(10));
 
 	pDisplay->DestroyDevice(pDevice);
 	instance.DestroyDisplay(pDisplay);
@@ -68,4 +66,34 @@ int main()
  * pDevice->DestroyVertexBuffer(pVertexBuffer);
  * pDevice->DestroyIndexBuffer(pIndexBuffer);
  * pDevice->DestroyImage(pTexture);
+ *
+ * //////////////////////////////////////////////////////////////////////////////////////////////////
+ * //////////////////////////////////////////////////////////////////////////////////////////////////
+ *
+ * DisplayHandle mDisplay = GraphicsEngine()->CreateDisplay(GetDefaultDisplaySpec());
+ * DeviceHandle mDevice = GraphicsEngine()->CreateDevice(mDisplay);
+ * RenderTargetHandle mRenderTarget = GraphicsEngine()->CreateRenderTarget(mDevice, RenderTargetType::SCREEN_BOUND_3D, GetDefaultViewPort());
+ *
+ * PipelineHandle mPipeline = GraphicsEngine()->CreatePipeline(mRenderTarget, GetDefaultShaders(), GetDefaultPipelineSpec());
+ *
+ * BufferHandle mVBuffer = GraphicsEngine()->CreateBuffer(mDevice, GetVertexSize(), nullptr);
+ * BufferHandle mIBuffer = GraphicsEngine()->CreateBuffer(mDevice, GetIndexSize(), nullptr);
+ *
+ * MaterialHandle mMaterial = GraphicsEngine()->CreateImage(mDevice, GetTexture());
+ *
+ * GraphicsEngine()->AddToRenderList(mPipeline, { mVBuffer, mIBuffer }, { mMaterial });
+ * 
+ * GraphicsEngine()->Execute(mRenderTarget);
+ * 
+ * // OR
+ * 
+ * GraphcisEngine()->ExecuteAsync(mRenderTarget);
+ * 
+ * GraphicsEngine()->DestroyPipeline(mPipeline);
+ * GraphicsEngine()->DestroyRenderTarget(mRenderTarget);
+ * GraphicsEngine()->DestroyVertexBuffer(mVBuffer);
+ * GraphicsEngine()->DestroyIndexBuffer(mIBuffer);
+ * GraphicsEngine()->DestroyImage(mMaterial);
+ * GraphicsEngine()->DestroyDevice(mDevice);
+ * GraphicsEngine()->DestroyDisplay(mDisplay);
  */

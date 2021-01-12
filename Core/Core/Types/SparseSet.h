@@ -73,6 +73,22 @@ namespace DMK
 		const Type Get(const IndexType& index) const;
 
 		/**
+		 * Get the address of an element.
+		 *
+		 * @param index: The index of the entry.
+		 * @return The address of the element.
+		 */
+		Type* Location(const IndexType& index);
+
+		/**
+		 * Get the address of an element.
+		 *
+		 * @param index: The index of the entry.
+		 * @return The address of the element.
+		 */
+		const Type* Location(const IndexType& index) const;
+
+		/**
 		 * Remove an entry from the set.
 		 * This method removes the element from the entry vector but does not remove the respective entry from the
 		 * index vector. This means that the index vector does not shrink. The index place value of the entry vector
@@ -252,6 +268,18 @@ namespace DMK
 	inline const Type SparseSet<Type, IndexType>::Get(const IndexType& index) const
 	{
 		return mEntries[static_cast<UI64>(mIndexes[static_cast<UI64>(index)])];
+	}
+
+	template<class Type, class IndexType>
+	inline Type* SparseSet<Type, IndexType>::Location(const IndexType& index)
+	{
+		return &mEntries[static_cast<UI64>(mIndexes[static_cast<UI64>(index)])];
+	}
+
+	template<class Type, class IndexType>
+	inline const Type* SparseSet<Type, IndexType>::Location(const IndexType& index) const
+	{
+		return &mEntries[static_cast<UI64>(mIndexes[static_cast<UI64>(index)])];
 	}
 
 	template<class Type, class IndexType>

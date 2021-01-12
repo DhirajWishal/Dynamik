@@ -11,7 +11,7 @@ namespace DMK
 	{
 		UI64 GetHash(const void* pData, UI64 size, UI64 seed)
 		{
-			return XXH64(pData, size, seed);
+			return XXH3_64bits(pData, size);
 		}
 	}
 }
