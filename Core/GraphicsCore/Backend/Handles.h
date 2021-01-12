@@ -3,8 +3,7 @@
 
 #pragma once
 
-#include "Core/Types/DataTypes.h"
-#include "Core/Macros/Global.h"
+#include "Core/Types/Handle.h"
 
 /**
  * In some handles, there will be *SB* and *OS* at the end. These are named as following,
@@ -20,15 +19,6 @@ namespace DMK
 {
 	namespace GraphicsCore
 	{
-		template<class Handle>
-		constexpr Handle CreateHandle(UI64 handle) { return static_cast<Handle>(handle); }
-
-		template<class Handle>
-		constexpr UI64 GetHandle(const Handle& handle) { return static_cast<UI64>(handle); }
-
-		template<class Handle>
-		bool IsValidHandle(const Handle& handle) { return handle != Handle::INVALID; }
-
 		DMK_DEFINE_UI64_HANDLE(DisplayHandle);
 		DMK_DEFINE_UI64_HANDLE(DeviceHandle);
 

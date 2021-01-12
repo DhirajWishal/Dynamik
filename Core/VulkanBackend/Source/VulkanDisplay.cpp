@@ -94,20 +94,6 @@ namespace DMK
 			glfwDestroyWindow(pWindowHandle);
 		}
 
-		GraphicsCore::Device* VulkanDisplay::CreateDevice()
-		{
-			VulkanDevice* pDevice = new VulkanDevice();
-			pDevice->Initialize(this);
-
-			return pDevice;
-		}
-
-		void VulkanDisplay::DestroyDevice(GraphicsCore::Device* pDevice)
-		{
-			pDevice->Terminate();
-			delete pDevice;
-		}
-
 		void VulkanDisplay::SetupInputs()
 		{
 #define BIND_KEY(component, KEY)  GetInputCenter()->component.Register(glfwGetKeyScancode(KEY))

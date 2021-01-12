@@ -13,7 +13,7 @@
  * @param msg: The message to be logged if failed.
  */
 #ifdef DMK_DEBUG
-#define DMK_VK_ASSERT(exp, msg)		if (exp != VK_SUCCESS)	::DMK::Logger::LogError(TEXT(msg)) 
+#define DMK_VK_ASSERT(exp, msg)		if (exp != VK_SUCCESS)	DMK_LOG_FATAL(TEXT(msg)) 
 
 #else
 #define DMK_VK_ASSERT(exp, msg)		exp

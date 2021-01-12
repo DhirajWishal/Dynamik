@@ -22,7 +22,7 @@ namespace DMK
 				mBackendThread.swap(std::thread(XAudio2Backend::XAudio2BackendFunction, &mCommandQueue));
 				break;
 			default:
-				Logger::LogError(TEXT("Invalid Audio Backend Type!"));
+				DMK_LOG_ERROR(TEXT("Invalid Audio Backend Type!"));
 				break;
 			}
 

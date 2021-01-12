@@ -27,7 +27,7 @@ namespace DMK
 				break;
 
 			default:
-				Logger::LogError(TEXT("Invalid Graphics Backend API type!"));
+				DMK_LOG_ERROR(TEXT("Invalid Graphics Backend API type!"));
 				break;
 			}
 		}

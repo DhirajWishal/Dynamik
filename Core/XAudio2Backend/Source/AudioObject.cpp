@@ -22,7 +22,7 @@ namespace DMK
 			{
 				if (FAILED(GetSourcePointer()->SubmitSourceBuffer(GetBufferAddress(), GetBufferXWMAAddress())))
 				{
-					Logger::LogError(TEXT("Failed to submit audio data to the buffer!"));
+					DMK_LOG_ERROR(TEXT("Failed to submit audio data to the buffer!"));
 					GetSourcePointer()->DestroyVoice();
 					return;
 				}
@@ -31,7 +31,7 @@ namespace DMK
 			{
 				if (FAILED(GetSourcePointer()->SubmitSourceBuffer(GetBufferAddress())))
 				{
-					Logger::LogError(TEXT("Failed to submit audio data to the buffer!"));
+					DMK_LOG_ERROR(TEXT("Failed to submit audio data to the buffer!"));
 					GetSourcePointer()->DestroyVoice();
 					return;
 				}

@@ -44,7 +44,7 @@ namespace DMK
 		: r(0.0f), g(0.0f), b(0.0f)
 	{
 		if ((list.size() > 9) || (list.size() < 9))
-			Logger::LogError(TEXT("The size of the provided list does not match the current Matrix size!"));
+			DMK_LOG_ERROR(TEXT("The size of the provided list does not match the current Matrix size!"));
 
 		MemoryFunctions::MoveData(this, Cast<const void*>(list.begin()), list.size() * sizeof(float));
 	}

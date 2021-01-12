@@ -19,7 +19,7 @@ namespace DMK
 				}
 			}
 
-			Logger::LogError(TEXT("Invalid or unregistered scan code!"));
+			DMK_LOG_ERROR(TEXT("Invalid or unregistered scan code!"));
 		}
 
 		void InputCenter::ActivateButton(UI32 scanCode, ButtonInputState state)
@@ -33,7 +33,7 @@ namespace DMK
 				}
 			}
 
-			Logger::LogError(TEXT("Invalid or unregistered scan code!"));
+			DMK_LOG_ERROR(TEXT("Invalid or unregistered scan code!"));
 		}
 
 		MousePointerPosition InputCenter::GetMousePointerPosition() const

@@ -20,10 +20,6 @@ namespace DMK
 			virtual void Initialize(bool enableValidation) override final;
 			virtual void Terminate() override final;
 
-		public:
-			virtual GraphicsCore::Display* CreateDisplay(UI32 width, UI32 height, const char* pTitle) override final;
-			virtual void DestroyDisplay(GraphicsCore::Display* pDisplay) override final;
-
 		private:
 			void InitializeGLFW();
 			void TerminateGLFW();

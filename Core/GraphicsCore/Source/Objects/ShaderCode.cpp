@@ -41,7 +41,7 @@ namespace DMK
 			// Check if the shader file was loaded.
 			if (!file.is_open())
 			{
-				Logger::LogError(TEXT("Failed to load the requested shader code! Make sure that the shader file exists and the provided path is valid."));
+				DMK_LOG_ERROR(TEXT("Failed to load the requested shader code! Make sure that the shader file exists and the provided path is valid."));
 				return;
 			}
 

@@ -205,7 +205,7 @@ namespace DMK
 
 				if (!__newAddr)
 				{
-					Logger::LogError(TEXT("Unable to allocate memory!"));
+					DMK_LOG_ERROR(TEXT("Unable to allocate memory!"));
 
 #ifdef DMK_DEBUG
 					__debugbreak();
@@ -217,7 +217,7 @@ namespace DMK
 			}
 			catch (const std::exception&)
 			{
-				Logger::LogError(TEXT("Unable to allocate memory!"));
+				DMK_LOG_ERROR(TEXT("Unable to allocate memory!"));
 
 #ifdef DMK_DEBUG
 				__debugbreak();
@@ -244,7 +244,7 @@ namespace DMK
 
 				if (!__newAddr)
 				{
-					Logger::LogError(TEXT("Unable to allocate memory!"));
+					DMK_LOG_ERROR(TEXT("Unable to allocate memory!"));
 
 #ifdef DMK_DEBUG
 					__debugbreak();
@@ -256,7 +256,7 @@ namespace DMK
 			}
 			catch (const std::exception&)
 			{
-				Logger::LogError(TEXT("Unable to allocate memory!"));
+				DMK_LOG_ERROR(TEXT("Unable to allocate memory!"));
 
 #ifdef DMK_DEBUG
 				__debugbreak();

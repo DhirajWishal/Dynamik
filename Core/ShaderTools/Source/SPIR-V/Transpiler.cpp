@@ -18,7 +18,7 @@ namespace DMK
 			// Check if the shader code type is correct.
 			if (pShaderCode->GetCodeType() != GraphicsCore::ShaderCodeType::SPIR_V)
 			{
-				Logger::LogError(TEXT("Invalid shader code type sent to the SPIR-V Transpiler! Make sure that the code type is SPIR-V."));
+				DMK_LOG_ERROR(TEXT("Invalid shader code type sent to the SPIR-V Transpiler! Make sure that the code type is SPIR-V."));
 				return;
 			}
 
@@ -35,7 +35,7 @@ namespace DMK
 			// Check if the shader code object is set.
 			if (!pShaderCode)
 			{
-				Logger::LogError(TEXT("Shader code is not set! Make sure to initialize the SPIR-V Transpiler with the shader code pointer."));
+				DMK_LOG_ERROR(TEXT("Shader code is not set! Make sure to initialize the SPIR-V Transpiler with the shader code pointer."));
 				return mShaderCode;
 			}
 
@@ -64,7 +64,7 @@ namespace DMK
 			// Check if the shader code object is set.
 			if (!pShaderCode)
 			{
-				Logger::LogError(TEXT("Shader code is not set! Make sure to initialize the SPIR-V Transpiler with the shader code pointer."));
+				DMK_LOG_ERROR(TEXT("Shader code is not set! Make sure to initialize the SPIR-V Transpiler with the shader code pointer."));
 				return mShaderCode;
 			}
 

@@ -228,7 +228,7 @@ namespace DMK
 		case Format::RGB_64_SINT:					return 24;
 		case Format::RGBA_64_UINT:					return 32;
 		case Format::RGBA_64_SINT:					return 32;
-		default:	Logger::LogError(TEXT("Unsupported or invalid format!"));	break;
+		default:	DMK_LOG_ERROR(TEXT("Unsupported or invalid format!"));	break;
 		}
 
 		return 0;

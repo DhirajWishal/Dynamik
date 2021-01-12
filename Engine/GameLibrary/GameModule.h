@@ -96,7 +96,7 @@ namespace DMK
 				// Check if the entity pointer is valid.
 				if (!pEntity)
 				{
-					Logger::LogError(TEXT("Submitted entity pointer is invalid!"));
+					DMK_LOG_ERROR(TEXT("Submitted entity pointer is invalid!"));
 					return;
 				}
 

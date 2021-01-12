@@ -13,7 +13,7 @@ namespace DMK
 		: x(0.0f), y(0.0f), z(0.0f), w(0.0f)
 	{
 		if ((list.size() > 3) || (list.size() < 3))
-			Logger::LogError(TEXT("The size of the provided list does not match the current Vector size!"));
+			DMK_LOG_ERROR(TEXT("The size of the provided list does not match the current Vector size!"));
 
 		MemoryFunctions::MoveData(this, Cast<const void*>(list.begin()), list.size() * sizeof(float));
 		w = 0.0f;
@@ -28,7 +28,7 @@ namespace DMK
 	Vector3 Vector3::operator=(const std::initializer_list<float>& list)
 	{
 		if ((list.size() > 3) || (list.size() < 3))
-			Logger::LogError(TEXT("The size of the provided list does not match the current Vector size!"));
+			DMK_LOG_ERROR(TEXT("The size of the provided list does not match the current Vector size!"));
 
 		MemoryFunctions::MoveData(this, Cast<const void*>(list.begin()), list.size() * sizeof(float));
 		this->w = 0.0f;

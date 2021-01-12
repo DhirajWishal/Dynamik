@@ -25,7 +25,7 @@ namespace DMK
 			 */
 			static void GLFWErrorCallback(I32 errorCode, const char* pDescription)
 			{
-				Logger::LogError((TEXT("GLFW -> ") + StringToWString(pDescription)).c_str());
+				DMK_LOG_ERROR((TEXT("GLFW -> ") + StringToWString(pDescription)).c_str());
 			}
 
 			/**
@@ -130,7 +130,7 @@ namespace DMK
 					Logger::LogWarn(WString(TEXT("") + (myMessageStatement + myMessagePreStatement + StringToWString(pCallbackData->pMessage))).c_str());
 					break;
 				case VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT:
-					Logger::LogError(WString(TEXT("") + (myMessageStatement + myMessagePreStatement + StringToWString(pCallbackData->pMessage))).c_str());
+					DMK_LOG_ERROR(WString(TEXT("") + (myMessageStatement + myMessagePreStatement + StringToWString(pCallbackData->pMessage))).c_str());
 					break;
 				default:
 					std::wcerr << myMessageStatement << myMessagePreStatement << StringToWString(pCallbackData->pMessage) << std::endl;
@@ -190,20 +190,6 @@ namespace DMK
 			TerminateGLFW();
 		}
 
-		GraphicsCore::Display* VulkanInstance::CreateDisplay(UI32 width, UI32 height, const char* pTitle)
-		{
-			VulkanDisplay* pDisplay = new VulkanDisplay();
-			pDisplay->Initialize(this, width, height, pTitle);
-
-			return pDisplay;
-		}
-
-		void VulkanInstance::DestroyDisplay(GraphicsCore::Display* pDisplay)
-		{
-			pDisplay->Terminate();
-			delete pDisplay;
-		}
-
 		void VulkanInstance::InitializeGLFW()
 		{
 			glfwInit();
@@ -218,7 +204,7 @@ namespace DMK
 		{
 			// Check if the validation layers are supported.
 			if (mEnableValidation && !_Helpers::CheckValidationLayerSupport(mValidationLayers))
-				Logger::LogError(TEXT("Requested validation layers are not available!"));
+				DMK_LOG_ERROR(TEXT("Requested validation layers are not available!"));
 
 			// Application info.
 			VkApplicationInfo appInfo = {};

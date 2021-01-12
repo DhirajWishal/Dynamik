@@ -19,9 +19,6 @@ namespace DMK
 			virtual void Initialize(GraphicsCore::Instance* pInstance, UI32 width, UI32 height, const char* pTitle) override final;
 			virtual void Terminate() override final;
 
-			virtual GraphicsCore::Device* CreateDevice() override final;
-			virtual void DestroyDevice(GraphicsCore::Device* pDevice) override final;
-
 		public:
 			VkSurfaceKHR GetSurface() const { return vSurface; }
 

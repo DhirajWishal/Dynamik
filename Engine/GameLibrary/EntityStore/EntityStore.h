@@ -76,7 +76,7 @@ namespace DMK
 				// Check if the requested entity type is available.
 				if (!IsRegistered<Type>())
 				{
-					Logger::LogError(TEXT("Requested entity type is not registered! Make sure to register the entity type!"));
+					DMK_LOG_ERROR(TEXT("Requested entity type is not registered! Make sure to register the entity type!"));
 					return nullptr;
 				}
 

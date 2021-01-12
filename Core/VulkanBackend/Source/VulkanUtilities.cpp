@@ -19,7 +19,7 @@ namespace DMK
 				for (UI32 i = 0; i < memProperties.memoryTypeCount; i++)
 					if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties)
 						return i;
-				Logger::LogError(TEXT("Failed to find suitable memory type!"));
+				DMK_LOG_ERROR(TEXT("Failed to find suitable memory type!"));
 				return 0;
 			}
 
@@ -55,7 +55,7 @@ namespace DMK
 					vCI.flags = VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT;
 					break;
 				default:
-					Logger::LogError(TEXT("Invalid or undefined image type!"));
+					DMK_LOG_ERROR(TEXT("Invalid or undefined image type!"));
 					break;
 				}
 

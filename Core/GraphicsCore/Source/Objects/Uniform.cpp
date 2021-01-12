@@ -46,7 +46,7 @@ namespace DMK
 			// Check if the uniform is valid.
 			if (!mSize && mType == UniformType::UNIFORM_BUFFER)
 			{
-				Logger::LogError(TEXT("Unable to initialize the uniform! The size of the uniform is invalid."));
+				DMK_LOG_ERROR(TEXT("Unable to initialize the uniform! The size of the uniform is invalid."));
 				return;
 			}
 

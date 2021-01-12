@@ -141,7 +141,7 @@ namespace DMK
 
 			if (deviceCount == 0)
 			{
-				Logger::LogError(TEXT("Failed to find GPUs with Vulkan support!"));
+				DMK_LOG_ERROR(TEXT("Failed to find GPUs with Vulkan support!"));
 				return;
 			}
 
@@ -171,7 +171,7 @@ namespace DMK
 			//  Check if a physical device was found.
 			if (vPhysicalDevice == VK_NULL_HANDLE)
 			{
-				Logger::LogError(TEXT("A suitable physical device was not found!"));
+				DMK_LOG_ERROR(TEXT("A suitable physical device was not found!"));
 				return;
 			}
 

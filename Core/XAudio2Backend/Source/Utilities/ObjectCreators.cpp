@@ -23,7 +23,7 @@ namespace DMK
 
 			// Load audio data.
 			if (FAILED(LoadWAVAudioFromFileEx(pAsset, &pData, wavData)))
-				Logger::LogError(TEXT("Failed to load the WAV file!"));
+				DMK_LOG_ERROR(TEXT("Failed to load the WAV file!"));
 
 			// Set handle data if needed.
 			if (pHandle)

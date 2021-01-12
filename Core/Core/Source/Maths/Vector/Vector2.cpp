@@ -12,7 +12,7 @@ namespace DMK
 		: x(0.0f), y(0.0f)
 	{
 		if ((list.size() > 2) || (list.size() < 2))
-			Logger::LogError(TEXT("The size of the provided list does not match the current Vector size! Expected size is 2."));
+			DMK_LOG_ERROR(TEXT("The size of the provided list does not match the current Vector size! Expected size is 2."));
 
 		MemoryFunctions::MoveData(this, Cast<const void*>(list.begin()), list.size() * sizeof(float));
 	}
@@ -20,7 +20,7 @@ namespace DMK
 	Vector2 Vector2::operator=(const std::initializer_list<float>& list)
 	{
 		if ((list.size() > 2) || (list.size() < 2))
-			Logger::LogError(TEXT("The size of the provided list does not match the current Vector size! Expected size is 2."));
+			DMK_LOG_ERROR(TEXT("The size of the provided list does not match the current Vector size! Expected size is 2."));
 
 		MemoryFunctions::MoveData(this, Cast<const void*>(list.begin()), list.size() * sizeof(float));
 

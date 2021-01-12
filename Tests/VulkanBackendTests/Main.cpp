@@ -1,36 +1,94 @@
 // Copyright 2020 Dhiraj Wishal
 // SPDX-License-Identifier: Apache-2.0
 
+#include <iostream>
+
 #include "ShaderTools/SPIR-V/Transpiler.h"
-#include "VulkanBackend/VulkanInstance.h"
+#include "VulkanBackend/VulkanBackendAdapter.h"
 
 #include "AssetLoader/ImageLoader.h"
 
 #include "Core/Benchmark/Timer.h"
 #include "Thread/Utilities.h"
 
-int main()
-{
-	auto image = DMK::AssetLoader::LoadImageData("E:\\Dynamik\\Version\\DynamikEngine\\Assets\\Textures\\SkyBox\\back.jpg");
+#define ITERATIONS	100
 
-	DMK::VulkanBackend::VulkanInstance instance = {};
+void TestHandles()
+{
+	DMK::Benchmark::Timer t;
+	DMK::GraphicsCore::BackendAdapter* pAdapter = new DMK::VulkanBackend::VulkanBackendAdapter();
 
 #ifdef DMK_DEBUG
-	instance.Initialize(true);
+	pAdapter->Initialize(true);
 
 #else
-	instance.Initialize(false);
+	pAdapter->Initialize(false);
 
 #endif // DMK_DEBUG
 
-	auto pDisplay = instance.CreateDisplay(1280, 720, "Dynamik Engine: Vulkan Tests");
-	auto pDevice = pDisplay->CreateDevice();
+	auto display = pAdapter->CreateDisplay(1280, 720, "Dynamik Engine: Vulkan Tests");
 
-	DMK::Thread::Utilities::Sleep(GET_NANOSECONDS_FROM_SECONDS(10));
+	for (UI32 i = 0; i < ITERATIONS; i++)
+	{
+		auto device = pAdapter->CreateDevice(display);
 
-	pDisplay->DestroyDevice(pDevice);
-	instance.DestroyDisplay(pDisplay);
-	instance.Terminate();
+		DMK::Thread::Utilities::Sleep((10));
+
+		pAdapter->DestroyDevice(device);
+	}
+
+	pAdapter->DestroyDisplay(display);
+	pAdapter->Terminate();
+
+	delete pAdapter;
+}
+
+void TestInheritance()
+{
+	DMK::Benchmark::Timer t;
+	DMK::GraphicsCore::Instance* pInstance = new DMK::VulkanBackend::VulkanInstance();
+
+#ifdef DMK_DEBUG
+	pInstance->Initialize(true);
+
+#else
+	pInstance->Initialize(false);
+
+#endif // DMK_DEBUG
+
+	DMK::GraphicsCore::Display* pDisplay = new DMK::VulkanBackend::VulkanDisplay();
+	pDisplay->Initialize(pInstance, 1280, 720, "Dynamik Engine: Vulkan Tests");
+
+	for (UI32 i = 0; i < ITERATIONS; i++)
+	{
+		DMK::GraphicsCore::Device* pDevice = new DMK::VulkanBackend::VulkanDevice();
+		pDevice->Initialize(pDisplay);
+
+		DMK::Thread::Utilities::Sleep((10));
+
+		pDevice->Terminate();
+		delete pDevice;
+	}
+
+	pDisplay->Terminate();
+	delete pDisplay;
+
+	pInstance->Terminate();
+	delete pInstance;
+}
+
+int main()
+{
+	//auto image = DMK::AssetLoader::LoadImageData("E:\\Dynamik\\Version\\DynamikEngine\\Assets\\Textures\\SkyBox\\back.jpg");
+
+	for (UI32 i = 0; i < 10; i++)
+		TestInheritance();
+
+	std::cout << "\n";
+	DMK::Thread::Utilities::Sleep(GET_MICROSECONDS_FROM_SECONDS(1));
+
+	for (UI32 i = 0; i < 10; i++)
+		TestHandles();
 }
 
 /**
@@ -82,13 +140,13 @@ int main()
  * MaterialHandle mMaterial = GraphicsEngine()->CreateImage(mDevice, GetTexture());
  *
  * GraphicsEngine()->AddToRenderList(mPipeline, { mVBuffer, mIBuffer }, { mMaterial });
- * 
+ *
  * GraphicsEngine()->Execute(mRenderTarget);
- * 
+ *
  * // OR
- * 
+ *
  * GraphcisEngine()->ExecuteAsync(mRenderTarget);
- * 
+ *
  * GraphicsEngine()->DestroyPipeline(mPipeline);
  * GraphicsEngine()->DestroyRenderTarget(mRenderTarget);
  * GraphicsEngine()->DestroyVertexBuffer(mVBuffer);
@@ -97,3 +155,28 @@ int main()
  * GraphicsEngine()->DestroyDevice(mDevice);
  * GraphicsEngine()->DestroyDisplay(mDisplay);
  */
+
+
+/*
+Time taken: 954 (microseconds)
+Time taken: 952 (microseconds)
+Time taken: 948 (microseconds)
+Time taken: 959 (microseconds)
+Time taken: 984 (microseconds)
+Time taken: 987 (microseconds)
+Time taken: 973 (microseconds)
+Time taken: 980 (microseconds)
+Time taken: 971 (microseconds)
+Time taken: 966 (microseconds)
+
+Time taken: 961 (microseconds)
+Time taken: 954 (microseconds)
+Time taken: 961 (microseconds)
+Time taken: 965 (microseconds)
+Time taken: 962 (microseconds)
+Time taken: 953 (microseconds)
+Time taken: 954 (microseconds)
+Time taken: 953 (microseconds)
+Time taken: 956 (microseconds)
+Time taken: 958 (microseconds)
+*/

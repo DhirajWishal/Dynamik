@@ -36,21 +36,6 @@ namespace DMK
 			virtual void Terminate() {}
 
 		public:
-			/**
-			 * Create a new deivce based on this display.
-			 *
-			 * @return The device pointer.
-			 */
-			virtual Device* CreateDevice() { return nullptr; }
-
-			/**
-			 * Destroy a created device.
-			 *
-			 * @param pDevice: The display pointer.
-			 */
-			virtual void DestroyDevice(Device* pDevice) {}
-
-		public:
 			Instance* GetInstance() const { return pInstance; }
 			Inputs::InputCenter* GetInputCenter() const { return const_cast<Inputs::InputCenter*>(&mInputCenter); }
 

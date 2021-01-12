@@ -32,24 +32,6 @@ namespace DMK
 		public:
 			bool IsValidationEnabled() const { return mEnableValidation; }
 
-		public:
-			/**
-			 * Create a new display object.
-			 *
-			 * @param width: The width of the display.
-			 * @param height: The height of the display.
-			 * @param pTitle: The title of the display.
-			 * @return The created display pointer.
-			 */
-			virtual Display* CreateDisplay(UI32 width, UI32 height, const char* pTitle) { return nullptr; }
-
-			/**
-			 * Destroy a created display.
-			 *
-			 * @param pDisplay: The display pointer.
-			 */
-			virtual void DestroyDisplay(Display* pDisplay) {}
-
 		protected:
 			bool mEnableValidation = true;
 		};

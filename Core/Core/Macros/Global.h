@@ -9,5 +9,3 @@
 #define BIT_SHIFT(count)				(1 << count)
 
 #define TYPE_NAME(type)					typeid(type).name()
-
-#define DMK_DEFINE_UI64_HANDLE(name)	enum class name : UI64 { INVALID = 0Ui64 }

@@ -19,7 +19,7 @@ namespace DMK
 			// Check if the shader code type is correct.
 			if (mShaderCode.GetCodeType() != GraphicsCore::ShaderCodeType::SPIR_V)
 			{
-				Logger::LogError(TEXT("Invalid shader code type sent to the SPIR-V Reflection! Make sure that the code type is SPIR-V."));
+				DMK_LOG_ERROR(TEXT("Invalid shader code type sent to the SPIR-V Reflection! Make sure that the code type is SPIR-V."));
 				return mDigest;
 			}
 

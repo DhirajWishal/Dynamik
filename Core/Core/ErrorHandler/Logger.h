@@ -55,3 +55,29 @@ namespace DMK
 		void LogDebug(const wchar* message);
 	}
 }
+
+#ifdef DMK_DEBUG
+
+#define WIDE2(x) L##x
+#define WIDE1(x) WIDE2(x)
+
+#define DMK_LOG_INFO(...)		::DMK::Logger::LogInfo(__VA_ARGS__)
+#define DMK_LOG_DEBUG(...)		::DMK::Logger::LogDebug(__VA_ARGS__)
+#define DMK_LOG_WARN(...)		::DMK::Logger::LogWarn(__VA_ARGS__)
+#define DMK_LOG_ERROR(...)		::DMK::Logger::LogError(__VA_ARGS__)
+#define DMK_LOG_FATAL(...)		::DMK::Logger::LogFatal(__VA_ARGS__, WIDE1(__FILE__), __LINE__), __debugbreak()
+
+#define DMK_ASSERT(exp, ...)	if(exp != true)	DMK_LOG_FATAL(__VA_ARGS__)
+
+#else
+
+#define DMK_LOG_INFO(...)
+#define DMK_LOG_DEBUG(...)
+#define DMK_LOG_WARN(...)
+#define DMK_LOG_ERROR(...)
+#define DMK_LOG_FATAL(...)
+
+#define DMK_ASSERT(exp, ...)	//
+
+#endif // DMK_DEBUG
+

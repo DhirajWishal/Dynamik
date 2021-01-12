@@ -21,7 +21,7 @@ namespace DMK
 			// Create the XAudio2 instance.
 			if (FAILED(XAudio2Create(pXAudio2.GetAddressOf(), 0)))
 			{
-				Logger::LogError(TEXT("Failed to create the XAudio2 instance!"));
+				DMK_LOG_ERROR(TEXT("Failed to create the XAudio2 instance!"));
 				CoUninitialize();
 				return;
 			}
@@ -39,7 +39,7 @@ namespace DMK
 			// Create the XAudio2 mastering voice.
 			if (FAILED(pXAudio2->CreateMasteringVoice(&pMasteringVoice)))
 			{
-				Logger::LogError(TEXT("Failed to create the XAudio2 mastering voice!"));
+				DMK_LOG_ERROR(TEXT("Failed to create the XAudio2 mastering voice!"));
 				CoUninitialize();
 				return;
 			}
