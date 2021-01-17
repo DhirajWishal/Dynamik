@@ -12,6 +12,8 @@ workspace "Dynamik"
 		"Distribution",
 	}
 
+	--defines { "DMK_USE_WIDE_CHAR" }
+
 	filter "platforms:Windows"
 		system "windows"
 
@@ -33,16 +35,6 @@ workspace "Dynamik"
 		defines { "DMK_DISTRIBUTION" }
 		optimize "On"
 
-outputDir = "$(Configuration)-$(Platform)"
-solutionDir = "$(SolutionDir)"
-configurationMacro = "$(Configuration)"
-platformMacro = "$(Platform)"
-projectNameMacro = "$(ProjectName)"
-
-engineSourcePath = "$(SolutionDir)Engine/Source/"
-engineOutputDir = "$(SolutionDir)Builds/Engine/"
-engineOutputBinaryDir = "Binaries/"
-engineOutputIntermediateDir = "Intermediate/"
 
 -- Libraries
 IncludeDir = {}
@@ -56,6 +48,8 @@ IncludeDir["Vulkan"] = "$(SolutionDir)Dependencies/ThirdParty/Vulkan/include"
 IncludeDir["SPIRVTools"] = "$(SolutionDir)Dependencies/ThirdParty/SPIRV-Tools/include"
 IncludeDir["glslang"] = "$(SolutionDir)Dependencies/ThirdParty/glslang/"
 IncludeDir["FreeImage"] = "$(SolutionDir)Dependencies/ThirdParty/FreeImage/Include"
+IncludeDir["SDL2"] = "$(SolutionDir)Dependencies/ThirdParty/SDL2-2.0.12/include"
+IncludeDir["xxhash"] = "$(SolutionDir)Dependencies/ThirdParty/xxhash/include"
 
 IncludeDir["boost"] = "E:/Dynamik/Libraries/boost_1_70_0"
 IncludeDir["jpeg"] = "$(SolutionDir)Dependencies/ThirdParty/gil/jpeg-6b"
@@ -72,35 +66,32 @@ IncludeLib["irrKlang"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/irrKlan
 IncludeLib["boost"] = "E:/Dynamik/Libraries/boost_1_70_0/stage/lib"
 IncludeLib["Assimp"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/Assimp"
 IncludeLib["SPIRVTools"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/SPIRV-Tools/"
+IncludeLib["SDL2"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/SDL2-2.0.12/bin/x64/"
+IncludeLib["xxhash"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/xxhash/lib/"
+
 IncludeLib["zlib"] = ""	-- TODO
 IncludeLib["glslang"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/glslang/"
 IncludeLib["FreeImageD"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/FreeImage/Debug"
 IncludeLib["FreeImageR"] = "$(SolutionDir)Dependencies/ThirdParty/Binaries/FreeImage/Release"
 
+group "Framework"
+include "Framework/AssetLoader/AssetLoader.lua"
+include "Framework/Audio/Audio.lua"
+include "Framework/AudioCore/AudioCore.lua"
+include "Framework/Core/Core.lua"
+include "Framework/Graphics/Graphics.lua"
+include "Framework/GraphicsCore/GraphicsCore.lua"
+include "Framework/Inputs/Inputs.lua"
+include "Framework/Intellect/Intellect.lua"
+include "Framework/ShaderTools/ShaderTools.lua"
+include "Framework/Thread/Thread.lua"
+include "Framework/VulkanBackend/VulkanBackend.lua"
+include "Framework/XAudio2Backend/XAudio2Backend.lua"
 
-group "Engine"	-- Add the Engine to a virtual folder
-include "Source/Engine/DynamikEngine.lua"
-include "Application/Application.lua"
-
-group "Studio"
-include "Source/Studio/DynamikStudio.lua"
-
-group "Runtime"
-include "Source/Runtime/Animation/Animation.lua"
-include "Source/Runtime/Core/Core.lua"
-include "Source/Runtime/Events/Events.lua"
-include "Source/Runtime/GameLibrary/GameLibrary.lua"
-include "Source/Runtime/Importer/Importer.lua"
-include "Source/Runtime/Managers/Managers.lua"
-include "Source/Runtime/Renderer/Renderer.lua"
-include "Source/Runtime/Services/Services.lua"
-include "Source/Runtime/Tools/Tools.lua"
-include "Source/Runtime/UserInterface/UserInterface.lua"
-include "Source/Runtime/VulkanRBL/VulkanRBL.lua"
-include "Source/Runtime/Window/Window.lua"
+group "Demos"
 
 group "Third Party"
-include "Dependencies/ThirdParty/imgui/imgui.lua"
 include "Dependencies/ThirdParty/SPIRV-Cross/SPIRV-Cross.lua"
+--include "Dependencies/ThirdParty/imgui/imgui.lua"
 
 group ""
